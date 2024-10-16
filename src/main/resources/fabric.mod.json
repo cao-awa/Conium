@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "conium",
+  "version": "${version}",
+  "name": "Conium",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "GPL-3.0",
+  "icon": "assets/conium/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+    ],
+    "main": [
+      "com.github.cao.awa.conium.Conium"
+    ]
+  },
+  "mixins": [
+    "conium.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "*",
+    "fabric": "*",
+    "minecraft": "1.21.x"
+  }
+}
