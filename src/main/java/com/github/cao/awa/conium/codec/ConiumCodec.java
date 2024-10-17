@@ -4,6 +4,7 @@ import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInject;
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction;
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponent;
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue;
+import com.github.cao.awa.conium.item.ItemBuilder;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -11,6 +12,7 @@ import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.codecs.PrimitiveCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.component.ComponentType;
+import net.minecraft.util.Identifier;
 
 import java.util.List;
 
@@ -65,4 +67,8 @@ public class ConiumCodec {
             Codec.STRING.fieldOf("target").forGetter(ItemPropertyInject::target),
             ITEM_PROPERTY_INJECT_COMPONENT.listOf().fieldOf("components").forGetter(inject -> (List) inject.components())
     ).apply(instance, ItemPropertyInject::generic));
+
+    public static final Codec<ItemBuilder> ITEM = RecordCodecBuilder.create(instance -> instance.group(
+            Identifier.CODEC.fieldOf("id").forGetter(ItemBuilder::identifier)
+    ).apply(instance, ItemBuilder::new));
 }

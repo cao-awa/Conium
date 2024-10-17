@@ -2,6 +2,7 @@ package com.github.cao.awa.conium
 
 import com.github.cao.awa.conium.components.ConiumComponentTypes
 import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager
+import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.function.consumer.string.`object`.*
 import net.fabricmc.api.ModInitializer
 import java.util.function.Supplier
@@ -10,6 +11,8 @@ class Conium : ModInitializer {
     companion object {
         @JvmField
         var itemInjectManager: ItemPropertyInjectManager? = null
+        @JvmField
+        var coniumItemManager: ConiumItemManager? = null
         @JvmField
         var enableDebugs: Boolean = true
 

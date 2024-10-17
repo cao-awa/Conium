@@ -3,9 +3,11 @@ package com.github.cao.awa.conium.mixin.datapack;
 import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor;
 import com.github.cao.awa.conium.Conium;
 import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager;
+import com.github.cao.awa.conium.datapack.item.ConiumItemManager;
 import com.github.cao.awa.conium.mixin.recipe.RecipeManagerAccessor;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.resource.ResourceReloader;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.server.DataPackContents;
@@ -28,14 +30,19 @@ public class DataPackContentsMixin {
     private RecipeManager recipeManager;
     @Unique
     private ItemPropertyInjectManager itemPropertyInjectManager;
+    @Unique
+    private ConiumItemManager coniumItemManager;
 
     @Inject(
             method = "<init>",
             at = @At("RETURN")
     )
     public void init(DynamicRegistryManager.Immutable dynamicRegistryManager, FeatureSet enabledFeatures, CommandManager.RegistrationEnvironment environment, int functionPermissionLevel, CallbackInfo ci) {
-        this.itemPropertyInjectManager = new ItemPropertyInjectManager(((RecipeManagerAccessor) this.recipeManager).getRegistryLookup());
+        RegistryWrapper.WrapperLookup lookup = ((RecipeManagerAccessor) this.recipeManager).getRegistryLookup();
+        this.itemPropertyInjectManager = new ItemPropertyInjectManager(lookup);
+        this.coniumItemManager = new ConiumItemManager(lookup);
         Conium.itemInjectManager = this.itemPropertyInjectManager;
+        Conium.coniumItemManager = this.coniumItemManager;
     }
 
     @Inject(
@@ -46,6 +53,7 @@ public class DataPackContentsMixin {
     public void contents(CallbackInfoReturnable<List<ResourceReloader>> cir) {
         List<ResourceReloader> reloaderList = ApricotCollectionFactor.arrayList(cir.getReturnValue());
         reloaderList.add(this.itemPropertyInjectManager);
+        reloaderList.add(this.coniumItemManager);
         cir.setReturnValue(reloaderList);
     }
 }

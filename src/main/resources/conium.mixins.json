@@ -6,7 +6,9 @@
   "mixins": [
     "datapack.DataPackContentsMixin",
     "item.stack.ItemStackMixin",
-    "recipe.RecipeManagerAccessor"
+    "recipe.RecipeManagerAccessor",
+    "registry.RegistryEntryReferenceMixin",
+    "registry.SimpleRegistryMixin"
   ],
   "injectors": {
     "defaultRequire": 1
