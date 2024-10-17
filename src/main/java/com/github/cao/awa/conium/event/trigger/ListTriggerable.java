@@ -30,4 +30,8 @@ public abstract class ListTriggerable<P extends ParameterSelective> {
         this.triggers.computeIfAbsent(identity, (key) -> ApricotCollectionFactor.arrayList()).add(trigger);
         return this;
     }
+
+    public void clearSubscribes() {
+        this.triggers.clear();
+    }
 }

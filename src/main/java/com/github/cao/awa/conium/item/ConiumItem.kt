@@ -12,9 +12,15 @@ import net.minecraft.util.ActionResult
 class ConiumItem(settings: Settings) : Item(settings) {
     companion object {
         fun create(builder: ConiumItemBuilder): ConiumItem {
-            val item = ConiumItem(Settings())
+            val settings = Settings()
 
-            builder.templates?.forEach {
+            builder.templates.forEach {
+                it.settings(settings)
+            }
+
+            val item = ConiumItem(settings)
+
+            builder.templates.forEach {
                 it.attach(item)
             }
 

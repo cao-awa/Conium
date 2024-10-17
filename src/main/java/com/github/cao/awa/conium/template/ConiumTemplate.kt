@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.item.template
+package com.github.cao.awa.conium.template
 
 import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.item.ConiumItem
@@ -12,7 +12,7 @@ abstract class ConiumTemplate(private val name: String) {
 
         @JvmStatic
         fun register(name: String, template: Function<JsonElement, ConiumTemplate>) {
-            templates[name] = template
+            this.templates[name] = template
         }
 
         fun deserializeTemplates(json: JsonObject): MutableList<ConiumTemplate> {

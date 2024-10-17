@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.function.consumer.string.`object`.*
-import com.github.cao.awa.conium.item.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates
 import net.fabricmc.api.ModInitializer
 import java.util.function.Supplier
 

@@ -6,9 +6,6 @@ import com.github.cao.awa.conium.event.trigger.ListTriggerable
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.item.event.use.ConiumItemUseOnBlockEvent
 import com.github.cao.awa.conium.parameter.ParameterSelective
-import com.github.cao.awa.conium.parameter.ParameterSelective1
-import net.minecraft.item.Item
-import net.minecraft.item.ItemUsageContext
 
 abstract class ConiumEvent<P: ParameterSelective> : ListTriggerable<P>() {
     companion object {
@@ -29,6 +26,10 @@ abstract class ConiumEvent<P: ParameterSelective> : ListTriggerable<P>() {
         @JvmStatic
         fun init() {
             events[ConiumEventType.ITEM_USE_ON_BLOCK] = itemUseOnBlockEvent
+        }
+
+        fun clearSubscribes() {
+            itemUseOnBlockEvent.clearSubscribes()
         }
     }
 
