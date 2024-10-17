@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.mixin.item.stack;
 
 import com.github.cao.awa.conium.Conium;
-import com.github.cao.awa.conium.components.ConiumComponentType;
+import com.github.cao.awa.conium.component.ConiumComponentType;
 import net.minecraft.component.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

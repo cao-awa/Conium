@@ -1,6 +1,6 @@
-package com.github.cao.awa.conium.components;
+package com.github.cao.awa.conium.component;
 
-import com.github.cao.awa.conium.components.value.ConiumValueCreator;
+import com.github.cao.awa.conium.component.value.ConiumValueCreator;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentType;
 import net.minecraft.network.RegistryByteBuf;

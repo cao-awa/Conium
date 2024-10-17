@@ -1,9 +1,11 @@
 package com.github.cao.awa.conium
 
-import com.github.cao.awa.conium.components.ConiumComponentTypes
+import com.github.cao.awa.conium.component.ConiumComponentTypes
 import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager
+import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.function.consumer.string.`object`.*
+import com.github.cao.awa.conium.item.template.ConiumTemplates
 import net.fabricmc.api.ModInitializer
 import java.util.function.Supplier
 
@@ -93,5 +95,11 @@ class Conium : ModInitializer {
     override fun onInitialize() {
         // Initialize for item injecting.
         ConiumComponentTypes.init()
+
+        // Initialize for events
+        ConiumEvent.init()
+
+        // Initialize for templates
+        ConiumTemplates.init()
     }
 }

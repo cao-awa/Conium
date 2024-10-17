@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.datapack.inject.item.component
 
-import com.github.cao.awa.conium.components.ConiumComponentType
+import com.github.cao.awa.conium.component.ConiumComponentType
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import net.minecraft.component.ComponentType
 import net.minecraft.network.RegistryByteBuf

@@ -1,9 +1,16 @@
 package com.github.cao.awa.conium.datapack.inject.item.component
 
+import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.codec.ConiumPacketCodec
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
+import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue.Companion.unverified
+import com.github.cao.awa.sinuatum.manipulate.Manipulate
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import net.minecraft.component.ComponentType
 import net.minecraft.network.RegistryByteBuf
+import net.minecraft.registry.Registries
+import net.minecraft.util.Identifier
 
 @JvmRecord
 data class ItemPropertyInjectComponent<T>(
@@ -36,6 +43,28 @@ data class ItemPropertyInjectComponent<T>(
             value: ItemPropertyInjectComponentValue<*>
         ): ItemPropertyInjectComponent<X> {
             return ItemPropertyInjectComponent(type, action, value.verified(type))
+        }
+
+        @JvmStatic
+        fun unverified(json: JsonObject): ItemPropertyInjectComponent<Any> {
+            val type = Registries.DATA_COMPONENT_TYPE[Identifier.of(json["type"].asString)]
+
+            val action = if (json.has("action")) {
+                ItemPropertyInjectAction.of(json["action"].asString)
+            } else ItemPropertyInjectAction.SET_PRESET
+
+            val value = unverified(json["value"])
+
+            return verified(Manipulate.cast(type), action, value)
+        }
+
+        @JvmStatic
+        fun <X> unverified(json: JsonArray): List<ItemPropertyInjectComponent<Any>> {
+            val components: MutableList<ItemPropertyInjectComponent<Any>> = ApricotCollectionFactor.arrayList()
+            for (element in json) {
+                components.add(unverified(element.asJsonObject))
+            }
+            return components
         }
     }
 }

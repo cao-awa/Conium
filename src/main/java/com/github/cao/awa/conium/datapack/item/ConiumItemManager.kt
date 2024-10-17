@@ -2,21 +2,11 @@ package com.github.cao.awa.conium.datapack.item
 
 import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.Conium
-import com.github.cao.awa.conium.codec.ConiumCodec
-import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInject
-import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
-import com.github.cao.awa.conium.datapack.inject.item.action.handler.ItemPropertyInjectHandler
-import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponent
-import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue
-import com.github.cao.awa.conium.item.ItemBuilder
+import com.github.cao.awa.conium.item.builder.ConiumItemBuilder
 import com.github.cao.awa.conium.registry.ConiumDynamicRegistry
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.google.gson.*
-import com.mojang.serialization.JsonOps
-import net.minecraft.component.ComponentType
 import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
@@ -38,9 +28,9 @@ class ConiumItemManager(private val registryLookup: RegistryWrapper.WrapperLooku
     private val items = ApricotCollectionFactor.hashMap<Identifier, Item>()
 
     override fun apply(prepared: Map<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
-        for ((key, value) in prepared) {
-            (Registries.ITEM as ConiumDynamicRegistry).clearDynamic()
+        (Registries.ITEM as ConiumDynamicRegistry).clearDynamic()
 
+        for ((key, value) in prepared) {
             value as JsonObject
 
             val identifier = value.get("id")
@@ -53,24 +43,9 @@ class ConiumItemManager(private val registryLookup: RegistryWrapper.WrapperLooku
                 LOGGER::info
             )
 
-            val registryOps = registryLookup.getOps(JsonOps.INSTANCE)
+            val item: ConiumItemBuilder = ConiumItemBuilder.deserialize(value)
 
-            var item: ItemBuilder? = null
-
-            ConiumCodec.ITEM.parse(registryOps, value).let {
-                it.result().let { result ->
-                    if (result.isPresent) {
-                        item = result.get()
-                    } else {
-                        LOGGER.info("Failure register the item '{}'", identifier)
-                    }
-                }
-            }
-
-            item?.let {
-                Items.register(it.identifier, it.build())
-
-            }
+            Items.register(item.identifier, item.build())
         }
     }
 }

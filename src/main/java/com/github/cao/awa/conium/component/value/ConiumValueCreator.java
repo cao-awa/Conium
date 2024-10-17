@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.components.value;
+package com.github.cao.awa.conium.component.value;
 
 import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import com.google.gson.JsonElement;

@@ -1,7 +1,7 @@
-package com.github.cao.awa.conium.components;
+package com.github.cao.awa.conium.component;
 
 import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor;
-import com.github.cao.awa.conium.components.value.ConiumValueCreator;
+import com.github.cao.awa.conium.component.value.ConiumValueCreator;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import net.minecraft.network.codec.PacketCodecs;

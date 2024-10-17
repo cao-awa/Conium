@@ -2,7 +2,6 @@ package com.github.cao.awa.conium.datapack.inject.item
 
 import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.Conium
-import com.github.cao.awa.conium.codec.ConiumCodec
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
 import com.github.cao.awa.conium.datapack.inject.item.action.handler.ItemPropertyInjectHandler
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponent
@@ -10,7 +9,6 @@ import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInje
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.google.gson.*
-import com.mojang.serialization.JsonOps
 import net.minecraft.component.ComponentType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -18,17 +16,11 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.resource.JsonDataLoader
-import net.minecraft.resource.Resource
-import net.minecraft.resource.ResourceFinder
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
-import net.minecraft.util.JsonHelper
 import net.minecraft.util.profiler.Profiler
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
-import java.io.IOException
-import java.io.Reader
-import kotlin.jvm.Throws
 
 class ItemPropertyInjectManager(private val registryLookup: RegistryWrapper.WrapperLookup) :
     JsonDataLoader(GSON, RegistryKeys.getPath(ConiumRegistryKeys.ITEM_PROPERTY_INJECT)) {
@@ -53,27 +45,13 @@ class ItemPropertyInjectManager(private val registryLookup: RegistryWrapper.Wrap
                 LOGGER::info
             )
 
-            val registryOps = registryLookup.getOps(JsonOps.INSTANCE)
-
-            var injecting: ItemPropertyInject<*>? = null
-
-            ConiumCodec.ITEM_PROPERTY_INJECT.parse(registryOps, value).let {
-                it.result().let { result ->
-                    if (result.isPresent) {
-                        injecting = result.get()
-                    } else {
-                        LOGGER.info("Failure inject the property to item '{}'", itemTarget)
-                    }
-                }
-            }
+            val injecting: ItemPropertyInject<*> = ItemPropertyInject.deserialize(value.asJsonObject)
 
             val item = Registries.ITEM[Identifier.of(itemTarget)]
 
             this.injects.computeIfAbsent(item) { ApricotCollectionFactor.arrayList() }
 
-            injecting?.let {
-                this.injects[item]!!.add(it)
-            }
+            this.injects[item]!!.add(injecting)
         }
     }
 
