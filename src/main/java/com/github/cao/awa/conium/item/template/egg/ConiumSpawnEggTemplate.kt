@@ -7,8 +7,24 @@ import com.google.gson.JsonElement
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnReason
 import net.minecraft.item.Item
+import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
 class ConiumSpawnEggTemplate(val entityType: EntityType<*>) : ConiumItemTemplate("spawn_egg") {
+    companion object {
+        @JvmStatic
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumSpawnEggTemplate {
+            if (element.isJsonObject) {
+                throw IllegalArgumentException("Not supported: $element")
+            }
+            EntityType.get(element.asString).let {
+                if (it.isPresent) {
+                    return ConiumSpawnEggTemplate(it.get())
+                }
+            }
+            throw IllegalArgumentException("Entity type ${element.asString} not found")
+        }
+    }
+
     override fun attach(item: ConiumItem) {
         ConiumEvent.itemUseOnBlockEvent.subscribe(item) { world, context ->
             println("Spawn for: $item / $world at ${context.blockPos}")
@@ -27,22 +43,11 @@ class ConiumSpawnEggTemplate(val entityType: EntityType<*>) : ConiumItemTemplate
         }
     }
 
-    override fun settings(settings: Item.Settings) {
+    override fun complete(item: ConiumItem) {
 
     }
 
-    companion object {
-        @JvmStatic
-        fun create(element: JsonElement): ConiumSpawnEggTemplate {
-            if (element.isJsonObject) {
-                throw IllegalArgumentException("Not supported: $element")
-            }
-            EntityType.get(element.asString).let {
-                if (it.isPresent) {
-                    return ConiumSpawnEggTemplate(it.get())
-                }
-            }
-            throw IllegalArgumentException("Entity type ${element.asString} not found")
-        }
+    override fun settings(settings: Item.Settings) {
+
     }
 }

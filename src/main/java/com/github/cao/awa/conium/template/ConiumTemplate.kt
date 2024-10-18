@@ -4,31 +4,34 @@ import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.item.ConiumItem
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import net.minecraft.registry.RegistryWrapper
+import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import java.util.function.BiFunction
 import java.util.function.Function
 
 abstract class ConiumTemplate(private val name: String) {
     companion object {
-        private val templates: MutableMap<String, Function<JsonElement, ConiumTemplate>> = ApricotCollectionFactor.hashMap()
+        private val templates: MutableMap<String, BiFunction<JsonElement, WrapperLookup, ConiumTemplate>> = ApricotCollectionFactor.hashMap()
 
         @JvmStatic
-        fun register(name: String, template: Function<JsonElement, ConiumTemplate>) {
+        fun register(name: String, template: BiFunction<JsonElement, WrapperLookup, ConiumTemplate>) {
             this.templates[name] = template
         }
 
-        fun deserializeTemplates(json: JsonObject): MutableList<ConiumTemplate> {
+        fun deserializeTemplates(json: JsonObject, registryLookup: WrapperLookup): MutableList<ConiumTemplate> {
             val templates: MutableList<ConiumTemplate> = ApricotCollectionFactor.arrayList()
 
             for (entry in json.entrySet()) {
                 val name = entry.key
                 val value = entry.value
 
-                templates.add(deserializeTemplate(name, value))
+                templates.add(deserializeTemplate(name, value, registryLookup))
             }
             return templates
         }
 
-        fun deserializeTemplate(name: String, json: JsonElement): ConiumTemplate {
-            return this.templates[name]!!.apply(json)
+        fun deserializeTemplate(name: String, json: JsonElement, registryLookup: WrapperLookup): ConiumTemplate {
+            return this.templates[name]!!.apply(json, registryLookup)
         }
     }
 
@@ -37,4 +40,6 @@ abstract class ConiumTemplate(private val name: String) {
     }
 
     abstract fun attach(item: ConiumItem)
+
+    abstract fun complete(item: ConiumItem)
 }

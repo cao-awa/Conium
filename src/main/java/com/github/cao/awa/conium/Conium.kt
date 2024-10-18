@@ -5,6 +5,7 @@ import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.function.consumer.string.`object`.*
+import com.github.cao.awa.conium.script.ScriptManager
 import com.github.cao.awa.conium.template.ConiumTemplates
 import net.fabricmc.api.ModInitializer
 import java.util.function.Supplier
@@ -13,8 +14,13 @@ class Conium : ModInitializer {
     companion object {
         @JvmField
         var itemInjectManager: ItemPropertyInjectManager? = null
+
         @JvmField
         var coniumItemManager: ConiumItemManager? = null
+
+        @JvmField
+        var scriptManager: ScriptManager = ScriptManager()
+
         @JvmField
         var enableDebugs: Boolean = true
 
@@ -40,7 +46,13 @@ class Conium : ModInitializer {
         }
 
         @JvmStatic
-        fun debug(message: String?, p1: Supplier<Any?>, p2: Supplier<Any?>, p3: Supplier<Any?>, debugger: StrObjConsumer3) {
+        fun debug(
+            message: String?,
+            p1: Supplier<Any?>,
+            p2: Supplier<Any?>,
+            p3: Supplier<Any?>,
+            debugger: StrObjConsumer3
+        ) {
             if (enableDebugs) {
                 debugger.accept(message, p1.get(), p2.get(), p3.get())
             }

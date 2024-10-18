@@ -53,6 +53,16 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+    implementation 'org.jetbrains.kotlin:kotlin-scripting-common'
+    implementation 'org.jetbrains.kotlin:kotlin-scripting-jvm'
+    implementation 'org.jetbrains.kotlin:kotlin-scripting-jvm-host'
+    implementation 'org.jetbrains.kotlin:kotlin-scripting-dependencies'
+    implementation 'org.jetbrains.kotlin:kotlin-scripting-dependencies-maven'
+    // coroutines dependency is required for this particular definition
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0'
+    implementation 'org.jetbrains.kotlin:kotlin-script-util:1.8.22'
+    implementation 'org.jetbrains.kotlin:kotlin-scripting-jsr223:2.0.21'
+
     // Uncomment the following line to enable the deprecated Fabric API modules.
     // These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 

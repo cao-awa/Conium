@@ -2,26 +2,27 @@ package com.github.cao.awa.conium.item.template.food
 
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
+import com.github.cao.awa.conium.mixin.item.food.FoodComponentBuilderAccessor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.mojang.serialization.JsonOps
 import net.minecraft.component.type.FoodComponent
+import net.minecraft.component.type.FoodComponent.StatusEffectEntry
 import net.minecraft.component.type.FoodComponents.*
 import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
+import net.minecraft.registry.RegistryOps
+import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.util.Identifier
+import java.util.*
 
 class ConiumFoodTemplate(val foodComponent: FoodComponent) : ConiumItemTemplate("food") {
-    override fun attach(item: ConiumItem) {
-
-    }
-
-    override fun settings(settings: Item.Settings) {
-        settings.food(this.foodComponent)
-    }
-
     companion object {
         @JvmStatic
-        fun create(element: JsonElement): ConiumFoodTemplate {
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumFoodTemplate {
             if (element is JsonObject) {
-                return ConiumFoodTemplate(createFoodComponent(element.asJsonObject))
+                return ConiumFoodTemplate(createFoodComponent(element.asJsonObject, registryLookup))
             }
 
             val presetName = element.asString
@@ -76,26 +77,68 @@ class ConiumFoodTemplate(val foodComponent: FoodComponent) : ConiumItemTemplate(
             return ConiumFoodTemplate(preset)
         }
 
-        fun createFoodComponent(jsonObject: JsonObject): FoodComponent {
+        private fun createFoodComponent(jsonObject: JsonObject, registryLookup: WrapperLookup): FoodComponent {
             FoodComponent.Builder().let {
                 if (jsonObject.has("nutrition")) {
-                    it.nutrition(jsonObject.get("nutrition").asInt)
+                    it.nutrition(jsonObject["nutrition"].asInt)
                 }
 
                 if (jsonObject.has("saturation")) {
                     it.saturationModifier(jsonObject.get("saturation").asFloat)
                 }
 
-                if (jsonObject.has("can_always_eat") && jsonObject.get("can_always_eat").asBoolean) {
+                if (jsonObject.has("can_always_eat") && jsonObject["can_always_eat"].asBoolean) {
                     it.alwaysEdible()
                 }
 
-                if (jsonObject.has("snack") && jsonObject.get("snack") is JsonObject) {
+                if (jsonObject.has("snack") && jsonObject["snack"] is JsonObject) {
                     it.snack()
+                }
+
+                if (jsonObject.has("convert_to")) {
+                    jsonObject["convert_to"].let { convert ->
+                        var convertTo: ItemStack? = null
+
+                        if (convert.isJsonObject) {
+                            val ops: RegistryOps<JsonElement> = registryLookup.getOps(JsonOps.INSTANCE)
+                            convertTo = ItemStack.CODEC.parse(ops, convert.asJsonObject).orThrow
+                        } else {
+                            val item = Registries.ITEM.get(Identifier.of(convert.asString))
+                            println("$item :: ${convert.asString}")
+                            convertTo = ItemStack(item, 1)
+                        }
+
+                        (it as FoodComponentBuilderAccessor).setUsingConvertsTo(Optional.ofNullable(convertTo))
+                    }
+                }
+
+                if (jsonObject.has("effects")) {
+                    jsonObject["effects"].let { convert ->
+                        if (convert.isJsonArray) {
+                            val ops: RegistryOps<JsonElement> = registryLookup.getOps(JsonOps.INSTANCE)
+                            for (statusEffectEntry in StatusEffectEntry.CODEC.listOf()
+                                .parse(ops, convert.asJsonArray).orThrow
+                            ) {
+                                it.statusEffect(statusEffectEntry.effect, statusEffectEntry.probability)
+                            }
+                        }
+                    }
                 }
 
                 return it.build()
             }
         }
+    }
+
+    override fun attach(item: ConiumItem) {
+
+    }
+
+    override fun complete(item: ConiumItem) {
+
+    }
+
+    override fun settings(settings: Item.Settings) {
+        settings.food(this.foodComponent)
     }
 }

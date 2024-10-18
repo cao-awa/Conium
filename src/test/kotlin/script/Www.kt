@@ -1,0 +1,5 @@
+package script
+
+object Www {
+
+}

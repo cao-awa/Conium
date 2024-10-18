@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "datapack.DataPackContentsMixin",
+    "item.food.FoodComponentBuilderAccessor",
     "item.stack.ItemStackMixin",
     "recipe.RecipeManagerAccessor",
     "registry.RegistryEntryReferenceMixin",

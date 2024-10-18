@@ -35,7 +35,7 @@ class ConiumItemManager(private val registryLookup: RegistryWrapper.WrapperLooku
         for ((key, value) in prepared) {
             value as JsonObject
 
-            val identifier = value.get("id")
+            val identifier = value.get("id").asString
 
             // Use to debug, trace inject details.
             Conium.debug(
@@ -45,9 +45,11 @@ class ConiumItemManager(private val registryLookup: RegistryWrapper.WrapperLooku
                 LOGGER::info
             )
 
-            val item: ConiumItemBuilder = ConiumItemBuilder.deserialize(value)
+            val item: ConiumItemBuilder = ConiumItemBuilder.deserialize(value, this.registryLookup)
 
             Items.register(item.identifier, item.build())
         }
+
+        Conium.scriptManager.reload()
     }
 }
