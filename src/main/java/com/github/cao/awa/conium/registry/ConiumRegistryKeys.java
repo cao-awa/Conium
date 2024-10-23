@@ -8,6 +8,7 @@ import net.minecraft.util.Identifier;
 
 public class ConiumRegistryKeys {
     public static final RegistryKey<Registry<ItemPropertyInject<?>>> ITEM_PROPERTY_INJECT = of("property/item");
+    public static final RegistryKey<Registry<ItemPropertyInject<?>>> SCRIPTS = of("scripts");
     public static final RegistryKey<Registry<ConiumItemBuilder>> ITEM = of("item");
 
     private static <T> RegistryKey<Registry<T>> of(String id) {

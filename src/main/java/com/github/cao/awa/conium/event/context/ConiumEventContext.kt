@@ -10,7 +10,8 @@ class ConiumEventContext<P : ParameterSelective?>(
     private val trigger: Function3<Any, Map<String, Any?>, P, Boolean>,
     vararg args: String
 ) {
-    private var eventTrigger: P? = null
+    private var ariseTrigger: P? = null
+    private var presageTrigger: P? = null
 
     private val args: MutableMap<String, Any?> = ApricotCollectionFactor.hashMap()
     private val queryArgs: MutableList<String> = ApricotCollectionFactor.arrayList(args.size)
@@ -21,8 +22,13 @@ class ConiumEventContext<P : ParameterSelective?>(
         this.queryArgs.addAll(args)
     }
 
-    fun trigger(trigger: P): ConiumEventContext<P> {
-        this.eventTrigger = trigger
+    fun arise(trigger: P): ConiumEventContext<P> {
+        this.ariseTrigger = trigger
+        return this
+    }
+
+    fun presage(trigger: P): ConiumEventContext<P> {
+        this.presageTrigger = trigger
         return this
     }
 
@@ -57,8 +63,23 @@ class ConiumEventContext<P : ParameterSelective?>(
         return this
     }
 
+    fun presage(identity: Any): Boolean {
+        var success = this.presageTrigger == null || this.trigger.apply(identity, this.args, this.presageTrigger!!)
+        for (attach in this.attaches) {
+            val attachSuccess = attach.resetArgs(this.args)
+                .resetQueryArgs(this.queryArgs)
+                .presage(identity)
+
+            success = success && attachSuccess
+        }
+        return success
+    }
+
     fun fire(identity: Any): Boolean {
-        var success = this.trigger.apply(identity, this.args, this.eventTrigger!!)
+        if (!presage(identity)) {
+            return false
+        }
+        var success = this.trigger.apply(identity, this.args, this.ariseTrigger!!)
         for (attach in this.attaches) {
             val attachSuccess = attach.resetArgs(this.args)
                 .resetQueryArgs(this.queryArgs)

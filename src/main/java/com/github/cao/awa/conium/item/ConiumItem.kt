@@ -36,14 +36,14 @@ class ConiumItem(settings: Settings) : Item(settings) {
         }
     }
 
-    public var material: ToolMaterial? = null
+    var material: ToolMaterial? = null
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
         if (context.world.isClient) {
             return ActionResult.PASS
         }
 
-        ConiumEvent.fire(ConiumEventType.ITEM_USE_ON_BLOCK).let {
+        ConiumEvent.request(ConiumEventType.ITEM_USE_ON_BLOCK).let {
             it.put(ConiumEventArgType.SERVER_WORLD, context.world as ServerWorld)
             it.put(ConiumEventArgType.ITEM_USAGE_CONTEXT, context)
 

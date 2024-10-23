@@ -1,39 +1,65 @@
-package com.github.cao.awa.conium.template;
+package com.github.cao.awa.conium.template
 
-import com.github.cao.awa.conium.item.template.food.ConiumFoodTemplate;
-import com.github.cao.awa.conium.item.template.egg.ConiumSpawnEggTemplate;
-import com.github.cao.awa.conium.item.template.tool.axe.ConiumItemDiamondAxeTemplate;
-import com.github.cao.awa.conium.item.template.tool.axe.ConiumItemGoldenAxeTemplate;
-import com.github.cao.awa.conium.item.template.tool.axe.ConiumItemIronAxeTemplate;
-import com.github.cao.awa.conium.item.template.tool.axe.ConiumItemNetheriteAxeTemplate;
-import com.github.cao.awa.conium.item.template.tool.axe.ConiumItemStoneAxeTemplate;
-import com.github.cao.awa.conium.item.template.tool.axe.ConiumItemWoodenAxeTemplate;
+import com.github.cao.awa.conium.item.template.egg.ConiumSpawnEggTemplate
+import com.github.cao.awa.conium.item.template.food.ConiumFoodTemplate
+import com.github.cao.awa.conium.item.template.tool.axe.*
+import com.github.cao.awa.conium.template.ConiumTemplate.Companion.register
+import com.google.gson.JsonElement
+import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-public class ConiumTemplates {
-    public static final String SPAWN_EGG = "spawn_egg";
+object ConiumTemplates {
+    const val SPAWN_EGG: String = "spawn_egg"
 
-    public static final String FOOD = "food";
+    const val FOOD: String = "food"
 
-    public static final String WOODEN_PICKAXE = "wooden_pickaxe";
-    public static final String STONE_PICKAXE = "stone_pickaxe";
-    public static final String IRON_PICKAXE = "iron_pickaxe";
-    public static final String GOLDEN_PICKAXE = "golden_pickaxe";
-    public static final String DIAMOND_PICKAXE = "diamond_pickaxe";
-    public static final String NETHERITE_PICKAXE = "netherite_pickaxe";
+    const val WOODEN_PICKAXE: String = "wooden_pickaxe"
+    const val STONE_PICKAXE: String = "stone_pickaxe"
+    const val IRON_PICKAXE: String = "iron_pickaxe"
+    const val GOLDEN_PICKAXE: String = "golden_pickaxe"
+    const val DIAMOND_PICKAXE: String = "diamond_pickaxe"
+    const val NETHERITE_PICKAXE: String = "netherite_pickaxe"
 
-    public static void init() {
+    fun init() {
         // Spawn egg.
-        ConiumTemplate.register(SPAWN_EGG, ConiumSpawnEggTemplate::create);
+        register(
+            SPAWN_EGG,
+            ConiumSpawnEggTemplate::create
+        )
 
         // Food.
-        ConiumTemplate.register(FOOD, ConiumFoodTemplate::create);
+        register(
+            FOOD,
+            ConiumFoodTemplate::create
+        )
 
         // Pickaxes.
-        ConiumTemplate.register(WOODEN_PICKAXE, ConiumItemWoodenAxeTemplate::create);
-        ConiumTemplate.register(STONE_PICKAXE, ConiumItemStoneAxeTemplate::create);
-        ConiumTemplate.register(IRON_PICKAXE, ConiumItemIronAxeTemplate::create);
-        ConiumTemplate.register(GOLDEN_PICKAXE, ConiumItemGoldenAxeTemplate::create);
-        ConiumTemplate.register(DIAMOND_PICKAXE, ConiumItemDiamondAxeTemplate::create);
-        ConiumTemplate.register(NETHERITE_PICKAXE, ConiumItemNetheriteAxeTemplate::create);
+        register(
+            WOODEN_PICKAXE,
+            ConiumItemWoodenAxeTemplate::create
+        )
+
+        register(
+            STONE_PICKAXE,
+            ConiumItemStoneAxeTemplate::create
+        )
+
+        register(
+            IRON_PICKAXE,
+            ConiumItemIronAxeTemplate::create
+        )
+
+        register(
+            GOLDEN_PICKAXE,
+            ConiumItemGoldenAxeTemplate::create
+        )
+
+        register(
+            DIAMOND_PICKAXE,
+            ConiumItemDiamondAxeTemplate::create
+        )
+        register(
+            NETHERITE_PICKAXE,
+            ConiumItemNetheriteAxeTemplate::create
+        )
     }
 }

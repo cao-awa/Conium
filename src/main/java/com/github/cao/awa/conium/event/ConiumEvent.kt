@@ -15,8 +15,13 @@ abstract class ConiumEvent<P: ParameterSelective> : ListTriggerable<P>() {
         @JvmField
         val itemUseOnBlockEvent = ConiumItemUseOnBlockEvent()
 
+        /**
+         * Before event fires, create event context by requirements.
+         *
+         * @param type the type of event
+         */
         @JvmStatic
-        fun fire(type: ConiumEventType): ConiumEventContext<out ParameterSelective> {
+        fun request(type: ConiumEventType): ConiumEventContext<out ParameterSelective> {
             return this.events[type]!!.requirement()
         }
 

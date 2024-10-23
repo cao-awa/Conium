@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger
 class ConiumItemManager(private val registryLookup: RegistryWrapper.WrapperLookup) :
     JsonDataLoader(GSON, RegistryKeys.getPath(ConiumRegistryKeys.ITEM)) {
     companion object {
-        private val LOGGER: Logger = LogManager.getLogger("ConiumManager")
+        private val LOGGER: Logger = LogManager.getLogger("ConiumItemManager")
         private val GSON: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
     }
 
@@ -49,7 +49,5 @@ class ConiumItemManager(private val registryLookup: RegistryWrapper.WrapperLooku
 
             Items.register(item.identifier, item.build())
         }
-
-        Conium.scriptManager.reload()
     }
 }

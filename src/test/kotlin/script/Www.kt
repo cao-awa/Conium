@@ -1,5 +1,5 @@
 package script
 
-object Www {
+fun main() {
 
 }
