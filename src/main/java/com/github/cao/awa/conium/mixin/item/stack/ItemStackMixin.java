@@ -2,13 +2,21 @@ package com.github.cao.awa.conium.mixin.item.stack;
 
 import com.github.cao.awa.conium.Conium;
 import com.github.cao.awa.conium.component.ConiumComponentType;
+import com.github.cao.awa.conium.event.ConiumEvent;
+import com.github.cao.awa.conium.event.context.ConiumEventContext;
+import com.github.cao.awa.conium.event.type.ConiumEventArgType;
+import com.github.cao.awa.conium.event.type.ConiumEventType;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.component.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,6 +24,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -57,7 +66,7 @@ public abstract class ItemStackMixin implements ComponentHolder {
             if (type.isCreative() || !contains(DataComponentTypes.HIDE_TOOLTIP)) {
                 List<Text> tooltip = cir.getReturnValue();
 
-                overallTrtrComponents(componentType -> {
+                overallComponents(componentType -> {
                     tooltip.add(Text.translatable(componentType + ": " + this.components.get(componentType)));
                 });
             }
@@ -65,11 +74,40 @@ public abstract class ItemStackMixin implements ComponentHolder {
     }
 
     @Unique
-    private void overallTrtrComponents(Consumer<ConiumComponentType<?>> action) {
+    private void overallComponents(Consumer<ConiumComponentType<?>> action) {
         for (ComponentType<?> componentsType : this.components.getTypes()) {
             if (componentsType instanceof ConiumComponentType<?> trtrComponentType) {
                 action.accept(trtrComponentType);
             }
         }
+    }
+
+    @Redirect(
+            method = "useOnBlock",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/Item;useOnBlock(Lnet/minecraft/item/ItemUsageContext;)Lnet/minecraft/util/ActionResult;")
+    )
+    public ActionResult handleUseOnBlock(Item instance, ItemUsageContext context) {
+        ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.ITEM_USE_ON_BLOCK);
+
+        eventContext.put(ConiumEventArgType.WORLD, context.getWorld());
+
+        if (context.getWorld().isClient()) {
+            eventContext.put(ConiumEventArgType.CLIENT_WORLD, (ClientWorld) context.getWorld());
+        } else {
+            eventContext.put(ConiumEventArgType.SERVER_WORLD, (ServerWorld) context.getWorld());
+        }
+
+        eventContext.put(ConiumEventArgType.ITEM_USAGE_CONTEXT, context);
+
+        ActionResult result = ActionResult.FAIL;
+
+        if (eventContext.presaging(this)) {
+            result = instance.useOnBlock(context);
+            if (!eventContext.arising(this) && result != ActionResult.FAIL) {
+                result = ActionResult.PASS;
+            }
+        }
+
+        return result;
     }
 }

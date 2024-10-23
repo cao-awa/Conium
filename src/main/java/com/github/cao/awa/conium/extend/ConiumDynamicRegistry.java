@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.registry;
+package com.github.cao.awa.conium.extend;
 
 public interface ConiumDynamicRegistry {
     default void clearDynamic() {

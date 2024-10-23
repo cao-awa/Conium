@@ -31,7 +31,7 @@ abstract class ConiumEvent<P: ParameterSelective> : ListTriggerable<P>() {
         }
 
         fun forever(eventType: ConiumEventType, context: ConiumEventContext<*>) {
-            this.foreverContext.computeIfAbsent(eventType, {ApricotCollectionFactor.arrayList()}).add(context)
+            this.foreverContext.computeIfAbsent(eventType) { ApricotCollectionFactor.arrayList() }.add(context)
         }
 
         fun forever(eventType: ConiumEventType): MutableList<ConiumEventContext<*>> = this.foreverContext[eventType] ?: Collections.emptyList()
@@ -45,8 +45,12 @@ abstract class ConiumEvent<P: ParameterSelective> : ListTriggerable<P>() {
             this.events[ConiumEventType.ITEM_USE_ON_BLOCK] = itemUseOnBlockEvent
         }
 
-        fun clearSubscribes() {
+        fun clearItemSubscribes() {
             this.itemUseOnBlockEvent.clearSubscribes()
+        }
+
+        fun clearBlockSubscribes() {
+
         }
     }
 

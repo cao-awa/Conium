@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.mixin.registry;
 
 import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor;
-import com.github.cao.awa.conium.registry.ConiumDynamicRegistry;
+import com.github.cao.awa.conium.extend.ConiumDynamicRegistry;
 import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;

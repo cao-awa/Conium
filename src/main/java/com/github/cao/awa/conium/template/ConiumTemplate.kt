@@ -9,17 +9,17 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
 import java.util.function.BiFunction
 import java.util.function.Function
 
-abstract class ConiumTemplate(private val name: String) {
+abstract class ConiumTemplate<T>(private val name: String) {
     companion object {
-        private val templates: MutableMap<String, BiFunction<JsonElement, WrapperLookup, ConiumTemplate>> = ApricotCollectionFactor.hashMap()
+        private val templates: MutableMap<String, BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*>>> = ApricotCollectionFactor.hashMap()
 
         @JvmStatic
-        fun register(name: String, template: BiFunction<JsonElement, WrapperLookup, ConiumTemplate>) {
+        fun register(name: String, template: BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*>>) {
             this.templates[name] = template
         }
 
-        fun deserializeTemplates(json: JsonObject, registryLookup: WrapperLookup): MutableList<ConiumTemplate> {
-            val templates: MutableList<ConiumTemplate> = ApricotCollectionFactor.arrayList()
+        fun deserializeTemplates(json: JsonObject, registryLookup: WrapperLookup): MutableList<ConiumTemplate<*>> {
+            val templates: MutableList<ConiumTemplate<*>> = ApricotCollectionFactor.arrayList()
 
             for (entry in json.entrySet()) {
                 val name = entry.key
@@ -30,7 +30,7 @@ abstract class ConiumTemplate(private val name: String) {
             return templates
         }
 
-        fun deserializeTemplate(name: String, json: JsonElement, registryLookup: WrapperLookup): ConiumTemplate {
+        fun deserializeTemplate(name: String, json: JsonElement, registryLookup: WrapperLookup): ConiumTemplate<*> {
             return this.templates[name]!!.apply(json, registryLookup)
         }
     }
@@ -39,7 +39,7 @@ abstract class ConiumTemplate(private val name: String) {
         return this.name
     }
 
-    abstract fun attach(item: ConiumItem)
+    abstract fun attach(item: T)
 
-    abstract fun complete(item: ConiumItem)
+    abstract fun complete(item: T)
 }

@@ -38,23 +38,6 @@ class ConiumItem(settings: Settings) : Item(settings) {
 
     var material: ToolMaterial? = null
 
-    override fun useOnBlock(context: ItemUsageContext): ActionResult {
-        if (context.world.isClient) {
-            return ActionResult.PASS
-        }
-
-        ConiumEvent.request(ConiumEventType.ITEM_USE_ON_BLOCK).let {
-            it.put(ConiumEventArgType.SERVER_WORLD, context.world as ServerWorld)
-            it.put(ConiumEventArgType.ITEM_USAGE_CONTEXT, context)
-
-            if (it.fire(this)) {
-                return ActionResult.SUCCESS
-            }
-        }
-        return ActionResult.PASS
-    }
-
-
     override fun postHit(stack: ItemStack?, target: LivingEntity?, attacker: LivingEntity?): Boolean {
         return this.material != null
     }

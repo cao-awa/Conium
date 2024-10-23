@@ -21,7 +21,7 @@ class ConiumItemUseOnBlockEvent : ConiumItemEvent<ParameterSelective2<ServerWorl
         ).attach(
             forever(ConiumEventType.ITEM_USE_ON_BLOCK)
         ).arise { identity, world, context ->
-            hasAny(identity) {
+            noFailure(identity) {
                 it.trigger(
                     world,
                     context

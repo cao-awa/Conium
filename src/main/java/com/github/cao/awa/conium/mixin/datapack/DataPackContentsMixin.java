@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.mixin.datapack;
 
 import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor;
 import com.github.cao.awa.conium.Conium;
+import com.github.cao.awa.conium.datapack.block.ConiumBlockManager;
 import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager;
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager;
 import com.github.cao.awa.conium.datapack.script.ConiumScriptManager;
@@ -34,6 +35,8 @@ public class DataPackContentsMixin {
     @Unique
     private ConiumItemManager coniumItemManager;
     @Unique
+    private ConiumBlockManager coniumBlockManager;
+    @Unique
     private ConiumScriptManager scriptManager;
 
     @Inject(
@@ -44,9 +47,11 @@ public class DataPackContentsMixin {
         RegistryWrapper.WrapperLookup lookup = ((RecipeManagerAccessor) this.recipeManager).getRegistryLookup();
         this.itemPropertyInjectManager = new ItemPropertyInjectManager(lookup);
         this.coniumItemManager = new ConiumItemManager(lookup);
+        this.coniumBlockManager = new ConiumBlockManager(lookup);
         this.scriptManager = new ConiumScriptManager(lookup);
         Conium.itemInjectManager = this.itemPropertyInjectManager;
         Conium.coniumItemManager = this.coniumItemManager;
+        Conium.coniumBlockManager = this.coniumBlockManager;
         Conium.scriptManager = this.scriptManager;
     }
 
@@ -59,6 +64,7 @@ public class DataPackContentsMixin {
         List<ResourceReloader> reloaderList = ApricotCollectionFactor.arrayList(cir.getReturnValue());
         reloaderList.add(this.itemPropertyInjectManager);
         reloaderList.add(this.coniumItemManager);
+        reloaderList.add(this.coniumBlockManager);
         reloaderList.add(this.scriptManager);
         cir.setReturnValue(reloaderList);
     }

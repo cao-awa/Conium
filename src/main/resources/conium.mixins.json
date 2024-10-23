@@ -4,7 +4,9 @@
   "package": "com.github.cao.awa.conium.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "collection.IdListMixin",
     "datapack.DataPackContentsMixin",
+    "item.ItemMixin",
     "item.food.FoodComponentBuilderAccessor",
     "item.stack.ItemStackMixin",
     "recipe.RecipeManagerAccessor",

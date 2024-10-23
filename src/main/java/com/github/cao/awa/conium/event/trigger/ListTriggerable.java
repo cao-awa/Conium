@@ -19,9 +19,16 @@ public abstract class ListTriggerable<P extends ParameterSelective> {
 
     public boolean hasAny(Object identity, Predicate<P> parameters) {
         boolean has = false;
-        System.out.println(identity);
         for (P trigger : this.triggers.getOrDefault(identity, Collections.emptyList())) {
             has |= parameters.test(trigger);
+        }
+        return has;
+    }
+
+    public boolean noFailure(Object identity, Predicate<P> parameters) {
+        boolean has = true;
+        for (P trigger : this.triggers.getOrDefault(identity, Collections.emptyList())) {
+            has &= parameters.test(trigger);
         }
         return has;
     }

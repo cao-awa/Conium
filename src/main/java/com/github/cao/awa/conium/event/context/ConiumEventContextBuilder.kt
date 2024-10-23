@@ -10,10 +10,6 @@ object ConiumEventContextBuilder {
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
     fun requires(): ConiumEventContext<ParameterSelective1<Any>> {
-        for (stackTraceElement in Thread.currentThread().stackTrace) {
-            println(stackTraceElement.toString())
-        }
-
         return ConiumEventContext({ identity, _, p ->
                 p.trigger(
                     identity
@@ -26,15 +22,11 @@ object ConiumEventContextBuilder {
     fun <P1> requires(
         arg1: ConiumEventArgType<P1>
     ): ConiumEventContext<ParameterSelective2<Any, P1>> {
-        for (stackTraceElement in Thread.currentThread().stackTrace) {
-            println(stackTraceElement.toString())
-        }
-
         return ConiumEventContext({ identity, args, p ->
             val p1 = args[arg1.key] as P1
 
             if (p1 == null) {
-                false
+                true
             } else {
                 p.trigger(
                     identity,
@@ -55,7 +47,7 @@ object ConiumEventContextBuilder {
             val p2 = args[arg2.key] as P2
 
             if (p1 == null || p2 == null) {
-                false
+                true
             } else {
                 p.trigger(
                     identity,
@@ -79,7 +71,7 @@ object ConiumEventContextBuilder {
             val p3 = args[arg3.key] as P3
 
             if (p1 == null || p2 == null || p3 == null) {
-                false
+                true
             } else {
                 p.trigger(
                     identity,
@@ -106,7 +98,7 @@ object ConiumEventContextBuilder {
             val p4 = args[arg4.key] as P4
 
             if (p1 == null || p2 == null || p3 == null || p4 == null) {
-                false
+                true
             } else {
                 p.trigger(
                     identity,
@@ -136,7 +128,7 @@ object ConiumEventContextBuilder {
             val p5 = args[arg5.key] as P5
 
             if (p1 == null || p2 == null || p3 == null || p4 == null || p5 == null) {
-                false
+                true
             } else {
                 p.trigger(
                     identity,
@@ -169,7 +161,7 @@ object ConiumEventContextBuilder {
             val p6 = args[arg6.key] as P6
 
             if (p1 == null || p2 == null || p3 == null || p4 == null || p5 == null || p6 == null) {
-                false
+                true
             } else {
                 p.trigger(
                     identity,
@@ -205,7 +197,7 @@ object ConiumEventContextBuilder {
             val p7 = args[arg7.key] as P7
 
             if (p1 == null || p2 == null || p3 == null || p4 == null || p5 == null || p6 == null || p7 == null) {
-                false
+                true
             } else {
                 p.trigger(
                     identity,
@@ -247,7 +239,7 @@ object ConiumEventContextBuilder {
             val p1 = args[arg1.key] as P1
 
             if (p1 == null) {
-                false
+                true
             } else {
                 p.trigger(
                     identity,
@@ -273,7 +265,7 @@ object ConiumEventContextBuilder {
             val p2 = args[arg2.key] as P2
 
             if (p1 == null || p2 == null) {
-                false
+                true
             } else {
                 p.trigger(
                     identity,
@@ -302,7 +294,7 @@ object ConiumEventContextBuilder {
             val p3 = args[arg3.key] as P3
 
             if (p1 == null || p2 == null || p3 == null) {
-                false
+                true
             } else {
                 p.trigger(
                     identity,
@@ -334,7 +326,7 @@ object ConiumEventContextBuilder {
             val p4 = args[arg4.key] as P4
 
             if (p1 == null || p2 == null || p3 == null || p4 == null) {
-                false
+                true
             } else {
                 p.trigger(
                     identity,
@@ -369,7 +361,7 @@ object ConiumEventContextBuilder {
             val p5 = args[arg5.key] as P5
 
             if (p1 == null || p2 == null || p3 == null || p4 == null || p5 == null) {
-                false
+                true
             } else {
                 p.trigger(
                     identity,
@@ -407,7 +399,7 @@ object ConiumEventContextBuilder {
             val p6 = args[arg6.key] as P6
 
             if (p1 == null || p2 == null || p3 == null || p4 == null || p5 == null || p6 == null) {
-                false
+                true
             } else {
                 p.trigger(
                     identity,
@@ -448,7 +440,7 @@ object ConiumEventContextBuilder {
             val p7 = args[arg7.key] as P7
 
             if (p1 == null || p2 == null || p3 == null || p4 == null || p5 == null || p6 == null || p7 == null) {
-                false
+                true
             } else {
                 p.trigger(
                     identity,

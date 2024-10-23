@@ -39,7 +39,7 @@ class ConiumSpawnEggTemplate(val entityType: EntityType<*>) : ConiumItemTemplate
                 )
             )
 
-            return@subscribe true
+            true
         }
     }
 

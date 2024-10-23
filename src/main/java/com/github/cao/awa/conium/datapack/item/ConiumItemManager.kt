@@ -4,7 +4,7 @@ import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.item.builder.ConiumItemBuilder
-import com.github.cao.awa.conium.registry.ConiumDynamicRegistry
+import com.github.cao.awa.conium.extend.ConiumDynamicRegistry
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.google.gson.*
 import net.minecraft.item.Item
@@ -30,7 +30,7 @@ class ConiumItemManager(private val registryLookup: RegistryWrapper.WrapperLooku
 
     override fun apply(prepared: Map<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
         (Registries.ITEM as ConiumDynamicRegistry).clearDynamic()
-        ConiumEvent.clearSubscribes()
+        ConiumEvent.clearItemSubscribes()
 
         for ((key, value) in prepared) {
             value as JsonObject
