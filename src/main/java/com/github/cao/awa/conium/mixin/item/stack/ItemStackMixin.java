@@ -4,9 +4,8 @@ import com.github.cao.awa.conium.Conium;
 import com.github.cao.awa.conium.component.ConiumComponentType;
 import com.github.cao.awa.conium.event.ConiumEvent;
 import com.github.cao.awa.conium.event.context.ConiumEventContext;
-import com.github.cao.awa.conium.event.type.ConiumEventArgType;
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.component.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -14,7 +13,6 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import org.jetbrains.annotations.Nullable;
@@ -87,17 +85,15 @@ public abstract class ItemStackMixin implements ComponentHolder {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/Item;useOnBlock(Lnet/minecraft/item/ItemUsageContext;)Lnet/minecraft/util/ActionResult;")
     )
     public ActionResult handleUseOnBlock(Item instance, ItemUsageContext context) {
-        ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.ITEM_USE_ON_BLOCK);
+        ConiumEventContext<?, Boolean> eventContext = ConiumEvent.request(ConiumEventType.ITEM_USE_ON_BLOCK);
 
-        eventContext.put(ConiumEventArgType.WORLD, context.getWorld());
+        eventContext.put(ConiumEventArgTypes.WORLD, context.getWorld());
 
-        if (context.getWorld().isClient()) {
-            eventContext.put(ConiumEventArgType.CLIENT_WORLD, (ClientWorld) context.getWorld());
-        } else {
-            eventContext.put(ConiumEventArgType.SERVER_WORLD, (ServerWorld) context.getWorld());
-        }
+        eventContext.put(ConiumEventArgTypes.ITEM_USAGE_CONTEXT, context);
 
-        eventContext.put(ConiumEventArgType.ITEM_USAGE_CONTEXT, context);
+        eventContext.put(ConiumEventArgTypes.PLAYER, context.getPlayer());
+
+        eventContext.put(ConiumEventArgTypes.BLOCK_POS, context.getBlockPos());
 
         ActionResult result = ActionResult.FAIL;
 

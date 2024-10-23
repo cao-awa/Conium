@@ -12,17 +12,17 @@ class ConiumBlock(settings: Settings) : Block(settings) {
                 it.settings(settings)
             }
 
-            val item = ConiumBlock(settings)
+            val block = ConiumBlock(settings)
 
             builder.templates.forEach {
-                it.attach(item)
+                it.attach(block)
             }
 
             builder.templates.forEach {
-                it.complete(item)
+                it.complete(block)
             }
 
-            return item
+            return block
         }
     }
 

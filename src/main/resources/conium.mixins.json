@@ -17,6 +17,7 @@
     "defaultRequire": 1
   },
   "client": [
+    "interaction.client.ClientPlayerInteractionManagerMixin",
     "renderer.item.ItemModelsAccessor"
   ]
 }

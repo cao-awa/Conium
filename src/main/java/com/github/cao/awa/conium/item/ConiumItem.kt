@@ -1,17 +1,11 @@
 package com.github.cao.awa.conium.item
 
-import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.event.type.ConiumEventArgType
-import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.item.builder.ConiumItemBuilder
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.item.ItemUsageContext
 import net.minecraft.item.ToolMaterial
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.ActionResult
 
 class ConiumItem(settings: Settings) : Item(settings) {
     companion object {
