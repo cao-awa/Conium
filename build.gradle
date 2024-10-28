@@ -1,7 +1,7 @@
 plugins {
-    id 'fabric-loom' version '1.8.1'
-    id 'maven-publish'
-    id 'org.jetbrains.kotlin.jvm' version '2.0.21'
+    id "fabric-loom" version "1.8.1"
+    id "maven-publish"
+    id "org.jetbrains.kotlin.jvm" version "2.0.21"
 }
 
 archivesBaseName = project.archives_base_name + "-" + project.minecraft_version
@@ -35,6 +35,14 @@ repositories {
             password = "ghp_UgALm1Ta2ONYeNh" + "S2m0XoWSc27BcE22v4Umn"
         }
     }
+    maven {
+        name = "GitHubPackages"
+        url = "https://github.com/cao-awa/language-translator"
+        credentials {
+            username = "cao-awa"
+            password = "ghp_UgALm1Ta2ONYeNh" + "S2m0XoWSc27BcE22v4Umn"
+        }
+    }
 }
 
 configurations {
@@ -53,28 +61,28 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    implementation 'org.jetbrains.kotlin:kotlin-scripting-common'
-    implementation 'org.jetbrains.kotlin:kotlin-scripting-jvm'
-    implementation 'org.jetbrains.kotlin:kotlin-scripting-jvm-host'
-    implementation 'org.jetbrains.kotlin:kotlin-scripting-dependencies'
-    implementation 'org.jetbrains.kotlin:kotlin-scripting-dependencies-maven'
+    shadow "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
+
+    shadow "org.jetbrains.kotlin:kotlin-scripting-common:${project.kotlin_version}"
+    shadow "org.jetbrains.kotlin:kotlin-scripting-jvm:${project.kotlin_version}"
+    shadow "org.jetbrains.kotlin:kotlin-scripting-jvm-host:${project.kotlin_version}"
+    shadow "org.jetbrains.kotlin:kotlin-scripting-dependencies:${project.kotlin_version}"
+    shadow "org.jetbrains.kotlin:kotlin-scripting-dependencies-maven:${project.kotlin_version}"
     // coroutines dependency is required for this particular definition
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0'
-    implementation 'org.jetbrains.kotlin:kotlin-script-util:1.8.22'
-    implementation 'org.jetbrains.kotlin:kotlin-scripting-jsr223:2.0.21'
+    shadow "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0"
+    shadow "org.jetbrains.kotlin:kotlin-script-util:1.8.22"
+    shadow "org.jetbrains.kotlin:kotlin-scripting-jsr223:${project.kotlin_version}"
 
     // Uncomment the following line to enable the deprecated Fabric API modules.
     // These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 
-    // modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
-    shadow 'io.github.pcmind:leveldb:1.2'
     shadow 'com.google.guava:guava:32.1.3-jre'
 
     shadow 'org.reflections:reflections:0.10.2'
-    shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     shadow 'com.github.cao.awa:catheter:1.0.41'
-    shadow 'com.github.cao.awa:sinuatum:1.0.10'
+    shadow 'com.github.cao.awa:sinuatum:1.0.11'
+    shadow 'com.github.cao.awa:language-translator:1.0.5'
 }
 
 processResources {
@@ -95,8 +103,8 @@ java {
     // If you remove this line, sources will not be generated.
     withSourcesJar()
 
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 jar {

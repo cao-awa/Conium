@@ -1,9 +1,9 @@
 package com.github.cao.awa.conium.event.context
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.event.type.DynamicArgType
 import com.github.cao.awa.conium.parameter.DynamicArgs
 import com.github.cao.awa.conium.parameter.ParameterSelective
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 class ConiumEventContext<P : ParameterSelective?, R>(
     private val dynamicArgs: DynamicArgs<P, R>
@@ -12,8 +12,8 @@ class ConiumEventContext<P : ParameterSelective?, R>(
     private var presageTrigger: P? = null
     private var varyingTrigger: P? = null
 
-    private val args: MutableMap<DynamicArgType<*>, Any?> = ApricotCollectionFactor.hashMap()
-    private val attaches: MutableList<ConiumEventContext<*, *>> = ApricotCollectionFactor.arrayList()
+    private val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
+    private val attaches: MutableList<ConiumEventContext<*, *>> = CollectionFactor.arrayList()
 
     fun arise(trigger: P): ConiumEventContext<P, R> {
         this.ariseTrigger = trigger

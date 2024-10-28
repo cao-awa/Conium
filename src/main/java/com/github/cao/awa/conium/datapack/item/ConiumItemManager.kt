@@ -1,11 +1,11 @@
 package com.github.cao.awa.conium.datapack.item
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.item.builder.ConiumItemBuilder
 import com.github.cao.awa.conium.extend.ConiumDynamicRegistry
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.*
 import net.minecraft.item.Item
 import net.minecraft.item.Items
@@ -26,7 +26,7 @@ class ConiumItemManager(private val registryLookup: RegistryWrapper.WrapperLooku
         private val GSON: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
     }
 
-    private val items = ApricotCollectionFactor.hashMap<Identifier, Item>()
+    private val items = CollectionFactor.hashMap<Identifier, Item>()
 
     override fun apply(prepared: Map<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
         (Registries.ITEM as ConiumDynamicRegistry).clearDynamic()

@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.mixin.collection;
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor;
 import com.github.cao.awa.conium.extend.ConiumDynamicIdList;
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import net.minecraft.util.collection.IdList;
 import org.spongepowered.asm.mixin.Final;
@@ -19,7 +19,7 @@ public abstract class IdListMixin<T> implements ConiumDynamicIdList<T> {
     @Shadow @Final private Reference2IntMap<T> idMap;
     @Shadow private int nextId;
     @Unique
-    private final List<T> dynamicList = ApricotCollectionFactor.arrayList();
+    private final List<T> dynamicList = CollectionFactor.arrayList();
 
     @Override
     public void conium$clearDynamic() {

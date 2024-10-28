@@ -1,6 +1,5 @@
 package com.github.cao.awa.conium.datapack.inject.item
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
 import com.github.cao.awa.conium.datapack.inject.item.action.handler.ItemPropertyInjectHandler
@@ -8,6 +7,7 @@ import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInje
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.*
 import net.minecraft.component.ComponentType
 import net.minecraft.item.Item
@@ -29,7 +29,7 @@ class ItemPropertyInjectManager(private val registryLookup: RegistryWrapper.Wrap
         private val GSON: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
     }
 
-    private val injects = ApricotCollectionFactor.hashMap<Item, MutableList<ItemPropertyInject<*>>>()
+    private val injects = CollectionFactor.hashMap<Item, MutableList<ItemPropertyInject<*>>>()
 
     override fun apply(prepared: Map<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
         for ((key, value) in prepared) {
@@ -49,7 +49,7 @@ class ItemPropertyInjectManager(private val registryLookup: RegistryWrapper.Wrap
 
             val item = Registries.ITEM[Identifier.of(itemTarget)]
 
-            this.injects.computeIfAbsent(item) { ApricotCollectionFactor.arrayList() }
+            this.injects.computeIfAbsent(item) { CollectionFactor.arrayList() }
 
             this.injects[item]!!.add(injecting)
         }

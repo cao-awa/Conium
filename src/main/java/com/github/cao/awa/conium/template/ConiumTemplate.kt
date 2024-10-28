@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.template
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.item.ConiumItem
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.registry.RegistryWrapper
@@ -11,7 +11,7 @@ import java.util.function.Function
 
 abstract class ConiumTemplate<T>(private val name: String) {
     companion object {
-        private val templates: MutableMap<String, BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*>>> = ApricotCollectionFactor.hashMap()
+        private val templates: MutableMap<String, BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*>>> = CollectionFactor.hashMap()
 
         @JvmStatic
         fun register(name: String, template: BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*>>) {
@@ -19,7 +19,7 @@ abstract class ConiumTemplate<T>(private val name: String) {
         }
 
         fun deserializeTemplates(json: JsonObject, registryLookup: WrapperLookup): MutableList<ConiumTemplate<*>> {
-            val templates: MutableList<ConiumTemplate<*>> = ApricotCollectionFactor.arrayList()
+            val templates: MutableList<ConiumTemplate<*>> = CollectionFactor.arrayList()
 
             for (entry in json.entrySet()) {
                 val name = entry.key

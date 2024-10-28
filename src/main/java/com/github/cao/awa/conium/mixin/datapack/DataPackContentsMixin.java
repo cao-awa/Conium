@@ -1,12 +1,12 @@
 package com.github.cao.awa.conium.mixin.datapack;
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor;
 import com.github.cao.awa.conium.Conium;
 import com.github.cao.awa.conium.datapack.block.ConiumBlockManager;
 import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager;
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager;
 import com.github.cao.awa.conium.datapack.script.ConiumScriptManager;
 import com.github.cao.awa.conium.mixin.recipe.RecipeManagerAccessor;
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryWrapper;
@@ -61,7 +61,7 @@ public class DataPackContentsMixin {
             cancellable = true
     )
     public void contents(CallbackInfoReturnable<List<ResourceReloader>> cir) {
-        List<ResourceReloader> reloaderList = ApricotCollectionFactor.arrayList(cir.getReturnValue());
+        List<ResourceReloader> reloaderList = CollectionFactor.arrayList(cir.getReturnValue());
         reloaderList.add(this.itemPropertyInjectManager);
         reloaderList.add(this.coniumItemManager);
         reloaderList.add(this.coniumBlockManager);

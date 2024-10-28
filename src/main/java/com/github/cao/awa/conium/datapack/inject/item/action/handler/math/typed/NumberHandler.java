@@ -1,14 +1,15 @@
 package com.github.cao.awa.conium.datapack.inject.item.action.handler.math.typed;
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor;
 import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction;
+import com.github.cao.awa.sinuatum.manipulate.QuickManipulate;
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 
 import java.math.BigInteger;
 import java.util.Map;
 
 public abstract class NumberHandler<T extends Number> {
-    private static final Map<Class<? extends Number>, NumberHandler<? extends Number>> handlers = Manipulate.operation(ApricotCollectionFactor.hashMap(), handlers -> {
+    private static final Map<Class<? extends Number>, NumberHandler<? extends Number>> handlers = QuickManipulate.operation(CollectionFactor.hashMap(), handlers -> {
         handlers.put(Integer.class, new IntegerNumberHandler());
         handlers.put(Long.class, new LongNumberHandler());
         handlers.put(Float.class, new FloatNumberHandler());

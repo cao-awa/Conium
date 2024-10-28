@@ -1,9 +1,7 @@
 package com.github.cao.awa.conium.event.trigger;
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor;
 import com.github.cao.awa.conium.parameter.ParameterSelective;
-import com.github.cao.awa.conium.parameter.ParameterSelective1;
-import net.minecraft.item.ItemUsageContext;
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +9,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public abstract class ListTriggerable<P extends ParameterSelective> {
-    private final Map<Object, List<P>> triggers = ApricotCollectionFactor.hashMap();
+    private final Map<Object, List<P>> triggers = CollectionFactor.hashMap();
 
     public Map<Object, List<P>> triggers() {
         return this.triggers;
@@ -34,7 +32,7 @@ public abstract class ListTriggerable<P extends ParameterSelective> {
     }
 
     public ListTriggerable<P> subscribe(Object identity, P trigger) {
-        this.triggers.computeIfAbsent(identity, (key) -> ApricotCollectionFactor.arrayList()).add(trigger);
+        this.triggers.computeIfAbsent(identity, (key) -> CollectionFactor.arrayList()).add(trigger);
         return this;
     }
 

@@ -1,5 +1,7 @@
 package com.github.cao.awa.conium.event.type;
 
 public enum ConiumEventType {
-    ITEM_USE_ON_BLOCK
+    SERVER_TICK,
+
+    ITEM_USE_ON_BLOCK,
 }

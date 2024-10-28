@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.component;
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor;
 import com.github.cao.awa.conium.component.value.ConiumValueCreator;
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.function.UnaryOperator;
 
 public class ConiumComponentTypes {
-    private static final Map<Identifier, ConiumComponentType<?>> types = ApricotCollectionFactor.hashMap();
+    private static final Map<Identifier, ConiumComponentType<?>> types = CollectionFactor.hashMap();
 
     public static final ConiumComponentType<Integer> TEST = register(
             "test",

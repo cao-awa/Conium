@@ -1,19 +1,22 @@
 package com.github.cao.awa.conium.event
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.event.context.ConiumEventContext
+import com.github.cao.awa.conium.event.server.tick.ConiumServerTickEvent
 import com.github.cao.awa.conium.event.trigger.ListTriggerable
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.item.event.use.ConiumItemUseOnBlockEvent
 import com.github.cao.awa.conium.parameter.ParameterSelective
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import java.util.*
 
 abstract class ConiumEvent<P: ParameterSelective> : ListTriggerable<P>() {
     companion object {
-        private val events: MutableMap<ConiumEventType, ConiumEvent<*>> = ApricotCollectionFactor.hashMap()
-        private val foreverContext: MutableMap<ConiumEventType, MutableList<ConiumEventContext<*, Boolean>>> = ApricotCollectionFactor.hashMap()
+        private val events: MutableMap<ConiumEventType, ConiumEvent<*>> = CollectionFactor.hashMap()
+        private val foreverContext: MutableMap<ConiumEventType, MutableList<ConiumEventContext<*, Boolean>>> = CollectionFactor.hashMap()
         @JvmField
         val itemUseOnBlockEvent = ConiumItemUseOnBlockEvent()
+        @JvmField
+        val serverTick = ConiumServerTickEvent()
 
         /**
          * Before event fires, create event context by requirements.
@@ -31,7 +34,7 @@ abstract class ConiumEvent<P: ParameterSelective> : ListTriggerable<P>() {
         }
 
         fun forever(eventType: ConiumEventType, context: ConiumEventContext<*, Boolean>) {
-            this.foreverContext.computeIfAbsent(eventType) { ApricotCollectionFactor.arrayList() }.add(context)
+            this.foreverContext.computeIfAbsent(eventType) { CollectionFactor.arrayList() }.add(context)
         }
 
         fun forever(eventType: ConiumEventType): MutableList<ConiumEventContext<*, Boolean>> = this.foreverContext[eventType] ?: Collections.emptyList()
@@ -42,11 +45,13 @@ abstract class ConiumEvent<P: ParameterSelective> : ListTriggerable<P>() {
 
         @JvmStatic
         fun init() {
-            this.events[ConiumEventType.ITEM_USE_ON_BLOCK] = itemUseOnBlockEvent
+            this.events[ConiumEventType.ITEM_USE_ON_BLOCK] = this.itemUseOnBlockEvent
+            this.events[ConiumEventType.SERVER_TICK] = this.serverTick
         }
 
         fun clearItemSubscribes() {
             this.itemUseOnBlockEvent.clearSubscribes()
+            this.serverTick.clearSubscribes()
         }
 
         fun clearBlockSubscribes() {

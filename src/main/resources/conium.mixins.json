@@ -11,7 +11,8 @@
     "item.stack.ItemStackMixin",
     "recipe.RecipeManagerAccessor",
     "registry.RegistryEntryReferenceMixin",
-    "registry.SimpleRegistryMixin"
+    "registry.SimpleRegistryMixin",
+    "server.MinecraftServerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

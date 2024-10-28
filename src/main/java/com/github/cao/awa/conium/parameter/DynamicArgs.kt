@@ -1,14 +1,14 @@
 package com.github.cao.awa.conium.parameter
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.event.type.DynamicArgType
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.mojang.datafixers.util.Function3
 
 class DynamicArgs<P : ParameterSelective?, R>(
     private val trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>,
     vararg args: DynamicArgType<*>
 ) {
-    private val queryArgs: MutableList<DynamicArgType<*>> = ApricotCollectionFactor.arrayList(args.size)
+    private val queryArgs: MutableList<DynamicArgType<*>> = CollectionFactor.arrayList(args.size)
     private var lifecycle: DynamicArgsLifecycle = DynamicArgsLifecycle.ONCE
 
     init {
@@ -21,7 +21,7 @@ class DynamicArgs<P : ParameterSelective?, R>(
     }
 
     private fun varyArgs(identity: Any, sources: MutableMap<DynamicArgType<*>, Any?>): Map<DynamicArgType<*>, Any?> {
-        val args = ApricotCollectionFactor.hashMap<DynamicArgType<*>, Any?>()
+        val args = CollectionFactor.hashMap<DynamicArgType<*>, Any?>()
 
         for (arg in sources) {
             arg.value.let {

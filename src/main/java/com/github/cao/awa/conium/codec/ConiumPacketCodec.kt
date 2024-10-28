@@ -1,9 +1,9 @@
 package com.github.cao.awa.conium.codec
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponent
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import io.netty.handler.codec.DecoderException
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
@@ -36,7 +36,7 @@ object ConiumPacketCodec {
 
     @JvmField
     val ITEM_PROPERTY_INJECT_COMPONENT_LIST: PacketCodec<RegistryByteBuf, MutableList<ItemPropertyInjectComponent<*>>> =
-        ITEM_PROPERTY_INJECT_COMPONENT.collect(PacketCodecs.toCollection(ApricotCollectionFactor::arrayList))
+        ITEM_PROPERTY_INJECT_COMPONENT.collect(PacketCodecs.toCollection(CollectionFactor::arrayList))
 
     @JvmField
     val ITEM_PROPERTY_INJECT_COMPONENT_VALUE: PacketCodec<RegistryByteBuf, ItemPropertyInjectComponentValue<*>> =

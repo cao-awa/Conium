@@ -1,10 +1,10 @@
 package com.github.cao.awa.conium.item.builder
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.template.ConiumTemplate
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonObject
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper
@@ -28,7 +28,7 @@ class ConiumItemBuilder(val identifier: Identifier) {
         }
     }
 
-    var templates: MutableList<ConiumItemTemplate> = ApricotCollectionFactor.arrayList()
+    var templates: MutableList<ConiumItemTemplate> = CollectionFactor.arrayList()
 
     fun addTemplates(templates: List<ConiumItemTemplate>): ConiumItemBuilder {
         this.templates.addAll(templates)

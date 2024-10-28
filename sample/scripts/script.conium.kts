@@ -1,7 +1,7 @@
 request(
     ITEM_USE_ON_BLOCK,
     SERVER_WORLD
-).trigger { identity, world ->
+).trigger { _, world ->
     println(world)
 
     true

@@ -1,8 +1,9 @@
 package com.github.cao.awa.conium.mixin.registry;
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor;
 import com.github.cao.awa.conium.extend.ConiumDynamicRegistry;
 import com.github.cao.awa.sinuatum.manipulate.Manipulate;
+import com.github.cao.awa.sinuatum.manipulate.QuickManipulate;
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Lifecycle;
@@ -36,17 +37,17 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     @Unique
     private final Map<T, RegistryEntry.Reference<T>> dynamicIntrusiveValueToEntry = new IdentityHashMap<>();
     @Unique
-    private final Map<Identifier, RegistryEntry.Reference<T>> dynamicIdToEntry = ApricotCollectionFactor.hashMap();
+    private final Map<Identifier, RegistryEntry.Reference<T>> dynamicIdToEntry = CollectionFactor.hashMap();
     @Unique
-    private final Map<RegistryKey<T>, RegistryEntry.Reference<T>> dynamicKeyToEntry = ApricotCollectionFactor.hashMap();
+    private final Map<RegistryKey<T>, RegistryEntry.Reference<T>> dynamicKeyToEntry = CollectionFactor.hashMap();
     @Unique
-    private final Reference2IntMap<T> dynamicEntryToRawId = Manipulate.operation(new Reference2IntOpenHashMap<>(), map -> {
+    private final Reference2IntMap<T> dynamicEntryToRawId = QuickManipulate.operation(new Reference2IntOpenHashMap<>(), map -> {
         map.defaultReturnValue(-1);
     });
     @Unique
     private final Map<T, RegistryEntry.Reference<T>> dynamicValueToEntry = new IdentityHashMap<>();
     @Unique
-    private final List<RegistryEntry.Reference<T>> dynamicRawIdToEntry = ApricotCollectionFactor.arrayList();
+    private final List<RegistryEntry.Reference<T>> dynamicRawIdToEntry = CollectionFactor.arrayList();
     @Unique
     private final Map<RegistryKey<T>, RegistryEntryInfo> dynamicKeyToEntryInfo = new IdentityHashMap<>();
 
@@ -331,7 +332,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             cancellable = true
     )
     public void getIds(CallbackInfoReturnable<Set<Identifier>> cir) {
-        Set<Identifier> result = ApricotCollectionFactor.hashSet();
+        Set<Identifier> result = CollectionFactor.hashSet();
         result.addAll(cir.getReturnValue());
         result.addAll(this.dynamicIdToEntry.keySet());
         cir.setReturnValue(Collections.unmodifiableSet(result));
@@ -345,7 +346,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             )
     )
     public Set<RegistryKey<T>> getKeys(Set<RegistryKey<T>> s) {
-        Set<RegistryKey<T>> keys = ApricotCollectionFactor.hashSet();
+        Set<RegistryKey<T>> keys = CollectionFactor.hashSet();
         keys.addAll(s);
         keys.addAll(this.dynamicKeyToEntry.keySet());
         return Collections.unmodifiableSet(keys);
@@ -359,7 +360,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             )
     )
     public Set<Map.Entry<RegistryKey<T>, T>> getEntrySet(Set<Map.Entry<RegistryKey<T>, T>> s) {
-        Set<Map.Entry<RegistryKey<T>, T>> keys = ApricotCollectionFactor.hashSet();
+        Set<Map.Entry<RegistryKey<T>, T>> keys = CollectionFactor.hashSet();
         keys.addAll(s);
         keys.addAll(Maps.transformValues(this.dynamicKeyToEntry, RegistryEntry::value).entrySet());
         return Collections.unmodifiableSet(keys);

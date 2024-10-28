@@ -7,8 +7,12 @@ import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.datapack.script.ConiumScriptManager
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.function.consumer.string.`object`.*
+import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.language.translator.builtin.typescript.translate.kts.TypescriptKotlinScriptTranslator
+import com.github.cao.awa.sinuatum.util.io.IOUtil
 import net.fabricmc.api.ModInitializer
+import java.io.FileReader
 import java.util.function.Supplier
 
 class Conium : ModInitializer {
@@ -27,6 +31,9 @@ class Conium : ModInitializer {
 
         @JvmField
         var enableDebugs: Boolean = true
+
+        @JvmField
+        var allowBedrock: Boolean = true
 
         @JvmStatic
         fun debug(debugger: Runnable) {
@@ -117,5 +124,9 @@ class Conium : ModInitializer {
 
         // Initialize for templates
         ConiumTemplates.init()
+
+        // Initialize script translator for bedrock's typescript.
+        TypescriptKotlinScriptTranslator.postRegister()
+        ConiumScriptTranslator.postRegister()
     }
 }

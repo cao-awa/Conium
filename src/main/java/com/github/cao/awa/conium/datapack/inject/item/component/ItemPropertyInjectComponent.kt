@@ -1,10 +1,10 @@
 package com.github.cao.awa.conium.datapack.inject.item.component
 
-import com.github.cao.awa.apricot.util.collection.ApricotCollectionFactor
 import com.github.cao.awa.conium.codec.ConiumPacketCodec
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue.Companion.unverified
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.component.ComponentType
@@ -60,7 +60,7 @@ data class ItemPropertyInjectComponent<T>(
 
         @JvmStatic
         fun <X> unverified(json: JsonArray): List<ItemPropertyInjectComponent<Any>> {
-            val components: MutableList<ItemPropertyInjectComponent<Any>> = ApricotCollectionFactor.arrayList()
+            val components: MutableList<ItemPropertyInjectComponent<Any>> = CollectionFactor.arrayList()
             for (element in json) {
                 components.add(unverified(element.asJsonObject))
             }
