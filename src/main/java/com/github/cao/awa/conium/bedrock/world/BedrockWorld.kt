@@ -1,9 +1,10 @@
 package com.github.cao.awa.conium.bedrock.world
 
-import com.github.cao.awa.conium.bedrock.event.BedrockBeforeEvents
+import com.github.cao.awa.conium.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.bedrock.world.player.delegate.BedrockPlayerDelegate
 import net.minecraft.world.World
 
+@BedrockScriptApi
 open class BedrockWorld(private val delegate: World): AbstractBedrockWorld() {
     companion object {
         val DUMMY = DummyBedrockWorld()
@@ -20,7 +21,7 @@ class DummyBedrockWorld : AbstractBedrockWorld() {
     }
 }
 
-fun World.bedrockWorld(): BedrockWorld {
+fun World.toBedrock(): BedrockWorld {
     return BedrockWorld(
         this
     )

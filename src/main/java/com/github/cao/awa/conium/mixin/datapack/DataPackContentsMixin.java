@@ -45,10 +45,10 @@ public class DataPackContentsMixin {
     )
     public void init(DynamicRegistryManager.Immutable dynamicRegistryManager, FeatureSet enabledFeatures, CommandManager.RegistrationEnvironment environment, int functionPermissionLevel, CallbackInfo ci) {
         RegistryWrapper.WrapperLookup lookup = ((RecipeManagerAccessor) this.recipeManager).getRegistryLookup();
-        this.itemPropertyInjectManager = new ItemPropertyInjectManager(lookup);
+        this.itemPropertyInjectManager = new ItemPropertyInjectManager();
         this.coniumItemManager = new ConiumItemManager(lookup);
         this.coniumBlockManager = new ConiumBlockManager(lookup);
-        this.scriptManager = new ConiumScriptManager(lookup);
+        this.scriptManager = new ConiumScriptManager();
         Conium.itemInjectManager = this.itemPropertyInjectManager;
         Conium.coniumItemManager = this.coniumItemManager;
         Conium.coniumBlockManager = this.coniumBlockManager;
