@@ -5,12 +5,12 @@ Conium let you complete your mods only using datapack.
 
 ## Requirements
 
-|            Requirement |        Version         |             Notes              |
-|-----------------------:|:----------------------:|:------------------------------:|
-|                   Java |          21!!          |       Only 21 can be use       |
-|              Minecraft |        1.21.1!!        |      Only 1.21 can be use      |
-| Fabric language kotlin | 1.12.3+kotlin.2.0.21!! | Only kotlin 2.0.21 can be use  |
-|             Fabric API |           ?            |       Any version is ok        |
+|            Requirement |        Version         |             Notes             |
+|-----------------------:|:----------------------:|:-----------------------------:|
+|                   Java |          21!!          |      Only 21 can be use       |
+|              Minecraft |        1.21.1!!        |    Only 1.21.1 can be use     |
+| Fabric language kotlin | 1.12.3+kotlin.2.0.21!! | Only kotlin 2.0.21 can be use |
+|             Fabric API |           ?            |       Any version is ok       |
 
 ## datapack structure
 
