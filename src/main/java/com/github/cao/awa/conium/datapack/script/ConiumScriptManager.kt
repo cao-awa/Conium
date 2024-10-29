@@ -1,14 +1,11 @@
 package com.github.cao.awa.conium.datapack.script
 
 import com.github.cao.awa.conium.Conium
-import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
 import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
-import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
+import com.github.cao.awa.conium.script.ScriptExport
+import com.github.cao.awa.conium.script.eval.ScriptEval
 import com.github.cao.awa.conium.script.kts.ConiumScript
-import com.github.cao.awa.conium.script.kts.clearDuplicateImports
 import com.github.cao.awa.language.translator.builtin.typescript.antlr.TypescriptLexer
 import com.github.cao.awa.language.translator.builtin.typescript.antlr.TypescriptParser
 import com.github.cao.awa.language.translator.builtin.typescript.translate.element.TypescriptTranslateElement
@@ -27,43 +24,28 @@ import net.minecraft.util.profiler.Profiler
 import org.antlr.v4.runtime.*
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
-import javax.script.ScriptEngine
-import javax.script.ScriptEngineManager
 import kotlin.script.experimental.api.*
 import kotlin.script.experimental.host.StringScriptSource
+import kotlin.script.experimental.jvm.baseClassLoader
 import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
 import kotlin.script.experimental.jvm.jvm
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromTemplate
-import kotlin.script.experimental.jvmhost.createJvmEvaluationConfigurationFromTemplate
 
 class ConiumScriptManager(private val registryLookup: RegistryWrapper.WrapperLookup) :
     SinglePreparationResourceReloader<MutableMap<Identifier, Resource>>() {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumScriptManager")
         private val DATA_TYPE = RegistryKeys.getPath(ConiumRegistryKeys.SCRIPTS)
-        private val kotlinEngine: ScriptEngine =
-            ScriptEngineManager(Thread.currentThread().contextClassLoader).getEngineByExtension("kts")
         private val defaultCommons = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.commons.kts"))
+        private val defaultBedrockScriptInit =
+            IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.bedrock.script.init.kts"))
         private val defaultBedrockCommons =
             IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.bedrock.commons.kts"))
-        private val kotlinHost = BasicJvmScriptingHost()
-        private val compilationConfiguration = createJvmCompilationConfigurationFromTemplate<ConiumScript> {
-            for (line in defaultCommons.reader().readLines()) {
-                defaultImports.append(line)
-            }
-            isStandalone(false)
-            jvm {
-                dependenciesFromCurrentContext(wholeClasspath = true)
-            }
-        }
-        private val evaluationConfiguration = createJvmEvaluationConfigurationFromTemplate<ConiumScript> {
-            enableScriptsInstancesSharing()
-            jvm {
-
-            }
-        }
     }
+
+    private val exportedScript = CollectionFactor.hashMap<String, ScriptExport>()
+    private val host = BasicJvmScriptingHost()
 
     override fun prepare(manager: ResourceManager, profiler: Profiler): MutableMap<Identifier, Resource> {
         val scripts = CollectionFactor.hashMap<Identifier, Resource>()
@@ -97,6 +79,14 @@ class ConiumScriptManager(private val registryLookup: RegistryWrapper.WrapperLoo
     override fun apply(prepared: MutableMap<Identifier, Resource>, manager: ResourceManager, profiler: Profiler) {
         ConiumEvent.resetForever()
 
+        val scripts = CollectionFactor.linkedList<ScriptEval>()
+
+        scripts.add(ScriptEval(defaultCommons))
+
+        scripts.add(ScriptEval(defaultBedrockCommons, "ConiumCommons"))
+
+        scripts.add(ScriptEval(defaultBedrockScriptInit, "ConiumCommons", "ConiumBedrockCommons"))
+
         for (script in prepared) {
             val resource = script.value
             val identifier = script.key
@@ -105,25 +95,10 @@ class ConiumScriptManager(private val registryLookup: RegistryWrapper.WrapperLoo
 
             identifier.path.also { path ->
                 if (path.endsWith(".kts")) {
-                    println(evalKotlin(defaultCommons + defaultBedrockCommons + content))
+                    scripts.add(ScriptEval(content, "ConiumCommons"))
                 } else if (path.endsWith(".ts")) {
                     if (Conium.allowBedrock) {
-                        val tsFile = readTypescript(content)
-
-                        tsFile.prepares()
-
-                        val translated = LanguageTranslator.translate(
-                            "conium",
-                            TranslateTarget.KOTLIN_SCRIPT,
-                            TypescriptTranslateElement.FILE,
-                            tsFile
-                        )
-
-                        println(translated)
-
-                        println("----------")
-
-                        println(evalKotlin(defaultCommons + defaultBedrockCommons + buildBedrockRequest(translated)))
+                        scripts.add(ScriptEval(translateBedrock(content), "ConiumCommons", "ConiumBedrockCommons"))
                     } else {
                         LOGGER.warn("Conium are disabled bedrock script, ignored '$identifier'")
                     }
@@ -131,16 +106,7 @@ class ConiumScriptManager(private val registryLookup: RegistryWrapper.WrapperLoo
             }
         }
 
-        BedrockEventContext.newSystem()
-
-        ConiumEventContextBuilder.request(
-            ConiumEventType.SERVER_TICK,
-            ConiumEventArgTypes.SERVER
-        ).arise { _, server ->
-            BedrockEventContext.system.tick(server)
-
-            true
-        }
+        evalKotlin(scripts)
     }
 
     private fun buildBedrockRequest(script: String): String {
@@ -177,8 +143,41 @@ class ConiumScriptManager(private val registryLookup: RegistryWrapper.WrapperLoo
         return visitor.visitProgram(programContext)
     }
 
-    private fun evalKotlin(source: String): ResultWithDiagnostics<EvaluationResult> {
-        val content = clearDuplicateImports(source)
+    private fun translateBedrock(source: String): String {
+        val tsFile = readTypescript(source)
+
+        tsFile.prepares()
+
+        val translated = LanguageTranslator.translate(
+            "conium",
+            TranslateTarget.KOTLIN_SCRIPT,
+            TypescriptTranslateElement.FILE,
+            tsFile
+        )
+
+        println(translated)
+
+        println("----------")
+
+        return buildBedrockRequest(translated)
+    }
+
+    private fun evalKotlin(scripts: List<ScriptEval>) {
+        evalKotlin(scripts.iterator())
+    }
+
+    private fun evalKotlin(scripts: Iterator<ScriptEval>) {
+        if (scripts.hasNext()) {
+            val next = scripts.next()
+
+            evalKotlin(next.codes, *next.defaultImports) {
+                evalKotlin(scripts)
+            }
+        }
+    }
+
+    private fun evalKotlin(source: String, vararg defaultImports: String, resultCallback: () -> Unit): ResultWithDiagnostics<EvaluationResult> {
+        val content = ScriptExport.import(this.exportedScript, source, *defaultImports)
 
         println("Eval: \n${content}")
 
@@ -187,10 +186,28 @@ class ConiumScriptManager(private val registryLookup: RegistryWrapper.WrapperLoo
                 dependenciesFromCurrentContext(wholeClasspath = true)
             }
         }
-        return BasicJvmScriptingHost().eval(
+
+        val result = host.eval(
             StringScriptSource(content),
             compilationConfiguration,
             null
         )
+
+        println(result)
+
+        if (result is ResultWithDiagnostics.Success) {
+            result.value.returnValue.let { returnValue ->
+                if (returnValue is ResultValue.Value) {
+                    returnValue.value?.let {
+                        (it as? ScriptExport)?.let { export ->
+                            this.exportedScript[export.name] = export.ofCode(content)
+                        }
+                    }
+                }
+            }
+            resultCallback()
+        }
+
+        return result
     }
 }

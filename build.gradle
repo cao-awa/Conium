@@ -82,7 +82,7 @@ dependencies {
 
     shadow 'com.github.cao.awa:catheter:1.0.41'
     shadow 'com.github.cao.awa:sinuatum:1.0.11'
-    shadow 'com.github.cao.awa:language-translator:1.0.5'
+    shadow 'com.github.cao.awa:language-translator:1.0.6'
 }
 
 processResources {

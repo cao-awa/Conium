@@ -16,6 +16,12 @@ import com.github.cao.awa.conium.bedrock.event.context.item.use.BedrockItemUseOn
 import com.github.cao.awa.catheter.receptacle.Receptacle
 import com.github.cao.awa.catheter.receptacle.IntegerReceptacle
 import com.github.cao.awa.catheter.receptacle.LongReceptacle
+import com.github.cao.awa.conium.bedrock.system.BedrockSystem
 
-val world get() = BedrockEventContext.accessWorld(this)
-val system get() = BedrockEventContext.accessSystem()
+ScriptExport(
+    "ConiumBedrockCommons",
+    {
+        it("world", AbstractBedrockWorld::class) { instance -> BedrockEventContext.accessWorld(instance) }
+        it("system", AbstractBedrockSystem::class) { BedrockEventContext.accessSystem() }
+    }
+)

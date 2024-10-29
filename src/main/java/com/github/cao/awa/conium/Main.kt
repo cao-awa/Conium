@@ -3,6 +3,10 @@ package com.github.cao.awa.conium
 import com.github.cao.awa.catheter.receptacle.IntegerReceptacle
 import com.github.cao.awa.conium.bedrock.script.BedrockScriptAnonymousObjectMap
 import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
+import com.github.cao.awa.conium.bedrock.system.AbstractBedrockSystem
+import com.github.cao.awa.conium.bedrock.world.AbstractBedrockWorld
+import com.github.cao.awa.conium.script.ScriptExport
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 object Main {
     val world get() = BedrockEventContext.accessWorld(this)
@@ -34,5 +38,19 @@ object Main {
             },);
         }
         BedrockEventContext.clearPost()
+
+        val exported = CollectionFactor.hashMap<String, ScriptExport>()
+
+        val ex = ScriptExport(
+            "ConiumBedrockCommons",
+            {
+                it("world", AbstractBedrockWorld::class, { _ -> this.world })
+                it("system", AbstractBedrockSystem::class, { this.system })
+            }
+        )
+
+        exported[ex.name] = ex
+
+        println(ScriptExport.import(exported, "// IMPORT: ConiumBedrockCommons"))
     }
 }

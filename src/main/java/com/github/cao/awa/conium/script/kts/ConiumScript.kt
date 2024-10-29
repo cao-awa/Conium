@@ -14,7 +14,7 @@ fun clearDuplicateImports(script: String): String {
     script.lines().forEach {
         if (it.startsWith("import ")) {
             imports.add(it)
-        } else if (it.isNotBlank()){
+        } else if (it.isNotBlank()) {
             scriptLines.add(it)
         }
     }
@@ -32,4 +32,14 @@ fun clearDuplicateImports(script: String): String {
     }
 
     return builder.toString()
+}
+
+fun filterImports(script: String): Set<String> {
+    val imports = CollectionFactor.hashSet<String>()
+    script.lines().forEach {
+        if (it.startsWith("import ")) {
+            imports.add(it)
+        }
+    }
+    return imports
 }
