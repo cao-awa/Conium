@@ -3,8 +3,11 @@
   "id": "conium",
   "version": "${version}",
   "name": "Conium",
-  "description": "Conium is datapack and script framework for the modern Minecraft, it provides very diverse features without Java coding, Conium let you complete your mods only using datapack.",
+  "description": "Conium is a datapack and script framework for modern Minecraft, it provides very diverse features without Java coding, Conium lets you complete your mods only using datapacks.",
   "authors": [
+    "cao_awa"
+  ],
+  "contributors": [
     "cao_awa",
     "草二号机"
   ],
@@ -27,9 +30,16 @@
     "conium.mixins.json"
   ],
   "depends": {
+    "language-translator": "1.0.10",
     "fabricloader": "*",
     "fabric": "*",
     "fabric-language-kotlin": "1.12.3+kotlin.2.0.21",
-    "minecraft": "1.21.x"
-  }
+    "minecraft": "1.21.3",
+    "java": "21"
+  },
+  "jars": [
+    {
+      "file": "META-INF/jars/language-translator-1.0.10.jar"
+    }
+  ]
 }

@@ -1,16 +1,17 @@
 # What is Conium
 
-Conium is datapack and script framework for the modern Minecraft, it provides very diverse features without Java coding,
-Conium let you complete your mods only using datapack.
+Conium is a datapack and script framework for the modern Minecraft, it provides very diverse features without Java coding,
+Conium lets you complete your mods only using datapacks.
 
 ## Requirements
 
-|            Requirement |        Version         |             Notes             |
-|-----------------------:|:----------------------:|:-----------------------------:|
-|                   Java |          21!!          |      Only 21 can be use       |
-|              Minecraft |        1.21.3!!        |    Only 1.21.3 can be use     |
-| Fabric language kotlin | 1.12.3+kotlin.2.0.21!! | Only kotlin 2.0.21 can be use |
-|             Fabric API |           ?            |       Any version is ok       |
+|            Requirement |        Version         |  Installs   |             Notes             |
+|-----------------------:|:----------------------:|:-----------:|:-----------------------------:|
+|                   Java |          21!!          |    Need     |      Only 21 can be use       |
+|              Minecraft |        1.21.3!!        |    Need     |    Only 1.21.3 can be use     |
+| Fabric language kotlin | 1.12.3+kotlin.2.0.21!! |    Need     | Only kotlin 2.0.21 can be use |
+|             Fabric API |           ?            | Unnecessary |       Any version is ok       |
+|    Language translator |        1.0.10!!        | Unnecessary | Built-in language translator  |
 
 ## datapack structure
 
@@ -52,7 +53,7 @@ In context:
 In APIs:
 
 + world
-    + [AbstractBedrockWorld](./src/main/java/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt) impl by [BedrockWorld](./src/main/java/com/github/cao/awa/conium/bedrock/world/BedrockWorld.kt) as known as 'System' in SAPI
+    + [AbstractBedrockWorld](./src/main/java/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt) impl by [BedrockWorld](./src/main/java/com/github/cao/awa/conium/bedrock/world/BedrockWorld.kt) as known as 'World' in SAPI
         + player
             + [BedrockPlayer](./src/main/java/com/github/cao/awa/conium/bedrock/world/player/BedrockPlayer.kt) as known as 'Player' in SAPI
                 + delegate
@@ -61,6 +62,8 @@ In APIs:
                     + [BedrockOnScreenDisplay](./src/main/java/com/github/cao/awa/conium/bedrock/world/player/screen/BedrockOnScreenDisplay.kt) as known as 'ScreenDisplay' in SAPI
     + dimension
         + [BedrockDimensionLocation](./src/main/java/com/github/cao/awa/conium/bedrock/world/dimension/BedrockDimensionLocation.kt) as known as 'DimensionLocation' in SAPI
++ system
+    + [AbstractBedrockSystem](./src/main/java/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt) impl by [BedrockSystem](./src/main/java/com/github/cao/awa/conium/bedrock/system/BedrockSystem.kt) as known as 'System' in SAPI
 + item
     + stack
         + [BedrockItemStack](./src/main/java/com/github/cao/awa/conium/bedrock/item/stack/BedrockItemStack.kt) as known as 'ItemStack' in SAPI
@@ -87,4 +90,7 @@ By bedrock script APIs:
         + ```fun``` [updateSubtitle](./src/main/java/com/github/cao/awa/conium/bedrock/world/player/screen/BedrockOnScreenDisplay.kt)(title: String)
     + ```val``` [eventsBefore](./src/main/java/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt) = ```get()```: [BedrockBeforeEvents](./src/main/java/com/github/cao/awa/conium/bedrock/event/BedrockBeforeEvents.kt)
         + ```val``` [itemUseOn](./src/main/java/com/github/cao/awa/conium/bedrock/event/BedrockBeforeEvents.kt): [BedrockItemUseOnEvent](./src/main/java/com/github/cao/awa/conium/bedrock/event/item/use/BedrockItemUseOnBeforeEvent.kt)
-            + ```fun``` [subscribe](./src/main/java/com/github/cao/awa/conium/bedrock/event/item/use/BedrockItemUseOnBeforeEvent.kt)(action: ([BedrockItemUseOnEventContext](./src/main/java/com/github/cao/awa/conium/bedrock/event/context/item/use/BedrockItemUseOnEventContext.kt)) -> Unit) 
+            + ```fun``` [subscribe](./src/main/java/com/github/cao/awa/conium/bedrock/event/item/use/BedrockItemUseOnBeforeEvent.kt)(action: ([BedrockItemUseOnEventContext](./src/main/java/com/github/cao/awa/conium/bedrock/event/context/item/use/BedrockItemUseOnEventContext.kt)) -> Unit)
++ [system](./src/main/java/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt)
+    + ```fun``` [runInterval](./src/main/java/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt)(callback: () -> Unit, tickInterval: Int): IntegerReceptacle
+    + ```fun``` [clearRun](./src/main/java/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt)(runId: IntegerReceptacle)

@@ -12,10 +12,10 @@ class BedrockSystem : AbstractBedrockSystem() {
     private val tasks: MutableMap<Int, ConiumTask> = CollectionFactor.hashMap()
     private val onceTasks: MutableMap<Int, ConiumTask> = CollectionFactor.hashMap()
 
-    override fun runInterval(action: () -> Unit, interval: Int): IntegerReceptacle {
+    override fun runInterval(callback: () -> Unit, tickInterval: Int): IntegerReceptacle {
         println("RunningInterval")
         val id = this.tasks.size
-        this.tasks[id] = ConiumTask(interval, action)
+        this.tasks[id] = ConiumTask(tickInterval, callback)
         return IntegerReceptacle(id)
     }
 
@@ -23,9 +23,9 @@ class BedrockSystem : AbstractBedrockSystem() {
         this.onceTasks[this.onceTasks.size] = ConiumTask(action = action)
     }
 
-    override fun clearRun(id: IntegerReceptacle) {
+    override fun clearRun(runId: IntegerReceptacle) {
         runOnce {
-            this.tasks.remove(id.get())
+            this.tasks.remove(runId.get())
         }
     }
 

@@ -9,14 +9,25 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.function.consumer.string.`object`.*
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.template.ConiumTemplates
-import com.github.cao.awa.language.translator.builtin.typescript.translate.kts.TypescriptKotlinScriptTranslator
-import com.github.cao.awa.sinuatum.util.io.IOUtil
+import com.github.cao.awa.language.translator.translate.LanguageTranslator
+import com.github.cao.awa.language.translator.translate.lang.TranslateTarget
+import com.github.cao.awa.language.translator.translate.lang.element.TranslateElementData
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.fabricmc.api.ModInitializer
-import java.io.FileReader
+import org.apache.logging.log4j.LogManager
 import java.util.function.Supplier
 
 class Conium : ModInitializer {
     companion object {
+        private val LOGGER = LogManager.getLogger("Conium")
+
+        @JvmField
+        var VERSION = "1.0.0"
+
+        @JvmField
+        var LANGUAGE_TRANSLATOR_VERSION = "1.0.8"
+//        var LANGUAGE_TRANSLATOR_VERSION = LanguageTranslator.getVersion()
+
         @JvmField
         var itemInjectManager: ItemPropertyInjectManager? = null
 
@@ -30,10 +41,10 @@ class Conium : ModInitializer {
         var scriptManager: ConiumScriptManager? = null
 
         @JvmField
-        var enableDebugs: Boolean = true
+        var enableDebugs = true
 
         @JvmField
-        var allowBedrock: Boolean = true
+        var allowBedrock = true
 
         @JvmStatic
         fun debug(debugger: Runnable) {
@@ -126,7 +137,22 @@ class Conium : ModInitializer {
         ConiumTemplates.init()
 
         // Initialize script translator for bedrock's typescript.
-        TypescriptKotlinScriptTranslator.postRegister()
+        LOGGER.info("Loading conium '{}' language translator providers for [typescript]", VERSION)
         ConiumScriptTranslator.postRegister()
+
+        val typescriptTranslators = LanguageTranslator.getTranslators("conium")
+        LOGGER.info(
+            "The conium language translator provider has loaded {} translators: {}",
+            typescriptTranslators.size,
+            collectTranslators(typescriptTranslators)
+        )
+    }
+
+    private fun collectTranslators(translators: Map<TranslateTarget, Map<TranslateElementData<*>, LanguageTranslator<*>>>): Map<TranslateTarget, Collection<Class<*>>> {
+        val result: MutableMap<TranslateTarget, Collection<Class<*>>> = CollectionFactor.hashMap()
+        translators.forEach { (target, targetTranslators) ->
+            result[target] = targetTranslators.keys.map { it.clazz() }
+        }
+        return result
     }
 }

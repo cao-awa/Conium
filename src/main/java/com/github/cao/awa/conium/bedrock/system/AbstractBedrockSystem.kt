@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.bedrock.BedrockScriptApiFacade
 
 @BedrockScriptApiFacade("System")
 abstract class AbstractBedrockSystem {
-    abstract fun runInterval(action: () -> Unit, interval: Int): IntegerReceptacle
+    abstract fun runInterval(callback: () -> Unit, tickInterval: Int): IntegerReceptacle
 
-    abstract fun clearRun(id: IntegerReceptacle)
+    abstract fun clearRun(runId: IntegerReceptacle)
 }

@@ -1,5 +1,5 @@
 plugins {
-    id "fabric-loom" version "1.8.1"
+    id "fabric-loom" version "1.8-SNAPSHOT"
     id "maven-publish"
     id "org.jetbrains.kotlin.jvm" version "2.0.21"
 }
@@ -70,7 +70,7 @@ dependencies {
 
     shadow 'com.github.cao.awa:catheter:1.0.42'
     shadow 'com.github.cao.awa:sinuatum:1.0.11'
-    shadow 'com.github.cao.awa:language-translator:1.0.8'
+    implementation "com.github.cao.awa:language-translator:${project.language_translator_version}"
 }
 
 processResources {
