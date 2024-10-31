@@ -49,41 +49,43 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
             return ConiumConsumableTemplate(preset)
         }
 
+        fun createConvert(jsonObject: JsonObject, registryLookup: WrapperLookup, customKey: String, callback: (ItemStack) -> Unit) {
+            jsonObject[customKey]?.let { convert ->
+                if (convert.isJsonObject) {
+                    ItemStack.CODEC.parse(registryLookup.getOps(JsonOps.INSTANCE), convert.asJsonObject).orThrow
+                } else {
+                    ItemStack(Registries.ITEM.get(Identifier.of(convert.asString)), 1)
+                }
+            }?.apply {
+                callback(this)
+            }
+        }
+
         private fun createFoodComponent(
             template: ConiumConsumableTemplate,
             jsonObject: JsonObject,
             registryLookup: WrapperLookup
         ): ConsumableComponent {
             return ConsumableComponent.builder().also {
-                if (jsonObject.has("convert_to")) {
-                    jsonObject["convert_to"].let { convert ->
-                        if (convert.isJsonObject) {
-                            ItemStack.CODEC.parse(registryLookup.getOps(JsonOps.INSTANCE), convert.asJsonObject).orThrow
-                        } else {
-                            ItemStack(Registries.ITEM.get(Identifier.of(convert.asString)), 1)
-                        }.also { remainder ->
-                            template.useRemainder = remainder
-                        }
-                    }
+                createConvert(jsonObject, registryLookup, "convert_to") { remainder ->
+                    template.useRemainder = remainder
                 }
 
-                if (jsonObject.has("effects")) {
-                    jsonObject["effects"].let { convert ->
-                        if (convert.isJsonArray) {
-                            val ops: RegistryOps<JsonElement> = registryLookup.getOps(JsonOps.INSTANCE)
-                            ApplyEffectsConsumeEffect.CODEC.decoder()
-                                .decode(ops, jsonObject).orThrow.first.let { effects ->
+                jsonObject["effects"]?.let { convert ->
+                    if (convert.isJsonArray) {
+                        val ops: RegistryOps<JsonElement> = registryLookup.getOps(JsonOps.INSTANCE)
+                        ApplyEffectsConsumeEffect.CODEC.decoder()
+                            .decode(ops, jsonObject).orThrow.first.let { effects ->
                                 it.consumeEffect(effects)
                             }
-                        }
                     }
                 }
             }.build()
         }
     }
 
-    lateinit var consumableComponent: ConsumableComponent
-    var useRemainder: ItemStack = ItemStack.EMPTY
+    private lateinit var consumableComponent: ConsumableComponent
+    private var useRemainder: ItemStack = ItemStack.EMPTY
 
     init {
         presetConsumableComponent?.let {

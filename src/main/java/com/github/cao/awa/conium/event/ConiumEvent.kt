@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.event
 
+import com.github.cao.awa.conium.block.event.breaking.ConiumBreakBlockEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.server.tick.ConiumServerTickEvent
 import com.github.cao.awa.conium.event.trigger.ListTriggerable
@@ -9,14 +10,19 @@ import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import java.util.*
 
-abstract class ConiumEvent<P: ParameterSelective> : ListTriggerable<P>() {
+abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
     companion object {
         private val events: MutableMap<ConiumEventType, ConiumEvent<*>> = CollectionFactor.hashMap()
         private val foreverContext: MutableMap<ConiumEventType, MutableList<ConiumEventContext<*, Boolean>>> = CollectionFactor.hashMap()
+
         @JvmField
         val itemUseOnBlockEvent = ConiumItemUseOnBlockEvent()
+
         @JvmField
         val serverTick = ConiumServerTickEvent()
+
+        @JvmField
+        val breakBlock = ConiumBreakBlockEvent()
 
         /**
          * Before event fires, create event context by requirements.
@@ -29,7 +35,7 @@ abstract class ConiumEvent<P: ParameterSelective> : ListTriggerable<P>() {
         }
 
         @JvmStatic
-        fun <X: ConiumEvent<X>> findEvent(type: ConiumEventType): X {
+        fun <X : ConiumEvent<X>> findEvent(type: ConiumEventType): X {
             return this.events[type] as X
         }
 
@@ -47,15 +53,19 @@ abstract class ConiumEvent<P: ParameterSelective> : ListTriggerable<P>() {
         fun init() {
             this.events[ConiumEventType.ITEM_USE_ON_BLOCK] = this.itemUseOnBlockEvent
             this.events[ConiumEventType.SERVER_TICK] = this.serverTick
+            this.events[ConiumEventType.BREAK_BLOCK] = this.breakBlock
         }
 
         fun clearItemSubscribes() {
             this.itemUseOnBlockEvent.clearSubscribes()
+        }
+
+        fun clearServerTickSubscribes() {
             this.serverTick.clearSubscribes()
         }
 
         fun clearBlockSubscribes() {
-
+            this.breakBlock.clearSubscribes()
         }
     }
 

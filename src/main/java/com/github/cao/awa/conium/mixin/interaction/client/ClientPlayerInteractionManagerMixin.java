@@ -3,7 +3,6 @@ package com.github.cao.awa.conium.mixin.interaction.client;
 import com.github.cao.awa.conium.event.ConiumEvent;
 import com.github.cao.awa.conium.event.context.ConiumEventContext;
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
-import com.github.cao.awa.conium.event.type.DynamicArgType;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -25,7 +24,7 @@ public class ClientPlayerInteractionManagerMixin {
             )
     )
     public BlockState breakBlock(Block instance, World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        ConiumEventContext<?, Boolean> eventContext = ConiumEvent.request(ConiumEventType.ITEM_USE_ON_BLOCK);
+        ConiumEventContext<?, Boolean> eventContext = ConiumEvent.request(ConiumEventType.BREAK_BLOCK);
 
         eventContext.put(ConiumEventArgTypes.WORLD, world);
 

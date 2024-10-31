@@ -13,7 +13,7 @@ Conium lets you complete your mods only using datapacks.
 |             Fabric API |           ?            | Unnecessary |       Any version is ok       |
 |    Language translator |        1.0.10!!        | Unnecessary | Built-in language translator  |
 
-## datapack structure
+## Datapack structure
 
 + \<path-to-save\>/datapacks
     + \<pack-name\>
@@ -30,18 +30,17 @@ Conium lets you complete your mods only using datapacks.
             + scripts
                 + This directory is scripts, data type is 'kts', '.ts' and '.js'
 
-## bedrock script api
+## Bedrock script APIs
 
-Not completed bedrock script api supports now, only framework able to runs the sample.
+Not completed bedrock script APIs supports now, only framework able to runs the sample.
 
-### grammars
+### Grammars
 
-About typescript grammar, supported by '
-language-translator': [Typescript supports](https://github.com/cao-awa/language-translator/tree/main/doc/typescript)
+About typescript grammar, supported by 'language-translator': [Typescript supports](https://github.com/cao-awa/language-translator/tree/main/doc/typescript)
 
 ### APIs
 
-Currently, there's API is available:
+Currently, there's APIs is available:
 
 In context:
 

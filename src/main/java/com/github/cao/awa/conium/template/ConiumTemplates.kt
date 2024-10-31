@@ -3,8 +3,11 @@ package com.github.cao.awa.conium.template
 //import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
 import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
 import com.github.cao.awa.conium.item.template.egg.ConiumSpawnEggTemplate
+import com.github.cao.awa.conium.item.template.food.ConiumBedrockFoodTemplate
 import com.github.cao.awa.conium.item.template.food.ConiumFoodTemplate
 import com.github.cao.awa.conium.item.template.tool.axe.*
+import com.github.cao.awa.conium.item.template.tool.bedrock.damage.ConiumBedrockDamageTemplate
+import com.github.cao.awa.conium.item.template.tool.bedrock.durability.ConiumBedrockDurabilityTemplate
 import com.github.cao.awa.conium.item.template.tool.pickaxe.*
 import com.github.cao.awa.conium.template.ConiumTemplate.Companion.register
 
@@ -14,6 +17,9 @@ object ConiumTemplates {
     const val FOOD: String = "food"
 
     const val CONSUMABLE: String = "consumable"
+
+    // Tool.
+    const val TOOL: String = "tool"
 
     // Axes.
     const val WOODEN_AXE: String = "wooden_axe"
@@ -31,6 +37,13 @@ object ConiumTemplates {
     const val DIAMOND_PICKAXE: String = "diamond_pickaxe"
     const val NETHERITE_PICKAXE: String = "netherite_pickaxe"
 
+    // The food component in bedrock.
+    const val BEDROCK_FOOD: String = "minecraft:food"
+
+    // The tool component in bedrock.
+    const val BEDROCK_DAMAGE: String = "minecraft:damage"
+    const val BEDROCK_DURABILITY: String = "minecraft:durability"
+
     fun init() {
         // Spawn egg.
         register(
@@ -42,6 +55,10 @@ object ConiumTemplates {
         register(
             FOOD,
             ConiumFoodTemplate::create
+        )
+        register(
+            BEDROCK_FOOD,
+            ConiumBedrockFoodTemplate::create
         )
 
         // Consumable.
@@ -85,22 +102,18 @@ object ConiumTemplates {
             WOODEN_PICKAXE,
             ConiumItemWoodenPickaxeTemplate::create
         )
-
         register(
             STONE_PICKAXE,
             ConiumItemStonePickaxeTemplate::create
         )
-
         register(
             IRON_PICKAXE,
             ConiumItemIronPickaxeTemplate::create
         )
-
         register(
             GOLDEN_PICKAXE,
             ConiumItemGoldenPickaxeTemplate::create
         )
-
         register(
             DIAMOND_PICKAXE,
             ConiumItemDiamondPickaxeTemplate::create
@@ -108,6 +121,17 @@ object ConiumTemplates {
         register(
             NETHERITE_PICKAXE,
             ConiumItemNetheritePickaxeTemplate::create
+        )
+
+        // Bedrock tool.
+        register(
+            BEDROCK_DAMAGE,
+            ConiumBedrockDamageTemplate::create
+        )
+
+        register(
+            BEDROCK_DURABILITY,
+            ConiumBedrockDurabilityTemplate::create
         )
     }
 }

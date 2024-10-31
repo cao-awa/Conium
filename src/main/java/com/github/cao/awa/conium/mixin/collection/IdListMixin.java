@@ -29,8 +29,6 @@ public abstract class IdListMixin<T> implements ConiumDynamicIdList<T> {
         }
         this.nextId -= this.dynamicList.size();
         this.dynamicList.clear();
-
-        System.out.println("Next id: " + this.nextId);
     }
 
     @Override

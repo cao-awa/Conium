@@ -559,12 +559,13 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
 
     @Override
     public void conium$clearDynamic() {
-        dynamicIntrusiveValueToEntry.clear();
-        dynamicIdToEntry.clear();
-        dynamicKeyToEntry.clear();
-        dynamicEntryToRawId.clear();
-        dynamicValueToEntry.clear();
-        dynamicRawIdToEntry.clear();
-        dynamicKeyToEntryInfo.clear();
+        this.dynamicIntrusiveValueToEntry.clear();
+        this.dynamicIdToEntry.clear();
+        this.dynamicKeyToEntry.clear();
+        this.dynamicEntryToRawId.clear();
+        this.dynamicValueToEntry.clear();
+        this.dynamicRawIdToEntry.clear();
+        this.dynamicKeyToEntryInfo.clear();
+        this.dynamicTags.clear();
     }
 }

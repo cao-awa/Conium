@@ -24,7 +24,7 @@ object ConiumEventArgTypes {
     var SERVER_WORLD: DynamicArgType<ServerWorld> = arg(
         "server_world",
         DynamicArgsBuilder.transform(WORLD) { _, world ->
-            if (!world.isClient()) world as ServerWorld else null
+            world as? ServerWorld
         }
     )
 
@@ -32,7 +32,7 @@ object ConiumEventArgTypes {
     var CLIENT_WORLD: DynamicArgType<ClientWorld> = arg(
         "client_world",
         DynamicArgsBuilder.transform(WORLD) { _, world ->
-            if (world.isClient()) world as ClientWorld else null
+            world as? ClientWorld
         }
     )
 

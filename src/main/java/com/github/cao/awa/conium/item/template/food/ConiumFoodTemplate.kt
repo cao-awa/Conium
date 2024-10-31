@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.item.template.food
 
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
+import com.github.cao.awa.conium.template.ConiumTemplates
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.component.type.FoodComponent
@@ -9,7 +10,7 @@ import net.minecraft.component.type.FoodComponents.*
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumFoodTemplate(val foodComponent: FoodComponent) : ConiumItemTemplate("food") {
+class ConiumFoodTemplate(private val foodComponent: FoodComponent) : ConiumItemTemplate(ConiumTemplates.FOOD) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumFoodTemplate {
@@ -17,9 +18,7 @@ class ConiumFoodTemplate(val foodComponent: FoodComponent) : ConiumItemTemplate(
                 return ConiumFoodTemplate(createFoodComponent(element.asJsonObject, registryLookup))
             }
 
-            val presetName = element.asString
-
-            val preset = when (presetName) {
+            val preset = when (val presetName = element.asString) {
                 "apple" -> APPLE
                 "baked_potato" -> BAKED_POTATO
                 "beef" -> BEEF
@@ -75,7 +74,7 @@ class ConiumFoodTemplate(val foodComponent: FoodComponent) : ConiumItemTemplate(
                 }
 
                 if (jsonObject.has("saturation")) {
-                    it.saturationModifier(jsonObject.get("saturation").asFloat)
+                    it.saturationModifier(jsonObject["saturation"].asFloat)
                 }
 
                 if (jsonObject.has("can_always_eat") && jsonObject["can_always_eat"].asBoolean) {

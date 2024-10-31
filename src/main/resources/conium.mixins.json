@@ -5,13 +5,15 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "collection.IdListMixin",
+    "component.attribute.AttributeModifiersComponentBuilderMixin",
+    "component.map.builder.ComponentMapBuilderAccessor",
     "datapack.DataPackContentsMixin",
     "item.ItemMixin",
+    "item.setting.ItemSettingsAccessor",
     "item.stack.ItemStackMixin",
     "recipe.RecipeManagerAccessor",
     "registry.NamedRegistryEntryListMixin",
     "registry.RegistryEntryReferenceMixin",
-    "registry.RegistryLoaderMixin",
     "registry.SimpleRegistryMixin",
     "server.MinecraftServerMixin"
   ],
