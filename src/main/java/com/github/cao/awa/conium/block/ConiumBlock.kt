@@ -5,9 +5,7 @@ import net.minecraft.block.Block
 
 class ConiumBlock(settings: Settings) : Block(settings) {
     companion object {
-        fun create(builder: ConiumBlockBuilder): ConiumBlock {
-            val settings = Settings.create()
-
+        fun create(builder: ConiumBlockBuilder, settings: Settings): ConiumBlock {
             builder.templates.forEach {
                 it.settings(settings)
             }

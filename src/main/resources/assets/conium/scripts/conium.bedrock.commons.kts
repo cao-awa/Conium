@@ -10,7 +10,7 @@ import com.github.cao.awa.conium.bedrock.world.player.screen.BedrockOnScreenDisp
 import com.github.cao.awa.conium.bedrock.item.stack.BedrockItemStack
 
 import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
-import com.github.cao.awa.conium.bedrock.event.item.use.BedrockItemUseOnEvent
+import com.github.cao.awa.conium.bedrock.event.item.use.BedrockItemUseOnBeforeEvent
 import com.github.cao.awa.conium.bedrock.event.context.item.use.BedrockItemUseOnEventContext
 
 import com.github.cao.awa.catheter.receptacle.Receptacle

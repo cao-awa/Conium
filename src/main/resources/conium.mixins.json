@@ -7,10 +7,11 @@
     "collection.IdListMixin",
     "datapack.DataPackContentsMixin",
     "item.ItemMixin",
-    "item.food.FoodComponentBuilderAccessor",
     "item.stack.ItemStackMixin",
     "recipe.RecipeManagerAccessor",
+    "registry.NamedRegistryEntryListMixin",
     "registry.RegistryEntryReferenceMixin",
+    "registry.RegistryLoaderMixin",
     "registry.SimpleRegistryMixin",
     "server.MinecraftServerMixin"
   ],

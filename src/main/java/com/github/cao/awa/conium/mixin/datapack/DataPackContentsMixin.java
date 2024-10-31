@@ -7,9 +7,11 @@ import com.github.cao.awa.conium.datapack.item.ConiumItemManager;
 import com.github.cao.awa.conium.datapack.script.ConiumScriptManager;
 import com.github.cao.awa.conium.mixin.recipe.RecipeManagerAccessor;
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
-import net.minecraft.recipe.RecipeManager;
-import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.recipe.ServerRecipeManager;
+import net.minecraft.registry.CombinedDynamicRegistries;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.ServerDynamicRegistryType;
 import net.minecraft.resource.ResourceReloader;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.server.DataPackContents;
@@ -29,7 +31,7 @@ import java.util.List;
 public class DataPackContentsMixin {
     @Shadow
     @Final
-    private RecipeManager recipeManager;
+    private ServerRecipeManager recipeManager;
     @Unique
     private ItemPropertyInjectManager itemPropertyInjectManager;
     @Unique
@@ -43,10 +45,10 @@ public class DataPackContentsMixin {
             method = "<init>",
             at = @At("RETURN")
     )
-    public void init(DynamicRegistryManager.Immutable dynamicRegistryManager, FeatureSet enabledFeatures, CommandManager.RegistrationEnvironment environment, int functionPermissionLevel, CallbackInfo ci) {
-        RegistryWrapper.WrapperLookup lookup = ((RecipeManagerAccessor) this.recipeManager).getRegistryLookup();
+    public void init(CombinedDynamicRegistries<ServerDynamicRegistryType> dynamicRegistries, RegistryWrapper.WrapperLookup registries, FeatureSet enabledFeatures, CommandManager.RegistrationEnvironment environment, List<Registry.PendingTagLoad<?>> pendingTagLoads, int functionPermissionLevel, CallbackInfo ci) {
+        RegistryWrapper.WrapperLookup lookup = ((RecipeManagerAccessor) this.recipeManager).getRegistries();
         this.itemPropertyInjectManager = new ItemPropertyInjectManager();
-        this.coniumItemManager = new ConiumItemManager(lookup);
+        this.coniumItemManager = new ConiumItemManager(lookup, pendingTagLoads);
         this.coniumBlockManager = new ConiumBlockManager(lookup);
         this.scriptManager = new ConiumScriptManager();
         Conium.itemInjectManager = this.itemPropertyInjectManager;

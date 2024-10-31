@@ -35,7 +35,7 @@ class ConiumItemBuilder(val identifier: Identifier) {
         return this
     }
 
-    fun build(): Item {
-        return ConiumItem.create(this)
+    fun build(settings: Item.Settings): Item {
+        return ConiumItem.create(this, settings)
     }
 }

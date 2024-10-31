@@ -14,12 +14,8 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
 
 fun ConiumBlockBuilder.register(afterAction: (ConiumBlock) -> Unit) {
-    afterAction(Blocks.register(this.identifier.toString(),  build() ) as ConiumBlock)
+    afterAction(Blocks.register(blockKeyOf(this.identifier), { build(it) }, AbstractBlock.Settings.create()) as ConiumBlock)
 }
-
-//fun ConiumBlockBuilder.register(afterAction: (ConiumBlock) -> Unit) {
-//    afterAction(Blocks.register(blockKeyOf(this.identifier), { build(it) }, AbstractBlock.Settings.create()) as ConiumBlock)
-//}
 
 fun blockKeyOf(id: Identifier): RegistryKey<Block> {
     return RegistryKey.of(RegistryKeys.BLOCK, id)

@@ -36,7 +36,7 @@ public abstract class ItemStackMixin implements ComponentHolder {
 
     @Shadow
     @Final
-    ComponentMapImpl components;
+    MergedComponentMap components;
 
     @Unique
     private ItemStack cast() {
@@ -44,10 +44,10 @@ public abstract class ItemStackMixin implements ComponentHolder {
     }
 
     @Inject(
-            method = "<init>(Lnet/minecraft/item/ItemConvertible;ILnet/minecraft/component/ComponentMapImpl;)V",
+            method = "<init>(Lnet/minecraft/item/ItemConvertible;ILnet/minecraft/component/MergedComponentMap;)V",
             at = @At("RETURN")
     )
-    public void init(ItemConvertible item, int count, ComponentMapImpl components, CallbackInfo ci) {
+    public void init(ItemConvertible item, int count, MergedComponentMap components, CallbackInfo ci) {
         // Do not apply inject when inject manager aren't prepared.
         if (Conium.itemInjectManager != null) {
             // Inject to current stack.

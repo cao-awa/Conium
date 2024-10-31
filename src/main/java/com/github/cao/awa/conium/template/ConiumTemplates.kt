@@ -1,6 +1,7 @@
 package com.github.cao.awa.conium.template
 
 //import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
+import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
 import com.github.cao.awa.conium.item.template.egg.ConiumSpawnEggTemplate
 import com.github.cao.awa.conium.item.template.food.ConiumFoodTemplate
 import com.github.cao.awa.conium.item.template.tool.axe.*
@@ -44,10 +45,10 @@ object ConiumTemplates {
         )
 
         // Consumable.
-//        register(
-//            CONSUMABLE,
-//            ConiumConsumableTemplate::create
-//        )
+        register(
+            CONSUMABLE,
+            ConiumConsumableTemplate::create
+        )
 
         // Axes.
         register(

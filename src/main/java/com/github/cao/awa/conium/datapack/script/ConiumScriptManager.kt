@@ -347,6 +347,8 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
             is ResultWithDiagnostics.Failure -> resultCallback()
         }
 
+        println(result)
+
         return result
     }
 }

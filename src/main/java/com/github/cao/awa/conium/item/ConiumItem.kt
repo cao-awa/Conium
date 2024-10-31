@@ -9,9 +9,7 @@ import net.minecraft.item.ToolMaterial
 
 class ConiumItem(settings: Settings) : Item(settings) {
     companion object {
-        fun create(builder: ConiumItemBuilder): ConiumItem {
-            val settings = Settings()
-
+        fun create(builder: ConiumItemBuilder, settings: Settings): ConiumItem {
             builder.templates.forEach {
                 it.settings(settings)
             }
@@ -40,19 +38,5 @@ class ConiumItem(settings: Settings) : Item(settings) {
         if (this.material != null) {
             stack.damage(2, attacker, EquipmentSlot.MAINHAND)
         }
-    }
-
-    override fun getEnchantability(): Int {
-        if (this.material == null) {
-            return 0
-        }
-        return this.material!!.enchantability
-    }
-
-    override fun canRepair(stack: ItemStack?, ingredient: ItemStack?): Boolean {
-        if (this.material == null) {
-            return false
-        }
-        return this.material!!.repairIngredient.test(ingredient) || super.canRepair(stack, ingredient)
     }
 }
