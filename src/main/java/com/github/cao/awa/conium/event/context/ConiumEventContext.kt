@@ -54,6 +54,10 @@ class ConiumEventContext<P : ParameterSelective?, R>(
         return this
     }
 
+    fun hasPresaging(): Boolean {
+        return this.presageTrigger != null
+    }
+
     fun presaging(identity: Any): Boolean {
         var success = this.presageTrigger == null || this.dynamicArgs.arising(
             identity,
@@ -61,21 +65,28 @@ class ConiumEventContext<P : ParameterSelective?, R>(
             this.presageTrigger!!
         ) as Boolean
         for (attach in this.attaches) {
-            val attachSuccess = attach.resetArgs(this.args)
-                .presaging(identity)
-
-            success = success && attachSuccess
+            if (attach.hasPresaging()) {
+                val attachSuccess = attach.resetArgs(this.args)
+                    .presaging(identity)
+                success = success && attachSuccess
+            }
         }
         return success
+    }
+
+    fun hasArising(): Boolean {
+        return this.ariseTrigger != null
     }
 
     fun arising(identity: Any): Boolean {
         var success = this.dynamicArgs.arising(identity, this.args, this.ariseTrigger!!) as Boolean
         for (attach in this.attaches) {
-            val attachSuccess = attach.resetArgs(this.args)
-                .arising(identity)
+            if (attach.hasArising()) {
+                val attachSuccess = attach.resetArgs(this.args)
+                    .arising(identity)
 
-            success = success && attachSuccess
+                success = success && attachSuccess
+            }
         }
         return success
     }

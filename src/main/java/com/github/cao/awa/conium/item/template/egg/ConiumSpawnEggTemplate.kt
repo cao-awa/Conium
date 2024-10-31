@@ -34,7 +34,7 @@ class ConiumSpawnEggTemplate(val entityType: EntityType<*>) : ConiumItemTemplate
                     world,
                     {},
                     context.blockPos.offset(context.side),
-                    SpawnReason.SPAWN_EGG,
+                    SpawnReason.SPAWN_ITEM_USE,
                     false, false
                 )
             )

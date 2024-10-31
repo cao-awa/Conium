@@ -1,7 +1,6 @@
 package com.github.cao.awa.conium.mixin.registry;
 
 import com.github.cao.awa.conium.extend.ConiumDynamicRegistry;
-import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import com.github.cao.awa.sinuatum.manipulate.QuickManipulate;
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import com.google.common.collect.Iterators;
@@ -10,14 +9,10 @@ import com.mojang.serialization.Lifecycle;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.SimpleRegistry;
+import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryInfo;
 import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.registry.entry.RegistryEntryOwner;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
@@ -27,6 +22,7 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
@@ -77,23 +73,26 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     private Lifecycle lifecycle;
 
     @Shadow
-    @Final
-    private Object tagLock;
-
-    @Shadow
-    public abstract RegistryWrapper.Impl<T> getReadOnlyWrapper();
-
-    @Shadow
     public abstract RegistryKey<? extends Registry<T>> getKey();
-
-    @Shadow
-    public abstract RegistryEntryOwner<T> getEntryOwner();
 
     @Shadow
     protected abstract RegistryEntryList.Named<T> createNamedEntryList(TagKey<T> tag);
 
+    @Unique
+    private final Map<TagKey<T>, RegistryEntryList.Named<T>> dynamicTags = new IdentityHashMap<>();
+
     @Shadow
-    public abstract Registry<T> freeze();
+    @Final
+    private Map<TagKey<T>, RegistryEntryList.Named<T>> tags;
+
+    @Shadow
+    abstract RegistryEntryList.Named<T> getTag(TagKey<T> key);
+
+    @Shadow abstract RegistryEntry.Reference<T> getOrCreateEntry(RegistryKey<T> key);
+
+    @Shadow public abstract void resetTagEntries();
+
+    @Shadow public abstract Optional<RegistryEntry.Reference<T>> getOptional(RegistryKey<T> key);
 
     @Inject(
             method = "add",
@@ -106,11 +105,11 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             Objects.requireNonNull(key);
             Objects.requireNonNull(value);
             if (this.dynamicIdToEntry.containsKey(key.getValue())) {
-                Util.throwOrPause(new IllegalStateException("Adding duplicate key '" + key + "' to registry"));
+                Util.getFatalOrPause(new IllegalStateException("Adding duplicate key '" + key + "' to registry"));
             }
 
-            if (this.valueToEntry.containsKey(value)) {
-                Util.throwOrPause(new IllegalStateException("Adding duplicate value '" + value + "' to registry"));
+            if (this.dynamicValueToEntry.containsKey(value)) {
+                Util.getFatalOrPause(new IllegalStateException("Adding duplicate value '" + value + "' to registry"));
             }
 
             RegistryEntry.Reference<T> reference;
@@ -130,8 +129,17 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             this.dynamicEntryToRawId.put(value, i);
             this.dynamicKeyToEntryInfo.put(key, info);
             this.lifecycle = this.lifecycle.add(info.lifecycle());
+
+            postChanged();
+
             cir.setReturnValue(reference);
         }
+    }
+
+    @Unique
+    @SuppressWarnings("unchecked")
+    private void postChanged() {
+        this.dynamicValueToEntry.forEach((value, entry) -> ((RegistryEntryReferenceMixin<T>) entry).invokeSetValue(value));
     }
 
     @Unique
@@ -230,18 +238,6 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     )
     @SuppressWarnings("unchecked")
     public Object getByKey(Map<?, ?> instance, Object o) {
-        return orEntry((RegistryKey<T>) o);
-    }
-
-    @Redirect(
-            method = "getEntry(Lnet/minecraft/registry/RegistryKey;)Ljava/util/Optional;",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;"
-            )
-    )
-    @SuppressWarnings("unchecked")
-    public Object getEntryByKey(Map<?, ?> instance, Object o) {
         return orEntry((RegistryKey<T>) o);
     }
 
@@ -379,6 +375,18 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     }
 
     @Inject(
+            method = "streamTags",
+            at = @At("RETURN"),
+            cancellable = true
+    )
+    public void streamTags(CallbackInfoReturnable<Stream<RegistryEntryList.Named<T>>> cir) {
+        cir.setReturnValue(Stream.concat(
+                cir.getReturnValue(),
+                this.dynamicTags.values().stream()
+        ));
+    }
+
+    @Inject(
             method = "isEmpty",
             at = @At("RETURN"),
             cancellable = true
@@ -425,8 +433,128 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     )
     public void createEntry(T value, CallbackInfoReturnable<RegistryEntry.Reference<T>> cir) {
         if (this.frozen) {
-            cir.setReturnValue(this.dynamicIntrusiveValueToEntry.computeIfAbsent(value, (valuex) -> RegistryEntry.Reference.intrusive(this.getReadOnlyWrapper(), valuex)));
+            cir.setReturnValue(this.dynamicIntrusiveValueToEntry.computeIfAbsent(value, (valuex) -> RegistryEntry.Reference.intrusive(getThis(), valuex)));
         }
+    }
+
+    @Unique
+    public RegistryEntryList.Named<T> orTag(TagKey<T> value) {
+        return getTag(value);
+    }
+
+    @Inject(
+            method = "getTag",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void getTag(TagKey<T> key, CallbackInfoReturnable<RegistryEntryList.Named<T>> cir) {
+        if (this.frozen) {
+            cir.setReturnValue(this.dynamicTags.computeIfAbsent(key, this::createNamedEntryList));
+            resetTagEntries();
+        }
+    }
+
+    @Redirect(
+            method = "refreshTags",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Ljava/util/Map;values()Ljava/util/Collection;"
+            )
+    )
+    private Collection<RegistryEntry.Reference<T>> refreshTags(Map<RegistryKey<T>, RegistryEntry.Reference<T>> instance) {
+        Set<RegistryEntry.Reference<T>> allRefs = CollectionFactor.hashSet();
+        allRefs.addAll(instance.values());
+        allRefs.addAll(this.dynamicKeyToEntry.values());
+        return Collections.unmodifiableCollection(allRefs);
+    }
+
+    @Inject(
+            method = "resetTagEntries",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    @SuppressWarnings("unchecked")
+    public void resetTagEntries(CallbackInfo ci) {
+        if (this.frozen) {
+            this.dynamicTags.values().forEach(tag -> ((NamedRegistryEntryListMixin<T>) tag).invokeSetEntries(List.of()));
+            ci.cancel();
+        }
+    }
+
+    @Inject(
+            method = "getOptional(Lnet/minecraft/registry/RegistryKey;)Ljava/util/Optional;",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void getOptional(RegistryKey<T> key, CallbackInfoReturnable<Optional<RegistryEntry.Reference<T>>> cir) {
+            cir.setReturnValue(orRegistryOptional(key));
+    }
+
+    @Unique
+    private Optional<RegistryEntry.Reference<T>> orRegistryOptional(RegistryKey<T> key) {
+        return Optional.ofNullable(Optional.ofNullable(this.keyToEntry.get(key)).orElseGet(() -> this.dynamicKeyToEntry.get(key)));
+    }
+
+    @Unique
+    private RegistryEntry.Reference<T> getOrCreateDynamicEntry(RegistryKey<T> key) {
+        RegistryEntry.Reference<T> reference;
+        if (this.frozen) {
+            reference = this.keyToEntry.get(key);
+            if (reference == null) {
+                reference = this.dynamicKeyToEntry.get(key);
+                if (reference == null) {
+                    reference = this.dynamicKeyToEntry.computeIfAbsent(key, key2 -> RegistryEntry.Reference.standAlone(getThis(), key2));
+
+                    postChanged();
+                }
+            }
+        } else {
+            reference = getOrCreateEntry(key);
+        }
+        return reference;
+    }
+
+    @Redirect(
+            method = "createMutableRegistryLookup",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/registry/SimpleRegistry;assertNotFrozen()V")
+    )
+    public void cancelFrozenCheckInCreateMutableRegistryLookup(SimpleRegistry<T> instance) {
+        // Do nothing.
+    }
+
+    @Inject(
+            method = "createMutableRegistryLookup",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void createMutableOrDynamicRegistryLookup(CallbackInfoReturnable<RegistryEntryLookup<T>> cir) {
+        cir.setReturnValue(new RegistryEntryLookup<>() {
+            @Override
+            public Optional<RegistryEntry.Reference<T>> getOptional(RegistryKey<T> key) {
+                return Optional.of(getOrThrow(key));
+            }
+
+            @Override
+            public RegistryEntry.Reference<T> getOrThrow(RegistryKey<T> key) {
+                return getOrCreateDynamicEntry(key);
+            }
+
+            @Override
+            public Optional<RegistryEntryList.Named<T>> getOptional(TagKey<T> tag) {
+                return Optional.of(getOrThrow(tag));
+            }
+
+            @Override
+            public RegistryEntryList.Named<T> getOrThrow(TagKey<T> tag) {
+                return orTag(tag);
+            }
+        });
+    }
+
+    @Unique
+    @SuppressWarnings("unchecked")
+    private SimpleRegistry<T> getThis() {
+        return (SimpleRegistry<T>) (Object) this;
     }
 
     @Override

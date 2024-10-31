@@ -6,6 +6,7 @@ import com.github.cao.awa.conium.template.ConiumTemplate
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonObject
+import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
@@ -35,7 +36,7 @@ class ConiumBlockBuilder(val identifier: Identifier) {
         return this
     }
 
-    fun build(): Block {
-        return ConiumBlock.create(this)
+    fun build(settings: AbstractBlock.Settings): Block {
+        return ConiumBlock.create(this, settings)
     }
 }

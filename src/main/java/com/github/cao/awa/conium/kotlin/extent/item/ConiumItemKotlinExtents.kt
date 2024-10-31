@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.kotlin.extent.item
 
+import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.block.ConiumBlock
 import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
 import com.github.cao.awa.conium.item.builder.ConiumItemBuilder
@@ -11,22 +12,20 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
 
 fun ConiumItemBuilder.register() {
-    Items.register(this.identifier, build())
+    Items.register(itemKeyOf(this.identifier)) {
+        build(it)
+    }.let {
+        Conium.coniumItemManager!!.loadTags(this.identifier)
+    }
 }
 
 fun ConiumBlockBuilder.registerBlockItem(block: ConiumBlock) {
-    Items.register(this.identifier, BlockItem(block, Item.Settings()))
+    Items.register(itemKeyOf(this.identifier)) {
+        BlockItem(block, it)
+    }.let {
+        Conium.coniumItemManager!!.loadTags(this.identifier)
+    }
 }
-
-//fun ConiumItemBuilder.register() {
-//    Items.register(itemKeyOf(this.identifier)) { build(it) }
-//}
-//
-//fun ConiumBlockBuilder.registerBlockItem(block: ConiumBlock) {
-//    Items.register(itemKeyOf(this.identifier)) {
-//        BlockItem(block, it)
-//    }
-//}
 
 fun itemKeyOf(id: Identifier): RegistryKey<Item> {
     return RegistryKey.of(RegistryKeys.ITEM, id)

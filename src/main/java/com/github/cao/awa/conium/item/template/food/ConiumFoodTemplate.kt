@@ -2,20 +2,12 @@ package com.github.cao.awa.conium.item.template.food
 
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.mixin.item.food.FoodComponentBuilderAccessor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.mojang.serialization.JsonOps
 import net.minecraft.component.type.FoodComponent
-import net.minecraft.component.type.FoodComponent.StatusEffectEntry
 import net.minecraft.component.type.FoodComponents.*
 import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryOps
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
-import net.minecraft.util.Identifier
-import java.util.*
 
 class ConiumFoodTemplate(val foodComponent: FoodComponent) : ConiumItemTemplate("food") {
     companion object {
@@ -68,7 +60,6 @@ class ConiumFoodTemplate(val foodComponent: FoodComponent) : ConiumItemTemplate(
                 "sweet_berries" -> SWEET_BERRIES
                 "flow_berries" -> GLOW_BERRIES
                 "tropical_fish" -> TROPICAL_FISH
-                "ominous_bottle" -> OMINOUS_BOTTLE
                 else -> {
                     throw IllegalArgumentException("No preset food that named by '$presetName'")
                 }
@@ -91,39 +82,10 @@ class ConiumFoodTemplate(val foodComponent: FoodComponent) : ConiumItemTemplate(
                     it.alwaysEdible()
                 }
 
-                if (jsonObject.has("snack") && jsonObject["snack"] is JsonObject) {
-                    it.snack()
-                }
-
-                if (jsonObject.has("convert_to")) {
-                    jsonObject["convert_to"].let { convert ->
-                        var convertTo: ItemStack? = null
-
-                        if (convert.isJsonObject) {
-                            val ops: RegistryOps<JsonElement> = registryLookup.getOps(JsonOps.INSTANCE)
-                            convertTo = ItemStack.CODEC.parse(ops, convert.asJsonObject).orThrow
-                        } else {
-                            val item = Registries.ITEM.get(Identifier.of(convert.asString))
-                            println("$item :: ${convert.asString}")
-                            convertTo = ItemStack(item, 1)
-                        }
-
-                        (it as FoodComponentBuilderAccessor).setUsingConvertsTo(Optional.ofNullable(convertTo))
-                    }
-                }
-
-                if (jsonObject.has("effects")) {
-                    jsonObject["effects"].let { convert ->
-                        if (convert.isJsonArray) {
-                            val ops: RegistryOps<JsonElement> = registryLookup.getOps(JsonOps.INSTANCE)
-                            for (statusEffectEntry in StatusEffectEntry.CODEC.listOf()
-                                .parse(ops, convert.asJsonArray).orThrow
-                            ) {
-                                it.statusEffect(statusEffectEntry.effect, statusEffectEntry.probability)
-                            }
-                        }
-                    }
-                }
+                // Removed in 1.21.3, may supports by conium in feature
+//                if (jsonObject.has("snack") && jsonObject["snack"] is JsonObject) {
+//                    it.snack()
+//                }
 
                 return it.build()
             }
