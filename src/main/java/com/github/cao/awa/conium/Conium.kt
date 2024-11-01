@@ -22,11 +22,10 @@ class Conium : ModInitializer {
         private val LOGGER = LogManager.getLogger("Conium")
 
         @JvmField
-        var VERSION = "1.0.0"
+        var VERSION = "1.0.0-alpha1"
 
         @JvmField
-        var LANGUAGE_TRANSLATOR_VERSION = "1.0.8"
-//        var LANGUAGE_TRANSLATOR_VERSION = LanguageTranslator.getVersion()
+        var LANGUAGE_TRANSLATOR_VERSION = LanguageTranslator.getVersion()
 
         @JvmField
         var itemInjectManager: ItemPropertyInjectManager? = null
