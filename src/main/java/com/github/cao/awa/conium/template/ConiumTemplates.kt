@@ -11,6 +11,7 @@ import com.github.cao.awa.conium.item.template.tool.ConiumItemToolTemplate
 import com.github.cao.awa.conium.item.template.tool.axe.*
 import com.github.cao.awa.conium.item.template.bedrock.damage.ConiumBedrockDamageTemplate
 import com.github.cao.awa.conium.item.template.bedrock.destory.ConiumBedrockCanDestroyInCreativeTemplate
+import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
 import com.github.cao.awa.conium.item.template.bedrock.durability.ConiumBedrockDurabilityTemplate
 import com.github.cao.awa.conium.item.template.bedrock.rarity.ConiumBedrockRarityTemplate
 import com.github.cao.awa.conium.item.template.bedrock.stack.size.ConiumBedrockMaxStackSizeTemplate
@@ -45,6 +46,7 @@ object ConiumTemplates {
 
     // Tool.
     const val TOOL: String = "tool"
+    const val CAN_DESTROY_IN_CREATIVE: String = "can_destroy_in_creative"
 
     // Axes.
     const val WOODEN_AXE: String = "wooden_axe"
@@ -118,6 +120,11 @@ object ConiumTemplates {
         register(
             TOOL,
             ConiumItemToolTemplate::create
+        )
+        // Can destroy in creative.
+        register(
+            CAN_DESTROY_IN_CREATIVE,
+            ConiumCanDestroyInCreativeTemplate::create
         )
 
         // Axes.
@@ -210,7 +217,7 @@ object ConiumTemplates {
             ConiumBedrockMaxStackSizeTemplate::create
         )
 
-        // Can destroy in creative.
+        // Bedrock can destroy in creative.
         register(
             BEDROCK_CAN_DESTROY_IN_CREATIVE,
             ConiumBedrockCanDestroyInCreativeTemplate::create

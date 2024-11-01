@@ -4,8 +4,9 @@ import com.github.cao.awa.conium.Conium;
 import com.github.cao.awa.conium.datapack.block.ConiumBlockManager;
 import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager;
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager;
+import com.github.cao.awa.conium.datapack.recipe.ConiumRecipeManager;
 import com.github.cao.awa.conium.datapack.script.ConiumScriptManager;
-import com.github.cao.awa.conium.mixin.recipe.RecipeManagerAccessor;
+import com.github.cao.awa.conium.mixin.recipe.ServerRecipeManagerAccessor;
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.registry.CombinedDynamicRegistries;
@@ -22,6 +23,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -46,7 +48,7 @@ public class DataPackContentsMixin {
             at = @At("RETURN")
     )
     public void init(CombinedDynamicRegistries<ServerDynamicRegistryType> dynamicRegistries, RegistryWrapper.WrapperLookup registries, FeatureSet enabledFeatures, CommandManager.RegistrationEnvironment environment, List<Registry.PendingTagLoad<?>> pendingTagLoads, int functionPermissionLevel, CallbackInfo ci) {
-        RegistryWrapper.WrapperLookup lookup = ((RecipeManagerAccessor) this.recipeManager).getRegistries();
+        RegistryWrapper.WrapperLookup lookup = ((ServerRecipeManagerAccessor) this.recipeManager).getRegistries();
         this.itemPropertyInjectManager = new ItemPropertyInjectManager();
         this.coniumItemManager = new ConiumItemManager(lookup, pendingTagLoads);
         this.coniumBlockManager = new ConiumBlockManager(lookup);
@@ -55,6 +57,14 @@ public class DataPackContentsMixin {
         Conium.coniumItemManager = this.coniumItemManager;
         Conium.coniumBlockManager = this.coniumBlockManager;
         Conium.scriptManager = this.scriptManager;
+    }
+
+    @Redirect(
+            method = "<init>",
+            at = @At(value = "NEW", target = "(Lnet/minecraft/registry/RegistryWrapper$WrapperLookup;)Lnet/minecraft/recipe/ServerRecipeManager;")
+    )
+    public ServerRecipeManager delegateRecipes(RegistryWrapper.WrapperLookup registries) {
+        return new ConiumRecipeManager(registries);
     }
 
     @Inject(

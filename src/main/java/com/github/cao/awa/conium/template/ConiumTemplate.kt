@@ -25,22 +25,33 @@ abstract class ConiumTemplate<T>(private val name: String) {
             registryLookup: WrapperLookup,
             wrapper: (String) -> ConiumTemplate<*>? = { _ -> null }
         ): MutableList<ConiumTemplate<*>> {
+            // Templates list.
             val templates: MutableList<ConiumTemplate<*>> = CollectionFactor.arrayList()
 
+            // Make sharing context used to shares data.
             val sharingContext = CollectionFactor.hashMap<Class<*>, Any>()
 
+            // Complete the template.
+            val completeTemplate: (ConiumTemplate<*>) -> Unit ={
+                // Set sharing context used to shares data when stage 'attach', and 'complete' or other.
+                it.sharingContext = sharingContext
+                // Add to template list.
+                templates.add(it)
+            }
+
+            // Create all templates(also known as 'components' in bedrock).
             for (entry in json.entrySet()) {
-                val name = entry.key
-                val value = entry.value
+                val (name, value) = entry
 
-                wrapper(name)?.let {
-                    it.sharingContext = sharingContext
-                }
+                // Let wrapper create a attaching template when specially template is presents.
+                wrapper(name)?.let(completeTemplate)
 
-                deserializeTemplate(name, value, registryLookup).let {
-                    it.sharingContext = sharingContext
-                    templates.add(it)
-                }
+                // Deserialize template content.
+                deserializeTemplate(
+                    name,
+                    value,
+                    registryLookup
+                ).let(completeTemplate)
             }
 
             return templates

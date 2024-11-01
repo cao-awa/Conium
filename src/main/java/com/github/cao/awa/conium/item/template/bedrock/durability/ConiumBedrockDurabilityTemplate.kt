@@ -2,14 +2,12 @@ package com.github.cao.awa.conium.item.template.bedrock.durability
 
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.item.template.bedrock.destory.ConiumBedrockCanDestroyInCreativeTemplate
 import com.github.cao.awa.conium.kotlin.extent.component.withComponent
 import com.github.cao.awa.conium.kotlin.extent.component.withComputeTool
 import com.github.cao.awa.conium.kotlin.extent.component.withCreateTool
 import com.github.cao.awa.conium.kotlin.extent.item.components
 import com.github.cao.awa.conium.template.ConiumTemplates
 import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
