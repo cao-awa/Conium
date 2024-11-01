@@ -37,4 +37,3 @@ fun itemKeyOf(id: Identifier): RegistryKey<Item> {
 
 val Item.Settings.components: ComponentMap.Builder get() = (this as ItemSettingsAccessor).components
 
-

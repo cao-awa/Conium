@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.item.template.tool.bedrock.damage
+package com.github.cao.awa.conium.item.template.bedrock.damage
 
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
@@ -43,7 +43,9 @@ class ConiumBedrockDamageTemplate(private val damage: Double) : ConiumItemTempla
                 AttributeModifiersComponent.Entry(
                     EntityAttributes.ATTACK_DAMAGE,
                     EntityAttributeModifier(
-                        Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, this.damage, EntityAttributeModifier.Operation.ADD_VALUE
+                        Item.BASE_ATTACK_DAMAGE_MODIFIER_ID,
+                        this.damage,
+                        EntityAttributeModifier.Operation.ADD_VALUE
                     ),
                     AttributeModifierSlot.MAINHAND
                 )

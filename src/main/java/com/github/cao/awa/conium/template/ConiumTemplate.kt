@@ -47,7 +47,7 @@ abstract class ConiumTemplate<T>(private val name: String) {
         }
 
         fun deserializeTemplate(name: String, json: JsonElement, registryLookup: WrapperLookup): ConiumTemplate<*> {
-            return this.templates[name]!!.apply(json, registryLookup)
+            return this.templates[name]?.apply(json, registryLookup) ?: throw IllegalArgumentException("Unable to deserialize template '$name' because it does not exist")
         }
     }
 

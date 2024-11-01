@@ -1,7 +1,8 @@
-package com.github.cao.awa.conium.item.template.tool.bedrock.durability
+package com.github.cao.awa.conium.item.template.bedrock.durability
 
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
+import com.github.cao.awa.conium.item.template.bedrock.destory.ConiumBedrockCanDestroyInCreativeTemplate
 import com.github.cao.awa.conium.kotlin.extent.component.withComponent
 import com.github.cao.awa.conium.kotlin.extent.component.withComputeTool
 import com.github.cao.awa.conium.kotlin.extent.component.withCreateTool
@@ -17,10 +18,19 @@ class ConiumBedrockDurabilityTemplate(private val durability: Int) : ConiumItemT
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockDurabilityTemplate {
-            if (element is JsonObject) {
-                return ConiumBedrockDurabilityTemplate(element["max_durability"].asInt)
+            return if (element.isJsonObject) {
+                // Bedrock schema is:
+                // "minecraft:durability": {
+                //     "max_durability": <int>
+                // }
+                ConiumBedrockDurabilityTemplate(element.asJsonObject["max_durability"].asInt)
+            } else if (element.isJsonPrimitive) {
+                // Conium additional supporting schema:
+                // "minecraft:durability": <int>
+                ConiumBedrockDurabilityTemplate(element.asInt)
+            } else {
+                throw IllegalArgumentException("Not supported syntax: $element")
             }
-            throw IllegalArgumentException("Not supported syntax: $element")
         }
     }
 
@@ -29,7 +39,8 @@ class ConiumBedrockDurabilityTemplate(private val durability: Int) : ConiumItemT
     }
 
     override fun complete(item: ConiumItem) {
-
+        // Should increments 'USED' stat when an item has durability.
+        item.shouldPostHit = true
     }
 
     override fun settings(settings: Item.Settings) {

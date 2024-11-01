@@ -1,14 +1,14 @@
-package com.github.cao.awa.conium.item.template.food
+package com.github.cao.awa.conium.item.template.bedrock.food
 
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
-import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate.Companion
 import com.github.cao.awa.conium.template.ConiumTemplates
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.FoodComponent
-import net.minecraft.component.type.FoodComponents.*
+import net.minecraft.component.type.UseRemainderComponent
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
@@ -63,6 +63,12 @@ class ConiumBedrockFoodTemplate() : ConiumItemTemplate(ConiumTemplates.BEDROCK_F
     }
 
     override fun settings(settings: Item.Settings) {
+        // Set food component
         settings.food(this.foodComponent)
+
+        // Set using convert to stack.
+        this.useRemainder.let {
+            settings.component(DataComponentTypes.USE_REMAINDER, UseRemainderComponent(it))
+        }
     }
 }

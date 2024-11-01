@@ -1,13 +1,25 @@
 package com.github.cao.awa.conium.template
 
 //import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
+import com.github.cao.awa.conium.item.template.action.ConiumUseActionTemplate
+import com.github.cao.awa.conium.item.template.bedrock.animation.ConiumBedrockUseAnimationTemplate
 import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
 import com.github.cao.awa.conium.item.template.egg.ConiumSpawnEggTemplate
-import com.github.cao.awa.conium.item.template.food.ConiumBedrockFoodTemplate
+import com.github.cao.awa.conium.item.template.bedrock.food.ConiumBedrockFoodTemplate
 import com.github.cao.awa.conium.item.template.food.ConiumFoodTemplate
+import com.github.cao.awa.conium.item.template.tool.ConiumItemToolTemplate
 import com.github.cao.awa.conium.item.template.tool.axe.*
-import com.github.cao.awa.conium.item.template.tool.bedrock.damage.ConiumBedrockDamageTemplate
-import com.github.cao.awa.conium.item.template.tool.bedrock.durability.ConiumBedrockDurabilityTemplate
+import com.github.cao.awa.conium.item.template.bedrock.damage.ConiumBedrockDamageTemplate
+import com.github.cao.awa.conium.item.template.bedrock.destory.ConiumBedrockCanDestroyInCreativeTemplate
+import com.github.cao.awa.conium.item.template.bedrock.durability.ConiumBedrockDurabilityTemplate
+import com.github.cao.awa.conium.item.template.bedrock.rarity.ConiumBedrockRarityTemplate
+import com.github.cao.awa.conium.item.template.bedrock.stack.size.ConiumBedrockMaxStackSizeTemplate
+import com.github.cao.awa.conium.item.template.rarity.ConiumRarityTemplate
+import com.github.cao.awa.conium.item.template.rarity.epic.ConiumCommonRarityTemplate
+import com.github.cao.awa.conium.item.template.rarity.epic.ConiumEpicRarityTemplate
+import com.github.cao.awa.conium.item.template.rarity.epic.ConiumRareRarityTemplate
+import com.github.cao.awa.conium.item.template.rarity.epic.ConiumUncommonRarityTemplate
+import com.github.cao.awa.conium.item.template.stack.count.ConiumStackMaxCountTemplate
 import com.github.cao.awa.conium.item.template.tool.pickaxe.*
 import com.github.cao.awa.conium.template.ConiumTemplate.Companion.register
 
@@ -16,7 +28,20 @@ object ConiumTemplates {
 
     const val FOOD: String = "food"
 
+    // Consumable.
     const val CONSUMABLE: String = "consumable"
+
+    const val USE_ACTION: String = "use_action"
+
+    // Stack max count.
+    const val STACK_MAX_COUNT: String = "max_count"
+
+    // Rarity.
+    const val RARITY: String = "rarity"
+    const val EPIC_RARITY: String = "epic_rarity"
+    const val RARE_RARITY: String = "rare_rarity"
+    const val UNCOMMON_RARITY: String = "uncommon_rarity"
+    const val COMMON_RARITY: String = "common_rarity"
 
     // Tool.
     const val TOOL: String = "tool"
@@ -44,6 +69,18 @@ object ConiumTemplates {
     const val BEDROCK_DAMAGE: String = "minecraft:damage"
     const val BEDROCK_DURABILITY: String = "minecraft:durability"
 
+    // Bedrock stack size.
+    const val BEDROCK_MAX_STACK_SIZE: String = "minecraft:max_stack_size"
+
+    // Can destroy in creative.
+    const val BEDROCK_CAN_DESTROY_IN_CREATIVE: String = "minecraft:can_destroy_in_creative"
+
+    // Bedrock rarity.
+    const val BEDROCK_RARITY: String = "minecraft:rarity"
+
+    // Item use animation.
+    const val BEDROCK_USE_ANIMATION: String = "minecraft:use_animation"
+
     fun init() {
         // Spawn egg.
         register(
@@ -61,10 +98,26 @@ object ConiumTemplates {
             ConiumBedrockFoodTemplate::create
         )
 
+        // Stack max count
+        register(
+            STACK_MAX_COUNT,
+            ConiumStackMaxCountTemplate::create
+        )
+
         // Consumable.
         register(
             CONSUMABLE,
             ConiumConsumableTemplate::create
+        )
+        register(
+            USE_ACTION,
+            ConiumUseActionTemplate::create
+        )
+
+        // Tool.
+        register(
+            TOOL,
+            ConiumItemToolTemplate::create
         )
 
         // Axes.
@@ -72,22 +125,18 @@ object ConiumTemplates {
             WOODEN_AXE,
             ConiumItemWoodenAxeTemplate::create
         )
-
         register(
             STONE_AXE,
             ConiumItemStoneAxeTemplate::create
         )
-
         register(
             IRON_AXE,
             ConiumItemIronAxeTemplate::create
         )
-
         register(
             GOLDEN_AXE,
             ConiumItemGoldenAxeTemplate::create
         )
-
         register(
             DIAMOND_AXE,
             ConiumItemDiamondAxeTemplate::create
@@ -123,15 +172,60 @@ object ConiumTemplates {
             ConiumItemNetheritePickaxeTemplate::create
         )
 
+        // Rarity.
+        register(
+            RARITY,
+            ConiumRarityTemplate::create
+        )
+        register(
+            EPIC_RARITY,
+            ConiumEpicRarityTemplate::create
+        )
+        register(
+            RARE_RARITY,
+            ConiumRareRarityTemplate::create
+        )
+        register(
+            UNCOMMON_RARITY,
+            ConiumUncommonRarityTemplate::create
+        )
+        register(
+            COMMON_RARITY,
+            ConiumCommonRarityTemplate::create
+        )
+
         // Bedrock tool.
         register(
             BEDROCK_DAMAGE,
             ConiumBedrockDamageTemplate::create
         )
-
         register(
             BEDROCK_DURABILITY,
             ConiumBedrockDurabilityTemplate::create
+        )
+
+        // Stack.
+        register(
+            BEDROCK_MAX_STACK_SIZE,
+            ConiumBedrockMaxStackSizeTemplate::create
+        )
+
+        // Can destroy in creative.
+        register(
+            BEDROCK_CAN_DESTROY_IN_CREATIVE,
+            ConiumBedrockCanDestroyInCreativeTemplate::create
+        )
+
+        // Rarity.
+        register(
+            BEDROCK_RARITY,
+            ConiumBedrockRarityTemplate::create
+        )
+
+        // Use animation.
+        register(
+            BEDROCK_USE_ANIMATION,
+            ConiumBedrockUseAnimationTemplate::create
         )
     }
 }
