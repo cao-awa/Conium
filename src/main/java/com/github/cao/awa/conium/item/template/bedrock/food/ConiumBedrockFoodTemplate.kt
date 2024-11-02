@@ -53,15 +53,6 @@ class ConiumBedrockFoodTemplate() : ConiumItemTemplate(ConiumTemplates.BEDROCK_F
         this.foodComponent = createFoodComponent(this, element.asJsonObject, registryLookup)
     }
 
-
-    override fun attach(item: ConiumItem) {
-
-    }
-
-    override fun complete(item: ConiumItem) {
-
-    }
-
     override fun settings(settings: Item.Settings) {
         // Set food component
         settings.food(this.foodComponent)

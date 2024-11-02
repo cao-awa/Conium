@@ -30,12 +30,4 @@ class ConiumUseActionTemplate(private val useAction: UseAction) : ConiumItemTemp
             this.useAction
         }
     }
-
-    override fun attach(item: ConiumItem) {
-
-    }
-
-    override fun complete(item: ConiumItem) {
-
-    }
 }

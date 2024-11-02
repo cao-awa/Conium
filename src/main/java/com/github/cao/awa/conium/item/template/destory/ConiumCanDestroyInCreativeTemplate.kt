@@ -15,15 +15,7 @@ class ConiumCanDestroyInCreativeTemplate(private val canDestroy: Boolean) : Coni
         }
     }
 
-    override fun attach(item: ConiumItem) {
-
-    }
-
     override fun complete(item: ConiumItem) {
         item.canMinePredicate = { _, _, _, _, player -> !player.isCreative || this.canDestroy }
-    }
-
-    override fun settings(settings: Item.Settings) {
-
     }
 }

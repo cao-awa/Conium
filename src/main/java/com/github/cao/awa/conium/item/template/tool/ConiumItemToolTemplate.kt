@@ -57,10 +57,6 @@ open class ConiumItemToolTemplate(
         }
     }
 
-    override fun attach(item: ConiumItem) {
-
-    }
-
     override fun complete(item: ConiumItem) {
         // Item is tool, post hit to increments 'USED' stat data.
         item.shouldPostHit = true

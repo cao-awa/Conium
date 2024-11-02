@@ -42,12 +42,4 @@ class ConiumBedrockUseAnimationTemplate(private val useAction: UseAction) : Coni
             this.useAction
         }
     }
-
-    override fun attach(item: ConiumItem) {
-
-    }
-
-    override fun complete(item: ConiumItem) {
-
-    }
 }

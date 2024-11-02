@@ -28,14 +28,6 @@ class ConiumBedrockMaxStackSizeTemplate(private val maxStackSize: Int) : ConiumI
         }
     }
 
-    override fun attach(item: ConiumItem) {
-
-    }
-
-    override fun complete(item: ConiumItem) {
-
-    }
-
     override fun settings(settings: Item.Settings) {
         // Set max stack size.
         settings.maxCount(this.maxStackSize)

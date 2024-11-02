@@ -24,14 +24,6 @@ class ConiumBedrockDamageTemplate(private val damage: Double) : ConiumItemTempla
         }
     }
 
-    override fun attach(item: ConiumItem) {
-
-    }
-
-    override fun complete(item: ConiumItem) {
-
-    }
-
     override fun settings(settings: Item.Settings) {
         settings.components.withComponent(
             DataComponentTypes.ATTRIBUTE_MODIFIERS,

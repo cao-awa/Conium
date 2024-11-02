@@ -44,5 +44,15 @@ abstract class ConiumItemTemplate(name: String) : ConiumTemplate<ConiumItem>(nam
         }
     }
 
-    abstract fun settings(settings: Item.Settings)
+    override fun complete(item: ConiumItem) {
+        // Do nothing.
+    }
+
+    override fun attach(item: ConiumItem) {
+        // Do nothing.
+    }
+
+    open fun settings(settings: Item.Settings) {
+        // Do nothing.
+    }
 }

@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.item.template.bedrock.durability
+package com.github.cao.awa.conium.item.template.bedrock.glint
 
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
@@ -12,36 +12,28 @@ import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumBedrockDurabilityTemplate(private val durability: Int) : ConiumItemTemplate(ConiumTemplates.BEDROCK_DURABILITY) {
+class ConiumBedrockGlintTemplate(private val glint: Boolean) : ConiumItemTemplate(ConiumTemplates.BEDROCK_GLINT) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockDurabilityTemplate {
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockGlintTemplate {
             return if (element.isJsonObject) {
                 // Bedrock schema is:
-                // "minecraft:durability": {
-                //     "max_durability": <int>
+                // "minecraft:glint": {
+                //     "value": <bool>
                 // }
-                ConiumBedrockDurabilityTemplate(element.asJsonObject["max_durability"].asInt)
+                ConiumBedrockGlintTemplate(element.asJsonObject["value"].asBoolean)
             } else if (element.isJsonPrimitive) {
                 // Conium additional supporting schema:
-                // "minecraft:durability": <int>
-                ConiumBedrockDurabilityTemplate(element.asInt)
+                // "minecraft:glint": <bool>
+                ConiumBedrockGlintTemplate(element.asBoolean)
             } else {
                 throw IllegalArgumentException("Not supported syntax: $element")
             }
         }
     }
 
-    override fun complete(item: ConiumItem) {
-        // Should increments 'USED' stat when an item has durability.
-        item.shouldPostHit = true
-    }
-
     override fun settings(settings: Item.Settings) {
-        // Set max durability.
-        settings.maxDamage(this.durability)
-
-        // Create default tool component, let it can be damage durability when breaking block.
-        settings.components.withComponent(DataComponentTypes.TOOL, withCreateTool(), withComputeTool())
+        // Set glint override.
+        settings.component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, this.glint)
     }
 }

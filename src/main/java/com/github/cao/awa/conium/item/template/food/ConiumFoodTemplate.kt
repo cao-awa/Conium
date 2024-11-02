@@ -91,14 +91,6 @@ class ConiumFoodTemplate(private val foodComponent: FoodComponent) : ConiumItemT
         }
     }
 
-    override fun attach(item: ConiumItem) {
-
-    }
-
-    override fun complete(item: ConiumItem) {
-
-    }
-
     override fun settings(settings: Item.Settings) {
         settings.food(this.foodComponent)
     }

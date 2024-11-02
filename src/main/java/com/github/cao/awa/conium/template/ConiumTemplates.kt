@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.template
 
 //import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
 import com.github.cao.awa.conium.item.template.action.ConiumUseActionTemplate
+import com.github.cao.awa.conium.item.template.armor.ConiumArmorTemplate
 import com.github.cao.awa.conium.item.template.bedrock.animation.ConiumBedrockUseAnimationTemplate
 import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
 import com.github.cao.awa.conium.item.template.egg.ConiumSpawnEggTemplate
@@ -13,8 +14,13 @@ import com.github.cao.awa.conium.item.template.bedrock.damage.ConiumBedrockDamag
 import com.github.cao.awa.conium.item.template.bedrock.destory.ConiumBedrockCanDestroyInCreativeTemplate
 import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
 import com.github.cao.awa.conium.item.template.bedrock.durability.ConiumBedrockDurabilityTemplate
+import com.github.cao.awa.conium.item.template.bedrock.fuel.ConiumBedrockFuelTemplate
+import com.github.cao.awa.conium.item.template.bedrock.glint.ConiumBedrockGlintTemplate
 import com.github.cao.awa.conium.item.template.bedrock.rarity.ConiumBedrockRarityTemplate
 import com.github.cao.awa.conium.item.template.bedrock.stack.size.ConiumBedrockMaxStackSizeTemplate
+import com.github.cao.awa.conium.item.template.bedrock.wearable.ConiumBedrockWearableTemplate
+import com.github.cao.awa.conium.item.template.fuel.ConiumFuelTemplate
+import com.github.cao.awa.conium.item.template.glint.ConiumGlintTemplate
 import com.github.cao.awa.conium.item.template.rarity.ConiumRarityTemplate
 import com.github.cao.awa.conium.item.template.rarity.epic.ConiumCommonRarityTemplate
 import com.github.cao.awa.conium.item.template.rarity.epic.ConiumEpicRarityTemplate
@@ -46,6 +52,15 @@ object ConiumTemplates {
     const val RARE_RARITY: String = "rare_rarity"
     const val UNCOMMON_RARITY: String = "uncommon_rarity"
     const val COMMON_RARITY: String = "common_rarity"
+
+    // Fuel.
+    const val FUEL: String = "fuel"
+
+    // Glint.
+    const val GLINT: String = "glint"
+
+    // Armor.
+    const val ARMOR: String = "armor"
 
     // Tool.
     const val TOOL: String = "tool"
@@ -82,6 +97,15 @@ object ConiumTemplates {
 
     // Bedrock rarity.
     const val BEDROCK_RARITY: String = "minecraft:rarity"
+
+    // Bedrock fuel.
+    const val BEDROCK_FUEL: String = "minecraft:fuel"
+
+    // Bedrock glint.
+    const val BEDROCK_GLINT: String = "minecraft:glint"
+
+    // The food component in bedrock.
+    const val BEDROCK_WEARABLE: String = "minecraft:wearable"
 
     // Item use animation.
     const val BEDROCK_USE_ANIMATION: String = "minecraft:use_animation"
@@ -209,6 +233,24 @@ object ConiumTemplates {
             ConiumCommonRarityTemplate::create
         )
 
+        // Fuel.
+        register(
+            FUEL,
+            ConiumFuelTemplate::create
+        )
+
+        // Glint.
+        register(
+            GLINT,
+            ConiumGlintTemplate::create
+        )
+
+        // Armor.
+        register(
+            ARMOR,
+            ConiumArmorTemplate::create
+        )
+
         // Bedrock tool.
         register(
             BEDROCK_DAMAGE,
@@ -235,6 +277,24 @@ object ConiumTemplates {
         register(
             BEDROCK_RARITY,
             ConiumBedrockRarityTemplate::create
+        )
+
+        // Bedrock fuel.
+        register(
+            BEDROCK_FUEL,
+            ConiumBedrockFuelTemplate::create
+        )
+
+        // Bedrock glint.
+        register(
+            BEDROCK_GLINT,
+            ConiumBedrockGlintTemplate::create
+        )
+
+        // Bedrock wearable.
+        register(
+            BEDROCK_WEARABLE,
+            ConiumBedrockWearableTemplate::create
         )
 
         // Use animation.

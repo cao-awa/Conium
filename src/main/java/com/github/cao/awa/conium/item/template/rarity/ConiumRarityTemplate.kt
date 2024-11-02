@@ -1,8 +1,6 @@
 package com.github.cao.awa.conium.item.template.rarity
 
-import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.template.ConiumTemplate
 import com.github.cao.awa.conium.template.ConiumTemplates
 import com.google.gson.JsonElement
 import net.minecraft.item.Item
@@ -17,14 +15,6 @@ open class ConiumRarityTemplate(name: String = ConiumTemplates.RARITY, private v
                 rarity = createRarity(element.asString)
             )
         }
-    }
-
-    override fun attach(item: ConiumItem) {
-
-    }
-
-    override fun complete(item: ConiumItem) {
-
     }
 
     override fun settings(settings: Item.Settings) {

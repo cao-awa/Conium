@@ -97,14 +97,6 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
         this.consumableComponent = createFoodComponent(this, element.asJsonObject, registryLookup)
     }
 
-    override fun attach(item: ConiumItem) {
-
-    }
-
-    override fun complete(item: ConiumItem) {
-
-    }
-
     override fun settings(settings: Item.Settings) {
         settings.component(DataComponentTypes.CONSUMABLE, this.consumableComponent)
 

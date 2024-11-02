@@ -43,12 +43,4 @@ class ConiumSpawnEggTemplate(private val entityType: EntityType<*>) : ConiumItem
             true
         }
     }
-
-    override fun complete(item: ConiumItem) {
-
-    }
-
-    override fun settings(settings: Item.Settings) {
-
-    }
 }
