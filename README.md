@@ -39,7 +39,7 @@ Conium lets you complete your mods only using datapacks.
 ```json5
 {
   // If using conium schema, 'schema' is required.
-  "schema": "conium",
+  "schema_style": "conium",
   // The identifier must present.
   "identifier": "awa:conium",
   "templates": {
@@ -236,7 +236,7 @@ Currently, supported these components:
 ```json5
 {
   // If using bedrock schema, 'schema' can be missing.
-  "schema": "bedrock",
+  "schema_style": "bedrock",
   // Format version is always can be missing, conium is supporting to the schemas by all versions. 
   "format_version": "1.20.10",
   "minecraft:item": {
