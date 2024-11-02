@@ -11,6 +11,4 @@ import net.minecraft.registry.entry.RegistryEntry
  */
 val AttributeModifiersComponent.entries: MutableList<AttributeModifiersComponent.Entry> get() = this.modifiers as MutableList<AttributeModifiersComponent.Entry>
 
-fun AttributeModifiersComponent.add(attribute: RegistryEntry<EntityAttribute>, modifier: EntityAttributeModifier, slot: AttributeModifierSlot) {
-    this.entries.add(AttributeModifiersComponent.Entry(attribute, modifier, slot))
-}
+fun AttributeModifiersComponent.add(attribute: RegistryEntry<EntityAttribute>, modifier: EntityAttributeModifier, slot: AttributeModifierSlot) = this.entries.add(AttributeModifiersComponent.Entry(attribute, modifier, slot))

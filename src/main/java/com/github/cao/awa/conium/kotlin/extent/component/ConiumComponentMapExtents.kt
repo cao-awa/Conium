@@ -111,9 +111,10 @@ fun <T: Any> ComponentMap.Builder.rebuild(type: ComponentType<T>, creator: (T) -
 }
 
 // Operates the component when the target component type is present.
-fun <T: Any> ComponentMap.Builder.acquire(type: ComponentType<T>, creator: (T) -> Unit): ComponentMap.Builder {
+fun <T: Any> ComponentMap.Builder.acquire(type: ComponentType<T>, creator: (T) -> Unit, callback: (T) -> Unit = { }): ComponentMap.Builder {
     (this.components[type] as? T)?.let {
         creator(it)
+        callback(it)
     }
 
     return this
