@@ -22,6 +22,9 @@ import com.github.cao.awa.conium.item.template.rarity.epic.ConiumRareRarityTempl
 import com.github.cao.awa.conium.item.template.rarity.epic.ConiumUncommonRarityTemplate
 import com.github.cao.awa.conium.item.template.stack.count.ConiumStackMaxCountTemplate
 import com.github.cao.awa.conium.item.template.tool.pickaxe.*
+import com.github.cao.awa.conium.recipe.template.bedrock.furnace.ConiumBedrockRecipeFurnaceTemplate
+import com.github.cao.awa.conium.recipe.template.bedrock.shape.ConiumBedrockRecipeShapedTemplate
+import com.github.cao.awa.conium.recipe.template.bedrock.shape.ConiumBedrockRecipeShapelessTemplate
 import com.github.cao.awa.conium.template.ConiumTemplate.Companion.register
 
 object ConiumTemplates {
@@ -82,6 +85,11 @@ object ConiumTemplates {
 
     // Item use animation.
     const val BEDROCK_USE_ANIMATION: String = "minecraft:use_animation"
+
+    // Bedrock recipes.
+    const val BEDROCK_RECIPE_SHAPED: String = "minecraft:recipe_shaped"
+    const val BEDROCK_RECIPE_SHAPELESS: String = "minecraft:recipe_shapeless"
+    const val BEDROCK_RECIPE_FURNACE: String = "minecraft:recipe_furnace"
 
     fun init() {
         // Spawn egg.
@@ -233,6 +241,20 @@ object ConiumTemplates {
         register(
             BEDROCK_USE_ANIMATION,
             ConiumBedrockUseAnimationTemplate::create
+        )
+
+        // Bedrock recipes.
+        register(
+            BEDROCK_RECIPE_SHAPED,
+            ConiumBedrockRecipeShapedTemplate::create
+        )
+        register(
+            BEDROCK_RECIPE_SHAPELESS,
+            ConiumBedrockRecipeShapelessTemplate::create
+        )
+        register(
+            BEDROCK_RECIPE_FURNACE,
+            ConiumBedrockRecipeFurnaceTemplate::create
         )
     }
 }

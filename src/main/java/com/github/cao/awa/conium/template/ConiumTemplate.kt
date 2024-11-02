@@ -32,7 +32,7 @@ abstract class ConiumTemplate<T>(private val name: String) {
             val sharingContext = CollectionFactor.hashMap<Class<*>, Any>()
 
             // Complete the template.
-            val completeTemplate: (ConiumTemplate<*>) -> Unit ={
+            val completeTemplate: (ConiumTemplate<*>) -> Unit = {
                 // Set sharing context used to shares data when stage 'attach', and 'complete' or other.
                 it.sharingContext = sharingContext
                 // Add to template list.
@@ -78,4 +78,8 @@ abstract class ConiumTemplate<T>(private val name: String) {
     abstract fun attach(item: T)
 
     abstract fun complete(item: T)
+
+    open fun results(): List<T> = listOf(result())
+
+    open fun result(): T = throw IllegalStateException("The template ${this.javaClass.simpleName} has no result")
 }

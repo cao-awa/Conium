@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.datapack.recipe
 
+import com.github.cao.awa.conium.kotlin.extent.recipe.coniumName
 import com.github.cao.awa.conium.mixin.recipe.ServerRecipeManagerAccessor
 import com.github.cao.awa.conium.mixin.recipe.property.RecipePropertySetAccessor
 import com.github.cao.awa.conium.recipe.ConiumBedrockRecipeBuilder
@@ -98,7 +99,6 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
 
     override fun prepare(resourceManager: ResourceManager, profiler: Profiler): PreparedRecipes {
         val sortedMap: SortedMap<Identifier, Recipe<*>> = TreeMap()
-        val start = System.currentTimeMillis()
         load(resourceManager, RegistryKeys.getPath(RegistryKeys.RECIPE), sortedMap)
         val list: MutableList<RecipeEntry<*>> = ArrayList(sortedMap.size)
         sortedMap.forEach { (id, recipe) ->
@@ -106,7 +106,6 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
             val recipeEntry: RecipeEntry<*> = RecipeEntry(registryKey, recipe)
             list.add(recipeEntry)
         }
-        LOGGER.info("Loaded {} recipes in {} million seconds", sortedMap.size, System.currentTimeMillis() - start)
         return PreparedRecipes.of(list)
     }
 
@@ -122,33 +121,35 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
                 try {
                     val ops = this.registries.getOps(JsonOps.INSTANCE)
                     val element = JsonParser.parseReader(reader)
+
+                    // Parse recipe by vanilla recipe schema.
                     Recipe.CODEC.parse(ops, element).ifSuccess {
-                        check(result.putIfAbsent(identifier2, it) == null) { "Duplicate data file ignored with ID $identifier2" }
-                    }.ifError { error ->
+                        check(result.putIfAbsent(identifier2, it) == null) {
+                            "Duplicate data file ignored with ID $identifier2"
+                        }
+                    }.ifError {
+                        // If recipe are not vanilla, then it may be a bedrock recipe.
                         val json = element.asJsonObject
 
-                        val shaped = json["minecraft:recipe_shaped"]
-                        val shapeless = json["minecraft:recipe_shapeless"]
-                         (shaped ?: shapeless)?.let {
-                            it as JsonObject
+                        try {
+                            // Find bedrock recipe and create it.
+                            ConiumBedrockRecipeBuilder.findBedrock(json, this.registries).let { builder ->
+                                val recipes = builder.build()
+                                val standalone = recipes.size == 1
+                                for ((index, recipe) in recipes.withIndex()) {
+                                    val id = if (standalone) {
+                                        identifier2
+                                    } else {
+                                        Identifier.of(identifier2.namespace, identifier2.path + "_" + recipe.type.coniumName + "_" + index)
+                                    }
 
-                            val recipe: Recipe<*>? = try {
-                                ConiumBedrockRecipeBuilder.create(
-                                    if (shaped == null) "minecraft:recipe_shapeless" else "minecraft:recipe_shaped",
-                                    it.asJsonObject,
-                                    this.registries
-                                ).build()
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                LOGGER.trace("Couldn't parse data file '{}' from '{}': {}", identifier2, key, e)
-                                return@ifError
+                                    check(result.putIfAbsent(id, recipe) == null) {
+                                        "Duplicate data file ignored with ID $id"
+                                    }
+                                }
                             }
-
-                            if (recipe != null) {
-                                check(result.putIfAbsent(identifier2, recipe) == null) { "Duplicate data file ignored with ID $identifier2" }
-                            } else {
-                                LOGGER.error("Couldn't parse data file '{}' from '{}': {}", identifier2, key, error)
-                            }
+                        } catch (e: Exception) {
+                            LOGGER.error("Couldn't parse data file '{}' from '{}'", identifier2, key, e)
                         }
                     }
                 } catch (var14: Throwable) {
@@ -269,7 +270,7 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
     private fun <T : Recipe<*>> get(type: RecipeType<T>, key: RegistryKey<Recipe<*>>): RecipeEntry<T>? {
         val recipeEntry = this.preparedConiumRecipes[key]
         return if (recipeEntry != null && recipeEntry.value().type == type) {
-            (recipeEntry as RecipeEntry<T>)
+            recipeEntry as RecipeEntry<T>
         } else {
             null
         }
