@@ -26,9 +26,9 @@ open class ConiumDurabilityTemplate(name: String, private val durability: Int, p
 
         private fun createChance(min: Int, max: Int): IntRange {
             // Do limits check, the range has only allowed 0 to 100 and max cannot smaller than min.
-            check(min >= 0) { "The minimum chance can not be negative" }
+            check(max in 0..100) { "The minimum chance value only allowed in range 0 to 100" }
 
-            check(max <= 100) { "The maximum chance can not more than 100" }
+            check(max in 0..100) { "The maximum chance value only allowed in range 0 to 100" }
 
             check(min <= max) { "The minimum chance can not be more than the maximum chance" }
 

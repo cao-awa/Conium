@@ -71,13 +71,15 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
                     template.useRemainder = remainder
                 }
 
-                jsonObject["effects"]?.let { convert ->
-                    if (convert.isJsonArray) {
+                jsonObject["apply_effects"]?.let { effects ->
+                    if (effects.isJsonObject) {
                         val ops: RegistryOps<JsonElement> = registryLookup.getOps(JsonOps.INSTANCE)
                         ApplyEffectsConsumeEffect.CODEC.decoder()
-                            .decode(ops, jsonObject).orThrow.first.let { effects ->
-                                it.consumeEffect(effects)
+                            .decode(ops, effects).orThrow.first.let { theEffects ->
+                                it.consumeEffect(theEffects)
                             }
+                    } else {
+                        throw IllegalArgumentException("Unsupported syntax: $effects")
                     }
                 }
             }.build()
