@@ -119,7 +119,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
                 throw new AssertionError("Missing intrusive holder for " + var10002 + ":" + value);
             }
 
-            ((RegistryEntryReferenceMixin<T>) reference).invokeSetRegistryKey(key);
+            ((RegistryEntryReferenceMixin<T>) reference).registryKey(key);
 
             this.dynamicKeyToEntry.put(key, reference);
             this.dynamicIdToEntry.put(key.getValue(), reference);
@@ -139,7 +139,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     @Unique
     @SuppressWarnings("unchecked")
     private void postChanged() {
-        this.dynamicValueToEntry.forEach((value, entry) -> ((RegistryEntryReferenceMixin<T>) entry).invokeSetValue(value));
+        this.dynamicValueToEntry.forEach((value, entry) -> ((RegistryEntryReferenceMixin<T>) entry).value(value));
     }
 
     @Unique

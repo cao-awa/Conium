@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.recipe.template.bedrock.shape
 
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_SHAPELESS
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
@@ -11,7 +11,7 @@ import net.minecraft.recipe.ShapelessRecipe
 import net.minecraft.recipe.book.CraftingRecipeCategory
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumBedrockRecipeShapelessTemplate : ConiumRecipeTemplate<ShapelessRecipe>(ConiumTemplates.BEDROCK_RECIPE_SHAPED) {
+class ConiumBedrockRecipeShapelessTemplate : ConiumRecipeTemplate<ShapelessRecipe>(RECIPE_SHAPELESS) {
     companion object {
         @JvmStatic
         fun create(jsonObject: JsonElement, registryLookup: WrapperLookup): ConiumBedrockRecipeShapelessTemplate {

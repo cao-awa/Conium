@@ -1,13 +1,13 @@
 package com.github.cao.awa.conium.item.template.glint
 
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.Item.GLINT
 import com.google.gson.JsonElement
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumGlintTemplate(private val glint: Boolean) : ConiumItemTemplate(ConiumTemplates.GLINT) {
+class ConiumGlintTemplate(private val glint: Boolean) : ConiumItemTemplate(GLINT) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumGlintTemplate {

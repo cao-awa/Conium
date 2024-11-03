@@ -1,14 +1,11 @@
 package com.github.cao.awa.conium.template
 
-import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 import java.util.function.BiFunction
-import java.util.function.Function
 import kotlin.reflect.KClass
 
 abstract class ConiumTemplate<T>(private val name: String) {
@@ -75,9 +72,9 @@ abstract class ConiumTemplate<T>(private val name: String) {
 
     fun name(): String = this.name
 
-    abstract fun attach(item: T)
+    abstract fun attach(target: T)
 
-    abstract fun complete(item: T)
+    abstract fun complete(target: T)
 
     open fun results(): List<T> = listOf(result())
 

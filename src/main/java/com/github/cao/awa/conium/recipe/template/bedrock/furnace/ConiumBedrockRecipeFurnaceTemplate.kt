@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.recipe.template.bedrock.furnace
 
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_FURNACE
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -9,7 +9,7 @@ import net.minecraft.recipe.*
 import net.minecraft.recipe.book.CookingRecipeCategory
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumBedrockRecipeFurnaceTemplate : ConiumRecipeTemplate<Recipe<*>>(ConiumTemplates.BEDROCK_RECIPE_FURNACE) {
+class ConiumBedrockRecipeFurnaceTemplate : ConiumRecipeTemplate<Recipe<*>>(RECIPE_FURNACE) {
     companion object {
         private val furnaceTypes = mapOf(
             Pair("furnace", ::SmeltingRecipe),

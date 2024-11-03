@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.item.template.tool
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.item.template.durability.ConiumDurabilityTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.Item.TOOL
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.block.Block
@@ -30,7 +30,7 @@ open class ConiumItemToolTemplate(
         fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumItemToolTemplate {
             if (element is JsonObject) {
                 return ConiumItemToolTemplate(
-                    ConiumTemplates.TOOL,
+                    TOOL,
                     createMaterial(element["material"].asString),
                     element["effective_blocks"]?.asString?.let(::createEffectiveBlocks) ?: BlockTags.AIR,
                     element["attack_damage"]?.asFloat ?: -1F,

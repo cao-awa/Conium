@@ -3,14 +3,11 @@ package com.github.cao.awa.conium.item.template.bedrock.fuel
 import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.item.template.bedrock.durability.ConiumBedrockDurabilityTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.FUEL
 import com.google.gson.JsonElement
-import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
-import net.minecraft.util.Rarity
 
-class ConiumBedrockFuelTemplate(private val duration: Int) : ConiumItemTemplate(ConiumTemplates.BEDROCK_FUEL) {
+class ConiumBedrockFuelTemplate(private val duration: Int) : ConiumItemTemplate(FUEL) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockFuelTemplate {

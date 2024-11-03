@@ -1,20 +1,9 @@
 package com.github.cao.awa.conium.item.template.bedrock.wearable
 
-import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.item.template.armor.ConiumArmorTemplate
 import com.github.cao.awa.conium.item.template.armor.ConiumWearableTemplate
-import com.github.cao.awa.conium.kotlin.extent.component.*
-import com.github.cao.awa.conium.kotlin.extent.item.components
-import com.github.cao.awa.conium.kotlin.extent.item.identifier
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.WEARABLE
 import com.google.gson.JsonElement
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.component.type.AttributeModifiersComponent
-import net.minecraft.component.type.EquippableComponent
-import net.minecraft.entity.attribute.EntityAttributeModifier
-import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.item.Item
 import net.minecraft.item.equipment.EquipmentType
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
@@ -30,7 +19,7 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
  *
  * @since 1.0.0
  */
-class ConiumBedrockWearableTemplate(equipment: EquipmentType, protection: Double = 0.0) : ConiumWearableTemplate(ConiumTemplates.BEDROCK_WEARABLE, equipment, protection) {
+class ConiumBedrockWearableTemplate(equipment: EquipmentType, protection: Double = 0.0) : ConiumWearableTemplate(WEARABLE, equipment, protection) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockWearableTemplate {

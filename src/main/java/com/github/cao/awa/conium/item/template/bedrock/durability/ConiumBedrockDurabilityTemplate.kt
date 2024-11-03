@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.item.template.bedrock.durability
 
 import com.github.cao.awa.conium.item.template.durability.ConiumDurabilityTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.DURABILITY
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
@@ -10,7 +10,7 @@ class ConiumBedrockDurabilityTemplate(
     durability: Int,
     damageChance: IntRange
 ) : ConiumDurabilityTemplate(
-    ConiumTemplates.BEDROCK_DURABILITY,
+    DURABILITY,
     durability,
     damageChance
 ) {

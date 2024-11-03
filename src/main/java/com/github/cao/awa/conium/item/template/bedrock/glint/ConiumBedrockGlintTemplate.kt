@@ -1,18 +1,13 @@
 package com.github.cao.awa.conium.item.template.bedrock.glint
 
-import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.kotlin.extent.component.withComponent
-import com.github.cao.awa.conium.kotlin.extent.component.withComputeTool
-import com.github.cao.awa.conium.kotlin.extent.component.withCreateTool
-import com.github.cao.awa.conium.kotlin.extent.item.components
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.Item.GLINT
 import com.google.gson.JsonElement
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumBedrockGlintTemplate(private val glint: Boolean) : ConiumItemTemplate(ConiumTemplates.BEDROCK_GLINT) {
+class ConiumBedrockGlintTemplate(private val glint: Boolean) : ConiumItemTemplate(GLINT) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockGlintTemplate {

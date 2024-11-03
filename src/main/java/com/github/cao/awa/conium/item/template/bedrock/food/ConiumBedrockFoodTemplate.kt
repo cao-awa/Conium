@@ -1,9 +1,8 @@
 package com.github.cao.awa.conium.item.template.bedrock.food
 
-import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.FOOD
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.component.DataComponentTypes
@@ -13,7 +12,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumBedrockFoodTemplate() : ConiumItemTemplate(ConiumTemplates.BEDROCK_FOOD) {
+class ConiumBedrockFoodTemplate() : ConiumItemTemplate(FOOD) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockFoodTemplate {

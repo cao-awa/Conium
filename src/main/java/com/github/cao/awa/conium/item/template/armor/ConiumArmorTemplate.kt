@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.item.template.armor
 
 import com.github.cao.awa.conium.item.template.bedrock.wearable.ConiumBedrockWearableTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.Item.ARMOR
 import com.google.gson.JsonElement
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent
@@ -30,7 +30,7 @@ class ConiumArmorTemplate(
     private val toughness: Double = 0.0,
     private val knockbackResistance: Double = 0.0,
     private val enchantmentValue: Int = 0
-) : ConiumWearableTemplate(ConiumTemplates.ARMOR, equipment, defense) {
+) : ConiumWearableTemplate(ARMOR, equipment, defense) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumArmorTemplate {

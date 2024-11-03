@@ -2,13 +2,11 @@ package com.github.cao.awa.conium.item.template.bedrock.destory
 
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.CAN_DESTROY_IN_CREATIVE
 import com.google.gson.JsonElement
-import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumBedrockCanDestroyInCreativeTemplate(private val canDestroy: Boolean) : ConiumItemTemplate(ConiumTemplates.BEDROCK_CAN_DESTROY_IN_CREATIVE) {
+class ConiumBedrockCanDestroyInCreativeTemplate(private val canDestroy: Boolean) : ConiumItemTemplate(CAN_DESTROY_IN_CREATIVE) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockCanDestroyInCreativeTemplate {

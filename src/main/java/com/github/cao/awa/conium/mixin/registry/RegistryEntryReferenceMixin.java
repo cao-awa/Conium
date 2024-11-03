@@ -8,13 +8,16 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 import java.util.Collection;
+import java.util.Set;
 
 @Mixin(RegistryEntry.Reference.class)
 public interface RegistryEntryReferenceMixin<T> {
-    @Invoker
-    void invokeSetRegistryKey(RegistryKey<T> registryKey);
-    @Invoker
-    void invokeSetTags(Collection<TagKey<T>> tags);
-    @Invoker
-    void invokeSetValue(T value);
+    @Invoker("setRegistryKey")
+    void registryKey(RegistryKey<T> registryKey);
+    @Accessor("tags")
+    Set<TagKey<T>> getTags();
+    @Invoker("setTags")
+    void tags(Collection<TagKey<T>> tags);
+    @Invoker("setValue")
+    void value(T value);
 }

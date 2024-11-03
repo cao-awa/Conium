@@ -1,13 +1,13 @@
 package com.github.cao.awa.conium.item.template.tool.axe
 
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.Item.STONE_AXE
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.item.ToolMaterial
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
 class ConiumItemStoneAxeTemplate: ConiumItemAxeTemplate(
-    ConiumTemplates.STONE_AXE,
+    STONE_AXE,
     ToolMaterial.STONE,
     7.0F,
     -3.2F

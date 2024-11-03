@@ -2,7 +2,9 @@ package com.github.cao.awa.conium.recipe
 
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
 import com.github.cao.awa.conium.template.ConiumTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_SHAPED
+import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_SHAPELESS
+import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_FURNACE
 import com.google.gson.JsonObject
 import net.minecraft.recipe.Recipe
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
@@ -10,9 +12,9 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
 class ConiumBedrockRecipeBuilder(private val template: ConiumRecipeTemplate<*>) {
     companion object {
         private val bedrockRecipes = listOf(
-            ConiumTemplates.BEDROCK_RECIPE_SHAPED,
-            ConiumTemplates.BEDROCK_RECIPE_SHAPELESS,
-            ConiumTemplates.BEDROCK_RECIPE_FURNACE,
+            RECIPE_SHAPED,
+            RECIPE_SHAPELESS,
+            RECIPE_FURNACE,
         )
 
         @JvmStatic

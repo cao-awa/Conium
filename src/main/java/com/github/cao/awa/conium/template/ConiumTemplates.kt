@@ -1,6 +1,7 @@
 package com.github.cao.awa.conium.template
 
 //import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
+import com.github.cao.awa.conium.block.template.bedrock.explosion.destructible.ConiumBedrockDestructibleByExplosionTemplate
 import com.github.cao.awa.conium.item.template.action.ConiumUseActionTemplate
 import com.github.cao.awa.conium.item.template.armor.ConiumArmorTemplate
 import com.github.cao.awa.conium.item.template.bedrock.animation.ConiumBedrockUseAnimationTemplate
@@ -34,287 +35,326 @@ import com.github.cao.awa.conium.recipe.template.bedrock.shape.ConiumBedrockReci
 import com.github.cao.awa.conium.template.ConiumTemplate.Companion.register
 
 object ConiumTemplates {
-    const val SPAWN_EGG: String = "spawn_egg"
+    object Item {
+        const val SPAWN_EGG: String = "spawn_egg"
 
-    const val FOOD: String = "food"
-
-    // Consumable.
-    const val CONSUMABLE: String = "consumable"
-
-    const val USE_ACTION: String = "use_action"
-
-    // Stack max count.
-    const val STACK_MAX_COUNT: String = "max_count"
-
-    // Rarity.
-    const val RARITY: String = "rarity"
-    const val EPIC_RARITY: String = "epic_rarity"
-    const val RARE_RARITY: String = "rare_rarity"
-    const val UNCOMMON_RARITY: String = "uncommon_rarity"
-    const val COMMON_RARITY: String = "common_rarity"
-
-    // Fuel.
-    const val FUEL: String = "fuel"
-
-    // Glint.
-    const val GLINT: String = "glint"
-
-    // Armor.
-    const val ARMOR: String = "armor"
-
-    // Tool.
-    const val TOOL: String = "tool"
-    const val CAN_DESTROY_IN_CREATIVE: String = "can_destroy_in_creative"
-
-    // Axes.
-    const val WOODEN_AXE: String = "wooden_axe"
-    const val STONE_AXE: String = "stone_axe"
-    const val IRON_AXE: String = "iron_axe"
-    const val GOLDEN_AXE: String = "golden_axe"
-    const val DIAMOND_AXE: String = "diamond_axe"
-    const val NETHERITE_AXE: String = "netherite_axe"
-
-    // Pickaxes.
-    const val WOODEN_PICKAXE: String = "wooden_pickaxe"
-    const val STONE_PICKAXE: String = "stone_pickaxe"
-    const val IRON_PICKAXE: String = "iron_pickaxe"
-    const val GOLDEN_PICKAXE: String = "golden_pickaxe"
-    const val DIAMOND_PICKAXE: String = "diamond_pickaxe"
-    const val NETHERITE_PICKAXE: String = "netherite_pickaxe"
-
-    // The food component in bedrock.
-    const val BEDROCK_FOOD: String = "minecraft:food"
-
-    // The tool component in bedrock.
-    const val BEDROCK_DAMAGE: String = "minecraft:damage"
-    const val BEDROCK_DURABILITY: String = "minecraft:durability"
-
-    // Bedrock stack size.
-    const val BEDROCK_MAX_STACK_SIZE: String = "minecraft:max_stack_size"
-
-    // Can destroy in creative.
-    const val BEDROCK_CAN_DESTROY_IN_CREATIVE: String = "minecraft:can_destroy_in_creative"
-
-    // Bedrock rarity.
-    const val BEDROCK_RARITY: String = "minecraft:rarity"
-
-    // Bedrock fuel.
-    const val BEDROCK_FUEL: String = "minecraft:fuel"
-
-    // Bedrock glint.
-    const val BEDROCK_GLINT: String = "minecraft:glint"
-
-    // The food component in bedrock.
-    const val BEDROCK_WEARABLE: String = "minecraft:wearable"
-
-    // Item use animation.
-    const val BEDROCK_USE_ANIMATION: String = "minecraft:use_animation"
-
-    // Bedrock recipes.
-    const val BEDROCK_RECIPE_SHAPED: String = "minecraft:recipe_shaped"
-    const val BEDROCK_RECIPE_SHAPELESS: String = "minecraft:recipe_shapeless"
-    const val BEDROCK_RECIPE_FURNACE: String = "minecraft:recipe_furnace"
-
-    fun init() {
-        // Spawn egg.
-        register(
-            SPAWN_EGG,
-            ConiumSpawnEggTemplate::create
-        )
-
-        // Food.
-        register(
-            FOOD,
-            ConiumFoodTemplate::create
-        )
-        register(
-            BEDROCK_FOOD,
-            ConiumBedrockFoodTemplate::create
-        )
-
-        // Stack max count
-        register(
-            STACK_MAX_COUNT,
-            ConiumStackMaxCountTemplate::create
-        )
+        const val FOOD: String = "food"
 
         // Consumable.
-        register(
-            CONSUMABLE,
-            ConiumConsumableTemplate::create
-        )
-        register(
-            USE_ACTION,
-            ConiumUseActionTemplate::create
-        )
+        const val CONSUMABLE: String = "consumable"
 
-        // Tool.
-        register(
-            TOOL,
-            ConiumItemToolTemplate::create
-        )
-        // Can destroy in creative.
-        register(
-            CAN_DESTROY_IN_CREATIVE,
-            ConiumCanDestroyInCreativeTemplate::create
-        )
+        const val USE_ACTION: String = "use_action"
 
-        // Axes.
-        register(
-            WOODEN_AXE,
-            ConiumItemWoodenAxeTemplate::create
-        )
-        register(
-            STONE_AXE,
-            ConiumItemStoneAxeTemplate::create
-        )
-        register(
-            IRON_AXE,
-            ConiumItemIronAxeTemplate::create
-        )
-        register(
-            GOLDEN_AXE,
-            ConiumItemGoldenAxeTemplate::create
-        )
-        register(
-            DIAMOND_AXE,
-            ConiumItemDiamondAxeTemplate::create
-        )
-        register(
-            NETHERITE_AXE,
-            ConiumItemNetheriteAxeTemplate::create
-        )
-
-        // Pickaxes.
-        register(
-            WOODEN_PICKAXE,
-            ConiumItemWoodenPickaxeTemplate::create
-        )
-        register(
-            STONE_PICKAXE,
-            ConiumItemStonePickaxeTemplate::create
-        )
-        register(
-            IRON_PICKAXE,
-            ConiumItemIronPickaxeTemplate::create
-        )
-        register(
-            GOLDEN_PICKAXE,
-            ConiumItemGoldenPickaxeTemplate::create
-        )
-        register(
-            DIAMOND_PICKAXE,
-            ConiumItemDiamondPickaxeTemplate::create
-        )
-        register(
-            NETHERITE_PICKAXE,
-            ConiumItemNetheritePickaxeTemplate::create
-        )
+        // Stack max count.
+        const val STACK_MAX_COUNT: String = "max_count"
 
         // Rarity.
-        register(
-            RARITY,
-            ConiumRarityTemplate::create
-        )
-        register(
-            EPIC_RARITY,
-            ConiumEpicRarityTemplate::create
-        )
-        register(
-            RARE_RARITY,
-            ConiumRareRarityTemplate::create
-        )
-        register(
-            UNCOMMON_RARITY,
-            ConiumUncommonRarityTemplate::create
-        )
-        register(
-            COMMON_RARITY,
-            ConiumCommonRarityTemplate::create
-        )
+        const val RARITY: String = "rarity"
+        const val EPIC_RARITY: String = "epic_rarity"
+        const val RARE_RARITY: String = "rare_rarity"
+        const val UNCOMMON_RARITY: String = "uncommon_rarity"
+        const val COMMON_RARITY: String = "common_rarity"
 
         // Fuel.
-        register(
-            FUEL,
-            ConiumFuelTemplate::create
-        )
+        const val FUEL: String = "fuel"
 
         // Glint.
-        register(
-            GLINT,
-            ConiumGlintTemplate::create
-        )
+        const val GLINT: String = "glint"
 
         // Armor.
-        register(
-            ARMOR,
-            ConiumArmorTemplate::create
-        )
+        const val ARMOR: String = "armor"
 
-        // Bedrock tool.
-        register(
-            BEDROCK_DAMAGE,
-            ConiumBedrockDamageTemplate::create
-        )
-        register(
-            BEDROCK_DURABILITY,
-            ConiumBedrockDurabilityTemplate::create
-        )
+        // Tool.
+        const val TOOL: String = "tool"
+        const val CAN_DESTROY_IN_CREATIVE: String = "can_destroy_in_creative"
 
-        // Stack.
-        register(
-            BEDROCK_MAX_STACK_SIZE,
-            ConiumBedrockMaxStackSizeTemplate::create
-        )
+        // Axes.
+        const val WOODEN_AXE: String = "wooden_axe"
+        const val STONE_AXE: String = "stone_axe"
+        const val IRON_AXE: String = "iron_axe"
+        const val GOLDEN_AXE: String = "golden_axe"
+        const val DIAMOND_AXE: String = "diamond_axe"
+        const val NETHERITE_AXE: String = "netherite_axe"
 
-        // Bedrock can destroy in creative.
-        register(
-            BEDROCK_CAN_DESTROY_IN_CREATIVE,
-            ConiumBedrockCanDestroyInCreativeTemplate::create
-        )
+        // Pickaxes.
+        const val WOODEN_PICKAXE: String = "wooden_pickaxe"
+        const val STONE_PICKAXE: String = "stone_pickaxe"
+        const val IRON_PICKAXE: String = "iron_pickaxe"
+        const val GOLDEN_PICKAXE: String = "golden_pickaxe"
+        const val DIAMOND_PICKAXE: String = "diamond_pickaxe"
+        const val NETHERITE_PICKAXE: String = "netherite_pickaxe"
 
-        // Rarity.
-        register(
-            BEDROCK_RARITY,
-            ConiumBedrockRarityTemplate::create
-        )
+        fun initItemTemplates() {
+            // Spawn egg.
+            register(
+                SPAWN_EGG,
+                ConiumSpawnEggTemplate::create
+            )
+
+            // Food.
+            register(
+                FOOD,
+                ConiumFoodTemplate::create
+            )
+
+            // Stack max count
+            register(
+                STACK_MAX_COUNT,
+                ConiumStackMaxCountTemplate::create
+            )
+
+            // Consumable.
+            register(
+                CONSUMABLE,
+                ConiumConsumableTemplate::create
+            )
+            register(
+                USE_ACTION,
+                ConiumUseActionTemplate::create
+            )
+
+            // Tool.
+            register(
+                TOOL,
+                ConiumItemToolTemplate::create
+            )
+            // Can destroy in creative.
+            register(
+                CAN_DESTROY_IN_CREATIVE,
+                ConiumCanDestroyInCreativeTemplate::create
+            )
+
+            // Axes.
+            register(
+                WOODEN_AXE,
+                ConiumItemWoodenAxeTemplate::create
+            )
+            register(
+                STONE_AXE,
+                ConiumItemStoneAxeTemplate::create
+            )
+            register(
+                IRON_AXE,
+                ConiumItemIronAxeTemplate::create
+            )
+            register(
+                GOLDEN_AXE,
+                ConiumItemGoldenAxeTemplate::create
+            )
+            register(
+                DIAMOND_AXE,
+                ConiumItemDiamondAxeTemplate::create
+            )
+            register(
+                NETHERITE_AXE,
+                ConiumItemNetheriteAxeTemplate::create
+            )
+
+            // Pickaxes.
+            register(
+                WOODEN_PICKAXE,
+                ConiumItemWoodenPickaxeTemplate::create
+            )
+            register(
+                STONE_PICKAXE,
+                ConiumItemStonePickaxeTemplate::create
+            )
+            register(
+                IRON_PICKAXE,
+                ConiumItemIronPickaxeTemplate::create
+            )
+            register(
+                GOLDEN_PICKAXE,
+                ConiumItemGoldenPickaxeTemplate::create
+            )
+            register(
+                DIAMOND_PICKAXE,
+                ConiumItemDiamondPickaxeTemplate::create
+            )
+            register(
+                NETHERITE_PICKAXE,
+                ConiumItemNetheritePickaxeTemplate::create
+            )
+
+            // Rarity.
+            register(
+                RARITY,
+                ConiumRarityTemplate::create
+            )
+            register(
+                EPIC_RARITY,
+                ConiumEpicRarityTemplate::create
+            )
+            register(
+                RARE_RARITY,
+                ConiumRareRarityTemplate::create
+            )
+            register(
+                UNCOMMON_RARITY,
+                ConiumUncommonRarityTemplate::create
+            )
+            register(
+                COMMON_RARITY,
+                ConiumCommonRarityTemplate::create
+            )
+
+            // Fuel.
+            register(
+                FUEL,
+                ConiumFuelTemplate::create
+            )
+
+            // Glint.
+            register(
+                GLINT,
+                ConiumGlintTemplate::create
+            )
+
+            // Armor.
+            register(
+                ARMOR,
+                ConiumArmorTemplate::create
+            )
+        }
+    }
+
+    object BedrockItem {
+        // The food component in bedrock.
+        const val FOOD: String = "minecraft:food"
+
+        // The tool component in bedrock.
+        const val DAMAGE: String = "minecraft:damage"
+        const val DURABILITY: String = "minecraft:durability"
+
+        // Bedrock stack size.
+        const val MAX_STACK_SIZE: String = "minecraft:max_stack_size"
+
+        // Can destroy in creative.
+        const val CAN_DESTROY_IN_CREATIVE: String = "minecraft:can_destroy_in_creative"
+
+        // Bedrock rarity.
+        const val RARITY: String = "minecraft:rarity"
 
         // Bedrock fuel.
-        register(
-            BEDROCK_FUEL,
-            ConiumBedrockFuelTemplate::create
-        )
+        const val FUEL: String = "minecraft:fuel"
 
         // Bedrock glint.
-        register(
-            BEDROCK_GLINT,
-            ConiumBedrockGlintTemplate::create
-        )
+        const val BEDROCK_GLINT: String = "minecraft:glint"
 
-        // Bedrock wearable.
-        register(
-            BEDROCK_WEARABLE,
-            ConiumBedrockWearableTemplate::create
-        )
+        // The food component in bedrock.
+        const val WEARABLE: String = "minecraft:wearable"
 
-        // Use animation.
-        register(
-            BEDROCK_USE_ANIMATION,
-            ConiumBedrockUseAnimationTemplate::create
-        )
+        // Item use animation.
+        const val USE_ANIMATION: String = "minecraft:use_animation"
 
+        fun initBedrockItemTemplates() {
+            // Bedrock tool.
+            register(
+                DAMAGE,
+                ConiumBedrockDamageTemplate::create
+            )
+            register(
+                DURABILITY,
+                ConiumBedrockDurabilityTemplate::create
+            )
+
+            // Stack.
+            register(
+                MAX_STACK_SIZE,
+                ConiumBedrockMaxStackSizeTemplate::create
+            )
+
+            // Can destroy in creative.
+            register(
+                CAN_DESTROY_IN_CREATIVE,
+                ConiumBedrockCanDestroyInCreativeTemplate::create
+            )
+
+            // Rarity.
+            register(
+                RARITY,
+                ConiumRarityTemplate::createBedrock
+            )
+
+            // Food.
+            register(
+                FOOD,
+                ConiumBedrockFoodTemplate::create
+            )
+
+            // Fuel.
+            register(
+                FUEL,
+                ConiumBedrockFuelTemplate::create
+            )
+
+            // Glint.
+            register(
+                BEDROCK_GLINT,
+                ConiumBedrockGlintTemplate::create
+            )
+
+            // Wearable.
+            register(
+                WEARABLE,
+                ConiumBedrockWearableTemplate::create
+            )
+
+            // Use animation.
+            register(
+                USE_ANIMATION,
+                ConiumBedrockUseAnimationTemplate::create
+            )
+        }
+    }
+
+    object BedrockRecipe {
         // Bedrock recipes.
-        register(
-            BEDROCK_RECIPE_SHAPED,
-            ConiumBedrockRecipeShapedTemplate::create
-        )
-        register(
-            BEDROCK_RECIPE_SHAPELESS,
-            ConiumBedrockRecipeShapelessTemplate::create
-        )
-        register(
-            BEDROCK_RECIPE_FURNACE,
-            ConiumBedrockRecipeFurnaceTemplate::create
-        )
+        const val RECIPE_SHAPED: String = "minecraft:recipe_shaped"
+        const val RECIPE_SHAPELESS: String = "minecraft:recipe_shapeless"
+        const val RECIPE_FURNACE: String = "minecraft:recipe_furnace"
+
+        fun initBedrockRecipeTemplates() {
+            // Bedrock recipes.
+            register(
+                RECIPE_SHAPED,
+                ConiumBedrockRecipeShapedTemplate::create
+            )
+            register(
+                RECIPE_SHAPELESS,
+                ConiumBedrockRecipeShapelessTemplate::create
+            )
+            register(
+                RECIPE_FURNACE,
+                ConiumBedrockRecipeFurnaceTemplate::create
+            )
+        }
+    }
+
+    object Block {
+        fun initBlockTemplates() {
+
+        }
+    }
+
+    object BedrockBlock {
+        // Destructible by explosion.
+        const val DESTRUCTIBLE_BY_EXPLOSION: String = "minecraft:destructible_by_explosion"
+
+        fun initBedrockBlockTemplates() {
+            // Destructible by explosion.
+            register(
+                DESTRUCTIBLE_BY_EXPLOSION,
+                ConiumBedrockDestructibleByExplosionTemplate::create
+            )
+        }
+    }
+
+    fun init() {
+        Item.initItemTemplates()
+        BedrockItem.initBedrockItemTemplates()
+        Block.initBlockTemplates()
+        BedrockBlock.initBedrockBlockTemplates()
+        BedrockRecipe.initBedrockRecipeTemplates()
     }
 }

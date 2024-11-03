@@ -1,15 +1,19 @@
-package com.github.cao.awa.conium.block.template;
+package com.github.cao.awa.conium.block.template
 
-import com.github.cao.awa.conium.block.ConiumBlock;
-import com.github.cao.awa.conium.template.ConiumTemplate;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.item.Item;
-import org.jetbrains.annotations.NotNull;
+import com.github.cao.awa.conium.block.ConiumBlock
+import com.github.cao.awa.conium.template.ConiumTemplate
+import net.minecraft.block.AbstractBlock
 
-public abstract class ConiumBlockTemplate extends ConiumTemplate<ConiumBlock> {
-    public ConiumBlockTemplate(@NotNull String name) {
-        super(name);
+abstract class ConiumBlockTemplate(name: String) : ConiumTemplate<ConiumBlock>(name) {
+    override fun attach(block: ConiumBlock) {
+        // Do nothing.
     }
 
-    public abstract void settings(@NotNull AbstractBlock.Settings settings);
+    override fun complete(block: ConiumBlock) {
+        // Do nothing.
+    }
+
+    open fun settings(settings: AbstractBlock.Settings) {
+        // Do nothing.
+    }
 }

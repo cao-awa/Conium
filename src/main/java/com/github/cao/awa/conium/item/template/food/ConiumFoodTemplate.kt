@@ -1,8 +1,7 @@
 package com.github.cao.awa.conium.item.template.food
 
-import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.Item.FOOD
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.component.type.FoodComponent
@@ -10,7 +9,7 @@ import net.minecraft.component.type.FoodComponents.*
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumFoodTemplate(private val foodComponent: FoodComponent) : ConiumItemTemplate(ConiumTemplates.FOOD) {
+class ConiumFoodTemplate(private val foodComponent: FoodComponent) : ConiumItemTemplate(FOOD) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumFoodTemplate {

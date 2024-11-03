@@ -1,8 +1,7 @@
 package com.github.cao.awa.conium.item.template.consumable
 
-import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.Item.CONSUMABLE
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.mojang.serialization.JsonOps
@@ -18,7 +17,7 @@ import net.minecraft.registry.RegistryOps
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 import net.minecraft.util.Identifier
 
-class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) : ConiumItemTemplate(ConiumTemplates.CONSUMABLE) {
+class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) : ConiumItemTemplate(CONSUMABLE) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumConsumableTemplate {

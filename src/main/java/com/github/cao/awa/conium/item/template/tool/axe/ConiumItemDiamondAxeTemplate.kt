@@ -1,13 +1,13 @@
 package com.github.cao.awa.conium.item.template.tool.axe
 
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.ConiumTemplates.Item.DIAMOND_AXE
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.item.ToolMaterial
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
 class ConiumItemDiamondAxeTemplate : ConiumItemAxeTemplate(
-    ConiumTemplates.DIAMOND_AXE,
+    DIAMOND_AXE,
     ToolMaterial.DIAMOND,
     5.0F,
     -3.0F
