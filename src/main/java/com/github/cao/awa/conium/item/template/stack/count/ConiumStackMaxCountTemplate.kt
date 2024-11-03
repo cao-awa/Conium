@@ -9,9 +9,7 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
 class ConiumStackMaxCountTemplate(private val stackMaxCount: Int) : ConiumItemTemplate(STACK_MAX_COUNT) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumStackMaxCountTemplate {
-            return ConiumStackMaxCountTemplate(validateStackSize(element.asInt))
-        }
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumStackMaxCountTemplate = ConiumStackMaxCountTemplate(validateStackSize(element.asInt))
     }
 
     override fun settings(settings: Item.Settings) {

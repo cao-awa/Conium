@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.item.template.bedrock.food
 
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
+import com.github.cao.awa.conium.kotlin.extent.json.createIfJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.FOOD
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -15,15 +16,17 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
 class ConiumBedrockFoodTemplate() : ConiumItemTemplate(FOOD) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockFoodTemplate {
-            if (element is JsonObject) {
-                return ConiumBedrockFoodTemplate(element.asJsonObject, registryLookup)
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockFoodTemplate = element.createIfJsonObject(
+            {
+                // Create food template.
+                ConiumBedrockFoodTemplate(element.asJsonObject, registryLookup)
             }
+        ) {
             throw IllegalArgumentException("minecraft:food must be a JSON object")
-        }
+        }!!
 
         private fun createFoodComponent(template: ConiumBedrockFoodTemplate, jsonObject: JsonObject, registryLookup: WrapperLookup): FoodComponent {
-            FoodComponent.Builder().let { it ->
+            FoodComponent.Builder().let {
                 if (jsonObject.has("nutrition")) {
                     it.nutrition(jsonObject["nutrition"].asInt)
                 }

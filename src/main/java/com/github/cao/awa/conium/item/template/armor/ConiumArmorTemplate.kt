@@ -1,6 +1,7 @@
 package com.github.cao.awa.conium.item.template.armor
 
 import com.github.cao.awa.conium.item.template.bedrock.wearable.ConiumBedrockWearableTemplate
+import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.github.cao.awa.conium.template.ConiumTemplates.Item.ARMOR
 import com.google.gson.JsonElement
 import net.minecraft.component.type.AttributeModifierSlot
@@ -33,32 +34,28 @@ class ConiumArmorTemplate(
 ) : ConiumWearableTemplate(ARMOR, equipment, defense) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumArmorTemplate {
-            return if (element.isJsonObject) {
-                return element.asJsonObject.let {
-                    ConiumArmorTemplate(
-                        createEquipment(it["slot"].asString),
-                        // And conium additional supporting missing protection key.
-                        // Then default is no protection value.
-                        it["defense"]?.asDouble ?: 0.0,
-                        it["toughness"]?.asDouble ?: 0.0,
-                        it["knockback_resistance"]?.asDouble ?: 0.0,
-                        it["enchantable"]?.asInt ?: 0
-                    )
-                }
-            } else if (element.isJsonPrimitive) {
-                ConiumArmorTemplate(createEquipment(element.asString))
-            } else {
-                throw IllegalArgumentException("Not supported syntax: $element")
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumArmorTemplate = element.objectOrString(
+            {
+                ConiumArmorTemplate(
+                    createEquipment(it["slot"].asString),
+                    // And conium additional supporting missing protection key.
+                    // Then default is no protection value.
+                    it["defense"]?.asDouble ?: 0.0,
+                    it["toughness"]?.asDouble ?: 0.0,
+                    it["knockback_resistance"]?.asDouble ?: 0.0,
+                    it["enchantable"]?.asInt ?: 0
+                )
             }
-        }
+        ) {
+            ConiumArmorTemplate(createEquipment(it))
+        }!!
     }
 
     override fun settings(settings: Item.Settings) {
         // Add default settings.
         super.settings(settings)
 
-        check(this.enchantmentValue > 0) {
+        if (this.enchantmentValue > 0) {
             settings.enchantable(this.enchantmentValue)
         }
     }

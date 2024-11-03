@@ -15,18 +15,16 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
 class ConiumUseActionTemplate(private val useAction: UseAction) : ConiumItemTemplate(USE_ACTION) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumUseActionTemplate {
-            return ConiumUseActionTemplate(createUseAction(element.asString))
-        }
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumUseActionTemplate = ConiumUseActionTemplate(createUseAction(element.asString))
     }
 
     override fun settings(settings: Item.Settings) {
+        // Set use action.
         settings.components.withComponentProvides(
             DataComponentTypes.CONSUMABLE,
             withCreateConsumable(),
-            withComputeUseAction()
-        ) {
-            this.useAction
-        }
+            withComputeUseAction(),
+            this::useAction
+        )
     }
 }

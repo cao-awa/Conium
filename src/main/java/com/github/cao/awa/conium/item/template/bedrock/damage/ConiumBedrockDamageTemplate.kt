@@ -18,9 +18,7 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
 class ConiumBedrockDamageTemplate(private val damage: Double) : ConiumItemTemplate(DAMAGE) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockDamageTemplate {
-            return ConiumBedrockDamageTemplate(element.asDouble)
-        }
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockDamageTemplate = ConiumBedrockDamageTemplate(element.asDouble)
     }
 
     override fun settings(settings: Item.Settings) {

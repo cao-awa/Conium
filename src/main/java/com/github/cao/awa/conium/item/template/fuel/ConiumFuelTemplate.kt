@@ -10,9 +10,7 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
 class ConiumFuelTemplate(private val duration: Int) : ConiumItemTemplate(FUEL) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumFuelTemplate {
-            return ConiumFuelTemplate(element.asInt)
-        }
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumFuelTemplate = ConiumFuelTemplate(element.asInt)
     }
 
     override fun complete(item: ConiumItem) {

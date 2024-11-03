@@ -10,9 +10,7 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
 class ConiumGlintTemplate(private val glint: Boolean) : ConiumItemTemplate(GLINT) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumGlintTemplate {
-            return ConiumGlintTemplate(element.asBoolean)
-        }
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumGlintTemplate = ConiumGlintTemplate(element.asBoolean)
     }
 
     override fun settings(settings: Item.Settings) {

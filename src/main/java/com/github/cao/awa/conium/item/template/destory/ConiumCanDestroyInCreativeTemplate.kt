@@ -9,9 +9,7 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
 class ConiumCanDestroyInCreativeTemplate(private val canDestroy: Boolean) : ConiumItemTemplate(CAN_DESTROY_IN_CREATIVE) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumCanDestroyInCreativeTemplate {
-            return ConiumCanDestroyInCreativeTemplate(element.asBoolean)
-        }
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumCanDestroyInCreativeTemplate = ConiumCanDestroyInCreativeTemplate(element.asBoolean)
     }
 
     override fun complete(item: ConiumItem) {

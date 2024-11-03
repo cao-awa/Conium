@@ -17,12 +17,11 @@ open class ConiumDurabilityTemplate(name: String, private val durability: Int, p
     companion object {
         val defaultChance = IntRange(100, 100)
 
-        fun createChance(jsonObject: JsonObject, key: String = "damage_chance"): IntRange {
+        fun createChance(jsonObject: JsonObject, key: String = "damage_chance"): IntRange =
             // Create chance range.
-            return jsonObject[key]?.asJsonObject?.let { chance ->
+            jsonObject[key]?.asJsonObject?.let { chance ->
                 createChance(chance["min"].asInt, chance["max"].asInt)
             } ?: defaultChance
-        }
 
         private fun createChance(min: Int, max: Int): IntRange {
             // Do limits check, the range has only allowed 0 to 100 and max cannot smaller than min.

@@ -3,9 +3,9 @@ package com.github.cao.awa.conium.item.template.tool
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.item.template.durability.ConiumDurabilityTemplate
+import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates.Item.TOOL
 import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.item.ToolMaterial
@@ -27,21 +27,18 @@ open class ConiumItemToolTemplate(
 ) : ConiumItemTemplate(name) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumItemToolTemplate {
-            if (element is JsonObject) {
-                return ConiumItemToolTemplate(
-                    TOOL,
-                    createMaterial(element["material"].asString),
-                    element["effective_blocks"]?.asString?.let(::createEffectiveBlocks) ?: BlockTags.AIR,
-                    element["attack_damage"]?.asFloat ?: -1F,
-                    element["attack_speed"]?.asFloat ?: -1F,
-                    element["durability"]?.asInt ?: -1,
-                    element["is_weapon"]?.asBoolean ?: false,
-                    ConiumDurabilityTemplate.createChance(element)
-                )
-            }
-            throw IllegalArgumentException("Not supported syntax: $element")
-        }
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumItemToolTemplate = element.ifJsonObject({
+            ConiumItemToolTemplate(
+                TOOL,
+                createMaterial(it["material"].asString),
+                it["effective_blocks"]?.asString?.let(::createEffectiveBlocks) ?: BlockTags.AIR,
+                it["attack_damage"]?.asFloat ?: -1F,
+                it["attack_speed"]?.asFloat ?: -1F,
+                it["durability"]?.asInt ?: -1,
+                it["is_weapon"]?.asBoolean ?: false,
+                ConiumDurabilityTemplate.createChance(it)
+            )
+        }, notSupported())!!
 
         private fun createMaterial(name: String): ToolMaterial {
             return when (name) {

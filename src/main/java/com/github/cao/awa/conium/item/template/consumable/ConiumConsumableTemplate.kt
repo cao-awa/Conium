@@ -1,6 +1,7 @@
 package com.github.cao.awa.conium.item.template.consumable
 
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
+import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.github.cao.awa.conium.template.ConiumTemplates.Item.CONSUMABLE
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -20,33 +21,35 @@ import net.minecraft.util.Identifier
 class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) : ConiumItemTemplate(CONSUMABLE) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumConsumableTemplate {
-            if (element is JsonObject) {
-                return ConiumConsumableTemplate(element, registryLookup)
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumConsumableTemplate = element.objectOrString(
+            {
+                // Use constructor create.
+                ConiumConsumableTemplate(it, registryLookup)
             }
-
-            val preset = when (val presetName = element.asString) {
-                "food" -> FOOD
-                "drink" -> DRINK
-                "honey_bottle" -> HONEY_BOTTLE
-                "ominous_bottle" -> OMINOUS_BOTTLE
-                "dried_kelp" -> DRIED_KELP
-                "raw_chicken" -> RAW_CHICKEN
-                "enchanted_golden_apple" -> ENCHANTED_GOLDEN_APPLE
-                "golden_apple" -> GOLDEN_APPLE
-                "poisonous_potato" -> POISONOUS_POTATO
-                "pufferfish" -> PUFFERFISH
-                "rotten_flesh" -> ROTTEN_FLESH
-                "spider_eye" -> SPIDER_EYE
-                "milk_bucket" -> MILK_BUCKET
-                "chorus_fruit" -> CHORUS_FRUIT
-                else -> {
-                    throw IllegalArgumentException("No preset consumable component that named by '$presetName'")
+        ) {
+            // Use template create.
+            ConiumConsumableTemplate(
+                when (it) {
+                    "food" -> FOOD
+                    "drink" -> DRINK
+                    "honey_bottle" -> HONEY_BOTTLE
+                    "ominous_bottle" -> OMINOUS_BOTTLE
+                    "dried_kelp" -> DRIED_KELP
+                    "raw_chicken" -> RAW_CHICKEN
+                    "enchanted_golden_apple" -> ENCHANTED_GOLDEN_APPLE
+                    "golden_apple" -> GOLDEN_APPLE
+                    "poisonous_potato" -> POISONOUS_POTATO
+                    "pufferfish" -> PUFFERFISH
+                    "rotten_flesh" -> ROTTEN_FLESH
+                    "spider_eye" -> SPIDER_EYE
+                    "milk_bucket" -> MILK_BUCKET
+                    "chorus_fruit" -> CHORUS_FRUIT
+                    else -> {
+                        throw IllegalArgumentException("No preset consumable component that named by '$it'")
+                    }
                 }
-            }
-
-            return ConiumConsumableTemplate(preset)
-        }
+            )
+        }!!
 
         fun createConvert(jsonObject: JsonObject, registryLookup: WrapperLookup, customKey: String, callback: (ItemStack) -> Unit) {
             jsonObject[customKey]?.let { convert ->
@@ -78,7 +81,7 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
                                 it.consumeEffect(theEffects)
                             }
                     } else {
-                        throw IllegalArgumentException("Unsupported syntax: $effects")
+                        throw notSupported(effects)
                     }
                 }
             }.build()
@@ -94,8 +97,8 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
         }
     }
 
-    constructor(element: JsonElement, registryLookup: WrapperLookup) : this(null) {
-        this.consumableComponent = createFoodComponent(this, element.asJsonObject, registryLookup)
+    constructor(jsonObject: JsonObject, registryLookup: WrapperLookup) : this(null) {
+        this.consumableComponent = createFoodComponent(this, jsonObject, registryLookup)
     }
 
     override fun settings(settings: Item.Settings) {

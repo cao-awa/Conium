@@ -1,12 +1,12 @@
 package com.github.cao.awa.conium.item.template
 
 import com.github.cao.awa.conium.item.ConiumItem
-import com.github.cao.awa.conium.mixin.item.setting.ItemSettingsAccessor
 import com.github.cao.awa.conium.template.ConiumTemplate
-import net.minecraft.component.ComponentMap
+import com.google.gson.JsonElement
 import net.minecraft.item.Item
 import net.minecraft.item.consume.UseAction
 import net.minecraft.util.Rarity
+import kotlin.jvm.Throws
 
 abstract class ConiumItemTemplate(name: String) : ConiumTemplate<ConiumItem>(name) {
     companion object {
@@ -42,6 +42,12 @@ abstract class ConiumItemTemplate(name: String) : ConiumTemplate<ConiumItem>(nam
             }
             return value
         }
+
+        fun <R> notSupported(): (JsonElement) -> R = { throw notSupported(it) }
+
+        @Throws(IllegalArgumentException::class)
+        fun notSupported(jsonElement: JsonElement): IllegalArgumentException = IllegalArgumentException("Not supported syntax: $jsonElement")
+
     }
 
     override fun complete(item: ConiumItem) {
