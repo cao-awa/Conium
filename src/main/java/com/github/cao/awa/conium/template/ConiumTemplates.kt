@@ -17,7 +17,6 @@ import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativ
 import com.github.cao.awa.conium.item.template.bedrock.durability.ConiumBedrockDurabilityTemplate
 import com.github.cao.awa.conium.item.template.bedrock.fuel.ConiumBedrockFuelTemplate
 import com.github.cao.awa.conium.item.template.bedrock.glint.ConiumBedrockGlintTemplate
-import com.github.cao.awa.conium.item.template.bedrock.rarity.ConiumBedrockRarityTemplate
 import com.github.cao.awa.conium.item.template.bedrock.stack.size.ConiumBedrockMaxStackSizeTemplate
 import com.github.cao.awa.conium.item.template.bedrock.wearable.ConiumBedrockWearableTemplate
 import com.github.cao.awa.conium.item.template.fuel.ConiumFuelTemplate
