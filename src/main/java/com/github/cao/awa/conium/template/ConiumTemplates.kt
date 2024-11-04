@@ -2,6 +2,12 @@ package com.github.cao.awa.conium.template
 
 //import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
 import com.github.cao.awa.conium.block.template.bedrock.explosion.destructible.ConiumBedrockDestructibleByExplosionTemplate
+import com.github.cao.awa.conium.block.template.bedrock.explosion.destructible.ConiumBedrockDestructibleByMiningTemplate
+import com.github.cao.awa.conium.block.template.bedrock.explosion.map.ConiumBedrockMapColorTemplate
+import com.github.cao.awa.conium.block.template.bedrock.light.ConiumBedrockLightEmissionTemplate
+import com.github.cao.awa.conium.block.template.luminance.ConiumLuminanceTemplate
+import com.github.cao.awa.conium.block.template.map.ConiumMapColorTemplate
+import com.github.cao.awa.conium.block.template.mining.ConiumHardnessTemplate
 import com.github.cao.awa.conium.item.template.action.ConiumUseActionTemplate
 import com.github.cao.awa.conium.item.template.armor.ConiumArmorTemplate
 import com.github.cao.awa.conium.item.template.bedrock.animation.ConiumBedrockUseAnimationTemplate
@@ -331,20 +337,64 @@ object ConiumTemplates {
     }
 
     object Block {
-        fun initBlockTemplates() {
+        // Hardness.
+        const val HARDNESS: String = "hardness"
+        // Map color.
+        const val MAP_COLOR: String = "map_color"
+        // Luminance.
+        const val LUMINANCE: String = "luminance"
 
+        fun initBlockTemplates() {
+            // Mining.
+            register(
+                HARDNESS,
+                ConiumHardnessTemplate::create
+            )
+
+            // Map color.
+            register(
+                MAP_COLOR,
+                ConiumMapColorTemplate::create
+            )
+
+            // Luminance.
+            register(
+                LUMINANCE,
+                ConiumLuminanceTemplate::create
+            )
         }
     }
 
     object BedrockBlock {
-        // Destructible by explosion.
+        // Destructible.
         const val DESTRUCTIBLE_BY_EXPLOSION: String = "minecraft:destructible_by_explosion"
+        const val DESTRUCTIBLE_BY_MINING: String = "minecraft:destructible_by_mining"
+        // Map color.
+        const val MAP_COLOR: String = "minecraft:map_color"
+        // Light emission.
+        const val LIGHT_EMISSION: String = "minecraft:light_emission"
 
         fun initBedrockBlockTemplates() {
             // Destructible by explosion.
             register(
                 DESTRUCTIBLE_BY_EXPLOSION,
                 ConiumBedrockDestructibleByExplosionTemplate::create
+            )
+            register(
+                DESTRUCTIBLE_BY_MINING,
+                ConiumBedrockDestructibleByMiningTemplate::create
+            )
+
+            // Map color.
+            register(
+                MAP_COLOR,
+                ConiumBedrockMapColorTemplate::create
+            )
+
+            // Light emission.
+            register(
+                LIGHT_EMISSION,
+                ConiumBedrockLightEmissionTemplate::create
             )
         }
     }

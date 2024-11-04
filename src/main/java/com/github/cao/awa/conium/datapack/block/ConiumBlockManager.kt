@@ -1,12 +1,15 @@
 package com.github.cao.awa.conium.datapack.block
 
 import com.github.cao.awa.conium.Conium
-import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
+import com.github.cao.awa.conium.block.builder.bedrock.BedrockSchemaBlockBuilder
+import com.github.cao.awa.conium.block.builder.conium.ConiumSchemaBlockBuilder
 import com.github.cao.awa.conium.datapack.ConiumJsonDataLoader
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.extend.ConiumDynamicIdList
 import com.github.cao.awa.conium.extend.ConiumDynamicRegistry
+import com.github.cao.awa.conium.item.builder.bedrock.BedrockSchemaItemBuilder
 import com.github.cao.awa.conium.kotlin.extent.block.register
+import com.github.cao.awa.conium.kotlin.extent.item.register
 import com.github.cao.awa.conium.kotlin.extent.item.registerBlockItem
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
@@ -14,7 +17,6 @@ import com.google.common.collect.UnmodifiableIterator
 import com.google.gson.*
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryWrapper
@@ -43,17 +45,19 @@ class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLook
         for ((key, value) in prepared) {
             value as JsonObject
 
-            val identifier = value.get("id").asString
-
             // Use to debug, trace inject details.
             Conium.debug(
                 "Registering block '{}' from '{}'",
-                { identifier },
+                key::getPath,
                 key::getNamespace,
                 LOGGER::info
             )
 
-            val builder: ConiumBlockBuilder = ConiumBlockBuilder.deserialize(value, this.registryLookup)
+            val builder = if (value["schema_style"]?.asString == "conium") {
+                ConiumSchemaBlockBuilder.deserialize(value, this.registryLookup)
+            } else {
+                BedrockSchemaBlockBuilder.deserialize(value, this.registryLookup)
+            }
 
             builder.register { block ->
                 val var2: UnmodifiableIterator<*> = block.stateManager.states.iterator()

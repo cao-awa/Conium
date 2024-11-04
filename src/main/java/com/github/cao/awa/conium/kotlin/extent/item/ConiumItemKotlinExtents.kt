@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.kotlin.extent.item
 
 import com.github.cao.awa.conium.block.ConiumBlock
 import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
+import com.github.cao.awa.conium.block.builder.conium.ConiumSchemaBlockBuilder
 import com.github.cao.awa.conium.item.builder.conium.ConiumSchemaItemBuilder
 import com.github.cao.awa.conium.item.builder.bedrock.BedrockSchemaItemBuilder
 import com.github.cao.awa.conium.kotlin.extent.registry.tags
@@ -28,7 +29,8 @@ fun ConiumSchemaItemBuilder.register(tagProvider: (MutableSet<TagKey<Item>>) -> 
             }
             .also(tagProvider)
             .also {
-                item.registryEntry.tags = it
+                // TODO
+//                item.registryEntry.tags = it
             }
     }
 }
@@ -43,8 +45,9 @@ fun registerItem(identifier: Identifier, itemProvider: (Item.Settings) -> Item):
     }
 }
 
-fun ConiumBlockBuilder.registerBlockItem(block: ConiumBlock) {
+fun ConiumBlockBuilder.registerBlockItem(block: ConiumBlock, settingsProvider: (Item.Settings) -> Unit = { }) {
     Items.register(itemKeyOf(this.identifier)) {
+        settingsProvider(it)
         BlockItem(block, it)
     }
 }

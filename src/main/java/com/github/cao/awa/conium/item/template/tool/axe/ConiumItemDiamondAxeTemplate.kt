@@ -15,7 +15,7 @@ class ConiumItemDiamondAxeTemplate : ConiumItemAxeTemplate(
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumItemDiamondAxeTemplate = element.createIfJsonObject(::ConiumItemDiamondAxeTemplate) {
-            throw IllegalArgumentException("Not supported syntax: $i")
+            throw IllegalArgumentException("Not supported syntax: $it")
         }!!
     }
 }

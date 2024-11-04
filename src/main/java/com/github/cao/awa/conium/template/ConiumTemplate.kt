@@ -57,6 +57,9 @@ abstract class ConiumTemplate<T>(private val name: String) {
         fun deserializeTemplate(name: String, json: JsonElement, registryLookup: WrapperLookup): ConiumTemplate<*> {
             return this.templates[name]?.apply(json, registryLookup) ?: throw IllegalArgumentException("Unable to deserialize template '$name' because it does not exist")
         }
+
+        // Attention to duration, this duration value in bedrock is seconds instead of ticks in bedrock.
+        fun secondsToTicks(duration: Float): Int = (duration * 20).toInt()
     }
 
     // This contexts will be set in deserializing templates, do not set it again in feature.
@@ -75,6 +78,10 @@ abstract class ConiumTemplate<T>(private val name: String) {
     abstract fun attach(target: T)
 
     abstract fun complete(target: T)
+
+    open fun finish(target: T) {
+        // Do nothing here.
+    }
 
     open fun results(): List<T> = listOf(result())
 
