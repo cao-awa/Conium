@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.block.template.bedrock.explosion.destructible
+package com.github.cao.awa.conium.block.template.bedrock.destructible
 
 import com.github.cao.awa.conium.block.template.mining.ConiumHardnessTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrFloat

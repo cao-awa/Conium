@@ -1,9 +1,9 @@
 package com.github.cao.awa.conium.template
 
 //import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
-import com.github.cao.awa.conium.block.template.bedrock.explosion.destructible.ConiumBedrockDestructibleByExplosionTemplate
-import com.github.cao.awa.conium.block.template.bedrock.explosion.destructible.ConiumBedrockDestructibleByMiningTemplate
-import com.github.cao.awa.conium.block.template.bedrock.explosion.map.ConiumBedrockMapColorTemplate
+import com.github.cao.awa.conium.block.template.bedrock.destructible.explosion.ConiumBedrockDestructibleByExplosionTemplate
+import com.github.cao.awa.conium.block.template.bedrock.destructible.ConiumBedrockDestructibleByMiningTemplate
+import com.github.cao.awa.conium.block.template.map.ConiumBedrockMapColorTemplate
 import com.github.cao.awa.conium.block.template.bedrock.light.ConiumBedrockLightEmissionTemplate
 import com.github.cao.awa.conium.block.template.luminance.ConiumLuminanceTemplate
 import com.github.cao.awa.conium.block.template.map.ConiumMapColorTemplate
@@ -337,8 +337,9 @@ object ConiumTemplates {
     }
 
     object Block {
-        // Hardness.
+        // Destructible.
         const val HARDNESS: String = "hardness"
+        const val EXPLOSION_RESISTANCE: String = "explosion_resistance"
         // Map color.
         const val MAP_COLOR: String = "map_color"
         // Luminance.

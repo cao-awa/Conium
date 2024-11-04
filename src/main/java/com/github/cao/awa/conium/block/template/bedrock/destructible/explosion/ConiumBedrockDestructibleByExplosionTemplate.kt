@@ -1,13 +1,12 @@
-package com.github.cao.awa.conium.block.template.bedrock.explosion.destructible
+package com.github.cao.awa.conium.block.template.bedrock.destructible.explosion
 
-import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
+import com.github.cao.awa.conium.block.template.explosion.resistance.ConiumExplosionResistanceTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrFloat
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockBlock.DESTRUCTIBLE_BY_EXPLOSION
 import com.google.gson.JsonElement
-import net.minecraft.block.AbstractBlock
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumBedrockDestructibleByExplosionTemplate(private val explosionResistance: Float) : ConiumBlockTemplate(DESTRUCTIBLE_BY_EXPLOSION) {
+class ConiumBedrockDestructibleByExplosionTemplate(explosionResistance: Float) : ConiumExplosionResistanceTemplate(explosionResistance, DESTRUCTIBLE_BY_EXPLOSION) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockDestructibleByExplosionTemplate = element.objectOrFloat(
@@ -25,10 +24,5 @@ class ConiumBedrockDestructibleByExplosionTemplate(private val explosionResistan
             // "minecraft:destructible_by_explosion": <float>
             ConiumBedrockDestructibleByExplosionTemplate(it)
         }!!
-    }
-
-    override fun settings(settings: AbstractBlock.Settings) {
-        // Set explosion resistance.
-        settings.resistance(this.explosionResistance)
     }
 }

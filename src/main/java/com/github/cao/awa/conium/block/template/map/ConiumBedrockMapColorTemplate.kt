@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.block.template.bedrock.explosion.map
+package com.github.cao.awa.conium.block.template.map
 
 import com.github.cao.awa.conium.block.template.map.ConiumMapColorTemplate
 import com.github.cao.awa.conium.kotlin.extent.block.parseAndFindColor
