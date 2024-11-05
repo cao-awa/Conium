@@ -1,18 +1,26 @@
-package com.github.cao.awa.conium.registry;
+package com.github.cao.awa.conium.registry
 
-import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInject;
-import com.github.cao.awa.conium.block.builder.conium.ConiumSchemaBlockBuilder;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.Identifier;
+import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
+import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInject
+import com.github.cao.awa.conium.entity.builder.ConiumEntityBuilder
+import com.github.cao.awa.conium.item.builder.ConiumItemBuilder
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.util.Identifier
 
-public class ConiumRegistryKeys {
-    public static final RegistryKey<Registry<ItemPropertyInject<?>>> ITEM_PROPERTY_INJECT = of("property/item");
-    public static final RegistryKey<Registry<ItemPropertyInject<?>>> SCRIPTS = of("scripts");
-    public static final RegistryKey<Registry<ConiumSchemaBlockBuilder>> ITEM = of("item");
-    public static final RegistryKey<Registry<ConiumSchemaBlockBuilder>> BLOCK = of("block");
+object ConiumRegistryKeys {
+    @JvmStatic
+    val ITEM_PROPERTY_INJECT: RegistryKey<Registry<ItemPropertyInject<*>>> = of("property/item")
+    @JvmStatic
+    val SCRIPTS: RegistryKey<Registry<ItemPropertyInject<*>>> = of("scripts")
+    @JvmStatic
+    val ITEM: RegistryKey<Registry<ConiumItemBuilder>> = of("item")
+    @JvmStatic
+    val BLOCK: RegistryKey<Registry<ConiumBlockBuilder>> = of("block")
+    @JvmStatic
+    val ENTITY: RegistryKey<Registry<ConiumEntityBuilder>> = of("entity")
 
-    private static <T> RegistryKey<Registry<T>> of(String id) {
-        return RegistryKey.ofRegistry(Identifier.of("conium", id));
+    private fun <T> of(id: String): RegistryKey<Registry<T>> {
+        return RegistryKey.ofRegistry(Identifier.of("conium", id))
     }
 }

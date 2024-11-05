@@ -8,9 +8,7 @@ import com.github.cao.awa.conium.extend.ConiumDynamicRegistry
 import com.github.cao.awa.conium.item.builder.conium.ConiumSchemaItemBuilder
 import com.github.cao.awa.conium.item.builder.bedrock.BedrockSchemaItemBuilder
 import com.github.cao.awa.conium.kotlin.extent.item.register
-import com.github.cao.awa.conium.mixin.registry.RegistryEntryReferenceMixin
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.*
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -18,24 +16,19 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryWrapper
-import net.minecraft.registry.tag.EnchantmentTags
-import net.minecraft.registry.tag.ItemTags
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 import net.minecraft.util.profiler.Profiler
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
-import org.jetbrains.annotations.NotNull
 import java.util.SequencedSet
 
 class ConiumItemManager(private val registryLookup: RegistryWrapper.WrapperLookup, private val pendingTagLoad: List<Registry.PendingTagLoad<*>>) :
     ConiumJsonDataLoader(RegistryKeys.getPath(ConiumRegistryKeys.ITEM)) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumItemManager")
-        private val GSON: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
     }
 
-    private val items = CollectionFactor.hashMap<Identifier, Item>()
     private val fuelRegistry = ConiumFuelRegistry()
     val fuels get() = this.fuelRegistry.fuelItems
 

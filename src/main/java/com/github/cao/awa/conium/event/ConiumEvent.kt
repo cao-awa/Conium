@@ -56,6 +56,9 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
             this.events[ConiumEventType.BREAK_BLOCK] = this.breakBlock
         }
 
+        fun clearEntitySubscribes() {
+        }
+
         fun clearItemSubscribes() {
             this.itemUseOnBlockEvent.clearSubscribes()
         }

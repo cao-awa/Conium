@@ -2,6 +2,7 @@ package com.github.cao.awa.conium
 
 import com.github.cao.awa.conium.component.ConiumComponentTypes
 import com.github.cao.awa.conium.datapack.block.ConiumBlockManager
+import com.github.cao.awa.conium.datapack.entity.ConiumEntityManager
 import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.datapack.script.ConiumScriptManager
@@ -36,6 +37,9 @@ class Conium : ModInitializer {
 
         @JvmField
         var coniumBlockManager: ConiumBlockManager? = null
+
+        @JvmField
+        var coniumEntityManager: ConiumEntityManager? = null
 
         @JvmField
         var scriptManager: ConiumScriptManager? = null

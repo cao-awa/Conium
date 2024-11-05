@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.mixin.datapack;
 
 import com.github.cao.awa.conium.Conium;
 import com.github.cao.awa.conium.datapack.block.ConiumBlockManager;
+import com.github.cao.awa.conium.datapack.entity.ConiumEntityManager;
 import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager;
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager;
 import com.github.cao.awa.conium.datapack.recipe.ConiumRecipeManager;
@@ -41,6 +42,8 @@ public class DataPackContentsMixin {
     @Unique
     private ConiumBlockManager coniumBlockManager;
     @Unique
+    private ConiumEntityManager coniumEntityManager;
+    @Unique
     private ConiumScriptManager scriptManager;
 
     @Inject(
@@ -52,10 +55,12 @@ public class DataPackContentsMixin {
         this.itemPropertyInjectManager = new ItemPropertyInjectManager();
         this.coniumItemManager = new ConiumItemManager(lookup, pendingTagLoads);
         this.coniumBlockManager = new ConiumBlockManager(lookup);
+        this.coniumEntityManager = new ConiumEntityManager(lookup);
         this.scriptManager = new ConiumScriptManager();
         Conium.itemInjectManager = this.itemPropertyInjectManager;
         Conium.coniumItemManager = this.coniumItemManager;
         Conium.coniumBlockManager = this.coniumBlockManager;
+        Conium.coniumEntityManager = this.coniumEntityManager;
         Conium.scriptManager = this.scriptManager;
     }
 
@@ -77,6 +82,7 @@ public class DataPackContentsMixin {
         reloaderList.add(this.itemPropertyInjectManager);
         reloaderList.add(this.coniumItemManager);
         reloaderList.add(this.coniumBlockManager);
+        reloaderList.add(this.coniumEntityManager);
         reloaderList.add(this.scriptManager);
         cir.setReturnValue(reloaderList);
     }
