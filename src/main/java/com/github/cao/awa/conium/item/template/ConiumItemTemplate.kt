@@ -8,7 +8,7 @@ import net.minecraft.item.consume.UseAction
 import net.minecraft.util.Rarity
 import kotlin.jvm.Throws
 
-abstract class ConiumItemTemplate(name: String) : ConiumTemplate<ConiumItem>(name) {
+abstract class ConiumItemTemplate(name: String) : ConiumTemplate<ConiumItem, Item.Settings>(name) {
     companion object {
         fun createRarity(name: String): Rarity {
             return when (name) {
@@ -50,14 +50,20 @@ abstract class ConiumItemTemplate(name: String) : ConiumTemplate<ConiumItem>(nam
 
     }
 
-    override fun complete(item: ConiumItem) {
+    override fun complete(target: ConiumItem) {
         // Do nothing.
     }
 
-    override fun attach(item: ConiumItem) {
+    override fun attach(target: ConiumItem) {
         // Do nothing.
     }
 
+    override fun prepare(target: Item.Settings) {
+        settings(target)
+    }
+
+    // Do not call settings directly.
+    // Use 'prepare'.
     open fun settings(settings: Item.Settings) {
         // Do nothing.
     }

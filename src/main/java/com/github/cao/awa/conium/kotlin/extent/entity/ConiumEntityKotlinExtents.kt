@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.kotlin.extent.entity
 
-import com.github.cao.awa.conium.entity.ConiumMobEntity
+import com.github.cao.awa.conium.entity.ConiumEntity
 import com.github.cao.awa.conium.entity.builder.ConiumEntityBuilder
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -10,7 +10,7 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
 
-fun ConiumEntityBuilder.register(callback: (EntityType<ConiumMobEntity>) -> Unit = { }) {
+fun ConiumEntityBuilder.register(callback: (EntityType<ConiumEntity>) -> Unit = { }) {
     callback(registerEntity(this.identifier, build()))
 }
 

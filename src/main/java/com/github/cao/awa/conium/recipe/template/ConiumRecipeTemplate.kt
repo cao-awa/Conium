@@ -10,7 +10,7 @@ import net.minecraft.recipe.Recipe
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 
-abstract class ConiumRecipeTemplate<T : Recipe<*>>(name: String) : ConiumTemplate<T>(name) {
+abstract class ConiumRecipeTemplate<T : Recipe<*>>(name: String) : ConiumTemplate<T, Nothing>(name) {
     companion object {
         fun createItem(jsonObject: JsonObject, name: String): ItemStack {
             return jsonObject[name]!!.let { result ->

@@ -1,14 +1,30 @@
 package com.github.cao.awa.conium.entity.template
 
-import com.github.cao.awa.conium.entity.ConiumMobEntity
+import com.github.cao.awa.conium.entity.ConiumEntity
+import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
+import com.github.cao.awa.conium.entity.setting.ConiumEntitySettingsWithTypeBuilder
 import com.github.cao.awa.conium.template.ConiumTemplate
+import net.minecraft.entity.EntityType
 
-abstract class ConiumEntityTemplate(name: String) : ConiumTemplate<ConiumMobEntity>(name) {
-    override fun attach(target: ConiumMobEntity) {
+abstract class ConiumEntityTemplate(name: String) : ConiumTemplate<ConiumEntity, ConiumEntitySettingsWithTypeBuilder>(name) {
+    override fun attach(target: ConiumEntity) {
         // Do nothing.
     }
 
-    override fun complete(target: ConiumMobEntity) {
+    override fun complete(target: ConiumEntity) {
+        // Do nothing.
+    }
+
+    override fun prepare(target: ConiumEntitySettingsWithTypeBuilder) {
+        type(target.builder)
+        settings(target.settings)
+    }
+
+    open fun type(type: EntityType.Builder<ConiumEntity>) {
+        // Do nothing.
+    }
+
+    open fun settings(settings: ConiumEntitySettings) {
         // Do nothing.
     }
 }

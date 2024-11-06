@@ -45,6 +45,9 @@ class Conium : ModInitializer {
         var scriptManager: ConiumScriptManager? = null
 
         @JvmField
+        val reloadCallbacks: MutableList<Runnable> = CollectionFactor.arrayList()
+
+        @JvmField
         var enableDebugs = true
 
         @JvmField

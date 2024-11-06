@@ -21,6 +21,7 @@
   "environment": "*",
   "entrypoints": {
     "client": [
+      "com.github.cao.awa.conium.ConiumClient"
     ],
     "main": [
       "com.github.cao.awa.conium.Conium"

@@ -1,6 +1,5 @@
 package com.github.cao.awa.conium.template
 
-//import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
 import com.github.cao.awa.conium.block.template.bedrock.destructible.explosion.ConiumBedrockDestructibleByExplosionTemplate
 import com.github.cao.awa.conium.block.template.bedrock.destructible.ConiumBedrockDestructibleByMiningTemplate
 import com.github.cao.awa.conium.block.template.map.ConiumBedrockMapColorTemplate
@@ -8,6 +7,10 @@ import com.github.cao.awa.conium.block.template.bedrock.light.ConiumBedrockLight
 import com.github.cao.awa.conium.block.template.luminance.ConiumLuminanceTemplate
 import com.github.cao.awa.conium.block.template.map.ConiumMapColorTemplate
 import com.github.cao.awa.conium.block.template.mining.ConiumHardnessTemplate
+import com.github.cao.awa.conium.entity.template.bedrock.collision.ConiumBedrockEntityCollisionBoxTemplate
+import com.github.cao.awa.conium.entity.template.bedrock.pushable.ConiumBedrockEntityPushableTemplate
+import com.github.cao.awa.conium.entity.template.dimension.ConiumEntityDimensionTemplate
+import com.github.cao.awa.conium.entity.template.pushable.ConiumEntityPushableTemplate
 import com.github.cao.awa.conium.item.template.action.ConiumUseActionTemplate
 import com.github.cao.awa.conium.item.template.armor.ConiumArmorTemplate
 import com.github.cao.awa.conium.item.template.bedrock.animation.ConiumBedrockUseAnimationTemplate
@@ -340,8 +343,10 @@ object ConiumTemplates {
         // Destructible.
         const val HARDNESS: String = "hardness"
         const val EXPLOSION_RESISTANCE: String = "explosion_resistance"
+
         // Map color.
         const val MAP_COLOR: String = "map_color"
+
         // Luminance.
         const val LUMINANCE: String = "luminance"
 
@@ -370,8 +375,10 @@ object ConiumTemplates {
         // Destructible.
         const val DESTRUCTIBLE_BY_EXPLOSION: String = "minecraft:destructible_by_explosion"
         const val DESTRUCTIBLE_BY_MINING: String = "minecraft:destructible_by_mining"
+
         // Map color.
         const val MAP_COLOR: String = "minecraft:map_color"
+
         // Light emission.
         const val LIGHT_EMISSION: String = "minecraft:light_emission"
 
@@ -400,11 +407,55 @@ object ConiumTemplates {
         }
     }
 
+    object Entity {
+        // Dimension.
+        const val DIMENSION: String = "dimension"
+        // Pushable.
+        const val PUSHABLE: String = "pushable"
+
+        fun initEntityTemplates() {
+            // Dimension.
+            register(
+                DIMENSION,
+                ConiumEntityDimensionTemplate::create
+            )
+
+            // Pushable.
+            register(
+                PUSHABLE,
+                ConiumEntityPushableTemplate::create
+            )
+        }
+    }
+
+    object BedrockEntity {
+        // Collision box.
+        const val COLLISION_BOX: String = "minecraft:collision_box"
+        // Pushable.
+        const val PUSHABLE: String = "minecraft:pushable"
+
+        fun initBedrockEntityTemplates() {
+            // Collision box.
+            register(
+                COLLISION_BOX,
+                ConiumBedrockEntityCollisionBoxTemplate::create
+            )
+
+            // Pushable.
+            register(
+                PUSHABLE,
+                ConiumBedrockEntityPushableTemplate::create
+            )
+        }
+    }
+
     fun init() {
         Item.initItemTemplates()
-        BedrockItem.initBedrockItemTemplates()
         Block.initBlockTemplates()
+        Entity.initEntityTemplates()
+        BedrockItem.initBedrockItemTemplates()
         BedrockBlock.initBedrockBlockTemplates()
+        BedrockEntity.initBedrockEntityTemplates()
         BedrockRecipe.initBedrockRecipeTemplates()
     }
 }

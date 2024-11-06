@@ -11,7 +11,7 @@ class ConiumBlock(settings: Settings) : Block(settings), BlockColorProvider {
     companion object {
         fun create(builder: ConiumBlockBuilder, settings: Settings): ConiumBlock {
             builder.templates.forEach {
-                it.settings(settings)
+                it.prepare(settings)
             }
 
             val block = ConiumBlock(settings)

@@ -8,28 +8,28 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
 import java.util.function.BiFunction
 import kotlin.reflect.KClass
 
-abstract class ConiumTemplate<T>(private val name: String) {
+abstract class ConiumTemplate<T, P>(private val name: String) {
     companion object {
-        private val templates: MutableMap<String, BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*>>> = CollectionFactor.hashMap()
+        private val templates: MutableMap<String, BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*, *>>> = CollectionFactor.hashMap()
 
         @JvmStatic
-        fun register(name: String, template: BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*>>) {
+        fun register(name: String, template: BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*, *>>) {
             this.templates[name] = template
         }
 
         fun deserializeTemplates(
             json: JsonObject,
             registryLookup: WrapperLookup,
-            wrapper: (String) -> ConiumTemplate<*>? = { _ -> null }
-        ): MutableList<ConiumTemplate<*>> {
+            wrapper: (String) -> ConiumTemplate<*, *>? = { _ -> null }
+        ): MutableList<ConiumTemplate<*, *>> {
             // Templates list.
-            val templates: MutableList<ConiumTemplate<*>> = CollectionFactor.arrayList()
+            val templates: MutableList<ConiumTemplate<*, *>> = CollectionFactor.arrayList()
 
             // Make sharing context used to shares data.
             val sharingContext = CollectionFactor.hashMap<Class<*>, Any>()
 
             // Complete the template.
-            val completeTemplate: (ConiumTemplate<*>) -> Unit = {
+            val completeTemplate: (ConiumTemplate<*, *>) -> Unit = {
                 // Set sharing context used to shares data when stage 'attach', and 'complete' or other.
                 it.sharingContext = sharingContext
                 // Add to template list.
@@ -54,7 +54,7 @@ abstract class ConiumTemplate<T>(private val name: String) {
             return templates
         }
 
-        fun deserializeTemplate(name: String, json: JsonElement, registryLookup: WrapperLookup): ConiumTemplate<*> {
+        fun deserializeTemplate(name: String, json: JsonElement, registryLookup: WrapperLookup): ConiumTemplate<*, *> {
             return this.templates[name]?.apply(json, registryLookup) ?: throw IllegalArgumentException("Unable to deserialize template '$name' because it does not exist")
         }
 
@@ -80,6 +80,10 @@ abstract class ConiumTemplate<T>(private val name: String) {
     abstract fun complete(target: T)
 
     open fun finish(target: T) {
+        // Do nothing here.
+    }
+
+    open fun prepare(target: P) {
         // Do nothing here.
     }
 

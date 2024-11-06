@@ -1,6 +1,8 @@
 package com.github.cao.awa.conium.entity.builder
 
-import com.github.cao.awa.conium.entity.ConiumMobEntity
+import com.github.cao.awa.conium.entity.ConiumEntity
+import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
+import com.github.cao.awa.conium.entity.setting.ConiumEntitySettingsWithTypeBuilder
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
@@ -16,12 +18,23 @@ abstract class ConiumEntityBuilder(val identifier: Identifier) {
         return this
     }
 
-    fun build(): EntityType.Builder<ConiumMobEntity> {
+    fun build(): EntityType.Builder<ConiumEntity> {
         // TODO entity type.
+        val entitySettings = ConiumEntitySettings()
+
         val type = EntityType.Builder.create({ type, world ->
-            ConiumMobEntity(type, world).also { it.applyTemplates(this.templates) }
+            ConiumEntity(
+                type,
+                world,
+                entitySettings.compute("awa:group_name").also {
+                    // Here applies settings change.
+                }
+            ).also { it.applyTemplates(this.templates) }
         }, SpawnGroup.MISC)
 
-        return type
+        return ConiumEntity.createType(
+            this,
+            ConiumEntitySettingsWithTypeBuilder(type, entitySettings)
+        )
     }
 }

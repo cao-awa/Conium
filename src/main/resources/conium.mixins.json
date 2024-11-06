@@ -24,6 +24,9 @@
   },
   "client": [
     "interaction.client.ClientPlayerInteractionManagerMixin",
-    "renderer.item.ItemModelsAccessor"
+    "renderer.entity.EntityRenderDispatcherMixin",
+    "renderer.entity.EntityRenderersMixin",
+    "renderer.item.ItemModelsAccessor",
+    "world.renderer.WorldRendererMixin"
   ]
 }
