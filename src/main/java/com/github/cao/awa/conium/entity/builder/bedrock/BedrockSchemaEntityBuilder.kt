@@ -22,7 +22,7 @@ class BedrockSchemaEntityBuilder(identifier: Identifier) : ConiumEntityBuilder(i
 
                 builder.addTemplates(
                     Manipulate.cast(
-                        ConiumTemplate.deserializeTemplates(entity["components"]!!.asJsonObject, registryLookup)
+                        ConiumTemplate.deserializeEntityTemplates(entity["components"]!!.asJsonObject, registryLookup)
                     )
                 )
 
@@ -32,7 +32,7 @@ class BedrockSchemaEntityBuilder(identifier: Identifier) : ConiumEntityBuilder(i
                     builder.addTemplates(
                         groupName,
                         Manipulate.cast(
-                            ConiumTemplate.deserializeTemplates(group, registryLookup)
+                            ConiumTemplate.deserializeEntityTemplates(group, registryLookup)
                         )
                     )
                 }

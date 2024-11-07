@@ -18,7 +18,7 @@ class ConiumSchemaEntityBuilder(identifier: Identifier) : ConiumEntityBuilder(id
             if (json.has("templates")) {
                 builder.addTemplates(
                     Manipulate.cast(
-                        ConiumTemplate.deserializeTemplates(json["templates"].asJsonObject, registryLookup)
+                        ConiumTemplate.deserializeEntityTemplates(json["templates"].asJsonObject, registryLookup)
                     )
                 )
             }

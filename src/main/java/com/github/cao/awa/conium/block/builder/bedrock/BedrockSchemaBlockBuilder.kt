@@ -22,7 +22,7 @@ class BedrockSchemaBlockBuilder(identifier: Identifier): ConiumBlockBuilder(iden
 
                 builder.addTemplates(
                     Manipulate.cast(
-                        ConiumTemplate.deserializeTemplates(block["components"]!!.asJsonObject, registryLookup)
+                        ConiumTemplate.deserializeBlockTemplates(block["components"]!!.asJsonObject, registryLookup)
                     )
                 )
 

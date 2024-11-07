@@ -1,9 +1,11 @@
 package com.github.cao.awa.conium.template
 
+import com.github.cao.awa.conium.block.template.bedrock.collision.ConiumBedrockBlockCollisionBoxTemplate
 import com.github.cao.awa.conium.block.template.bedrock.destructible.explosion.ConiumBedrockDestructibleByExplosionTemplate
 import com.github.cao.awa.conium.block.template.bedrock.destructible.ConiumBedrockDestructibleByMiningTemplate
 import com.github.cao.awa.conium.block.template.map.ConiumBedrockMapColorTemplate
 import com.github.cao.awa.conium.block.template.bedrock.light.ConiumBedrockLightEmissionTemplate
+import com.github.cao.awa.conium.block.template.collision.ConiumBlockCollisionTemplate
 import com.github.cao.awa.conium.block.template.luminance.ConiumLuminanceTemplate
 import com.github.cao.awa.conium.block.template.map.ConiumMapColorTemplate
 import com.github.cao.awa.conium.block.template.mining.ConiumHardnessTemplate
@@ -40,7 +42,10 @@ import com.github.cao.awa.conium.item.template.tool.pickaxe.*
 import com.github.cao.awa.conium.recipe.template.bedrock.furnace.ConiumBedrockRecipeFurnaceTemplate
 import com.github.cao.awa.conium.recipe.template.bedrock.shape.ConiumBedrockRecipeShapedTemplate
 import com.github.cao.awa.conium.recipe.template.bedrock.shape.ConiumBedrockRecipeShapelessTemplate
-import com.github.cao.awa.conium.template.ConiumTemplate.Companion.register
+import com.github.cao.awa.conium.template.ConiumTemplate.Companion.registerBlock
+import com.github.cao.awa.conium.template.ConiumTemplate.Companion.registerEntity
+import com.github.cao.awa.conium.template.ConiumTemplate.Companion.registerItem
+import com.github.cao.awa.conium.template.ConiumTemplate.Companion.registerRecipe
 
 object ConiumTemplates {
     object Item {
@@ -94,132 +99,132 @@ object ConiumTemplates {
 
         fun initItemTemplates() {
             // Spawn egg.
-            register(
+            registerItem(
                 SPAWN_EGG,
                 ConiumSpawnEggTemplate::create
             )
 
             // Food.
-            register(
+            registerItem(
                 FOOD,
                 ConiumFoodTemplate::create
             )
 
             // Stack max count
-            register(
+            registerItem(
                 STACK_MAX_COUNT,
                 ConiumStackMaxCountTemplate::create
             )
 
             // Consumable.
-            register(
+            registerItem(
                 CONSUMABLE,
                 ConiumConsumableTemplate::create
             )
-            register(
+            registerItem(
                 USE_ACTION,
                 ConiumUseActionTemplate::create
             )
 
             // Tool.
-            register(
+            registerItem(
                 TOOL,
                 ConiumItemToolTemplate::create
             )
             // Can destroy in creative.
-            register(
+            registerItem(
                 CAN_DESTROY_IN_CREATIVE,
                 ConiumCanDestroyInCreativeTemplate::create
             )
 
             // Axes.
-            register(
+            registerItem(
                 WOODEN_AXE,
                 ConiumItemWoodenAxeTemplate::create
             )
-            register(
+            registerItem(
                 STONE_AXE,
                 ConiumItemStoneAxeTemplate::create
             )
-            register(
+            registerItem(
                 IRON_AXE,
                 ConiumItemIronAxeTemplate::create
             )
-            register(
+            registerItem(
                 GOLDEN_AXE,
                 ConiumItemGoldenAxeTemplate::create
             )
-            register(
+            registerItem(
                 DIAMOND_AXE,
                 ConiumItemDiamondAxeTemplate::create
             )
-            register(
+            registerItem(
                 NETHERITE_AXE,
                 ConiumItemNetheriteAxeTemplate::create
             )
 
             // Pickaxes.
-            register(
+            registerItem(
                 WOODEN_PICKAXE,
                 ConiumItemWoodenPickaxeTemplate::create
             )
-            register(
+            registerItem(
                 STONE_PICKAXE,
                 ConiumItemStonePickaxeTemplate::create
             )
-            register(
+            registerItem(
                 IRON_PICKAXE,
                 ConiumItemIronPickaxeTemplate::create
             )
-            register(
+            registerItem(
                 GOLDEN_PICKAXE,
                 ConiumItemGoldenPickaxeTemplate::create
             )
-            register(
+            registerItem(
                 DIAMOND_PICKAXE,
                 ConiumItemDiamondPickaxeTemplate::create
             )
-            register(
+            registerItem(
                 NETHERITE_PICKAXE,
                 ConiumItemNetheritePickaxeTemplate::create
             )
 
             // Rarity.
-            register(
+            registerItem(
                 RARITY,
                 ConiumRarityTemplate::create
             )
-            register(
+            registerItem(
                 EPIC_RARITY,
                 ConiumEpicRarityTemplate::create
             )
-            register(
+            registerItem(
                 RARE_RARITY,
                 ConiumRareRarityTemplate::create
             )
-            register(
+            registerItem(
                 UNCOMMON_RARITY,
                 ConiumUncommonRarityTemplate::create
             )
-            register(
+            registerItem(
                 COMMON_RARITY,
                 ConiumCommonRarityTemplate::create
             )
 
             // Fuel.
-            register(
+            registerItem(
                 FUEL,
                 ConiumFuelTemplate::create
             )
 
             // Glint.
-            register(
+            registerItem(
                 GLINT,
                 ConiumGlintTemplate::create
             )
 
             // Armor.
-            register(
+            registerItem(
                 ARMOR,
                 ConiumArmorTemplate::create
             )
@@ -257,59 +262,59 @@ object ConiumTemplates {
 
         fun initBedrockItemTemplates() {
             // Bedrock tool.
-            register(
+            registerItem(
                 DAMAGE,
                 ConiumBedrockDamageTemplate::create
             )
-            register(
+            registerItem(
                 DURABILITY,
                 ConiumBedrockDurabilityTemplate::create
             )
 
             // Stack.
-            register(
+            registerItem(
                 MAX_STACK_SIZE,
                 ConiumBedrockMaxStackSizeTemplate::create
             )
 
             // Can destroy in creative.
-            register(
+            registerItem(
                 CAN_DESTROY_IN_CREATIVE,
                 ConiumBedrockCanDestroyInCreativeTemplate::create
             )
 
             // Rarity.
-            register(
+            registerItem(
                 RARITY,
                 ConiumRarityTemplate::createBedrock
             )
 
             // Food.
-            register(
+            registerItem(
                 FOOD,
                 ConiumBedrockFoodTemplate::create
             )
 
             // Fuel.
-            register(
+            registerItem(
                 FUEL,
                 ConiumBedrockFuelTemplate::create
             )
 
             // Glint.
-            register(
+            registerItem(
                 BEDROCK_GLINT,
                 ConiumBedrockGlintTemplate::create
             )
 
             // Wearable.
-            register(
+            registerItem(
                 WEARABLE,
                 ConiumBedrockWearableTemplate::create
             )
 
             // Use animation.
-            register(
+            registerItem(
                 USE_ANIMATION,
                 ConiumBedrockUseAnimationTemplate::create
             )
@@ -324,15 +329,15 @@ object ConiumTemplates {
 
         fun initBedrockRecipeTemplates() {
             // Bedrock recipes.
-            register(
+            registerRecipe(
                 RECIPE_SHAPED,
                 ConiumBedrockRecipeShapedTemplate::create
             )
-            register(
+            registerRecipe(
                 RECIPE_SHAPELESS,
                 ConiumBedrockRecipeShapelessTemplate::create
             )
-            register(
+            registerRecipe(
                 RECIPE_FURNACE,
                 ConiumBedrockRecipeFurnaceTemplate::create
             )
@@ -350,23 +355,32 @@ object ConiumTemplates {
         // Luminance.
         const val LUMINANCE: String = "luminance"
 
+        // Collision.
+        const val COLLISION: String = "collision"
+
         fun initBlockTemplates() {
             // Mining.
-            register(
+            registerBlock(
                 HARDNESS,
                 ConiumHardnessTemplate::create
             )
 
             // Map color.
-            register(
+            registerBlock(
                 MAP_COLOR,
                 ConiumMapColorTemplate::create
             )
 
             // Luminance.
-            register(
+            registerBlock(
                 LUMINANCE,
                 ConiumLuminanceTemplate::create
+            )
+
+            // Collision.
+            registerBlock(
+                COLLISION,
+                ConiumBlockCollisionTemplate::create
             )
         }
     }
@@ -382,27 +396,36 @@ object ConiumTemplates {
         // Light emission.
         const val LIGHT_EMISSION: String = "minecraft:light_emission"
 
+        // Collision.
+        const val COLLISION_BOX: String = "minecraft:collision_box"
+
         fun initBedrockBlockTemplates() {
             // Destructible by explosion.
-            register(
+            registerBlock(
                 DESTRUCTIBLE_BY_EXPLOSION,
                 ConiumBedrockDestructibleByExplosionTemplate::create
             )
-            register(
+            registerBlock(
                 DESTRUCTIBLE_BY_MINING,
                 ConiumBedrockDestructibleByMiningTemplate::create
             )
 
             // Map color.
-            register(
+            registerBlock(
                 MAP_COLOR,
                 ConiumBedrockMapColorTemplate::create
             )
 
             // Light emission.
-            register(
+            registerBlock(
                 LIGHT_EMISSION,
                 ConiumBedrockLightEmissionTemplate::create
+            )
+
+            // Collision.
+            registerBlock(
+                COLLISION_BOX,
+                ConiumBedrockBlockCollisionBoxTemplate::create
             )
         }
     }
@@ -415,13 +438,13 @@ object ConiumTemplates {
 
         fun initEntityTemplates() {
             // Dimension.
-            register(
+            registerEntity(
                 DIMENSION,
                 ConiumEntityDimensionTemplate::create
             )
 
             // Pushable.
-            register(
+            registerEntity(
                 PUSHABLE,
                 ConiumEntityPushableTemplate::create
             )
@@ -436,13 +459,13 @@ object ConiumTemplates {
 
         fun initBedrockEntityTemplates() {
             // Collision box.
-            register(
+            registerEntity(
                 COLLISION_BOX,
                 ConiumBedrockEntityCollisionBoxTemplate::create
             )
 
             // Pushable.
-            register(
+            registerEntity(
                 PUSHABLE,
                 ConiumBedrockEntityPushableTemplate::create
             )

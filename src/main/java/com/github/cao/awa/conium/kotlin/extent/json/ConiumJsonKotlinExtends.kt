@@ -162,3 +162,10 @@ fun <R> JsonElement.objectOrInt(action: (JsonObject) -> R, elseAction: (Int) -> 
         }
     }
 }
+
+// Operate each element as int.
+fun JsonArray.eachInt(action: (Int) -> Unit) {
+    for (i in this) {
+        action(i.asInt)
+    }
+}

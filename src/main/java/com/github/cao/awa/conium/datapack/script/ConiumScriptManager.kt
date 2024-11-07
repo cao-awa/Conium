@@ -1,6 +1,7 @@
 package com.github.cao.awa.conium.datapack.script
 
 import com.github.cao.awa.conium.Conium
+import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.script.ScriptExport
@@ -219,7 +220,6 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
 
     private fun translateBedrockTypescript(source: String): String {
         return readTypescript(source).let { typescriptFile ->
-
             // Prepares the typescript AST for next step translating.
             typescriptFile.prepares()
 
@@ -242,8 +242,9 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
             return@let """
             BedrockEventContext.post(this) {
                 $translated
+            }.also { 
+                BedrockEventContext.completePost()
             }
-            BedrockEventContext.clearPost()
         """.trimIndent()
         }
     }

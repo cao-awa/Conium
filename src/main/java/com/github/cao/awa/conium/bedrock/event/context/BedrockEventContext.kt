@@ -22,7 +22,7 @@ abstract class BedrockEventContext(val scriptSource: Any) {
             body()
         }
 
-        fun clearPost() {
+        fun completePost() {
             this.currentPosting = null
         }
 

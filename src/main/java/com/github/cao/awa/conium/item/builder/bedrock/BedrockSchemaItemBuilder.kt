@@ -19,7 +19,7 @@ class BedrockSchemaItemBuilder(val identifier: Identifier) : ConiumItemBuilder {
                 it["components"]?.asJsonObject!!.let { components ->
                     builder.addTemplates(
                         Manipulate.cast(
-                            ConiumTemplate.deserializeTemplates(components, registryLookup)
+                            ConiumTemplate.deserializeItemTemplates(components, registryLookup)
                         )
                     )
                 }

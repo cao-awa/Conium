@@ -19,7 +19,7 @@ class ConiumBedrockRecipeBuilder(private val template: ConiumRecipeTemplate<*>) 
 
         @JvmStatic
         fun create(type: String, jsonObject: JsonObject, registryLookup: WrapperLookup): ConiumBedrockRecipeBuilder {
-            return ConiumBedrockRecipeBuilder(ConiumTemplate.deserializeTemplate(type, jsonObject, registryLookup) as ConiumRecipeTemplate<*>)
+            return ConiumBedrockRecipeBuilder(ConiumTemplate.deserializeTemplate(type, "recipe", jsonObject, registryLookup) as ConiumRecipeTemplate<*>)
         }
 
         @JvmStatic

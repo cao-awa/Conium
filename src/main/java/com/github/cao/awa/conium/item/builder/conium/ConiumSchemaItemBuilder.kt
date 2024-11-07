@@ -21,7 +21,7 @@ class ConiumSchemaItemBuilder(val identifier: Identifier): ConiumItemBuilder {
             if (json.has("templates")) {
                 builder.addTemplates(
                     Manipulate.cast(
-                        ConiumTemplate.deserializeTemplates(json["templates"].asJsonObject, registryLookup)
+                        ConiumTemplate.deserializeItemTemplates(json["templates"].asJsonObject, registryLookup)
                     )
                 )
             }

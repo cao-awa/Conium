@@ -13,11 +13,51 @@ abstract class ConiumTemplate<T, P>(private val name: String) {
         private val templates: MutableMap<String, BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*, *>>> = CollectionFactor.hashMap()
 
         @JvmStatic
-        fun register(name: String, template: BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*, *>>) {
-            this.templates[name] = template
+        fun registerItem(name: String, template: BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*, *>>) {
+            this.templates["$name:item"] = template
         }
 
+        @JvmStatic
+        fun registerBlock(name: String, template: BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*, *>>) {
+            this.templates["$name:block"] = template
+        }
+
+        @JvmStatic
+        fun registerEntity(name: String, template: BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*, *>>) {
+            this.templates["$name:entity"] = template
+        }
+
+        @JvmStatic
+        fun registerRecipe(name: String, template: BiFunction<JsonElement, WrapperLookup, ConiumTemplate<*, *>>) {
+            this.templates["$name:recipe"] = template
+        }
+
+        fun deserializeItemTemplates(
+            json: JsonObject,
+            registryLookup: WrapperLookup,
+            wrapper: (String) -> ConiumTemplate<*, *>? = { _ -> null }
+        ): MutableList<ConiumTemplate<*, *>> = deserializeTemplates("item", json, registryLookup, wrapper)
+
+        fun deserializeBlockTemplates(
+            json: JsonObject,
+            registryLookup: WrapperLookup,
+            wrapper: (String) -> ConiumTemplate<*, *>? = { _ -> null }
+        ): MutableList<ConiumTemplate<*, *>> = deserializeTemplates("block", json, registryLookup, wrapper)
+
+        fun deserializeEntityTemplates(
+            json: JsonObject,
+            registryLookup: WrapperLookup,
+            wrapper: (String) -> ConiumTemplate<*, *>? = { _ -> null }
+        ): MutableList<ConiumTemplate<*, *>> = deserializeTemplates("entity", json, registryLookup, wrapper)
+
+        fun deserializeRecipeTemplates(
+            json: JsonObject,
+            registryLookup: WrapperLookup,
+            wrapper: (String) -> ConiumTemplate<*, *>? = { _ -> null }
+        ): MutableList<ConiumTemplate<*, *>> = deserializeTemplates("recipe", json, registryLookup, wrapper)
+
         fun deserializeTemplates(
+            subtype: String,
             json: JsonObject,
             registryLookup: WrapperLookup,
             wrapper: (String) -> ConiumTemplate<*, *>? = { _ -> null }
@@ -46,6 +86,7 @@ abstract class ConiumTemplate<T, P>(private val name: String) {
                 // Deserialize template content.
                 deserializeTemplate(
                     name,
+                    subtype,
                     value,
                     registryLookup
                 ).let(completeTemplate)
@@ -54,8 +95,8 @@ abstract class ConiumTemplate<T, P>(private val name: String) {
             return templates
         }
 
-        fun deserializeTemplate(name: String, json: JsonElement, registryLookup: WrapperLookup): ConiumTemplate<*, *> {
-            return this.templates[name]?.apply(json, registryLookup) ?: throw IllegalArgumentException("Unable to deserialize template '$name' because it does not exist")
+        fun deserializeTemplate(name: String, subtype: String, json: JsonElement, registryLookup: WrapperLookup): ConiumTemplate<*, *> {
+            return this.templates["$name:$subtype"]?.apply(json, registryLookup) ?: throw IllegalArgumentException("Unable to deserialize template '$name' because it does not exist")
         }
 
         // Attention to duration, this duration value in bedrock is seconds instead of ticks in bedrock.

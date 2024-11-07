@@ -18,7 +18,7 @@ class ConiumSchemaBlockBuilder(identifier: Identifier): ConiumBlockBuilder(ident
             if (json.has("templates")) {
                 builder.addTemplates(
                     Manipulate.cast(
-                        ConiumTemplate.deserializeTemplates(json["templates"].asJsonObject, registryLookup)
+                        ConiumTemplate.deserializeBlockTemplates(json["templates"].asJsonObject, registryLookup)
                     )
                 )
             }
