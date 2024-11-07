@@ -8,6 +8,7 @@
     "component.attribute.AttributeModifiersComponentBuilderMixin",
     "component.map.builder.ComponentMapBuilderAccessor",
     "datapack.DataPackContentsMixin",
+    "entity.EntityAccessor",
     "item.FuelRegistryMixin",
     "item.ItemMixin",
     "item.setting.ItemSettingsAccessor",

@@ -1,13 +1,28 @@
 package com.github.cao.awa.conium.entity.setting
 
 import com.github.cao.awa.conium.entity.ConiumEntity
+import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.LivingEntity
 
 object ConiumEntitySettingsValue {
+    /**
+     * Default value of ``dimensions``.
+     *
+     * @see ConiumEntitySettings.dimensions
+     * @see Entity.dimensions
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    val dimensions: EntityDimensions = EntityDimensions.changing(0.0F, 0.0F)
+
     /**
      * Default value of ``pushable``.
      *
@@ -51,6 +66,38 @@ object ConiumEntitySettingsValue {
 }
 
 class ConiumEntitySettings {
+    companion object {
+        @JvmStatic
+        fun create(templates: MutableList<ConiumEntityTemplate>, type: EntityType.Builder<ConiumEntity>): ConiumEntitySettings {
+            return ConiumEntitySettings().also {
+                templates.forEach { template ->
+                    template.prepare(ConiumEntitySettingsWithTypeBuilder(type, it))
+                }
+            }
+        }
+    }
+
+    /**
+     * Setting the collision dimension of the entity.
+     *
+     * Default is ``0.0, 0.0`` value to ``EntityDimensions`` for conium entity.
+     *
+     * @see Entity.isPushable
+     * @see LivingEntity.isPushable
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    var dimensions: EntityDimensions
+        get() = this._dimensions ?: ConiumEntitySettingsValue.dimensions
+        set(value) {
+            this._dimensions = value
+        }
+
+    // The delegate.
+    private var _dimensions: EntityDimensions? = null
+
     /**
      * Setting an entity is can be pushed by other entities.
      *
@@ -133,6 +180,7 @@ class ConiumEntitySettings {
     private fun migrateTo(settings: ConiumEntitySettings): ConiumEntitySettings {
         return settings.also {
             // Apply settings(only configured, no default).
+            this._dimensions?.apply { it.dimensions = this }
             this._pushable?.apply { it.pushable = this }
             this._pushableByPiston?.apply { it.pushableByPiston = this }
             this._pushableByFluids?.apply { it.pushableByFluids = this }
@@ -157,6 +205,7 @@ class ConiumEntitySettings {
             // Migrates the settings.
             result = result.migrate(name)
         }
+        println(this.migrates)
         return result
     }
 }

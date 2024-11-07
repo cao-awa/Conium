@@ -2,13 +2,21 @@ package com.github.cao.awa.conium.kotlin.extent.entity
 
 import com.github.cao.awa.conium.entity.ConiumEntity
 import com.github.cao.awa.conium.entity.builder.ConiumEntityBuilder
+import com.github.cao.awa.conium.mixin.entity.EntityAccessor
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
+
+var Entity.dimensions: EntityDimensions
+    get() = this.accessor.dimensions()
+    set(value) = this.accessor.dimensions(value)
+
+val Entity.accessor get() = this as EntityAccessor
 
 fun ConiumEntityBuilder.register(callback: (EntityType<ConiumEntity>) -> Unit = { }) {
     callback(registerEntity(this.identifier, build()))

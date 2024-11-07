@@ -4,6 +4,7 @@ import com.github.cao.awa.conium.entity.builder.ConiumEntityBuilder
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettingsWithTypeBuilder
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
+import com.github.cao.awa.conium.kotlin.extent.entity.dimensions
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.damage.DamageSource
@@ -23,6 +24,11 @@ class ConiumEntity(entityType: EntityType<ConiumEntity>, world: World, private v
 
             return settings.builder
         }
+    }
+
+    init {
+        // Do not use dimensions in entity type.
+        this.dimensions = this.settings.dimensions
     }
 
     fun applyTemplates(templates: List<ConiumEntityTemplate>) {

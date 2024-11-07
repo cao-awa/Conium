@@ -9,12 +9,12 @@ import com.google.gson.JsonObject
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 
-class BedrockSchemaEntityBuilder(identifier: Identifier): ConiumEntityBuilder(identifier) {
+class BedrockSchemaEntityBuilder(identifier: Identifier) : ConiumEntityBuilder(identifier) {
     companion object {
         @JvmStatic
         fun deserialize(json: JsonObject, registryLookup: RegistryWrapper.WrapperLookup): BedrockSchemaEntityBuilder {
-            return json["minecraft:entity"]!!.asJsonObject.let { block ->
-                val builder = block["description"]!!.asJsonObject.let { description ->
+            return json["minecraft:entity"]!!.asJsonObject.let { entity ->
+                val builder = entity["description"]!!.asJsonObject.let { description ->
                     BedrockSchemaEntityBuilder(Identifier.of(description["identifier"].asString)).also {
 //                        it.templates.add()
                     }
@@ -22,16 +22,23 @@ class BedrockSchemaEntityBuilder(identifier: Identifier): ConiumEntityBuilder(id
 
                 builder.addTemplates(
                     Manipulate.cast(
-                        ConiumTemplate.deserializeTemplates(block["components"]!!.asJsonObject, registryLookup)
+                        ConiumTemplate.deserializeTemplates(entity["components"]!!.asJsonObject, registryLookup)
                     )
                 )
+
+                entity["component_groups"]?.asJsonObject?.entrySet()?.forEach { (groupName, group) ->
+                    group as JsonObject
+
+                    builder.addTemplates(
+                        groupName,
+                        Manipulate.cast(
+                            ConiumTemplate.deserializeTemplates(group, registryLookup)
+                        )
+                    )
+                }
 
                 builder
             }
         }
     }
-
-    private val bedrockTemplates: MutableList<ConiumEntityTemplate> = CollectionFactor.arrayList()
-
-    override fun templates(): MutableList<ConiumEntityTemplate> = this.bedrockTemplates
 }

@@ -4,16 +4,21 @@ import com.github.cao.awa.conium.entity.ConiumEntity
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettingsWithTypeBuilder
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
 import net.minecraft.util.Identifier
 
 abstract class ConiumEntityBuilder(val identifier: Identifier) {
-    val templates: MutableList<ConiumEntityTemplate> get() = templates()
+    val templates: MutableList<ConiumEntityTemplate> = CollectionFactor.arrayList()
+    val groupTemplates: MutableMap<String, MutableList<ConiumEntityTemplate>> = CollectionFactor.hashMap()
 
-    abstract fun templates(): MutableList<ConiumEntityTemplate>
+    fun addTemplates(group: String, templates: MutableList<ConiumEntityTemplate>): ConiumEntityBuilder {
+        this.groupTemplates.computeIfAbsent(group) { CollectionFactor.arrayList() }.addAll(templates)
+        return this
+    }
 
-    fun addTemplates(templates: List<ConiumEntityTemplate>): ConiumEntityBuilder {
+    fun addTemplates(templates: MutableList<ConiumEntityTemplate>): ConiumEntityBuilder {
         this.templates.addAll(templates)
         return this
     }
@@ -26,11 +31,16 @@ abstract class ConiumEntityBuilder(val identifier: Identifier) {
             ConiumEntity(
                 type,
                 world,
-                entitySettings.compute("awa:group_name").also {
-                    // Here applies settings change.
-                }
+                entitySettings
             ).also { it.applyTemplates(this.templates) }
         }, SpawnGroup.MISC)
+
+        this.groupTemplates.forEach { (name, templates) ->
+            entitySettings.migrate(
+                name,
+                ConiumEntitySettings.create(templates, type)
+            )
+        }
 
         return ConiumEntity.createType(
             this,

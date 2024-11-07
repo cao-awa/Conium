@@ -1,10 +1,10 @@
 package com.github.cao.awa.conium.entity.template.dimension
 
-import com.github.cao.awa.conium.entity.ConiumEntity
+import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.template.ConiumTemplates.Entity.DIMENSION
 import com.google.gson.JsonElement
-import net.minecraft.entity.EntityType
+import net.minecraft.entity.EntityDimensions
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
 class ConiumEntityDimensionTemplate(
@@ -20,10 +20,13 @@ class ConiumEntityDimensionTemplate(
                 it["height"].asFloat
             )
         }
+
+        @JvmStatic
+        fun dimensions(width: Float, height: Float): EntityDimensions = EntityDimensions.changing(width, height)
     }
 
-    override fun type(type: EntityType.Builder<ConiumEntity>) {
+    override fun settings(settings: ConiumEntitySettings) {
         // Set entity dimension.
-        type.dimensions(this.width, this.height)
+        settings.dimensions = dimensions(this.width, this.height)
     }
 }

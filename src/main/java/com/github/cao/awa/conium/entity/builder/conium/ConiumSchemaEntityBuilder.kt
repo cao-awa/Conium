@@ -26,8 +26,4 @@ class ConiumSchemaEntityBuilder(identifier: Identifier) : ConiumEntityBuilder(id
             return builder
         }
     }
-
-    private val coniumTemplates: MutableList<ConiumEntityTemplate> = CollectionFactor.arrayList()
-
-    override fun templates(): MutableList<ConiumEntityTemplate> = this.coniumTemplates
 }
