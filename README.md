@@ -24,6 +24,8 @@ Conium lets you complete your mods only using datapacks.
                 + This directory is items, data type is '.json'
             + block
                 + This directory is blocks, data type is '.json'
+            + entity
+                + This directory is entities, data type is '.json'
             + property
                 + item
                     + This directory is item properties injectors, data type is '.json'
@@ -350,6 +352,7 @@ Currently, supported these components:
 ```
 
 ## Conium script APIs
+
 Documents are not done yet.
 
 ## Bedrock script APIs

@@ -24,7 +24,7 @@ class Conium : ModInitializer {
         private val LOGGER = LogManager.getLogger("Conium")
 
         @JvmField
-        var VERSION = "1.0.0-alpha3"
+        var VERSION = "1.0.0-alpha4"
 
         @JvmField
         var LANGUAGE_TRANSLATOR_VERSION = LanguageTranslator.getVersion()
