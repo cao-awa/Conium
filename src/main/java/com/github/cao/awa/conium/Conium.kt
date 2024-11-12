@@ -23,6 +23,8 @@ class Conium : ModInitializer {
     companion object {
         private val LOGGER = LogManager.getLogger("Conium")
 
+        val isClient: Boolean get() = ConiumClient.initialized
+
         @JvmField
         var VERSION = "1.0.0-alpha4"
 

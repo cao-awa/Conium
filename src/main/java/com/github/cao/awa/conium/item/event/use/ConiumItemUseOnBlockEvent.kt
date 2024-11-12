@@ -11,7 +11,7 @@ import net.minecraft.item.ItemUsageContext
 import net.minecraft.server.world.ServerWorld
 
 class ConiumItemUseOnBlockEvent : ConiumItemEvent<ParameterSelective2<Boolean, ServerWorld, ItemUsageContext>>() {
-    override fun requirement(): ConiumEventContext<out ParameterSelective, Boolean> {
+    override fun requirement(): ConiumEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.SERVER_WORLD,
             ConiumEventArgTypes.ITEM_USAGE_CONTEXT

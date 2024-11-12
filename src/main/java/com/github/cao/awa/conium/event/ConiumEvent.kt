@@ -13,7 +13,7 @@ import java.util.*
 abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
     companion object {
         private val events: MutableMap<ConiumEventType, ConiumEvent<*>> = CollectionFactor.hashMap()
-        private val foreverContext: MutableMap<ConiumEventType, MutableList<ConiumEventContext<*, Boolean>>> = CollectionFactor.hashMap()
+        private val foreverContext: MutableMap<ConiumEventType, MutableList<ConiumEventContext<*>>> = CollectionFactor.hashMap()
 
         @JvmField
         val itemUseOnBlockEvent = ConiumItemUseOnBlockEvent()
@@ -30,7 +30,7 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
          * @param type the type of event
          */
         @JvmStatic
-        fun request(type: ConiumEventType): ConiumEventContext<out ParameterSelective, Boolean> {
+        fun request(type: ConiumEventType): ConiumEventContext<out ParameterSelective> {
             return this.events[type]!!.requirement()
         }
 
@@ -39,11 +39,11 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
             return this.events[type] as X
         }
 
-        fun forever(eventType: ConiumEventType, context: ConiumEventContext<*, Boolean>) {
+        fun forever(eventType: ConiumEventType, context: ConiumEventContext<*>) {
             this.foreverContext.computeIfAbsent(eventType) { CollectionFactor.arrayList() }.add(context)
         }
 
-        fun forever(eventType: ConiumEventType): MutableList<ConiumEventContext<*, Boolean>> = this.foreverContext[eventType] ?: Collections.emptyList()
+        fun forever(eventType: ConiumEventType): MutableList<ConiumEventContext<*>> = this.foreverContext[eventType] ?: Collections.emptyList()
 
         fun resetForever() {
             this.foreverContext.clear()
@@ -72,5 +72,5 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
         }
     }
 
-    abstract fun requirement(): ConiumEventContext<out ParameterSelective, Boolean>
+    abstract fun requirement(): ConiumEventContext<out ParameterSelective>
 }

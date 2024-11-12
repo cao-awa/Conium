@@ -5,5 +5,7 @@ public enum ConiumEventType {
 
     ITEM_USE_ON_BLOCK,
 
+    // Block.
     BREAK_BLOCK,
+    PLACE_BLOCK,
 }

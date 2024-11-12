@@ -85,8 +85,9 @@ public abstract class ItemStackMixin implements ComponentHolder {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/Item;useOnBlock(Lnet/minecraft/item/ItemUsageContext;)Lnet/minecraft/util/ActionResult;")
     )
     public ActionResult handleUseOnBlock(Item instance, ItemUsageContext context) {
-        ConiumEventContext<?, Boolean> eventContext = ConiumEvent.request(ConiumEventType.ITEM_USE_ON_BLOCK);
+        ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.ITEM_USE_ON_BLOCK);
 
+        // Fill the context args.
         eventContext.put(ConiumEventArgTypes.WORLD, context.getWorld());
 
         eventContext.put(ConiumEventArgTypes.ITEM_USAGE_CONTEXT, context);

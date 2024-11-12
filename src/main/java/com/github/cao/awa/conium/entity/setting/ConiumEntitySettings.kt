@@ -1,15 +1,22 @@
 package com.github.cao.awa.conium.entity.setting
 
 import com.github.cao.awa.conium.entity.ConiumEntity
+import com.github.cao.awa.conium.entity.renderer.ConiumEntityRenderer
+import com.github.cao.awa.conium.entity.renderer.model.ConiumEntityModel
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.block.piston.PistonBehavior
+import net.minecraft.client.render.entity.EntityRenderer
+import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.LivingEntity
+import net.minecraft.util.Identifier
 
 object ConiumEntitySettingsValue {
+    val clientMigrateKey = "#client_migrate"
+
     /**
      * Default value of ``dimensions``.
      *
@@ -63,6 +70,37 @@ object ConiumEntitySettingsValue {
      */
     @JvmStatic
     val pushableByFluids: Boolean = true
+
+    /**
+     * Default value of ``clientModel``.
+     *
+     * @see EntityModel
+     * @see ConiumEntityModel
+     * @see EntityRenderer
+     * @see ConiumEntityRenderer
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    val clientModel: ConiumEntityModel = ConiumEntityModel.emptyModel
+
+    /**
+     * Default value of ``clientModelTexture``.
+     *
+     * @see EntityModel
+     * @see ConiumEntityModel
+     * @see EntityRenderer
+     * @see ConiumEntityRenderer
+     * @see Identifier
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    val clientModelTexture: Identifier = Identifier.ofVanilla("textures/misc/white.png")
 }
 
 class ConiumEntitySettings {
@@ -159,6 +197,53 @@ class ConiumEntitySettings {
 
     // The delegate.
     private var _pushableByFluids: Boolean? = null
+
+    /**
+     * Setting the rendering model of the entity.
+     *
+     * Default is ``emptyModel`` for conium entity.
+     *
+     * @see EntityModel
+     * @see ConiumEntityModel
+     * @see EntityRenderer
+     * @see ConiumEntityRenderer
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    var clientModel: ConiumEntityModel
+        get() = this._clientModel ?: ConiumEntitySettingsValue.clientModel
+        set(value) {
+            this._clientModel = value
+        }
+
+    // The delegate.
+    private var _clientModel: ConiumEntityModel? = null
+
+    /**
+     * Setting the rendering model texture of the entity.
+     *
+     * Default is a white texture for conium entity.
+     *
+     * @see EntityModel
+     * @see ConiumEntityModel
+     * @see EntityRenderer
+     * @see ConiumEntityRenderer
+     * @see Identifier
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    var clientModelTexture: Identifier
+        get() = this._clientModelTexture ?: ConiumEntitySettingsValue.clientModelTexture
+        set(value) {
+            this._clientModelTexture = value
+        }
+
+    // The delegate.
+    private var _clientModelTexture: Identifier? = null
 
     private val migrates: MutableMap<String, ConiumEntitySettings> = CollectionFactor.hashMap()
 

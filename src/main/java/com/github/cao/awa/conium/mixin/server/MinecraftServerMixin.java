@@ -21,7 +21,7 @@ public class MinecraftServerMixin {
             at = @At("HEAD")
     )
     public void listenTick(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
-        ConiumEventContext<?, Boolean> eventContext = ConiumEvent.request(ConiumEventType.SERVER_TICK);
+        ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.SERVER_TICK);
 
         eventContext.put(ConiumEventArgTypes.SERVER, cast());
 

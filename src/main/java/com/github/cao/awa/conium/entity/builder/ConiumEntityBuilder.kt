@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.entity.builder
 
+import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.entity.ConiumEntity
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettingsWithTypeBuilder
@@ -12,6 +13,7 @@ import net.minecraft.util.Identifier
 abstract class ConiumEntityBuilder(val identifier: Identifier) {
     val templates: MutableList<ConiumEntityTemplate> = CollectionFactor.arrayList()
     val groupTemplates: MutableMap<String, MutableList<ConiumEntityTemplate>> = CollectionFactor.hashMap()
+    val entitySettings = ConiumEntitySettings()
 
     fun addTemplates(group: String, templates: MutableList<ConiumEntityTemplate>): ConiumEntityBuilder {
         this.groupTemplates.computeIfAbsent(group) { CollectionFactor.arrayList() }.addAll(templates)
@@ -24,27 +26,28 @@ abstract class ConiumEntityBuilder(val identifier: Identifier) {
     }
 
     fun build(): EntityType.Builder<ConiumEntity> {
-        // TODO entity type.
-        val entitySettings = ConiumEntitySettings()
-
         val type = EntityType.Builder.create({ type, world ->
             ConiumEntity(
                 type,
                 world,
-                entitySettings
+                this.entitySettings
             ).also { it.applyTemplates(this.templates) }
         }, SpawnGroup.MISC)
 
         this.groupTemplates.forEach { (name, templates) ->
-            entitySettings.migrate(
+            this.entitySettings.migrate(
                 name,
                 ConiumEntitySettings.create(templates, type)
             )
         }
 
+        if (Conium.isClient) {
+
+        }
+
         return ConiumEntity.createType(
             this,
-            ConiumEntitySettingsWithTypeBuilder(type, entitySettings)
+            ConiumEntitySettingsWithTypeBuilder(type, this.entitySettings)
         )
     }
 }

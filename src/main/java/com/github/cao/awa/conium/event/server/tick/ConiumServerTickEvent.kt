@@ -10,7 +10,7 @@ import com.github.cao.awa.conium.parameter.ParameterSelective1
 import net.minecraft.server.MinecraftServer
 
 class ConiumServerTickEvent : ConiumEvent<ParameterSelective1<Boolean, MinecraftServer>>() {
-    override fun requirement(): ConiumEventContext<out ParameterSelective, Boolean> {
+    override fun requirement(): ConiumEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.SERVER,
         ).attach(

@@ -6,16 +6,14 @@ import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.require
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
-import com.github.cao.awa.conium.parameter.ParameterSelective1
 import com.github.cao.awa.conium.parameter.ParameterSelective4
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.server.MinecraftServer
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 class ConiumBreakBlockEvent : ConiumEvent<ParameterSelective4<Boolean, World, PlayerEntity, BlockPos, BlockState>>() {
-    override fun requirement(): ConiumEventContext<out ParameterSelective, Boolean> {
+    override fun requirement(): ConiumEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.PLAYER,

@@ -4,11 +4,13 @@
   "package": "com.github.cao.awa.conium.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "block.BlockMixin",
     "collection.IdListMixin",
     "component.attribute.AttributeModifiersComponentBuilderMixin",
     "component.map.builder.ComponentMapBuilderAccessor",
     "datapack.DataPackContentsMixin",
     "entity.EntityAccessor",
+    "entity.attribute.DefaultAttributeRegistryMixin",
     "item.FuelRegistryMixin",
     "item.ItemMixin",
     "item.setting.ItemSettingsAccessor",
@@ -24,7 +26,6 @@
     "defaultRequire": 1
   },
   "client": [
-    "interaction.client.ClientPlayerInteractionManagerMixin",
     "renderer.entity.EntityRenderDispatcherMixin",
     "renderer.entity.EntityRenderersMixin",
     "renderer.item.ItemModelsAccessor",

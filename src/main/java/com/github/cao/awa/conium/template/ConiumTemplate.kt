@@ -96,7 +96,7 @@ abstract class ConiumTemplate<T, P>(private val name: String) {
         }
 
         fun deserializeTemplate(name: String, subtype: String, json: JsonElement, registryLookup: WrapperLookup): ConiumTemplate<*, *> {
-            return this.templates["$name:$subtype"]?.apply(json, registryLookup) ?: throw IllegalArgumentException("Unable to deserialize template '$name' because it does not exist")
+            return this.templates["$name:$subtype"]?.apply(json, registryLookup) ?: throw IllegalArgumentException("Unable to deserialize template '$name:$subtype' because it does not exist")
         }
 
         // Attention to duration, this duration value in bedrock is seconds instead of ticks in bedrock.
