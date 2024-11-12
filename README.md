@@ -36,6 +36,57 @@ Conium lets you complete your mods only using datapacks.
 
 ## Data driven
 
+For items, currently supporting:
+
+|            Conium schema key |         Bedrock schema impls         |                                   Notes                                   |
+|-----------------------------:|:------------------------------------:|:-------------------------------------------------------------------------:|
+|                         tool |                  *                   |                          Make the item be a tool                          |
+|         attack_damage (tool) |           minecraft:damage           |                  Setting tool damage amount to entities                   |
+|          attack_speed (tool) |               No impl                |                 Setting tool attack speed (the cooldown)                  |
+|            durability (tool) |         minecraft:durability         |                          Setting tool durability                          |
+|      effective_blocks (tool) |               No impl                |                Setting what blocks can mined by this tool                 |
+|              material (tool) |               No impl                |                   Setting the base data using material                    |
+|             is_weapon (tool) |               No impl                | Make different durability consume when used to hit entity or break blocks |
+|      effective_blocks (tool) |               No impl                |                Setting what blocks can mined by this tool                 |
+|         damage_chance (tool) | damage_chance (minecraft:durability) |              Setting the probability of durability consuming              |
+|      can_destroy_in_creative |  minecraft:can_destroy_in_creative   |      Setting block breakable in creative mode when holding this item      |
+|                    max_count |       minecraft:max_stack_size       |               Setting the max item stack count of the item                |
+|                         food |            minecraft:food            |                        Setting the item be a food                         |
+|       can_always_eat  (food) |   can_always_eat (minecraft:food)    |              Setting the food can always eats (no cooldown)               |
+|           nutrition   (food) |      nutrition (minecraft:food)      |                     Setting the nutrition of the food                     |
+|          saturation   (food) | saturation_modifier (minecraft:food) |                    Setting the saturation of the food                     |
+|                   consumable |                  *                   |                 Setting the item has consumable behaviors                 |
+|      convert_to (consumable) |  using_converts_to (minecraft:food)  |           Setting the item will convert to other item when used           |
+| apply_effects   (consumable) |               No impl                |          Setting the item will give effects to entity when used           |
+|                       rarity |           minecraft:rarity           |                      Setting the rarity of the item                       |
+|                   use_action |       minecraft:use_animation        |          Setting the using action of the item (client animation)          |
+|                         fuel |            minecraft:fuel            |     Setting the item can be put into furnaces and provides fuel time      |
+|                        glint |           minecraft:glint            |           Setting the item will glint showing (client display)            |
+|                        armor |                  *                   |          Setting the item be a armor and can be wear to the slot          |
+|              defense (armor) |   protection (minecraft:wearable)    |         Setting the armor providing how much protection (defense)         |
+|                 slot (armor) |      slot (minecraft:wearable)       |                Setting the armor can wearing to what slot                 |
+| knockback_resistance (armor) |               No impl                |        Setting the armor providing how much knock back resistance         |
+|            toughness (armor) |               No impl                |                          Setting armor toughness                          |
+|          enchantable (armor) |               No impl                |                 Setting armor enchantable (Not completed)                 |
+
+For blocks, currently supporting:
+
+| Conium schema key |       Bedrock schema impls       |                               Notes                                |
+|------------------:|:--------------------------------:|:------------------------------------------------------------------:|
+|          hardness | minecraft:destructible_by_mining |                 Setting the hardness of the block                  |
+|         map_color |       minecraft:map_color        |         Setting the map color of the block (Not completed)         |
+|         luminance |     minecraft:light_emission     | Setting the lighting of the block (like torch or burning furnaces) |
+|         collision |     minecraft:collision_box      |               Setting the collision box of the block               |
+
+For entities, supported to defines 'component_groups' in bedrock schema, but unable to switching now.
+
+Entities currently supporting:
+
+| Conium schema key |  Bedrock schema impls   |                                    Notes                                    |
+|------------------:|:-----------------------:|:---------------------------------------------------------------------------:|
+|         dimension | minecraft:collision_box |                   Setting the collision box of the entity                   |
+|          pushable |   minecraft:pushable    | Setting the entity is can be pushing by other entities or pistons or fluids |
+
 ### Conium schema
 
 ```json5
@@ -50,7 +101,7 @@ Conium lets you complete your mods only using datapacks.
 }
 ```
 
-Currently, supported these components:
+Currently, supported these components of items:
 
 ```json5
 {
@@ -253,7 +304,7 @@ Currently, supported these components:
 }
 ```
 
-Currently, supported these components:
+Currently, supported these components of items:
 
 ```json5
 {
