@@ -2,9 +2,13 @@ package com.github.cao.awa.conium.mixin.renderer.entity;
 
 import com.github.cao.awa.conium.client.entity.renderer.ConiumEntityRenderers;
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.client.model.ModelPartBuilder;
+import net.minecraft.client.model.ModelPartData;
+import net.minecraft.client.model.ModelTransform;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.EntityRenderers;
+import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
 import org.spongepowered.asm.mixin.Mixin;

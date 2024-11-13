@@ -44,7 +44,7 @@ class ConiumEntityRenderer(
     }
 
     // For test only.
-    override fun getTexture(state: ConiumEntityRenderState): Identifier = Identifier.ofVanilla("textures/entity/bat.png")
+    override fun getTexture(state: ConiumEntityRenderState): Identifier = Identifier.of("awa", "textures/entity/bat_v2.png")
 
 //    override fun getTexture(state: ConiumEntityRenderState): Identifier = this.texture
 }
