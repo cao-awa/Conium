@@ -13,6 +13,7 @@ import com.github.cao.awa.conium.entity.template.bedrock.collision.ConiumBedrock
 import com.github.cao.awa.conium.entity.template.bedrock.pushable.ConiumBedrockEntityPushableTemplate
 import com.github.cao.awa.conium.entity.template.dimension.ConiumEntityDimensionTemplate
 import com.github.cao.awa.conium.entity.template.pushable.ConiumEntityPushableTemplate
+import com.github.cao.awa.conium.entity.template.renderer.model.ConiumEntityModelTemplate
 import com.github.cao.awa.conium.item.template.action.ConiumUseActionTemplate
 import com.github.cao.awa.conium.item.template.armor.ConiumArmorTemplate
 import com.github.cao.awa.conium.item.template.bedrock.animation.ConiumBedrockUseAnimationTemplate
@@ -436,6 +437,9 @@ object ConiumTemplates {
         // Pushable.
         const val PUSHABLE: String = "pushable"
 
+        // Model.
+        const val MODEL: String = "model"
+
         fun initEntityTemplates() {
             // Dimension.
             registerEntity(
@@ -447,6 +451,12 @@ object ConiumTemplates {
             registerEntity(
                 PUSHABLE,
                 ConiumEntityPushableTemplate::create
+            )
+
+            // Model.
+            registerEntity(
+                MODEL,
+                ConiumEntityModelTemplate::create
             )
         }
     }

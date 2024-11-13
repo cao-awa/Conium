@@ -1,6 +1,5 @@
 package com.github.cao.awa.conium.entity.builder
 
-import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.entity.ConiumEntity
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettingsWithTypeBuilder
@@ -39,10 +38,6 @@ abstract class ConiumEntityBuilder(val identifier: Identifier) {
                 name,
                 ConiumEntitySettings.create(templates, type)
             )
-        }
-
-        if (Conium.isClient) {
-
         }
 
         return ConiumEntity.createType(

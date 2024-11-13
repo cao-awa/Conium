@@ -7,6 +7,7 @@ import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.client.render.entity.EntityRenderer
+import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.Entity
@@ -84,7 +85,7 @@ object ConiumEntitySettingsValue {
      * @since 1.0.0
      */
     @JvmStatic
-    val clientModel: ConiumEntityModel = ConiumEntityModel.emptyModel
+    val clientModel: (EntityRendererFactory.Context) -> ConiumEntityModel = { ConiumEntityModel.emptyModel }
 
     /**
      * Default value of ``clientModelTexture``.
@@ -212,14 +213,14 @@ class ConiumEntitySettings {
      *
      * @since 1.0.0
      */
-    var clientModel: ConiumEntityModel
+    var clientModel: (EntityRendererFactory.Context) -> ConiumEntityModel
         get() = this._clientModel ?: ConiumEntitySettingsValue.clientModel
         set(value) {
             this._clientModel = value
         }
 
     // The delegate.
-    private var _clientModel: ConiumEntityModel? = null
+    private var _clientModel: ((EntityRendererFactory.Context) -> ConiumEntityModel)? = null
 
     /**
      * Setting the rendering model texture of the entity.

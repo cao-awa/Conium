@@ -19,7 +19,7 @@ class ConiumEntityRenderer(
     private val metadata: ConiumEntityMetadata
 ) : LivingEntityRenderer<ConiumEntity, ConiumEntityRenderState, ConiumEntityModel>(
     context,
-    migrateClient(metadata).clientModel,
+    migrateClient(metadata).clientModel(context),
     0F
 ) {
     companion object {
