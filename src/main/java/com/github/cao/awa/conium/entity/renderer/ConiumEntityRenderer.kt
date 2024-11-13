@@ -16,23 +16,26 @@ import net.minecraft.util.Identifier
 @Environment(EnvType.CLIENT)
 class ConiumEntityRenderer(
     context: EntityRendererFactory.Context,
-    private val metadata: ConiumEntityMetadata
+    private val metadata: ConiumEntityMetadata,
+    private val settings: ConiumEntitySettings = migrateClient(metadata)
 ) : LivingEntityRenderer<ConiumEntity, ConiumEntityRenderState, ConiumEntityModel>(
     context,
-    migrateClient(metadata).clientModel(context),
-    0F
+    settings.clientModel(context),
+    0.25F
 ) {
     companion object {
-        private fun migrateClient(settings: ConiumEntitySettings): ConiumEntitySettings {
+        fun migrateClient(settings: ConiumEntitySettings): ConiumEntitySettings {
             return settings.migrate(ConiumEntitySettingsValue.clientMigrateKey)
         }
 
-        private fun migrateClient(metadata: ConiumEntityMetadata): ConiumEntitySettings {
-            return metadata.settings.migrate(ConiumEntitySettingsValue.clientMigrateKey)
+        fun migrateClient(metadata: ConiumEntityMetadata): ConiumEntitySettings {
+            return migrateClient(metadata.settings)
         }
     }
 
-    private val settings: ConiumEntitySettings = migrateClient(this.metadata)
+    init {
+        println(this.settings.clientModel(context))
+    }
 
     private val texture = this.settings.clientModelTexture
 
@@ -40,5 +43,8 @@ class ConiumEntityRenderer(
         return ConiumEntityRenderState()
     }
 
-    override fun getTexture(state: ConiumEntityRenderState): Identifier = this.texture
+    // For test only.
+    override fun getTexture(state: ConiumEntityRenderState): Identifier = Identifier.ofVanilla("textures/entity/bat.png")
+
+//    override fun getTexture(state: ConiumEntityRenderState): Identifier = this.texture
 }

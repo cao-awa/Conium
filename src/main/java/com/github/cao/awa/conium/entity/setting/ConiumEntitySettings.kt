@@ -270,6 +270,8 @@ class ConiumEntitySettings {
             this._pushable?.apply { it.pushable = this }
             this._pushableByPiston?.apply { it.pushableByPiston = this }
             this._pushableByFluids?.apply { it.pushableByFluids = this }
+            this._clientModel?.apply { it.clientModel = this }
+            this._clientModelTexture?.apply { it.clientModelTexture = this }
         }
     }
 
@@ -283,6 +285,11 @@ class ConiumEntitySettings {
 
     fun migrate(name: String, settings: ConiumEntitySettings) {
         this.migrates[name] = settings
+    }
+
+    fun migrate(name: String, operator: (ConiumEntitySettings) -> Unit) {
+        // Get and operate the settings, then set it back to migrates.
+        this.migrates[name] = (this.migrates[name] ?: ConiumEntitySettings()).also(operator)
     }
 
     fun compute(vararg names: String): ConiumEntitySettings {

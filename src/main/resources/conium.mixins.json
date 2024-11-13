@@ -26,6 +26,7 @@
     "defaultRequire": 1
   },
   "client": [
+    "client.MinecraftClientAccessor",
     "renderer.entity.EntityRenderDispatcherMixin",
     "renderer.entity.EntityRenderersMixin",
     "renderer.item.ItemModelsAccessor",

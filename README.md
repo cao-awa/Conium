@@ -13,7 +13,7 @@ Conium lets you complete your mods only using datapacks.
 |              Minecraft |        1.21.3!!        |    Need     |    Only 1.21.3 can be use     |
 | Fabric language kotlin | 1.12.3+kotlin.2.0.21!! |    Need     | Only kotlin 2.0.21 can be use |
 |             Fabric API |           ?            | Unnecessary |       Any version is ok       |
-|    Language translator |        1.0.10!!        | Unnecessary | Built-in language translator  |
+|                 Fluxia |        1.0.10!!        | Unnecessary | Built-in contents translator  |
 
 ## Datapack structure
 

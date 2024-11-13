@@ -1,6 +1,8 @@
 package com.github.cao.awa.conium.datapack.entity
 
 import com.github.cao.awa.conium.Conium
+import com.github.cao.awa.conium.ConiumClient
+import com.github.cao.awa.conium.client.entity.renderer.ConiumEntityRenderers
 import com.github.cao.awa.conium.datapack.ConiumJsonDataLoader
 import com.github.cao.awa.conium.entity.attribute.ConiumEntityAttributeRegistry
 import com.github.cao.awa.conium.entity.builder.bedrock.BedrockSchemaEntityBuilder
@@ -31,6 +33,11 @@ class ConiumEntityManager(private val registryLookup: RegistryWrapper.WrapperLoo
 
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
         (Registries.ENTITY_TYPE as ConiumDynamicRegistry).clearDynamic()
+
+        if (ConiumClient.initialized) {
+            ConiumEntityRenderers.clearRenderers()
+        }
+
         ConiumEvent.clearEntitySubscribes()
         ConiumEntityAttributeRegistry.resetAttributes()
 
@@ -45,16 +52,21 @@ class ConiumEntityManager(private val registryLookup: RegistryWrapper.WrapperLoo
                 LOGGER::info
             )
 
+            var metadata: ConiumEntityMetadata? = null
+
             if (value["schema_style"]?.asString == "conium") {
                 ConiumSchemaEntityBuilder.deserialize(value, this.registryLookup).register {
-                    // Do nothing.
-                    this.metadata.add(it)
+                    metadata = it
                 }
             } else {
                 BedrockSchemaEntityBuilder.deserialize(value, this.registryLookup).register {
-                    // Do nothing.
-                    this.metadata.add(it)
+                    metadata = it
                 }
+            }
+
+            metadata?.also {
+                this.metadata.add(it)
+                ConiumClient.createEntityRenderer(it)
             }
         }
     }

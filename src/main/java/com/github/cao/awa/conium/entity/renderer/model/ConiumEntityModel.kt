@@ -6,12 +6,15 @@ import com.google.gson.JsonObject
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.model.*
+import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.entity.model.EntityModelPartNames
+import net.minecraft.util.Identifier
+import java.util.function.Function
 
 @Environment(EnvType.CLIENT)
-class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(root) {
+class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(root, RenderLayer::getEntityCutout) {
     companion object {
         val emptyModel = ConiumEntityModel(
             ModelPart(

@@ -31,7 +31,7 @@
     "conium.mixins.json"
   ],
   "depends": {
-    "language-translator": "1.0.10",
+    "fluxia": "1.0.10",
     "fabricloader": "*",
     "fabric": "*",
     "fabric-language-kotlin": "1.12.3+kotlin.2.0.21",
@@ -40,7 +40,7 @@
   },
   "jars": [
     {
-      "file": "META-INF/jars/language-translator-1.0.10.jar"
+      "file": "META-INF/jars/fluxia-1.0.10.jar"
     }
   ]
 }
