@@ -90,4 +90,8 @@ class ConiumEventContext<P : ParameterSelective?>(
         }
         return success
     }
+
+    fun inherit(context: ConiumEventContext<*>) {
+        resetArgs(context.args)
+    }
 }

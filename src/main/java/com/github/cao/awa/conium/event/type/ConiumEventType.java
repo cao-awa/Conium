@@ -8,4 +8,8 @@ public enum ConiumEventType {
     // Block.
     BREAK_BLOCK,
     PLACE_BLOCK,
+    PLACED_BLOCK,
+
+    USE_BLOCK,
+    USED_BLOCK,
 }

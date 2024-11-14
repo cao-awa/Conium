@@ -26,9 +26,18 @@ class DynamicArgs<P : ParameterSelective?, R>(
         for (arg in sources) {
             arg.value.let {
                 if (it is DynamicArgType<*>) {
-                    args.put(arg.key, it.dynamicArgs?.arising(identity, sources, null))
+                    for (dynamic in it.dynamicArgs) {
+                        val result = dynamic?.runCatching {
+                            arising(identity, sources, null)
+                        }?.getOrNull()
+
+                        if (result != null) {
+                            args[arg.key] = result
+                            break
+                        }
+                    }
                 } else {
-                    args.put(arg.key, it)
+                    args[arg.key] = it
                 }
             }
         }

@@ -11,57 +11,79 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder.arg
+import net.minecraft.block.AbstractBlock.AbstractBlockState
+import net.minecraft.entity.LivingEntity
+import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
 import net.minecraft.server.MinecraftServer
+import net.minecraft.util.ActionResult
+import net.minecraft.util.hit.BlockHitResult
 
 object ConiumEventArgTypes {
     @JvmField
-    var SERVER: DynamicArgType<MinecraftServer> = arg("server")
+    val ITEM_USAGE_CONTEXT: DynamicArgType<ItemUsageContext> = arg("item_usage_context")
 
     @JvmField
-    var WORLD: DynamicArgType<World> = arg("world")
+    val ITEM_PLACEMENT_CONTEXT: DynamicArgType<ItemPlacementContext> = arg("item_placement_context")
 
     @JvmField
-    var SERVER_WORLD: DynamicArgType<ServerWorld> = arg(
+    val ITEM_STACK: DynamicArgType<ItemStack> = arg(
+        "item_stack",
+        DynamicArgsBuilder.transform(ITEM_PLACEMENT_CONTEXT) { placement -> placement.stack }
+    )
+
+    @JvmField
+    val ACTION_RESULT: DynamicArgType<ActionResult> = arg("action_result")
+
+    @JvmField
+    val SERVER: DynamicArgType<MinecraftServer> = arg("server")
+
+    @JvmField
+    val WORLD: DynamicArgType<World> = arg("world")
+
+    @JvmField
+    val SERVER_WORLD: DynamicArgType<ServerWorld> = arg(
         "server_world",
-        DynamicArgsBuilder.transform(WORLD) { _, world ->
-            world as? ServerWorld
-        }
+        DynamicArgsBuilder.transform(WORLD) { world -> world as? ServerWorld },
+        DynamicArgsBuilder.transform(ITEM_PLACEMENT_CONTEXT) { placement -> placement.world as? ServerWorld }
     )
 
     @JvmField
-    var CLIENT_WORLD: DynamicArgType<ClientWorld> = arg(
+    val CLIENT_WORLD: DynamicArgType<ClientWorld> = arg(
         "client_world",
-        DynamicArgsBuilder.transform(WORLD) { _, world ->
-            world as? ClientWorld
-        }
+        DynamicArgsBuilder.transform(WORLD) { world -> world as? ClientWorld },
+        DynamicArgsBuilder.transform(ITEM_PLACEMENT_CONTEXT) { placement -> placement.world as? ClientWorld }
     )
 
     @JvmField
-    var BLOCK_POS: DynamicArgType<BlockPos> = arg("block_pos")
+    val BLOCK_POS: DynamicArgType<BlockPos> = arg(
+        "block_pos",
+        DynamicArgsBuilder.transform(ITEM_PLACEMENT_CONTEXT) { placement -> placement.blockPos }
+    )
 
     @JvmField
-    var BLOCK_STATE: DynamicArgType<BlockState> = arg("block_state")
+    val BLOCK_STATE: DynamicArgType<AbstractBlockState> = arg("block_state")
 
     @JvmField
-    var PLAYER: DynamicArgType<PlayerEntity> = arg("player")
+    val BLOCK_HIT_RESULT: DynamicArgType<BlockHitResult> = arg("block_hit_result")
 
     @JvmField
-    var SERVER_PLAYER: DynamicArgType<ServerPlayerEntity> = arg(
+    val PLAYER: DynamicArgType<PlayerEntity> = arg("player")
+
+    @JvmField
+    val LIVING_ENTITY: DynamicArgType<LivingEntity> = arg("living_entity")
+
+    @JvmField
+    val SERVER_PLAYER: DynamicArgType<ServerPlayerEntity> = arg(
         "server_player",
-        DynamicArgsBuilder.transform(PLAYER) { player ->
-            if (player is ServerPlayerEntity) player else null
-        }
+        DynamicArgsBuilder.transform(PLAYER) { player -> player as? ServerPlayerEntity },
+        DynamicArgsBuilder.transform(ITEM_PLACEMENT_CONTEXT) { placement -> placement.player as? ServerPlayerEntity }
     )
 
     @JvmField
-    var CLIENT_PLAYER: DynamicArgType<ClientPlayerEntity> = arg(
+    val CLIENT_PLAYER: DynamicArgType<ClientPlayerEntity> = arg(
         "client_player",
-        DynamicArgsBuilder.transform(PLAYER) { player ->
-            if (player is ClientPlayerEntity) player else null
-        }
+        DynamicArgsBuilder.transform(PLAYER) { player -> player as? ClientPlayerEntity },
+        DynamicArgsBuilder.transform(ITEM_PLACEMENT_CONTEXT) { placement -> placement.player as? ClientPlayerEntity }
     )
-
-    // Items
-    @JvmField
-    var ITEM_USAGE_CONTEXT: DynamicArgType<ItemUsageContext> = arg("item_usage_context")
 }

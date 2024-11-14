@@ -1,6 +1,10 @@
 package com.github.cao.awa.conium.event
 
 import com.github.cao.awa.conium.block.event.breaking.ConiumBreakBlockEvent
+import com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent
+import com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEvent
+import com.github.cao.awa.conium.block.event.use.ConiumUseBlockEvent
+import com.github.cao.awa.conium.block.event.use.ConiumUsedBlockEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.server.tick.ConiumServerTickEvent
 import com.github.cao.awa.conium.event.trigger.ListTriggerable
@@ -23,6 +27,18 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
 
         @JvmField
         val breakBlock = ConiumBreakBlockEvent()
+
+        @JvmField
+        val placeBlock = ConiumPlaceBlockEvent()
+
+        @JvmField
+        val placedBlock = ConiumPlacedBlockEvent()
+
+        @JvmField
+        val useBlock = ConiumUseBlockEvent()
+
+        @JvmField
+        val usedBlock = ConiumUsedBlockEvent()
 
         /**
          * Before event fires, create event context by requirements.
@@ -54,6 +70,10 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
             this.events[ConiumEventType.ITEM_USE_ON_BLOCK] = this.itemUseOnBlockEvent
             this.events[ConiumEventType.SERVER_TICK] = this.serverTick
             this.events[ConiumEventType.BREAK_BLOCK] = this.breakBlock
+            this.events[ConiumEventType.PLACE_BLOCK] = this.placeBlock
+            this.events[ConiumEventType.PLACED_BLOCK] = this.placedBlock
+            this.events[ConiumEventType.USE_BLOCK] = this.useBlock
+            this.events[ConiumEventType.USED_BLOCK] = this.usedBlock
         }
 
         fun clearEntitySubscribes() {
