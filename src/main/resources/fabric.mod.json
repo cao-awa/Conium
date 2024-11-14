@@ -5,11 +5,13 @@
   "name": "Conium",
   "description": "Conium is a datapack and script framework for modern Minecraft, it provides very diverse features without Java coding, Conium lets you complete your mods only using datapacks.",
   "authors": [
-    "cao_awa"
+    "cao_awa",
+    "草二号机"
   ],
   "contributors": [
     "cao_awa",
-    "草二号机"
+    "草二号机",
+    "Ryan 100c"
   ],
   "contact": {
     "homepage": "https://github.com/cao-awa/Conium",

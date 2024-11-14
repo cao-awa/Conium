@@ -57,21 +57,21 @@ class Conium : ModInitializer {
 
         @JvmStatic
         fun debug(debugger: Runnable) {
-            if (enableDebugs) {
+            if (this.enableDebugs) {
                 debugger.run()
             }
         }
 
         @JvmStatic
         fun debug(message: String?, p1: Supplier<Any?>, debugger: StrObjConsumer1) {
-            if (enableDebugs) {
+            if (this.enableDebugs) {
                 debugger.accept(message, p1.get())
             }
         }
 
         @JvmStatic
         fun debug(message: String?, p1: Supplier<Any?>, p2: Supplier<Any?>, debugger: StrObjConsumer2) {
-            if (enableDebugs) {
+            if (this.enableDebugs) {
                 debugger.accept(message, p1.get(), p2.get())
             }
         }
@@ -84,7 +84,7 @@ class Conium : ModInitializer {
             p3: Supplier<Any?>,
             debugger: StrObjConsumer3
         ) {
-            if (enableDebugs) {
+            if (this.enableDebugs) {
                 debugger.accept(message, p1.get(), p2.get(), p3.get())
             }
         }
@@ -98,7 +98,7 @@ class Conium : ModInitializer {
             p4: Supplier<Any?>,
             debugger: StrObjConsumer4
         ) {
-            if (enableDebugs) {
+            if (this.enableDebugs) {
                 debugger.accept(message, p1.get(), p2.get(), p3.get(), p4.get())
             }
         }
@@ -113,7 +113,7 @@ class Conium : ModInitializer {
             p5: Supplier<Any?>,
             debugger: StrObjConsumer5
         ) {
-            if (enableDebugs) {
+            if (this.enableDebugs) {
                 debugger.accept(message, p1.get(), p2.get(), p3.get(), p4.get(), p5.get())
             }
         }
@@ -129,9 +129,17 @@ class Conium : ModInitializer {
             p6: Supplier<Any?>,
             debugger: StrObjConsumer6
         ) {
-            if (enableDebugs) {
+            if (this.enableDebugs) {
                 debugger.accept(message, p1.get(), p2.get(), p3.get(), p4.get(), p5.get(), p6.get())
             }
+        }
+
+        private fun collectTranslators(translators: Map<TranslateTarget, Map<TranslateElementData<*>, LanguageTranslator<*>>>): Map<TranslateTarget, Collection<Class<*>>> {
+            val result: MutableMap<TranslateTarget, Collection<Class<*>>> = CollectionFactor.hashMap()
+            translators.forEach { (target, targetTranslators) ->
+                result[target] = targetTranslators.keys.map { it.clazz() }
+            }
+            return result
         }
     }
 
@@ -155,13 +163,5 @@ class Conium : ModInitializer {
             typescriptTranslators.size,
             collectTranslators(typescriptTranslators)
         )
-    }
-
-    private fun collectTranslators(translators: Map<TranslateTarget, Map<TranslateElementData<*>, LanguageTranslator<*>>>): Map<TranslateTarget, Collection<Class<*>>> {
-        val result: MutableMap<TranslateTarget, Collection<Class<*>>> = CollectionFactor.hashMap()
-        translators.forEach { (target, targetTranslators) ->
-            result[target] = targetTranslators.keys.map { it.clazz() }
-        }
-        return result
     }
 }
