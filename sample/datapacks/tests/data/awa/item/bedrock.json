@@ -1,0 +1,43 @@
+{
+  "minecraft:item": {
+    "description": {
+      "identifier": "awa:bedrock"
+    },
+    "components": {
+      "minecraft:damage": 100,
+      "minecraft:durability": {
+        "damage_chance": {
+          "min": 0,
+          "max": 100
+        },
+        "max_durability": 50
+      },
+      "minecraft:can_destroy_in_creative": {
+        "value": true
+      },
+      "minecraft:max_stack_size": {
+        "value": 64
+      },
+      "minecraft:food": {
+        "can_always_eat": false,
+        "nutrition": 10,
+        "saturation_modifier": 1.0,
+        "using_converts_to": "bowl"
+      },
+      "minecraft:rarity": "uncommon",
+      "minecraft:use_animation": {
+        "value": "eat"
+      },
+      "minecraft:fuel": {
+        "duration": 3.0
+      },
+      "minecraft:glint": {
+        "value": true
+      },
+      "minecraft:wearable": {
+        "protection": 10,
+        "slot": "slot.armor.chest"
+      }
+    }
+  }
+}

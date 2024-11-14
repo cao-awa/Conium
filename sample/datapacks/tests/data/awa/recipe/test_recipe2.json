@@ -1,0 +1,16 @@
+{
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "awa:test_recipe2"
+    },
+    "group": "wood",
+    "ingredients": [
+      "minecraft:grass_block",
+      "minecraft:grass_block",
+      "minecraft:grass_block"
+    ],
+    "result": {
+      "item": "minecraft:diamond_block"
+    }
+  }
+}

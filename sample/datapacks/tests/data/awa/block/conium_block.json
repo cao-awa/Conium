@@ -1,0 +1,21 @@
+{
+  "schema_style": "conium",
+  "identifier": "awa:conium_block",
+  "templates": {
+    "hardness": 10,
+    "map_color": "#FF0000",
+    "luminance": 5,
+    "collision": {
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        5,
+        5,
+        5
+      ]
+    }
+  }
+}

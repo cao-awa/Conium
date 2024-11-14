@@ -1,0 +1,17 @@
+{
+  "minecraft:recipe_furnace": {
+    "description": {
+      "identifier": "awa:test_recipe2"
+    },
+    "tags": [
+      "furnace",
+      "blast_furnace"
+    ],
+    "group": "wood",
+    "input": "minecraft:bedrock",
+    "output": {
+      "item": "minecraft:grass_block",
+      "count": 4
+    }
+  }
+}

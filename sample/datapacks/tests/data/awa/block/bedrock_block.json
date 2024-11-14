@@ -1,0 +1,26 @@
+{
+  "minecraft:block": {
+    "description": {
+      "identifier": "awa:bedrock_block"
+    },
+    "components": {
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 3
+      },
+      "minecraft:map_color": "#ffffff",
+      "minecraft:light_emission": 15,
+      "minecraft:collision_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          5,
+          5,
+          5
+        ]
+      }
+    }
+  }
+}

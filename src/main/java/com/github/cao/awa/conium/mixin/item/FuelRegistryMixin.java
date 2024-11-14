@@ -20,6 +20,7 @@ public class FuelRegistryMixin {
     )
     public void isFuel(ItemStack item, CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValue()) {
+            // When the item are not registered fuel in vanilla, the find the fuel in conium registry.
             assert Conium.coniumItemManager != null;
             cir.setReturnValue(Conium.coniumItemManager.getFuels().contains(item.getItem()));
         }
@@ -31,6 +32,7 @@ public class FuelRegistryMixin {
             cancellable = true
     )
     public void getFuelItems(CallbackInfoReturnable<SequencedSet<Item>> cir) {
+        // When the item are not registered fuel in vanilla, the find the fuel in conium registry.
         assert Conium.coniumItemManager != null;
         cir.setReturnValue(Conium.coniumItemManager.computeFuels(cir.getReturnValue()));
     }
@@ -42,6 +44,8 @@ public class FuelRegistryMixin {
     )
     public void getFuelTicks(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
         if (cir.getReturnValue() == 0) {
+            // When the item are not registered fuel in vanilla, the find the fuel ticks in conium registry.
+            assert Conium.coniumItemManager != null;
             cir.setReturnValue(Conium.coniumItemManager.getFuelTicks(stack));
         }
     }

@@ -1,0 +1,9 @@
+{
+  "target": "minecraft:flint",
+  "components": [
+    {
+      "type": "conium:test",
+      "value": 1234
+    }
+  ]
+}
