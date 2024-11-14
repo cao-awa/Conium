@@ -2,18 +2,16 @@ package com.github.cao.awa.conium.entity.renderer.model
 
 import com.github.cao.awa.conium.entity.renderer.state.ConiumEntityRenderState
 import com.github.cao.awa.conium.kotlin.extent.json.jsonArray
-import com.github.cao.awa.conium.kotlin.extent.json.jsonObject
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.model.*
 import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.entity.EntityRendererFactory
+import net.minecraft.client.render.entity.EntityRendererFactory.Context
 import net.minecraft.client.render.entity.model.EntityModel
-import net.minecraft.client.render.entity.model.EntityModelPartNames
-import net.minecraft.util.Identifier
-import java.util.function.Function
 
 @Environment(EnvType.CLIENT)
 class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(root, RenderLayer::getEntityCutout) {
@@ -26,142 +24,119 @@ class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(
         )
 
         @JvmStatic
-        fun create(context: EntityRendererFactory.Context, json: JsonObject): ConiumEntityModel {
-            return ConiumEntityModel(createTextureModelData(context, json).createModel())
+        fun create(context: Context, json: JsonObject): ConiumEntityModel {
+            val modelData = ModelData()
+
+            // A map used to storage parts, a part can be the parent of other parts.
+            val modelParts = CollectionFactor.hashMap<String, ModelPartData>().also {
+                it["root"] = modelData.root
+            }
+
+            // Create conium model.
+            return ConiumEntityModel(createTextureModelData(modelData, modelParts, context, json).createModel())
         }
 
-        fun createTextureModelData(context: EntityRendererFactory.Context, json: JsonObject): TexturedModelData {
-            try {
-                val modelData = ModelData()
-                val root = modelData.root
+        fun createTextureModelData(
+            modelData: ModelData,
+            modelParts: MutableMap<String, ModelPartData>,
+            context: Context,
+            parts: JsonArray,
+            textureWidth: Int,
+            textureHeight: Int
+        ): TexturedModelData {
+            // Create the parts.
+            createParts(modelParts, context, parts)
 
-                val modelParts = CollectionFactor.hashMap<String, ModelPartData>()
+            // Make texture model data.
+            return TexturedModelData.of(modelData, textureWidth, textureHeight)
+        }
 
-                val description = json["description"].asJsonObject
-                val textureWidth = description["texture_width"].asInt
-                val textureHeight = description["texture_height"].asInt
+        fun createTextureModelData(modelData: ModelData, modelParts: MutableMap<String, ModelPartData>, context: Context, json: JsonObject): TexturedModelData {
+            // Texture data, the texture path is handled in the entity model template.
+            val texture = json["texture"].asJsonObject
 
-                modelParts["root"] = root
+            // Create model.
+            return createTextureModelData(
+                modelData,
+                modelParts,
+                context,
+                json["parts"].asJsonArray,
+                texture["width"].asInt,
+                texture["height"].asInt
+            )
+        }
 
-                json["parts"]!!.jsonArray!!.forEach { part ->
-                    part as JsonObject
+        fun createBedrockTextureModelData(modelData: ModelData, modelParts: MutableMap<String, ModelPartData>, context: Context, geometries: JsonArray): TexturedModelData {
+            // Only allow one of geometry to creating.
+            val geometry = geometries[0].asJsonObject
 
-                    val name = part["name"]!!.asString
-                    val parent = part["parent"]?.asString ?: "root"
-                    val pivot = part["pivot"]!!.asJsonArray
-                    val mirror = part["mirror"]?.asBoolean ?: false
+            // Bedrock description.
+            val description = geometry["description"].asJsonObject
 
-                    val transform = pivot.let {
-                        ModelTransform.pivot(
-                            it[0].asFloat,
-                            it[1].asFloat,
-                            it[2].asFloat,
-                        )
-                    }
+            // Create model.
+            return createTextureModelData(
+                modelData,
+                modelParts,
+                context,
+                geometry["bones"].asJsonArray,
+                description["texture_width"].asInt,
+                description["texture_height"].asInt
+            )
+        }
 
-                    val partBuilder = ModelPartBuilder.create().mirrored(mirror)
+        fun createParts(modelParts: MutableMap<String, ModelPartData>, context: Context, parts: JsonArray) {
+            parts.map(JsonElement::getAsJsonObject).forEach { part ->
+                // Setting the name of this part, used to storage and then can be the parent part of other parts.
+                val name = part["name"].asString
+                // Setting the parent part of this part.
+                val parent = part["parent"]?.asString ?: "root"
+                // Setting the part transform pivot.
+                val pivot = part["pivot"].asJsonArray
+                // Setting the part is mirrored or default is not mirrored.
+                val mirror = part["mirror"]?.asBoolean ?: false
 
-                    part.let { model ->
-                        val cubes = model["cubes"]!!.asJsonArray
-
-                        cubes.forEach { cube ->
-                            cube as JsonObject
-
-                            val uv = cube["uv"]!!.asJsonArray
-                            val origin = cube["origin"]!!.asJsonArray
-                            val size = cube["size"]!!.asJsonArray
-
-                            partBuilder.uv(
-                                uv[0].asInt,
-                                uv[1].asInt
-                            ).cuboid(
-                                origin[0].asFloat,
-                                origin[1].asFloat,
-                                origin[2].asFloat,
-                                size[0].asFloat,
-                                size[1].asFloat,
-                                size[2].asFloat,
-                            )
-                        }
-                    }
-
-                    modelParts[name] = modelParts[parent]!!.addChild(
-                        name,
-                        partBuilder,
-                        transform
+                // Transform data.
+                val transform = pivot.let {
+                    ModelTransform.pivot(
+                        it[0].asFloat,
+                        it[1].asFloat,
+                        it[2].asFloat,
                     )
                 }
 
-                return TexturedModelData.of(modelData, textureWidth, textureHeight)
-            } catch (ex: Exception) {
-                throw ex
-            }
-        }
-        fun createTextureModelDataBedrock(context: EntityRendererFactory.Context, json: JsonObject): TexturedModelData? {//The "json" should be the whole model file
-            try {
-                val modelData = ModelData()
-                val modelParts = CollectionFactor.hashMap<String, ModelPartData>() //<- Save all model parts that can be a parent part
-                modelParts["root"] = modelData.root
+                // Model part data.
+                val partBuilder = ModelPartBuilder.create().mirrored(mirror)
 
-                val modle = json["geometry"].asJsonObject
-                val description = modle["description"].asJsonObject
-                val textureWidth = description["texture_width"].asInt
-                val textureHeight = description["texture_height"].asInt
+                part.let { model ->
+                    val cubes = model["cubes"].asJsonArray
 
-                val bonesArray = modle["bones"].asJsonArray
+                    cubes.map(JsonElement::getAsJsonObject).forEach { cube ->
+                        val uv = cube["uv"].asJsonArray
+                        val origin = cube["origin"].asJsonArray
+                        val size = cube["size"].asJsonArray
 
-                bonesArray.forEach {part ->//This is a Part, aka A Bone
-                    part as JsonObject
-
-                    val name = part["name"]!!.asString
-                    val parent = part["parent"]?.asString ?: "root"
-                    val pivot = part["pivot"]!!.asJsonArray
-                    val mirror = part["mirror"]?.asBoolean ?: false
-
-                    val transform = pivot.let {
-                        ModelTransform.pivot(
-                                it[0].asFloat,
-                                it[1].asFloat,
-                                it[2].asFloat,
+                        partBuilder.uv(
+                            uv[0].asInt,
+                            uv[1].asInt
+                        ).cuboid(
+                            origin[0].asFloat,
+                            origin[1].asFloat,
+                            origin[2].asFloat,
+                            size[0].asFloat,
+                            size[1].asFloat,
+                            size[2].asFloat,
                         )
                     }
-                    val partBuilder = ModelPartBuilder.create().mirrored(mirror)
-
-
-                    part.let { model ->
-                        val cubes = model["cubes"]!!.asJsonArray
-
-                        cubes.forEach { cube ->
-                            cube as JsonObject
-
-                            val uv = cube["uv"]!!.asJsonArray
-                            val origin = cube["origin"]!!.asJsonArray
-                            val size = cube["size"]!!.asJsonArray
-
-                            partBuilder.uv(
-                                    uv[0].asInt,
-                                    uv[1].asInt
-                            ).cuboid(
-                                    origin[0].asFloat,
-                                    origin[1].asFloat,
-                                    origin[2].asFloat,
-                                    size[0].asFloat,
-                                    size[1].asFloat,
-                                    size[2].asFloat,
-                            )
-                        }
-                    }
-                    modelParts[name] = modelParts[parent]!!.addChild(
-                            name,
-                            partBuilder,
-                            transform
-                    )
-                    return TexturedModelData.of(modelData, textureWidth, textureHeight)
                 }
-            } catch (ex: Exception) {
-                throw ex
+
+                // Create child data and put it back to model parts.
+                // That may be the parent part of other child model part.
+                modelParts[name] = modelParts[parent]!!.addChild(
+                    name,
+                    partBuilder,
+                    transform
+                )
             }
-            return null;
         }
     }
 }

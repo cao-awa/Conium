@@ -33,18 +33,9 @@ class ConiumEntityRenderer(
         }
     }
 
-    init {
-        println(this.settings.clientModel(context))
-    }
-
     private val texture = this.settings.clientModelTexture
 
-    override fun createRenderState(): ConiumEntityRenderState {
-        return ConiumEntityRenderState()
-    }
+    override fun createRenderState(): ConiumEntityRenderState = ConiumEntityRenderState()
 
-    // For test only.
-    override fun getTexture(state: ConiumEntityRenderState): Identifier = Identifier.of("awa", "textures/entity/bat_v2.png")
-
-//    override fun getTexture(state: ConiumEntityRenderState): Identifier = this.texture
+    override fun getTexture(state: ConiumEntityRenderState): Identifier = this.texture
 }

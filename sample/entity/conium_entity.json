@@ -11,6 +11,11 @@
       "is_pushable_by_piston": true
     },
     "model": {
+      "texture": {
+        "path": "awa:textures/entity/bat_v2.png",
+        "width": 32,
+        "height": 32
+      },
       "parts": [
         {
           "name": "Head",
