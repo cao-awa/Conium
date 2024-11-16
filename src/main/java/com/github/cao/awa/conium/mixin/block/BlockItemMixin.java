@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class BlockItemMixin {
     @Inject(
             method = "place(Lnet/minecraft/item/ItemPlacementContext;)Lnet/minecraft/util/ActionResult;",
-            at = @At(value = "HEAD"),
+            at = @At("HEAD"),
             cancellable = true
     )
     public void placeBlock(ItemPlacementContext context, CallbackInfoReturnable<ActionResult> cir) {
@@ -37,7 +37,7 @@ public class BlockItemMixin {
             eventContext.arising(this);
         } else {
             // Cancel this event when presaging was rejected the event.
-            cir.cancel();
+            cir.setReturnValue(ActionResult.FAIL);
         }
     }
 

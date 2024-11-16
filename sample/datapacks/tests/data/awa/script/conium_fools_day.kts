@@ -3,12 +3,12 @@ import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 import net.minecraft.util.math.Vec3d
 
-val random = Random()
-
 request(
     SERVER_TICK,
     SERVER
 ) { _, server ->
+    val random = Random()
+
     server.worlds.forEach { world ->
         world.iterateEntities().forEach { entity ->
             if (entity != null && entity !is ServerPlayerEntity) {
@@ -30,15 +30,6 @@ request(
             }
         }
     }
-
-    true
-}
-
-request(
-    PLACE_BLOCK,
-    SERVER_WORLD
-) { _, world ->
-    println(world)
 
     true
 }

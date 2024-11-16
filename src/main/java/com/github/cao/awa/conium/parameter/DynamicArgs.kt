@@ -47,7 +47,7 @@ class DynamicArgs<P : ParameterSelective?, R>(
 
     fun arising(identity: Any, args: MutableMap<DynamicArgType<*>, Any?>, p: P?): R {
         if (p == null) {
-            return this.trigger.apply(identity, args, p)
+            return this.trigger.apply(identity, args, null)
         }
 
         for (queryArg in this.queryArgs) {

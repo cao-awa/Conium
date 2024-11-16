@@ -1,7 +1,6 @@
 package com.github.cao.awa.conium.datapack.script
 
 import com.github.cao.awa.conium.Conium
-import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.script.ScriptExport
@@ -44,7 +43,7 @@ import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromT
 class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identifier, Resource>>() {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumScriptManager")
-        private val DATA_TYPE = RegistryKeys.getPath(ConiumRegistryKeys.SCRIPTS)
+        private val DATA_TYPE = RegistryKeys.getPath(ConiumRegistryKeys.SCRIPT)
 
         // Commons script here, all script uses theses script.
         private val defaultCommons = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.commons.kts"))

@@ -35,10 +35,18 @@
   "depends": {
     "fluxia": "1.0.10",
     "fabricloader": "*",
-    "fabric": "*",
     "fabric-language-kotlin": "1.12.3+kotlin.2.0.21",
     "minecraft": "1.21.3",
     "java": "21"
+  },
+  "recommends": {
+    "fabric": "*",
+    "lithium": "*",
+    "sepals": "*",
+    "sodium": "*"
+  },
+  "breaks": {
+    "optifabric": "*"
   },
   "jars": [
     {

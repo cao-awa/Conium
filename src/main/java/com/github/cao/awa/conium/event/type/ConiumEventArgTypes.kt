@@ -62,13 +62,18 @@ object ConiumEventArgTypes {
     )
 
     @JvmField
-    val BLOCK_STATE: DynamicArgType<AbstractBlockState> = arg("block_state")
+    val BLOCK_STATE: DynamicArgType<AbstractBlockState> = arg(
+        "block_state"
+    )
 
     @JvmField
     val BLOCK_HIT_RESULT: DynamicArgType<BlockHitResult> = arg("block_hit_result")
 
     @JvmField
-    val PLAYER: DynamicArgType<PlayerEntity> = arg("player")
+    val PLAYER: DynamicArgType<PlayerEntity> = arg(
+        "player",
+        DynamicArgsBuilder.transform(ITEM_PLACEMENT_CONTEXT) { placement -> placement.player }
+    )
 
     @JvmField
     val LIVING_ENTITY: DynamicArgType<LivingEntity> = arg("living_entity")
