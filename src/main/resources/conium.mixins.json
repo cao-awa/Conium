@@ -3,7 +3,11 @@
   "minVersion": "0.8",
   "package": "com.github.cao.awa.conium.mixin",
   "compatibilityLevel": "JAVA_21",
+  "injectors": {
+    "defaultRequire": 1
+  },
   "mixins": [
+    "block.AbstractBlockMixin",
     "block.BlockItemMixin",
     "block.BlockMixin",
     "block.BlockStateMixin",
@@ -12,6 +16,7 @@
     "component.map.builder.ComponentMapBuilderAccessor",
     "datapack.DataPackContentsMixin",
     "entity.EntityAccessor",
+    "entity.LivingEntityMixin",
     "entity.attribute.DefaultAttributeRegistryMixin",
     "item.FuelRegistryMixin",
     "item.ItemMixin",
@@ -22,13 +27,12 @@
     "registry.NamedRegistryEntryListMixin",
     "registry.RegistryEntryReferenceMixin",
     "registry.SimpleRegistryMixin",
-    "server.MinecraftServerMixin"
+    "server.MinecraftServerMixin",
+    "server.interaction.ServerPlayerInteractionManagerMixin"
   ],
-  "injectors": {
-    "defaultRequire": 1
-  },
   "client": [
     "client.MinecraftClientAccessor",
+    "client.interaction.ClientPlayerInteractionManagerMixin",
     "renderer.entity.EntityRenderDispatcherMixin",
     "renderer.entity.EntityRenderersMixin",
     "renderer.item.ItemModelsAccessor",

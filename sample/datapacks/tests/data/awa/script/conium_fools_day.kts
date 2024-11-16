@@ -3,12 +3,12 @@ import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 import net.minecraft.util.math.Vec3d
 
+val random = Random()
+
 request(
     SERVER_TICK,
     SERVER
 ) { _, server ->
-    val random = Random()
-
     server.worlds.forEach { world ->
         world.iterateEntities().forEach { entity ->
             if (entity != null && entity !is ServerPlayerEntity) {
@@ -34,6 +34,15 @@ request(
     true
 }
 
+request(
+    PLACE_BLOCK,
+    SERVER_WORLD
+) { _, world ->
+    println(world)
+
+    true
+}
+
 // Let blue bed explosion!
 request(
     USE_BLOCK,
@@ -45,6 +54,24 @@ request(
         val vec3d: Vec3d = pos.toCenterPos()
         world.createExplosion(null, world.getDamageSources().badRespawnPoint(vec3d), null, vec3d, 200.0f, true, World.ExplosionSourceType.BLOCK)
     }
+
+    true
+}
+
+request(
+    ENTITY_DIE,
+    LIVING_ENTITY
+).presage { _, entity ->
+    println("${entity} dying")
+
+    false
+}
+
+request(
+    ENTITY_DEAD,
+    LIVING_ENTITY
+) { _, entity ->
+    println("${entity} dead")
 
     true
 }

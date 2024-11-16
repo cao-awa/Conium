@@ -42,7 +42,7 @@
   "recommends": {
     "fabric": "*",
     "lithium": "*",
-    "sepals": "*",
+    "sepals": ">=1.0.5",
     "sodium": "*"
   },
   "breaks": {

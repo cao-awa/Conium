@@ -147,12 +147,12 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
         // Add script for next step ordered loading.
         CollectionFactor.linkedList<ScriptEval>().let { scripts ->
             // Load commons.
-            scripts.add(ScriptEval(defaultCommons))
+            scripts.add(ScriptEval(defaultCommons, "ConiumCommons"))
 
             // Bedrock common is only load when conium allow bedrock.
             if (Conium.allowBedrock) {
-                scripts.add(ScriptEval(defaultBedrockCommons, "ConiumCommons"))
-                scripts.add(ScriptEval(defaultBedrockScriptInit, "ConiumCommons", "ConiumBedrockCommons"))
+                scripts.add(ScriptEval(defaultBedrockCommons, "ConiumBedrockCommons", "ConiumCommons"))
+                scripts.add(ScriptEval(defaultBedrockScriptInit, "ConiumBedrockScriptInit", "ConiumCommons", "ConiumBedrockCommons"))
             }
 
             for (script in prepared) {
@@ -165,7 +165,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
                 identifier.path.also { path ->
                     if (path.endsWith(".kts")) {
                         // Load script data after.
-                        scripts.add(ScriptEval(content, "ConiumCommons"))
+                        scripts.add(ScriptEval(content, path, "ConiumCommons"))
                     } else if (!Conium.allowBedrock) {
                         // When disabled bedrock script allows, then script won't be load.
                         LOGGER.warn("Conium are disabled bedrock script, ignored '$identifier'")
@@ -174,6 +174,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
                         scripts.add(
                             ScriptEval(
                                 translateBedrockTypescript(content),
+                                path,
                                 "ConiumCommons",
                                 "ConiumBedrockCommons"
                             )
@@ -275,11 +276,9 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
         // Do not continues load when scripts already not has next.
         if (scripts.hasNext()) {
             // Get next script and process it.
-            scripts.next().let {
-                evalKotlin(it.codes, *it.defaultImports) {
-                    // Continues to processes until scripts has no next present.
-                    evalKotlin(scripts)
-                }
+            evalKotlin(scripts.next()) {
+                // Continues to processes until scripts has no next present.
+                evalKotlin(scripts)
             }
         }
     }
@@ -289,7 +288,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
      *
      * Use callback let script processes ordered, callback will be calls after a script runs done.
      *
-     * @param source script source code
+     * @param scriptEval script source code
      * @param defaultImports script that forcefully import to this script
      * @param resultCallback callback that let scripts be processes ordered
      *
@@ -299,12 +298,16 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
      * @since 1.0.0
      */
     private fun evalKotlin(
-        source: String,
-        vararg defaultImports: String,
+        scriptEval: ScriptEval,
         resultCallback: () -> Unit
     ): ResultWithDiagnostics<EvaluationResult> {
         // Import scripts to this script.
-        val content = ScriptExport.import(this.exportedScript, source, *defaultImports)
+        val content = ScriptExport.import(this.exportedScript, scriptEval.codes, *scriptEval.defaultImports)
+
+        LOGGER.info(
+            "Evaluating script '{}'",
+            scriptEval.source
+        )
 
         // The 'eval' in host will compile and evaluate the script.
         val result = host.eval(
@@ -337,17 +340,34 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
                                     // The 'ofCode' only allow types import can be import to scripts.
                                     this.exportedScript[it.name] = it.ofCode(content)
                                 }
-                            }
+
+                                LOGGER.info(
+                                    "Succeed executed script '{}', return value: {}",
+                                    scriptEval.source,
+                                    value
+                                )
+                            } ?: run {
+                            LOGGER.info(
+                                "Succeed executed script '{}'",
+                                scriptEval.source
+                            )
+                        }
 
                         // Calls callback to processes next script.
                         resultCallback()
                     }
             }
             // Not succeed, ignored result of this script, directly load next.
-            is ResultWithDiagnostics.Failure -> resultCallback()
-        }
+            is ResultWithDiagnostics.Failure -> {
+                LOGGER.error(
+                    "Error running script '{}': {}",
+                    scriptEval.source,
+                    result.reports
+                )
 
-        println(result)
+                resultCallback()
+            }
+        }
 
         return result
     }

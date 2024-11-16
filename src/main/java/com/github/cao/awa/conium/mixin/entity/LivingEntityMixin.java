@@ -1,0 +1,117 @@
+package com.github.cao.awa.conium.mixin.entity;
+
+import com.github.cao.awa.conium.event.ConiumEvent;
+import com.github.cao.awa.conium.event.context.ConiumEventContext;
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
+import com.github.cao.awa.conium.event.type.ConiumEventType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.server.world.ServerWorld;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+@Mixin(LivingEntity.class)
+public class LivingEntityMixin {
+    @Unique
+    private LivingEntity cast() {
+        return (LivingEntity) (Object) this;
+    }
+
+    @Inject(
+            method = "damage",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void damage(ServerWorld world, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {
+        // Request the entity damage event.
+        ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.ENTITY_DAMAGE);
+
+        LivingEntity self = cast();
+
+        // Fill the context args.
+        eventContext.put(ConiumEventArgTypes.WORLD, world);
+
+        eventContext.put(ConiumEventArgTypes.DAMAGE_SOURCE, damageSource);
+        eventContext.put(ConiumEventArgTypes.LIVING_ENTITY, self);
+        eventContext.put(ConiumEventArgTypes.FLOAT, amount);
+
+        if (eventContext.presaging(self)) {
+            // Only presaging state is true can be continues.
+            eventContext.arising(self);
+        } else {
+            // Cancel this event when presaging was rejected the event.
+            cir.setReturnValue(false);
+        }
+    }
+
+    @Inject(
+            method = "applyDamage",
+            at = @At("RETURN")
+    )
+    public void damaged(ServerWorld world, DamageSource damageSource, float amount, CallbackInfo ci) {
+        // Request the entity damaged event.
+        ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.ENTITY_DAMAGED);
+
+        LivingEntity self = cast();
+
+        // Fill the context args.
+        eventContext.put(ConiumEventArgTypes.WORLD, world);
+
+        eventContext.put(ConiumEventArgTypes.DAMAGE_SOURCE, damageSource);
+        eventContext.put(ConiumEventArgTypes.LIVING_ENTITY, self);
+        eventContext.put(ConiumEventArgTypes.FLOAT, amount);
+
+        // The entity damaged event is not cancelable, only arising the context.
+        if (eventContext.presaging(self)) {
+            eventContext.arising(self);
+        }
+    }
+
+    @Inject(
+            method = "onDeath",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void dying(DamageSource damageSource, CallbackInfo ci) {
+        // Request the entity dying event.
+        ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.ENTITY_DIE);
+
+        LivingEntity self = cast();
+
+        // Fill the context args.
+        eventContext.put(ConiumEventArgTypes.DAMAGE_SOURCE, damageSource);
+        eventContext.put(ConiumEventArgTypes.LIVING_ENTITY, self);
+
+        if (eventContext.presaging(self)) {
+            // Only presaging state is true can be continues.
+            eventContext.arising(self);
+        } else {
+            // Cancel this event when presaging was rejected the event.
+            ci.cancel();
+        }
+    }
+
+    @Inject(
+            method = "onDeath",
+            at = @At("RETURN")
+    )
+    public void dead(DamageSource damageSource, CallbackInfo ci) {
+        // Request the entity dead event.
+        ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.ENTITY_DEAD);
+
+        LivingEntity self = cast();
+
+        // Fill the context args.
+        eventContext.put(ConiumEventArgTypes.DAMAGE_SOURCE, damageSource);
+        eventContext.put(ConiumEventArgTypes.LIVING_ENTITY, self);
+
+        // The entity dead event is not cancelable, only arising the context.
+        if (eventContext.presaging(self)) {
+            eventContext.arising(self);
+        }
+    }
+}

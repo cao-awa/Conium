@@ -146,6 +146,10 @@ loom {
     }
 }
 
+runClient {
+    args("--username", "cao_awa")
+}
+
 // Add the datagenned files into the jar.
 sourceSets {
     main {

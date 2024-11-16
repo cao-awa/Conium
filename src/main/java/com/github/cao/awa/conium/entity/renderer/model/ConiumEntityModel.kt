@@ -51,6 +51,13 @@ class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(
             return TexturedModelData.of(modelData, textureWidth, textureHeight)
         }
 
+        /**
+         * Create the entity texture model with conium schema.
+         *
+         * @author cao_awa
+         *
+         * @since 1.0.0
+         */
         fun createTextureModelData(modelData: ModelData, modelParts: MutableMap<String, ModelPartData>, context: Context, json: JsonObject): TexturedModelData {
             // Texture data, the texture path is handled in the entity model template.
             val texture = json["texture"].asJsonObject
@@ -66,6 +73,14 @@ class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(
             )
         }
 
+        /**
+         * Create the entity texture model with bedrock schema.
+         *
+         * @author cao_awa
+         * @author Ryan 100c
+         *
+         * @since 1.0.0
+         */
         fun createBedrockTextureModelData(modelData: ModelData, modelParts: MutableMap<String, ModelPartData>, context: Context, geometries: JsonArray): TexturedModelData {
             // Only allow one of geometry to creating.
             val geometry = geometries[0].asJsonObject

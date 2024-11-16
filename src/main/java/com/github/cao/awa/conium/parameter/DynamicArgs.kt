@@ -6,13 +6,20 @@ import com.mojang.datafixers.util.Function3
 
 class DynamicArgs<P : ParameterSelective?, R>(
     private val trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>,
-    vararg args: DynamicArgType<*>
+    vararg args: () -> DynamicArgType<*>
 ) {
     private val queryArgs: MutableList<DynamicArgType<*>> = CollectionFactor.arrayList(args.size)
     private var lifecycle: DynamicArgsLifecycle = DynamicArgsLifecycle.ONCE
 
+    constructor(trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>, vararg args: DynamicArgType<*>) : this(trigger, *args.map {
+        val getter: () -> DynamicArgType<*> = { it }
+        getter
+    }.toList().toTypedArray())
+
+    constructor(trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>) : this(trigger, *mutableListOf<() -> DynamicArgType<*>>().toTypedArray())
+
     init {
-        this.queryArgs.addAll(args)
+        this.queryArgs.addAll(args.map { it() })
     }
 
     fun lifecycle(lifecycle: DynamicArgsLifecycle): DynamicArgs<P, R> {

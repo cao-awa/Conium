@@ -404,7 +404,7 @@ Currently, supported these components of items:
 
 ## Conium script APIs
 
-Documents are not done yet.
+See the [Conium scripting](./document/script/kotlin/README.md).
 
 ## Bedrock script APIs
 
@@ -412,7 +412,7 @@ Not completed bedrock script APIs supports now, only framework able to runs the 
 
 ### Grammars
 
-About typescript grammar, supported by 'language-translator': [Typescript supports](https://github.com/cao-awa/language-translator/tree/main/doc/typescript)
+About typescript grammar, supported by ```language-translator``` or called ```fluxia```: [Typescript supports](https://github.com/cao-awa/language-translator/tree/main/doc/typescript)
 
 ### APIs
 

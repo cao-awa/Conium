@@ -35,8 +35,6 @@ class ScriptExport(
                 importing.addAll(it.substring(it.indexOf(":") + 1).split(",").toSet().map(String::trim))
             }
 
-            println("Importing: $importing : exported: $exported")
-
             for (sourceName in importing) {
                 exported[sourceName]?.let {
                     for (import in it.imports) {

@@ -13,10 +13,9 @@ import com.github.cao.awa.conium.parameter.ParameterSelective1
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemUseOnBeforeEventSignal")
 class BedrockItemUseOnBeforeEvent {
+    @BedrockScriptApi
     fun subscribe(action: ParameterSelective1<Unit, BedrockItemUseOnEventContext>) {
         val currentPosting = BedrockEventContext.currentPosting!!
-
-        println("$currentPosting subscribing to item use on")
 
         ConiumEventContextBuilder.request(
             ConiumEventType.ITEM_USE_ON_BLOCK,

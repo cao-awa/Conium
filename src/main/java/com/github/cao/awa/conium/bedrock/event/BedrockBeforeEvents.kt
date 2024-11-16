@@ -11,5 +11,6 @@ class BedrockBeforeEvents {
         val EVENTS = BedrockBeforeEvents()
     }
 
+    @BedrockScriptApi
     val itemUseOn = BedrockItemUseOnBeforeEvent()
 }

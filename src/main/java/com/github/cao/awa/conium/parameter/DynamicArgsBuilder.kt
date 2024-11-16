@@ -739,5 +739,167 @@ class DynamicArgsBuilder {
                 arg7
             ).lifecycle(DynamicArgsLifecycle.TRANSFORM)
         }
+
+        @JvmStatic
+        @SuppressWarnings("UNCHECKED_CAST")
+        fun <R, P1> transform(
+            arg1: () -> DynamicArgType<P1>,
+            p: ParameterSelective1<R, P1>
+        ): DynamicArgs<ParameterSelective1<R, P1>, R?> {
+            return DynamicArgs<ParameterSelective1<R, P1>, R?>({ _, args, _ ->
+                p.arise(
+                    args[arg1()] as P1
+                )
+            }, arg1).lifecycle(DynamicArgsLifecycle.TRANSFORM)
+        }
+
+        @JvmStatic
+        @SuppressWarnings("UNCHECKED_CAST")
+        fun <R, P1> transform(
+            arg1: () -> DynamicArgType<P1>,
+            p: ParameterSelective2<R, Any, P1>
+        ): DynamicArgs<ParameterSelective2<R, Any, P1>, R?> {
+            return DynamicArgs<ParameterSelective2<R, Any, P1>, R?>({ identity, args, _ ->
+                p.arise(
+                    identity,
+                    args[arg1()] as P1
+                )
+            }, arg1).lifecycle(DynamicArgsLifecycle.TRANSFORM)
+        }
+
+        @JvmStatic
+        @SuppressWarnings("UNCHECKED_CAST")
+        fun <R, P1, P2> transform(
+            arg1: () -> DynamicArgType<P1>,
+            arg2: () -> DynamicArgType<P2>,
+            p: ParameterSelective3<R, Any, P1, P2>
+        ): DynamicArgs<ParameterSelective3<R, Any, P1, P2>, R?> {
+            return DynamicArgs<ParameterSelective3<R, Any, P1, P2>, R?>({ identity, args, _ ->
+                p.arise(
+                    identity,
+                    args[arg1()] as P1,
+                    args[arg2()] as P2
+                )
+            }, arg1, arg2).lifecycle(DynamicArgsLifecycle.TRANSFORM)
+        }
+
+        @JvmStatic
+        @SuppressWarnings("UNCHECKED_CAST")
+        fun <R, P1, P2, P3> transform(
+            arg1: () -> DynamicArgType<P1>,
+            arg2: () -> DynamicArgType<P2>,
+            arg3: () -> DynamicArgType<P3>,
+            p: ParameterSelective4<R, Any, P1, P2, P3>
+        ): DynamicArgs<ParameterSelective4<R, Any, P1, P2, P3>, R?> {
+            return DynamicArgs<ParameterSelective4<R, Any, P1, P2, P3>, R?>({ identity, args, _ ->
+                p.arise(
+                    identity,
+                    args[arg1()] as P1,
+                    args[arg2()] as P2,
+                    args[arg3()] as P3
+                )
+            }, arg1, arg2, arg3).lifecycle(DynamicArgsLifecycle.TRANSFORM)
+        }
+
+        @JvmStatic
+        @SuppressWarnings("UNCHECKED_CAST")
+        fun <R, P1, P2, P3, P4> transform(
+            arg1: () -> DynamicArgType<P1>,
+            arg2: () -> DynamicArgType<P2>,
+            arg3: () -> DynamicArgType<P3>,
+            arg4: () -> DynamicArgType<P4>,
+            p: ParameterSelective5<R, Any, P1, P2, P3, P4>
+        ): DynamicArgs<ParameterSelective5<R, Any, P1, P2, P3, P4>, R?> {
+            return DynamicArgs<ParameterSelective5<R, Any, P1, P2, P3, P4>, R?>({ identity, args, _ ->
+                p.arise(
+                    identity,
+                    args[arg1()] as P1,
+                    args[arg2()] as P2,
+                    args[arg3()] as P3,
+                    args[arg4()] as P4
+                )
+            }, arg1, arg2, arg3, arg4).lifecycle(DynamicArgsLifecycle.TRANSFORM)
+        }
+
+        @JvmStatic
+        @SuppressWarnings("UNCHECKED_CAST")
+        fun <R, P1, P2, P3, P4, P5> transform(
+            arg1: () -> DynamicArgType<P1>,
+            arg2: () -> DynamicArgType<P2>,
+            arg3: () -> DynamicArgType<P3>,
+            arg4: () -> DynamicArgType<P4>,
+            arg5: () -> DynamicArgType<P5>,
+            p: ParameterSelective6<R, Any, P1, P2, P3, P4, P5>
+        ): DynamicArgs<ParameterSelective6<R, Any, P1, P2, P3, P4, P5>, R?> {
+            return DynamicArgs<ParameterSelective6<R, Any, P1, P2, P3, P4, P5>, R?>({ identity, args, _ ->
+                p.arise(
+                    identity,
+                    args[arg1()] as P1,
+                    args[arg2()] as P2,
+                    args[arg3()] as P3,
+                    args[arg4()] as P4,
+                    args[arg5()] as P5
+                )
+            }, arg1, arg2, arg3, arg4, arg5).lifecycle(DynamicArgsLifecycle.TRANSFORM)
+        }
+
+        @JvmStatic
+        @SuppressWarnings("UNCHECKED_CAST")
+        fun <R, P1, P2, P3, P4, P5, P6> transform(
+            arg1: () -> DynamicArgType<P1>,
+            arg2: () -> DynamicArgType<P2>,
+            arg3: () -> DynamicArgType<P3>,
+            arg4: () -> DynamicArgType<P4>,
+            arg5: () -> DynamicArgType<P5>,
+            arg6: () -> DynamicArgType<P6>,
+            p: ParameterSelective7<R, Any, P1, P2, P3, P4, P5, P6>
+        ): DynamicArgs<ParameterSelective7<R, Any, P1, P2, P3, P4, P5, P6>, R?> {
+            return DynamicArgs<ParameterSelective7<R, Any, P1, P2, P3, P4, P5, P6>, R?>({ identity, args, _ ->
+                p.arise(
+                    identity,
+                    args[arg1()] as P1,
+                    args[arg2()] as P2,
+                    args[arg3()] as P3,
+                    args[arg4()] as P4,
+                    args[arg5()] as P5,
+                    args[arg6()] as P6
+                )
+            }, arg1, arg2, arg3, arg4, arg5, arg6).lifecycle(DynamicArgsLifecycle.TRANSFORM)
+        }
+
+        @JvmStatic
+        @SuppressWarnings("UNCHECKED_CAST")
+        fun <R, P1, P2, P3, P4, P5, P6, P7> transform(
+            arg1: () -> DynamicArgType<P1>,
+            arg2: () -> DynamicArgType<P2>,
+            arg3: () -> DynamicArgType<P3>,
+            arg4: () -> DynamicArgType<P4>,
+            arg5: () -> DynamicArgType<P5>,
+            arg6: () -> DynamicArgType<P6>,
+            arg7: () -> DynamicArgType<P7>,
+            p: ParameterSelective8<R, Any, P1, P2, P3, P4, P5, P6, P7>
+        ): DynamicArgs<ParameterSelective8<R, Any, P1, P2, P3, P4, P5, P6, P7>, R?> {
+            return DynamicArgs<ParameterSelective8<R, Any, P1, P2, P3, P4, P5, P6, P7>, R?>(
+                { identity, args, _ ->
+                    p.arise(
+                        identity,
+                        args[arg1()] as P1,
+                        args[arg2()] as P2,
+                        args[arg3()] as P3,
+                        args[arg4()] as P4,
+                        args[arg5()] as P5,
+                        args[arg6()] as P6,
+                        args[arg7()] as P7
+                    )
+                },
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7
+            ).lifecycle(DynamicArgsLifecycle.TRANSFORM)
+        }
     }
 }
