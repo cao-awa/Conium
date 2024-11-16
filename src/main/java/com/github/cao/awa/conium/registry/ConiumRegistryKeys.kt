@@ -12,12 +12,16 @@ import net.minecraft.util.Identifier
 object ConiumRegistryKeys {
     @JvmStatic
     val ITEM_PROPERTY_INJECT: RegistryKey<Registry<ItemPropertyInject<*>>> = of("property/item")
+
     @JvmStatic
     val SCRIPT: RegistryKey<Registry<ScriptEval>> = of("script")
+
     @JvmStatic
     val ITEM: RegistryKey<Registry<ConiumItemBuilder>> = of("item")
+
     @JvmStatic
     val BLOCK: RegistryKey<Registry<ConiumBlockBuilder>> = of("block")
+
     @JvmStatic
     val ENTITY: RegistryKey<Registry<ConiumEntityBuilder>> = of("entity")
 

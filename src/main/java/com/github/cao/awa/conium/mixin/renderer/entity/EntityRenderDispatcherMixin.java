@@ -12,7 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EntityRenderDispatcher.class)
 public abstract class EntityRenderDispatcherMixin {
-    @Shadow public abstract <T extends Entity> EntityRenderer<? super T, ?> getRenderer(T entity);
+    @Shadow
+    public abstract <T extends Entity> EntityRenderer<? super T, ?> getRenderer(T entity);
 
     @Inject(
             method = "shouldRender",

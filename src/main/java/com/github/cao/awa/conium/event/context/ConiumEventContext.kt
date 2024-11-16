@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.event.context
 
-import com.github.cao.awa.conium.event.type.DynamicArgType
+import com.github.cao.awa.conium.parameter.DynamicArgType
 import com.github.cao.awa.conium.parameter.DynamicArgs
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
@@ -79,7 +79,7 @@ class ConiumEventContext<P : ParameterSelective?>(
     }
 
     fun arising(identity: Any): Boolean {
-        var success = this.dynamicArgs.arising(identity, this.args, this.ariseTrigger!!) as Boolean
+        var success = this.dynamicArgs.arising(identity, this.args, this.ariseTrigger!!)
         for (attach in this.attaches) {
             if (attach.hasArising()) {
                 val attachSuccess = attach.resetArgs(this.args)

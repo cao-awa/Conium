@@ -16,7 +16,6 @@ import com.github.cao.awa.language.translator.translate.lang.element.TranslateEl
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.fabricmc.api.ModInitializer
 import org.apache.logging.log4j.LogManager
-import org.jetbrains.annotations.NotNull
 import java.util.function.Supplier
 
 class Conium : ModInitializer {

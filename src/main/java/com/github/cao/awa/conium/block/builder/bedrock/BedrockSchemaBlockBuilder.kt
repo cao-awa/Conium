@@ -9,7 +9,7 @@ import com.google.gson.JsonObject
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 
-class BedrockSchemaBlockBuilder(identifier: Identifier): ConiumBlockBuilder(identifier) {
+class BedrockSchemaBlockBuilder(identifier: Identifier) : ConiumBlockBuilder(identifier) {
     companion object {
         @JvmStatic
         fun deserialize(json: JsonObject, registryLookup: RegistryWrapper.WrapperLookup): BedrockSchemaBlockBuilder {

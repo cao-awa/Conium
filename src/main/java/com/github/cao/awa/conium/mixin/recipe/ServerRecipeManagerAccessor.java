@@ -16,6 +16,11 @@ import java.util.Map;
 
 @Mixin(ServerRecipeManager.class)
 public interface ServerRecipeManagerAccessor {
+    @Invoker("collectServerRecipes")
+    static List<ServerRecipeManager.ServerRecipe> collectServerRecipes(Iterable<RecipeEntry<?>> recipes, FeatureSet enabledFeatures) {
+        throw new AssertionError();
+    }
+
     @Accessor
     RegistryWrapper.WrapperLookup getRegistries();
 
@@ -27,9 +32,4 @@ public interface ServerRecipeManagerAccessor {
 
     @Accessor("recipesByKey")
     Map<RegistryKey<Recipe<?>>, List<ServerRecipeManager.ServerRecipe>> getRecipesByKey();
-
-    @Invoker("collectServerRecipes")
-    static List<ServerRecipeManager.ServerRecipe> collectServerRecipes(Iterable<RecipeEntry<?>> recipes, FeatureSet enabledFeatures) {
-        throw new AssertionError();
-    }
 }

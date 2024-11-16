@@ -9,9 +9,9 @@ import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.model.EntityModel
-import net.minecraft.entity.EntityType
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityDimensions
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.Identifier
 

@@ -1,6 +1,5 @@
 package com.github.cao.awa.conium.block.template.map
 
-import com.github.cao.awa.conium.block.template.map.ConiumMapColorTemplate
 import com.github.cao.awa.conium.kotlin.extent.block.parseAndFindColor
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockBlock.MAP_COLOR
 import com.google.gson.JsonElement

@@ -13,13 +13,19 @@ import java.util.List;
 
 @Mixin(IdList.class)
 public abstract class IdListMixin<T> implements ConiumDynamicIdList<T> {
-    @Shadow public abstract void add(T value);
-
-    @Shadow @Final private List<T> list;
-    @Shadow @Final private Reference2IntMap<T> idMap;
-    @Shadow private int nextId;
     @Unique
     private final List<T> dynamicList = CollectionFactor.arrayList();
+    @Shadow
+    @Final
+    private List<T> list;
+    @Shadow
+    @Final
+    private Reference2IntMap<T> idMap;
+    @Shadow
+    private int nextId;
+
+    @Shadow
+    public abstract void add(T value);
 
     @Override
     public void conium$clearDynamic() {

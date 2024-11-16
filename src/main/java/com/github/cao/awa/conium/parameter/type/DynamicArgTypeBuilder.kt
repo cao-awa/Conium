@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.parameter.type
 
-import com.github.cao.awa.conium.event.type.DynamicArgType
+import com.github.cao.awa.conium.parameter.DynamicArgType
 import com.github.cao.awa.conium.parameter.DynamicArgs
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 

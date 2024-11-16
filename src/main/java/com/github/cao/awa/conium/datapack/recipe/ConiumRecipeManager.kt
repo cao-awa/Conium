@@ -5,7 +5,6 @@ import com.github.cao.awa.conium.mixin.recipe.ServerRecipeManagerAccessor
 import com.github.cao.awa.conium.mixin.recipe.property.RecipePropertySetAccessor
 import com.github.cao.awa.conium.recipe.ConiumBedrockRecipeBuilder
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
-import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.mojang.serialization.JsonOps
 import net.minecraft.recipe.*
@@ -26,7 +25,6 @@ import org.apache.logging.log4j.Logger
 import java.util.*
 import java.util.function.Consumer
 import java.util.stream.Collectors
-import kotlin.jvm.optionals.getOrNull
 
 class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeManager(registries) {
     companion object {

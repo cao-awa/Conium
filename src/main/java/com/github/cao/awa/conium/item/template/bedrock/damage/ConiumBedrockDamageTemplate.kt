@@ -1,8 +1,8 @@
 package com.github.cao.awa.conium.item.template.bedrock.damage
 
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.kotlin.extent.component.withComputeAttributeModifiers
 import com.github.cao.awa.conium.kotlin.extent.component.withComponent
+import com.github.cao.awa.conium.kotlin.extent.component.withComputeAttributeModifiers
 import com.github.cao.awa.conium.kotlin.extent.component.withCreateAttributeModifiers
 import com.github.cao.awa.conium.kotlin.extent.item.components
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.DAMAGE

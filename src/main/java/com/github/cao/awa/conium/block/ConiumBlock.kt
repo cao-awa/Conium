@@ -33,7 +33,7 @@ class ConiumBlock(settings: Settings) : Block(settings), BlockColorProvider {
     }
 
     var color: Int = 0
-    var outlineShape : VoxelShape = VoxelShapes.fullCube()
+    var outlineShape: VoxelShape = VoxelShapes.fullCube()
 
     override fun getColor(state: BlockState?, world: BlockRenderView?, pos: BlockPos?, tintIndex: Int): Int = this.color
 

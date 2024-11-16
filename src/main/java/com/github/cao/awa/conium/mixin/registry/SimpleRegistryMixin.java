@@ -9,7 +9,10 @@ import com.mojang.serialization.Lifecycle;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
-import net.minecraft.registry.*;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryEntryLookup;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.SimpleRegistry;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryInfo;
 import net.minecraft.registry.entry.RegistryEntryList;
@@ -18,7 +21,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -46,10 +52,10 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     private final List<RegistryEntry.Reference<T>> dynamicRawIdToEntry = CollectionFactor.arrayList();
     @Unique
     private final Map<RegistryKey<T>, RegistryEntryInfo> dynamicKeyToEntryInfo = new IdentityHashMap<>();
-
+    @Unique
+    private final Map<TagKey<T>, RegistryEntryList.Named<T>> dynamicTags = new IdentityHashMap<>();
     @Shadow
     private boolean frozen;
-
     @Shadow
     @Final
     private Map<Identifier, RegistryEntry.Reference<T>> idToEntry;
@@ -68,7 +74,6 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     @Shadow
     @Final
     private Map<RegistryKey<T>, RegistryEntryInfo> keyToEntryInfo;
-
     @Shadow
     private Lifecycle lifecycle;
 
@@ -78,21 +83,14 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     @Shadow
     protected abstract RegistryEntryList.Named<T> createNamedEntryList(TagKey<T> tag);
 
-    @Unique
-    private final Map<TagKey<T>, RegistryEntryList.Named<T>> dynamicTags = new IdentityHashMap<>();
-
-    @Shadow
-    @Final
-    private Map<TagKey<T>, RegistryEntryList.Named<T>> tags;
-
     @Shadow
     abstract RegistryEntryList.Named<T> getTag(TagKey<T> key);
 
-    @Shadow abstract RegistryEntry.Reference<T> getOrCreateEntry(RegistryKey<T> key);
+    @Shadow
+    abstract RegistryEntry.Reference<T> getOrCreateEntry(RegistryKey<T> key);
 
-    @Shadow public abstract void resetTagEntries();
-
-    @Shadow public abstract Optional<RegistryEntry.Reference<T>> getOptional(RegistryKey<T> key);
+    @Shadow
+    public abstract void resetTagEntries();
 
     @Inject(
             method = "add",
@@ -239,12 +237,6 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     @SuppressWarnings("unchecked")
     public Object getByKey(Map<?, ?> instance, Object o) {
         return orEntry((RegistryKey<T>) o);
-    }
-
-    @Unique
-    @Nullable
-    private static <T> T getValue(@Nullable RegistryEntry.Reference<T> entry) {
-        return entry != null ? entry.value() : null;
     }
 
     @Inject(
@@ -487,7 +479,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             cancellable = true
     )
     public void getOptional(RegistryKey<T> key, CallbackInfoReturnable<Optional<RegistryEntry.Reference<T>>> cir) {
-            cir.setReturnValue(orRegistryOptional(key));
+        cir.setReturnValue(orRegistryOptional(key));
     }
 
     @Unique

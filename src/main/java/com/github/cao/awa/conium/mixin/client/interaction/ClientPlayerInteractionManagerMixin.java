@@ -4,20 +4,15 @@ import com.github.cao.awa.conium.event.ConiumEvent;
 import com.github.cao.awa.conium.event.context.ConiumEventContext;
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.OperatorBlock;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ClientPlayerInteractionManager.class)
 public class ClientPlayerInteractionManagerMixin {

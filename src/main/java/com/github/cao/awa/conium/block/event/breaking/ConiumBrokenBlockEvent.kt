@@ -6,7 +6,6 @@ import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.require
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
-import com.github.cao.awa.conium.parameter.ParameterSelective3
 import com.github.cao.awa.conium.parameter.ParameterSelective4
 import net.minecraft.block.AbstractBlock.AbstractBlockState
 import net.minecraft.entity.player.PlayerEntity

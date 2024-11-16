@@ -10,5 +10,6 @@ public interface ConiumDynamicIdList<T> {
     default void addDynamic(T value) {
         conium$add(value);
     }
+
     void conium$add(T value);
 }

@@ -9,13 +9,14 @@ import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInje
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
-import com.google.gson.*
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import net.minecraft.component.ComponentType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.resource.*
+import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 import net.minecraft.util.profiler.Profiler
 import org.apache.logging.log4j.LogManager

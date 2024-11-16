@@ -6,12 +6,9 @@ import com.github.cao.awa.conium.kotlin.extent.component.withComponent
 import com.github.cao.awa.conium.kotlin.extent.component.withComputeTool
 import com.github.cao.awa.conium.kotlin.extent.component.withCreateTool
 import com.github.cao.awa.conium.kotlin.extent.item.components
-import com.github.cao.awa.conium.template.ConiumTemplates
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
 open class ConiumDurabilityTemplate(name: String, private val durability: Int, private val damageChance: IntRange) : ConiumItemTemplate(name) {
     companion object {

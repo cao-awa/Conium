@@ -53,7 +53,7 @@ abstract class ConiumRecipeTemplate<T : Recipe<*>>(name: String) : ConiumTemplat
             }
         }
 
-        fun <T: ConiumRecipeTemplate<*>> createBasic(jsonObject: JsonObject, template: T, resultName: String = "result") {
+        fun <T : ConiumRecipeTemplate<*>> createBasic(jsonObject: JsonObject, template: T, resultName: String = "result") {
             template.identifier = Identifier.of(jsonObject["description"].asJsonObject["identifier"].asString)
 
             template.result = createItem(jsonObject, resultName)

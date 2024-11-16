@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.bedrock.world.player.delegate.BedrockPlayerDele
 import net.minecraft.world.World
 
 @BedrockScriptApi
-open class BedrockWorld(private val delegate: World): AbstractBedrockWorld() {
+open class BedrockWorld(private val delegate: World) : AbstractBedrockWorld() {
     companion object {
         val DUMMY = DummyBedrockWorld()
     }

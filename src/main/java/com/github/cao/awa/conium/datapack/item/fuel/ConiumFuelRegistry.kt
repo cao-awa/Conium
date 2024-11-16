@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.datapack.item.fuel
 
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
-import it.unimi.dsi.fastutil.objects.*
+import it.unimi.dsi.fastutil.objects.Object2IntMap
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import java.util.*

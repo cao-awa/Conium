@@ -26,7 +26,7 @@ class ConiumTypescriptDefineVariableTranslator : ConiumScriptTranslator<Typescri
                                 builder.append("=IntegerReceptacle(0)")
                                 translateEnding(this)
                                 builder.append(ast.name())
-                                builder.append(".set(");
+                                builder.append(".set(")
                                 postTranslate(TypescriptTranslateElement.STATEMENT, ast.assigment())
                                 builder.append(")")
                                 translateEnding(this)

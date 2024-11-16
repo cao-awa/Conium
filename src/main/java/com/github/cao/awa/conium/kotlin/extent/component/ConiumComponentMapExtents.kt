@@ -27,7 +27,7 @@ val ComponentMap.Builder.components: Reference2ObjectMap<ComponentType<*>, Any> 
  *
  * @since 1.0.0
  */
-fun <T: Any, Y: Any> ComponentMap.Builder.withComponent(
+fun <T : Any, Y : Any> ComponentMap.Builder.withComponent(
     type: ComponentType<T>,
     creator: () -> T,
     compute: Pair<(T) -> Y, (Y) -> T>,
@@ -64,7 +64,7 @@ fun <T: Any, Y: Any> ComponentMap.Builder.withComponent(
  *
  * @since 1.0.0
  */
-fun <T: Any, Y: Any> ComponentMap.Builder.withComponentProvides(
+fun <T : Any, Y : Any> ComponentMap.Builder.withComponentProvides(
     type: ComponentType<T>,
     creator: () -> T,
     compute: (T, Y) -> T,
@@ -94,7 +94,7 @@ fun <T: Any, Y: Any> ComponentMap.Builder.withComponentProvides(
  *
  * @since 1.0.0
  */
-fun <T: Any> ComponentMap.Builder.withComponent(type: ComponentType<T>, creator: () -> T, callback: (T) -> Unit): ComponentMap.Builder {
+fun <T : Any> ComponentMap.Builder.withComponent(type: ComponentType<T>, creator: () -> T, callback: (T) -> Unit): ComponentMap.Builder {
     // Ensure value is present, then operate it, put back to make it still presents in next acquired.
     this.components[type] = getOrCreate(type, creator).also(callback)
 
@@ -102,7 +102,7 @@ fun <T: Any> ComponentMap.Builder.withComponent(type: ComponentType<T>, creator:
 }
 
 // Let the component rebuild and put it back to components map when the target component type is present.
-fun <T: Any> ComponentMap.Builder.rebuild(type: ComponentType<T>, creator: (T) -> T): ComponentMap.Builder {
+fun <T : Any> ComponentMap.Builder.rebuild(type: ComponentType<T>, creator: (T) -> T): ComponentMap.Builder {
     (this.components[type] as? T)?.let {
         this.components[type] = creator(it)
     }
@@ -111,7 +111,7 @@ fun <T: Any> ComponentMap.Builder.rebuild(type: ComponentType<T>, creator: (T) -
 }
 
 // Operates the component when the target component type is present.
-fun <T: Any> ComponentMap.Builder.acquire(type: ComponentType<T>, creator: (T) -> Unit, callback: (T) -> Unit = { }): ComponentMap.Builder {
+fun <T : Any> ComponentMap.Builder.acquire(type: ComponentType<T>, creator: (T) -> Unit, callback: (T) -> Unit = { }): ComponentMap.Builder {
     (this.components[type] as? T)?.let {
         creator(it)
         callback(it)

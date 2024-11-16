@@ -2,9 +2,8 @@ package com.github.cao.awa.conium.kotlin.extent.item
 
 import com.github.cao.awa.conium.block.ConiumBlock
 import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
-import com.github.cao.awa.conium.block.builder.conium.ConiumSchemaBlockBuilder
-import com.github.cao.awa.conium.item.builder.conium.ConiumSchemaItemBuilder
 import com.github.cao.awa.conium.item.builder.bedrock.BedrockSchemaItemBuilder
+import com.github.cao.awa.conium.item.builder.conium.ConiumSchemaItemBuilder
 import com.github.cao.awa.conium.kotlin.extent.registry.tags
 import com.github.cao.awa.conium.mixin.item.setting.ItemSettingsAccessor
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor

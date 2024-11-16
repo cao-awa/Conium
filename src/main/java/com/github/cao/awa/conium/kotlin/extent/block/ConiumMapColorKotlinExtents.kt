@@ -39,4 +39,4 @@ fun findColor(code: Int): MapColor {
     return last
 }
 
- fun parseColor(string: String): Int = string.substring(1).toLong(16).toInt()
+fun parseColor(string: String): Int = string.substring(1).toLong(16).toInt()

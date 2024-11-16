@@ -2,21 +2,32 @@
 
 ## Event types
 
-|               Key |                Notes                | Environment | Cancelable |
-|------------------:|:-----------------------------------:|------------:|-----------:|
-|       SERVER_TICK |    Trigger in every server tick     |      SERVER |      false |
-| ITEM_USE_ON_BLOCK | Trigger when an item use on a block |         ALL |       true |
-|    BREAKING_BLOCK |     Trigger when breaking block     |         ALL |       true |
-|       BREAK_BLOCK |     Trigger when broking block      |      SERVER |       true |
-|      BROKEN_BLOCK |      Trigger when broken block      |         ALL |      false |
-|       PLACE_BLOCK |     Trigger when placing block      |         ALL |       true |
-|      PLACED_BLOCK |      Trigger when block placed      |         ALL |      false |
-|         USE_BLOCK |      Trigger when using block       |         ALL |       true |
-|        USED_BLOCK |       Trigger when block used       |         ALL |      false |
-|     ENTITY_DAMAGE |    Trigger when entity damaging     |         ALL |       true |
-|    ENTITY_DAMAGED |     Trigger when entity damaged     |         ALL |      false |
-|        ENTITY_DIE |      Trigger when entity dying      |         ALL |       true |
-|       ENTITY_DIED |      Trigger when entity died       |         ALL |      false |
+|               Key |                Notes                | Environment | Cancelable |                        Cascade events |
+|------------------:|:-----------------------------------:|------------:|-----------:|--------------------------------------:|
+|       SERVER_TICK |    Trigger in every server tick     |      SERVER |      false |                                     * |
+| ITEM_USE_ON_BLOCK | Trigger when an item use on a block |         ALL |       true |                                     * |
+|    BREAKING_BLOCK |     Trigger when breaking block     |         ALL |       true | ```BREAK_BLOCK```  ```BROKEN_BLOCK``` |
+|       BREAK_BLOCK |     Trigger when broking block      |      SERVER |       true |                    ```BROKEN_BLOCK``` |
+|      BROKEN_BLOCK |      Trigger when broken block      |         ALL |      false |                                     * |
+|       PLACE_BLOCK |     Trigger when placing block      |         ALL |       true |                    ```PLACED_BLOCK``` |
+|      PLACED_BLOCK |      Trigger when block placed      |         ALL |      false |                                     * |
+|         USE_BLOCK |      Trigger when using block       |         ALL |       true |                      ```USED_BLOCK``` |
+|        USED_BLOCK |       Trigger when block used       |         ALL |      false |                                     * |
+|     ENTITY_DAMAGE |    Trigger when entity damaging     |         ALL |       true |                  ```ENTITY_DAMAGED``` |
+|    ENTITY_DAMAGED |     Trigger when entity damaged     |         ALL |      false |                                     * |
+|        ENTITY_DIE |      Trigger when entity dying      |         ALL |       true |                     ```ENTITY_DEAD``` |
+|       ENTITY_DIED |      Trigger when entity died       |         ALL |      false |                                     * |
+
+### Cascade events
+Cascade events are one or more events that only can happen when the preceding event is successful.
+
+For example, the ```BREAKING_BLOCK``` event occurs when a player starting mining a block, normally, it takes time for the player to destroy the block, and only then can ```BREAK_BLOCK``` event occur, followed by the ```BROKEN_BLOCK``` event.\
+The ```BREAK_BLOCK``` and ```BROKEN_BLOCK``` events cannot happen if ```BREAKING_BLOCK``` event is canceled or failed.
+
+In summary, cascade events is one or more events that depends on certain preceding events.
+
+Remember, all cascade event of the event cannot happen when you are canceling a event!\
+Includes all ```arising``` and ```presaging``` context of cascaded events and ```arising``` context of this event.
 
 ## Context args
 

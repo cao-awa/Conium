@@ -5,6 +5,4 @@ import com.github.cao.awa.conium.bedrock.BedrockScriptApiFacade
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("DimensionLocation")
-class BedrockDimensionLocation {
-
-}
+class BedrockDimensionLocation

@@ -1,11 +1,8 @@
 package com.github.cao.awa.conium.datapack
 
-import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.resource.Resource
 import net.minecraft.resource.ResourceFinder
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SinglePreparationResourceReloader

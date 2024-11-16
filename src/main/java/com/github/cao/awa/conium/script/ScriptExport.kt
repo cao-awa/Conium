@@ -1,8 +1,5 @@
 package com.github.cao.awa.conium.script
 
-import com.github.cao.awa.conium.bedrock.system.AbstractBedrockSystem
-import com.github.cao.awa.conium.bedrock.system.BedrockSystem
-import com.github.cao.awa.conium.parameter.ParameterSelective0
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 import com.github.cao.awa.conium.script.field.SharedField
 import com.github.cao.awa.conium.script.field.SharedFieldByJvm
@@ -66,7 +63,7 @@ class ScriptExport(
 
             result ?: return null
 
-            if(result is SharedFieldByJvm<*>) {
+            if (result is SharedFieldByJvm<*>) {
                 return Manipulate.cast((result.value as ParameterSelective1<*, Any>).arise(instance))
             }
 

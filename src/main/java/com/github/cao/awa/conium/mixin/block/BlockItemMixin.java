@@ -25,14 +25,11 @@ public class BlockItemMixin {
      * Inject to {@code place} to trigger event {@code PLACE_BLOCK}.
      *
      * @param context the placement context
-     *
+     * @author cao_awa
      * @see ConiumEventType#PLACE_BLOCK
      * @see com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent ConiumPlaceBlockEvent
      * @see com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEvent ConiumPlacedBlockEvent
      * @see BlockItemMixin#placedBlock
-     *
-     * @author cao_awa
-     *
      * @since 1.0.0
      */
     @Inject(
@@ -59,20 +56,17 @@ public class BlockItemMixin {
     /**
      * Redirect the {@code onPlaced} to trigger event {@code PLACED_BLOCK}.
      *
-     * @param instance the block
-     * @param world the world
-     * @param pos the position of placed block
-     * @param state the state of placed block
-     * @param placer the placer
+     * @param instance  the block
+     * @param world     the world
+     * @param pos       the position of placed block
+     * @param state     the state of placed block
+     * @param placer    the placer
      * @param itemStack the item stack that used to place the block
-     *
+     * @author cao_awa
      * @see ConiumEventType#PLACED_BLOCK
      * @see com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEvent ConiumPlacedBlockEvent
      * @see com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent ConiumPlaceBlockEvent
      * @see BlockItemMixin#placeBlock
-     *
-     * @author cao_awa
-     *
      * @since 1.0.0
      */
     @Redirect(

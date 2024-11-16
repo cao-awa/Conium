@@ -13,7 +13,8 @@ import com.github.cao.awa.conium.extend.ConiumDynamicRegistry
 import com.github.cao.awa.conium.kotlin.extent.entity.register
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
-import com.google.gson.*
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryWrapper

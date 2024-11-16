@@ -5,11 +5,12 @@ import com.github.cao.awa.conium.datapack.ConiumJsonDataLoader
 import com.github.cao.awa.conium.datapack.item.fuel.ConiumFuelRegistry
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.extend.ConiumDynamicRegistry
-import com.github.cao.awa.conium.item.builder.conium.ConiumSchemaItemBuilder
 import com.github.cao.awa.conium.item.builder.bedrock.BedrockSchemaItemBuilder
+import com.github.cao.awa.conium.item.builder.conium.ConiumSchemaItemBuilder
 import com.github.cao.awa.conium.kotlin.extent.item.register
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
-import com.google.gson.*
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
@@ -21,7 +22,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.profiler.Profiler
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
-import java.util.SequencedSet
+import java.util.*
 
 class ConiumItemManager(private val registryLookup: RegistryWrapper.WrapperLookup, private val pendingTagLoad: List<Registry.PendingTagLoad<*>>) :
     ConiumJsonDataLoader(RegistryKeys.getPath(ConiumRegistryKeys.ITEM)) {

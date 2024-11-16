@@ -6,7 +6,10 @@ import com.github.cao.awa.conium.event.ConiumEvent;
 import com.github.cao.awa.conium.event.context.ConiumEventContext;
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
-import net.minecraft.component.*;
+import net.minecraft.component.ComponentHolder;
+import net.minecraft.component.ComponentType;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.MergedComponentMap;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
@@ -32,11 +35,11 @@ import java.util.function.Consumer;
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin implements ComponentHolder {
     @Shadow
-    public abstract Item getItem();
-
-    @Shadow
     @Final
     MergedComponentMap components;
+
+    @Shadow
+    public abstract Item getItem();
 
     @Unique
     private ItemStack cast() {

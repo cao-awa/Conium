@@ -7,7 +7,6 @@ import com.github.cao.awa.conium.event.type.ConiumEventType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.OperatorBlock;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.ServerPlayerInteractionManager;
@@ -23,13 +22,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayerInteractionManager.class)
 public abstract class ServerPlayerInteractionManagerMixin {
-    @Shadow protected ServerWorld world;
+    @Shadow
+    protected ServerWorld world;
 
-    @Shadow @Final protected ServerPlayerEntity player;
+    @Shadow
+    @Final
+    protected ServerPlayerEntity player;
+    @Shadow
+    private GameMode gameMode;
 
-    @Shadow public abstract boolean isCreative();
-
-    @Shadow private GameMode gameMode;
+    @Shadow
+    public abstract boolean isCreative();
 
     @Inject(
             method = "tryBreakBlock",

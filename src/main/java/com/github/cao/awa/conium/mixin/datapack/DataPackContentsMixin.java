@@ -10,7 +10,10 @@ import com.github.cao.awa.conium.datapack.script.ConiumScriptManager;
 import com.github.cao.awa.conium.mixin.recipe.ServerRecipeManagerAccessor;
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import net.minecraft.recipe.ServerRecipeManager;
-import net.minecraft.registry.*;
+import net.minecraft.registry.CombinedDynamicRegistries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.ServerDynamicRegistryType;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.ResourceReloader;
 import net.minecraft.resource.featuretoggle.FeatureSet;
@@ -18,7 +21,10 @@ import net.minecraft.server.DataPackContents;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.util.Unit;
 import org.slf4j.Logger;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -33,12 +39,13 @@ import java.util.concurrent.Executor;
 public abstract class DataPackContentsMixin {
     @Shadow
     @Final
+    private static CompletableFuture<Unit> COMPLETED_UNIT;
+    @Shadow
+    @Final
+    private static Logger LOGGER;
+    @Shadow
+    @Final
     private ServerRecipeManager recipeManager;
-
-    @Shadow public abstract List<ResourceReloader> getContents();
-
-    @Shadow @Final private static CompletableFuture<Unit> COMPLETED_UNIT;
-    @Shadow @Final private static Logger LOGGER;
     @Unique
     private ItemPropertyInjectManager itemPropertyInjectManager;
     @Unique
@@ -49,6 +56,29 @@ public abstract class DataPackContentsMixin {
     private ConiumEntityManager coniumEntityManager;
     @Unique
     private ConiumScriptManager scriptManager;
+
+    @Inject(method = "reload", at = @At(value = "RETURN"))
+    private static void reload(
+            ResourceManager resourceManager,
+            CombinedDynamicRegistries<ServerDynamicRegistryType> dynamicRegistries,
+            List<Registry.PendingTagLoad<?>> pendingTagLoads,
+            FeatureSet enabledFeatures,
+            CommandManager.RegistrationEnvironment environment,
+            int functionPermissionLevel,
+            Executor prepareExecutor,
+            Executor applyExecutor,
+            CallbackInfoReturnable<CompletableFuture<DataPackContents>> cir
+    ) {
+        // Do callbacks when completed reloading.
+        cir.getReturnValue().whenComplete(((dataPackContents, throwable) -> {
+            for (Runnable reloadCallback : Conium.reloadCallbacks) {
+                reloadCallback.run();
+            }
+        }));
+    }
+
+    @Shadow
+    public abstract List<ResourceReloader> getContents();
 
     @Inject(
             method = "<init>",
@@ -89,25 +119,5 @@ public abstract class DataPackContentsMixin {
         reloaderList.add(this.coniumEntityManager);
         reloaderList.add(this.scriptManager);
         cir.setReturnValue(reloaderList);
-    }
-
-    @Inject(method = "reload", at = @At(value = "RETURN"))
-    private static void reload(
-            ResourceManager resourceManager,
-            CombinedDynamicRegistries<ServerDynamicRegistryType> dynamicRegistries,
-            List<Registry.PendingTagLoad<?>> pendingTagLoads,
-            FeatureSet enabledFeatures,
-            CommandManager.RegistrationEnvironment environment,
-            int functionPermissionLevel,
-            Executor prepareExecutor,
-            Executor applyExecutor,
-            CallbackInfoReturnable<CompletableFuture<DataPackContents>> cir
-    ) {
-        // Do callbacks when completed reloading.
-        cir.getReturnValue().whenComplete(((dataPackContents, throwable) -> {
-            for (Runnable reloadCallback : Conium.reloadCallbacks) {
-                reloadCallback.run();
-            }
-        }));
     }
 }

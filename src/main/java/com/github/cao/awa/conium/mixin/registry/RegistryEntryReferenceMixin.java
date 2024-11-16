@@ -14,10 +14,13 @@ import java.util.Set;
 public interface RegistryEntryReferenceMixin<T> {
     @Invoker("setRegistryKey")
     void registryKey(RegistryKey<T> registryKey);
+
     @Accessor("tags")
     Set<TagKey<T>> getTags();
+
     @Invoker("setTags")
     void tags(Collection<TagKey<T>> tags);
+
     @Invoker("setValue")
     void value(T value);
 }

@@ -6,7 +6,7 @@ import com.google.gson.JsonElement
 import net.minecraft.item.ToolMaterial
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumItemStonePickaxeTemplate: ConiumItemPickaxeTemplate(
+class ConiumItemStonePickaxeTemplate : ConiumItemPickaxeTemplate(
     STONE_PICKAXE,
     ToolMaterial.STONE
 ) {

@@ -6,7 +6,6 @@ import com.google.gson.JsonElement
 import net.minecraft.item.Item
 import net.minecraft.item.consume.UseAction
 import net.minecraft.util.Rarity
-import kotlin.jvm.Throws
 
 abstract class ConiumItemTemplate(name: String) : ConiumTemplate<ConiumItem, Item.Settings>(name) {
     companion object {

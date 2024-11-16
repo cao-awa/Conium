@@ -6,10 +6,10 @@ import com.google.gson.JsonElement
 import net.minecraft.item.ToolMaterial
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumItemNetheritePickaxeTemplate: ConiumItemPickaxeTemplate(
+class ConiumItemNetheritePickaxeTemplate : ConiumItemPickaxeTemplate(
     NETHERITE_PICKAXE,
     ToolMaterial.NETHERITE
-){
+) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumItemNetheritePickaxeTemplate = element.createIfJsonObject(::ConiumItemNetheritePickaxeTemplate, notSupported())!!

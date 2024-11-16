@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface EntityAccessor {
     @Accessor("dimensions")
     EntityDimensions dimensions();
+
     @Accessor("dimensions")
     void dimensions(EntityDimensions dimensions);
 }

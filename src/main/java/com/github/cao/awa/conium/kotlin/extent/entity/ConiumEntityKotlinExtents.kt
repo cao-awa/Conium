@@ -1,6 +1,5 @@
 package com.github.cao.awa.conium.kotlin.extent.entity
 
-import com.github.cao.awa.conium.entity.ConiumEntity
 import com.github.cao.awa.conium.entity.attribute.ConiumEntityAttributeRegistry
 import com.github.cao.awa.conium.entity.builder.ConiumEntityBuilder
 import com.github.cao.awa.conium.entity.metadata.ConiumEntityMetadata

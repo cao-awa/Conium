@@ -1,12 +1,12 @@
 package com.github.cao.awa.conium.template
 
 import com.github.cao.awa.conium.block.template.bedrock.collision.ConiumBedrockBlockCollisionBoxTemplate
-import com.github.cao.awa.conium.block.template.bedrock.destructible.explosion.ConiumBedrockDestructibleByExplosionTemplate
 import com.github.cao.awa.conium.block.template.bedrock.destructible.ConiumBedrockDestructibleByMiningTemplate
-import com.github.cao.awa.conium.block.template.map.ConiumBedrockMapColorTemplate
+import com.github.cao.awa.conium.block.template.bedrock.destructible.explosion.ConiumBedrockDestructibleByExplosionTemplate
 import com.github.cao.awa.conium.block.template.bedrock.light.ConiumBedrockLightEmissionTemplate
 import com.github.cao.awa.conium.block.template.collision.ConiumBlockCollisionTemplate
 import com.github.cao.awa.conium.block.template.luminance.ConiumLuminanceTemplate
+import com.github.cao.awa.conium.block.template.map.ConiumBedrockMapColorTemplate
 import com.github.cao.awa.conium.block.template.map.ConiumMapColorTemplate
 import com.github.cao.awa.conium.block.template.mining.ConiumHardnessTemplate
 import com.github.cao.awa.conium.entity.template.bedrock.collision.ConiumBedrockEntityCollisionBoxTemplate
@@ -17,20 +17,18 @@ import com.github.cao.awa.conium.entity.template.renderer.model.ConiumEntityMode
 import com.github.cao.awa.conium.item.template.action.ConiumUseActionTemplate
 import com.github.cao.awa.conium.item.template.armor.ConiumArmorTemplate
 import com.github.cao.awa.conium.item.template.bedrock.animation.ConiumBedrockUseAnimationTemplate
-import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
-import com.github.cao.awa.conium.item.template.egg.ConiumSpawnEggTemplate
-import com.github.cao.awa.conium.item.template.bedrock.food.ConiumBedrockFoodTemplate
-import com.github.cao.awa.conium.item.template.food.ConiumFoodTemplate
-import com.github.cao.awa.conium.item.template.tool.ConiumItemToolTemplate
-import com.github.cao.awa.conium.item.template.tool.axe.*
 import com.github.cao.awa.conium.item.template.bedrock.damage.ConiumBedrockDamageTemplate
 import com.github.cao.awa.conium.item.template.bedrock.destory.ConiumBedrockCanDestroyInCreativeTemplate
-import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
 import com.github.cao.awa.conium.item.template.bedrock.durability.ConiumBedrockDurabilityTemplate
+import com.github.cao.awa.conium.item.template.bedrock.food.ConiumBedrockFoodTemplate
 import com.github.cao.awa.conium.item.template.bedrock.fuel.ConiumBedrockFuelTemplate
 import com.github.cao.awa.conium.item.template.bedrock.glint.ConiumBedrockGlintTemplate
 import com.github.cao.awa.conium.item.template.bedrock.stack.size.ConiumBedrockMaxStackSizeTemplate
 import com.github.cao.awa.conium.item.template.bedrock.wearable.ConiumBedrockWearableTemplate
+import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
+import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
+import com.github.cao.awa.conium.item.template.egg.ConiumSpawnEggTemplate
+import com.github.cao.awa.conium.item.template.food.ConiumFoodTemplate
 import com.github.cao.awa.conium.item.template.fuel.ConiumFuelTemplate
 import com.github.cao.awa.conium.item.template.glint.ConiumGlintTemplate
 import com.github.cao.awa.conium.item.template.rarity.ConiumRarityTemplate
@@ -39,6 +37,8 @@ import com.github.cao.awa.conium.item.template.rarity.epic.ConiumEpicRarityTempl
 import com.github.cao.awa.conium.item.template.rarity.epic.ConiumRareRarityTemplate
 import com.github.cao.awa.conium.item.template.rarity.epic.ConiumUncommonRarityTemplate
 import com.github.cao.awa.conium.item.template.stack.count.ConiumStackMaxCountTemplate
+import com.github.cao.awa.conium.item.template.tool.ConiumItemToolTemplate
+import com.github.cao.awa.conium.item.template.tool.axe.*
 import com.github.cao.awa.conium.item.template.tool.pickaxe.*
 import com.github.cao.awa.conium.recipe.template.bedrock.furnace.ConiumBedrockRecipeFurnaceTemplate
 import com.github.cao.awa.conium.recipe.template.bedrock.shape.ConiumBedrockRecipeShapedTemplate
@@ -434,6 +434,7 @@ object ConiumTemplates {
     object Entity {
         // Dimension.
         const val DIMENSION: String = "dimension"
+
         // Pushable.
         const val PUSHABLE: String = "pushable"
 
@@ -464,6 +465,7 @@ object ConiumTemplates {
     object BedrockEntity {
         // Collision box.
         const val COLLISION_BOX: String = "minecraft:collision_box"
+
         // Pushable.
         const val PUSHABLE: String = "minecraft:pushable"
 

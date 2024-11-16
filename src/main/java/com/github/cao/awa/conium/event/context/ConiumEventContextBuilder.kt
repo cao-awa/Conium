@@ -1,7 +1,6 @@
 package com.github.cao.awa.conium.event.context
 
 import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.event.type.DynamicArgType
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.*
 

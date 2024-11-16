@@ -1,7 +1,5 @@
 package com.github.cao.awa.conium.datapack.inject.item.action
 
-import com.mojang.serialization.DataResult
-
 enum class ItemPropertyInjectAction {
     SET,
     SET_PRESET,

@@ -1,6 +1,5 @@
 package com.github.cao.awa.conium.registry;
 
-import net.minecraft.registry.SimpleRegistry;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.TagKey;
 

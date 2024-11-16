@@ -1,7 +1,5 @@
 package com.github.cao.awa.conium.parameter
 
-import com.github.cao.awa.conium.event.type.DynamicArgType
-
 class DynamicArgsBuilder {
     companion object {
         @JvmStatic

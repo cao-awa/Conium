@@ -6,7 +6,7 @@ import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumHardnessTemplate(private val hardness: Float, name: String = HARDNESS):ConiumBlockTemplate(name) {
+class ConiumHardnessTemplate(private val hardness: Float, name: String = HARDNESS) : ConiumBlockTemplate(name) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumHardnessTemplate = ConiumHardnessTemplate(element.asFloat)

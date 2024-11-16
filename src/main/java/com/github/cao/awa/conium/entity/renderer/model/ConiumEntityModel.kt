@@ -1,7 +1,6 @@
 package com.github.cao.awa.conium.entity.renderer.model
 
 import com.github.cao.awa.conium.entity.renderer.state.ConiumEntityRenderState
-import com.github.cao.awa.conium.kotlin.extent.json.jsonArray
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement

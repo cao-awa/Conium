@@ -1,8 +1,8 @@
 package com.github.cao.awa.conium.event.type
 
-import com.github.cao.awa.conium.mixin.server.interaction.ServerPlayerInteractionManagerMixin
-import com.github.cao.awa.conium.mixin.client.interaction.ClientPlayerInteractionManagerMixin
 import com.github.cao.awa.conium.mixin.block.BlockStateMixin
+import com.github.cao.awa.conium.mixin.client.interaction.ClientPlayerInteractionManagerMixin
+import com.github.cao.awa.conium.mixin.server.interaction.ServerPlayerInteractionManagerMixin
 
 enum class ConiumEventType {
     SERVER_TICK,
