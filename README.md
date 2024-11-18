@@ -15,6 +15,18 @@ Conium lets you complete your mods only using datapacks.
 |             Fabric API |           ?            | Unnecessary |       Any version is ok       |
 |                 Fluxia |        1.0.10!!        | Unnecessary | Built-in contents translator  |
 
+### Build requirements
+
+Conium has configured whole project, just clone the repository, and reload project and run gradle task ```remapJar```.
+
+| Requirement |   Version    |               Notes                |
+|------------:|:------------:|:----------------------------------:|
+|        Java |     21!!     |         Only 21 can be use         |
+|      Gradle |     8.11     |     8.11 or other could be use     |
+|      Kotlin |   2.0.21!!   |       Only 2.0.21 can be use       |
+| Fabric loom | 1.8-SNAPSHOT | 1.8-SNAPSHOT or other could be use |
+|   Minecraft |   1.21.3!!   |       Only 1.21.3 can be use       |
+
 ## Datapack structure
 
 + \<path-to-save\>/datapacks
@@ -31,7 +43,7 @@ Conium lets you complete your mods only using datapacks.
                     + This directory is item properties injectors, data type is '.json'
                 + block
                     + This directory is block properties injectors, data type is '.json', current is no impls.
-            + scripts
+            + script
                 + This directory is scripts, data type is 'kts', '.ts' and '.js'
 
 ## Data driven
@@ -71,12 +83,17 @@ For items, currently supporting:
 
 For blocks, currently supporting:
 
-| Conium schema key |       Bedrock schema impls       |                               Notes                                |
-|------------------:|:--------------------------------:|:------------------------------------------------------------------:|
-|          hardness | minecraft:destructible_by_mining |                 Setting the hardness of the block                  |
-|         map_color |       minecraft:map_color        |         Setting the map color of the block (Not completed)         |
-|         luminance |     minecraft:light_emission     | Setting the lighting of the block (like torch or burning furnaces) |
-|         collision |     minecraft:collision_box      |               Setting the collision box of the block               |
+| Conium schema key |       Bedrock schema impls       |                                  Notes                                  |
+|------------------:|:--------------------------------:|:-----------------------------------------------------------------------:|
+|          hardness | minecraft:destructible_by_mining |                    Setting the hardness of the block                    |
+|         map_color |       minecraft:map_color        |           Setting the map color of the block (Not completed)            |
+|         luminance |     minecraft:light_emission     |   Setting the lighting of the block (like torch or burning furnaces)    |
+|         collision |     minecraft:collision_box      |                 Setting the collision box of the block                  |
+|       replaceable |             No impl              | Setting the block can be replaced when placing block like water or fire |
+| movement_velocity |             No impl              |    Setting the movement velocity when entities walk or jump on block    |
+|     walk_velocity |             No impl              |        Setting the movement velocity when entities walk on block        |
+|     jump_velocity |             No impl              |        Setting the movement velocity when entities jump on block        |
+|   piston_behavior |             No impl              |        Setting the behavior when piston interacting to the block        |
 
 For entities, supported to defines 'component_groups' in bedrock schema, but unable to switching now.
 
@@ -86,6 +103,7 @@ Entities currently supporting:
 |------------------:|:-----------------------:|:---------------------------------------------------------------------------:|
 |         dimension | minecraft:collision_box |                   Setting the collision box of the entity                   |
 |          pushable |   minecraft:pushable    | Setting the entity is can be pushing by other entities or pistons or fluids |
+|             model |         No impl         |                     Setting the entity rendering model                      |
 
 ### Conium schema
 
@@ -101,11 +119,13 @@ Entities currently supporting:
 }
 ```
 
-Currently, supported these components of items:
+Example:
 
 ```json5
 {
-  "components": {
+  "schema_style": "conium",
+  "identifier": "awa:conium",
+  "templates": {
     "tool": {
       // The damage amount when hitting the entity.
       "attack_damage": 100,
@@ -120,166 +140,13 @@ Currently, supported these components of items:
       "material": "netherite",
       // This tool is weapon or not.
       // The durability will decrement 2 after this tool damage to entity when it not weapon.
-      "is_weapon": false,
-      // Can be missing when doesn't need chances.
-      // The damage chance algorithm is:
-      //     (rand(max - min + 1) + min) == min 
-      "damage_chance": {
-        "min": 0,
-        "max": 0
-      }
+      "is_weapon": false
     },
     // Setting this tool item can destroy blocks in creative mode.
     "can_destroy_in_creative": true,
     // The max item stack size.
     // The size value must in range 1 to 64.
-    "max_count": 64,
-    // The food component.
-    // It also can be this schema:
-    //     "food": <string>
-    // This string mean use a food template, here is allowed templates:
-    // [
-    //     "apple" -> APPLE,
-    //     "baked_potato" -> BAKED_POTATO,
-    //     "beef" -> BEEF,
-    //     "beetroot" -> BEETROOT,
-    //     "beetroot_soup" -> BEETROOT_SOUP,
-    //     "bread" -> BREAD,
-    //     "carrot" -> CARROT,
-    //     "chicken" -> CHICKEN,
-    //     "chorus_fruit" -> CHORUS_FRUIT,
-    //     "cod" -> COD,
-    //     "cooked_beef" -> COOKED_BEEF,
-    //     "cooked_chicken" -> COOKED_CHICKEN,
-    //     "cooked_cod" -> COOKED_COD,
-    //     "cooked_mutton" -> COOKED_MUTTON,
-    //     "cooked_porkchop" -> COOKED_PORKCHOP,
-    //     "cooked_rabbit" -> COOKED_RABBIT,
-    //     "cooked_salmon" -> COOKED_SALMON,
-    //     "cookie" -> COOKIE,
-    //     "dried_kelp" -> DRIED_KELP,
-    //     "enchanted_golden_apple" -> ENCHANTED_GOLDEN_APPLE,
-    //     "golden_apple" -> GOLDEN_APPLE,
-    //     "golden_carrot" -> GOLDEN_CARROT,
-    //     "honey_bottle" -> HONEY_BOTTLE,
-    //     "melon_slice" -> MELON_SLICE,
-    //     "mushroom_stem" -> MUSHROOM_STEW,
-    //     "mutton" -> MUTTON,
-    //     "poisonous_potato" -> POISONOUS_POTATO,
-    //     "porkchop" -> PORKCHOP,
-    //     "potato" -> POTATO,
-    //     "pufferfish" -> PUFFERFISH,
-    //     "pumpkin_pie" -> PUMPKIN_PIE,
-    //     "rabbit" -> RABBIT,
-    //     "rabbit_stew" -> RABBIT_STEW,
-    //     "rotten_flesh" -> ROTTEN_FLESH,
-    //     "salmon" -> SALMON,
-    //     "spider_eye" -> SPIDER_EYE,
-    //     "suspicious_stew" -> SUSPICIOUS_STEW,
-    //     "sweet_berries" -> SWEET_BERRIES,
-    //     "flow_berries" -> GLOW_BERRIES,
-    //     "tropical_fish" -> TROPICAL_FISH
-    // ]
-    "food": {
-      // Setting this food has cooldown after ate.
-      "can_always_eat": false,
-      // Nutrition.
-      "nutrition": 10,
-      // Saturation.
-      "saturation": 1.0
-    },
-    // The consumable component.
-    // It also can be this schema:
-    //     "food": <string>
-    // This string mean use a food template, here is allowed templates:
-    // [
-    //     "food" -> FOOD,
-    //     "drink" -> DRINK,
-    //     "honey_bottle" -> HONEY_BOTTLE,
-    //     "ominous_bottle" -> OMINOUS_BOTTLE,
-    //     "dried_kelp" -> DRIED_KELP,
-    //     "raw_chicken" -> RAW_CHICKEN,
-    //     "enchanted_golden_apple" -> ENCHANTED_GOLDEN_APPLE,
-    //     "golden_apple" -> GOLDEN_APPLE,
-    //     "poisonous_potato" -> POISONOUS_POTATO,
-    //     "pufferfish" -> PUFFERFISH,
-    //     "rotten_flesh" -> ROTTEN_FLESH,
-    //     "spider_eye" -> SPIDER_EYE,
-    //     "milk_bucket" -> MILK_BUCKET,
-    //     "chorus_fruit" -> CHORUS_FRUIT
-    // ]
-    "consumable": {
-      // Give back an item after used this item. 
-      "convert_to": "bowl",
-      // Give effects after used this item.
-      "apply_effects": {
-        // Affects list.
-        "effects": [
-          {
-            // Effect identifier.
-            "id": "minecraft:nausea",
-            // Effect level.
-            "amplifier": 1,
-            // Effect duration, the unit is ticks instead of seconds.
-            "duration": 200,
-            // Setting this effect is show or hidden particles.
-            "show_particles": true,
-            // Setting this effect is show or hidden on effects list.
-            "show_icon": true,
-            // Setting this effect is ambient effect.
-            "ambient": true
-          }
-          // Or more effects here.
-        ],
-        // Apply chance.
-        // Value range is 0 to 1 as float
-        "probability": 0.5
-      }
-    },
-    // The rarity component, allowed values is:
-    // ["common", "uncommon", "rare", "epic"]
-    "rarity": "epic",
-    // The use animation component.
-    "use_action": "eat",
-    // Setting this item can be put into furnaces and burns.
-    // The duration unit is ticks instead of seconds. 
-    "fuel": 60,
-    // Setting this item show glinting on hand.
-    "glint": true,
-    // Setting this item can be wearing on slots. 
-    // It can be abbreviated as:
-    //     "armor": <bool>
-    // When it abbreviated, the value is mean the 'slot',
-    // And other element will all be 0 automatically. 
-    "armor": {
-      // Allowed slots is:
-      // [
-      //     "slot.armor.head" -> EquipmentType.HELMET,
-      //     "slot.armor.chest" -> EquipmentType.CHESTPLATE,
-      //     "slot.armor.legs" -> EquipmentType.LEGGINGS,
-      //     "slot.armor.feet" -> EquipmentType.BOOTS,
-      //     "helmet" -> EquipmentType.HELMET ,
-      //     "chestplate" -> EquipmentType.CHESTPLATE,
-      //     "chest_plate" -> EquipmentType.CHESTPLATE,
-      //     "leggings" -> EquipmentType.LEGGINGS,
-      //     "boots" -> EquipmentType.BOOTS,
-      //     "body" -> EquipmentType.BODY.
-      //     "head" -> EquipmentType.HELMET,
-      //     "chest" -> EquipmentType.CHESTPLATE,
-      //     "legs" -> EquipmentType.LEGGINGS,
-      //     "feet" -> EquipmentType.BOOTS  
-      // ]
-      "slot": "chest",
-      // This item provided how much defense.
-      "defense": 10,
-      // This item provided how much knockback resistance.
-      // Value range is 0 to 1 as float
-      "knockback_resistance": 0.1,
-      // This item provided how much toughness.
-      "toughness": 10,
-      // Setting this item is enchantable.
-      "enchantable": 10
-    }
+    "max_count": 64
   }
 }
 ```
@@ -304,100 +171,33 @@ Currently, supported these components of items:
 }
 ```
 
-Currently, supported these components of items:
+Example:
 
 ```json5
 {
-  "components": {
-    // The damage amount when hitting the entity.
-    "minecraft:damage": 10,
-    // The durability amount of tool item.
-    // When damage chance is missing, it can be abbreviated as:
-    //     "minecraft:durability": <int>
-    "minecraft:durability": {
-      // Can be missing when doesn't need chances.
-      // The damage chance algorithm is:
-      //     (rand(max - min + 1) + min) == min 
-      "damage_chance": {
-        // Minimum value, must in range 0 to 100 and cannot more than maximum value.
-        "min": 0,
-        // maximum value, must in range 0 to 100 and cannot less than minimum value.
-        "max": 100
+  "minecraft:item": {
+    // Description and identifier must present.
+    "description": {
+      "identifier": "awa:bedrock"
+    },
+    "components": {
+      // The damage amount when hitting the entity.
+      "minecraft:damage": 10,
+      // The durability amount of tool item.
+      // When damage chance is missing, it can be abbreviated as:
+      //     "minecraft:durability": <int>
+      "minecraft:durability": {
+        // The amount.
+        "max_durability": 50
       },
-      // The amount.
-      "max_durability": 50
+      // The max item stack size.
+      // The size value must in range 1 to 64.
+      // It can be abbreviated as:
+      //     "minecraft:max_stack_size": <int>
+      "minecraft:max_stack_size": {
+        "value": 64
+      }
     },
-    // Setting this tool item can destroy blocks in creative mode.
-    // It can be abbreviated as:
-    //     "minecraft:can_destroy_in_creative": <bool>
-    "minecraft:can_destroy_in_creative": {
-      "value": true
-    },
-    // The max item stack size.
-    // The size value must in range 1 to 64.
-    // It can be abbreviated as:
-    //     "minecraft:max_stack_size": <int>
-    "minecraft:max_stack_size": {
-      "value": 64
-    },
-    // The food component, use to setting this item is eatable.
-    // All element can be missing in this component.
-    "minecraft:food": {
-      // Setting this food has cooldown after ate.
-      "can_always_eat": true,
-      // Nutrition.
-      "nutrition": 10,
-      // Saturation.
-      "saturation_modifier": 1.0,
-      // Give back an item after ate this food. 
-      "using_converts_to": "bowl"
-    },
-    // The rarity component, allowed values is:
-    // ["common", "uncommon", "rare", "epic"]
-    "minecraft:rarity": "uncommon",
-    // The use animation component.
-    // It can be abbreviated as:
-    //     "minecraft:use_animation": <string>
-    "minecraft:use_animation": {
-      "value": "eat"
-    },
-    // Setting this item can be put into furnaces and burns.
-    // The duration unit is seconds instead of ticks. 
-    // The ticks value is duration multiply to 20.
-    // It can be abbreviated as:
-    //     "minecraft:fuel": <float>
-    "minecraft:fuel": {
-      "duration": 3.0
-    },
-    // Setting this item show glinting on hand.
-    // It can be abbreviated as:
-    //     "minecraft:glint": <bool>
-    "minecraft:glint": {
-      "value": true
-    },
-    // Setting this item can be wearing on slots. 
-    "minecraft:wearable": {
-      // This item provided how much protection(defense) value.
-      "protection": 10,
-      // Allowed slots is:
-      // [
-      //     "slot.armor.head" -> EquipmentType.HELMET,
-      //     "slot.armor.chest" -> EquipmentType.CHESTPLATE,
-      //     "slot.armor.legs" -> EquipmentType.LEGGINGS,
-      //     "slot.armor.feet" -> EquipmentType.BOOTS,
-      //     "helmet" -> EquipmentType.HELMET ,
-      //     "chestplate" -> EquipmentType.CHESTPLATE,
-      //     "chest_plate" -> EquipmentType.CHESTPLATE,
-      //     "leggings" -> EquipmentType.LEGGINGS,
-      //     "boots" -> EquipmentType.BOOTS,
-      //     "body" -> EquipmentType.BODY.
-      //     "head" -> EquipmentType.HELMET,
-      //     "chest" -> EquipmentType.CHESTPLATE,
-      //     "legs" -> EquipmentType.LEGGINGS,
-      //     "feet" -> EquipmentType.BOOTS  
-      // ]
-      "slot": "slot.armor.chest"
-    }
   }
 }
 ```
