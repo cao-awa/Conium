@@ -6,11 +6,12 @@ import com.github.cao.awa.conium.block.template.bedrock.destructible.explosion.C
 import com.github.cao.awa.conium.block.template.bedrock.light.ConiumBedrockLightEmissionTemplate
 import com.github.cao.awa.conium.block.template.collision.ConiumBlockCollisionTemplate
 import com.github.cao.awa.conium.block.template.explosion.resistance.ConiumExplosionResistanceTemplate
+import com.github.cao.awa.conium.block.template.instrument.ConiumBlockInstrumentTemplate
 import com.github.cao.awa.conium.block.template.luminance.ConiumLuminanceTemplate
 import com.github.cao.awa.conium.block.template.map.ConiumBedrockMapColorTemplate
 import com.github.cao.awa.conium.block.template.map.ConiumMapColorTemplate
 import com.github.cao.awa.conium.block.template.mining.ConiumHardnessTemplate
-import com.github.cao.awa.conium.block.template.piston.ConiumPistonBehaviorsTemplate
+import com.github.cao.awa.conium.block.template.piston.ConiumBlockPistonBehaviorsTemplate
 import com.github.cao.awa.conium.block.template.replaceable.ConiumBlockReplaceableTemplate
 import com.github.cao.awa.conium.block.template.velocity.ConiumBlockMovementVelocityTemplate
 import com.github.cao.awa.conium.block.template.velocity.jump.ConiumBlockJumpVelocityTemplate
@@ -376,6 +377,9 @@ object ConiumTemplates {
         // Piston behavior.
         const val PISTON_BEHAVIOR: String = "piston_behavior"
 
+        // Note block instrument.
+        const val INSTRUMENT: String = "instrument"
+
         fun initBlockTemplates() {
             // Destructible.
             registerBlock(
@@ -428,7 +432,13 @@ object ConiumTemplates {
             // Piston behavior.
             registerBlock(
                 PISTON_BEHAVIOR,
-                ConiumPistonBehaviorsTemplate::create
+                ConiumBlockPistonBehaviorsTemplate::create
+            )
+
+            // Note block instrument.
+            registerBlock(
+                INSTRUMENT,
+                ConiumBlockInstrumentTemplate::create
             )
         }
     }

@@ -7,10 +7,10 @@ import net.minecraft.block.AbstractBlock
 import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-open class ConiumPistonBehaviorsTemplate(private val behavior: PistonBehavior, name: String = PISTON_BEHAVIOR) : ConiumBlockTemplate(name) {
+open class ConiumBlockPistonBehaviorsTemplate(private val behavior: PistonBehavior, name: String = PISTON_BEHAVIOR) : ConiumBlockTemplate(name) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumPistonBehaviorsTemplate = ConiumPistonBehaviorsTemplate(createBehaviors(element.asString))
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockPistonBehaviorsTemplate = ConiumBlockPistonBehaviorsTemplate(createBehaviors(element.asString))
 
         @JvmStatic
         fun createBehaviors(name: String): PistonBehavior {

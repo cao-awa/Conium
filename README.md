@@ -17,7 +17,7 @@ Conium lets you complete your mods only using datapacks.
 
 ### Build requirements
 
-Conium has configured whole project, just clone the repository, and reload project and run gradle task ```remapJar```.
+Conium has configured whole project, just clone the repository, and reload project then run the gradle task ```remapJar```.
 
 | Requirement |   Version    |               Notes                |
 |------------:|:------------:|:----------------------------------:|
@@ -94,6 +94,7 @@ For blocks, currently supporting:
 |     walk_velocity |             No impl              |        Setting the movement velocity when entities walk on block        |
 |     jump_velocity |             No impl              |        Setting the movement velocity when entities jump on block        |
 |   piston_behavior |             No impl              |        Setting the behavior when piston interacting to the block        |
+|        instrument |             No impl              |                  Setting the instrument of note block                   |
 
 For entities, supported to defines 'component_groups' in bedrock schema, but unable to switching now.
 
