@@ -20,20 +20,19 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_PLACEMENT_C
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_HIT_RESULT
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ACTION_RESULT
 
-import com.github.cao.awa.conium.event.type.ConiumEventType
-import com.github.cao.awa.conium.event.type.ConiumEventType.SERVER_TICK
-import com.github.cao.awa.conium.event.type.ConiumEventType.ITEM_USE_ON_BLOCK
-import com.github.cao.awa.conium.event.type.ConiumEventType.BREAKING_BLOCK
-import com.github.cao.awa.conium.event.type.ConiumEventType.BREAK_BLOCK
-import com.github.cao.awa.conium.event.type.ConiumEventType.BROKEN_BLOCK
-import com.github.cao.awa.conium.event.type.ConiumEventType.PLACE_BLOCK
-import com.github.cao.awa.conium.event.type.ConiumEventType.PLACED_BLOCK
-import com.github.cao.awa.conium.event.type.ConiumEventType.USE_BLOCK
-import com.github.cao.awa.conium.event.type.ConiumEventType.USED_BLOCK
-import com.github.cao.awa.conium.event.type.ConiumEventType.ENTITY_DAMAGE
-import com.github.cao.awa.conium.event.type.ConiumEventType.ENTITY_DAMAGED
-import com.github.cao.awa.conium.event.type.ConiumEventType.ENTITY_DIE
-import com.github.cao.awa.conium.event.type.ConiumEventType.ENTITY_DEAD
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.SERVER_TICK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_USE_ON_BLOCK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.BREAKING_BLOCK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.BREAK_BLOCK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.BROKEN_BLOCK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.PLACE_BLOCK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.PLACED_BLOCK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.USE_BLOCK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.USED_BLOCK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DAMAGE
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DAMAGED
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DIE
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DEAD
 
 import com.github.cao.awa.conium.script.ScriptExport
 import com.github.cao.awa.conium.script.ScriptExport.Companion.accessExportedField

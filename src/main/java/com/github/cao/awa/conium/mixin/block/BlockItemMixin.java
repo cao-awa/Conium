@@ -14,13 +14,16 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockItem.class)
-public class BlockItemMixin {
+public abstract class BlockItemMixin {
+    @Shadow public abstract Block getBlock();
+
     /**
      * Inject to {@code place} to trigger event {@code PLACE_BLOCK}.
      *
@@ -41,12 +44,14 @@ public class BlockItemMixin {
         // Request the event.
         ConiumEventContext<?> placeBlockContext = ConiumEvent.request(ConiumEventType.PLACE_BLOCK);
 
+        Block block = getBlock();
+
         // Fill the context args.
         placeBlockContext.put(ConiumEventArgTypes.ITEM_PLACEMENT_CONTEXT, context);
 
-        if (placeBlockContext.presaging(this)) {
+        if (placeBlockContext.presaging(block)) {
             // Only presaging state is true can be continues.
-            placeBlockContext.arising(this);
+            placeBlockContext.arising(block);
         } else {
             // Cancel this event when presaging was rejected the event.
             cir.setReturnValue(ActionResult.FAIL);
@@ -80,6 +85,8 @@ public class BlockItemMixin {
         // Request the event.
         ConiumEventContext<?> placedBlockContext = ConiumEvent.request(ConiumEventType.PLACED_BLOCK);
 
+        Block block = getBlock();
+
         // Fill the context args.
         placedBlockContext.put(ConiumEventArgTypes.WORLD, world);
 
@@ -90,11 +97,11 @@ public class BlockItemMixin {
 
         placedBlockContext.put(ConiumEventArgTypes.ITEM_STACK, itemStack);
 
-        if (placedBlockContext.presaging(this)) {
+        if (placedBlockContext.presaging(block)) {
             // Only presaging state is true can be continues.
             instance.onPlaced(world, pos, state, placer, itemStack);
 
-            placedBlockContext.arising(this);
+            placedBlockContext.arising(block);
         }
     }
 }

@@ -1,8 +1,8 @@
 BedrockEventContext.newSystem()
 
-ConiumEventContextBuilder.request(
-    ConiumEventType.SERVER_TICK,
-    ConiumEventArgTypes.SERVER
+request(
+    SERVER_TICK,
+    SERVER
 ).arise { _, server ->
     BedrockEventContext.system.tick(server)
 

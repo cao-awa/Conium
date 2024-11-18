@@ -20,8 +20,8 @@ import com.github.cao.awa.conium.bedrock.system.BedrockSystem
 
 ScriptExport(
     "ConiumBedrockCommons",
-    {
-        it("world", AbstractBedrockWorld::class) { instance -> BedrockEventContext.accessWorld(instance) }
-        it("system", AbstractBedrockSystem::class) { BedrockEventContext.accessSystem() }
+    { handler ->
+        handler("world", AbstractBedrockWorld::class) { instance -> BedrockEventContext.accessWorld(instance) }
+        handler("system", AbstractBedrockSystem::class) { BedrockEventContext.accessSystem() }
     }
 )

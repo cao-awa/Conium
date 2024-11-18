@@ -1,7 +1,6 @@
 package com.github.cao.awa.conium.event.context
 
 import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.*
 
@@ -17,7 +16,7 @@ object ConiumEventContextBuilder {
     fun <P1> requires(
         arg1: DynamicArgType<P1>
     ): ConiumEventContext<ParameterSelective2<Boolean, Any, P1>> {
-        return ConiumEventContext(DynamicArgsBuilder.force(arg1))
+        return ConiumEventContext(DynamicArgsBuilder.requires(arg1, true))
     }
 
     @JvmStatic
@@ -26,7 +25,7 @@ object ConiumEventContextBuilder {
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>
     ): ConiumEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
-        return ConiumEventContext(DynamicArgsBuilder.force(arg1, arg2))
+        return ConiumEventContext(DynamicArgsBuilder.requires(arg1, arg2, true))
     }
 
     @SuppressWarnings("UNCHECKED_CAST")
@@ -35,7 +34,7 @@ object ConiumEventContextBuilder {
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>
     ): ConiumEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> {
-        return ConiumEventContext(DynamicArgsBuilder.force(arg1, arg2, arg3))
+        return ConiumEventContext(DynamicArgsBuilder.requires(arg1, arg2, arg3, true))
     }
 
     @JvmStatic
@@ -46,7 +45,7 @@ object ConiumEventContextBuilder {
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>
     ): ConiumEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
-        return ConiumEventContext(DynamicArgsBuilder.force(arg1, arg2, arg3, arg4))
+        return ConiumEventContext(DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, true))
     }
 
     @JvmStatic
@@ -58,7 +57,7 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>
     ): ConiumEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
-        return ConiumEventContext(DynamicArgsBuilder.force(arg1, arg2, arg3, arg4, arg5))
+        return ConiumEventContext(DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, true))
     }
 
     @JvmStatic
@@ -71,7 +70,7 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>
     ): ConiumEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
-        return ConiumEventContext(DynamicArgsBuilder.force(arg1, arg2, arg3, arg4, arg5, arg6))
+        return ConiumEventContext(DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, arg6, true))
     }
 
     @JvmStatic
@@ -85,7 +84,7 @@ object ConiumEventContextBuilder {
         arg6: DynamicArgType<P6>,
         arg7: DynamicArgType<P7>
     ): ConiumEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
-        return ConiumEventContext(DynamicArgsBuilder.force(arg1, arg2, arg3, arg4, arg5, arg6, arg7))
+        return ConiumEventContext(DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, arg6, arg7, true))
     }
 
     @JvmStatic

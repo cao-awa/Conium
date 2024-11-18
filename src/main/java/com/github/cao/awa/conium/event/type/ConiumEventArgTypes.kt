@@ -1,14 +1,18 @@
 package com.github.cao.awa.conium.event.type
 
 import com.github.cao.awa.conium.parameter.DynamicArgType
-import com.github.cao.awa.conium.parameter.DynamicArgsBuilder
+import com.github.cao.awa.conium.parameter.DynamicArgsBuilder.Companion.transform
 import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder.arg
 import net.minecraft.block.AbstractBlock.AbstractBlockState
+import net.minecraft.block.Block
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.world.ClientWorld
+import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
@@ -21,6 +25,9 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 object ConiumEventArgTypes {
+    @JvmField
+    val ITEM: DynamicArgType<Item>
+
     @JvmField
     val ITEM_USAGE_CONTEXT: DynamicArgType<ItemUsageContext>
 
@@ -46,6 +53,9 @@ object ConiumEventArgTypes {
     var CLIENT_WORLD: DynamicArgType<ClientWorld>
 
     @JvmField
+    val BLOCK: DynamicArgType<Block>
+
+    @JvmField
     val BLOCK_POS: DynamicArgType<BlockPos>
 
     @JvmField
@@ -53,6 +63,12 @@ object ConiumEventArgTypes {
 
     @JvmField
     val BLOCK_HIT_RESULT: DynamicArgType<BlockHitResult>
+
+    @JvmField
+    val ENTITY_TYPE: DynamicArgType<EntityType<*>>
+
+    @JvmField
+    val ENTITY: DynamicArgType<Entity>
 
     @JvmField
     val LIVING_ENTITY: DynamicArgType<LivingEntity>
@@ -82,89 +98,124 @@ object ConiumEventArgTypes {
     val DOUBLE: DynamicArgType<Double>
 
     init {
+        ITEM = arg(
+            "item",
+            transform(::ITEM_STACK, ItemStack::getItem)
+        )
+
         ITEM_USAGE_CONTEXT = arg("item_usage_context")
 
         ITEM_PLACEMENT_CONTEXT = arg("item_placement_context")
 
         ITEM_STACK = arg(
             "item_stack",
-            DynamicArgsBuilder.transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.stack }
+            transform(::ITEM_USAGE_CONTEXT, ItemUsageContext::getStack),
+            transform(::ITEM_PLACEMENT_CONTEXT, ItemPlacementContext::getStack)
         )
 
         ACTION_RESULT = arg("action_result")
 
-        SERVER = arg("server")
+        SERVER = arg(
+            "server",
+            transform(::SERVER_PLAYER, ServerPlayerEntity::server),
+            transform(::SERVER_WORLD, ServerWorld::getServer)
+        )
 
-        WORLD = arg("world")
+        WORLD = arg(
+            "world",
+            transform(::PLAYER, PlayerEntity::getWorld)
+        )
 
         SERVER_WORLD = arg(
             "server_world",
-            DynamicArgsBuilder.transform(::WORLD) { world -> world as? ServerWorld },
-            DynamicArgsBuilder.transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.world as? ServerWorld }
+            transform(::WORLD) { world -> world as? ServerWorld },
+            transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.world as? ServerWorld }
         )
 
         CLIENT_WORLD = arg(
             "client_world",
-            DynamicArgsBuilder.transform(::WORLD) { world -> world as? ClientWorld },
-            DynamicArgsBuilder.transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.world as? ClientWorld }
+            transform(::WORLD) { world -> world as? ClientWorld },
+            transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.world as? ClientWorld }
+        )
+
+        BLOCK = arg(
+            "block",
+            transform(::BLOCK_STATE, AbstractBlockState::getBlock)
         )
 
         BLOCK_POS = arg(
             "block_pos",
-            DynamicArgsBuilder.transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.blockPos }
+            transform(::ITEM_PLACEMENT_CONTEXT, ItemPlacementContext::getBlockPos)
         )
 
         BLOCK_STATE = arg("block_state")
 
         BLOCK_HIT_RESULT = arg("block_hit_result")
 
-        LIVING_ENTITY = arg("living_entity")
+        ENTITY_TYPE = arg(
+            "entity_type",
+            transform(::ENTITY, Entity::getType)
+        )
+
+        ENTITY = arg(
+            "entity",
+            transform(::LIVING_ENTITY) { entity -> entity }
+        )
+
+        LIVING_ENTITY = arg(
+            "living_entity",
+            transform(::ENTITY) { entity -> entity as? LivingEntity },
+            transform(::PLAYER) { player -> player }
+        )
 
         PLAYER = arg(
             "player",
-            DynamicArgsBuilder.transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.player }
+            transform(::ITEM_PLACEMENT_CONTEXT, ItemPlacementContext::getPlayer),
+            transform(::LIVING_ENTITY) { entity -> entity as? PlayerEntity },
+            transform(::SERVER_PLAYER) { player -> player },
+            transform(::CLIENT_PLAYER) { player -> player }
         )
 
         SERVER_PLAYER = arg(
             "server_player",
-            DynamicArgsBuilder.transform(::PLAYER) { player -> player as? ServerPlayerEntity },
-            DynamicArgsBuilder.transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.player as? ServerPlayerEntity }
+            transform(::PLAYER) { player -> player as? ServerPlayerEntity },
+            transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.player as? ServerPlayerEntity }
         )
 
         CLIENT_PLAYER = arg(
             "client_player",
-            DynamicArgsBuilder.transform(::PLAYER) { player -> player as? ClientPlayerEntity },
-            DynamicArgsBuilder.transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.player as? ClientPlayerEntity }
+            transform(::PLAYER) { player -> player as? ClientPlayerEntity },
+            transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.player as? ClientPlayerEntity }
         )
 
         DAMAGE_SOURCE = arg("damage_source")
 
         INT = arg(
             "int",
-            DynamicArgsBuilder.transform(::LONG, Long::toInt),
-            DynamicArgsBuilder.transform(::FLOAT, Float::toInt),
-            DynamicArgsBuilder.transform(::DOUBLE, Double::toInt),
+            transform(::LONG, Long::toInt),
+            transform(::FLOAT, Float::toInt),
+            transform(::DOUBLE, Double::toInt),
         )
 
         LONG = arg(
             "long",
-            DynamicArgsBuilder.transform(::INT, Int::toLong),
-            DynamicArgsBuilder.transform(::FLOAT, Float::toLong),
-            DynamicArgsBuilder.transform(::DOUBLE, Double::toLong),
+            transform(::INT, Int::toLong),
+            transform(::FLOAT, Float::toLong),
+            transform(::DOUBLE, Double::toLong),
         )
 
         FLOAT = arg(
             "float",
-            DynamicArgsBuilder.transform(::INT, Int::toFloat),
-            DynamicArgsBuilder.transform(::LONG, Long::toFloat),
-            DynamicArgsBuilder.transform(::DOUBLE, Double::toFloat),
+            transform(::INT, Int::toFloat),
+            transform(::LONG, Long::toFloat),
+            transform(::DOUBLE, Double::toFloat),
         )
 
         DOUBLE = arg(
             "double",
-            DynamicArgsBuilder.transform(::INT, Int::toDouble),
-            DynamicArgsBuilder.transform(::LONG, Long::toDouble),
-            DynamicArgsBuilder.transform(::FLOAT, Float::toDouble),
+            transform(::INT, Int::toDouble),
+            transform(::LONG, Long::toDouble),
+            transform(::FLOAT, Float::toDouble),
         )
     }
 }
