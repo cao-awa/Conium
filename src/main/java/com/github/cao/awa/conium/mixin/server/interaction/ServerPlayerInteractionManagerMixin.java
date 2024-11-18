@@ -55,13 +55,10 @@ public abstract class ServerPlayerInteractionManagerMixin {
                 ConiumEventContext<?> breakContext = ConiumEvent.request(ConiumEventType.BREAK_BLOCK);
 
                 // Fill the context args.
-
-                breakContext.put(ConiumEventArgTypes.WORLD, world);
-
-                breakContext.put(ConiumEventArgTypes.PLAYER, player);
-
-                breakContext.put(ConiumEventArgTypes.BLOCK_POS, pos);
-                breakContext.put(ConiumEventArgTypes.BLOCK_STATE, blockState);
+                breakContext.put(ConiumEventArgTypes.WORLD, world)
+                        .put(ConiumEventArgTypes.PLAYER, player)
+                        .put(ConiumEventArgTypes.BLOCK_POS, pos)
+                        .put(ConiumEventArgTypes.BLOCK_STATE, blockState);
 
                 // Arising the block break context.
                 if (breakContext.presaging(block)) {
@@ -75,8 +72,6 @@ public abstract class ServerPlayerInteractionManagerMixin {
                 BlockState brokenState = block.onBreak(this.world, pos, blockState, this.player);
                 boolean removedBlock = this.world.removeBlock(pos, false);
                 if (removedBlock) {
-                    block.onBroken(this.world, pos, brokenState);
-
                     // Request the block broken event.
                     ConiumEventContext<?> brokenContext = ConiumEvent.request(ConiumEventType.BROKEN_BLOCK);
 
@@ -88,6 +83,8 @@ public abstract class ServerPlayerInteractionManagerMixin {
                     if (breakContext.presaging(block)) {
                         breakContext.arising(block);
                     }
+
+                    block.onBroken(this.world, pos, brokenState);
                 }
 
                 if (isCreative()) {

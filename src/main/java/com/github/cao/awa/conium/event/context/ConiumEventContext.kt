@@ -36,8 +36,9 @@ class ConiumEventContext<P : ParameterSelective?>(
         return this
     }
 
-    fun <X> put(arg: DynamicArgType<X>, value: X) {
+    fun <X> put(arg: DynamicArgType<X>, value: X): ConiumEventContext<P> {
         this.args[arg] = value
+        return this
     }
 
     fun <X> dynamic(arg: DynamicArgType<X>) {

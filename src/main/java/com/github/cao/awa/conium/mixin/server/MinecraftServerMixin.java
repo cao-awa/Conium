@@ -19,13 +19,29 @@ public class MinecraftServerMixin {
             method = "tick",
             at = @At("HEAD")
     )
-    public void listenTick(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
-        ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.SERVER_TICK);
+    public void tickStart(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
+        // Request the server ticking context.
+        ConiumEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.SERVER_TICK);
 
-        eventContext.put(ConiumEventArgTypes.SERVER, cast());
+        tickingContext.put(ConiumEventArgTypes.SERVER, cast());
 
-        if (eventContext.presaging(this)) {
-            eventContext.arising(this);
+        if (tickingContext.presaging(this)) {
+            tickingContext.arising(this);
+        }
+    }
+
+    @Inject(
+            method = "tick",
+            at = @At("TAIL")
+    )
+    public void tickTail(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
+        // Request the server ticked context.
+        ConiumEventContext<?> tickedContext = ConiumEvent.request(ConiumEventType.SERVER_TICK_TAIL);
+
+        tickedContext.put(ConiumEventArgTypes.SERVER, cast());
+
+        if (tickedContext.presaging(this)) {
+            tickedContext.arising(this);
         }
     }
 

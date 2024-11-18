@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.mixin.item;
+package com.github.cao.awa.conium.mixin.item.fuel;
 
 import com.github.cao.awa.conium.Conium;
 import net.minecraft.item.FuelRegistry;

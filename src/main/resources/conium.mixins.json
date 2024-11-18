@@ -18,7 +18,7 @@
     "entity.EntityAccessor",
     "entity.LivingEntityMixin",
     "entity.attribute.DefaultAttributeRegistryMixin",
-    "item.FuelRegistryMixin",
+    "item.fuel.FuelRegistryMixin",
     "item.ItemMixin",
     "item.setting.ItemSettingsAccessor",
     "item.stack.ItemStackMixin",
@@ -28,7 +28,8 @@
     "registry.RegistryEntryReferenceMixin",
     "registry.SimpleRegistryMixin",
     "server.MinecraftServerMixin",
-    "server.interaction.ServerPlayerInteractionManagerMixin"
+    "server.interaction.ServerPlayerInteractionManagerMixin",
+    "server.world.ServerWorldMixin"
   ],
   "client": [
     "client.MinecraftClientAccessor",

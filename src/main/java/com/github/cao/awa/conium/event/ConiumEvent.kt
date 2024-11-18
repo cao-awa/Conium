@@ -11,11 +11,15 @@ import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamageEvent
 import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamagedEvent
 import com.github.cao.awa.conium.entity.event.die.ConiumEntityDeadEvent
 import com.github.cao.awa.conium.entity.event.die.ConiumEntityDieEvent
+import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickEvent
+import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickedEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.server.tick.ConiumServerTickEvent
+import com.github.cao.awa.conium.event.server.tick.ConiumServerTickTailEvent
 import com.github.cao.awa.conium.event.trigger.ListTriggerable
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.item.event.use.ConiumItemUseOnBlockEvent
+import com.github.cao.awa.conium.item.event.use.ConiumItemUsedOnBlockEvent
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import java.util.*
@@ -29,7 +33,13 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
         val itemUseOnBlockEvent = ConiumItemUseOnBlockEvent()
 
         @JvmField
+        val itemUsedOnBlockEvent = ConiumItemUsedOnBlockEvent()
+
+        @JvmField
         val serverTick = ConiumServerTickEvent()
+
+        @JvmField
+        val serverTickTail = ConiumServerTickTailEvent()
 
         @JvmField
         val breakingBlock = ConiumBreakingBlockEvent()
@@ -51,6 +61,12 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
 
         @JvmField
         val usedBlock = ConiumUsedBlockEvent()
+
+        @JvmField
+        val entityTick = ConiumEntityTickEvent()
+
+        @JvmField
+        val entityTicked = ConiumEntityTickedEvent()
 
         @JvmField
         val entityDamage = ConiumEntityDamageEvent()
@@ -92,7 +108,9 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
         @JvmStatic
         fun init() {
             this.events[ConiumEventType.ITEM_USE_ON_BLOCK] = this.itemUseOnBlockEvent
+            this.events[ConiumEventType.ITEM_USED_ON_BLOCK] = this.itemUsedOnBlockEvent
             this.events[ConiumEventType.SERVER_TICK] = this.serverTick
+            this.events[ConiumEventType.SERVER_TICK_TAIL] = this.serverTickTail
 
             this.events[ConiumEventType.BREAKING_BLOCK] = this.breakingBlock
             this.events[ConiumEventType.BREAK_BLOCK] = this.breakBlock
@@ -102,6 +120,8 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
             this.events[ConiumEventType.USE_BLOCK] = this.useBlock
             this.events[ConiumEventType.USED_BLOCK] = this.usedBlock
 
+            this.events[ConiumEventType.ENTITY_TICK] = this.entityTick
+            this.events[ConiumEventType.ENTITY_TICKED] = this.entityTicked
             this.events[ConiumEventType.ENTITY_DAMAGE] = this.entityDamage
             this.events[ConiumEventType.ENTITY_DAMAGED] = this.entityDamaged
             this.events[ConiumEventType.ENTITY_DIE] = this.entityDie

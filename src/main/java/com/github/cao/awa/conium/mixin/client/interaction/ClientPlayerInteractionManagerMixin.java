@@ -24,19 +24,19 @@ public class ClientPlayerInteractionManagerMixin {
             )
     )
     public void breakBlock(Block instance, WorldAccess world, BlockPos pos, BlockState state) {
-        ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.BROKEN_BLOCK);
+        // Request the broken block event.
+        ConiumEventContext<?> brokenContext = ConiumEvent.request(ConiumEventType.BROKEN_BLOCK);
 
         // Fill the context args.
-        eventContext.put(ConiumEventArgTypes.WORLD, (World) world);
+        brokenContext.put(ConiumEventArgTypes.WORLD, (World) world)
+                .put(ConiumEventArgTypes.BLOCK_POS, pos)
+                .put(ConiumEventArgTypes.BLOCK_STATE, state);
 
-        eventContext.put(ConiumEventArgTypes.BLOCK_POS, pos);
-        eventContext.put(ConiumEventArgTypes.BLOCK_STATE, state);
-
-        if (eventContext.presaging(instance)) {
+        if (brokenContext.presaging(instance)) {
             // Only presaging state is true can be continues.
-            instance.onBroken(world, pos, state);
+            brokenContext.arising(instance);
 
-            eventContext.arising(instance);
+            instance.onBroken(world, pos, state);
         }
     }
 }

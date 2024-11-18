@@ -88,29 +88,36 @@ public abstract class ItemStackMixin implements ComponentHolder {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/Item;useOnBlock(Lnet/minecraft/item/ItemUsageContext;)Lnet/minecraft/util/ActionResult;")
     )
     public ActionResult handleUseOnBlock(Item instance, ItemUsageContext context) {
-        ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.ITEM_USE_ON_BLOCK);
+        // Request the item using on block context.
+        ConiumEventContext<?> usingContext = ConiumEvent.request(ConiumEventType.ITEM_USE_ON_BLOCK);
 
         // Fill the context args.
-        eventContext.put(ConiumEventArgTypes.WORLD, context.getWorld());
+        usingContext.put(ConiumEventArgTypes.WORLD, context.getWorld())
+                .put(ConiumEventArgTypes.ITEM_USAGE_CONTEXT, context)
+                .put(ConiumEventArgTypes.PLAYER, context.getPlayer())
+                .put(ConiumEventArgTypes.BLOCK_POS, context.getBlockPos());
 
-        eventContext.put(ConiumEventArgTypes.ITEM_USAGE_CONTEXT, context);
+        if (usingContext.presaging(instance)) {
+            usingContext.arising(instance);
 
-        eventContext.put(ConiumEventArgTypes.PLAYER, context.getPlayer());
+            // Invoke 'useOnBlock' method.
+            ActionResult result = instance.useOnBlock(context);
 
-        eventContext.put(ConiumEventArgTypes.BLOCK_POS, context.getBlockPos());
+            // Request the item used on block context.
+            ConiumEventContext<?> usedContext = ConiumEvent.request(ConiumEventType.ITEM_USED_ON_BLOCK);
+            usedContext.inherit(usingContext);
 
-        ActionResult result = ActionResult.FAIL;
+            // Used context has action result to acquire the result, this result not cancel or modifiable.
+            usedContext.put(ConiumEventArgTypes.ACTION_RESULT, result);
 
-        if (eventContext.presaging(instance)) {
-            result = instance.useOnBlock(context);
-
-            eventContext.put(ConiumEventArgTypes.ACTION_RESULT, result);
-
-            if (!eventContext.arising(instance) && result != ActionResult.FAIL) {
-                result = ActionResult.PASS;
+            if (usedContext.presaging(instance)) {
+                usedContext.arising(instance);
             }
-        }
 
-        return result;
+            return result;
+        } else {
+            // Cancel this event when presaging was rejected the event.
+            return ActionResult.FAIL;
+        }
     }
 }

@@ -14,7 +14,13 @@ class ConiumEventType<I> {
         val SERVER_TICK: ConiumEventType<MinecraftServer> = ConiumEventType()
 
         @JvmField
+        val SERVER_TICK_TAIL: ConiumEventType<MinecraftServer> = ConiumEventType()
+
+        @JvmField
         val ITEM_USE_ON_BLOCK: ConiumEventType<Item> = ConiumEventType()
+
+        @JvmField
+        val ITEM_USED_ON_BLOCK: ConiumEventType<Item> = ConiumEventType()
 
         // Block.
         /**
@@ -73,6 +79,12 @@ class ConiumEventType<I> {
 
         @JvmField
         val USED_BLOCK: ConiumEventType<Block> = ConiumEventType()
+
+        @JvmField
+        val ENTITY_TICK: ConiumEventType<EntityType<*>> = ConiumEventType()
+
+        @JvmField
+        val ENTITY_TICKED: ConiumEventType<EntityType<*>> = ConiumEventType()
 
         // Entity.
         @JvmField

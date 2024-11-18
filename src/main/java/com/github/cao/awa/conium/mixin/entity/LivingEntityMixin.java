@@ -28,7 +28,7 @@ public class LivingEntityMixin {
             cancellable = true
     )
     public void damage(ServerWorld world, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {
-        // Request the entity damage event.
+        // Request the entity damaging event.
         ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.ENTITY_DAMAGE);
 
         LivingEntity self = cast();
@@ -36,11 +36,10 @@ public class LivingEntityMixin {
         EntityType<?> type = self.getType();
 
         // Fill the context args.
-        eventContext.put(ConiumEventArgTypes.WORLD, world);
-
-        eventContext.put(ConiumEventArgTypes.DAMAGE_SOURCE, damageSource);
-        eventContext.put(ConiumEventArgTypes.LIVING_ENTITY, self);
-        eventContext.put(ConiumEventArgTypes.FLOAT, amount);
+        eventContext.put(ConiumEventArgTypes.WORLD, world)
+                .put(ConiumEventArgTypes.DAMAGE_SOURCE, damageSource)
+                .put(ConiumEventArgTypes.LIVING_ENTITY, self)
+                .put(ConiumEventArgTypes.FLOAT, amount);
 
         if (eventContext.presaging(type)) {
             // Only presaging state is true can be continues.
@@ -64,11 +63,10 @@ public class LivingEntityMixin {
         EntityType<?> type = self.getType();
 
         // Fill the context args.
-        eventContext.put(ConiumEventArgTypes.WORLD, world);
-
-        eventContext.put(ConiumEventArgTypes.DAMAGE_SOURCE, damageSource);
-        eventContext.put(ConiumEventArgTypes.LIVING_ENTITY, self);
-        eventContext.put(ConiumEventArgTypes.FLOAT, amount);
+        eventContext.put(ConiumEventArgTypes.WORLD, world)
+                .put(ConiumEventArgTypes.DAMAGE_SOURCE, damageSource)
+                .put(ConiumEventArgTypes.LIVING_ENTITY, self)
+                .put(ConiumEventArgTypes.FLOAT, amount);
 
         // The entity damaged event is not cancelable, only arising the context.
         if (eventContext.presaging(type)) {
@@ -90,8 +88,8 @@ public class LivingEntityMixin {
         EntityType<?> type = self.getType();
 
         // Fill the context args.
-        eventContext.put(ConiumEventArgTypes.DAMAGE_SOURCE, damageSource);
-        eventContext.put(ConiumEventArgTypes.LIVING_ENTITY, self);
+        eventContext.put(ConiumEventArgTypes.DAMAGE_SOURCE, damageSource)
+                .put(ConiumEventArgTypes.LIVING_ENTITY, self);
 
         if (eventContext.presaging(type)) {
             // Only presaging state is true can be continues.
@@ -115,8 +113,8 @@ public class LivingEntityMixin {
         EntityType<?> type = self.getType();
 
         // Fill the context args.
-        eventContext.put(ConiumEventArgTypes.DAMAGE_SOURCE, damageSource);
-        eventContext.put(ConiumEventArgTypes.LIVING_ENTITY, self);
+        eventContext.put(ConiumEventArgTypes.DAMAGE_SOURCE, damageSource)
+                .put(ConiumEventArgTypes.LIVING_ENTITY, self);
 
         // The entity dead event is not cancelable, only arising the context.
         if (eventContext.presaging(type)) {
