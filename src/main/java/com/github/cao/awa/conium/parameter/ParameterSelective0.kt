@@ -1,6 +1,8 @@
-package com.github.cao.awa.conium.parameter;
+package com.github.cao.awa.conium.parameter
 
 @FunctionalInterface
-public interface ParameterSelective0<R> extends ParameterSelective {
-    R arise();
+fun interface ParameterSelective0<R> : ParameterSelective {
+    fun arise(): R
+
+    operator fun invoke() = arise()
 }

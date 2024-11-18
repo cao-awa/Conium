@@ -1,5 +1,3 @@
-package com.github.cao.awa.conium.parameter;
+package com.github.cao.awa.conium.parameter
 
-public interface ParameterSelective {
-
-}
+interface ParameterSelective 

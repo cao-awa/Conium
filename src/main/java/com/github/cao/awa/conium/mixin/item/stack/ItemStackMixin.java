@@ -101,9 +101,12 @@ public abstract class ItemStackMixin implements ComponentHolder {
 
         ActionResult result = ActionResult.FAIL;
 
-        if (eventContext.presaging(this)) {
+        if (eventContext.presaging(instance)) {
             result = instance.useOnBlock(context);
-            if (!eventContext.arising(this) && result != ActionResult.FAIL) {
+
+            eventContext.put(ConiumEventArgTypes.ACTION_RESULT, result);
+
+            if (!eventContext.arising(instance) && result != ActionResult.FAIL) {
                 result = ActionResult.PASS;
             }
         }

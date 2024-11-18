@@ -13,6 +13,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -30,6 +31,8 @@ public abstract class BlockStateMixin {
 
         AbstractBlock.AbstractBlockState self = cast();
 
+        Block block = self.getBlock();
+
         // Fill the context args.
         eventContext.put(ConiumEventArgTypes.WORLD, world);
 
@@ -38,8 +41,8 @@ public abstract class BlockStateMixin {
         eventContext.put(ConiumEventArgTypes.BLOCK_POS, pos);
         eventContext.put(ConiumEventArgTypes.BLOCK_STATE, self);
 
-        if (eventContext.presaging(self)) {
-            eventContext.arising(self);
+        if (eventContext.presaging(block)) {
+            eventContext.arising(block);
         } else {
             // Cancel this event when presaging was rejected the event.
             ci.cancel();
@@ -57,6 +60,8 @@ public abstract class BlockStateMixin {
         ConiumEventContext<?> usingContext = ConiumEvent.request(ConiumEventType.USE_BLOCK);
         ConiumEventContext<?> usedContext = ConiumEvent.request(ConiumEventType.USED_BLOCK);
 
+        Block block = blockState.getBlock();
+
         // Fill the context args.
         usingContext.put(ConiumEventArgTypes.WORLD, world);
 
@@ -68,15 +73,15 @@ public abstract class BlockStateMixin {
 
         usedContext.inherit(usingContext);
 
-        if (usingContext.presaging(blockState)) {
-            usingContext.arising(blockState);
+        if (usingContext.presaging(block)) {
+            usingContext.arising(block);
 
             ActionResult result = ((AbstractBlockMixin) instance).invokeOnUse(blockState, world, blockPos, playerEntity, blockHitResult);
 
             usedContext.put(ConiumEventArgTypes.ACTION_RESULT, result);
 
-            if (usedContext.presaging(blockState)) {
-                usedContext.arising(blockState);
+            if (usedContext.presaging(block)) {
+                usedContext.arising(block);
             }
 
             return result;
@@ -86,6 +91,7 @@ public abstract class BlockStateMixin {
         }
     }
 
+    @Unique
     private AbstractBlock.AbstractBlockState cast() {
         return (AbstractBlock.AbstractBlockState) (Object) this;
     }
