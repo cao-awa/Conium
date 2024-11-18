@@ -4,6 +4,9 @@
   "templates": {
     "hardness": 10,
     "map_color": "#FF0000",
+    "replaceable": true,
+    "piston_behavior": "ignore",
+    "walk_velocity": 0.1,
     "luminance": 5,
     "collision": {
       "origin": [

@@ -5,10 +5,16 @@ import com.github.cao.awa.conium.block.template.bedrock.destructible.ConiumBedro
 import com.github.cao.awa.conium.block.template.bedrock.destructible.explosion.ConiumBedrockDestructibleByExplosionTemplate
 import com.github.cao.awa.conium.block.template.bedrock.light.ConiumBedrockLightEmissionTemplate
 import com.github.cao.awa.conium.block.template.collision.ConiumBlockCollisionTemplate
+import com.github.cao.awa.conium.block.template.explosion.resistance.ConiumExplosionResistanceTemplate
 import com.github.cao.awa.conium.block.template.luminance.ConiumLuminanceTemplate
 import com.github.cao.awa.conium.block.template.map.ConiumBedrockMapColorTemplate
 import com.github.cao.awa.conium.block.template.map.ConiumMapColorTemplate
 import com.github.cao.awa.conium.block.template.mining.ConiumHardnessTemplate
+import com.github.cao.awa.conium.block.template.piston.ConiumPistonBehaviorsTemplate
+import com.github.cao.awa.conium.block.template.replaceable.ConiumBlockReplaceableTemplate
+import com.github.cao.awa.conium.block.template.velocity.ConiumBlockMovementVelocityTemplate
+import com.github.cao.awa.conium.block.template.velocity.jump.ConiumBlockJumpVelocityTemplate
+import com.github.cao.awa.conium.block.template.velocity.walk.ConiumBlockWalkVelocityTemplate
 import com.github.cao.awa.conium.entity.template.bedrock.collision.ConiumBedrockEntityCollisionBoxTemplate
 import com.github.cao.awa.conium.entity.template.bedrock.pushable.ConiumBedrockEntityPushableTemplate
 import com.github.cao.awa.conium.entity.template.dimension.ConiumEntityDimensionTemplate
@@ -347,8 +353,8 @@ object ConiumTemplates {
 
     object Block {
         // Destructible.
-        const val HARDNESS: String = "hardness"
         const val EXPLOSION_RESISTANCE: String = "explosion_resistance"
+        const val HARDNESS: String = "hardness"
 
         // Map color.
         const val MAP_COLOR: String = "map_color"
@@ -359,8 +365,23 @@ object ConiumTemplates {
         // Collision.
         const val COLLISION: String = "collision"
 
+        // Replaceable.
+        const val REPLACEABLE: String = "replaceable"
+
+        // Velocities.
+        const val MOVEMENT_VELOCITY: String = "movement_velocity"
+        const val WALK_VELOCITY: String = "walk_velocity"
+        const val JUMP_VELOCITY: String = "jump_velocity"
+
+        // Piston behavior.
+        const val PISTON_BEHAVIOR: String = "piston_behavior"
+
         fun initBlockTemplates() {
-            // Mining.
+            // Destructible.
+            registerBlock(
+                EXPLOSION_RESISTANCE,
+                ConiumExplosionResistanceTemplate::create
+            )
             registerBlock(
                 HARDNESS,
                 ConiumHardnessTemplate::create
@@ -382,6 +403,32 @@ object ConiumTemplates {
             registerBlock(
                 COLLISION,
                 ConiumBlockCollisionTemplate::create
+            )
+
+            // Replaceable.
+            registerBlock(
+                REPLACEABLE,
+                ConiumBlockReplaceableTemplate::create
+            )
+
+            // Movement velocity multiplier.
+            registerBlock(
+                MOVEMENT_VELOCITY,
+                ConiumBlockMovementVelocityTemplate::create
+            )
+            registerBlock(
+                WALK_VELOCITY,
+                ConiumBlockWalkVelocityTemplate::create
+            )
+            registerBlock(
+                JUMP_VELOCITY,
+                ConiumBlockJumpVelocityTemplate::create
+            )
+
+            // Piston behavior.
+            registerBlock(
+                PISTON_BEHAVIOR,
+                ConiumPistonBehaviorsTemplate::create
             )
         }
     }

@@ -12,8 +12,6 @@ import com.github.cao.awa.conium.kotlin.extent.item.registerBlockItem
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.google.common.collect.UnmodifiableIterator
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.block.Block
@@ -31,7 +29,6 @@ class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLook
     ConiumJsonDataLoader(RegistryKeys.getPath(ConiumRegistryKeys.BLOCK)) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumBlockManager")
-        private val GSON: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
     }
 
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
