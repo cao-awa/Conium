@@ -21,7 +21,9 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_HIT_RESULT
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ACTION_RESULT
 
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.SERVER_TICK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.SERVER_TICK_TAIL
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_USE_ON_BLOCK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_USED_ON_BLOCK
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.BREAKING_BLOCK
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.BREAK_BLOCK
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.BROKEN_BLOCK

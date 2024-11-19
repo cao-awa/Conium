@@ -23,8 +23,6 @@ public class MinecraftServerMixin {
         // Request the server ticking context.
         ConiumEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.SERVER_TICK);
 
-        tickingContext.put(ConiumEventArgTypes.SERVER, cast());
-
         if (tickingContext.presaging(this)) {
             tickingContext.arising(this);
         }
@@ -38,15 +36,8 @@ public class MinecraftServerMixin {
         // Request the server ticked context.
         ConiumEventContext<?> tickedContext = ConiumEvent.request(ConiumEventType.SERVER_TICK_TAIL);
 
-        tickedContext.put(ConiumEventArgTypes.SERVER, cast());
-
         if (tickedContext.presaging(this)) {
             tickedContext.arising(this);
         }
-    }
-
-    @Unique
-    private MinecraftServer cast() {
-        return (MinecraftServer) (Object) this;
     }
 }
