@@ -5,6 +5,10 @@ import com.github.cao.awa.conium.block.event.breaking.ConiumBreakingBlockEvent
 import com.github.cao.awa.conium.block.event.breaking.ConiumBrokenBlockEvent
 import com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent
 import com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEvent
+import com.github.cao.awa.conium.block.event.tick.ConiumBlockScheduleTickEvent
+import com.github.cao.awa.conium.block.event.tick.ConiumBlockScheduleTickedEvent
+import com.github.cao.awa.conium.block.event.tick.fluid.ConiumFluidScheduleTickEvent
+import com.github.cao.awa.conium.block.event.tick.fluid.ConiumFluidScheduleTickedEvent
 import com.github.cao.awa.conium.block.event.use.ConiumUseBlockEvent
 import com.github.cao.awa.conium.block.event.use.ConiumUsedBlockEvent
 import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamageEvent
@@ -14,9 +18,11 @@ import com.github.cao.awa.conium.entity.event.die.ConiumEntityDieEvent
 import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickEvent
 import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickedEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.server.tick.ConiumServerTickEvent
 import com.github.cao.awa.conium.event.server.tick.ConiumServerTickTailEvent
 import com.github.cao.awa.conium.event.trigger.ListTriggerable
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.item.event.use.ConiumItemUseOnBlockEvent
 import com.github.cao.awa.conium.item.event.use.ConiumItemUsedOnBlockEvent
@@ -80,6 +86,18 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
         @JvmField
         val entityDead = ConiumEntityDeadEvent()
 
+        @JvmField
+        val fluidScheduleTick = ConiumFluidScheduleTickEvent()
+
+        @JvmField
+        val fluidScheduleTicked = ConiumFluidScheduleTickedEvent()
+
+        @JvmField
+        val blockScheduleTick = ConiumBlockScheduleTickEvent()
+
+        @JvmField
+        val blockScheduleTicked = ConiumBlockScheduleTickedEvent()
+
         /**
          * Before event fires, create event context by requirements.
          *
@@ -127,13 +145,24 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
             this.events[ConiumEventType.ENTITY_DIE] = this.entityDie
             this.events[ConiumEventType.ENTITY_DEAD] = this.entityDead
 
+            this.events[ConiumEventType.FLUID_SCHEDULE_TICK] = this.fluidScheduleTick
+            this.events[ConiumEventType.FLUID_SCHEDULE_TICKED] = this.fluidScheduleTicked
+            this.events[ConiumEventType.BLOCK_SCHEDULE_TICK] = this.blockScheduleTick
+            this.events[ConiumEventType.BLOCK_SCHEDULE_TICKED] = this.blockScheduleTicked
         }
 
         fun clearEntitySubscribes() {
+            this.entityTick.clearSubscribes()
+            this.entityTicked.clearSubscribes()
+            this.entityDamage.clearSubscribes()
+            this.entityDamaged.clearSubscribes()
+            this.entityDie.clearSubscribes()
+            this.entityDead.clearSubscribes()
         }
 
         fun clearItemSubscribes() {
             this.itemUseOnBlockEvent.clearSubscribes()
+            this.itemUsedOnBlockEvent.clearSubscribes()
         }
 
         fun clearServerTickSubscribes() {
@@ -141,7 +170,18 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
         }
 
         fun clearBlockSubscribes() {
+            this.breakingBlock.clearSubscribes()
             this.breakBlock.clearSubscribes()
+            this.brokenBlock.clearSubscribes()
+            this.placeBlock.clearSubscribes()
+            this.placedBlock.clearSubscribes()
+            this.useBlock.clearSubscribes()
+            this.usedBlock.clearSubscribes()
+
+            this.fluidScheduleTick.clearSubscribes()
+            this.fluidScheduleTicked.clearSubscribes()
+            this.blockScheduleTick.clearSubscribes()
+            this.blockScheduleTicked.clearSubscribes()
         }
     }
 

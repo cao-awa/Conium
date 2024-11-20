@@ -5,6 +5,7 @@ import com.github.cao.awa.conium.mixin.client.interaction.ClientPlayerInteractio
 import com.github.cao.awa.conium.mixin.server.interaction.ServerPlayerInteractionManagerMixin
 import net.minecraft.block.Block
 import net.minecraft.entity.EntityType
+import net.minecraft.fluid.Fluid
 import net.minecraft.item.Item
 import net.minecraft.server.MinecraftServer
 
@@ -108,5 +109,17 @@ class ConiumEventType<I> {
          */
         @JvmField
         val ENTITY_DEAD: ConiumEventType<EntityType<*>> = ConiumEventType()
+
+        @JvmField
+        val BLOCK_SCHEDULE_TICK: ConiumEventType<Block> = ConiumEventType()
+
+        @JvmField
+        val BLOCK_SCHEDULE_TICKED: ConiumEventType<Block> = ConiumEventType()
+
+        @JvmField
+        val FLUID_SCHEDULE_TICK: ConiumEventType<Fluid> = ConiumEventType()
+
+        @JvmField
+        val FLUID_SCHEDULE_TICKED: ConiumEventType<Fluid> = ConiumEventType()
     }
 }

@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.event.type
 
+import com.github.cao.awa.conium.kotlin.extent.innate.asIt
 import com.github.cao.awa.conium.parameter.DynamicArgType
 import com.github.cao.awa.conium.parameter.DynamicArgsBuilder.Companion.transform
 import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder.arg
@@ -12,6 +13,7 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.fluid.FluidState
 import net.minecraft.item.Item
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
@@ -22,7 +24,9 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
+import net.minecraft.world.tick.ScheduledTickView
 
 object ConiumEventArgTypes {
     @JvmField
@@ -41,7 +45,13 @@ object ConiumEventArgTypes {
     val ACTION_RESULT: DynamicArgType<ActionResult>
 
     @JvmField
+    val RANDOM: DynamicArgType<Random>
+
+    @JvmField
     val SERVER: DynamicArgType<MinecraftServer>
+
+    @JvmField
+    val SCHEDULE_TICK_VIEW: DynamicArgType<ScheduledTickView>
 
     @JvmField
     val WORLD: DynamicArgType<World>
@@ -60,6 +70,9 @@ object ConiumEventArgTypes {
 
     @JvmField
     val BLOCK_STATE: DynamicArgType<AbstractBlockState>
+
+    @JvmField
+    val FLUID_STATE: DynamicArgType<FluidState>
 
     @JvmField
     val BLOCK_HIT_RESULT: DynamicArgType<BlockHitResult>
@@ -115,10 +128,20 @@ object ConiumEventArgTypes {
 
         ACTION_RESULT = arg("action_result")
 
+        RANDOM = arg(
+            "random",
+            transform(::WORLD, World::getRandom)
+        )
+
         SERVER = arg(
             "server",
             transform(::SERVER_PLAYER, ServerPlayerEntity::server),
             transform(::SERVER_WORLD, ServerWorld::getServer)
+        )
+
+        SCHEDULE_TICK_VIEW = arg(
+            "schedule_tick_view",
+            transform(::WORLD, World::asIt)
         )
 
         WORLD = arg(
@@ -148,7 +171,12 @@ object ConiumEventArgTypes {
             transform(::ITEM_PLACEMENT_CONTEXT, ItemPlacementContext::getBlockPos)
         )
 
-        BLOCK_STATE = arg("block_state")
+        BLOCK_STATE = arg(
+            "block_state",
+            transform(::FLUID_STATE, FluidState::getBlockState)
+        )
+
+        FLUID_STATE = arg("fluid_state")
 
         BLOCK_HIT_RESULT = arg("block_hit_result")
 
@@ -159,21 +187,21 @@ object ConiumEventArgTypes {
 
         ENTITY = arg(
             "entity",
-            transform(::LIVING_ENTITY) { entity -> entity }
+            transform(::LIVING_ENTITY, LivingEntity::asIt)
         )
 
         LIVING_ENTITY = arg(
             "living_entity",
             transform(::ENTITY) { entity -> entity as? LivingEntity },
-            transform(::PLAYER) { player -> player }
+            transform(::PLAYER, PlayerEntity::asIt)
         )
 
         PLAYER = arg(
             "player",
             transform(::ITEM_PLACEMENT_CONTEXT, ItemPlacementContext::getPlayer),
             transform(::LIVING_ENTITY) { entity -> entity as? PlayerEntity },
-            transform(::SERVER_PLAYER) { player -> player },
-            transform(::CLIENT_PLAYER) { player -> player }
+            transform(::SERVER_PLAYER, ServerPlayerEntity::asIt),
+            transform(::CLIENT_PLAYER, ClientPlayerEntity::asIt)
         )
 
         SERVER_PLAYER = arg(

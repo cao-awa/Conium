@@ -2,23 +2,27 @@
 
 ## Event types
 
-|                Key |                 Notes                  | Environment | Cancelable |                        Cascade events | Input instance  |
-|-------------------:|:--------------------------------------:|------------:|-----------:|--------------------------------------:|:---------------:|
-|        SERVER_TICK |      Trigger in every server tick      |      SERVER |      false |                       Too many events | MinecraftServer |
-|   SERVER_TICK_TAIL | Trigger in every server tick completed |      SERVER |      false |                                     * | MinecraftServer |
-|  ITEM_USE_ON_BLOCK |  Trigger when an item use on a block   |         ALL |       true |                                     * |      Item       |
-| ITEM_USED_ON_BLOCK |  Trigger when an item used on a block  |         ALL |       true |                                     * |      Item       |
-|     BREAKING_BLOCK |      Trigger when breaking block       |         ALL |       true | ```BREAK_BLOCK```  ```BROKEN_BLOCK``` |      Block      |
-|        BREAK_BLOCK |       Trigger when broking block       |      SERVER |       true |                    ```BROKEN_BLOCK``` |      Block      |
-|       BROKEN_BLOCK |       Trigger when broken block        |         ALL |      false |                                     * |      Block      |
-|        PLACE_BLOCK |       Trigger when placing block       |         ALL |       true |                    ```PLACED_BLOCK``` |      Block      |
-|       PLACED_BLOCK |       Trigger when block placed        |         ALL |      false |                                     * |      Block      |
-|          USE_BLOCK |        Trigger when using block        |         ALL |       true |                      ```USED_BLOCK``` |      Block      |
-|         USED_BLOCK |        Trigger when block used         |         ALL |      false |                                     * |      Block      |
-|      ENTITY_DAMAGE |      Trigger when entity damaging      |         ALL |       true |                  ```ENTITY_DAMAGED``` |  EntityType<*>  |
-|     ENTITY_DAMAGED |      Trigger when entity damaged       |         ALL |      false |                                     * |  EntityType<*>  |
-|         ENTITY_DIE |       Trigger when entity dying        |         ALL |       true |                     ```ENTITY_DEAD``` |  EntityType<*>  |
-|        ENTITY_DIED |        Trigger when entity died        |         ALL |      false |                                     * |  EntityType<*>  |
+|                   Key |                 Notes                  | Environment | Cancelable |                        Cascade events | Input instance  |
+|----------------------:|:--------------------------------------:|------------:|-----------:|--------------------------------------:|:---------------:|
+|           SERVER_TICK |      Trigger in every server tick      |      SERVER |      false |                       Too many events | MinecraftServer |
+|      SERVER_TICK_TAIL | Trigger in every server tick completed |      SERVER |      false |                                     * | MinecraftServer |
+|     ITEM_USE_ON_BLOCK |  Trigger when an item use on a block   |         ALL |       true |                                     * |      Item       |
+|    ITEM_USED_ON_BLOCK |  Trigger when an item used on a block  |         ALL |       true |                                     * |      Item       |
+|        BREAKING_BLOCK |      Trigger when breaking block       |         ALL |       true | ```BREAK_BLOCK```  ```BROKEN_BLOCK``` |      Block      |
+|           BREAK_BLOCK |       Trigger when broking block       |      SERVER |       true |                    ```BROKEN_BLOCK``` |      Block      |
+|          BROKEN_BLOCK |       Trigger when broken block        |         ALL |      false |                                     * |      Block      |
+|           PLACE_BLOCK |       Trigger when placing block       |         ALL |       true |                    ```PLACED_BLOCK``` |      Block      |
+|          PLACED_BLOCK |       Trigger when block placed        |         ALL |      false |                                     * |      Block      |
+|             USE_BLOCK |        Trigger when using block        |         ALL |       true |                      ```USED_BLOCK``` |      Block      |
+|            USED_BLOCK |        Trigger when block used         |         ALL |      false |                                     * |      Block      |
+|         ENTITY_DAMAGE |      Trigger when entity damaging      |         ALL |       true |                  ```ENTITY_DAMAGED``` |  EntityType<*>  |
+|        ENTITY_DAMAGED |      Trigger when entity damaged       |         ALL |      false |                                     * |  EntityType<*>  |
+|            ENTITY_DIE |       Trigger when entity dying        |         ALL |       true |                     ```ENTITY_DEAD``` |  EntityType<*>  |
+|           ENTITY_DIED |        Trigger when entity died        |         ALL |      false |                                     * |  EntityType<*>  |
+|   BLOCK_SCHEDULE_TICK |  Trigger when schedule ticking block   |      SERVER |       true |           ```BLOCK_SCHEDULE_TICKED``` |      Block      |
+| BLOCK_SCHEDULE_TICKED |       Trigger when block ticked        |      SERVER |      false |                                     * |      Block      |
+|   FLUID_SCHEDULE_TICK |  Trigger when schedule ticking fluid   |      SERVER |       true |           ```FLUID_SCHEDULE_TICKED``` |      Fluid      |
+| FLUID_SCHEDULE_TICKED |       Trigger when fluid ticked        |      SERVER |      false |                                     * |      Fluid      |
 
 ### Cascade events
 
