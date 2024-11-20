@@ -22,7 +22,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockItem.class)
 public abstract class BlockItemMixin {
-    @Shadow public abstract Block getBlock();
+    @Shadow
+    public abstract Block getBlock();
 
     /**
      * Inject to {@code place} to trigger event {@code PLACE_BLOCK}.

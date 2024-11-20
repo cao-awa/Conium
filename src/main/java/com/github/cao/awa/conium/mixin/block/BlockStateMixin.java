@@ -1,5 +1,7 @@
 package com.github.cao.awa.conium.mixin.block;
 
+import com.github.cao.awa.conium.block.event.use.ConiumUseBlockEvent;
+import com.github.cao.awa.conium.block.event.use.ConiumUsedBlockEvent;
 import com.github.cao.awa.conium.event.ConiumEvent;
 import com.github.cao.awa.conium.event.context.ConiumEventContext;
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
@@ -18,8 +20,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import com.github.cao.awa.conium.block.event.use.ConiumUseBlockEvent;
-import com.github.cao.awa.conium.block.event.use.ConiumUsedBlockEvent;
 
 @Mixin(AbstractBlock.AbstractBlockState.class)
 public abstract class BlockStateMixin {
@@ -55,13 +55,14 @@ public abstract class BlockStateMixin {
     /**
      * Redirect the 'onUse' calling of block using, make event context and trigger the event.
      *
-     * @param instance the block instance
-     * @param blockState the block state of current context
-     * @param world the world of the block
-     * @param blockPos the position of the block
-     * @param playerEntity the user
+     * @param instance       the block instance
+     * @param blockState     the block state of current context
+     * @param world          the world of the block
+     * @param blockPos       the position of the block
+     * @param playerEntity   the user
      * @param blockHitResult the hit result of the user using to block
-     *
+     * @return the action result
+     * @author cao_awa
      * @see ConiumEventType#USE_BLOCK
      * @see ConiumEventType#USED_BLOCK
      * @see ConiumUseBlockEvent
@@ -69,11 +70,6 @@ public abstract class BlockStateMixin {
      * @see Block
      * @see BlockState
      * @see ActionResult
-     *
-     * @author cao_awa
-     *
-     * @return the action result
-     *
      * @since 1.0.0
      */
     @Redirect(

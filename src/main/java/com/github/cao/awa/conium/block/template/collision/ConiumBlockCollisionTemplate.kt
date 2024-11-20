@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.block.template.collision
 
-import com.github.cao.awa.conium.block.ConiumBlock
+import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.eachInt
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrBoolean
@@ -65,8 +65,14 @@ class ConiumBlockCollisionTemplate(
         }
     }
 
-    override fun complete(target: ConiumBlock) {
-        target.outlineShape = VoxelShapes.cuboid(
+    override fun settings(settings: AbstractBlock.Settings) {
+        if (this.noCollision) {
+            settings.noCollision()
+        }
+    }
+
+    override fun settings(settings: ConiumBlockSettings) {
+        settings.outlineShape = VoxelShapes.cuboid(
             this.px1 / 16.0,
             this.py1 / 16.0,
             this.pz1 / 16.0,
@@ -74,11 +80,5 @@ class ConiumBlockCollisionTemplate(
             this.py2 / 16.0,
             this.pz2 / 16.0,
         )
-    }
-
-    override fun settings(settings: AbstractBlock.Settings) {
-        if (this.noCollision) {
-            settings.noCollision()
-        }
     }
 }

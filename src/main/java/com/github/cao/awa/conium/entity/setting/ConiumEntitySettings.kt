@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.entity.ConiumEntity
 import com.github.cao.awa.conium.entity.renderer.ConiumEntityRenderer
 import com.github.cao.awa.conium.entity.renderer.model.ConiumEntityModel
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
+import com.github.cao.awa.conium.setting.ConiumSettings
 import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
@@ -104,7 +104,7 @@ object ConiumEntitySettingsValue {
     val clientModelTexture: Identifier = Identifier.ofVanilla("textures/misc/white.png")
 }
 
-class ConiumEntitySettings {
+class ConiumEntitySettings : ConiumSettings<ConiumEntitySettings>() {
     companion object {
         @JvmStatic
         fun create(templates: MutableList<ConiumEntityTemplate>, type: EntityType.Builder<ConiumEntity>): ConiumEntitySettings {
@@ -246,24 +246,9 @@ class ConiumEntitySettings {
     // The delegate.
     private var _clientModelTexture: Identifier? = null
 
-    private val migrates: MutableMap<String, ConiumEntitySettings> = CollectionFactor.hashMap()
+    override fun newInstance(): ConiumEntitySettings = ConiumEntitySettings()
 
-    /**
-     * Migrate settings to new settings instance.
-     *
-     * Do attention when calls, 'migrate' will always create a new instance for every get.
-     *
-     * @see migrateTo
-     * @see compute
-     *
-     * @author cao_awa
-     *
-     * @since 1.0.0
-     */
-    // Self migrate, do not call 'migrateTo'.
-    val migrate get() = migrateTo(ConiumEntitySettings())
-
-    private fun migrateTo(settings: ConiumEntitySettings): ConiumEntitySettings {
+    override fun migrateTo(settings: ConiumEntitySettings): ConiumEntitySettings {
         return settings.also {
             // Apply settings(only configured, no default).
             this._dimensions?.apply { it.dimensions = this }
@@ -273,33 +258,6 @@ class ConiumEntitySettings {
             this._clientModel?.apply { it.clientModel = this }
             this._clientModelTexture?.apply { it.clientModelTexture = this }
         }
-    }
-
-    fun migrate(name: String): ConiumEntitySettings {
-        // Migrate this settings to new migrating instance.
-        return this.migrate.also {
-            // Migrate target group settings to result.
-            this.migrates[name]?.migrateTo(it)
-        }
-    }
-
-    fun migrate(name: String, settings: ConiumEntitySettings) {
-        this.migrates[name] = settings
-    }
-
-    fun migrate(name: String, operator: (ConiumEntitySettings) -> Unit) {
-        // Get and operate the settings, then set it back to migrates.
-        this.migrates[name] = (this.migrates[name] ?: ConiumEntitySettings()).also(operator)
-    }
-
-    fun compute(vararg names: String): ConiumEntitySettings {
-        var result = this
-        for (name in names) {
-            // Migrates the settings.
-            result = result.migrate(name)
-        }
-        println(this.migrates)
-        return result
     }
 }
 

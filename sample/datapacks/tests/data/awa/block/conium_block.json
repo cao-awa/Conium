@@ -19,6 +19,11 @@
         5,
         5
       ]
+    },
+    "path_find_through": {
+      "land": true,
+      "water": true,
+      "air": true
     }
   }
 }

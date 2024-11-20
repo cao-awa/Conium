@@ -11,6 +11,7 @@ import com.github.cao.awa.conium.block.template.luminance.ConiumLuminanceTemplat
 import com.github.cao.awa.conium.block.template.map.ConiumBedrockMapColorTemplate
 import com.github.cao.awa.conium.block.template.map.ConiumMapColorTemplate
 import com.github.cao.awa.conium.block.template.mining.ConiumHardnessTemplate
+import com.github.cao.awa.conium.block.template.path.through.ConiumBlockPathFindThroughTemplate
 import com.github.cao.awa.conium.block.template.piston.ConiumBlockPistonBehaviorsTemplate
 import com.github.cao.awa.conium.block.template.replaceable.ConiumBlockReplaceableTemplate
 import com.github.cao.awa.conium.block.template.velocity.ConiumBlockMovementVelocityTemplate
@@ -380,6 +381,9 @@ object ConiumTemplates {
         // Note block instrument.
         const val INSTRUMENT: String = "instrument"
 
+        // Path find.
+        const val PATH_FIND_THROUGH: String = "path_find_through"
+
         fun initBlockTemplates() {
             // Destructible.
             registerBlock(
@@ -439,6 +443,12 @@ object ConiumTemplates {
             registerBlock(
                 INSTRUMENT,
                 ConiumBlockInstrumentTemplate::create
+            )
+
+            // Path through.
+            registerBlock(
+                PATH_FIND_THROUGH,
+                ConiumBlockPathFindThroughTemplate::create
             )
         }
     }
