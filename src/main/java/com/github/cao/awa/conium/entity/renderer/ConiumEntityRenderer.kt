@@ -4,8 +4,8 @@ import com.github.cao.awa.conium.entity.ConiumEntity
 import com.github.cao.awa.conium.entity.metadata.ConiumEntityMetadata
 import com.github.cao.awa.conium.entity.renderer.model.ConiumEntityModel
 import com.github.cao.awa.conium.entity.renderer.state.ConiumEntityRenderState
-import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
-import com.github.cao.awa.conium.entity.setting.ConiumEntitySettingsValue
+import com.github.cao.awa.conium.entity.setting.ConiumAbstractEntitySettings
+import com.github.cao.awa.conium.entity.setting.ConiumClientEntitySettings
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.render.entity.EntityRendererFactory
@@ -17,20 +17,16 @@ import net.minecraft.util.Identifier
 class ConiumEntityRenderer(
     context: EntityRendererFactory.Context,
     private val metadata: ConiumEntityMetadata,
-    private val settings: ConiumEntitySettings = migrateClient(metadata)
+    private val settings: ConiumClientEntitySettings = migrateClient(metadata)
 ) : LivingEntityRenderer<ConiumEntity, ConiumEntityRenderState, ConiumEntityModel>(
     context,
     settings.clientModel(context),
     0.25F
 ) {
     companion object {
-        fun migrateClient(settings: ConiumEntitySettings): ConiumEntitySettings {
-            return settings.migrate(ConiumEntitySettingsValue.clientMigrateKey)
-        }
+        fun migrateClient(settings: ConiumAbstractEntitySettings<*>): ConiumClientEntitySettings = settings.client
 
-        fun migrateClient(metadata: ConiumEntityMetadata): ConiumEntitySettings {
-            return migrateClient(metadata.settings)
-        }
+        fun migrateClient(metadata: ConiumEntityMetadata): ConiumClientEntitySettings = migrateClient(metadata.settings)
     }
 
     private val texture = this.settings.clientModelTexture

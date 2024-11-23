@@ -15,14 +15,13 @@ import net.minecraft.component.ComponentType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 import net.minecraft.util.profiler.Profiler
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-class ItemPropertyInjectManager : ConiumJsonDataLoader(RegistryKeys.getPath(ConiumRegistryKeys.ITEM_PROPERTY_INJECT)) {
+class ItemPropertyInjectManager : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM_PROPERTY_INJECT.value) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ItemPropertyInjectManager")
     }

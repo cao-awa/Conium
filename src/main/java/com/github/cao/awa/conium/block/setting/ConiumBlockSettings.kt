@@ -17,39 +17,7 @@ object ConiumBlockSettingsValue {
     val airPathThrough: Boolean = false
 }
 
-class ConiumBlockSettings(val vanillaSettings: Settings) : ConiumSettings<ConiumBlockSettings>() {
-    companion object {
-        @JvmStatic
-        fun create(templates: MutableList<ConiumBlockTemplate>, settings: Settings): ConiumBlockSettings {
-            return ConiumBlockSettings(settings).also {
-                templates.forEach { template ->
-                    template.prepare(it)
-                }
-            }
-        }
-    }
-
-    /**
-     * Setting the color code of block.
-     *
-     * Default is 0.
-     *
-     * @see BlockColorProvider.getColor
-     *
-     * @author cao_awa
-     *
-     * @since 1.0.0
-     */
-    var color: Int
-        get() = this._color ?: ConiumBlockSettingsValue.color
-        set(value) {
-            this._color = value
-
-        }
-
-    // The delegate.
-    private var _color: Int? = null
-
+abstract class ConiumAbstractBlockSettings<B : ConiumAbstractBlockSettings<B>>(val vanillaSettings: Settings) : ConiumSettings<ConiumAbstractBlockSettings<B>, B>() {
     /**
      * Setting the outline shape of block.
      *
@@ -132,9 +100,58 @@ class ConiumBlockSettings(val vanillaSettings: Settings) : ConiumSettings<Conium
     // The delegate.
     private var _airPathThrough: Boolean? = null
 
-    override fun migrateTo(settings: ConiumBlockSettings): ConiumBlockSettings {
+    override fun migrateTo(settings: B): B {
         return settings.also {
             // Apply settings(only configured, no default).
+            this._outlineShape?.apply { it.outlineShape = this }
+            this._landPathThrough?.apply { it.landPathThrough = this }
+            this._waterPathThrough?.apply { it.waterPathThrough = this }
+            this._airPathThrough?.apply { it.airPathThrough = this }
+        }
+    }
+}
+
+class ConiumClientBlockSettings(vanillaSettings: Settings) : ConiumAbstractBlockSettings<ConiumClientBlockSettings>(vanillaSettings) {
+    /**
+     * Setting the color code of block.
+     *
+     * Default is 0.
+     *
+     * @see BlockColorProvider.getColor
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    var color: Int
+        get() = this._color ?: ConiumBlockSettingsValue.color
+        set(value) {
+            this._color = value
+
+        }
+
+    // The delegate.
+    private var _color: Int? = null
+
+    override fun newInstance(): ConiumClientBlockSettings = ConiumClientBlockSettings(this.vanillaSettings)
+
+    override fun migrateTo(settings: ConiumClientBlockSettings): ConiumClientBlockSettings {
+        return super.migrateTo(settings.also {
+            // Apply settings(only configured, no default).
+            this._color?.apply { it.color = this }
+        })
+    }
+}
+
+class ConiumBlockSettings(vanillaSettings: Settings) : ConiumAbstractBlockSettings<ConiumBlockSettings>(vanillaSettings) {
+    companion object {
+        @JvmStatic
+        fun create(templates: MutableList<ConiumBlockTemplate>, settings: Settings): ConiumBlockSettings {
+            return ConiumBlockSettings(settings).also {
+                templates.forEach { template ->
+                    template.prepare(it)
+                }
+            }
         }
     }
 

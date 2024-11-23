@@ -8,20 +8,21 @@ import net.minecraft.entity.EntityType
 import net.minecraft.fluid.Fluid
 import net.minecraft.item.Item
 import net.minecraft.server.MinecraftServer
+import kotlin.reflect.KClass
 
-class ConiumEventType<I> {
+class ConiumEventType<I : Any>(val name: String, val identityType: KClass<I>) {
     companion object {
         @JvmField
-        val SERVER_TICK: ConiumEventType<MinecraftServer> = ConiumEventType()
+        val SERVER_TICK: ConiumEventType<MinecraftServer> = ConiumEventType("server_tick", MinecraftServer::class)
 
         @JvmField
-        val SERVER_TICK_TAIL: ConiumEventType<MinecraftServer> = ConiumEventType()
+        val SERVER_TICK_TAIL: ConiumEventType<MinecraftServer> = ConiumEventType("server_tick_tail", MinecraftServer::class)
 
         @JvmField
-        val ITEM_USE_ON_BLOCK: ConiumEventType<Item> = ConiumEventType()
+        val ITEM_USE_ON_BLOCK: ConiumEventType<Item> = ConiumEventType("item_use_on_block", Item::class)
 
         @JvmField
-        val ITEM_USED_ON_BLOCK: ConiumEventType<Item> = ConiumEventType()
+        val ITEM_USED_ON_BLOCK: ConiumEventType<Item> = ConiumEventType("item_used_on_block", Item::class)
 
         // Block.
         /**
@@ -36,7 +37,7 @@ class ConiumEventType<I> {
          * @since 1.0.0
          */
         @JvmField
-        val BREAKING_BLOCK: ConiumEventType<Block> = ConiumEventType()
+        val BREAKING_BLOCK: ConiumEventType<Block> = ConiumEventType("breaking_block", Block::class)
 
         /**
          * The event where that block is be breaking.
@@ -52,7 +53,7 @@ class ConiumEventType<I> {
          * @since 1.0.0
          */
         @JvmField
-        val BREAK_BLOCK: ConiumEventType<Block> = ConiumEventType()
+        val BREAK_BLOCK: ConiumEventType<Block> = ConiumEventType("break_block", Block::class)
 
         /**
          * The event where that block is be mined.
@@ -67,32 +68,68 @@ class ConiumEventType<I> {
          * @since 1.0.0
          */
         @JvmField
-        val BROKEN_BLOCK: ConiumEventType<Block> = ConiumEventType()
+        val BROKEN_BLOCK: ConiumEventType<Block> = ConiumEventType("broken_block", Block::class)
 
         @JvmField
-        val PLACE_BLOCK: ConiumEventType<Block> = ConiumEventType()
+        val PLACE_BLOCK: ConiumEventType<Block> = ConiumEventType("place_block", Block::class)
 
         @JvmField
-        val PLACED_BLOCK: ConiumEventType<Block> = ConiumEventType()
+        val PLACED_BLOCK: ConiumEventType<Block> = ConiumEventType("placed_block", Block::class)
 
         @JvmField
-        val USE_BLOCK: ConiumEventType<Block> = ConiumEventType()
+        val USE_BLOCK: ConiumEventType<Block> = ConiumEventType("use_block", Block::class)
 
         @JvmField
-        val USED_BLOCK: ConiumEventType<Block> = ConiumEventType()
+        val USED_BLOCK: ConiumEventType<Block> = ConiumEventType("used_block", Block::class)
 
         @JvmField
-        val ENTITY_TICK: ConiumEventType<EntityType<*>> = ConiumEventType()
+        val SHULKER_BOX_OPENING: ConiumEventType<Block> = ConiumEventType("shulker_box_opening", Block::class)
 
         @JvmField
-        val ENTITY_TICKED: ConiumEventType<EntityType<*>> = ConiumEventType()
+        val SHULKER_BOX_OPENED: ConiumEventType<Block> = ConiumEventType("shulker_box_opened", Block::class)
+
+        @JvmField
+        val SHULKER_BOX_CLOSING: ConiumEventType<Block> = ConiumEventType("shulker_box_closing", Block::class)
+
+        @JvmField
+        val SHULKER_BOX_CLOSED: ConiumEventType<Block> = ConiumEventType("shulker_box_closed", Block::class)
+
+        @JvmField
+        val CHEST_OPENING: ConiumEventType<Block> = ConiumEventType("chest_opening", Block::class)
+
+        @JvmField
+        val CHEST_OPENED: ConiumEventType<Block> = ConiumEventType("chest_opened", Block::class)
+
+        @JvmField
+        val CHEST_CLOSING: ConiumEventType<Block> = ConiumEventType("chest_closing", Block::class)
+
+        @JvmField
+        val CHEST_CLOSED: ConiumEventType<Block> = ConiumEventType("chest_closed", Block::class)
+
+        @JvmField
+        val TRAPPED_CHEST_OPENING: ConiumEventType<Block> = ConiumEventType("trapped_chest_opening", Block::class)
+
+        @JvmField
+        val TRAPPED_CHEST_OPENED: ConiumEventType<Block> = ConiumEventType("trapped_chest_opened", Block::class)
+
+        @JvmField
+        val TRAPPED_CHEST_CLOSING: ConiumEventType<Block> = ConiumEventType("trapped_chest_closing", Block::class)
+
+        @JvmField
+        val TRAPPED_CHEST_CLOSED: ConiumEventType<Block> = ConiumEventType("trapped_chest_closed", Block::class)
+
+        @JvmField
+        val ENTITY_TICK: ConiumEventType<EntityType<*>> = ConiumEventType("entity_tick", EntityType::class)
+
+        @JvmField
+        val ENTITY_TICKED: ConiumEventType<EntityType<*>> = ConiumEventType("entity_tick_ticked", EntityType::class)
 
         // Entity.
         @JvmField
-        val ENTITY_DAMAGE: ConiumEventType<EntityType<*>> = ConiumEventType()
+        val ENTITY_DAMAGE: ConiumEventType<EntityType<*>> = ConiumEventType("entity_damage", EntityType::class)
 
         @JvmField
-        val ENTITY_DAMAGED: ConiumEventType<EntityType<*>> = ConiumEventType()
+        val ENTITY_DAMAGED: ConiumEventType<EntityType<*>> = ConiumEventType("entity_damaged", EntityType::class)
 
         /**
          * The event where that entity was dying.
@@ -100,7 +137,7 @@ class ConiumEventType<I> {
          * @since 1.0.0
          */
         @JvmField
-        val ENTITY_DIE: ConiumEventType<EntityType<*>> = ConiumEventType()
+        val ENTITY_DIE: ConiumEventType<EntityType<*>> = ConiumEventType("entity_die", EntityType::class)
 
         /**
          * The event where that entity was died.
@@ -108,18 +145,25 @@ class ConiumEventType<I> {
          * @since 1.0.0
          */
         @JvmField
-        val ENTITY_DEAD: ConiumEventType<EntityType<*>> = ConiumEventType()
+        val ENTITY_DEAD: ConiumEventType<EntityType<*>> = ConiumEventType("entity_dead", EntityType::class)
 
         @JvmField
-        val BLOCK_SCHEDULE_TICK: ConiumEventType<Block> = ConiumEventType()
+        val BLOCK_SCHEDULE_TICK: ConiumEventType<Block> = ConiumEventType("block_schedule_tick", Block::class)
 
         @JvmField
-        val BLOCK_SCHEDULE_TICKED: ConiumEventType<Block> = ConiumEventType()
+        val BLOCK_SCHEDULE_TICKED: ConiumEventType<Block> = ConiumEventType("block_schedule_ticked", Block::class)
 
         @JvmField
-        val FLUID_SCHEDULE_TICK: ConiumEventType<Fluid> = ConiumEventType()
+        val FLUID_SCHEDULE_TICK: ConiumEventType<Fluid> = ConiumEventType("fluid_schedule_tick", Fluid::class)
 
         @JvmField
-        val FLUID_SCHEDULE_TICKED: ConiumEventType<Fluid> = ConiumEventType()
+        val FLUID_SCHEDULE_TICKED: ConiumEventType<Fluid> = ConiumEventType("fluid_schedule_ticked", Fluid::class)
     }
+
+    override fun toString(): String = StringBuilder().also { builder ->
+        builder.append(this.name)
+        builder.append("<")
+        builder.append(this.identityType.simpleName)
+        builder.append(">")
+    }.toString()
 }

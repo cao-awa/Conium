@@ -1,3 +1,5 @@
+@file:Suppress("unchecked_cast", "unused")
+
 package com.github.cao.awa.conium.parameter
 
 class DynamicArgsBuilder {
@@ -5,33 +7,29 @@ class DynamicArgsBuilder {
         @JvmStatic
         @SuppressWarnings("UNCHECKED_CAST")
         fun <R> requires(): DynamicArgs<ParameterSelective1<R?, Any>, R?> {
-            return DynamicArgs({ identity, _, p ->
-                p.arise(
-                    identity
-                )
-            })
+            return DynamicArgs { identity, _, p ->
+                p.arise(identity)
+            }
         }
 
         @JvmStatic
         @SuppressWarnings("UNCHECKED_CAST")
         fun <R> requires(resultWhenFailure: R): DynamicArgs<ParameterSelective1<R, Any>, R> {
-            return DynamicArgs({ identity, _, p ->
+            return DynamicArgs { identity, _, p ->
                 p.runCatching {
                     arise(
                         identity
                     )
                 }.getOrNull() ?: resultWhenFailure
-            })
+            }
         }
 
         @JvmStatic
         @SuppressWarnings("UNCHECKED_CAST")
         fun <R> force(): DynamicArgs<ParameterSelective1<R, Any>, R> {
-            return DynamicArgs({ identity, _, p ->
-                p.arise(
-                    identity
-                )
-            })
+            return DynamicArgs { identity, _, p ->
+                p.arise(identity)
+            }
         }
 
         @JvmStatic
@@ -569,11 +567,11 @@ class DynamicArgsBuilder {
         fun <R> transform(
             p: ParameterSelective1<R, Any>
         ): DynamicArgs<ParameterSelective1<R, Any>, R?> {
-            return DynamicArgs<ParameterSelective1<R, Any>, R?>({ identity, args, _ ->
+            return DynamicArgs<ParameterSelective1<R, Any>, R?> { identity, _, _ ->
                 p.arise(
                     identity
                 )
-            }).lifecycle(DynamicArgsLifecycle.TRANSFORM)
+            }.lifecycle(DynamicArgsLifecycle.TRANSFORM)
         }
 
         @JvmStatic
@@ -753,28 +751,13 @@ class DynamicArgsBuilder {
 
         @JvmStatic
         @SuppressWarnings("UNCHECKED_CAST")
-        fun <R, P1> transform(
-            arg1: () -> DynamicArgType<P1>,
-            p: ParameterSelective2<R, Any, P1>
-        ): DynamicArgs<ParameterSelective2<R, Any, P1>, R?> {
-            return DynamicArgs<ParameterSelective2<R, Any, P1>, R?>({ identity, args, _ ->
-                p.arise(
-                    identity,
-                    args[arg1()] as P1
-                )
-            }, arg1).lifecycle(DynamicArgsLifecycle.TRANSFORM)
-        }
-
-        @JvmStatic
-        @SuppressWarnings("UNCHECKED_CAST")
         fun <R, P1, P2> transform(
             arg1: () -> DynamicArgType<P1>,
             arg2: () -> DynamicArgType<P2>,
-            p: ParameterSelective3<R, Any, P1, P2>
-        ): DynamicArgs<ParameterSelective3<R, Any, P1, P2>, R?> {
-            return DynamicArgs<ParameterSelective3<R, Any, P1, P2>, R?>({ identity, args, _ ->
+            p: ParameterSelective2<R, P1, P2>
+        ): DynamicArgs<ParameterSelective2<R, P1, P2>, R?> {
+            return DynamicArgs<ParameterSelective2<R, P1, P2>, R?>({ _, args, _ ->
                 p.arise(
-                    identity,
                     args[arg1()] as P1,
                     args[arg2()] as P2
                 )
@@ -787,11 +770,10 @@ class DynamicArgsBuilder {
             arg1: () -> DynamicArgType<P1>,
             arg2: () -> DynamicArgType<P2>,
             arg3: () -> DynamicArgType<P3>,
-            p: ParameterSelective4<R, Any, P1, P2, P3>
-        ): DynamicArgs<ParameterSelective4<R, Any, P1, P2, P3>, R?> {
-            return DynamicArgs<ParameterSelective4<R, Any, P1, P2, P3>, R?>({ identity, args, _ ->
+            p: ParameterSelective3<R, P1, P2, P3>
+        ): DynamicArgs<ParameterSelective3<R, P1, P2, P3>, R?> {
+            return DynamicArgs<ParameterSelective3<R, P1, P2, P3>, R?>({ _, args, _ ->
                 p.arise(
-                    identity,
                     args[arg1()] as P1,
                     args[arg2()] as P2,
                     args[arg3()] as P3
@@ -806,11 +788,10 @@ class DynamicArgsBuilder {
             arg2: () -> DynamicArgType<P2>,
             arg3: () -> DynamicArgType<P3>,
             arg4: () -> DynamicArgType<P4>,
-            p: ParameterSelective5<R, Any, P1, P2, P3, P4>
-        ): DynamicArgs<ParameterSelective5<R, Any, P1, P2, P3, P4>, R?> {
-            return DynamicArgs<ParameterSelective5<R, Any, P1, P2, P3, P4>, R?>({ identity, args, _ ->
+            p: ParameterSelective4<R, P1, P2, P3, P4>
+        ): DynamicArgs<ParameterSelective4<R, P1, P2, P3, P4>, R?> {
+            return DynamicArgs<ParameterSelective4<R, P1, P2, P3, P4>, R?>({ _, args, _ ->
                 p.arise(
-                    identity,
                     args[arg1()] as P1,
                     args[arg2()] as P2,
                     args[arg3()] as P3,
@@ -827,11 +808,10 @@ class DynamicArgsBuilder {
             arg3: () -> DynamicArgType<P3>,
             arg4: () -> DynamicArgType<P4>,
             arg5: () -> DynamicArgType<P5>,
-            p: ParameterSelective6<R, Any, P1, P2, P3, P4, P5>
-        ): DynamicArgs<ParameterSelective6<R, Any, P1, P2, P3, P4, P5>, R?> {
-            return DynamicArgs<ParameterSelective6<R, Any, P1, P2, P3, P4, P5>, R?>({ identity, args, _ ->
+            p: ParameterSelective5<R, P1, P2, P3, P4, P5>
+        ): DynamicArgs<ParameterSelective5<R, P1, P2, P3, P4, P5>, R?> {
+            return DynamicArgs<ParameterSelective5<R, P1, P2, P3, P4, P5>, R?>({ _, args, _ ->
                 p.arise(
-                    identity,
                     args[arg1()] as P1,
                     args[arg2()] as P2,
                     args[arg3()] as P3,
@@ -850,11 +830,10 @@ class DynamicArgsBuilder {
             arg4: () -> DynamicArgType<P4>,
             arg5: () -> DynamicArgType<P5>,
             arg6: () -> DynamicArgType<P6>,
-            p: ParameterSelective7<R, Any, P1, P2, P3, P4, P5, P6>
-        ): DynamicArgs<ParameterSelective7<R, Any, P1, P2, P3, P4, P5, P6>, R?> {
-            return DynamicArgs<ParameterSelective7<R, Any, P1, P2, P3, P4, P5, P6>, R?>({ identity, args, _ ->
+            p: ParameterSelective6<R, P1, P2, P3, P4, P5, P6>
+        ): DynamicArgs<ParameterSelective6<R, P1, P2, P3, P4, P5, P6>, R?> {
+            return DynamicArgs<ParameterSelective6<R, P1, P2, P3, P4, P5, P6>, R?>({ _, args, _ ->
                 p.arise(
-                    identity,
                     args[arg1()] as P1,
                     args[arg2()] as P2,
                     args[arg3()] as P3,
@@ -875,12 +854,11 @@ class DynamicArgsBuilder {
             arg5: () -> DynamicArgType<P5>,
             arg6: () -> DynamicArgType<P6>,
             arg7: () -> DynamicArgType<P7>,
-            p: ParameterSelective8<R, Any, P1, P2, P3, P4, P5, P6, P7>
-        ): DynamicArgs<ParameterSelective8<R, Any, P1, P2, P3, P4, P5, P6, P7>, R?> {
-            return DynamicArgs<ParameterSelective8<R, Any, P1, P2, P3, P4, P5, P6, P7>, R?>(
-                { identity, args, _ ->
+            p: ParameterSelective7<R, P1, P2, P3, P4, P5, P6, P7>
+        ): DynamicArgs<ParameterSelective7<R, P1, P2, P3, P4, P5, P6, P7>, R?> {
+            return DynamicArgs<ParameterSelective7<R, P1, P2, P3, P4, P5, P6, P7>, R?>(
+                { _, args, _ ->
                     p.arise(
-                        identity,
                         args[arg1()] as P1,
                         args[arg2()] as P2,
                         args[arg3()] as P3,

@@ -15,35 +15,37 @@ abstract class ConiumEntityBuilder(val identifier: Identifier) : ConiumBuilderWi
         Unit,
         EntityType.Builder<ConiumEntity>,
         ConiumEntityTemplate>(
-    ConiumEntityBuilder::build
+    ::build
 ) {
+    companion object {
+        fun build(builder: ConiumEntityBuilder): EntityType.Builder<ConiumEntity> {
+            val type = EntityType.Builder.create({ type, world ->
+                ConiumEntity(
+                    type,
+                    world,
+                    builder.entitySettings
+                ).also { it.applyTemplates(builder.templates) }
+            }, SpawnGroup.MISC)
+
+            builder.groupTemplates.forEach { (name, templates) ->
+                builder.entitySettings.migrate(
+                    name,
+                    ConiumEntitySettings.create(templates, type)
+                )
+            }
+
+            return ConiumEntity.createType(
+                builder,
+                ConiumEntitySettingsWithTypeBuilder(type, builder.entitySettings)
+            )
+        }
+    }
+
     val groupTemplates: MutableMap<String, MutableList<ConiumEntityTemplate>> = CollectionFactor.hashMap()
     val entitySettings = ConiumEntitySettings()
 
     fun addTemplates(group: String, templates: MutableList<ConiumEntityTemplate>): ConiumEntityBuilder {
         this.groupTemplates.computeIfAbsent(group) { CollectionFactor.arrayList() }.addAll(templates)
         return this
-    }
-
-    fun build(): EntityType.Builder<ConiumEntity> {
-        val type = EntityType.Builder.create({ type, world ->
-            ConiumEntity(
-                type,
-                world,
-                this.entitySettings
-            ).also { it.applyTemplates(this.templates) }
-        }, SpawnGroup.MISC)
-
-        this.groupTemplates.forEach { (name, templates) ->
-            this.entitySettings.migrate(
-                name,
-                ConiumEntitySettings.create(templates, type)
-            )
-        }
-
-        return ConiumEntity.createType(
-            this,
-            ConiumEntitySettingsWithTypeBuilder(type, this.entitySettings)
-        )
     }
 }

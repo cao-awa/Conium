@@ -1,19 +1,56 @@
 package com.github.cao.awa.conium.event.context
 
+import com.github.cao.awa.conium.event.ConiumEvent
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.parameter.DynamicArgType
 import com.github.cao.awa.conium.parameter.DynamicArgs
 import com.github.cao.awa.conium.parameter.ParameterSelective
+import com.github.cao.awa.conium.parameter.ParameterSelective1
+import com.github.cao.awa.sinuatum.manipulate.ManipulateBuilder
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
+/**
+ *
+ * @see ParameterSelective
+ * @see ConiumEventContextBuilder
+ * @see DynamicArgType
+ * @see DynamicArgs
+ * @see ConiumEvent
+ * @see ConiumEventArgTypes
+ *
+ * @param P the type of ``ParameterSelective``
+ * @param dynamicArgs the dynamic args that provide the arguments input to the triggers.
+ *
+ * @author cao_awa
+ * @author 草二号机
+ *
+ * @since 1.0.0
+ */
 class ConiumEventContext<P : ParameterSelective?>(
     private val dynamicArgs: DynamicArgs<P, Boolean>
 ) {
     private var ariseTrigger: P? = null
     private var presageTrigger: P? = null
-    private var varyingTrigger: P? = null
 
     private val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
     private val attaches: MutableList<ConiumEventContext<*>> = CollectionFactor.arrayList()
+
+    private var targetedIdentity: ParameterSelective1<Boolean, Any> = ParameterSelective1 { true }
+
+    fun target(target: Any): ConiumEventContext<P> {
+        this.targetedIdentity = ParameterSelective1 { it === target }
+        return this
+    }
+
+    @Suppress("unchecked_cast")
+    fun <X : Any> targetTo(predicate: (X) -> Boolean): ConiumEventContext<P> {
+        this.targetedIdentity = ParameterSelective1 {
+            ManipulateBuilder.supply {
+                predicate(it as X)
+            }.getOrDefault(false)
+        }
+        return this
+    }
 
     fun arise(trigger: P): ConiumEventContext<P> {
         this.ariseTrigger = trigger
@@ -25,24 +62,24 @@ class ConiumEventContext<P : ParameterSelective?>(
         return this
     }
 
-    fun varying(trigger: P): ConiumEventContext<P> {
-        this.varyingTrigger = trigger
-        return this
-    }
-
     fun resetArgs(args: MutableMap<DynamicArgType<*>, Any?>): ConiumEventContext<P> {
         this.args.clear()
         this.args.putAll(args)
         return this
     }
 
+    operator fun <X> set(argType: DynamicArgType<X>, value: X): ConiumEventContext<P> = put(argType, value)
+
     fun <X> put(arg: DynamicArgType<X>, value: X): ConiumEventContext<P> {
         this.args[arg] = value
         return this
     }
 
-    fun <X> dynamic(arg: DynamicArgType<X>) {
-        this.args[arg] = arg
+    fun <X> dynamic(vararg args: DynamicArgType<X>): ConiumEventContext<P> {
+        for (arg: DynamicArgType<X> in args) {
+            this.args[arg] = arg
+        }
+        return this
     }
 
     fun attach(context: ConiumEventContext<*>): ConiumEventContext<P> {
@@ -55,44 +92,43 @@ class ConiumEventContext<P : ParameterSelective?>(
         return this
     }
 
-    fun hasPresaging(): Boolean {
-        return this.presageTrigger != null
-    }
+    fun hasPresaging(): Boolean = this.presageTrigger != null
 
     fun presaging(identity: Any): Boolean {
-        var success = this.presageTrigger == null || this.dynamicArgs.arising(
-            identity,
-            this.args,
-            this.presageTrigger!!
-        )
-        for (attach in this.attaches) {
+        if (!this.targetedIdentity(identity)) {
+            // Do not presage when identity are not target.
+            return true
+        }
+
+        var success: Boolean = this.presageTrigger == null || this.dynamicArgs.arising(identity, this.args, this.presageTrigger!!)
+        for (attach: ConiumEventContext<*> in this.attaches) {
             if (attach.hasPresaging()) {
-                val attachSuccess = attach.resetArgs(this.args)
-                    .presaging(identity)
-                success = success && attachSuccess
+                attach.inherit(this)
+                success = attach.presaging(identity) && success
             }
         }
         return success
     }
 
-    fun hasArising(): Boolean {
-        return this.ariseTrigger != null
-    }
+    fun hasArising(): Boolean = this.ariseTrigger != null
 
     fun arising(identity: Any): Boolean {
-        var success = this.dynamicArgs.arising(identity, this.args, this.ariseTrigger!!)
-        for (attach in this.attaches) {
-            if (attach.hasArising()) {
-                val attachSuccess = attach.resetArgs(this.args)
-                    .arising(identity)
+        if (!this.targetedIdentity(identity)) {
+            // Do not presage when identity are not target.
+            return true
+        }
 
-                success = success && attachSuccess
+        var success: Boolean = this.ariseTrigger == null || this.dynamicArgs.arising(identity, this.args, this.ariseTrigger!!)
+        for (attach: ConiumEventContext<*> in this.attaches) {
+            if (attach.hasArising()) {
+                attach.inherit(this)
+                success = attach.arising(identity) && success
             }
         }
         return success
     }
 
-    fun inherit(context: ConiumEventContext<*>) {
-        resetArgs(context.args)
+    fun inherit(context: ConiumEventContext<*>): ConiumEventContext<P> {
+        return resetArgs(context.args)
     }
 }

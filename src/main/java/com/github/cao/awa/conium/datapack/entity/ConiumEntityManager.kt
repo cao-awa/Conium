@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.datapack.entity
 
 import com.github.cao.awa.conium.Conium
-import com.github.cao.awa.conium.ConiumClient
+import com.github.cao.awa.conium.ConiumClientInitializer
 import com.github.cao.awa.conium.client.entity.renderer.ConiumEntityRenderers
 import com.github.cao.awa.conium.datapack.ConiumJsonDataLoader
 import com.github.cao.awa.conium.entity.attribute.ConiumEntityAttributeRegistry
@@ -16,7 +16,6 @@ import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
@@ -25,7 +24,7 @@ import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
 class ConiumEntityManager(private val registryLookup: RegistryWrapper.WrapperLookup) :
-    ConiumJsonDataLoader(RegistryKeys.getPath(ConiumRegistryKeys.ENTITY)) {
+    ConiumJsonDataLoader(ConiumRegistryKeys.ENTITY.value) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumEntityManager")
     }
@@ -33,41 +32,50 @@ class ConiumEntityManager(private val registryLookup: RegistryWrapper.WrapperLoo
     val metadata: MutableList<ConiumEntityMetadata> = CollectionFactor.arrayList()
 
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
-        (Registries.ENTITY_TYPE as ConiumDynamicRegistry).clearDynamic()
+        resetRegistries()
 
-        if (ConiumClient.initialized) {
-            ConiumEntityRenderers.clearRenderers()
+        for ((key, value) in prepared) {
+            load(key, value as JsonObject)
         }
+    }
 
+    fun resetRegistries() {
+        (Registries.ENTITY_TYPE as ConiumDynamicRegistry).clearDynamic()
         ConiumEvent.clearEntitySubscribes()
         ConiumEntityAttributeRegistry.resetAttributes()
 
-        for ((key, value) in prepared) {
-            value as JsonObject
+        if (Conium.isClient) {
+            ConiumEntityRenderers.clearRenderers()
+        }
+    }
 
-            // Use to debug, trace inject details.
-            Conium.debug(
-                "Registering entity '{}' from '{}'",
-                key::getPath,
-                key::getNamespace,
-                LOGGER::info
-            )
+    fun load(identifier: Identifier, json: JsonObject) {
+        // Use to debug, trace inject details.
+        Conium.debug(
+            "Registering entity '{}' from '{}'",
+            identifier::getPath,
+            identifier::getNamespace,
+            LOGGER::info
+        )
 
-            var metadata: ConiumEntityMetadata? = null
+        var metadata: ConiumEntityMetadata? = null
 
-            if (value["schema_style"]?.asString == "conium") {
-                ConiumSchemaEntityBuilder.deserialize(value, this.registryLookup).register {
-                    metadata = it
-                }
-            } else {
-                BedrockSchemaEntityBuilder.deserialize(value, this.registryLookup).register {
-                    metadata = it
-                }
+        if (json["schema_style"]?.asString == "conium") {
+            ConiumSchemaEntityBuilder.deserialize(json, this.registryLookup).register {
+                metadata = it
             }
+        } else {
+            BedrockSchemaEntityBuilder.deserialize(json, this.registryLookup).register {
+                metadata = it
+            }
+        }
 
-            metadata?.also {
-                this.metadata.add(it)
-                ConiumClient.createEntityRenderer(it)
+        metadata?.also {
+            this.metadata.add(it)
+
+            // Only init entity renderer when client initializer loaded.
+            if (Conium.isClient) {
+                ConiumClientInitializer.createEntityRenderer(it)
             }
         }
     }

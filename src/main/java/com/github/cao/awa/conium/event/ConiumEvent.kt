@@ -1,5 +1,17 @@
 package com.github.cao.awa.conium.event
 
+import com.github.cao.awa.conium.block.entity.event.chest.close.ConiumChestClosedEvent
+import com.github.cao.awa.conium.block.entity.event.chest.close.ConiumChestClosingEvent
+import com.github.cao.awa.conium.block.entity.event.chest.close.trapped.ConiumTrappedChestClosedEvent
+import com.github.cao.awa.conium.block.entity.event.chest.close.trapped.ConiumTrappedChestClosingEvent
+import com.github.cao.awa.conium.block.entity.event.chest.open.ConiumChestOpenedEvent
+import com.github.cao.awa.conium.block.entity.event.chest.open.ConiumChestOpeningEvent
+import com.github.cao.awa.conium.block.entity.event.chest.open.trapped.ConiumTrappedChestOpenedEvent
+import com.github.cao.awa.conium.block.entity.event.chest.open.trapped.ConiumTrappedChestOpeningEvent
+import com.github.cao.awa.conium.block.entity.event.shulker.close.ConiumShulkerBoxClosedEvent
+import com.github.cao.awa.conium.block.entity.event.shulker.close.ConiumShulkerBoxClosingEvent
+import com.github.cao.awa.conium.block.entity.event.shulker.open.ConiumShulkerBoxOpenedEvent
+import com.github.cao.awa.conium.block.entity.event.shulker.open.ConiumShulkerBoxOpeningEvent
 import com.github.cao.awa.conium.block.event.breaking.ConiumBreakBlockEvent
 import com.github.cao.awa.conium.block.event.breaking.ConiumBreakingBlockEvent
 import com.github.cao.awa.conium.block.event.breaking.ConiumBrokenBlockEvent
@@ -18,11 +30,9 @@ import com.github.cao.awa.conium.entity.event.die.ConiumEntityDieEvent
 import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickEvent
 import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickedEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
-import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.server.tick.ConiumServerTickEvent
 import com.github.cao.awa.conium.event.server.tick.ConiumServerTickTailEvent
 import com.github.cao.awa.conium.event.trigger.ListTriggerable
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.item.event.use.ConiumItemUseOnBlockEvent
 import com.github.cao.awa.conium.item.event.use.ConiumItemUsedOnBlockEvent
@@ -36,67 +46,103 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
         private val foreverContext: MutableMap<ConiumEventType<*>, MutableList<ConiumEventContext<*>>> = CollectionFactor.hashMap()
 
         @JvmField
-        val itemUseOnBlockEvent = ConiumItemUseOnBlockEvent()
+        val itemUseOnBlockEvent: ConiumItemUseOnBlockEvent = ConiumItemUseOnBlockEvent()
 
         @JvmField
-        val itemUsedOnBlockEvent = ConiumItemUsedOnBlockEvent()
+        val itemUsedOnBlockEvent: ConiumItemUsedOnBlockEvent = ConiumItemUsedOnBlockEvent()
 
         @JvmField
-        val serverTick = ConiumServerTickEvent()
+        val serverTick: ConiumServerTickEvent = ConiumServerTickEvent()
 
         @JvmField
-        val serverTickTail = ConiumServerTickTailEvent()
+        val serverTickTail: ConiumServerTickTailEvent = ConiumServerTickTailEvent()
 
         @JvmField
-        val breakingBlock = ConiumBreakingBlockEvent()
+        val breakingBlock: ConiumBreakingBlockEvent = ConiumBreakingBlockEvent()
 
         @JvmField
-        val brokenBlock = ConiumBrokenBlockEvent()
+        val brokenBlock: ConiumBrokenBlockEvent = ConiumBrokenBlockEvent()
 
         @JvmField
-        val breakBlock = ConiumBreakBlockEvent()
+        val breakBlock: ConiumBreakBlockEvent = ConiumBreakBlockEvent()
 
         @JvmField
-        val placeBlock = ConiumPlaceBlockEvent()
+        val placeBlock: ConiumPlaceBlockEvent = ConiumPlaceBlockEvent()
 
         @JvmField
-        val placedBlock = ConiumPlacedBlockEvent()
+        val placedBlock: ConiumPlacedBlockEvent = ConiumPlacedBlockEvent()
 
         @JvmField
-        val useBlock = ConiumUseBlockEvent()
+        val useBlock: ConiumUseBlockEvent = ConiumUseBlockEvent()
 
         @JvmField
-        val usedBlock = ConiumUsedBlockEvent()
+        val usedBlock: ConiumUsedBlockEvent = ConiumUsedBlockEvent()
 
         @JvmField
-        val entityTick = ConiumEntityTickEvent()
+        val entityTick: ConiumEntityTickEvent = ConiumEntityTickEvent()
 
         @JvmField
-        val entityTicked = ConiumEntityTickedEvent()
+        val entityTicked: ConiumEntityTickedEvent = ConiumEntityTickedEvent()
 
         @JvmField
-        val entityDamage = ConiumEntityDamageEvent()
+        val entityDamage: ConiumEntityDamageEvent = ConiumEntityDamageEvent()
 
         @JvmField
-        val entityDamaged = ConiumEntityDamagedEvent()
+        val entityDamaged: ConiumEntityDamagedEvent = ConiumEntityDamagedEvent()
 
         @JvmField
-        val entityDie = ConiumEntityDieEvent()
+        val entityDie: ConiumEntityDieEvent = ConiumEntityDieEvent()
 
         @JvmField
-        val entityDead = ConiumEntityDeadEvent()
+        val entityDead: ConiumEntityDeadEvent = ConiumEntityDeadEvent()
 
         @JvmField
-        val fluidScheduleTick = ConiumFluidScheduleTickEvent()
+        val fluidScheduleTick: ConiumFluidScheduleTickEvent = ConiumFluidScheduleTickEvent()
 
         @JvmField
-        val fluidScheduleTicked = ConiumFluidScheduleTickedEvent()
+        val fluidScheduleTicked: ConiumFluidScheduleTickedEvent = ConiumFluidScheduleTickedEvent()
 
         @JvmField
-        val blockScheduleTick = ConiumBlockScheduleTickEvent()
+        val blockScheduleTick: ConiumBlockScheduleTickEvent = ConiumBlockScheduleTickEvent()
 
         @JvmField
-        val blockScheduleTicked = ConiumBlockScheduleTickedEvent()
+        val blockScheduleTicked: ConiumBlockScheduleTickedEvent = ConiumBlockScheduleTickedEvent()
+
+        @JvmField
+        val shulkerBoxOpening: ConiumShulkerBoxOpeningEvent = ConiumShulkerBoxOpeningEvent()
+
+        @JvmField
+        val shulkerBoxOpened: ConiumShulkerBoxOpenedEvent = ConiumShulkerBoxOpenedEvent()
+
+        @JvmField
+        val shulkerBoxClosing: ConiumShulkerBoxClosingEvent = ConiumShulkerBoxClosingEvent()
+
+        @JvmField
+        val shulkerBoxClosed: ConiumShulkerBoxClosedEvent = ConiumShulkerBoxClosedEvent()
+
+        @JvmField
+        val chestOpening: ConiumChestOpeningEvent = ConiumChestOpeningEvent()
+
+        @JvmField
+        val chestOpened: ConiumChestOpenedEvent = ConiumChestOpenedEvent()
+
+        @JvmField
+        val chestClosing: ConiumChestClosingEvent = ConiumChestClosingEvent()
+
+        @JvmField
+        val chestClosed: ConiumChestClosedEvent = ConiumChestClosedEvent()
+
+        @JvmField
+        val trappedChestOpening: ConiumTrappedChestOpeningEvent = ConiumTrappedChestOpeningEvent()
+
+        @JvmField
+        val trappedChestOpened: ConiumTrappedChestOpenedEvent = ConiumTrappedChestOpenedEvent()
+
+        @JvmField
+        val trappedChestClosing: ConiumTrappedChestClosingEvent = ConiumTrappedChestClosingEvent()
+
+        @JvmField
+        val trappedChestClosed: ConiumTrappedChestClosedEvent = ConiumTrappedChestClosedEvent()
 
         /**
          * Before event fires, create event context by requirements.
@@ -113,14 +159,26 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
             return this.events[type] as X
         }
 
+        fun count(): Int = this.events.size
+
+        fun events(): Map<ConiumEventType<*>, ConiumEvent<*>> = Collections.unmodifiableMap(this.events)
+
         fun forever(eventType: ConiumEventType<*>, context: ConiumEventContext<*>) {
             this.foreverContext.computeIfAbsent(eventType) { CollectionFactor.arrayList() }.add(context)
         }
 
-        fun forever(eventType: ConiumEventType<*>): MutableList<ConiumEventContext<*>> = this.foreverContext[eventType] ?: Collections.emptyList()
+        fun forever(eventType: ConiumEventType<*>): MutableList<ConiumEventContext<*>> {
+            return this.foreverContext.getOrDefault(eventType, Collections.emptyList())
+        }
 
         fun resetForever() {
             this.foreverContext.clear()
+        }
+
+        fun attach() {
+            for ((_: ConiumEventType<*>, event: ConiumEvent<*>) in this.events) {
+                event.attach()
+            }
         }
 
         @JvmStatic
@@ -149,6 +207,19 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
             this.events[ConiumEventType.FLUID_SCHEDULE_TICKED] = this.fluidScheduleTicked
             this.events[ConiumEventType.BLOCK_SCHEDULE_TICK] = this.blockScheduleTick
             this.events[ConiumEventType.BLOCK_SCHEDULE_TICKED] = this.blockScheduleTicked
+
+            this.events[ConiumEventType.SHULKER_BOX_OPENING] = this.shulkerBoxOpening
+            this.events[ConiumEventType.SHULKER_BOX_OPENED] = this.shulkerBoxOpened
+            this.events[ConiumEventType.SHULKER_BOX_CLOSING] = this.shulkerBoxClosing
+            this.events[ConiumEventType.SHULKER_BOX_CLOSED] = this.shulkerBoxClosed
+            this.events[ConiumEventType.CHEST_OPENING] = this.chestOpening
+            this.events[ConiumEventType.CHEST_OPENED] = this.chestOpened
+            this.events[ConiumEventType.CHEST_CLOSING] = this.chestClosing
+            this.events[ConiumEventType.CHEST_CLOSED] = this.chestClosed
+            this.events[ConiumEventType.TRAPPED_CHEST_OPENING] = this.trappedChestOpening
+            this.events[ConiumEventType.TRAPPED_CHEST_OPENED] = this.trappedChestOpened
+            this.events[ConiumEventType.TRAPPED_CHEST_CLOSING] = this.trappedChestClosing
+            this.events[ConiumEventType.TRAPPED_CHEST_CLOSED] = this.trappedChestClosed
         }
 
         fun clearEntitySubscribes() {
@@ -182,8 +253,25 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
             this.fluidScheduleTicked.clearSubscribes()
             this.blockScheduleTick.clearSubscribes()
             this.blockScheduleTicked.clearSubscribes()
+
+            this.shulkerBoxOpening.clearSubscribes()
+            this.shulkerBoxOpened.clearSubscribes()
+            this.shulkerBoxClosing.clearSubscribes()
+            this.shulkerBoxClosed.clearSubscribes()
+            this.chestOpening.clearSubscribes()
+            this.chestOpened.clearSubscribes()
+            this.chestClosing.clearSubscribes()
+            this.chestClosed.clearSubscribes()
+            this.trappedChestOpening.clearSubscribes()
+            this.trappedChestOpened.clearSubscribes()
+            this.trappedChestClosing.clearSubscribes()
+            this.trappedChestClosed.clearSubscribes()
         }
     }
 
     abstract fun requirement(): ConiumEventContext<out ParameterSelective>
+
+    open fun attach() {
+        // No default attaches.
+    }
 }

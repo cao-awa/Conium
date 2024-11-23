@@ -22,11 +22,14 @@
   "icon": "assets/conium/icon.png",
   "environment": "*",
   "entrypoints": {
-    "client": [
-      "com.github.cao.awa.conium.ConiumClient"
-    ],
     "main": [
       "com.github.cao.awa.conium.Conium"
+    ],
+    "server": [
+      "com.github.cao.awa.conium.ConiumServerInitializer"
+    ],
+    "client": [
+      "com.github.cao.awa.conium.ConiumClientInitializer"
     ]
   },
   "mixins": [

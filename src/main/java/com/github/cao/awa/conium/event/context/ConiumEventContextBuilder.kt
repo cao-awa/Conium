@@ -1,3 +1,5 @@
+@file:Suppress("unchecked_cast", "unused")
+
 package com.github.cao.awa.conium.event.context
 
 import com.github.cao.awa.conium.event.ConiumEvent
@@ -151,7 +153,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1> preRequest(
+    fun <I : Any, P1> preRequest(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         presaging: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true }
@@ -174,7 +176,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1> request(
+    fun <I : Any, P1> request(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arising: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true }
@@ -197,7 +199,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1> request(
+    fun <I : Any, P1> request(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arising: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true },
@@ -225,7 +227,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2> preRequest(
+    fun <I : Any, P1, P2> preRequest(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -250,7 +252,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2> request(
+    fun <I : Any, P1, P2> request(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -275,7 +277,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2> request(
+    fun <I : Any, P1, P2> request(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -305,7 +307,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3> preRequest(
+    fun <I : Any, P1, P2, P3> preRequest(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -332,7 +334,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3> request(
+    fun <I : Any, P1, P2, P3> request(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -359,7 +361,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3> request(
+    fun <I : Any, P1, P2, P3> request(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -391,7 +393,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3, P4> preRequest(
+    fun <I : Any, P1, P2, P3, P4> preRequest(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -421,7 +423,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3, P4> request(
+    fun <I : Any, P1, P2, P3, P4> request(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -450,7 +452,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3, P4> request(
+    fun <I : Any, P1, P2, P3, P4> request(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -484,7 +486,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3, P4, P5> preRequest(
+    fun <I : Any, P1, P2, P3, P4, P5> preRequest(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -515,7 +517,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3, P4, P5> request(
+    fun <I : Any, P1, P2, P3, P4, P5> request(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -546,7 +548,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3, P4, P5> request(
+    fun <I : Any, P1, P2, P3, P4, P5> request(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -582,7 +584,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3, P4, P5, P6> preRequest(
+    fun <I : Any, P1, P2, P3, P4, P5, P6> preRequest(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -615,7 +617,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3, P4, P5, P6> request(
+    fun <I : Any, P1, P2, P3, P4, P5, P6> request(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -648,7 +650,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3, P4, P5, P6> request(
+    fun <I : Any, P1, P2, P3, P4, P5, P6> request(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -686,7 +688,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3, P4, P5, P6, P7> preRequest(
+    fun <I : Any, P1, P2, P3, P4, P5, P6, P7> preRequest(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -721,7 +723,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3, P4, P5, P6, P7> request(
+    fun <I : Any, P1, P2, P3, P4, P5, P6, P7> request(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -756,7 +758,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     @SuppressWarnings("UNCHECKED_CAST")
-    fun <I, P1, P2, P3, P4, P5, P6, P7> request(
+    fun <I : Any, P1, P2, P3, P4, P5, P6, P7> request(
         eventType: ConiumEventType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,

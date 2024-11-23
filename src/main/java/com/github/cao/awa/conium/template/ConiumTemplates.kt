@@ -273,59 +273,69 @@ object ConiumTemplates {
             // Bedrock tool.
             registerItem(
                 DAMAGE,
-                ConiumBedrockDamageTemplate::create
+                ConiumBedrockDamageTemplate::create,
+                true
             )
             registerItem(
                 DURABILITY,
-                ConiumBedrockDurabilityTemplate::create
+                ConiumBedrockDurabilityTemplate::create,
+                true
             )
 
             // Stack.
             registerItem(
                 MAX_STACK_SIZE,
-                ConiumBedrockMaxStackSizeTemplate::create
+                ConiumBedrockMaxStackSizeTemplate::create,
+                true
             )
 
             // Can destroy in creative.
             registerItem(
                 CAN_DESTROY_IN_CREATIVE,
-                ConiumBedrockCanDestroyInCreativeTemplate::create
+                ConiumBedrockCanDestroyInCreativeTemplate::create,
+                true
             )
 
             // Rarity.
             registerItem(
                 RARITY,
-                ConiumRarityTemplate::createBedrock
+                ConiumRarityTemplate::createBedrock,
+                true
             )
 
             // Food.
             registerItem(
                 FOOD,
-                ConiumBedrockFoodTemplate::create
+                ConiumBedrockFoodTemplate::create,
+                true
             )
 
             // Fuel.
             registerItem(
                 FUEL,
-                ConiumBedrockFuelTemplate::create
+                ConiumBedrockFuelTemplate::create,
+                true
             )
 
             // Glint.
             registerItem(
                 BEDROCK_GLINT,
-                ConiumBedrockGlintTemplate::create
+                ConiumBedrockGlintTemplate::create,
+                true
             )
 
             // Wearable.
             registerItem(
                 WEARABLE,
-                ConiumBedrockWearableTemplate::create
+                ConiumBedrockWearableTemplate::create,
+                true
             )
 
             // Use animation.
             registerItem(
                 USE_ANIMATION,
-                ConiumBedrockUseAnimationTemplate::create
+                ConiumBedrockUseAnimationTemplate::create,
+                true
             )
         }
     }
@@ -340,15 +350,18 @@ object ConiumTemplates {
             // Bedrock recipes.
             registerRecipe(
                 RECIPE_SHAPED,
-                ConiumBedrockRecipeShapedTemplate::create
+                ConiumBedrockRecipeShapedTemplate::create,
+                true
             )
             registerRecipe(
                 RECIPE_SHAPELESS,
-                ConiumBedrockRecipeShapelessTemplate::create
+                ConiumBedrockRecipeShapelessTemplate::create,
+                true
             )
             registerRecipe(
                 RECIPE_FURNACE,
-                ConiumBedrockRecipeFurnaceTemplate::create
+                ConiumBedrockRecipeFurnaceTemplate::create,
+                true
             )
         }
     }
@@ -471,29 +484,34 @@ object ConiumTemplates {
             // Destructible by explosion.
             registerBlock(
                 DESTRUCTIBLE_BY_EXPLOSION,
-                ConiumBedrockDestructibleByExplosionTemplate::create
+                ConiumBedrockDestructibleByExplosionTemplate::create,
+                true
             )
             registerBlock(
                 DESTRUCTIBLE_BY_MINING,
-                ConiumBedrockDestructibleByMiningTemplate::create
+                ConiumBedrockDestructibleByMiningTemplate::create,
+                true
             )
 
             // Map color.
             registerBlock(
                 MAP_COLOR,
-                ConiumBedrockMapColorTemplate::create
+                ConiumBedrockMapColorTemplate::create,
+                true
             )
 
             // Light emission.
             registerBlock(
                 LIGHT_EMISSION,
-                ConiumBedrockLightEmissionTemplate::create
+                ConiumBedrockLightEmissionTemplate::create,
+                true
             )
 
             // Collision.
             registerBlock(
                 COLLISION_BOX,
-                ConiumBedrockBlockCollisionBoxTemplate::create
+                ConiumBedrockBlockCollisionBoxTemplate::create,
+                true
             )
         }
     }
@@ -540,13 +558,15 @@ object ConiumTemplates {
             // Collision box.
             registerEntity(
                 COLLISION_BOX,
-                ConiumBedrockEntityCollisionBoxTemplate::create
+                ConiumBedrockEntityCollisionBoxTemplate::create,
+                true
             )
 
             // Pushable.
             registerEntity(
                 PUSHABLE,
-                ConiumBedrockEntityPushableTemplate::create
+                ConiumBedrockEntityPushableTemplate::create,
+                true
             )
         }
     }

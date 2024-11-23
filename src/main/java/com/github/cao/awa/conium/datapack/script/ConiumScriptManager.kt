@@ -141,6 +141,8 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
         // Clear conium event attaches.
         ConiumEvent.resetForever()
 
+        ConiumEvent.attach()
+
         // Clear old exported script, scripts will export to here again in next step loading
         this.exportedScript.clear()
 

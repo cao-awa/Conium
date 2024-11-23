@@ -15,7 +15,6 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
@@ -25,7 +24,7 @@ import org.apache.logging.log4j.Logger
 import java.util.*
 
 class ConiumItemManager(private val registryLookup: RegistryWrapper.WrapperLookup, private val pendingTagLoad: List<Registry.PendingTagLoad<*>>) :
-    ConiumJsonDataLoader(RegistryKeys.getPath(ConiumRegistryKeys.ITEM)) {
+    ConiumJsonDataLoader(ConiumRegistryKeys.ITEM.value) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumItemManager")
     }
@@ -34,28 +33,34 @@ class ConiumItemManager(private val registryLookup: RegistryWrapper.WrapperLooku
     val fuels get() = this.fuelRegistry.fuelItems
 
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
+        resetRegistries()
+
+        for ((key, value) in prepared) {
+            load(key, value as JsonObject)
+        }
+    }
+
+    fun resetRegistries() {
         (Registries.ITEM as ConiumDynamicRegistry).clearDynamic()
         ConiumEvent.clearItemSubscribes()
         this.fuelRegistry.resetComputedFuels()
+    }
 
-        for ((key, value) in prepared) {
-            value as JsonObject
+    fun load(identifier: Identifier, json: JsonObject) {
+        // Use to debug, trace inject details.
+        Conium.debug(
+            "Registering item '{}' from '{}'",
+            identifier::getPath,
+            identifier::getNamespace,
+            LOGGER::info
+        )
 
-            // Use to debug, trace inject details.
-            Conium.debug(
-                "Registering item '{}' from '{}'",
-                key::getPath,
-                key::getNamespace,
-                LOGGER::info
-            )
-
-            if (value["schema_style"]?.asString == "conium") {
-                ConiumSchemaItemBuilder.deserialize(value, this.registryLookup).register {
-                    // TODO enchanting
-                }
-            } else {
-                BedrockSchemaItemBuilder.deserialize(value, this.registryLookup).register()
+        if (json["schema_style"]?.asString == "conium") {
+            ConiumSchemaItemBuilder.deserialize(json, this.registryLookup).register {
+                // TODO enchanting
             }
+        } else {
+            BedrockSchemaItemBuilder.deserialize(json, this.registryLookup).register()
         }
     }
 

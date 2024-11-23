@@ -14,6 +14,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,7 +31,7 @@ public class ServerWorldMixin {
             ),
             cancellable = true
     )
-    public void tickEntity(Entity entity, CallbackInfo ci) {
+    public void tickEntity(@NotNull Entity entity, CallbackInfo ci) {
         // Request the entity ticking context.
         ConiumEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.ENTITY_TICK);
 
@@ -56,7 +57,7 @@ public class ServerWorldMixin {
                     target = "Lnet/minecraft/entity/Entity;tick()V"
             )
     )
-    public void tickedEntity(Entity entity, CallbackInfo ci) {
+    public void tickedEntity(@NotNull Entity entity, CallbackInfo ci) {
         // Request the entity ticked context.
         ConiumEventContext<?> tickedContext = ConiumEvent.request(ConiumEventType.ENTITY_TICKED);
 
@@ -79,7 +80,7 @@ public class ServerWorldMixin {
                     target = "Lnet/minecraft/fluid/FluidState;onScheduledTick(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V"
             )
     )
-    private void scheduledFluidTick(FluidState instance, ServerWorld world, BlockPos pos, BlockState blockState) {
+    private void scheduledFluidTick(@NotNull FluidState instance, ServerWorld world, BlockPos pos, BlockState blockState) {
         // Request the fluid ticking context.
         ConiumEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.FLUID_SCHEDULE_TICK);
 
@@ -117,7 +118,7 @@ public class ServerWorldMixin {
                     target = "Lnet/minecraft/block/BlockState;scheduledTick(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/random/Random;)V"
             )
     )
-    private void tickBlock(BlockState instance, ServerWorld world, BlockPos pos, Random random) {
+    private void tickBlock(@NotNull BlockState instance, ServerWorld world, BlockPos pos, Random random) {
         // Request the block ticking context.
         ConiumEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.BLOCK_SCHEDULE_TICK);
 

@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.datapack
 
+import com.github.cao.awa.conium.server.ConiumDedicatedServer
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
@@ -11,7 +12,7 @@ import net.minecraft.util.profiler.Profiler
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-abstract class ConiumJsonDataLoader(private val dataType: String) :
+abstract class ConiumJsonDataLoader(private val dataType: Identifier) :
     SinglePreparationResourceReloader<MutableMap<Identifier, JsonElement>>() {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumJsonDataLoader")
@@ -24,17 +25,23 @@ abstract class ConiumJsonDataLoader(private val dataType: String) :
 
     private fun load(
         manager: ResourceManager,
-        dataType: String,
+        dataType: Identifier,
         result: MutableMap<Identifier, JsonElement>
     ) {
-        val resourceFinder = ResourceFinder.json(dataType)
+        val resourceFinder = ResourceFinder.json(dataType.path)
 
         for ((identifier, value) in resourceFinder.findResources(manager)) {
             try {
                 val reader = value.reader
 
                 try {
-                    result[identifier] = JsonParser.parseReader(reader)
+                    JsonParser.parseReader(reader).let {
+                        result[identifier] = it
+
+                        if (ConiumDedicatedServer.initialized) {
+                            ConiumDedicatedServer.onLoadData(dataType, identifier, it.toString())
+                        }
+                    }
                 } catch (var14: Throwable) {
                     try {
                         reader?.close()

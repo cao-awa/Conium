@@ -1,3 +1,5 @@
+@file:Suppress("unchecked_cast")
+
 package com.github.cao.awa.conium.datapack.block
 
 import com.github.cao.awa.conium.Conium
@@ -17,7 +19,6 @@ import com.google.gson.JsonObject
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
@@ -26,50 +27,54 @@ import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
 class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLookup) :
-    ConiumJsonDataLoader(RegistryKeys.getPath(ConiumRegistryKeys.BLOCK)) {
+    ConiumJsonDataLoader(ConiumRegistryKeys.BLOCK.value) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumBlockManager")
     }
 
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
-        (Registries.BLOCK as ConiumDynamicRegistry).clearDynamic()
-
-        val stateIds: ConiumDynamicIdList<BlockState> = Manipulate.cast(Block.STATE_IDS)
-
-        stateIds.clearDynamic()
-
-        ConiumEvent.clearBlockSubscribes()
+        resetRegistries()
 
         for ((key, value) in prepared) {
-            value as JsonObject
+            load(key, value as JsonObject)
+        }
+    }
 
-            // Use to debug, trace inject details.
-            Conium.debug(
-                "Registering block '{}' from '{}'",
-                key::getPath,
-                key::getNamespace,
-                LOGGER::info
-            )
+    fun resetRegistries() {
+        (Registries.BLOCK as ConiumDynamicRegistry).clearDynamic()
+        (Block.STATE_IDS as ConiumDynamicIdList<BlockState>).clearDynamic()
+        ConiumEvent.clearBlockSubscribes()
+    }
 
-            val builder = if (value["schema_style"]?.asString == "conium") {
-                ConiumSchemaBlockBuilder.deserialize(value, this.registryLookup)
-            } else {
-                BedrockSchemaBlockBuilder.deserialize(value, this.registryLookup)
+    fun load(identifier: Identifier, json: JsonObject) {
+        val stateIds: ConiumDynamicIdList<BlockState> = Manipulate.cast(Block.STATE_IDS)
+
+        // Use to debug, trace inject details.
+        Conium.debug(
+            "Registering block '{}' from '{}'",
+            identifier::getPath,
+            identifier::getNamespace,
+            LOGGER::info
+        )
+
+        val builder = if (json["schema_style"]?.asString == "conium") {
+            ConiumSchemaBlockBuilder.deserialize(json, this.registryLookup)
+        } else {
+            BedrockSchemaBlockBuilder.deserialize(json, this.registryLookup)
+        }
+
+        builder.register { block ->
+            val var2: UnmodifiableIterator<*> = block.stateManager.states.iterator()
+
+            while (var2.hasNext()) {
+                val blockState = var2.next() as BlockState
+                stateIds.addDynamic(blockState)
+                blockState.initShapeCache()
             }
 
-            builder.register { block ->
-                val var2: UnmodifiableIterator<*> = block.stateManager.states.iterator()
+            block.lootTableKey
 
-                while (var2.hasNext()) {
-                    val blockState = var2.next() as BlockState
-                    stateIds.addDynamic(blockState)
-                    blockState.initShapeCache()
-                }
-
-                block.lootTableKey
-
-                builder.registerBlockItem(block)
-            }
+            builder.registerBlockItem(block)
         }
     }
 }

@@ -27,19 +27,16 @@ class DynamicArgs<P : ParameterSelective?, R>(
     private val trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>,
     vararg args: () -> DynamicArgType<*>
 ) {
-    private val queryArgs: MutableList<DynamicArgType<*>> = CollectionFactor.arrayList(args.size)
+    private val queryArgs: MutableList<DynamicArgType<*>> = args.map { it() }.toMutableList()
     private var lifecycle: DynamicArgsLifecycle = DynamicArgsLifecycle.ONCE
 
     constructor(trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>, vararg args: DynamicArgType<*>) : this(trigger, *args.map {
         // Vary 'DynamicArgType<*>' to '() -> DynamicArgType<*>'
         { it }
-    }.toList().toTypedArray())
+    }.toTypedArray())
 
+    // No varying args constructor.
     constructor(trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>) : this(trigger, *mutableListOf<() -> DynamicArgType<*>>().toTypedArray())
-
-    init {
-        this.queryArgs.addAll(args.map { it() })
-    }
 
     fun lifecycle(lifecycle: DynamicArgsLifecycle): DynamicArgs<P, R> {
         this.lifecycle = lifecycle
@@ -47,6 +44,7 @@ class DynamicArgs<P : ParameterSelective?, R>(
     }
 
     /**
+     * Collect not-real values and vary to the real value to arguments map.
      *
      * @param identity a unique identity instance
      * @param sources source context arguments
@@ -63,32 +61,35 @@ class DynamicArgs<P : ParameterSelective?, R>(
      * @since 1.0.0
      */
     private fun varyArgs(identity: Any, sources: MutableMap<DynamicArgType<*>, Any?>): Map<DynamicArgType<*>, Any?> {
-        val args = CollectionFactor.hashMap<DynamicArgType<*>, Any?>()
+        val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
 
         // Find required arguments from context arguments (manually putted to map).
-        for (arg in sources) {
-            arg.value.let {
-                // Only varying argument type to real argument instance.
-                if (it is DynamicArgType<*>) {
-                    // Dynamic args has multiple varying methods, find until found or no more method can trys.
-                    for (dynamicVarying in it.dynamicArgs) {
-                        // Run the dynamic vary.
-                        val result = dynamicVarying?.runCatching {
-                            // Arise the dynamic args, it will continues to vary args or got a value.
-                            arising(identity, sources, null)
-                        }?.getOrNull()
-
-                        // When result found, stop dynamic args varying.
-                        if (result != null) {
-                            // And put to arguments map.
-                            args[arg.key] = result
-                            break
-                        }
+        for ((key: DynamicArgType<*>, value: Any?) in sources) {
+            // Only varying argument type to real argument instance.
+            if (value is DynamicArgType<*>) {
+                // Dynamic args has multiple varying methods, find until found or no more method can trys.
+                for (dynamicVarying: DynamicArgs<*, *>? in value.dynamicArgs) {
+                    // Do not process null dynamic args or transform the dynamic args that doesn't have correct lifecycles.
+                    if (dynamicVarying == null || dynamicVarying.lifecycle != DynamicArgsLifecycle.TRANSFORM) {
+                        continue
                     }
-                } else {
-                    // The real instance should directly put to arguments map.
-                    args[arg.key] = it
+
+                    // Run the dynamic vary.
+                    val result: Any? = dynamicVarying.runCatching {
+                        // Arise the dynamic args, it will continues to vary args or got a value.
+                        arising(identity, sources, null)
+                    }.getOrNull()
+
+                    // When result found, stop dynamic args varying.
+                    if (result != null) {
+                        // And put to arguments map.
+                        args[key] = result
+                        break
+                    }
                 }
+            } else {
+                // The real instance should directly put to arguments map.
+                args[key] = value
             }
         }
 
@@ -96,6 +97,8 @@ class DynamicArgs<P : ParameterSelective?, R>(
     }
 
     /**
+     * Collect and varying arguments when the context arising.
+     *
      * @param identity a unique identity instance
      * @param args context arguments
      * @param p the ``ParameterSelective`` instance
@@ -119,10 +122,13 @@ class DynamicArgs<P : ParameterSelective?, R>(
 
         // Vary args to got more completed arguments.
         // Put 'queryArg'(DynamicArgType<*>) to source arguments map, it will vary to other value in next step varying.
-        for (queryArg in this.queryArgs) {
-            if (!args.containsKey(queryArg)) {
-                args[queryArg] = queryArg
+        for (queryArg: DynamicArgType<*> in this.queryArgs) {
+            // Do not add query arg to varying when args contains the real value.
+            if (args.containsKey(queryArg)) {
+                continue
             }
+            // Put to varying when no real value contains.
+            args[queryArg] = queryArg
         }
         // Do vary and trigger.
         return this.trigger.apply(identity, varyArgs(identity, args), p)

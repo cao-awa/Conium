@@ -6,6 +6,8 @@ import com.github.cao.awa.conium.parameter.DynamicArgsBuilder.Companion.transfor
 import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder.arg
 import net.minecraft.block.AbstractBlock.AbstractBlockState
 import net.minecraft.block.Block
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.ViewerCountManager
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
@@ -45,6 +47,9 @@ object ConiumEventArgTypes {
     val ACTION_RESULT: DynamicArgType<ActionResult>
 
     @JvmField
+    val VIEWER_COUNT_MANAGER: DynamicArgType<ViewerCountManager>
+
+    @JvmField
     val RANDOM: DynamicArgType<Random>
 
     @JvmField
@@ -67,6 +72,9 @@ object ConiumEventArgTypes {
 
     @JvmField
     val BLOCK_POS: DynamicArgType<BlockPos>
+
+    @JvmField
+    val BLOCK_ENTITY: DynamicArgType<BlockEntity>
 
     @JvmField
     val BLOCK_STATE: DynamicArgType<AbstractBlockState>
@@ -128,6 +136,10 @@ object ConiumEventArgTypes {
 
         ACTION_RESULT = arg("action_result")
 
+        VIEWER_COUNT_MANAGER = arg(
+            "view_count_manager"
+        )
+
         RANDOM = arg(
             "random",
             transform(::WORLD, World::getRandom)
@@ -146,7 +158,9 @@ object ConiumEventArgTypes {
 
         WORLD = arg(
             "world",
-            transform(::PLAYER, PlayerEntity::getWorld)
+            transform(::PLAYER, PlayerEntity::getWorld),
+            transform(::SERVER_WORLD, ServerWorld::asIt),
+            transform(::CLIENT_WORLD, ClientWorld::asIt)
         )
 
         SERVER_WORLD = arg(
@@ -169,6 +183,11 @@ object ConiumEventArgTypes {
         BLOCK_POS = arg(
             "block_pos",
             transform(::ITEM_PLACEMENT_CONTEXT, ItemPlacementContext::getBlockPos)
+        )
+
+        BLOCK_ENTITY = arg(
+            "block_entity",
+            transform(::WORLD, ::BLOCK_POS, World::getBlockEntity)
         )
 
         BLOCK_STATE = arg(

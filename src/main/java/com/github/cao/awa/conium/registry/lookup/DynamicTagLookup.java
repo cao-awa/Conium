@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.registry;
+package com.github.cao.awa.conium.registry.lookup;
 
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.TagKey;

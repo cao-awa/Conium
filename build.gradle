@@ -63,6 +63,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:2.0.21"
 
     shadow "org.jetbrains.kotlin:kotlin-scripting-common:${project.kotlin_version}"
     shadow "org.jetbrains.kotlin:kotlin-scripting-jvm:${project.kotlin_version}"
@@ -112,6 +113,8 @@ jar {
 
         duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     })
+
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 }
 
 // configure the maven publication

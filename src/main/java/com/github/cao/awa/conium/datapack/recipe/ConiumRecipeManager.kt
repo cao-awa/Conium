@@ -131,10 +131,9 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
 
                         try {
                             // Find bedrock recipe and create it.
-                            ConiumBedrockRecipeBuilder.findBedrock(json, this.registries).let { builder ->
-                                val recipes = builder.build()
-                                val standalone = recipes.size == 1
-                                for ((index, recipe) in recipes.withIndex()) {
+                            ConiumBedrockRecipeBuilder.findBedrock(json, this.registries).let { recipes ->
+                                val standalone: Boolean = recipes.size == 1
+                                for ((index: Int, recipe: Recipe<*>) in recipes.withIndex()) {
                                     val id = if (standalone) {
                                         identifier2
                                     } else {

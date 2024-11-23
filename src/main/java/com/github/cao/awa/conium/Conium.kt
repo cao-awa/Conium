@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium
 
+import com.github.cao.awa.conium.client.ConiumClient
 import com.github.cao.awa.conium.component.ConiumComponentTypes
 import com.github.cao.awa.conium.datapack.block.ConiumBlockManager
 import com.github.cao.awa.conium.datapack.entity.ConiumEntityManager
@@ -9,12 +10,16 @@ import com.github.cao.awa.conium.datapack.script.ConiumScriptManager
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.function.consumer.string.`object`.*
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
+import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
+import com.github.cao.awa.conium.server.datapack.ConiumServerLoadDatapacks
+import com.github.cao.awa.conium.template.ConiumTemplate
 import com.github.cao.awa.conium.template.ConiumTemplates
 import com.github.cao.awa.language.translator.translate.LanguageTranslator
 import com.github.cao.awa.language.translator.translate.lang.TranslateTarget
 import com.github.cao.awa.language.translator.translate.lang.element.TranslateElementData
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.fabricmc.api.ModInitializer
+import net.minecraft.util.Identifier
 import org.apache.logging.log4j.LogManager
 import java.util.function.Supplier
 
@@ -28,7 +33,7 @@ class Conium : ModInitializer {
         var VERSION = "1.0.0-alpha5-fix1"
 
         @JvmField
-        var LANGUAGE_TRANSLATOR_VERSION = LanguageTranslator.getVersion()
+        var LANGUAGE_TRANSLATOR_VERSION: String = LanguageTranslator.getVersion()
 
         @JvmField
         var itemInjectManager: ItemPropertyInjectManager? = null
@@ -49,10 +54,27 @@ class Conium : ModInitializer {
         val reloadCallbacks: MutableList<Runnable> = CollectionFactor.arrayList()
 
         @JvmField
-        var enableDebugs = true
+        var enableDebugs: Boolean = true
 
         @JvmField
-        var allowBedrock = true
+        var allowBedrock: Boolean = true
+
+        @JvmField
+        var pendingDatapack: ConiumServerLoadDatapacks = ConiumServerLoadDatapacks()
+
+        @JvmStatic
+        fun onLoadData(datapackIdentifier: Identifier, resourceIdentifier: Identifier, content: String) {
+            synchronized(this) {
+                try {
+                    this.pendingDatapack.datapacks.computeIfAbsent(
+                        datapackIdentifier,
+                        ::ConiumContentDatapack
+                    ).contents[resourceIdentifier] = content
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
 
         @JvmStatic
         fun debug(debugger: Runnable) {
@@ -145,22 +167,64 @@ class Conium : ModInitializer {
     override fun onInitialize() {
         // Initialize for item injecting.
         ConiumComponentTypes.init()
+        ConiumComponentTypes.types().let { dataComponents ->
+            LOGGER.info("Loaded ${dataComponents.size} data components: $dataComponents")
+            debug(
+                "Loaded {} data components: {}",
+                { dataComponents.size },
+                { dataComponents },
+                LOGGER::info
+            )
+        }
 
         // Initialize for events
         ConiumEvent.init()
+        ConiumEvent.events().let { events ->
+            LOGGER.info("Loaded {} events", events.size)
+            debug(
+                "Loaded {} events: {}",
+                events::size,
+                { events },
+                LOGGER::info
+            )
+        }
 
         // Initialize for templates
         ConiumTemplates.init()
+        ConiumTemplate.templates().let { templates ->
+            LOGGER.info(
+                "Loaded {} templates ({} conium templates, {} bedrock templates/components)",
+                templates.size,
+                ConiumTemplate.coniumCount(),
+                ConiumTemplate.bedrockCount()
+            )
+            debug(
+                "Loaded {} templates ({} conium templates, {} bedrock templates/components): {}",
+                templates::size,
+                { ConiumTemplate.coniumCount() },
+                { ConiumTemplate.bedrockCount() },
+                { templates },
+                LOGGER::info
+            )
+        }
 
         // Initialize script translator for bedrock's typescript.
         LOGGER.info("Loading conium '{}' language translator providers for [typescript]", VERSION)
         ConiumScriptTranslator.postRegister()
 
-        val typescriptTranslators = LanguageTranslator.getTranslators("conium")
-        LOGGER.info(
-            "The conium language translator provider has loaded {} translators: {}",
-            typescriptTranslators.size,
-            collectTranslators(typescriptTranslators)
-        )
+        LanguageTranslator.getTranslators("conium").let { translators ->
+            LOGGER.info(
+                "Loaded {} translators by conium language providers({})",
+                translators.size,
+                VERSION
+            )
+            debug(
+                "Loaded {} translators by conium language providers({}): {}",
+                translators::size,
+                { VERSION },
+                { collectTranslators(translators) },
+                LOGGER::info
+            )
+        }
     }
 }

@@ -8,6 +8,7 @@ import com.github.cao.awa.conium.datapack.item.ConiumItemManager;
 import com.github.cao.awa.conium.datapack.recipe.ConiumRecipeManager;
 import com.github.cao.awa.conium.datapack.script.ConiumScriptManager;
 import com.github.cao.awa.conium.mixin.recipe.ServerRecipeManagerAccessor;
+import com.github.cao.awa.conium.server.ConiumDedicatedServer;
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.registry.CombinedDynamicRegistries;
@@ -69,6 +70,10 @@ public abstract class DataPackContentsMixin {
             Executor applyExecutor,
             CallbackInfoReturnable<CompletableFuture<DataPackContents>> cir
     ) {
+        if (ConiumDedicatedServer.isInitialized()) {
+            ConiumDedicatedServer.onReload();
+        }
+
         // Do callbacks when completed reloading.
         cir.getReturnValue().whenComplete(((dataPackContents, throwable) -> {
             for (Runnable reloadCallback : Conium.reloadCallbacks) {
