@@ -17,12 +17,12 @@ class ConiumEntityDamagedEvent : ConiumEvent<ParameterSelective4<Boolean, World,
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.LIVING_ENTITY,
             ConiumEventArgTypes.DAMAGE_SOURCE,
-            ConiumEventArgTypes.FLOAT
+            ConiumEventArgTypes.DAMAGE_AMOUNT
         ).attach(
             forever(ConiumEventType.ENTITY_DAMAGED)
-        ).arise { identity, world, livingEntity, damageSource, amount ->
-            noFailure(identity) {
-                it.arise(world, livingEntity, damageSource, amount)
+        ).arise { identity: Any, world: World, livingEntity: LivingEntity, damageSource: DamageSource, amount: Float ->
+            noFailure(identity) { parameterSelective ->
+                parameterSelective(world, livingEntity, damageSource, amount)
             }
         }
     }

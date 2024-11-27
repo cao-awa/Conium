@@ -9,6 +9,7 @@ import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
 import net.minecraft.util.Identifier
+import net.minecraft.world.World
 
 abstract class ConiumEntityBuilder(val identifier: Identifier) : ConiumBuilderWithTemplates<
         ConiumEntityBuilder,
@@ -19,7 +20,7 @@ abstract class ConiumEntityBuilder(val identifier: Identifier) : ConiumBuilderWi
 ) {
     companion object {
         fun build(builder: ConiumEntityBuilder): EntityType.Builder<ConiumEntity> {
-            val type = EntityType.Builder.create({ type, world ->
+            val type: EntityType.Builder<ConiumEntity> = EntityType.Builder.create({ type: EntityType<ConiumEntity>, world: World ->
                 ConiumEntity(
                     type,
                     world,
@@ -27,7 +28,7 @@ abstract class ConiumEntityBuilder(val identifier: Identifier) : ConiumBuilderWi
                 ).also { it.applyTemplates(builder.templates) }
             }, SpawnGroup.MISC)
 
-            builder.groupTemplates.forEach { (name, templates) ->
+            builder.groupTemplates.forEach { (name: String, templates: MutableList<ConiumEntityTemplate>) ->
                 builder.entitySettings.migrate(
                     name,
                     ConiumEntitySettings.create(templates, type)
@@ -42,7 +43,7 @@ abstract class ConiumEntityBuilder(val identifier: Identifier) : ConiumBuilderWi
     }
 
     val groupTemplates: MutableMap<String, MutableList<ConiumEntityTemplate>> = CollectionFactor.hashMap()
-    val entitySettings = ConiumEntitySettings()
+    val entitySettings: ConiumEntitySettings = ConiumEntitySettings()
 
     fun addTemplates(group: String, templates: MutableList<ConiumEntityTemplate>): ConiumEntityBuilder {
         this.groupTemplates.computeIfAbsent(group) { CollectionFactor.arrayList() }.addAll(templates)

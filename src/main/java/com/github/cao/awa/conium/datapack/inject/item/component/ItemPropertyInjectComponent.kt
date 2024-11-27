@@ -6,6 +6,7 @@ import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInje
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.component.ComponentType
 import net.minecraft.network.RegistryByteBuf
@@ -21,7 +22,7 @@ data class ItemPropertyInjectComponent<T>(
     companion object {
         @JvmStatic
         fun decode(buf: RegistryByteBuf): ItemPropertyInjectComponent<*> {
-            val value = ConiumPacketCodec.ITEM_PROPERTY_INJECT_COMPONENT_VALUE.decode(buf)
+            val value: ItemPropertyInjectComponentValue<*> = ConiumPacketCodec.ITEM_PROPERTY_INJECT_COMPONENT_VALUE.decode(buf)
 
             return ItemPropertyInjectComponent(
                 value.componentType!!,
@@ -41,19 +42,17 @@ data class ItemPropertyInjectComponent<T>(
             type: ComponentType<*>,
             action: ItemPropertyInjectAction,
             value: ItemPropertyInjectComponentValue<*>
-        ): ItemPropertyInjectComponent<X> {
-            return ItemPropertyInjectComponent(type, action, value.verified(type))
-        }
+        ): ItemPropertyInjectComponent<X> = ItemPropertyInjectComponent(type, action, value.verified(type))
 
         @JvmStatic
         fun unverified(json: JsonObject): ItemPropertyInjectComponent<Any> {
-            val type = Registries.DATA_COMPONENT_TYPE[Identifier.of(json["type"].asString)]
+            val type: ComponentType<*>? = Registries.DATA_COMPONENT_TYPE[Identifier.of(json["type"].asString)]
 
-            val action = if (json.has("action")) {
+            val action: ItemPropertyInjectAction = if (json.has("action")) {
                 ItemPropertyInjectAction.of(json["action"].asString)
             } else ItemPropertyInjectAction.SET_PRESET
 
-            val value = unverified(json["value"])
+            val value: ItemPropertyInjectComponentValue<*> = unverified(json["value"])
 
             return verified(Manipulate.cast(type), action, value)
         }
@@ -61,7 +60,7 @@ data class ItemPropertyInjectComponent<T>(
         @JvmStatic
         fun <X> unverified(json: JsonArray): List<ItemPropertyInjectComponent<Any>> {
             val components: MutableList<ItemPropertyInjectComponent<Any>> = CollectionFactor.arrayList()
-            for (element in json) {
+            for (element: JsonElement in json) {
                 components.add(unverified(element.asJsonObject))
             }
             return components

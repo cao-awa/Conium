@@ -8,7 +8,7 @@ import net.minecraft.registry.Registries
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemStack")
 class BedrockItemStack(private val delegate: ItemStack) {
-    val typeId get() = typeId()
+    val typeId: String get() = typeId()
 
     private fun typeId(): String = Registries.ITEM.getId(this.delegate.item).toString()
 }

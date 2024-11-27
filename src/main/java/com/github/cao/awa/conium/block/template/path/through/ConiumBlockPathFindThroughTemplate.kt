@@ -12,7 +12,7 @@ class ConiumBlockPathFindThroughTemplate(
     private val landPathThrough: Boolean,
     private val waterPathThrough: Boolean,
     private val airPathThrough: Boolean
-) : ConiumBlockTemplate(PATH_FIND_THROUGH) {
+) : ConiumBlockTemplate(name = PATH_FIND_THROUGH) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockPathFindThroughTemplate {

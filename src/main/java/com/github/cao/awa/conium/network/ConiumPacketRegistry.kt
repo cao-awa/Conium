@@ -50,17 +50,13 @@ class ConiumPacketRegistry {
         }
 
         fun <P : ConiumClientPacket> registerClientConfigurationReceiver(id: Id<P>) {
-            ClientConfigurationNetworking.registerGlobalReceiver(id) { packet, context ->
-                try {
-                    packet.arising(context.client(), null, context.responseSender(), context.networkHandler())
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+            ClientConfigurationNetworking.registerGlobalReceiver(id) { packet: P, context: ClientConfigurationNetworking.Context ->
+                packet.arising(context.client(), null, context.responseSender(), context.networkHandler())
             }
         }
 
         fun <P : ConiumClientPacket> registerClientPlayReceiver(id: Id<P>) {
-            ClientPlayNetworking.registerGlobalReceiver(id) { packet, context ->
+            ClientPlayNetworking.registerGlobalReceiver(id) { packet: P, context: ClientPlayNetworking.Context ->
                 packet.arising(context.client(), context.player(), context.responseSender(), context.player().networkHandler)
             }
         }
@@ -86,13 +82,13 @@ class ConiumPacketRegistry {
         }
 
         fun <P : ConiumServerPacket> registerServerConfigurationReceiver(id: Id<P>) {
-            ServerConfigurationNetworking.registerGlobalReceiver(id) { packet, context ->
+            ServerConfigurationNetworking.registerGlobalReceiver(id) { packet: P, context: ServerConfigurationNetworking.Context ->
                 packet.arising(context.server(), null, context.responseSender(), context.networkHandler())
             }
         }
 
         fun <P : ConiumServerPacket> registerServerPlayReceiver(id: Id<P>) {
-            ServerPlayNetworking.registerGlobalReceiver(id) { packet, context ->
+            ServerPlayNetworking.registerGlobalReceiver(id) { packet: P, context: ServerPlayNetworking.Context ->
                 packet.arising(context.server(), context.player(), context.responseSender(), context.player().networkHandler)
             }
         }

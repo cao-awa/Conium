@@ -19,9 +19,9 @@ class ConiumEntityDeadEvent : ConiumEvent<ParameterSelective3<Boolean, World, Li
             ConiumEventArgTypes.DAMAGE_SOURCE
         ).attach(
             forever(ConiumEventType.ENTITY_DEAD)
-        ).arise { identity, world, livingEntity, damageSource ->
-            noFailure(identity) {
-                it.arise(world, livingEntity, damageSource)
+        ).arise { identity: Any, world: World, livingEntity: LivingEntity, damageSource: DamageSource ->
+            noFailure(identity) { parameterSelective ->
+                parameterSelective(world, livingEntity, damageSource)
             }
         }
     }

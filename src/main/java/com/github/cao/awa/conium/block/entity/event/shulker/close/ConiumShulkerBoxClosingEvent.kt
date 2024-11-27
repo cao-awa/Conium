@@ -31,9 +31,9 @@ class ConiumShulkerBoxClosingEvent : ConiumEvent<ParameterSelective5<Boolean, Wo
             ConiumEventArgTypes.BLOCK_POS
         ).attach(
             forever(ConiumEventType.SHULKER_BOX_CLOSING)
-        ).arise { identity, world: World, pos: PlayerEntity, blockEntity: BlockEntity, blockState: AbstractBlockState, blockPos: BlockPos ->
-            noFailure(identity) {
-                it.arise(world, pos, blockEntity as ShulkerBoxBlockEntity, blockState, blockPos)
+        ).arise { identity: Any, world: World, pos: PlayerEntity, blockEntity: BlockEntity, blockState: AbstractBlockState, blockPos: BlockPos ->
+            noFailure(identity) { parameterSelective ->
+                parameterSelective(world, pos, blockEntity as ShulkerBoxBlockEntity, blockState, blockPos)
             }
         }
     }

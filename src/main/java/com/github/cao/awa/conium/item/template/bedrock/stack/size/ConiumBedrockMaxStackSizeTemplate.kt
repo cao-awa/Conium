@@ -7,7 +7,7 @@ import com.google.gson.JsonElement
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumBedrockMaxStackSizeTemplate(private val maxStackSize: Int) : ConiumItemTemplate(MAX_STACK_SIZE) {
+class ConiumBedrockMaxStackSizeTemplate(private val maxStackSize: Int) : ConiumItemTemplate(name = MAX_STACK_SIZE) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockMaxStackSizeTemplate = element.objectOrInt(

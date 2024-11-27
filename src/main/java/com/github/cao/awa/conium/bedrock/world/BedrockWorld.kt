@@ -7,7 +7,7 @@ import net.minecraft.world.World
 @BedrockScriptApi
 open class BedrockWorld(private val delegate: World) : AbstractBedrockWorld() {
     companion object {
-        val DUMMY = DummyBedrockWorld()
+        val DUMMY: DummyBedrockWorld = DummyBedrockWorld()
     }
 
     private val players: BedrockPlayerDelegate = BedrockPlayerDelegate(this.delegate)
@@ -16,13 +16,7 @@ open class BedrockWorld(private val delegate: World) : AbstractBedrockWorld() {
 }
 
 class DummyBedrockWorld : AbstractBedrockWorld() {
-    override fun getPlayers(): BedrockPlayerDelegate {
-        TODO("Will not be implements")
-    }
+    override fun getPlayers(): BedrockPlayerDelegate = TODO("Will not be implements")
 }
 
-fun World.toBedrock(): BedrockWorld {
-    return BedrockWorld(
-        this
-    )
-}
+fun World.toBedrock(): BedrockWorld =  BedrockWorld(this)

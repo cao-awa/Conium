@@ -10,7 +10,7 @@ data class ItemPropertyInjectComponentValue<X>(val value: X?, val componentType:
     companion object {
         @JvmStatic
         fun decode(buf: RegistryByteBuf): ItemPropertyInjectComponentValue<*> {
-            val componentType = ComponentType.PACKET_CODEC.decode(buf)
+            val componentType: ComponentType<*> = ComponentType.PACKET_CODEC.decode(buf)
 
             return ItemPropertyInjectComponentValue(
                 componentType.packetCodec.decode(buf),

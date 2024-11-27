@@ -23,19 +23,21 @@ import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.util.*
 
-class ConiumItemManager(private val registryLookup: RegistryWrapper.WrapperLookup, private val pendingTagLoad: List<Registry.PendingTagLoad<*>>) :
-    ConiumJsonDataLoader(ConiumRegistryKeys.ITEM.value) {
+class ConiumItemManager(
+    private val registryLookup: RegistryWrapper.WrapperLookup,
+    private val pendingTagLoad: List<Registry.PendingTagLoad<*>>
+) : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM.value) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumItemManager")
     }
 
-    private val fuelRegistry = ConiumFuelRegistry()
-    val fuels get() = this.fuelRegistry.fuelItems
+    private val fuelRegistry: ConiumFuelRegistry = ConiumFuelRegistry()
+    val fuels: Set<Item> get() = this.fuelRegistry.fuelItems
 
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
         resetRegistries()
 
-        for ((key, value) in prepared) {
+        for ((key: Identifier, value: JsonElement) in prepared) {
             load(key, value as JsonObject)
         }
     }

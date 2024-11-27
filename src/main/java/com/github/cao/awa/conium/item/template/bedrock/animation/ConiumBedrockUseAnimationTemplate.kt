@@ -13,7 +13,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.consume.UseAction
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumBedrockUseAnimationTemplate(private val useAction: UseAction) : ConiumItemTemplate(USE_ANIMATION) {
+class ConiumBedrockUseAnimationTemplate(private val useAction: UseAction) : ConiumItemTemplate(true, USE_ANIMATION) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockUseAnimationTemplate = element.objectOrString(
@@ -35,9 +35,8 @@ class ConiumBedrockUseAnimationTemplate(private val useAction: UseAction) : Coni
         settings.components.withComponentProvides(
             DataComponentTypes.CONSUMABLE,
             withCreateConsumable(),
-            withComputeUseAction()
-        ) {
-            this.useAction
-        }
+            withComputeUseAction(),
+            ::useAction
+        )
     }
 }

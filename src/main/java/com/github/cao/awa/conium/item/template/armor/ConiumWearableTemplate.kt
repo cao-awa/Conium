@@ -28,10 +28,10 @@ import net.minecraft.util.Identifier
  * @since 1.0.0
  */
 abstract class ConiumWearableTemplate(
-    name: String,
     private val equipment: EquipmentType,
-    private val defense: Double
-) : ConiumItemTemplate(name) {
+    private val defense: Double,
+    name: String
+) : ConiumItemTemplate(name = name) {
     companion object {
         fun createEquipment(name: String): EquipmentType {
             return when (name) {

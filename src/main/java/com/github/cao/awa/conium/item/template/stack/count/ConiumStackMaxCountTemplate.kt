@@ -6,7 +6,7 @@ import com.google.gson.JsonElement
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumStackMaxCountTemplate(private val stackMaxCount: Int) : ConiumItemTemplate(STACK_MAX_COUNT) {
+class ConiumStackMaxCountTemplate(private val stackMaxCount: Int) : ConiumItemTemplate(name = STACK_MAX_COUNT) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumStackMaxCountTemplate = ConiumStackMaxCountTemplate(validateStackSize(element.asInt))

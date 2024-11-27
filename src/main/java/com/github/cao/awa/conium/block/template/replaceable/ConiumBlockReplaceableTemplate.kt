@@ -6,7 +6,7 @@ import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-open class ConiumBlockReplaceableTemplate(private val replaceable: Boolean, name: String = REPLACEABLE) : ConiumBlockTemplate(name) {
+open class ConiumBlockReplaceableTemplate(private val replaceable: Boolean, name: String = REPLACEABLE) : ConiumBlockTemplate(name = name) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockReplaceableTemplate = ConiumBlockReplaceableTemplate(element.asBoolean)

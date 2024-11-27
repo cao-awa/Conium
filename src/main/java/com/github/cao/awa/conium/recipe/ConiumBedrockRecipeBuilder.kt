@@ -18,28 +18,24 @@ class ConiumBedrockRecipeBuilder : ConiumBuilderWithTemplates<
     ::build
 ) {
     companion object {
-        private val bedrockRecipes = listOf(
+        private val bedrockRecipes: List<String> = listOf(
             RECIPE_SHAPED,
             RECIPE_SHAPELESS,
             RECIPE_FURNACE,
         )
 
         @JvmStatic
-        fun create(template: ConiumRecipeTemplate<Recipe<*>>): ConiumBedrockRecipeBuilder {
-            return ConiumBedrockRecipeBuilder().apply {
-                addTemplate(template)
-            }
-        }
+        fun create(template: ConiumRecipeTemplate<Recipe<*>>): ConiumBedrockRecipeBuilder = ConiumBedrockRecipeBuilder().apply { addTemplate(template) }
 
         @JvmStatic
         fun findBedrock(jsonObject: JsonObject, registryLookup: WrapperLookup): List<Recipe<*>> {
-            for (bedrockRecipe in this.bedrockRecipes) {
+            for (bedrockRecipe: String in this.bedrockRecipes) {
                 jsonObject[bedrockRecipe]?.asJsonObject?.let {
                     return ConiumTemplate.deserializeRecipeTemplate(bedrockRecipe, it, registryLookup).fold(
-                        { template ->
+                        { template: ConiumRecipeTemplate<Recipe<*>> ->
                             create(template).build()
                         }
-                    ) { thr ->
+                    ) { thr: Throwable ->
                         throw IllegalArgumentException("Unable to deserialize bedrock recipe: $it", thr)
                     }
                 }

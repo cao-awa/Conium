@@ -10,7 +10,7 @@ import com.google.gson.JsonObject
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
 
-open class ConiumDurabilityTemplate(name: String, private val durability: Int, private val damageChance: IntRange) : ConiumItemTemplate(name) {
+open class ConiumDurabilityTemplate(private val durability: Int, private val damageChance: IntRange, name: String) : ConiumItemTemplate(name = name) {
     companion object {
         val defaultChance = IntRange(100, 100)
 
@@ -32,12 +32,12 @@ open class ConiumDurabilityTemplate(name: String, private val durability: Int, p
         }
     }
 
-    override fun complete(item: ConiumItem) {
+    override fun complete(target: ConiumItem) {
         // Should increments 'USED' stat when an item has durability.
-        item.shouldPostHit = true
+        target.shouldPostHit = true
 
         // Set durability damage chance.
-        item.durabilityDamageChance = this.damageChance
+        target.durabilityDamageChance = this.damageChance
     }
 
     override fun settings(settings: Item.Settings) {

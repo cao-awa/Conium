@@ -1,3 +1,5 @@
+@file:Suppress("unchecked_cast", "unused")
+
 package com.github.cao.awa.conium.parameter.type
 
 import com.github.cao.awa.conium.parameter.DynamicArgType

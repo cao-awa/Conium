@@ -8,10 +8,10 @@ import net.minecraft.item.Item.Settings
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 import net.minecraft.util.Rarity
 
-open class ConiumRarityTemplate(name: String, private val rarity: Rarity) : ConiumItemTemplate(name) {
+open class ConiumRarityTemplate(private val rarity: Rarity, name: String) : ConiumItemTemplate(name = name) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup, name: String = Item.RARITY): ConiumRarityTemplate = ConiumRarityTemplate(name, createRarity(element.asString))
+        fun create(element: JsonElement, registryLookup: WrapperLookup, name: String = Item.RARITY): ConiumRarityTemplate = ConiumRarityTemplate(createRarity(element.asString), name)
 
         @JvmStatic
         fun createBedrock(element: JsonElement, registryLookup: WrapperLookup): ConiumRarityTemplate = create(element, registryLookup, BedrockItem.RARITY)

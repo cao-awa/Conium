@@ -34,7 +34,7 @@ class ConiumEntityManager(private val registryLookup: RegistryWrapper.WrapperLoo
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
         resetRegistries()
 
-        for ((key, value) in prepared) {
+        for ((key: Identifier, value: JsonElement) in prepared) {
             load(key, value as JsonObject)
         }
     }

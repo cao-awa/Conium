@@ -14,11 +14,11 @@ fun ConiumBlockBuilder.register(afterAction: (ConiumBlock) -> Unit) {
     afterAction(
         Blocks.register(
             blockKeyOf(this.identifier),
-            {
+            { settings ->
                 build(
                     ConiumBlockSettings.create(
                         this.templates,
-                        it
+                        settings
                     )
                 )
             },
@@ -27,6 +27,4 @@ fun ConiumBlockBuilder.register(afterAction: (ConiumBlock) -> Unit) {
     )
 }
 
-fun blockKeyOf(id: Identifier): RegistryKey<Block> {
-    return RegistryKey.of(RegistryKeys.BLOCK, id)
-}
+fun blockKeyOf(id: Identifier): RegistryKey<Block> = RegistryKey.of(RegistryKeys.BLOCK, id)

@@ -8,9 +8,9 @@ import com.github.cao.awa.conium.bedrock.event.item.use.BedrockItemUseOnBeforeEv
 @BedrockScriptApiFacade("WorldBeforeEvents")
 class BedrockBeforeEvents {
     companion object {
-        val EVENTS = BedrockBeforeEvents()
+        val EVENTS: BedrockBeforeEvents = BedrockBeforeEvents()
     }
 
     @BedrockScriptApi
-    val itemUseOn = BedrockItemUseOnBeforeEvent()
+    val itemUseOn: BedrockItemUseOnBeforeEvent = BedrockItemUseOnBeforeEvent()
 }

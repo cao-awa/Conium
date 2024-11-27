@@ -7,8 +7,8 @@ import net.minecraft.item.ToolMaterial
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
 class ConiumItemNetheritePickaxeTemplate : ConiumItemPickaxeTemplate(
-    NETHERITE_PICKAXE,
-    ToolMaterial.NETHERITE
+    ToolMaterial.NETHERITE,
+    name = NETHERITE_PICKAXE
 ) {
     companion object {
         @JvmStatic

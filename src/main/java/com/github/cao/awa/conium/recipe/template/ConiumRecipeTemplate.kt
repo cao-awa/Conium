@@ -10,10 +10,10 @@ import net.minecraft.recipe.Recipe
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 
-abstract class ConiumRecipeTemplate<T : Recipe<*>>(name: String) : ConiumTemplate<T, Nothing>(name) {
+abstract class ConiumRecipeTemplate<T : Recipe<*>>(name: String) : ConiumTemplate<T, Nothing>(name = name) {
     companion object {
         fun createItem(jsonObject: JsonObject, name: String): ItemStack {
-            return jsonObject[name]!!.let { result ->
+            return jsonObject[name]!!.let { result: JsonElement ->
                 val count: Int
                 val resultItemName: String
 
@@ -25,24 +25,18 @@ abstract class ConiumRecipeTemplate<T : Recipe<*>>(name: String) : ConiumTemplat
                     resultItemName = result.asString
                 }
 
-                val item = Registries.ITEM.get(Identifier.of(resultItemName))
-
                 ItemStack(
-                    item,
+                    Registries.ITEM.get(Identifier.of(resultItemName)),
                     count
                 )
             }
         }
 
         fun createItemNoData(jsonObject: JsonObject, name: String): ItemStack {
-            return jsonObject[name]!!.let { result ->
-                val item = Registries.ITEM.get(Identifier.of(result.asString))
-
-                ItemStack(
-                    item,
-                    1
-                )
-            }
+            return ItemStack(
+                Registries.ITEM.get(Identifier.of(jsonObject[name]!!.asString)),
+                1
+            )
         }
 
         fun createIngredient(element: JsonElement): Ingredient {
@@ -66,11 +60,11 @@ abstract class ConiumRecipeTemplate<T : Recipe<*>>(name: String) : ConiumTemplat
     lateinit var group: String
     lateinit var result: ItemStack
 
-    override fun attach(item: T) {
+    override fun attach(target: T) {
 
     }
 
-    override fun complete(item: T) {
+    override fun complete(target: T) {
 
     }
 }

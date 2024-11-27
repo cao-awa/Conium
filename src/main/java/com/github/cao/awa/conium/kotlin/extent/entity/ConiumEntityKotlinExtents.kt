@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.kotlin.extent.entity
 
+import com.github.cao.awa.conium.entity.ConiumEntity
 import com.github.cao.awa.conium.entity.attribute.ConiumEntityAttributeRegistry
 import com.github.cao.awa.conium.entity.builder.ConiumEntityBuilder
 import com.github.cao.awa.conium.entity.metadata.ConiumEntityMetadata
@@ -18,11 +19,11 @@ var Entity.dimensions: EntityDimensions
     get() = this.accessor.dimensions()
     set(value) = this.accessor.dimensions(value)
 
-val Entity.accessor get() = this as EntityAccessor
+val Entity.accessor: EntityAccessor get() = this as EntityAccessor
 
 fun ConiumEntityBuilder.register(callback: (ConiumEntityMetadata) -> Unit = { }) {
-    build().also { entityType ->
-        val type = registerEntity(this.identifier, entityType)
+    build().also { builder: EntityType.Builder<ConiumEntity> ->
+        val type: EntityType<ConiumEntity> = registerEntity(this.identifier, builder)
         callback(
             ConiumEntityMetadata(type, this.entitySettings)
         )
@@ -32,14 +33,8 @@ fun ConiumEntityBuilder.register(callback: (ConiumEntityMetadata) -> Unit = { })
     }
 }
 
-private fun keyOf(id: Identifier): RegistryKey<EntityType<*>> {
-    return RegistryKey.of(RegistryKeys.ENTITY_TYPE, id)
-}
+private fun keyOf(id: Identifier): RegistryKey<EntityType<*>> = RegistryKey.of(RegistryKeys.ENTITY_TYPE, id)
 
-fun <T : Entity> registerEntity(id: Identifier, type: EntityType.Builder<T>): EntityType<T> {
-    return registerEntity(keyOf(id), type)
-}
+fun <T : Entity> registerEntity(id: Identifier, type: EntityType.Builder<T>): EntityType<T> = registerEntity(keyOf(id), type)
 
-fun <T : Entity> registerEntity(key: RegistryKey<EntityType<*>>, type: EntityType.Builder<T>): EntityType<T> {
-    return Registry.register(Registries.ENTITY_TYPE, key, type.build(key))
-}
+fun <T : Entity> registerEntity(key: RegistryKey<EntityType<*>>, type: EntityType.Builder<T>): EntityType<T> = Registry.register(Registries.ENTITY_TYPE, key, type.build(key))

@@ -36,9 +36,7 @@ fun ConiumBlockBuilder.registerBlockItem(block: ConiumBlock, settingsProvider: (
     }
 }
 
-fun itemKeyOf(id: Identifier): RegistryKey<Item> {
-    return RegistryKey.of(RegistryKeys.ITEM, id)
-}
+fun itemKeyOf(id: Identifier): RegistryKey<Item> = RegistryKey.of(RegistryKeys.ITEM, id)
 
 val Item.Settings.components: ComponentMap.Builder get() = (this as ItemSettingsAccessor).components
 

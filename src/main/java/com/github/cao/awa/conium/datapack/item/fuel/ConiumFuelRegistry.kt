@@ -23,15 +23,13 @@ class ConiumFuelRegistry {
         this.computedFuels = null
     }
 
-    fun computeFuels(fuels: SequencedSet<Item>): SequencedSet<Item> {
-        return this.computedFuels ?: let {
-            val result = LinkedHashSet<Item>()
-            result.addAll(fuels)
-            result.addAll(this.fuelItems)
+    fun computeFuels(fuels: SequencedSet<Item>): SequencedSet<Item> = this.computedFuels ?: let {
+        val result: SequencedSet<Item> = LinkedHashSet()
+        result.addAll(fuels)
+        result.addAll(this.fuelItems)
 
-            this.computedFuels = result
+        this.computedFuels = result
 
-            result
-        }
+        result
     }
 }

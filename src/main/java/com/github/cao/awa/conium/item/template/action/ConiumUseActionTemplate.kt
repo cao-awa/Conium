@@ -12,7 +12,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.consume.UseAction
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumUseActionTemplate(private val useAction: UseAction) : ConiumItemTemplate(USE_ACTION) {
+class ConiumUseActionTemplate(private val useAction: UseAction) : ConiumItemTemplate(name = USE_ACTION) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumUseActionTemplate = ConiumUseActionTemplate(createUseAction(element.asString))

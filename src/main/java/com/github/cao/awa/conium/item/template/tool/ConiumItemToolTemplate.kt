@@ -6,6 +6,7 @@ import com.github.cao.awa.conium.item.template.durability.ConiumDurabilityTempla
 import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates.Item.TOOL
 import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.item.ToolMaterial
@@ -16,7 +17,6 @@ import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 
 open class ConiumItemToolTemplate(
-    name: String,
     private val material: ToolMaterial?,
     private val effectiveBlocks: TagKey<Block> = BlockTags.AIR,
     private val attackDamage: Float = -1F,
@@ -24,23 +24,42 @@ open class ConiumItemToolTemplate(
     private val durability: Int = -1,
     private val isWeapon: Boolean = false,
     private val damageChance: IntRange = ConiumDurabilityTemplate.defaultChance,
-) : ConiumItemTemplate(name) {
+    name: String
+) : ConiumItemTemplate(name = name) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumItemToolTemplate = element.ifJsonObject({
-            ConiumItemToolTemplate(
-                TOOL,
-                createMaterial(it["material"].asString),
-                it["effective_blocks"]?.asString?.let(::createEffectiveBlocks) ?: BlockTags.AIR,
-                it["attack_damage"]?.asFloat ?: -1F,
-                it["attack_speed"]?.asFloat ?: -1F,
-                it["durability"]?.asInt ?: -1,
-                it["is_weapon"]?.asBoolean ?: false,
-                ConiumDurabilityTemplate.createChance(it)
-            )
-        }, notSupported())!!
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumItemToolTemplate = element.ifJsonObject(
+            {
+                createWith(it, TOOL, ::ConiumItemToolTemplate)
+            },
+            notSupported()
+        )!!
 
-        private fun createMaterial(name: String): ToolMaterial {
+        fun <T : ConiumItemToolTemplate> createWith(
+            it: JsonObject,
+            name: String,
+            creator: (ToolMaterial, TagKey<Block>, Float, Float, Int, Boolean, IntRange, String) -> T,
+            material: (JsonObject) -> ToolMaterial = { createMaterial(it["material"].asString) },
+            effectiveBlocks: (JsonObject) -> TagKey<Block> = { it["effective_blocks"]?.asString?.let(::createEffectiveBlocks) ?: BlockTags.AIR },
+            attackDamage: (JsonObject) -> Float = { it["attack_damage"]?.asFloat ?: -1F },
+            attackSpeed: (JsonObject) -> Float = { it["attack_speed"]?.asFloat ?: -1F },
+            durability: (JsonObject) -> Int = { it["durability"]?.asInt ?: -1 },
+            isWeapon: (JsonObject) -> Boolean = { it["is_weapon"]?.asBoolean ?: false },
+            damageChance: (JsonObject) -> IntRange = { ConiumDurabilityTemplate.createChance(it)}
+        ): T {
+            return creator(
+                material(it),
+                effectiveBlocks(it),
+                attackDamage(it),
+                attackSpeed(it),
+                durability(it),
+                isWeapon(it),
+                damageChance(it),
+                name
+            )
+        }
+
+        fun createMaterial(name: String): ToolMaterial {
             return when (name) {
                 "wooden", "wood" -> ToolMaterial.WOOD
                 "stone" -> ToolMaterial.STONE
@@ -52,17 +71,15 @@ open class ConiumItemToolTemplate(
             }
         }
 
-        private fun createEffectiveBlocks(name: String): TagKey<Block> {
-            return TagKey.of(RegistryKeys.BLOCK, Identifier.of(name))
-        }
+        fun createEffectiveBlocks(name: String): TagKey<Block> = TagKey.of(RegistryKeys.BLOCK, Identifier.of(name))
     }
 
-    override fun complete(item: ConiumItem) {
+    override fun complete(target: ConiumItem) {
         // Item is tool, post hit to increments 'USED' stat data.
-        item.shouldPostHit = true
+        target.shouldPostHit = true
 
         // Set durability damage chance.
-        item.durabilityDamageChance = this.damageChance
+        target.durabilityDamageChance = this.damageChance
     }
 
     override fun settings(settings: Item.Settings) {

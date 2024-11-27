@@ -6,7 +6,7 @@ import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumLuminanceTemplate(private val level: Int, name: String = LUMINANCE) : ConiumBlockTemplate(name) {
+class ConiumLuminanceTemplate(private val level: Int, name: String = LUMINANCE) : ConiumBlockTemplate(name = name) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumLuminanceTemplate = ConiumLuminanceTemplate(validateLuminance(element.asInt))

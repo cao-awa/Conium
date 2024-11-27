@@ -8,7 +8,7 @@ import net.minecraft.block.AbstractBlock
 import net.minecraft.block.MapColor
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumMapColorTemplate(private val color: MapColor, name: String = MAP_COLOR) : ConiumBlockTemplate(name) {
+class ConiumMapColorTemplate(private val color: MapColor, name: String = MAP_COLOR) : ConiumBlockTemplate(name = name) {
     companion object {
         // Not completed supports.
         @JvmStatic

@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.kotlin.extent.recipe
 
 import net.minecraft.recipe.RecipeType
 
-val RecipeType<*>.coniumName
+val RecipeType<*>.coniumName: String
     get() = when (this) {
         RecipeType.SMELTING -> "smelting"
         RecipeType.BLASTING -> "blasting"

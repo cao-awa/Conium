@@ -13,7 +13,7 @@ class ConiumEntityPushableTemplate(
     private val pushableByPiston: Boolean,
     private val pushableByFluids: Boolean,
     name: String
-) : ConiumEntityTemplate(name) {
+) : ConiumEntityTemplate(name = name) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup, name: String): ConiumEntityPushableTemplate = element.objectOrBoolean(

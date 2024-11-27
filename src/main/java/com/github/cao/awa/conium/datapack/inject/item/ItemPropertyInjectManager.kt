@@ -26,30 +26,32 @@ class ItemPropertyInjectManager : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM_P
         private val LOGGER: Logger = LogManager.getLogger("ItemPropertyInjectManager")
     }
 
-    private val injects = CollectionFactor.hashMap<Item, MutableList<ItemPropertyInject<*>>>()
+    private val injects: HashMap<Item, MutableList<ItemPropertyInject<*>>> = CollectionFactor.hashMap()
 
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
-        for ((key, value) in prepared) {
-            value as JsonObject
-
-            val itemTarget = value["target"].asString
-
-            // Use to debug, trace inject details.
-            Conium.debug(
-                "Injecting property to item '{}' from '{}'",
-                { itemTarget },
-                key::getNamespace,
-                LOGGER::info
-            )
-
-            val injecting: ItemPropertyInject<*> = ItemPropertyInject.deserialize(value.asJsonObject)
-
-            val item = Registries.ITEM[Identifier.of(itemTarget)]
-
-            this.injects.computeIfAbsent(item) { CollectionFactor.arrayList() }
-
-            this.injects[item]!!.add(injecting)
+        for ((key: Identifier, value: JsonElement) in prepared) {
+            inject(key, value as JsonObject)
         }
+    }
+
+    fun inject(identifier: Identifier, json: JsonObject) {
+        val itemTarget = json["target"].asString
+
+        // Use to debug, trace inject details.
+        Conium.debug(
+            "Injecting property to item '{}' from '{}'",
+            { itemTarget },
+            identifier::getNamespace,
+            LOGGER::info
+        )
+
+        val injecting: ItemPropertyInject<*> = ItemPropertyInject.deserialize(json)
+
+        val item: Item = Registries.ITEM[Identifier.of(itemTarget)]
+
+        this.injects.computeIfAbsent(item) { CollectionFactor.arrayList() }
+
+        this.injects[item]!!.add(injecting)
     }
 
     fun injects(item: Item): List<ItemPropertyInject<*>> {
@@ -59,16 +61,16 @@ class ItemPropertyInjectManager : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM_P
     fun inject(stack: ItemStack) = injectProperty(stack, injects(stack.item))
 
     fun injectProperty(stack: ItemStack, injects: List<ItemPropertyInject<*>>) {
-        for (inject in injects) {
+        for (inject: ItemPropertyInject<*> in injects) {
             injectComponent(stack, inject.components)
         }
     }
 
     fun injectComponent(stack: ItemStack, injects: List<ItemPropertyInjectComponent<*>>) {
         // Inject to current stack.
-        for (component in injects) {
-            val value = component.value
-            val type = component.type
+        for (component: ItemPropertyInjectComponent<*> in injects) {
+            val value: ItemPropertyInjectComponentValue<*> = component.value
+            val type: ComponentType<*> = component.type
 
             // Do not append the preset value when the component is present.
             if (component.action == ItemPropertyInjectAction.SET_PRESET) {
@@ -80,8 +82,8 @@ class ItemPropertyInjectManager : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM_P
             }
 
             // When the component is present, do actions.
-            val currentValue = stack.get(type)
-            val calculatedValue = ItemPropertyInjectHandler.doHandles(currentValue, value.value, component.action)
+            val currentValue: Any? = stack.get(type)
+            val calculatedValue: Any? = ItemPropertyInjectHandler.doHandles(currentValue, value.value, component.action)
 
             // Use to debug, trace inject details.
             Conium.debug(

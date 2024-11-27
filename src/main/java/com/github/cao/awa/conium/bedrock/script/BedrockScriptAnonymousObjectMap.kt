@@ -16,19 +16,15 @@ open class BedrockScriptAnonymousObjectMap : Iterable<MutableMap.MutableEntry<St
         return this
     }
 
-    operator fun get(key: String): Any? {
-        return this.map[key]
-    }
+    operator fun get(key: String): Any? = this.map[key]
 
-    override fun iterator(): Iterator<MutableMap.MutableEntry<String, Any?>> {
-        return this.map.iterator()
-    }
+    override fun iterator(): Iterator<MutableMap.MutableEntry<String, Any?>> = this.map.iterator()
 }
 
 fun BedrockScriptAnonymousObjectMap.toDynamicArgs(): MutableMap<DynamicArgType<*>, Any?> {
-    val map = CollectionFactor.hashMap<DynamicArgType<*>, Any?>()
-    for (entry in this) {
-        map[arg(entry.key, entry.key.javaClass)] = entry.value
+    val map: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
+    for ((key: String, value: Any?) in this) {
+        map[arg(key, key.javaClass)] = value
     }
     return map
 }

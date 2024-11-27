@@ -9,7 +9,7 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnReason
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumSpawnEggTemplate(private val entityType: EntityType<*>) : ConiumItemTemplate(SPAWN_EGG) {
+class ConiumSpawnEggTemplate(private val entityType: EntityType<*>) : ConiumItemTemplate(name = SPAWN_EGG) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumSpawnEggTemplate {

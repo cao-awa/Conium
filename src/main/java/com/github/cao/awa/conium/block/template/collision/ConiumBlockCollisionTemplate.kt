@@ -19,7 +19,7 @@ class ConiumBlockCollisionTemplate(
     private val py2: Int = 16,
     private val pz2: Int = 16,
     name: String = COLLISION
-) : ConiumBlockTemplate(name) {
+) : ConiumBlockTemplate(name = name) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockCollisionTemplate = element.objectOrBoolean(
@@ -40,7 +40,7 @@ class ConiumBlockCollisionTemplate(
             // Only 6 cube data:
             //    - origin x, origin y, origin z
             //    - size x, size y, size z
-            return IntArray(6).also { array ->
+            return IntArray(6).also { array: IntArray ->
                 var index = 0
                 // Create cubed from callback.
                 cube {

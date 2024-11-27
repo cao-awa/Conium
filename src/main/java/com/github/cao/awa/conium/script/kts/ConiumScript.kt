@@ -3,14 +3,12 @@ package com.github.cao.awa.conium.script.kts
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import kotlin.script.experimental.annotations.KotlinScript
 
-@KotlinScript(
-    fileExtension = "kts"
-)
+@KotlinScript(fileExtension = "kts")
 abstract class ConiumScript
 
 fun clearDuplicateImports(script: String): String {
-    val imports = CollectionFactor.hashSet<String>()
-    val scriptLines = CollectionFactor.linkedList<String>()
+    val imports: MutableSet<String> = CollectionFactor.hashSet()
+    val scriptLines: MutableList<String> = CollectionFactor.linkedList()
     script.lines().forEach {
         if (it.startsWith("import ")) {
             imports.add(it)
@@ -19,14 +17,14 @@ fun clearDuplicateImports(script: String): String {
         }
     }
 
-    val builder = StringBuilder()
+    val builder: StringBuilder = StringBuilder()
 
-    for (import in imports) {
+    for (import: String in imports) {
         builder.append(import)
         builder.append("\n")
     }
 
-    for (scriptLine in scriptLines) {
+    for (scriptLine: String in scriptLines) {
         builder.append(scriptLine)
         builder.append("\n")
     }
@@ -35,7 +33,7 @@ fun clearDuplicateImports(script: String): String {
 }
 
 fun filterImports(script: String): Set<String> {
-    val imports = CollectionFactor.hashSet<String>()
+    val imports: MutableSet<String> = CollectionFactor.hashSet()
     script.lines().forEach {
         if (it.startsWith("import ")) {
             imports.add(it)

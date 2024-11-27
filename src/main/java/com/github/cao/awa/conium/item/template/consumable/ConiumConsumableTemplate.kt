@@ -18,7 +18,7 @@ import net.minecraft.registry.RegistryOps
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 import net.minecraft.util.Identifier
 
-class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) : ConiumItemTemplate(CONSUMABLE) {
+class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) : ConiumItemTemplate(name = CONSUMABLE) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumConsumableTemplate = element.objectOrString(

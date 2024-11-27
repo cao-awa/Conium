@@ -13,17 +13,16 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumBedrockFoodTemplate() : ConiumItemTemplate(FOOD) {
+class ConiumBedrockFoodTemplate() : ConiumItemTemplate(name = FOOD) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockFoodTemplate = element.createIfJsonObject(
             {
                 // Create food template.
                 ConiumBedrockFoodTemplate(element.asJsonObject, registryLookup)
-            }
-        ) {
-            throw IllegalArgumentException("minecraft:food must be a JSON object")
-        }!!
+            },
+            notSupported()
+        )!!
 
         private fun createFoodComponent(template: ConiumBedrockFoodTemplate, jsonObject: JsonObject, registryLookup: WrapperLookup): FoodComponent {
             FoodComponent.Builder().let {
@@ -39,7 +38,7 @@ class ConiumBedrockFoodTemplate() : ConiumItemTemplate(FOOD) {
                     it.alwaysEdible()
                 }
 
-                ConiumConsumableTemplate.createConvert(jsonObject, registryLookup, "using_converts_to") { remainder ->
+                ConiumConsumableTemplate.createConvert(jsonObject, registryLookup, "using_converts_to") { remainder: ItemStack ->
                     template.useRemainder = remainder
                 }
 

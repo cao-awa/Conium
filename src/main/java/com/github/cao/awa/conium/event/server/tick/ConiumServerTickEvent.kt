@@ -11,10 +11,8 @@ class ConiumServerTickEvent : ConiumEvent<ParameterSelective0<Boolean>>() {
     override fun requirement(): ConiumEventContext<out ParameterSelective> {
         return requires().attach(
             forever(ConiumEventType.SERVER_TICK)
-        ).arise { identity ->
-            noFailure(identity) {
-                it.arise()
-            }
+        ).arise { identity: Any ->
+            noFailure(identity, ParameterSelective0<Boolean>::arise)
         }
     }
 }

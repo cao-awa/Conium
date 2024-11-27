@@ -23,9 +23,9 @@ class ConiumBlockScheduleTickEvent : ConiumEvent<ParameterSelective5<Boolean, Se
             ConiumEventArgTypes.RANDOM
         ).attach(
             forever(ConiumEventType.BLOCK_SCHEDULE_TICK)
-        ).arise { identity, world, pos, blockState, scheduler, random ->
-            noFailure(identity) {
-                it.arise(world, pos, blockState, scheduler, random)
+        ).arise { identity: Any, world: ServerWorld, pos: BlockPos, blockState: AbstractBlockState, scheduler: ScheduledTickView, random: Random ->
+            noFailure(identity) { parameterSelective ->
+                parameterSelective(world, pos, blockState, scheduler, random)
             }
         }
     }

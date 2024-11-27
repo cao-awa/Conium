@@ -6,7 +6,7 @@ import com.github.cao.awa.conium.bedrock.world.player.delegate.BedrockPlayerDele
 
 @BedrockScriptApiFacade("World")
 abstract class AbstractBedrockWorld {
-    val beforeEvents get() = eventsBefore()
+    val beforeEvents: BedrockBeforeEvents get() = eventsBefore()
 
     abstract fun getPlayers(): BedrockPlayerDelegate
 

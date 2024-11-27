@@ -107,6 +107,9 @@ object ConiumEventArgTypes {
     val DAMAGE_SOURCE: DynamicArgType<DamageSource>
 
     @JvmField
+    val DAMAGE_AMOUNT: DynamicArgType<Float>
+
+    @JvmField
     val INT: DynamicArgType<Int>
 
     @JvmField
@@ -236,6 +239,8 @@ object ConiumEventArgTypes {
         )
 
         DAMAGE_SOURCE = arg("damage_source")
+
+        DAMAGE_AMOUNT = arg("damage_amount")
 
         INT = arg(
             "int",

@@ -10,7 +10,7 @@ import net.minecraft.component.type.FoodComponents.*
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumFoodTemplate(private val foodComponent: FoodComponent) : ConiumItemTemplate(FOOD) {
+class ConiumFoodTemplate(private val foodComponent: FoodComponent) : ConiumItemTemplate(name = FOOD) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumFoodTemplate = element.objectOrString(

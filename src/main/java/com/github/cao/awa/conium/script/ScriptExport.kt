@@ -20,7 +20,7 @@ class ScriptExport(
         fun import(exported: Map<String, ScriptExport>, code: String, vararg defaultImports: String): String {
             this.exported = exported
 
-            val builder = StringBuilder()
+            val builder: StringBuilder = StringBuilder()
 
             val importing: MutableSet<String> = CollectionFactor.hashSet()
 
@@ -32,9 +32,9 @@ class ScriptExport(
                 importing.addAll(it.substring(it.indexOf(":") + 1).split(",").toSet().map(String::trim))
             }
 
-            for (sourceName in importing) {
+            for (sourceName: String in importing) {
                 exported[sourceName]?.let {
-                    for (import in it.imports) {
+                    for (import: String in it.imports) {
                         builder.append(import)
                         builder.append("\n")
                     }
@@ -45,9 +45,8 @@ class ScriptExport(
 
                     sharedFields(it)
 
-                    for (fieldEntry in it.fields) {
-                        val field = fieldEntry.value
-                        builder.append(field.toStatement(sourceName))
+                    for ((_, value: SharedField) in it.fields) {
+                        builder.append(value.toStatement(sourceName))
                     }
                 }
             }
@@ -59,7 +58,7 @@ class ScriptExport(
 
         @JvmStatic
         fun <T> accessExportedField(instance: Any, name: String, fieldName: String): T? {
-            val result = this.exported?.get(name)?.fields?.get(fieldName)
+            val result: SharedField? = this.exported?.get(name)?.fields?.get(fieldName)
 
             result ?: return null
 

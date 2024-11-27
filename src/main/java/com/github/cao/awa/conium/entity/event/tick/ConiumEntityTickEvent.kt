@@ -15,9 +15,9 @@ class ConiumEntityTickEvent : ConiumEvent<ParameterSelective1<Boolean, Entity>>(
             ConiumEventArgTypes.ENTITY
         ).attach(
             forever(ConiumEventType.ENTITY_TICK)
-        ).arise { identity, entity ->
-            noFailure(identity) {
-                it.arise(entity)
+        ).arise { identity: Any, entity: Entity ->
+            noFailure(identity) { parameterSelective ->
+                parameterSelective(entity)
             }
         }
     }

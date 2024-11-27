@@ -8,7 +8,7 @@ import net.minecraft.entity.player.PlayerEntity
 @BedrockScriptApi
 @BedrockScriptApiFacade("Player")
 class BedrockPlayer(private val delegate: PlayerEntity) {
-    val onScreenDisplay = BedrockOnScreenDisplay(this)
+    val onScreenDisplay: BedrockOnScreenDisplay = BedrockOnScreenDisplay(this)
 }
 
 fun PlayerEntity.toBedrock(): BedrockPlayer {

@@ -70,21 +70,21 @@ class SynchronizeRegistryPayload : ConiumClientConfigurationPacket(IDENTIFIER) {
 
         Conium.pendingDatapack.datapacks.let { datapacks ->
             datapacks[ConiumRegistryKeys.ITEM.value]?.let { datapack ->
-                for ((identifier, content) in datapack.contents) {
+                for ((identifier: Identifier, content: String) in datapack.contents) {
                     Conium.coniumItemManager!!.resetRegistries()
                     Conium.coniumItemManager!!.load(identifier, JsonParser.parseString(content).asJsonObject)
                 }
             }
 
             datapacks[ConiumRegistryKeys.BLOCK.value]?.let { datapack ->
-                for ((identifier, content) in datapack.contents) {
+                for ((identifier: Identifier, content: String) in datapack.contents) {
                     Conium.coniumBlockManager!!.resetRegistries()
                     Conium.coniumBlockManager!!.load(identifier, JsonParser.parseString(content).asJsonObject)
                 }
             }
 
             datapacks[ConiumRegistryKeys.ENTITY.value]?.let { datapack ->
-                for ((identifier, content) in datapack.contents) {
+                for ((identifier: Identifier, content: String) in datapack.contents) {
                     Conium.coniumEntityManager!!.resetRegistries()
                     Conium.coniumEntityManager!!.load(identifier, JsonParser.parseString(content).asJsonObject)
                 }

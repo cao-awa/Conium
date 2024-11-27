@@ -23,9 +23,9 @@ class ConiumFluidScheduleTickedEvent : ConiumEvent<ParameterSelective5<Boolean, 
             ConiumEventArgTypes.SCHEDULE_TICK_VIEW
         ).attach(
             forever(ConiumEventType.FLUID_SCHEDULE_TICKED)
-        ).arise { identity, world, pos, blockState, fluidState, scheduler ->
-            noFailure(identity) {
-                it.arise(world, pos, blockState, fluidState, scheduler)
+        ).arise { identity: Any, world: ServerWorld, pos: BlockPos, blockState: AbstractBlockState, fluidState: FluidState, scheduler: ScheduledTickView ->
+            noFailure(identity) { parameterSelective ->
+                parameterSelective(world, pos, blockState, fluidState, scheduler)
             }
         }
     }

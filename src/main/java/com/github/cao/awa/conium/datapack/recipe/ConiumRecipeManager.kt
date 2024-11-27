@@ -5,6 +5,8 @@ import com.github.cao.awa.conium.mixin.recipe.ServerRecipeManagerAccessor
 import com.github.cao.awa.conium.mixin.recipe.property.RecipePropertySetAccessor
 import com.github.cao.awa.conium.recipe.ConiumBedrockRecipeBuilder
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.mojang.serialization.JsonOps
 import net.minecraft.recipe.*
@@ -13,7 +15,9 @@ import net.minecraft.recipe.display.CuttingRecipeDisplay
 import net.minecraft.recipe.input.RecipeInput
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.RegistryOps
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.resource.Resource
 import net.minecraft.resource.ResourceFinder
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.featuretoggle.FeatureSet
@@ -22,6 +26,7 @@ import net.minecraft.util.profiler.Profiler
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+import java.io.BufferedReader
 import java.util.*
 import java.util.function.Consumer
 import java.util.stream.Collectors
@@ -35,10 +40,14 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
                 RecipePropertySet.SMITHING_ADDITION,
                 SoleIngredientGetter { recipe: Recipe<*> -> if (recipe is SmithingRecipe) recipe.addition() else Optional.empty() }
             ),
-            Pair(RecipePropertySet.SMITHING_BASE,
-                SoleIngredientGetter { recipe: Recipe<*> -> if (recipe is SmithingRecipe) recipe.base() else Optional.empty() }),
-            Pair(RecipePropertySet.SMITHING_TEMPLATE,
-                SoleIngredientGetter { recipe: Recipe<*> -> if (recipe is SmithingRecipe) recipe.template() else Optional.empty() }),
+            Pair(
+                RecipePropertySet.SMITHING_BASE,
+                SoleIngredientGetter { recipe: Recipe<*> -> if (recipe is SmithingRecipe) recipe.base() else Optional.empty() }
+            ),
+            Pair(
+                RecipePropertySet.SMITHING_TEMPLATE,
+                SoleIngredientGetter { recipe: Recipe<*> -> if (recipe is SmithingRecipe) recipe.template() else Optional.empty() }
+            ),
             Pair(
                 RecipePropertySet.FURNACE_INPUT,
                 cookingIngredientGetter(RecipeType.SMELTING)
@@ -80,7 +89,7 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
             private val ingredients: MutableList<Ingredient> = ArrayList()
 
             override fun accept(recipe: Recipe<*>) {
-                ingredientGetter.apply(recipe).ifPresent(ingredients::add)
+                this.ingredientGetter.apply(recipe).ifPresent(this.ingredients::add)
             }
 
             fun build(enabledFeatures: FeatureSet): RecipePropertySet {
@@ -90,10 +99,10 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
     }
 
     private var preparedConiumRecipes: PreparedRecipes = PreparedRecipes.EMPTY
-    private var coniumPropertySets: Map<RegistryKey<RecipePropertySet>, RecipePropertySet> = CollectionFactor.hashMap()
+    private var coniumPropertySets: MutableMap<RegistryKey<RecipePropertySet>, RecipePropertySet> = CollectionFactor.hashMap()
     private var coniumStonecutterRecipes: CuttingRecipeDisplay.Grouping<StonecuttingRecipe> = CuttingRecipeDisplay.Grouping.empty()
-    private var coniumRecipes = listOf<ServerRecipe>()
-    private var coniumRecipesByKey: Map<RegistryKey<Recipe<*>>, List<ServerRecipe>> = CollectionFactor.hashMap()
+    private var coniumRecipes: MutableList<ServerRecipe> = CollectionFactor.arrayList()
+    private var coniumRecipesByKey: MutableMap<RegistryKey<Recipe<*>>, List<ServerRecipe>> = CollectionFactor.hashMap()
 
     override fun prepare(resourceManager: ResourceManager, profiler: Profiler): PreparedRecipes {
         val sortedMap: SortedMap<Identifier, Recipe<*>> = TreeMap()
@@ -108,36 +117,36 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
     }
 
     private fun load(manager: ResourceManager, dataType: String, result: MutableMap<Identifier, Recipe<*>>) {
-        val resourceFinder = ResourceFinder.json(dataType)
+        val resourceFinder: ResourceFinder = ResourceFinder.json(dataType)
 
-        for ((key, value) in resourceFinder.findResources(manager)) {
-            val identifier2 = resourceFinder.toResourceId(key)
+        for ((identifier: Identifier, value: Resource) in resourceFinder.findResources(manager)) {
+            val resourceIdentifier: Identifier = resourceFinder.toResourceId(identifier)
 
             try {
-                val reader = value.reader!!
+                val reader: BufferedReader = value.reader
 
                 try {
-                    val ops = this.registries.getOps(JsonOps.INSTANCE)
-                    val element = JsonParser.parseReader(reader)
+                    val ops: RegistryOps<JsonElement> = this.registries.getOps(JsonOps.INSTANCE)
+                    val element: JsonElement = JsonParser.parseReader(reader)
 
                     // Parse recipe by vanilla recipe schema.
                     Recipe.CODEC.parse(ops, element).ifSuccess {
-                        check(result.putIfAbsent(identifier2, it) == null) {
-                            "Duplicate data file ignored with ID $identifier2"
+                        check(result.putIfAbsent(resourceIdentifier, it) == null) {
+                            "Duplicate data file ignored with ID $resourceIdentifier"
                         }
                     }.ifError {
                         // If recipe are not vanilla, then it may be a bedrock recipe.
-                        val json = element.asJsonObject
+                        val json: JsonObject = element.asJsonObject
 
                         try {
                             // Find bedrock recipe and create it.
-                            ConiumBedrockRecipeBuilder.findBedrock(json, this.registries).let { recipes ->
+                            ConiumBedrockRecipeBuilder.findBedrock(json, this.registries).let { recipes: List<Recipe<*>> ->
                                 val standalone: Boolean = recipes.size == 1
                                 for ((index: Int, recipe: Recipe<*>) in recipes.withIndex()) {
                                     val id = if (standalone) {
-                                        identifier2
+                                        resourceIdentifier
                                     } else {
-                                        Identifier.of(identifier2.namespace, identifier2.path + "_" + recipe.type.coniumName + "_" + index)
+                                        Identifier.of(resourceIdentifier.namespace, resourceIdentifier.path + "_" + recipe.type.coniumName + "_" + index)
                                     }
 
                                     check(result.putIfAbsent(id, recipe) == null) {
@@ -146,7 +155,7 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
                                 }
                             }
                         } catch (e: Exception) {
-                            LOGGER.error("Couldn't parse data file '{}' from '{}'", identifier2, key, e)
+                            LOGGER.error("Couldn't parse data file '{}' from '{}'", resourceIdentifier, identifier, e)
                         }
                     }
                 } catch (var14: Throwable) {
@@ -161,7 +170,7 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
 
                 reader.close()
             } catch (var15: Exception) {
-                LOGGER.error("Couldn't parse data file '{}' from '{}'", identifier2, key, var15)
+                LOGGER.error("Couldn't parse data file '{}' from '{}'", resourceIdentifier, identifier, var15)
             }
         }
     }
@@ -173,7 +182,7 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
 
     override fun initialize(features: FeatureSet) {
         val list: MutableList<CuttingRecipeDisplay.GroupEntry<StonecuttingRecipe>> = ArrayList()
-        val list2 = SOLE_INGREDIENT_GETTERS.entries
+        val list2: MutableList<PropertySetBuilder> = SOLE_INGREDIENT_GETTERS.entries
             .stream()
             .map { entry ->
                 PropertySetBuilder(
@@ -184,15 +193,15 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
         this.preparedConiumRecipes
             .recipes()
             .forEach {
-                val recipe2 = it.value()
-                if (recipe2.isIgnoredInRecipeBook || !recipe2.ingredientPlacement.hasNoPlacement()) {
-                    list2.forEach { builder -> builder.accept(recipe2) }
-                    if (recipe2 is StonecuttingRecipe && isEnabled(features, recipe2.ingredient()) && recipe2.createResultDisplay().isEnabled(features)) {
+                val recipe: Recipe<*> = it.value()
+                if (recipe.isIgnoredInRecipeBook || !recipe.ingredientPlacement.hasNoPlacement()) {
+                    list2.forEach { builder: PropertySetBuilder -> builder.accept(recipe) }
+                    if (recipe is StonecuttingRecipe && isEnabled(features, recipe.ingredient()) && recipe.createResultDisplay().isEnabled(features)) {
                         list.add(
                             CuttingRecipeDisplay.GroupEntry(
-                                recipe2.ingredient(),
+                                recipe.ingredient(),
                                 CuttingRecipeDisplay(
-                                    recipe2.createResultDisplay(),
+                                    recipe.createResultDisplay(),
                                     Optional.of(it as RecipeEntry<StonecuttingRecipe>)
                                 )
                             )
@@ -206,7 +215,7 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
             Collectors.toUnmodifiableMap(
                 PropertySetBuilder::propertySetKey
             ) { it.build(features) }
-        ) as Map<RegistryKey<RecipePropertySet>, RecipePropertySet>
+        ) as MutableMap<RegistryKey<RecipePropertySet>, RecipePropertySet>
         this.coniumStonecutterRecipes = CuttingRecipeDisplay.Grouping(list)
         this.coniumRecipes = ServerRecipeManagerAccessor.collectServerRecipes(preparedConiumRecipes.recipes(), features)
         this.coniumRecipesByKey = coniumRecipes
@@ -217,14 +226,14 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
                     { IdentityHashMap() },
                     Collectors.toList()
                 )
-            ) as Map<RegistryKey<Recipe<*>>, List<ServerRecipe>>
+            ) as MutableMap<RegistryKey<Recipe<*>>, List<ServerRecipe>>
     }
 
 
     override fun <I : RecipeInput, T : Recipe<I>> getFirstMatch(
         type: RecipeType<T>, input: I, world: World, recipe: RegistryKey<Recipe<*>>?
     ): Optional<RecipeEntry<T>> {
-        val recipeEntry = if (recipe != null) this.get(type, recipe) else null
+        val recipeEntry: RecipeEntry<T>? = if (recipe != null) this.get(type, recipe) else null
         return this.getFirstMatch(type, input, world, recipeEntry)
     }
 
@@ -246,18 +255,16 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
      * @param type the desired recipe type
      * @param world the input world
      */
-    override fun <I : RecipeInput, T : Recipe<I>> getFirstMatch(type: RecipeType<T>, input: I, world: World): Optional<RecipeEntry<T>> {
-        return this.preparedConiumRecipes.find(type, input, world).findFirst()
-    }
+    override fun <I : RecipeInput, T : Recipe<I>> getFirstMatch(type: RecipeType<T>, input: I, world: World): Optional<RecipeEntry<T>> = this.preparedConiumRecipes.find(
+        type,
+        input,
+        world
+    ).findFirst()
 
     /**
      * {@return a recipe with the given {@code id}, or empty if there is no such recipe}
      */
-    override fun get(key: RegistryKey<Recipe<*>>): Optional<RecipeEntry<*>> {
-        return Optional.ofNullable(
-            this.preparedConiumRecipes[key]
-        )
-    }
+    override fun get(key: RegistryKey<Recipe<*>>): Optional<RecipeEntry<*>> = Optional.ofNullable(this.preparedConiumRecipes[key])
 
     /**
      * {@return a recipe with the given {@code id} and {@code type}, or empty if there is no such recipe}
@@ -265,7 +272,7 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
      * @param type the type of the desired recipe
      */
     private fun <T : Recipe<*>> get(type: RecipeType<T>, key: RegistryKey<Recipe<*>>): RecipeEntry<T>? {
-        val recipeEntry = this.preparedConiumRecipes[key]
+        val recipeEntry: RecipeEntry<*>? = this.preparedConiumRecipes[key]
         return if (recipeEntry != null && recipeEntry.value().type == type) {
             recipeEntry as RecipeEntry<T>
         } else {
@@ -273,21 +280,13 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
         }
     }
 
-    override fun getPropertySets(): Map<RegistryKey<RecipePropertySet>, RecipePropertySet> {
-        return this.coniumPropertySets
-    }
+    override fun getPropertySets(): Map<RegistryKey<RecipePropertySet>, RecipePropertySet> = this.coniumPropertySets
 
-    override fun getStonecutterRecipeForSync(): CuttingRecipeDisplay.Grouping<StonecuttingRecipe> {
-        return this.stonecutterRecipes
-    }
+    override fun getStonecutterRecipeForSync(): CuttingRecipeDisplay.Grouping<StonecuttingRecipe> = this.stonecutterRecipes
 
-    override fun getPropertySet(key: RegistryKey<RecipePropertySet>): RecipePropertySet {
-        return propertySets.getOrDefault(key, RecipePropertySet.EMPTY)
-    }
+    override fun getPropertySet(key: RegistryKey<RecipePropertySet>): RecipePropertySet = propertySets.getOrDefault(key, RecipePropertySet.EMPTY)
 
-    override fun getStonecutterRecipes(): CuttingRecipeDisplay.Grouping<StonecuttingRecipe> {
-        return this.coniumStonecutterRecipes
-    }
+    override fun getStonecutterRecipes(): CuttingRecipeDisplay.Grouping<StonecuttingRecipe> = this.coniumStonecutterRecipes
 
     /**
      * {@return all recipes in this manager}
@@ -296,16 +295,11 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
      * The returned set does not update with the manager. Modifications to the
      * returned set does not affect this manager.
      */
-    override fun values(): Collection<RecipeEntry<*>> {
-        return this.preparedConiumRecipes.recipes()
-    }
+    override fun values(): Collection<RecipeEntry<*>> = this.preparedConiumRecipes.recipes()
 
-    override fun get(id: NetworkRecipeId): ServerRecipe {
-        return this.coniumRecipes[id.index]
-    }
+    override fun get(id: NetworkRecipeId): ServerRecipe = this.coniumRecipes[id.index]
 
     override fun forEachRecipeDisplay(key: RegistryKey<Recipe<*>>, action: Consumer<RecipeDisplayEntry>) {
-        val list = this.coniumRecipesByKey[key]
-        list?.forEach { action.accept(it.display) }
+        this.coniumRecipesByKey[key]?.forEach { action.accept(it.display) }
     }
 }

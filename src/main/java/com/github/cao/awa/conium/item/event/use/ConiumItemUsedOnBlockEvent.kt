@@ -19,13 +19,9 @@ class ConiumItemUsedOnBlockEvent : ConiumItemEvent<ParameterSelective3<Boolean, 
             ConiumEventArgTypes.ACTION_RESULT
         ).attach(
             forever(ConiumEventType.ITEM_USED_ON_BLOCK)
-        ).arise { identity, world, context, result ->
-            noFailure(identity) {
-                it.arise(
-                    world,
-                    context,
-                    result
-                )
+        ).arise { identity: Any, world: ServerWorld, context: ItemUsageContext, result: ActionResult ->
+            noFailure(identity) { parameterSelective ->
+                parameterSelective(world, context, result)
             }
         }
     }

@@ -10,7 +10,5 @@ object ConiumEntityAttributeRegistry {
     val attributes: MutableMap<EntityType<out LivingEntity>, DefaultAttributeContainer> = CollectionFactor.hashMap()
 
     @JvmStatic
-    fun resetAttributes() {
-        this.attributes.clear()
-    }
+    fun resetAttributes() = this.attributes.clear()
 }

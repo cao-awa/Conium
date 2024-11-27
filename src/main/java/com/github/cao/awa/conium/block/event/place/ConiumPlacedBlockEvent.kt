@@ -23,9 +23,9 @@ class ConiumPlacedBlockEvent : ConiumEvent<ParameterSelective5<Boolean, World, L
             ConiumEventArgTypes.ITEM_STACK
         ).attach(
             forever(ConiumEventType.PLACED_BLOCK)
-        ).arise { identity, world, entity, blockPos, blockState, itemStack ->
-            noFailure(identity) {
-                it.arise(world, entity, blockPos, blockState, itemStack)
+        ).arise { identity: Any, world: World, entity: LivingEntity, blockPos: BlockPos, blockState: AbstractBlockState, itemStack: ItemStack ->
+            noFailure(identity) { parameterSelective ->
+                parameterSelective(world, entity, blockPos, blockState, itemStack)
             }
         }
     }

@@ -1,3 +1,5 @@
+@file:Suppress("unchecked_cast")
+
 package com.github.cao.awa.conium.component
 
 import com.github.cao.awa.conium.component.value.ConiumValueCreator
@@ -17,7 +19,7 @@ object ConiumComponentTypes {
     val TEST: ConiumComponentType<Int> = register(
         "test",
         { builder: ConiumComponentTypeBuilder<Int> -> builder.codec(Codec.INT).packetCodec(PacketCodecs.INTEGER) },
-        { obj: JsonElement -> obj.asInt }
+        JsonElement::getAsInt
     )
 
     fun <T> register(path: String, builderOperator: UnaryOperator<ConiumComponentTypeBuilder<T>>, valueCreator: ConiumValueCreator<T>): ConiumComponentType<T> {

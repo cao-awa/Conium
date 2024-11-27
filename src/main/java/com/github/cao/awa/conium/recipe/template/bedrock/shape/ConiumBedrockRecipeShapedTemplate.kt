@@ -20,12 +20,12 @@ class ConiumBedrockRecipeShapedTemplate : ConiumRecipeTemplate<ShapedRecipe>(REC
             return ConiumBedrockRecipeShapedTemplate().also {
                 createBasic(jsonObject, it)
             }.also {
-                it.keys = jsonObject["key"]!!.let { keys ->
-                    val ingredients = CollectionFactor.hashMap<Char, Ingredient>()
+                it.keys = jsonObject["key"]!!.let { keys: JsonElement ->
+                    val ingredients: MutableMap<Char, Ingredient> = CollectionFactor.hashMap()
 
                     keys as JsonObject
 
-                    for ((key, ingredient) in keys.entrySet()) {
+                    for ((key: String, ingredient: JsonElement) in keys.entrySet()) {
                         ingredients[key.toCharArray()[0]] = ingredient.let(::createIngredient)
                     }
 

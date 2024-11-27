@@ -7,8 +7,8 @@ import net.minecraft.item.ToolMaterial
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
 class ConiumItemStonePickaxeTemplate : ConiumItemPickaxeTemplate(
-    STONE_PICKAXE,
-    ToolMaterial.STONE
+    ToolMaterial.STONE,
+    name = STONE_PICKAXE,
 ) {
     companion object {
         @JvmStatic

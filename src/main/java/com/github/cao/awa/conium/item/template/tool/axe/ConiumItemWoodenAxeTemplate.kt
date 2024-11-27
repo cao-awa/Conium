@@ -7,15 +7,13 @@ import net.minecraft.item.ToolMaterial
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
 class ConiumItemWoodenAxeTemplate : ConiumItemAxeTemplate(
-    WOODEN_AXE,
     ToolMaterial.WOOD,
     6.0F,
-    -3.2F
+    -3.2F,
+    name = WOODEN_AXE
 ) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumItemWoodenAxeTemplate = element.createIfJsonObject(::ConiumItemWoodenAxeTemplate) {
-            throw IllegalArgumentException("Not supported syntax: $it")
-        }!!
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumItemWoodenAxeTemplate = element.createIfJsonObject(::ConiumItemWoodenAxeTemplate, notSupported())!!
     }
 }

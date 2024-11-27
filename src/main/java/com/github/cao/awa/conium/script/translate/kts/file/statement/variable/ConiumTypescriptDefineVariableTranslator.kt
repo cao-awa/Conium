@@ -7,8 +7,7 @@ import com.github.cao.awa.language.translator.builtin.typescript.tree.statement.
 import com.github.cao.awa.language.translator.builtin.typescript.tree.statement.invoke.access.TypescriptInvokeAccessElement
 import com.github.cao.awa.language.translator.builtin.typescript.tree.statement.variable.TypescriptDefineVariable
 
-class ConiumTypescriptDefineVariableTranslator : ConiumScriptTranslator<TypescriptDefineVariable>(),
-    TypescriptDefineVariableTranslator {
+class ConiumTypescriptDefineVariableTranslator : ConiumScriptTranslator<TypescriptDefineVariable>(), TypescriptDefineVariableTranslator {
     override fun translate(builder: StringBuilder, ast: TypescriptDefineVariable) {
         if (ast.isFinal) {
             builder.append("val ")

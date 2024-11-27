@@ -8,7 +8,7 @@ import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumBedrockGlintTemplate(private val glint: Boolean) : ConiumItemTemplate(GLINT) {
+class ConiumBedrockGlintTemplate(private val glint: Boolean) : ConiumItemTemplate(name = GLINT) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockGlintTemplate = element.objectOrBoolean(

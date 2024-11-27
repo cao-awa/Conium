@@ -5,13 +5,14 @@ import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_F
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import net.minecraft.item.ItemStack
 import net.minecraft.recipe.*
 import net.minecraft.recipe.book.CookingRecipeCategory
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
 class ConiumBedrockRecipeFurnaceTemplate : ConiumRecipeTemplate<Recipe<*>>(RECIPE_FURNACE) {
     companion object {
-        private val furnaceTypes = mapOf(
+        private val furnaceTypes: Map<String, (String, CookingRecipeCategory, Ingredient, ItemStack, Float, Int) -> AbstractCookingRecipe> = mapOf(
             Pair("furnace", ::SmeltingRecipe),
             Pair("blast_furnace", ::BlastingRecipe),
             Pair("smoker", ::SmokingRecipe),
@@ -38,8 +39,8 @@ class ConiumBedrockRecipeFurnaceTemplate : ConiumRecipeTemplate<Recipe<*>>(RECIP
 
     override fun results(): List<Recipe<*>> {
         return CollectionFactor.arrayList<Recipe<*>>().also {
-            for (tag in this.tags) {
-                furnaceTypes[tag]?.let { recipe ->
+            for (tag: String in this.tags) {
+                furnaceTypes[tag]?.let { recipe: (String, CookingRecipeCategory, Ingredient, ItemStack, Float, Int) -> AbstractCookingRecipe ->
                     it.add(
                         recipe(
                             this.group,

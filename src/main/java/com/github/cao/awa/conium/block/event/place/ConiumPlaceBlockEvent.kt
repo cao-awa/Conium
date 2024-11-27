@@ -15,9 +15,9 @@ class ConiumPlaceBlockEvent : ConiumEvent<ParameterSelective1<Boolean, ItemPlace
             ConiumEventArgTypes.ITEM_PLACEMENT_CONTEXT
         ).attach(
             forever(ConiumEventType.PLACE_BLOCK)
-        ).arise { identity, context ->
-            noFailure(identity) {
-                it.arise(context)
+        ).arise { identity: Any, context: ItemPlacementContext ->
+            noFailure(identity) {  parameterSelective ->
+                parameterSelective(context)
             }
         }
     }

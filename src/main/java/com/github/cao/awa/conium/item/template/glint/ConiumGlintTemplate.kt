@@ -7,7 +7,7 @@ import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumGlintTemplate(private val glint: Boolean) : ConiumItemTemplate(GLINT) {
+class ConiumGlintTemplate(private val glint: Boolean) : ConiumItemTemplate(name = GLINT) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumGlintTemplate = ConiumGlintTemplate(element.asBoolean)

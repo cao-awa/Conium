@@ -3,6 +3,8 @@
 package com.github.cao.awa.conium.datapack.block
 
 import com.github.cao.awa.conium.Conium
+import com.github.cao.awa.conium.block.ConiumBlock
+import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
 import com.github.cao.awa.conium.block.builder.bedrock.BedrockSchemaBlockBuilder
 import com.github.cao.awa.conium.block.builder.conium.ConiumSchemaBlockBuilder
 import com.github.cao.awa.conium.datapack.ConiumJsonDataLoader
@@ -26,8 +28,7 @@ import net.minecraft.util.profiler.Profiler
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLookup) :
-    ConiumJsonDataLoader(ConiumRegistryKeys.BLOCK.value) {
+class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLookup) : ConiumJsonDataLoader(ConiumRegistryKeys.BLOCK.value) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumBlockManager")
     }
@@ -35,7 +36,7 @@ class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLook
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
         resetRegistries()
 
-        for ((key, value) in prepared) {
+        for ((key: Identifier, value: JsonElement) in prepared) {
             load(key, value as JsonObject)
         }
     }
@@ -57,17 +58,17 @@ class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLook
             LOGGER::info
         )
 
-        val builder = if (json["schema_style"]?.asString == "conium") {
+        val builder: ConiumBlockBuilder = if (json["schema_style"]?.asString == "conium") {
             ConiumSchemaBlockBuilder.deserialize(json, this.registryLookup)
         } else {
             BedrockSchemaBlockBuilder.deserialize(json, this.registryLookup)
         }
 
-        builder.register { block ->
+        builder.register { block: ConiumBlock ->
             val var2: UnmodifiableIterator<*> = block.stateManager.states.iterator()
 
             while (var2.hasNext()) {
-                val blockState = var2.next() as BlockState
+                val blockState: BlockState = var2.next() as BlockState
                 stateIds.addDynamic(blockState)
                 blockState.initShapeCache()
             }

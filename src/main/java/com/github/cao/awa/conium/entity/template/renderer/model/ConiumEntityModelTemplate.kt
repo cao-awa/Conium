@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier
 class ConiumEntityModelTemplate(
     private val texturePath: Identifier,
     private val model: (EntityRendererFactory.Context) -> ConiumEntityModel,
-) : ConiumEntityTemplate(MODEL, true) {
+) : ConiumEntityTemplate(true, MODEL) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumEntityModelTemplate {

@@ -1,17 +1,17 @@
 package com.github.cao.awa.conium.script.translate
 
-import com.github.cao.awa.conium.script.translate.kts.file.`object`.anonymous.ConiumTypescriptAnonymousObjectTranslator
+import com.github.cao.awa.conium.script.translate.kts.file.obj.anonymous.ConiumTypescriptAnonymousObjectTranslator
 import com.github.cao.awa.conium.script.translate.kts.file.statement.variable.ConiumTypescriptDefineVariableTranslator
 import com.github.cao.awa.language.translator.builtin.typescript.translate.element.TypescriptTranslateElement
 import com.github.cao.awa.language.translator.translate.LanguageTranslator
 import com.github.cao.awa.language.translator.translate.lang.TranslateTarget
 import com.github.cao.awa.language.translator.translate.tree.LanguageAst
 
-abstract class ConiumScriptTranslator<T : LanguageAst?> : LanguageTranslator<T>() {
+abstract class ConiumScriptTranslator<T : LanguageAst> : LanguageTranslator<T>() {
     companion object {
         fun postRegister() {
             // Most of the cases, generic provider is great,
-            // but generic doesn't translating anonymous object, conium will impls it.
+            // but generic doesn't translate anonymous object, conium will impls it.
             registerKotlinScript(
                 "conium",
                 TypescriptTranslateElement.ANONYMOUS_OBJECT,

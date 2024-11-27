@@ -23,9 +23,9 @@ class ConiumUseBlockEvent : ConiumEvent<ParameterSelective5<Boolean, World, Play
             ConiumEventArgTypes.BLOCK_HIT_RESULT
         ).attach(
             forever(ConiumEventType.USE_BLOCK)
-        ).arise { identity, world, player, blockPos, blockState, hitResult ->
-            noFailure(identity) {
-                it.arise(world, player, blockPos, blockState, hitResult)
+        ).arise { identity: Any, world: World, player: PlayerEntity, blockPos: BlockPos, blockState: AbstractBlockState, hitResult: BlockHitResult ->
+            noFailure(identity) { parameterSelective ->
+                parameterSelective(world, player, blockPos, blockState, hitResult)
             }
         }
     }

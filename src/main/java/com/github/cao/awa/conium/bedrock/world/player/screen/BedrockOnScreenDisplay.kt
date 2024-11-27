@@ -9,7 +9,7 @@ import com.github.cao.awa.conium.bedrock.world.player.screen.title.BedrockScreen
 @BedrockScriptApi
 @BedrockScriptApiFacade("ScreenDisplay")
 class BedrockOnScreenDisplay(val player: BedrockPlayer) {
-    private val screenDisplayTitle = BedrockScreenDisplayTitle("", "")
+    private val screenDisplayTitle: BedrockScreenDisplayTitle = BedrockScreenDisplayTitle("", "")
 
     fun setTitle(title: String, properties: BedrockScriptAnonymousObjectMap) = this.screenDisplayTitle.setTitle(title, properties)
     fun updateSubtitle(title: String) = this.screenDisplayTitle.updateSubtitle(title)

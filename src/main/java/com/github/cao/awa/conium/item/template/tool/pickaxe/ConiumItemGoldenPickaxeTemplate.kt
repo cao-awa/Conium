@@ -7,13 +7,11 @@ import net.minecraft.item.ToolMaterial
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
 class ConiumItemGoldenPickaxeTemplate : ConiumItemPickaxeTemplate(
-    GOLDEN_PICKAXE,
-    ToolMaterial.GOLD
+    ToolMaterial.GOLD,
+    name = GOLDEN_PICKAXE
 ) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumItemGoldenPickaxeTemplate = element.createIfJsonObject(::ConiumItemGoldenPickaxeTemplate) {
-            throw IllegalArgumentException("Not supported syntax: $it")
-        }!!
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumItemGoldenPickaxeTemplate = element.createIfJsonObject(::ConiumItemGoldenPickaxeTemplate, notSupported())!!
     }
 }

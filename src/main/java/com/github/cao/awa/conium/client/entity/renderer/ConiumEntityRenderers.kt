@@ -13,7 +13,5 @@ object ConiumEntityRenderers {
     val renderers: MutableMap<EntityType<ConiumEntity>, EntityRendererFactory<ConiumEntity>> = CollectionFactor.hashMap()
 
     @JvmStatic
-    fun clearRenderers() {
-        this.renderers.clear()
-    }
+    fun clearRenderers() = this.renderers.clear()
 }

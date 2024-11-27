@@ -44,8 +44,8 @@ class ConiumTrappedChestOpenedEvent : ConiumEvent<ParameterSelective6<Boolean, W
                   blockState: AbstractBlockState,
                   blockPos: BlockPos,
                   viewerManager: ViewerCountManager ->
-            noFailure(identity) {
-                it.arise(world, player, blockEntity as TrappedChestBlockEntity, blockState, blockPos, viewerManager)
+            noFailure(identity) { parameterSelective ->
+                parameterSelective(world, player, blockEntity as TrappedChestBlockEntity, blockState, blockPos, viewerManager)
             }
         }
     }
@@ -67,7 +67,7 @@ class ConiumTrappedChestOpenedEvent : ConiumEvent<ParameterSelective6<Boolean, W
             blockState: AbstractBlockState,
             blockPos: BlockPos,
             viewerManager: ViewerCountManager ->
-            val trappedContext = request(ConiumEventType.TRAPPED_CHEST_OPENED)
+            val trappedContext: ConiumEventContext<*> = request(ConiumEventType.TRAPPED_CHEST_OPENED)
 
             trappedContext[ConiumEventArgTypes.WORLD] = world
             trappedContext[ConiumEventArgTypes.PLAYER] = player

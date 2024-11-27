@@ -40,8 +40,8 @@ class ConiumChestClosingEvent : ConiumEvent<ParameterSelective6<Boolean, World, 
                   blockState: AbstractBlockState,
                   blockPos: BlockPos,
                   viewerManager: ViewerCountManager ->
-            noFailure(identity) {
-                it.arise(world, player, blockEntity as ChestBlockEntity, blockState, blockPos, viewerManager)
+            noFailure(identity) { parameterSelective ->
+                parameterSelective(world, player, blockEntity as ChestBlockEntity, blockState, blockPos, viewerManager)
             }
         }
     }

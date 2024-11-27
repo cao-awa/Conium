@@ -13,7 +13,7 @@ class BedrockSystem : AbstractBedrockSystem() {
 
     override fun runInterval(callback: () -> Unit, tickInterval: Int): IntegerReceptacle {
         println("RunningInterval")
-        val id = this.tasks.size
+        val id: Int = this.tasks.size
         this.tasks[id] = ConiumTask(tickInterval, callback)
         return IntegerReceptacle(id)
     }

@@ -10,9 +10,9 @@ class ConiumBedrockDurabilityTemplate(
     durability: Int,
     damageChance: IntRange = defaultChance
 ) : ConiumDurabilityTemplate(
-    DURABILITY,
     durability,
-    damageChance
+    damageChance,
+    DURABILITY
 ) {
     companion object {
         @JvmStatic

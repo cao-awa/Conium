@@ -1,7 +1,10 @@
 package com.github.cao.awa.conium.script.typescript
 
 import com.github.cao.awa.conium.parameter.ParameterSelective2
+import org.jetbrains.annotations.ApiStatus
 
+@ApiStatus.Internal
+@ApiStatus.Experimental
 class TypescriptPrototype<T>(private val delegate: T) {
     // Test callable
     val yyy: ParameterSelective2<Unit, Any, Any> = ParameterSelective2 { p1, p2 ->

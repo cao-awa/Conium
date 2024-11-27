@@ -31,7 +31,7 @@ class ConiumArmorTemplate(
     private val toughness: Double = 0.0,
     private val knockbackResistance: Double = 0.0,
     private val enchantmentValue: Int = 0
-) : ConiumWearableTemplate(ARMOR, equipment, defense) {
+) : ConiumWearableTemplate(equipment, defense, ARMOR) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumArmorTemplate = element.objectOrString(

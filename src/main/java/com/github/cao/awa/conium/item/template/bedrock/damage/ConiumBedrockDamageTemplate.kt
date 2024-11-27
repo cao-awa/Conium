@@ -15,7 +15,7 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.item.Item
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumBedrockDamageTemplate(private val damage: Double) : ConiumItemTemplate(DAMAGE) {
+class ConiumBedrockDamageTemplate(private val damage: Double) : ConiumItemTemplate(name = DAMAGE) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockDamageTemplate = ConiumBedrockDamageTemplate(element.asDouble)

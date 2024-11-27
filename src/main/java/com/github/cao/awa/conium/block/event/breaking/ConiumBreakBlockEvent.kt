@@ -19,9 +19,9 @@ class ConiumBreakBlockEvent : ConiumEvent<ParameterSelective3<Boolean, World, Pl
             ConiumEventArgTypes.BLOCK_POS
         ).attach(
             forever(ConiumEventType.BREAK_BLOCK)
-        ).arise { identity, world, player, blockPos ->
-            noFailure(identity) {
-                it.arise(world, player, blockPos)
+        ).arise { identity: Any, world: World, player: PlayerEntity, blockPos: BlockPos ->
+            noFailure(identity) { parameterSelective ->
+                parameterSelective(world, player, blockPos)
             }
         }
     }

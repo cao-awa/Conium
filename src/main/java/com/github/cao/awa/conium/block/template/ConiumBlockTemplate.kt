@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.template.ConiumTemplate
 import net.minecraft.block.AbstractBlock
 
-abstract class ConiumBlockTemplate(name: String) : ConiumTemplate<ConiumBlock, ConiumBlockSettings>(name) {
+abstract class ConiumBlockTemplate(isClient: Boolean = false, name: String) : ConiumTemplate<ConiumBlock, ConiumBlockSettings>(isClient, name) {
     override fun attach(target: ConiumBlock) {
         // Do nothing.
     }

@@ -20,7 +20,7 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
  *
  * @since 1.0.0
  */
-class ConiumBedrockWearableTemplate(equipment: EquipmentType, protection: Double = 0.0) : ConiumWearableTemplate(WEARABLE, equipment, protection) {
+class ConiumBedrockWearableTemplate(equipment: EquipmentType, protection: Double = 0.0) : ConiumWearableTemplate(equipment, protection, WEARABLE) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockWearableTemplate = element.objectOrString(

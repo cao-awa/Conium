@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger
 import java.util.*
 import kotlin.reflect.KClass
 
-abstract class ConiumTemplate<T, P>(private val name: String, val isClient: Boolean = false) {
+abstract class ConiumTemplate<T, P>(val isClient: Boolean = false, private val name: String) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumTemplate")
         private val templates: MutableMap<String, ConiumTemplateCreator> = CollectionFactor.hashMap()
@@ -141,6 +141,11 @@ abstract class ConiumTemplate<T, P>(private val name: String, val isClient: Bool
 
         // Attention to duration, this duration value in bedrock is seconds instead of ticks in bedrock.
         fun secondsToTicks(duration: Float): Int = (duration * 20).toInt()
+
+        fun <R> notSupported(): (JsonElement) -> R = { throw notSupported(it) }
+
+        @Throws(IllegalArgumentException::class)
+        fun notSupported(jsonElement: JsonElement): IllegalArgumentException = IllegalArgumentException("Not supported syntax: $jsonElement")
     }
 
     // This contexts will be set in deserializing templates, do not set it again in feature.

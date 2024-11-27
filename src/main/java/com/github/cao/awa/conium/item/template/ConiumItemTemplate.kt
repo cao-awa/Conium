@@ -2,12 +2,11 @@ package com.github.cao.awa.conium.item.template
 
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.template.ConiumTemplate
-import com.google.gson.JsonElement
 import net.minecraft.item.Item
 import net.minecraft.item.consume.UseAction
 import net.minecraft.util.Rarity
 
-abstract class ConiumItemTemplate(name: String) : ConiumTemplate<ConiumItem, Item.Settings>(name) {
+abstract class ConiumItemTemplate(isClient: Boolean = false, name: String) : ConiumTemplate<ConiumItem, Item.Settings>(isClient, name) {
     companion object {
         fun createRarity(name: String): Rarity {
             return when (name) {
@@ -41,12 +40,6 @@ abstract class ConiumItemTemplate(name: String) : ConiumTemplate<ConiumItem, Ite
             }
             return value
         }
-
-        fun <R> notSupported(): (JsonElement) -> R = { throw notSupported(it) }
-
-        @Throws(IllegalArgumentException::class)
-        fun notSupported(jsonElement: JsonElement): IllegalArgumentException = IllegalArgumentException("Not supported syntax: $jsonElement")
-
     }
 
     override fun complete(target: ConiumItem) {

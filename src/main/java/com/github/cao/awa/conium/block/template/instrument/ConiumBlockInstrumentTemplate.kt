@@ -7,7 +7,7 @@ import net.minecraft.block.AbstractBlock
 import net.minecraft.block.enums.NoteBlockInstrument
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-open class ConiumBlockInstrumentTemplate(private val instrument: NoteBlockInstrument, name: String = INSTRUMENT) : ConiumBlockTemplate(name) {
+open class ConiumBlockInstrumentTemplate(private val instrument: NoteBlockInstrument, name: String = INSTRUMENT) : ConiumBlockTemplate(name = name) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockInstrumentTemplate = ConiumBlockInstrumentTemplate(createBehaviors(element.asString))

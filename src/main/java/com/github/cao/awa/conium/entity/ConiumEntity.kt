@@ -19,9 +19,7 @@ class ConiumEntity(entityType: EntityType<ConiumEntity>, world: World, private v
     companion object {
         @JvmStatic
         fun createType(builder: ConiumEntityBuilder, settings: ConiumEntitySettingsWithTypeBuilder): EntityType.Builder<ConiumEntity> {
-            builder.templates.forEach {
-                it.prepare(settings)
-            }
+            builder.templates.forEach { it.prepare(settings) }
 
             return settings.builder
         }
@@ -33,13 +31,9 @@ class ConiumEntity(entityType: EntityType<ConiumEntity>, world: World, private v
     }
 
     fun applyTemplates(templates: List<ConiumEntityTemplate>) {
-        templates.forEach {
-            it.attach(this)
-        }
+        templates.forEach { it.attach(this) }
 
-        templates.forEach {
-            it.complete(this)
-        }
+        templates.forEach { it.complete(this) }
 
         this.customName = Text.of("Test conium entity(${Registries.ENTITY_TYPE.getId(this.type)})")
         this.isCustomNameVisible = true

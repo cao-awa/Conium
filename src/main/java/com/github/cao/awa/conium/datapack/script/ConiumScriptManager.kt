@@ -17,13 +17,18 @@ import com.github.cao.awa.sinuatum.resource.loader.ResourceLoader
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.github.cao.awa.sinuatum.util.io.IOUtil
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.resource.*
+import net.minecraft.resource.Resource
+import net.minecraft.resource.ResourceFinder
+import net.minecraft.resource.ResourceManager
+import net.minecraft.resource.SinglePreparationResourceReloader
 import net.minecraft.util.Identifier
 import net.minecraft.util.profiler.Profiler
 import org.antlr.v4.runtime.*
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
-import kotlin.script.experimental.api.*
+import kotlin.script.experimental.api.EvaluationResult
+import kotlin.script.experimental.api.ResultValue
+import kotlin.script.experimental.api.ResultWithDiagnostics
 import kotlin.script.experimental.host.StringScriptSource
 import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
 import kotlin.script.experimental.jvm.jvm
@@ -43,21 +48,19 @@ import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromT
 class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identifier, Resource>>() {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumScriptManager")
-        private val DATA_TYPE = RegistryKeys.getPath(ConiumRegistryKeys.SCRIPT)
+        private val DATA_TYPE: String = RegistryKeys.getPath(ConiumRegistryKeys.SCRIPT)
 
         // Commons script here, all script uses theses script.
-        private val defaultCommons = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.commons.kts"))
-        private val defaultBedrockScriptInit =
-            IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.bedrock.script.init.kts"))
-        private val defaultBedrockCommons =
-            IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.bedrock.commons.kts"))
+        private val defaultCommons: String = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.commons.kts"))
+        private val defaultBedrockScriptInit: String = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.bedrock.script.init.kts"))
+        private val defaultBedrockCommons: String = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.bedrock.commons.kts"))
 
         /**
          * The 'host' is kotlin scripting host that used to compile and evaluate the kotlin scripts.
          *
          * Don't use JSR223 API to evaluates scripts, it will cause unexpected produce env problems!
          */
-        private val host = BasicJvmScriptingHost()
+        private val host: BasicJvmScriptingHost = BasicJvmScriptingHost()
     }
 
     /**
@@ -67,7 +70,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
      *
      * '// IMPORT: ExportName' or '// IMPORT: ExportName, OtherExportName'
      */
-    private val exportedScript = CollectionFactor.hashMap<String, ScriptExport>()
+    private val exportedScript: MutableMap<String, ScriptExport> = CollectionFactor.hashMap()
 
     /**
      * Prepares the intermediate object.
@@ -157,14 +160,11 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
                 scripts.add(ScriptEval(defaultBedrockScriptInit, "ConiumBedrockScriptInit", "ConiumCommons", "ConiumBedrockCommons"))
             }
 
-            for (script in prepared) {
-                val resource = script.value
-                val identifier = script.key
-
+            for ((identifier: Identifier, resource: Resource) in prepared) {
                 // Read script source code.
-                val content = resource.reader.readText()
+                val content: String = resource.reader.readText()
 
-                identifier.path.also { path ->
+                identifier.path.also { path: String ->
                     if (path.endsWith(".kts")) {
                         // Load script data after.
                         scripts.add(ScriptEval(content, path, "ConiumCommons"))
@@ -221,12 +221,12 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
     }
 
     private fun translateBedrockTypescript(source: String): String {
-        return readTypescript(source).let { typescriptFile ->
+        return readTypescript(source).let { typescriptFile: TypescriptFile ->
             // Prepares the typescript AST for next step translating.
             typescriptFile.prepares()
 
             // Translate typescript to conium script (kotlin script with conium API).
-            val translated = LanguageTranslator.translate(
+            val translated: String = LanguageTranslator.translate(
                 // Use conium provider to processes something additional features.
                 // See the package 'com.github.cao.awa.conium.script.translate'
                 "conium",
@@ -290,8 +290,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
      *
      * Use callback let script processes ordered, callback will be calls after a script runs done.
      *
-     * @param scriptEval script source code
-     * @param defaultImports script that forcefully import to this script
+     * @param scriptEval script source code and imports
      * @param resultCallback callback that let scripts be processes ordered
      *
      * @author cao_awa
@@ -304,7 +303,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
         resultCallback: () -> Unit
     ): ResultWithDiagnostics<EvaluationResult> {
         // Import scripts to this script.
-        val content = ScriptExport.import(this.exportedScript, scriptEval.codes, *scriptEval.defaultImports)
+        val content: String = ScriptExport.import(this.exportedScript, scriptEval.codes, *scriptEval.defaultImports)
 
         LOGGER.info(
             "Evaluating script '{}'",
@@ -312,7 +311,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
         )
 
         // The 'eval' in host will compile and evaluate the script.
-        val result = host.eval(
+        val result: ResultWithDiagnostics<EvaluationResult> = host.eval(
             StringScriptSource(content),
             // Create compilation configuration that dependencies whole java classpath.
             // Dependencies whole classpath is necessary, otherwise kotlin script may not be executes anything,
@@ -332,7 +331,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
                 // When result is 'Success', then 'returnValue' must not be null.
                 result.value
                     .returnValue
-                    .let { returnValue ->
+                    .let { returnValue: ResultValue ->
                         // When the 'returnValue' is value, then it may be 'ScriptExport'.
                         (returnValue as? ResultValue.Value)
                             ?.let(ResultValue.Value::value)

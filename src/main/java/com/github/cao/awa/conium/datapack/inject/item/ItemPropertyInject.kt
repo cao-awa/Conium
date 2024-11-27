@@ -8,15 +8,9 @@ import com.google.gson.JsonObject
 data class ItemPropertyInject<T>(val target: String, val components: List<ItemPropertyInjectComponent<T>>) {
     companion object {
         @JvmStatic
-        fun <X> generic(target: String, components: List<ItemPropertyInjectComponent<*>?>?): ItemPropertyInject<X> {
-            return ItemPropertyInject(target, Manipulate.cast(components))
-        }
+        fun <X> generic(target: String, components: List<ItemPropertyInjectComponent<*>>): ItemPropertyInject<X> = ItemPropertyInject(target, Manipulate.cast(components))
 
-        fun deserialize(json: JsonObject): ItemPropertyInject<Any> {
-            val target = json.get("target").asString
-            val components = ItemPropertyInjectComponent.unverified<Any>(json.get("components").asJsonArray)
-
-            return generic(target, components)
-        }
+        @JvmStatic
+        fun deserialize(json: JsonObject): ItemPropertyInject<Any> = generic(json["target"].asString, ItemPropertyInjectComponent.unverified<Any>(json["components"].asJsonArray))
     }
 }

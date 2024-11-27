@@ -7,7 +7,7 @@ import com.google.gson.JsonElement
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 import net.minecraft.util.Rarity
 
-class ConiumRareRarityTemplate : ConiumRarityTemplate(RARE_RARITY, Rarity.RARE) {
+class ConiumRareRarityTemplate : ConiumRarityTemplate(Rarity.RARE, RARE_RARITY) {
     companion object {
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumRareRarityTemplate = element.createIfJsonObject(::ConiumRareRarityTemplate, notSupported())!!
     }

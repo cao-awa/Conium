@@ -8,7 +8,7 @@ import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-open class ConiumBlockMovementVelocityTemplate(private val walkVelocity: Float, private val jumpVelocity: Float, name: String = MOVEMENT_VELOCITY) : ConiumBlockTemplate(name) {
+open class ConiumBlockMovementVelocityTemplate(private val walkVelocity: Float, private val jumpVelocity: Float, name: String = MOVEMENT_VELOCITY) : ConiumBlockTemplate(name = name) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockMovementVelocityTemplate = element.ifJsonObject({
