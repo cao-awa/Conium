@@ -118,11 +118,11 @@ public abstract class DataPackContentsMixin {
     )
     public void contents(CallbackInfoReturnable<List<ResourceReloader>> cir) {
         List<ResourceReloader> reloaderList = CollectionFactor.arrayList(cir.getReturnValue());
+        reloaderList.add(this.scriptManager);
         reloaderList.add(this.itemPropertyInjectManager);
         reloaderList.add(this.coniumItemManager);
         reloaderList.add(this.coniumBlockManager);
         reloaderList.add(this.coniumEntityManager);
-        reloaderList.add(this.scriptManager);
         cir.setReturnValue(reloaderList);
     }
 }

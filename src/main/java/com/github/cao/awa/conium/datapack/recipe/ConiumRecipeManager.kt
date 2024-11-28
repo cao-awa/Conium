@@ -66,19 +66,16 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
             )
         )
 
-        private fun <X : SingleStackRecipe> cookingIngredientGetter(expectedType: RecipeType<X>): SoleIngredientGetter {
-            return SoleIngredientGetter {
-                if (it.type == expectedType && it is SingleStackRecipe) {
-                    Optional.of(it.ingredient())
-                } else {
-                    Optional.empty()
-                }
+        private fun <X : SingleStackRecipe> cookingIngredientGetter(expectedType: RecipeType<X>): SoleIngredientGetter = SoleIngredientGetter {
+            if (it.type == expectedType && it is SingleStackRecipe) {
+                Optional.of(it.ingredient())
+            } else {
+                Optional.empty()
             }
         }
 
-        fun filterIngredients(features: FeatureSet, ingredients: MutableList<Ingredient>): List<Ingredient> {
-            ingredients.removeIf { ingredient -> !isEnabled(features, ingredient) }
-            return ingredients
+        fun filterIngredients(features: FeatureSet, ingredients: MutableList<Ingredient>): List<Ingredient> = ingredients.apply {
+            removeIf { ingredient: Ingredient -> !isEnabled(features, ingredient) }
         }
 
         private fun isEnabled(features: FeatureSet, ingredient: Ingredient): Boolean {
@@ -86,15 +83,11 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
         }
 
         open class PropertySetBuilder(val propertySetKey: RegistryKey<RecipePropertySet>, private val ingredientGetter: SoleIngredientGetter) : Consumer<Recipe<*>> {
-            private val ingredients: MutableList<Ingredient> = ArrayList()
+            private val ingredients: MutableList<Ingredient> = CollectionFactor.arrayList()
 
-            override fun accept(recipe: Recipe<*>) {
-                this.ingredientGetter.apply(recipe).ifPresent(this.ingredients::add)
-            }
+            override fun accept(recipe: Recipe<*>) = this.ingredientGetter.apply(recipe).ifPresent(this.ingredients::add)
 
-            fun build(enabledFeatures: FeatureSet): RecipePropertySet {
-                return RecipePropertySetAccessor.of(filterIngredients(enabledFeatures, this.ingredients))
-            }
+            fun build(enabledFeatures: FeatureSet): RecipePropertySet = RecipePropertySetAccessor.of(filterIngredients(enabledFeatures, this.ingredients))
         }
     }
 
@@ -108,8 +101,8 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
         val sortedMap: SortedMap<Identifier, Recipe<*>> = TreeMap()
         load(resourceManager, RegistryKeys.getPath(RegistryKeys.RECIPE), sortedMap)
         val list: MutableList<RecipeEntry<*>> = ArrayList(sortedMap.size)
-        sortedMap.forEach { (id, recipe) ->
-            val registryKey = RegistryKey.of(RegistryKeys.RECIPE, id)
+        sortedMap.forEach { (id: Identifier, recipe: Recipe<*>) ->
+            val registryKey: RegistryKey<Recipe<*>> = RegistryKey.of(RegistryKeys.RECIPE, id)
             val recipeEntry: RecipeEntry<*> = RecipeEntry(registryKey, recipe)
             list.add(recipeEntry)
         }
@@ -232,15 +225,18 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
 
     override fun <I : RecipeInput, T : Recipe<I>> getFirstMatch(
         type: RecipeType<T>, input: I, world: World, recipe: RegistryKey<Recipe<*>>?
-    ): Optional<RecipeEntry<T>> {
-        val recipeEntry: RecipeEntry<T>? = if (recipe != null) this.get(type, recipe) else null
-        return this.getFirstMatch(type, input, world, recipeEntry)
-    }
+    ): Optional<RecipeEntry<T>> = getFirstMatch(
+        type,
+        input,
+        world,
+        if (recipe != null) get(type, recipe) else null
+    )
+
 
     override fun <I : RecipeInput, T : Recipe<I>> getFirstMatch(
         type: RecipeType<T>, input: I, world: World, recipe: RecipeEntry<T>?
     ): Optional<RecipeEntry<T>> {
-        return if (recipe != null && recipe.value()!!.matches(input, world)) Optional.of(recipe) else this.getFirstMatch(type, input, world)
+        return if (recipe != null && recipe.value()!!.matches(input, world)) Optional.of(recipe) else getFirstMatch(type, input, world)
     }
 
     /**

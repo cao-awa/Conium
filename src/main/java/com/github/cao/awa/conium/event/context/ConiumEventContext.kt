@@ -34,6 +34,8 @@ class ConiumEventContext<P : ParameterSelective?>(
 
     private val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
     private val attaches: MutableList<ConiumEventContext<*>> = CollectionFactor.arrayList()
+    private val attachesDynamic: MutableList<P> = CollectionFactor.arrayList()
+    private var lastIdentity: Any? = null
 
     private var targetedIdentity: ParameterSelective1<Boolean, Any> = ParameterSelective1 { true }
 
@@ -82,6 +84,16 @@ class ConiumEventContext<P : ParameterSelective?>(
         return this
     }
 
+    fun attachDynamic(dynamicArgs: P): ConiumEventContext<P> {
+        this.attachesDynamic.add(dynamicArgs)
+        return this
+    }
+
+    fun attachDynamic(dynamicArgs: MutableList<P>): ConiumEventContext<P> {
+        this.attachesDynamic.addAll(dynamicArgs);
+        return this
+    }
+
     fun attach(context: ConiumEventContext<*>): ConiumEventContext<P> {
         this.attaches.add(context)
         return this
@@ -99,6 +111,8 @@ class ConiumEventContext<P : ParameterSelective?>(
             // Do not presage when identity are not target.
             return true
         }
+
+        this.lastIdentity = identity
 
         var success: Boolean = this.presageTrigger == null || this.dynamicArgs.arising(identity, this.args, this.presageTrigger!!)
         for (attach: ConiumEventContext<*> in this.attaches) {
@@ -118,6 +132,8 @@ class ConiumEventContext<P : ParameterSelective?>(
             return true
         }
 
+        this.lastIdentity = identity
+
         var success: Boolean = this.ariseTrigger == null || this.dynamicArgs.arising(identity, this.args, this.ariseTrigger!!)
         for (attach: ConiumEventContext<*> in this.attaches) {
             if (attach.hasArising()) {
@@ -125,10 +141,18 @@ class ConiumEventContext<P : ParameterSelective?>(
                 success = attach.arising(identity) && success
             }
         }
+        for (attachDynamic: P in this.attachesDynamic) {
+            this.dynamicArgs.arising(
+                identity,
+                this.args,
+                attachDynamic
+            )
+        }
         return success
     }
 
     fun inherit(context: ConiumEventContext<*>): ConiumEventContext<P> {
+        this.lastIdentity = context.lastIdentity
         return resetArgs(context.args)
     }
 }

@@ -2,9 +2,11 @@ package com.github.cao.awa.conium.datapack.script
 
 import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.event.ConiumEvent
+import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.script.ScriptExport
 import com.github.cao.awa.conium.script.eval.ScriptEval
+import com.github.cao.awa.conium.script.interaction.NamedInteractionScript
 import com.github.cao.awa.conium.script.kts.ConiumScript
 import com.github.cao.awa.language.translator.builtin.typescript.antlr.TypescriptLexer
 import com.github.cao.awa.language.translator.builtin.typescript.antlr.TypescriptParser
@@ -73,6 +75,13 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
     private val exportedScript: MutableMap<String, ScriptExport> = CollectionFactor.hashMap()
 
     /**
+     * The 'exportedInteraction' is conditions or actions that referenced in data-driven.
+     *
+     * The data-driven framework will acquire and invoke the ParameterSelective to dynamically produce runtime variables.
+     */
+    private val exportedInteraction: MutableMap<String, NamedInteractionScript<*>> = CollectionFactor.hashMap()
+
+    /**
      * Prepares the intermediate object.
      *
      * This method is called in the prepare executor in a reload.
@@ -86,10 +95,25 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
      *
      * @since 1.0.0
      */
-    override fun prepare(manager: ResourceManager, profiler: Profiler): MutableMap<Identifier, Resource> =
-        CollectionFactor.hashMap<Identifier, Resource>().also {
-            load(manager, it)
-        }
+    override fun prepare(manager: ResourceManager, profiler: Profiler): MutableMap<Identifier, Resource> = CollectionFactor.hashMap<Identifier, Resource>().also {
+        load(manager, it)
+    }
+
+    fun export(name: String, context: ConiumEventContext<*>, result: (Any) -> Any) {
+        this.exportedInteraction[name] = NamedInteractionScript(
+            name,
+            context,
+            result
+        )
+    }
+
+    fun acquire(name: String): ConiumEventContext<*> {
+        return this.exportedInteraction[name]!!.context
+    }
+
+    fun acquireResult(name: String): ((Any) -> Any?) {
+        return this.exportedInteraction[name]!!.result
+    }
 
     /**
      * Prepares the intermediate object.

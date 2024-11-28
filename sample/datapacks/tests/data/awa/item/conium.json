@@ -39,7 +39,10 @@
     "rarity": "epic",
     "use_action": "eat",
     "fuel": 60,
-    "glint": true,
+    "glint": {
+      "script": "awa:test_glint",
+      "default": true
+    },
     "armor": {
       "slot": "chest",
       "defense": 10,
