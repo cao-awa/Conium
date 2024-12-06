@@ -47,6 +47,7 @@ import com.github.cao.awa.conium.item.template.rarity.epic.ConiumUncommonRarityT
 import com.github.cao.awa.conium.item.template.stack.count.ConiumStackMaxCountTemplate
 import com.github.cao.awa.conium.item.template.tool.ConiumItemToolTemplate
 import com.github.cao.awa.conium.item.template.tool.axe.*
+import com.github.cao.awa.conium.item.template.tool.mining.ConiumForceMiningSpeedTemplate
 import com.github.cao.awa.conium.item.template.tool.pickaxe.*
 import com.github.cao.awa.conium.recipe.template.bedrock.furnace.ConiumBedrockRecipeFurnaceTemplate
 import com.github.cao.awa.conium.recipe.template.bedrock.shape.ConiumBedrockRecipeShapedTemplate
@@ -105,6 +106,9 @@ object ConiumTemplates {
         const val GOLDEN_PICKAXE: String = "golden_pickaxe"
         const val DIAMOND_PICKAXE: String = "diamond_pickaxe"
         const val NETHERITE_PICKAXE: String = "netherite_pickaxe"
+
+        // Mining speed
+        const val FORCE_MINING_SPEED: String = "force_mining_speed"
 
         fun initItemTemplates() {
             // Spawn egg.
@@ -196,6 +200,12 @@ object ConiumTemplates {
             registerItem(
                 NETHERITE_PICKAXE,
                 ConiumItemNetheritePickaxeTemplate::create
+            )
+
+            // Mining speed.
+            registerItem(
+                FORCE_MINING_SPEED,
+                ConiumForceMiningSpeedTemplate::create
             )
 
             // Rarity.

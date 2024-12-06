@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.bedrock.item.stack
 
-import com.github.cao.awa.conium.bedrock.BedrockScriptApi
-import com.github.cao.awa.conium.bedrock.BedrockScriptApiFacade
+import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
+import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 

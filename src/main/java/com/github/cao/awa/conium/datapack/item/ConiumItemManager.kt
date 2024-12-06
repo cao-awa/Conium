@@ -58,9 +58,7 @@ class ConiumItemManager(
         )
 
         if (json["schema_style"]?.asString == "conium") {
-            ConiumSchemaItemBuilder.deserialize(json, this.registryLookup).register {
-                // TODO enchanting
-            }
+            ConiumSchemaItemBuilder.deserialize(json, this.registryLookup).register()
         } else {
             BedrockSchemaItemBuilder.deserialize(json, this.registryLookup).register()
         }

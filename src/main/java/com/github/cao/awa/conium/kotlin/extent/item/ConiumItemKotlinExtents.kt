@@ -12,10 +12,9 @@ import net.minecraft.item.Items
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.registry.entry.RegistryEntry
-import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 
-fun ConiumSchemaItemBuilder.register(tagProvider: (MutableSet<TagKey<Item>>) -> Unit = { }) {
+fun ConiumSchemaItemBuilder.register() {
     registerItem(this.identifier, ::build)
 }
 

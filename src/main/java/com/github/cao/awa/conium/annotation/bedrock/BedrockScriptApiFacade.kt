@@ -1,3 +1,3 @@
-package com.github.cao.awa.conium.bedrock
+package com.github.cao.awa.conium.annotation.bedrock
 
 annotation class BedrockScriptApiFacade(vararg val sapiType: String)

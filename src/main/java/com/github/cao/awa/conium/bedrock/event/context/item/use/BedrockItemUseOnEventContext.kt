@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.bedrock.event.context.item.use
 
-import com.github.cao.awa.conium.bedrock.BedrockScriptApi
-import com.github.cao.awa.conium.bedrock.BedrockScriptApiFacade
+import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
+import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
 import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
 import com.github.cao.awa.conium.bedrock.item.stack.BedrockItemStack
 import com.github.cao.awa.conium.bedrock.item.stack.toBedrock

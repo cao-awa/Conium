@@ -16,10 +16,10 @@ class ConiumBlock(private val setting: ConiumBlockSettings) : Block(setting.vani
         fun create(builder: ConiumBlockBuilder, settings: ConiumBlockSettings): ConiumBlock {
             builder.templates.forEach { it.prepare(settings) }
 
-            return ConiumBlock(settings).also { block: ConiumBlock ->
-                builder.templates.forEach { it.attach(block) }
+            return ConiumBlock(settings).apply {
+                builder.templates.forEach { it.attach(this) }
 
-                builder.templates.forEach { it.complete(block) }
+                builder.templates.forEach { it.complete(this) }
             }
         }
     }

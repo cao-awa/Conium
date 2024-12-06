@@ -1,6 +1,7 @@
 package com.github.cao.awa.conium.item
 
 import com.github.cao.awa.conium.item.builder.ConiumItemBuilder
+import com.github.cao.awa.conium.item.setting.ConiumItemSettings
 import com.github.cao.awa.conium.kotlin.extent.component.acquire
 import com.github.cao.awa.conium.kotlin.extent.item.components
 import com.github.cao.awa.conium.random.ConiumRandom
@@ -14,29 +15,24 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 
-class ConiumItem(settings: Settings) : Item(settings) {
+class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanillaSettings) {
     companion object {
-        private val LOGGER = LogManager.getLogger("ConiumItem")
+        private val LOGGER: Logger = LogManager.getLogger("ConiumItem")
 
-        fun create(builder: ConiumItemBuilder, settings: Settings): ConiumItem {
+        fun create(builder: ConiumItemBuilder, settings: ConiumItemSettings): ConiumItem {
             builder.templates.forEach {
-                it.settings(settings)
+                it.prepare(settings)
             }
 
-            forceOverrideSettings(settings)
+            forceOverrideSettings(settings.vanillaSettings)
 
-            val item = ConiumItem(settings)
+            return ConiumItem(settings).apply {
+                builder.templates.forEach { it.attach(this) }
 
-            builder.templates.forEach {
-                it.attach(item)
+                builder.templates.forEach { it.complete(this) }
             }
-
-            builder.templates.forEach {
-                it.complete(item)
-            }
-
-            return item
         }
 
         private fun forceOverrideSettings(settings: Settings) {
@@ -45,34 +41,6 @@ class ConiumItem(settings: Settings) : Item(settings) {
             }
         }
     }
-
-    /**
-     * The predicate to checks the block that can be mined by this item, in vanilla is always mineable if not specify.
-     *
-     * @author cao_awa
-     *
-     * @see canMine
-     *
-     * @since 1.0.0
-     */
-    var canMinePredicate: (Item, BlockState, World, BlockPos, PlayerEntity) -> Boolean = { _, _, _, _, _ -> true }
-
-    /**
-     * A mark that marked a tool item be a weapon, used in durability decrements when hitting entity.
-     *
-     * In vanilla has a difference to decrements durability amounts which item is weapon or non-weapon.
-     *
-     * @author cao_awa
-     *
-     * @see postDamageEntity
-     *
-     * @since 1.0.0
-     */
-    var isWeapon: Boolean = false
-    var shouldPostHit: Boolean = false
-    var durabilityDamageChance: IntRange? = null
-
-    val durabilityDamageEntityAmount: Int get() = if (this.isWeapon) 1 else 2
 
     /**
      * Check the item is allowing to break blocks when player holding this item.
@@ -88,7 +56,7 @@ class ConiumItem(settings: Settings) : Item(settings) {
      *
      * @return whether a player can break a block while holding the item
      */
-    override fun canMine(state: BlockState, world: World, pos: BlockPos, miner: PlayerEntity): Boolean = this.canMinePredicate(this, state, world, pos, miner)
+    override fun canMine(state: BlockState, world: World, pos: BlockPos, miner: PlayerEntity): Boolean = this.settings.canMinePredicate(this, state, world, pos, miner)
 
     /**
      * Called on the server when the item is used to break a block.
@@ -112,7 +80,7 @@ class ConiumItem(settings: Settings) : Item(settings) {
      */
     override fun postMine(stack: ItemStack, world: World, state: BlockState, pos: BlockPos, miner: LivingEntity): Boolean {
         // If damage chance present, then try to roll a chance, or else direct allow to damage the item.
-        val canDamage: Boolean = this.durabilityDamageChance?.let {
+        val canDamage: Boolean = this.settings.durabilityDamageChance?.let {
             // Rolling chance using world random.
             ConiumRandom.tryChance(it, world.random)
         } ?: true
@@ -136,7 +104,7 @@ class ConiumItem(settings: Settings) : Item(settings) {
      *
      * @return whether the item's use stat should be incremented
      */
-    override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean = this.shouldPostHit
+    override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean = this.settings.shouldPostHit
 
     /**
      * Make the tool item durability decrement, for vanilla behaviors, decrement amount in weapon is 1, in non-weapon tool is 2.
@@ -152,9 +120,17 @@ class ConiumItem(settings: Settings) : Item(settings) {
     override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
         // Apply durability decrement for this tool stack.
         stack.damage(
-            this.durabilityDamageEntityAmount,
+            this.settings.durabilityDamageEntityAmount,
             attacker,
             EquipmentSlot.MAINHAND
         )
+    }
+
+    override fun getMiningSpeed(stack: ItemStack, state: BlockState): Float {
+        return if (this.settings.forceMiningSpeed == -1F) {
+            super.getMiningSpeed(stack, state)
+        } else {
+            this.settings.forceMiningSpeed
+        }
     }
 }

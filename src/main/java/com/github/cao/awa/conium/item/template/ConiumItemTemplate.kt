@@ -1,12 +1,13 @@
 package com.github.cao.awa.conium.item.template
 
 import com.github.cao.awa.conium.item.ConiumItem
+import com.github.cao.awa.conium.item.setting.ConiumItemSettings
 import com.github.cao.awa.conium.template.ConiumTemplate
 import net.minecraft.item.Item
 import net.minecraft.item.consume.UseAction
 import net.minecraft.util.Rarity
 
-abstract class ConiumItemTemplate(isClient: Boolean = false, name: String) : ConiumTemplate<ConiumItem, Item.Settings>(isClient, name) {
+abstract class ConiumItemTemplate(isClient: Boolean = false, name: String) : ConiumTemplate<ConiumItem, ConiumItemSettings>(isClient, name) {
     companion object {
         fun createRarity(name: String): Rarity {
             return when (name) {
@@ -50,13 +51,20 @@ abstract class ConiumItemTemplate(isClient: Boolean = false, name: String) : Con
         // Do nothing.
     }
 
-    override fun prepare(target: Item.Settings) {
+    override fun prepare(target: ConiumItemSettings) {
+        settings(target.vanillaSettings)
         settings(target)
     }
 
     // Do not call settings directly.
     // Use 'prepare'.
     open fun settings(settings: Item.Settings) {
+        // Do nothing.
+    }
+
+    // Do not call settings directly.
+    // Use 'prepare'.
+    open fun settings(settings: ConiumItemSettings) {
         // Do nothing.
     }
 }

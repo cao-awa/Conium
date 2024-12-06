@@ -14,7 +14,7 @@ fun ConiumBlockBuilder.register(afterAction: (ConiumBlock) -> Unit) {
     afterAction(
         Blocks.register(
             blockKeyOf(this.identifier),
-            { settings ->
+            { settings: AbstractBlock.Settings ->
                 build(
                     ConiumBlockSettings.create(
                         this.templates,

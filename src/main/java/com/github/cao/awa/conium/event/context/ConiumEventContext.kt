@@ -35,7 +35,6 @@ class ConiumEventContext<P : ParameterSelective?>(
     private val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
     private val attaches: MutableList<ConiumEventContext<*>> = CollectionFactor.arrayList()
     private val attachesDynamic: MutableList<P> = CollectionFactor.arrayList()
-    private var lastIdentity: Any? = null
 
     private var targetedIdentity: ParameterSelective1<Boolean, Any> = ParameterSelective1 { true }
 
@@ -112,8 +111,6 @@ class ConiumEventContext<P : ParameterSelective?>(
             return true
         }
 
-        this.lastIdentity = identity
-
         var success: Boolean = this.presageTrigger == null || this.dynamicArgs.arising(identity, this.args, this.presageTrigger!!)
         for (attach: ConiumEventContext<*> in this.attaches) {
             if (attach.hasPresaging()) {
@@ -131,8 +128,6 @@ class ConiumEventContext<P : ParameterSelective?>(
             // Do not presage when identity are not target.
             return true
         }
-
-        this.lastIdentity = identity
 
         var success: Boolean = this.ariseTrigger == null || this.dynamicArgs.arising(identity, this.args, this.ariseTrigger!!)
         for (attach: ConiumEventContext<*> in this.attaches) {
@@ -152,7 +147,6 @@ class ConiumEventContext<P : ParameterSelective?>(
     }
 
     fun inherit(context: ConiumEventContext<*>): ConiumEventContext<P> {
-        this.lastIdentity = context.lastIdentity
         return resetArgs(context.args)
     }
 }

@@ -48,7 +48,7 @@ class ConiumShulkerBoxOpeningEvent : ConiumEvent<ParameterSelective5<Boolean, Wo
             ConiumEventType.USE_BLOCK,
             ConiumEventArgTypes.BLOCK_POS,
             ConiumEventArgTypes.PLAYER,
-            ConiumEventArgTypes.BLOCK_ENTITY,
+            ConiumEventArgTypes.BLOCK_ENTITY
         ) { block: Block, pos: BlockPos, player: PlayerEntity, blockEntity: BlockEntity ->
             if (blockEntity is ShulkerBoxBlockEntity && blockEntity.world != null && !blockEntity.isRemoved && block == blockEntity.cachedState.block) {
                 // Request the opening shulker box context.
