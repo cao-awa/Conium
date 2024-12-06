@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.item.template.tool
 
-import com.github.cao.awa.conium.item.ConiumItem
+import com.github.cao.awa.conium.item.setting.ConiumItemSettings
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.item.template.durability.ConiumDurabilityTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
@@ -74,12 +74,12 @@ open class ConiumItemToolTemplate(
         fun createEffectiveBlocks(name: String): TagKey<Block> = TagKey.of(RegistryKeys.BLOCK, Identifier.of(name))
     }
 
-    override fun complete(target: ConiumItem) {
+    override fun settings(settings: ConiumItemSettings) {
         // Item is tool, post hit to increments 'USED' stat data.
-        target.shouldPostHit = true
+        settings.shouldPostHit = true
 
         // Set durability damage chance.
-        target.durabilityDamageChance = this.damageChance
+        settings.durabilityDamageChance = this.damageChance
     }
 
     override fun settings(settings: Item.Settings) {

@@ -79,11 +79,9 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
      * @return whether the item's use stat should be incremented
      */
     override fun postMine(stack: ItemStack, world: World, state: BlockState, pos: BlockPos, miner: LivingEntity): Boolean {
+        // Rolling chance using world random.
         // If damage chance present, then try to roll a chance, or else direct allow to damage the item.
-        val canDamage: Boolean = this.settings.durabilityDamageChance?.let {
-            // Rolling chance using world random.
-            ConiumRandom.tryChance(it, world.random)
-        } ?: true
+        val canDamage: Boolean = ConiumRandom.tryChance(this.settings.durabilityDamageChance, world.random)
 
         // If can damage, then post mine to super.
         return canDamage && super.postMine(stack, world, state, pos, miner)

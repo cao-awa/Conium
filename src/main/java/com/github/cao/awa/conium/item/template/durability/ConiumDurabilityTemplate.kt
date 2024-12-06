@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.item.template.durability
 
-import com.github.cao.awa.conium.item.ConiumItem
+import com.github.cao.awa.conium.item.setting.ConiumItemSettings
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.component.withComponent
 import com.github.cao.awa.conium.kotlin.extent.component.withComputeTool
@@ -32,12 +32,12 @@ open class ConiumDurabilityTemplate(private val durability: Int, private val dam
         }
     }
 
-    override fun complete(target: ConiumItem) {
+    override fun settings(settings: ConiumItemSettings) {
         // Should increments 'USED' stat when an item has durability.
-        target.shouldPostHit = true
+        settings.shouldPostHit = true
 
         // Set durability damage chance.
-        target.durabilityDamageChance = this.damageChance
+        settings.durabilityDamageChance = this.damageChance
     }
 
     override fun settings(settings: Item.Settings) {

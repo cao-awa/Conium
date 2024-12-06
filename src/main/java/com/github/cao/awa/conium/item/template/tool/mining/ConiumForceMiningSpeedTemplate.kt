@@ -6,10 +6,10 @@ import com.github.cao.awa.conium.template.ConiumTemplates.Item
 import com.google.gson.JsonElement
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-open class ConiumForceMiningSpeedTemplate(private val miningSpeed: Int) : ConiumItemTemplate(name = Item.FORCE_MINING_SPEED) {
+open class ConiumForceMiningSpeedTemplate(private val miningSpeed: Float) : ConiumItemTemplate(name = Item.FORCE_MINING_SPEED) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumForceMiningSpeedTemplate = ConiumForceMiningSpeedTemplate(element.asInt)
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumForceMiningSpeedTemplate = ConiumForceMiningSpeedTemplate(element.asFloat)
     }
 
     override fun settings(settings: ConiumItemSettings) {

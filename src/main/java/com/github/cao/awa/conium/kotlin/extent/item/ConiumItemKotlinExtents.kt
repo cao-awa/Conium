@@ -4,6 +4,7 @@ import com.github.cao.awa.conium.block.ConiumBlock
 import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
 import com.github.cao.awa.conium.item.builder.bedrock.BedrockSchemaItemBuilder
 import com.github.cao.awa.conium.item.builder.conium.ConiumSchemaItemBuilder
+import com.github.cao.awa.conium.item.setting.ConiumItemSettings
 import com.github.cao.awa.conium.mixin.item.setting.ItemSettingsAccessor
 import net.minecraft.component.ComponentMap
 import net.minecraft.item.BlockItem
@@ -15,11 +16,15 @@ import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.util.Identifier
 
 fun ConiumSchemaItemBuilder.register() {
-    registerItem(this.identifier, ::build)
+    registerItem(this.identifier) {
+        build(ConiumItemSettings(it))
+    }
 }
 
 fun BedrockSchemaItemBuilder.register(tagProvider: (RegistryEntry.Reference<Item>) -> Unit = { }) {
-    tagProvider(registerItem(this.identifier, ::build).registryEntry)
+    tagProvider(registerItem(this.identifier){
+        build(ConiumItemSettings(it))
+    }.registryEntry)
 }
 
 fun registerItem(identifier: Identifier, itemProvider: (Item.Settings) -> Item): Item {

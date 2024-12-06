@@ -4,6 +4,7 @@ import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
+import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.item.mergedComponents
 import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
@@ -16,24 +17,11 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumGlintTemplate(private val glint: Boolean, private val script: (ItemStack) -> Unit = { }) : ConiumItemTemplate(name = GLINT) {
+class ConiumGlintTemplate(private val glint: Boolean, private val scriptName: String? = null) : ConiumItemTemplate(name = GLINT) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumGlintTemplate = element.ifJsonObject({ json: JsonObject ->
-            val glint: Boolean = json["default"].asBoolean
-
-            val changer: (Any) -> Any? = Conium.scriptManager!!.acquireResult(json["script"].asString)
-
-            val dynamicGlint: ConiumEventContext<ParameterSelective2<Boolean, Any, ItemStack>> = ConiumEventContextBuilder.unnamed(
-                ConiumEventArgTypes.ITEM_STACK
-            ) { identity: Any, stack: ItemStack ->
-                println("Changing item stack: $stack")
-                stack.mergedComponents[DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE] = changer(identity) as Boolean
-            }
-
-            Conium.scriptManager!!.acquire(json["script"].asString).attach(dynamicGlint)
-
-            ConiumGlintTemplate(glint)
+            ConiumGlintTemplate(json["default"].asBoolean, json["script"].asString)
         }) {
             ConiumGlintTemplate(it.asBoolean)
         }!!
@@ -42,5 +30,24 @@ class ConiumGlintTemplate(private val glint: Boolean, private val script: (ItemS
     override fun settings(settings: Item.Settings) {
         // Set glint override.
         settings.component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, this.glint)
+    }
+
+    override fun complete(target: ConiumItem) {
+        if (this.scriptName != null) {
+            val changer: (Any) -> Any? = Conium.scriptManager!!.acquireResult(this.scriptName)
+
+            val dynamicGlint: ConiumEventContext<ParameterSelective2<Boolean, Any, ItemStack>> = ConiumEventContextBuilder.unnamed(
+                ConiumEventArgTypes.ITEM_STACK
+            ) { identity: Any, stack: ItemStack ->
+                if (stack.item != target) {
+                    return@unnamed
+                }
+                stack.mergedComponents?.apply {
+                    this[DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE] = changer(identity) as Boolean
+                }
+            }
+
+            Conium.scriptManager!!.acquire(this.scriptName).attach(dynamicGlint)
+        }
     }
 }
