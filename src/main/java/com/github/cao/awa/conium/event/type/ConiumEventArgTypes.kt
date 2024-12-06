@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.event.type
 
-import com.github.cao.awa.conium.kotlin.extent.innate.asIt
+import com.github.cao.awa.conium.kotlin.extent.innate.*
 import com.github.cao.awa.conium.parameter.DynamicArgType
 import com.github.cao.awa.conium.parameter.DynamicArgsBuilder.Companion.transform
 import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder.arg
@@ -168,14 +168,14 @@ object ConiumEventArgTypes {
 
         SERVER_WORLD = arg(
             "server_world",
-            transform(::WORLD) { world -> world as? ServerWorld },
+            transform(::WORLD) { world: World -> world as? ServerWorld },
             transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.world as? ServerWorld }
         )
 
         CLIENT_WORLD = arg(
             "client_world",
-            transform(::WORLD) { world -> world as? ClientWorld },
-            transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.world as? ClientWorld }
+            transform(::WORLD) { world: World -> world as? ClientWorld },
+            transform(::ITEM_PLACEMENT_CONTEXT) { placement: ItemPlacementContext -> placement.world as? ClientWorld }
         )
 
         BLOCK = arg(
@@ -214,28 +214,28 @@ object ConiumEventArgTypes {
 
         LIVING_ENTITY = arg(
             "living_entity",
-            transform(::ENTITY) { entity -> entity as? LivingEntity },
+            transform(::ENTITY) { entity: Entity -> entity as? LivingEntity },
             transform(::PLAYER, PlayerEntity::asIt)
         )
 
         PLAYER = arg(
             "player",
             transform(::ITEM_PLACEMENT_CONTEXT, ItemPlacementContext::getPlayer),
-            transform(::LIVING_ENTITY) { entity -> entity as? PlayerEntity },
+            transform(::LIVING_ENTITY) { entity: LivingEntity -> entity as? PlayerEntity },
             transform(::SERVER_PLAYER, ServerPlayerEntity::asIt),
             transform(::CLIENT_PLAYER, ClientPlayerEntity::asIt)
         )
 
         SERVER_PLAYER = arg(
             "server_player",
-            transform(::PLAYER) { player -> player as? ServerPlayerEntity },
-            transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.player as? ServerPlayerEntity }
+            transform(::PLAYER) { player: PlayerEntity -> player as? ServerPlayerEntity },
+            transform(::ITEM_PLACEMENT_CONTEXT) { placement: ItemPlacementContext -> placement.player as? ServerPlayerEntity }
         )
 
         CLIENT_PLAYER = arg(
             "client_player",
-            transform(::PLAYER) { player -> player as? ClientPlayerEntity },
-            transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.player as? ClientPlayerEntity }
+            transform(::PLAYER) { player: PlayerEntity -> player as? ClientPlayerEntity },
+            transform(::ITEM_PLACEMENT_CONTEXT) { placement: ItemPlacementContext -> placement.player as? ClientPlayerEntity }
         )
 
         DAMAGE_SOURCE = arg("damage_source")
@@ -244,30 +244,30 @@ object ConiumEventArgTypes {
 
         INT = arg(
             "int",
-            transform(::LONG, Long::toInt),
-            transform(::FLOAT, Float::toInt),
-            transform(::DOUBLE, Double::toInt),
+            transform(::LONG, Long::int),
+            transform(::FLOAT, Float::int),
+            transform(::DOUBLE, Double::int),
         )
 
         LONG = arg(
             "long",
-            transform(::INT, Int::toLong),
-            transform(::FLOAT, Float::toLong),
-            transform(::DOUBLE, Double::toLong),
+            transform(::INT, Int::long),
+            transform(::FLOAT, Float::long),
+            transform(::DOUBLE, Double::long),
         )
 
         FLOAT = arg(
             "float",
-            transform(::INT, Int::toFloat),
-            transform(::LONG, Long::toFloat),
-            transform(::DOUBLE, Double::toFloat),
+            transform(::INT, Int::float),
+            transform(::LONG, Long::float),
+            transform(::DOUBLE, Double::float),
         )
 
         DOUBLE = arg(
             "double",
-            transform(::INT, Int::toDouble),
-            transform(::LONG, Long::toDouble),
-            transform(::FLOAT, Float::toDouble),
+            transform(::INT, Int::double),
+            transform(::LONG, Long::double),
+            transform(::FLOAT, Float::double),
         )
     }
 }

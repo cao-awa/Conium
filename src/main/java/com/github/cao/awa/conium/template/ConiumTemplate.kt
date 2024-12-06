@@ -5,6 +5,7 @@ package com.github.cao.awa.conium.template
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
+import com.github.cao.awa.conium.kotlin.extent.innate.int
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
@@ -140,7 +141,7 @@ abstract class ConiumTemplate<T, P>(val isClient: Boolean = false, private val n
         }
 
         // Attention to duration, this duration value in bedrock is seconds instead of ticks in bedrock.
-        fun secondsToTicks(duration: Float): Int = (duration * 20).toInt()
+        fun secondsToTicks(duration: Float): Int = (duration * 20).int
 
         fun <R> notSupported(): (JsonElement) -> R = { throw notSupported(it) }
 

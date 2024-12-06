@@ -3,6 +3,7 @@ package com.github.cao.awa.conium.codec
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponent
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue
+import com.github.cao.awa.conium.kotlin.extent.innate.int
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import io.netty.handler.codec.DecoderException
 import net.minecraft.network.RegistryByteBuf
@@ -28,7 +29,7 @@ object ConiumPacketCodec {
             buf.writeByte(action.ordinal)
         },
         { buf: RegistryByteBuf ->
-            val act: Int = buf.readByte().toInt()
+            val act: Int = buf.readByte().int
             if (act >= ItemPropertyInjectAction.entries.size) {
                 throw DecoderException("Unsupported action: '$act'")
             }

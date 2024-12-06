@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.kotlin.extent.block
 
+import com.github.cao.awa.conium.kotlin.extent.innate.int
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.block.MapColor
 
@@ -39,4 +40,4 @@ fun findColor(code: Int): MapColor {
     return last
 }
 
-fun parseColor(string: String): Int = string.substring(1).toLong(16).toInt()
+fun parseColor(string: String): Int = string.substring(1).toLong(16).int
