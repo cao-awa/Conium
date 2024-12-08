@@ -7,11 +7,9 @@ import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective0
 
-class ConiumServerTickTailEvent : ConiumEvent<ParameterSelective0<Boolean>>() {
+class ConiumServerTickTailEvent : ConiumEvent<ParameterSelective0<Boolean>>(ConiumEventType.SERVER_TICK_TAIL) {
     override fun requirement(): ConiumEventContext<out ParameterSelective> {
-        return requires().attach(
-            forever(ConiumEventType.SERVER_TICK_TAIL)
-        ).arise { identity: Any ->
+        return requires().arise { identity: Any ->
             noFailure(identity, ParameterSelective0<Boolean>::arise)
         }
     }

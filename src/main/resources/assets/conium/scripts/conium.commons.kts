@@ -23,6 +23,9 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_ENTITY
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_STATE
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_USAGE_CONTEXT
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_PLACEMENT_CONTEXT
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_STACK
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.REMAINING_USE_TICKS
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.HAND
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_HIT_RESULT
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ACTION_RESULT
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.VIEWER_COUNT_MANAGER
@@ -67,6 +70,11 @@ import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.TRAPPED_CH
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.TRAPPED_CHEST_OPENED
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.TRAPPED_CHEST_CLOSING
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.TRAPPED_CHEST_CLOSED
+
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_USE_ON_ENTITY
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_USED_ON_ENTITY
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_USAGE_TICK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_USAGE_TICKED
 
 
 import net.minecraft.world.tick.ScheduledTickView

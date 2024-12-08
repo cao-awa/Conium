@@ -9,12 +9,10 @@ import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 import net.minecraft.item.ItemPlacementContext
 
-class ConiumPlaceBlockEvent : ConiumEvent<ParameterSelective1<Boolean, ItemPlacementContext>>() {
+class ConiumPlaceBlockEvent : ConiumEvent<ParameterSelective1<Boolean, ItemPlacementContext>>(ConiumEventType.PLACE_BLOCK) {
     override fun requirement(): ConiumEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.ITEM_PLACEMENT_CONTEXT
-        ).attach(
-            forever(ConiumEventType.PLACE_BLOCK)
         ).arise { identity: Any, context: ItemPlacementContext ->
             noFailure(identity) {  parameterSelective ->
                 parameterSelective(context)

@@ -13,7 +13,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.tick.ScheduledTickView
 
-class ConiumFluidScheduleTickEvent : ConiumEvent<ParameterSelective5<Boolean, ServerWorld, BlockPos, AbstractBlockState, FluidState, ScheduledTickView>>() {
+class ConiumFluidScheduleTickEvent : ConiumEvent<ParameterSelective5<Boolean, ServerWorld, BlockPos, AbstractBlockState, FluidState, ScheduledTickView>>(ConiumEventType.FLUID_SCHEDULE_TICK) {
     override fun requirement(): ConiumEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.SERVER_WORLD,
@@ -21,8 +21,6 @@ class ConiumFluidScheduleTickEvent : ConiumEvent<ParameterSelective5<Boolean, Se
             ConiumEventArgTypes.BLOCK_STATE,
             ConiumEventArgTypes.FLUID_STATE,
             ConiumEventArgTypes.SCHEDULE_TICK_VIEW
-        ).attach(
-            forever(ConiumEventType.FLUID_SCHEDULE_TICK)
         ).arise { identity: Any, world: ServerWorld, pos: BlockPos, blockState: AbstractBlockState, fluidState: FluidState, scheduler: ScheduledTickView ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, pos, blockState, fluidState, scheduler)

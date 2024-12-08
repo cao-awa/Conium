@@ -80,6 +80,9 @@ open class ConiumItemToolTemplate(
 
         // Set durability damage chance.
         settings.durabilityDamageChance = this.damageChance
+
+        // Set item is a weapon.
+        settings.isWeapon = this.isWeapon
     }
 
     override fun settings(settings: Item.Settings) {

@@ -13,7 +13,7 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class ConiumUseBlockEvent : ConiumEvent<ParameterSelective5<Boolean, World, PlayerEntity, BlockPos, AbstractBlockState, BlockHitResult>>() {
+class ConiumUseBlockEvent : ConiumEvent<ParameterSelective5<Boolean, World, PlayerEntity, BlockPos, AbstractBlockState, BlockHitResult>>(ConiumEventType.USE_BLOCK) {
     override fun requirement(): ConiumEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
@@ -21,8 +21,6 @@ class ConiumUseBlockEvent : ConiumEvent<ParameterSelective5<Boolean, World, Play
             ConiumEventArgTypes.BLOCK_POS,
             ConiumEventArgTypes.BLOCK_STATE,
             ConiumEventArgTypes.BLOCK_HIT_RESULT
-        ).attach(
-            forever(ConiumEventType.USE_BLOCK)
         ).arise { identity: Any, world: World, player: PlayerEntity, blockPos: BlockPos, blockState: AbstractBlockState, hitResult: BlockHitResult ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, player, blockPos, blockState, hitResult)

@@ -49,7 +49,7 @@ class ConiumServerInitializer : DedicatedServerModInitializer {
             LOGGER.info("Loaded ${packets.size} network packets")
             debug(
                 "Loaded {} server network packets: {}",
-                { packets.size },
+                packets::size,
                 packets::asIt,
                 LOGGER::info
             )

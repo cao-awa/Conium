@@ -26,7 +26,7 @@ import net.minecraft.world.World
  *
  * @since 1.0.0
  */
-class ConiumTrappedChestOpeningEvent : ConiumEvent<ParameterSelective6<Boolean, World, PlayerEntity, TrappedChestBlockEntity, AbstractBlockState, BlockPos, ViewerCountManager>>() {
+class ConiumTrappedChestOpeningEvent : ConiumEvent<ParameterSelective6<Boolean, World, PlayerEntity, TrappedChestBlockEntity, AbstractBlockState, BlockPos, ViewerCountManager>>(ConiumEventType.TRAPPED_CHEST_OPENING) {
     override fun requirement(): ConiumEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
@@ -35,8 +35,6 @@ class ConiumTrappedChestOpeningEvent : ConiumEvent<ParameterSelective6<Boolean, 
             ConiumEventArgTypes.BLOCK_STATE,
             ConiumEventArgTypes.BLOCK_POS,
             ConiumEventArgTypes.VIEWER_COUNT_MANAGER
-        ).attach(
-            forever(ConiumEventType.TRAPPED_CHEST_OPENING)
         ).arise { identity: Any,
                   world: World,
                   player: PlayerEntity,

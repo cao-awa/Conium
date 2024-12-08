@@ -34,13 +34,17 @@ import com.github.cao.awa.conium.event.server.tick.ConiumServerTickEvent
 import com.github.cao.awa.conium.event.server.tick.ConiumServerTickTailEvent
 import com.github.cao.awa.conium.event.trigger.ListTriggerable
 import com.github.cao.awa.conium.event.type.ConiumEventType
-import com.github.cao.awa.conium.item.event.use.ConiumItemUseOnBlockEvent
-import com.github.cao.awa.conium.item.event.use.ConiumItemUsedOnBlockEvent
+import com.github.cao.awa.conium.item.event.use.block.ConiumItemUseOnBlockEvent
+import com.github.cao.awa.conium.item.event.use.block.ConiumItemUsedOnBlockEvent
+import com.github.cao.awa.conium.item.event.use.entity.ConiumItemUseOnEntityEvent
+import com.github.cao.awa.conium.item.event.use.entity.ConiumItemUsedOnEntityEvent
+import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickEvent
+import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickedEvent
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import java.util.*
 
-abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
+abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventType<*>) : ListTriggerable<P>() {
     companion object {
         private val events: MutableMap<ConiumEventType<*>, ConiumEvent<*>> = CollectionFactor.hashMap()
         private val foreverContext: MutableMap<ConiumEventType<*>, MutableList<ConiumEventContext<*>>> = CollectionFactor.hashMap()
@@ -50,6 +54,18 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
 
         @JvmField
         val itemUsedOnBlockEvent: ConiumItemUsedOnBlockEvent = ConiumItemUsedOnBlockEvent()
+
+        @JvmField
+        val itemUseOnEntityEvent: ConiumItemUseOnEntityEvent = ConiumItemUseOnEntityEvent()
+
+        @JvmField
+        val itemUsedOnEntityEvent: ConiumItemUsedOnEntityEvent = ConiumItemUsedOnEntityEvent()
+
+        @JvmField
+        val itemUsageTickEvent: ConiumItemUsageTickEvent = ConiumItemUsageTickEvent()
+
+        @JvmField
+        val itemUsageTickedEvent: ConiumItemUsageTickedEvent = ConiumItemUsageTickedEvent()
 
         @JvmField
         val serverTick: ConiumServerTickEvent = ConiumServerTickEvent()
@@ -151,7 +167,7 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
          */
         @JvmStatic
         fun request(type: ConiumEventType<*>): ConiumEventContext<out ParameterSelective> {
-            return this.events[type]!!.requirement()
+            return this.events[type]!!.request()
         }
 
         @JvmStatic
@@ -183,43 +199,7 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
 
         @JvmStatic
         fun init() {
-            this.events[ConiumEventType.ITEM_USE_ON_BLOCK] = this.itemUseOnBlockEvent
-            this.events[ConiumEventType.ITEM_USED_ON_BLOCK] = this.itemUsedOnBlockEvent
-            this.events[ConiumEventType.SERVER_TICK] = this.serverTick
-            this.events[ConiumEventType.SERVER_TICK_TAIL] = this.serverTickTail
 
-            this.events[ConiumEventType.BREAKING_BLOCK] = this.breakingBlock
-            this.events[ConiumEventType.BREAK_BLOCK] = this.breakBlock
-            this.events[ConiumEventType.BROKEN_BLOCK] = this.brokenBlock
-            this.events[ConiumEventType.PLACE_BLOCK] = this.placeBlock
-            this.events[ConiumEventType.PLACED_BLOCK] = this.placedBlock
-            this.events[ConiumEventType.USE_BLOCK] = this.useBlock
-            this.events[ConiumEventType.USED_BLOCK] = this.usedBlock
-
-            this.events[ConiumEventType.ENTITY_TICK] = this.entityTick
-            this.events[ConiumEventType.ENTITY_TICKED] = this.entityTicked
-            this.events[ConiumEventType.ENTITY_DAMAGE] = this.entityDamage
-            this.events[ConiumEventType.ENTITY_DAMAGED] = this.entityDamaged
-            this.events[ConiumEventType.ENTITY_DIE] = this.entityDie
-            this.events[ConiumEventType.ENTITY_DEAD] = this.entityDead
-
-            this.events[ConiumEventType.FLUID_SCHEDULE_TICK] = this.fluidScheduleTick
-            this.events[ConiumEventType.FLUID_SCHEDULE_TICKED] = this.fluidScheduleTicked
-            this.events[ConiumEventType.BLOCK_SCHEDULE_TICK] = this.blockScheduleTick
-            this.events[ConiumEventType.BLOCK_SCHEDULE_TICKED] = this.blockScheduleTicked
-
-            this.events[ConiumEventType.SHULKER_BOX_OPENING] = this.shulkerBoxOpening
-            this.events[ConiumEventType.SHULKER_BOX_OPENED] = this.shulkerBoxOpened
-            this.events[ConiumEventType.SHULKER_BOX_CLOSING] = this.shulkerBoxClosing
-            this.events[ConiumEventType.SHULKER_BOX_CLOSED] = this.shulkerBoxClosed
-            this.events[ConiumEventType.CHEST_OPENING] = this.chestOpening
-            this.events[ConiumEventType.CHEST_OPENED] = this.chestOpened
-            this.events[ConiumEventType.CHEST_CLOSING] = this.chestClosing
-            this.events[ConiumEventType.CHEST_CLOSED] = this.chestClosed
-            this.events[ConiumEventType.TRAPPED_CHEST_OPENING] = this.trappedChestOpening
-            this.events[ConiumEventType.TRAPPED_CHEST_OPENED] = this.trappedChestOpened
-            this.events[ConiumEventType.TRAPPED_CHEST_CLOSING] = this.trappedChestClosing
-            this.events[ConiumEventType.TRAPPED_CHEST_CLOSED] = this.trappedChestClosed
         }
 
         fun clearEntitySubscribes() {
@@ -234,6 +214,9 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
         fun clearItemSubscribes() {
             this.itemUseOnBlockEvent.clearSubscribes()
             this.itemUsedOnBlockEvent.clearSubscribes()
+
+            this.itemUseOnEntityEvent.clearSubscribes()
+            this.itemUsedOnEntityEvent.clearSubscribes()
         }
 
         fun clearServerTickSubscribes() {
@@ -267,6 +250,20 @@ abstract class ConiumEvent<P : ParameterSelective> : ListTriggerable<P>() {
             this.trappedChestClosing.clearSubscribes()
             this.trappedChestClosed.clearSubscribes()
         }
+    }
+
+    init {
+        register()
+    }
+
+    private fun register() {
+        events[this.eventType] = this
+    }
+
+    fun request(): ConiumEventContext<out ParameterSelective> {
+        return requirement().attach(
+            forever(this.eventType)
+        )
     }
 
     abstract fun requirement(): ConiumEventContext<out ParameterSelective>

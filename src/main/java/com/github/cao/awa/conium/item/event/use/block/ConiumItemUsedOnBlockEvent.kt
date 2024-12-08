@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.item.event.use
+package com.github.cao.awa.conium.item.event.use.block
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
@@ -8,18 +8,16 @@ import com.github.cao.awa.conium.item.event.ConiumItemEvent
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective3
 import net.minecraft.item.ItemUsageContext
-import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
+import net.minecraft.world.World
 
-class ConiumItemUsedOnBlockEvent : ConiumItemEvent<ParameterSelective3<Boolean, ServerWorld, ItemUsageContext, ActionResult>>() {
+class ConiumItemUsedOnBlockEvent : ConiumItemEvent<ParameterSelective3<Boolean, World, ItemUsageContext, ActionResult>>(ConiumEventType.ITEM_USED_ON_BLOCK) {
     override fun requirement(): ConiumEventContext<out ParameterSelective> {
         return requires(
-            ConiumEventArgTypes.SERVER_WORLD,
+            ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.ITEM_USAGE_CONTEXT,
             ConiumEventArgTypes.ACTION_RESULT
-        ).attach(
-            forever(ConiumEventType.ITEM_USED_ON_BLOCK)
-        ).arise { identity: Any, world: ServerWorld, context: ItemUsageContext, result: ActionResult ->
+        ).arise { identity: Any, world: World, context: ItemUsageContext, result: ActionResult ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, context, result)
             }

@@ -24,6 +24,7 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
@@ -42,6 +43,12 @@ object ConiumEventArgTypes {
 
     @JvmField
     val ITEM_STACK: DynamicArgType<ItemStack>
+
+    @JvmField
+    val HAND: DynamicArgType<Hand>
+
+    @JvmField
+    val REMAINING_USE_TICKS: DynamicArgType<Int>
 
     @JvmField
     val ACTION_RESULT: DynamicArgType<ActionResult>
@@ -136,6 +143,13 @@ object ConiumEventArgTypes {
             transform(::ITEM_USAGE_CONTEXT, ItemUsageContext::getStack),
             transform(::ITEM_PLACEMENT_CONTEXT, ItemPlacementContext::getStack)
         )
+
+        HAND = arg(
+            "hand",
+            transform(::ITEM_USAGE_CONTEXT, ItemUsageContext::getHand)
+        )
+
+        REMAINING_USE_TICKS = arg("remaining_use_ticks")
 
         ACTION_RESULT = arg("action_result")
 
@@ -247,6 +261,7 @@ object ConiumEventArgTypes {
             transform(::LONG, Long::int),
             transform(::FLOAT, Float::int),
             transform(::DOUBLE, Double::int),
+            transform(::REMAINING_USE_TICKS, Int::asIt)
         )
 
         LONG = arg(

@@ -38,7 +38,6 @@
     "client.interaction.ClientPlayerInteractionManagerMixin",
     "renderer.entity.EntityRenderDispatcherMixin",
     "renderer.entity.EntityRenderersMixin",
-    "renderer.item.ItemModelsAccessor",
     "world.renderer.WorldRendererMixin"
   ]
 }

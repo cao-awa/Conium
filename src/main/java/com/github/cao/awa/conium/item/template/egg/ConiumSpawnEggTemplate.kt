@@ -7,7 +7,10 @@ import com.github.cao.awa.conium.template.ConiumTemplates.Item.SPAWN_EGG
 import com.google.gson.JsonElement
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnReason
+import net.minecraft.item.ItemUsageContext
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.world.World
 
 class ConiumSpawnEggTemplate(private val entityType: EntityType<*>) : ConiumItemTemplate(name = SPAWN_EGG) {
     companion object {
@@ -25,17 +28,19 @@ class ConiumSpawnEggTemplate(private val entityType: EntityType<*>) : ConiumItem
         }
     }
 
-    override fun attach(item: ConiumItem) {
-        ConiumEvent.itemUseOnBlockEvent.subscribe(item) { world, context ->
-            world.spawnEntity(
-                entityType.create(
-                    world,
-                    {},
-                    context.blockPos.offset(context.side),
-                    SpawnReason.SPAWN_ITEM_USE,
-                    false, false
+    override fun attach(target: ConiumItem) {
+        ConiumEvent.itemUseOnBlockEvent.subscribe(target) { world: World, context: ItemUsageContext ->
+            if (world is ServerWorld) {
+                world.spawnEntity(
+                    entityType.create(
+                        world,
+                        {},
+                        context.blockPos.offset(context.side),
+                        SpawnReason.SPAWN_ITEM_USE,
+                        false, false
+                    )
                 )
-            )
+            }
 
             true
         }

@@ -11,14 +11,12 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.world.World
 
-class ConiumEntityDieEvent : ConiumEvent<ParameterSelective3<Boolean, World, LivingEntity, DamageSource>>() {
+class ConiumEntityDieEvent : ConiumEvent<ParameterSelective3<Boolean, World, LivingEntity, DamageSource>>(ConiumEventType.ENTITY_DIE) {
     override fun requirement(): ConiumEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.LIVING_ENTITY,
             ConiumEventArgTypes.DAMAGE_SOURCE
-        ).attach(
-            forever(ConiumEventType.ENTITY_DIE)
         ).arise { identity: Any, world: World, livingEntity: LivingEntity, damageSource: DamageSource ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, livingEntity, damageSource)

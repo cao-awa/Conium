@@ -11,14 +11,12 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class ConiumBreakBlockEvent : ConiumEvent<ParameterSelective3<Boolean, World, PlayerEntity, BlockPos>>() {
+class ConiumBreakBlockEvent : ConiumEvent<ParameterSelective3<Boolean, World, PlayerEntity, BlockPos>>(ConiumEventType.BREAK_BLOCK) {
     override fun requirement(): ConiumEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.PLAYER,
             ConiumEventArgTypes.BLOCK_POS
-        ).attach(
-            forever(ConiumEventType.BREAK_BLOCK)
         ).arise { identity: Any, world: World, player: PlayerEntity, blockPos: BlockPos ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, player, blockPos)

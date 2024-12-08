@@ -2,11 +2,17 @@ package com.github.cao.awa.conium.item
 
 import com.github.cao.awa.conium.item.builder.ConiumItemBuilder
 import com.github.cao.awa.conium.item.setting.ConiumItemSettings
+import com.github.cao.awa.conium.item.template.bedrock.destory.ConiumBedrockCanDestroyInCreativeTemplate
+import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
+import com.github.cao.awa.conium.item.template.tool.ConiumItemToolTemplate
+import com.github.cao.awa.conium.item.template.tool.mining.ConiumForceMiningSpeedTemplate
 import com.github.cao.awa.conium.kotlin.extent.component.acquire
 import com.github.cao.awa.conium.kotlin.extent.item.components
 import com.github.cao.awa.conium.random.ConiumRandom
+import net.minecraft.block.AbstractBlock
 import net.minecraft.block.BlockState
 import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.type.ToolComponent
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -50,6 +56,10 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
      * @param pos the position of the block in the world
      * @param miner the miner that mining the block
      *
+     * @see Item.canMine
+     * @see ConiumCanDestroyInCreativeTemplate
+     * @see ConiumBedrockCanDestroyInCreativeTemplate
+     *
      * @author cao_awa
      *
      * @since 1.0.0
@@ -71,8 +81,9 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
      *
      * @author cao_awa
      *
-     * @see net.minecraft.block.AbstractBlock.AbstractBlockState.getHardness
+     * @see Item.postMine
      * @see ItemStack.damage
+     * @see AbstractBlock.AbstractBlockState.getHardness
      *
      * @since 1.0.0
      *
@@ -94,9 +105,10 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
      * @param target attack target
      * @param attacker the attacker
      *
-     * @author cao_awa
-     *
      * @see ItemStack.damage
+     * @see ConiumItemToolTemplate
+     *
+     * @author cao_awa
      *
      * @since 1.0.0
      *
@@ -111,6 +123,9 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
      * @param target attack target
      * @param attacker the attacker
      *
+     * @see Item.postDamageEntity
+     * @see ConiumItemToolTemplate
+     *
      * @author cao_awa
      *
      * @since 1.0.0
@@ -124,6 +139,22 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
         )
     }
 
+    /**
+     * Compute the mining speed of a block when using this item, force override material component when force mining speed are set.
+     *
+     * @param stack the stack that miner used
+     * @param state the target block state
+     *
+     * @see Item.getMiningSpeed
+     * @see ToolComponent
+     * @see ConiumForceMiningSpeedTemplate
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     *
+     * @return the mining speed
+     */
     override fun getMiningSpeed(stack: ItemStack, state: BlockState): Float {
         return if (this.settings.forceMiningSpeed == -1F) {
             super.getMiningSpeed(stack, state)

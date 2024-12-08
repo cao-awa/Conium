@@ -13,9 +13,8 @@ inline fun <reified T> T.changeIfIs(value: T, creator: (T) -> T): T {
     return this
 }
 
-inline val Any?.bool: Boolean get() = this as Boolean
-inline val Number?.int: Int get() = this as Int
-inline val Number?.long: Long get() = this as Long
-inline val Number?.float: Float get() = this as Float
-inline val Number?.double: Double get() = this as Double
+inline val Number.int: Int get() = toInt()
+inline val Number.long: Long get() = toLong()
+inline val Number.float: Float get() = toFloat()
+inline val Number.double: Double get() = toDouble()
 

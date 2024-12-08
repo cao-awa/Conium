@@ -38,8 +38,8 @@
   "depends": {
     "fluxia": "1.0.10",
     "fabricloader": "*",
-    "fabric-language-kotlin": "1.12.3+kotlin.2.0.21",
-    "minecraft": "1.21.3",
+    "fabric-language-kotlin": "1.13.0+kotlin.2.1.0",
+    "minecraft": "1.21.4",
     "java": "21"
   },
   "recommends": {

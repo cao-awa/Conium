@@ -14,9 +14,9 @@ Then other parameters is the context args, for all args type, see [Context arg t
 ``` kts
 // Shorter schema.
 request(
-    SERVER_TICK,
-    SERVER
-) { _, server ->
+    PLACED_BLOCK,
+    BLOCK_POS
+) { _, pos ->
     // Do something here.
     
     // Here must return a boolean.
@@ -25,11 +25,11 @@ request(
 }
 
 // Full schema.
-// The 'arise' call be shorter as missing, but 'presage' cannot.
+// The 'arise' call be shorter as missing in 'request', but 'presage' cannot.
 request(
-    SERVER_TICK,
-    SERVER
-).arise { _, server ->
+    PLACED_BLOCK,
+    BLOCK_POS
+).arise { _, pos ->
     // Do something here.
     
     // Here must return a boolean.
@@ -41,13 +41,11 @@ request(
 ### Presaging
 
 ``` kts
-request(
-    SERVER_TICK,
-    SERVER
-) { _, server ->
-    // Do something here.  
-    true
-}.presage {
+// Shorter schema.
+preRequest(
+    PLACED_BLOCK,
+    BLOCK_POS
+) { _, pos ->
     // Here must return a boolean.
     // The presaging is called before the event really happening,
     // the whole event will be canceled when the result is false.

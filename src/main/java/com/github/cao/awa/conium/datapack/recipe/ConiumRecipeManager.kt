@@ -79,7 +79,7 @@ class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeM
         }
 
         private fun isEnabled(features: FeatureSet, ingredient: Ingredient): Boolean {
-            return ingredient.matchingItems.stream().allMatch { it.value().isEnabled(features) }
+            return ingredient.matchingItems.allMatch { it.value().isEnabled(features) }
         }
 
         open class PropertySetBuilder(val propertySetKey: RegistryKey<RecipePropertySet>, private val ingredientGetter: SoleIngredientGetter) : Consumer<Recipe<*>> {

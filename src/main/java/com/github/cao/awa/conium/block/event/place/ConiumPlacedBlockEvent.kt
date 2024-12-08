@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class ConiumPlacedBlockEvent : ConiumEvent<ParameterSelective5<Boolean, World, LivingEntity, BlockPos, AbstractBlockState, ItemStack>>() {
+class ConiumPlacedBlockEvent : ConiumEvent<ParameterSelective5<Boolean, World, LivingEntity, BlockPos, AbstractBlockState, ItemStack>>(ConiumEventType.PLACED_BLOCK) {
     override fun requirement(): ConiumEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
@@ -21,8 +21,6 @@ class ConiumPlacedBlockEvent : ConiumEvent<ParameterSelective5<Boolean, World, L
             ConiumEventArgTypes.BLOCK_POS,
             ConiumEventArgTypes.BLOCK_STATE,
             ConiumEventArgTypes.ITEM_STACK
-        ).attach(
-            forever(ConiumEventType.PLACED_BLOCK)
         ).arise { identity: Any, world: World, entity: LivingEntity, blockPos: BlockPos, blockState: AbstractBlockState, itemStack: ItemStack ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, entity, blockPos, blockState, itemStack)

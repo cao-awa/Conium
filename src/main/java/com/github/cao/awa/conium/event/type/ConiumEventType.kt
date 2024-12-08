@@ -19,10 +19,22 @@ class ConiumEventType<I : Any>(val name: String, val identityType: KClass<I>) {
         val SERVER_TICK_TAIL: ConiumEventType<MinecraftServer> = ConiumEventType("server_tick_tail", MinecraftServer::class)
 
         @JvmField
+        val ITEM_USAGE_TICK: ConiumEventType<Item> = ConiumEventType("item_pre_usage_tick", Item::class)
+
+        @JvmField
+        val ITEM_USAGE_TICKED: ConiumEventType<Item> = ConiumEventType("item_usage_tick", Item::class)
+
+        @JvmField
         val ITEM_USE_ON_BLOCK: ConiumEventType<Item> = ConiumEventType("item_use_on_block", Item::class)
 
         @JvmField
         val ITEM_USED_ON_BLOCK: ConiumEventType<Item> = ConiumEventType("item_used_on_block", Item::class)
+
+        @JvmField
+        val ITEM_USE_ON_ENTITY: ConiumEventType<Item> = ConiumEventType("item_use_on_entity", Item::class)
+
+        @JvmField
+        val ITEM_USED_ON_ENTITY: ConiumEventType<Item> = ConiumEventType("item_used_on_entity", Item::class)
 
         // Block.
         /**

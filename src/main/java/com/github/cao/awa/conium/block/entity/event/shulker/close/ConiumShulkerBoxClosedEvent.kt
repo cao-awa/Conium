@@ -21,7 +21,7 @@ import net.minecraft.world.World
  *
  * @since 1.0.0
  */
-class ConiumShulkerBoxClosedEvent : ConiumEvent<ParameterSelective5<Boolean, World, PlayerEntity, ShulkerBoxBlockEntity, AbstractBlockState, BlockPos>>() {
+class ConiumShulkerBoxClosedEvent : ConiumEvent<ParameterSelective5<Boolean, World, PlayerEntity, ShulkerBoxBlockEntity, AbstractBlockState, BlockPos>>(ConiumEventType.SHULKER_BOX_CLOSED) {
     override fun requirement(): ConiumEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
@@ -29,8 +29,6 @@ class ConiumShulkerBoxClosedEvent : ConiumEvent<ParameterSelective5<Boolean, Wor
             ConiumEventArgTypes.BLOCK_ENTITY,
             ConiumEventArgTypes.BLOCK_STATE,
             ConiumEventArgTypes.BLOCK_POS
-        ).attach(
-            forever(ConiumEventType.SHULKER_BOX_CLOSED)
         ).arise { identity: Any, world: World, pos: PlayerEntity, blockEntity: BlockEntity, blockState: AbstractBlockState, blockPos: BlockPos ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, pos, blockEntity as ShulkerBoxBlockEntity, blockState, blockPos)

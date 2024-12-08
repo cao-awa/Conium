@@ -29,6 +29,7 @@
 | knockback_resistance (armor) |               No impl                |        Setting the armor providing how much knock back resistance         |           double            |
 |            toughness (armor) |               No impl                |                          Setting armor toughness                          |           double            |
 |          enchantable (armor) |               No impl                |                 Setting armor enchantable (Not completed)                 |             int             |
+|           force_mining_speed |               No impl                |  Force override the mining speed of item, ignored material mining speed   |            float            |
 
 ## Blocks
 

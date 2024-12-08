@@ -5,7 +5,6 @@ import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.kotlin.extent.innate.bool
 import com.github.cao.awa.conium.kotlin.extent.item.mergedComponents
 import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates.Item.GLINT
@@ -49,7 +48,7 @@ class ConiumGlintTemplate(private val glint: Boolean, private val scriptName: St
                         if (stack.item == target) {
                             // Apply glint override when component map is MergedComponentMap.
                             stack.mergedComponents?.apply {
-                                this[DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE] = acquirer(identity).bool
+                                this[DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE] = acquirer(identity) as Boolean
                             }
                         }
                     }

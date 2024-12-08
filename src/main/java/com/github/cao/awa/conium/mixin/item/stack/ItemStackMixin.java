@@ -10,6 +10,7 @@ import net.minecraft.component.ComponentHolder;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.MergedComponentMap;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
@@ -18,6 +19,8 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -85,9 +88,12 @@ public abstract class ItemStackMixin implements ComponentHolder {
 
     @Redirect(
             method = "useOnBlock",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/Item;useOnBlock(Lnet/minecraft/item/ItemUsageContext;)Lnet/minecraft/util/ActionResult;")
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/item/Item;useOnBlock(Lnet/minecraft/item/ItemUsageContext;)Lnet/minecraft/util/ActionResult;"
+            )
     )
-    public ActionResult handleUseOnBlock(Item instance, ItemUsageContext context) {
+    public ActionResult onUseOnBlock(Item instance, ItemUsageContext context) {
         // Request the item using on block context.
         ConiumEventContext<?> usingContext = ConiumEvent.request(ConiumEventType.ITEM_USE_ON_BLOCK);
 
@@ -118,6 +124,96 @@ public abstract class ItemStackMixin implements ComponentHolder {
         } else {
             // Cancel this event when presaging was rejected the event.
             return ActionResult.FAIL;
+        }
+    }
+
+    @Redirect(
+            method = "useOnEntity",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/item/Item;useOnEntity(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/ActionResult;"
+            )
+    )
+    public ActionResult preUseOnEntity(Item instance, ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+        // Request the item using on entity context.
+        ConiumEventContext<?> usingContext = ConiumEvent.request(ConiumEventType.ITEM_USE_ON_ENTITY);
+
+        // Fill the context args.
+        usingContext.put(ConiumEventArgTypes.PLAYER, user)
+                .put(ConiumEventArgTypes.LIVING_ENTITY, entity)
+                .put(ConiumEventArgTypes.ITEM_STACK, stack)
+                .put(ConiumEventArgTypes.HAND, hand);
+
+        if (usingContext.presaging(instance)) {
+            usingContext.arising(instance);
+
+            // Invoke 'useOnEntity' method.
+            ActionResult result = instance.useOnEntity(stack, user, entity, hand);
+
+            // Request the item used on entity context.
+            ConiumEventContext<?> usedContext = ConiumEvent.request(ConiumEventType.ITEM_USED_ON_ENTITY);
+            usedContext.inherit(usingContext);
+
+            // Used context has action result to acquire the result, this result not cancel or modifiable.
+            usedContext.put(ConiumEventArgTypes.ACTION_RESULT, result);
+
+            if (usedContext.presaging(instance)) {
+                usedContext.arising(instance);
+            }
+
+            return result;
+        } else {
+            // Cancel this event when presaging was rejected the event.
+            return ActionResult.FAIL;
+        }
+    }
+
+    @Inject(
+            method = "usageTick",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void preUsageTick(World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
+        // Request the item usage tick context.
+        ConiumEventContext<?> usingContext = ConiumEvent.request(ConiumEventType.ITEM_USAGE_TICK);
+
+        ItemStack stack = cast();
+        Item item = getItem();
+
+        // Fill the context args.
+        usingContext.put(ConiumEventArgTypes.WORLD, world)
+                .put(ConiumEventArgTypes.LIVING_ENTITY, user)
+                .put(ConiumEventArgTypes.ITEM_STACK, stack)
+                .put(ConiumEventArgTypes.REMAINING_USE_TICKS, remainingUseTicks);
+
+        if (usingContext.presaging(item)) {
+            usingContext.arising(item);
+        } else {
+            // Cancel this event when presaging was rejected the event.
+            ci.cancel();
+        }
+    }
+
+    @Inject(
+            method = "usageTick",
+            at = @At("RETURN")
+    )
+    public void onUsageTick(World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
+        // Request the item usage ticked context.
+        ConiumEventContext<?> usingContext = ConiumEvent.request(ConiumEventType.ITEM_USAGE_TICKED);
+
+        ItemStack stack = cast();
+        Item item = getItem();
+
+        // Fill the context args.
+        usingContext.put(ConiumEventArgTypes.WORLD, world)
+                .put(ConiumEventArgTypes.LIVING_ENTITY, user)
+                .put(ConiumEventArgTypes.ITEM_STACK, stack)
+                .put(ConiumEventArgTypes.REMAINING_USE_TICKS, remainingUseTicks);
+
+        // Usage ticked event cannot cancel because it already completed.
+        if (usingContext.presaging(item)) {
+            usingContext.arising(item);
         }
     }
 }

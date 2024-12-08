@@ -105,7 +105,10 @@ public abstract class DataPackContentsMixin {
 
     @Redirect(
             method = "<init>",
-            at = @At(value = "NEW", target = "(Lnet/minecraft/registry/RegistryWrapper$WrapperLookup;)Lnet/minecraft/recipe/ServerRecipeManager;")
+            at = @At(
+                    value = "NEW",
+                    target = "(Lnet/minecraft/registry/RegistryWrapper$WrapperLookup;)Lnet/minecraft/recipe/ServerRecipeManager;"
+            )
     )
     public ServerRecipeManager delegateRecipes(RegistryWrapper.WrapperLookup registries) {
         return new ConiumRecipeManager(registries);
@@ -119,10 +122,10 @@ public abstract class DataPackContentsMixin {
     public void contents(CallbackInfoReturnable<List<ResourceReloader>> cir) {
         List<ResourceReloader> reloaderList = CollectionFactor.arrayList(cir.getReturnValue());
         reloaderList.add(this.scriptManager);
-        reloaderList.add(this.itemPropertyInjectManager);
-        reloaderList.add(this.coniumItemManager);
-        reloaderList.add(this.coniumBlockManager);
         reloaderList.add(this.coniumEntityManager);
+        reloaderList.add(this.coniumItemManager);
+        reloaderList.add(this.itemPropertyInjectManager);
+        reloaderList.add(this.coniumBlockManager);
         cir.setReturnValue(reloaderList);
     }
 }

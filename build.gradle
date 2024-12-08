@@ -1,8 +1,8 @@
 plugins {
-    id "fabric-loom" version "1.8-SNAPSHOT"
+    id "fabric-loom" version "1.9-SNAPSHOT"
     id "maven-publish"
     id 'com.github.ben-manes.versions' version '+'
-    id "org.jetbrains.kotlin.jvm" version "2.0.21"
+    id "org.jetbrains.kotlin.jvm" version "2.1.0"
 }
 
 archivesBaseName = project.archives_base_name + "-" + project.minecraft_version
@@ -63,7 +63,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:2.0.21"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:2.1.0"
 
     shadow "org.jetbrains.kotlin:kotlin-scripting-common:${project.kotlin_version}"
     shadow "org.jetbrains.kotlin:kotlin-scripting-jvm:${project.kotlin_version}"

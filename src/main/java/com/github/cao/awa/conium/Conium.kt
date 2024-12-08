@@ -17,15 +17,18 @@ import com.github.cao.awa.conium.template.ConiumTemplates
 import com.github.cao.awa.language.translator.translate.LanguageTranslator
 import com.github.cao.awa.language.translator.translate.lang.TranslateTarget
 import com.github.cao.awa.language.translator.translate.lang.element.TranslateElementData
+import com.github.cao.awa.sinuatum.resource.loader.ResourceLoader
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
+import com.github.cao.awa.sinuatum.util.io.IOUtil
 import net.fabricmc.api.ModInitializer
 import net.minecraft.util.Identifier
 import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import java.util.function.Supplier
 
 class Conium : ModInitializer {
     companion object {
-        private val LOGGER = LogManager.getLogger("Conium")
+        private val LOGGER: Logger = LogManager.getLogger("Conium")
 
         val isClient: Boolean get() = ConiumClient.initialized
 
@@ -54,7 +57,7 @@ class Conium : ModInitializer {
         val reloadCallbacks: MutableList<Runnable> = CollectionFactor.arrayList()
 
         @JvmField
-        var enableDebugs: Boolean = true
+        var enableDebugs: Boolean = false
 
         @JvmField
         var allowBedrock: Boolean = true
@@ -157,14 +160,22 @@ class Conium : ModInitializer {
 
         private fun collectTranslators(translators: Map<TranslateTarget, Map<TranslateElementData<*>, LanguageTranslator<*>>>): Map<TranslateTarget, Collection<Class<*>>> {
             val result: MutableMap<TranslateTarget, Collection<Class<*>>> = CollectionFactor.hashMap()
-            translators.forEach { (target, targetTranslators) ->
+            translators.forEach { (target: TranslateTarget, targetTranslators: Map<TranslateElementData<*>, LanguageTranslator<*>>) ->
                 result[target] = targetTranslators.keys.map { it.clazz() }
             }
             return result
         }
+
+        private fun printBanner() {
+            for (line: String in IOUtil.read(ResourceLoader.get("assets/conium/banner.txt")).lines()) {
+                LOGGER.info(line)
+            }
+        }
     }
 
     override fun onInitialize() {
+        printBanner()
+
         // Initialize for item injecting.
         ConiumComponentTypes.init()
         ConiumComponentTypes.types().let { dataComponents ->
@@ -226,5 +237,13 @@ class Conium : ModInitializer {
                 LOGGER::info
             )
         }
+
+        LOGGER.info("Loaded {} conium events", ConiumEvent.count())
+        debug(
+            "Loaded {} conium events: {}",
+            { ConiumEvent.count() },
+            { ConiumEvent.events() },
+            LOGGER::info
+        )
     }
 }
