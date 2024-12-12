@@ -23,9 +23,9 @@ Conium has configured whole project, just clone the repository, and reload proje
 |------------:|:------------:|:----------------------------------:|
 |        Java |     21!!     |         Only 21 can be use         |
 |      Gradle |     8.11     |     8.11 or other could be use     |
-|      Kotlin |   2.0.21!!   |       Only 2.0.21 can be use       |
-| Fabric loom | 1.8-SNAPSHOT | 1.8-SNAPSHOT or other could be use |
-|   Minecraft |   1.21.3!!   |       Only 1.21.3 can be use       |
+|      Kotlin |   2.1.0!!    |       Only 2.1.0 can be use        |
+| Fabric loom | 1.9-SNAPSHOT | 1.9-SNAPSHOT or other could be use |
+|   Minecraft |   1.21.4!!   |       Only 1.21.4 can be use       |
 
 ## Data driven
 
