@@ -34,6 +34,10 @@ import com.github.cao.awa.conium.event.server.tick.ConiumServerTickEvent
 import com.github.cao.awa.conium.event.server.tick.ConiumServerTickTailEvent
 import com.github.cao.awa.conium.event.trigger.ListTriggerable
 import com.github.cao.awa.conium.event.type.ConiumEventType
+import com.github.cao.awa.conium.item.event.stack.click.ConiumItemStackClickEvent
+import com.github.cao.awa.conium.item.event.stack.click.ConiumItemStackClickedEvent
+import com.github.cao.awa.conium.item.event.tick.inventory.ConiumItemInventoryTickEvent
+import com.github.cao.awa.conium.item.event.tick.inventory.ConiumItemInventoryTickedEvent
 import com.github.cao.awa.conium.item.event.use.block.ConiumItemUseOnBlockEvent
 import com.github.cao.awa.conium.item.event.use.block.ConiumItemUsedOnBlockEvent
 import com.github.cao.awa.conium.item.event.use.entity.ConiumItemUseOnEntityEvent
@@ -42,10 +46,13 @@ import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickEvent
 import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickedEvent
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import java.util.*
 
 abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventType<*>) : ListTriggerable<P>() {
     companion object {
+        private val LOGGER: Logger = LogManager.getLogger("ConiumEvent")
         private val events: MutableMap<ConiumEventType<*>, ConiumEvent<*>> = CollectionFactor.hashMap()
         private val foreverContext: MutableMap<ConiumEventType<*>, MutableList<ConiumEventContext<*>>> = CollectionFactor.hashMap()
 
@@ -66,6 +73,18 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
 
         @JvmField
         val itemUsageTickedEvent: ConiumItemUsageTickedEvent = ConiumItemUsageTickedEvent()
+
+        @JvmField
+        val itemStackClickEvent: ConiumItemStackClickEvent = ConiumItemStackClickEvent()
+
+        @JvmField
+        val itemStackClickedEvent: ConiumItemStackClickedEvent = ConiumItemStackClickedEvent()
+
+        @JvmField
+        val itemInventoryTickEvent: ConiumItemInventoryTickEvent = ConiumItemInventoryTickEvent()
+
+        @JvmField
+        val itemInventoryTickedEvent: ConiumItemInventoryTickedEvent = ConiumItemInventoryTickedEvent()
 
         @JvmField
         val serverTick: ConiumServerTickEvent = ConiumServerTickEvent()
@@ -257,6 +276,18 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
     }
 
     private fun register() {
+        events[this.eventType]?.let { event: ConiumEvent<*> ->
+            if (!shouldForceOverride()) {
+                throw IllegalStateException("The event type '${this.eventType.name}' already registered as '${event.javaClass.name}', '${this.javaClass.name}' cannot override it")
+            } else {
+                LOGGER.info(
+                    "The event type '{}' already registered as '{}', '{}' force override it now",
+                    this.eventType.name,
+                    event.javaClass.name,
+                    this.javaClass.name
+                )
+            }
+        }
         events[this.eventType] = this
     }
 
@@ -271,4 +302,6 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
     open fun attach() {
         // No default attaches.
     }
+
+    open fun shouldForceOverride(): Boolean = false
 }

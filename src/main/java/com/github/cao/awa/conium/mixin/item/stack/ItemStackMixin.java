@@ -10,6 +10,7 @@ import net.minecraft.component.ComponentHolder;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.MergedComponentMap;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -17,8 +18,10 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ClickType;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -214,6 +217,77 @@ public abstract class ItemStackMixin implements ComponentHolder {
         // Usage ticked event cannot cancel because it already completed.
         if (usingContext.presaging(item)) {
             usingContext.arising(item);
+        }
+    }
+
+    @Inject(
+            method = "onStackClicked",
+            at = @At("RETURN")
+    )
+    private void handleSlotClicked(Slot slot, ClickType clickType, PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
+        // Request the item stack click context.
+        ConiumEventContext<?> clickedContext = ConiumEvent.request(ConiumEventType.ITEM_STACK_CLICKED);
+
+        Item item = getItem();
+
+        // Fill the context args.
+        clickedContext.put(ConiumEventArgTypes.CLICK_TYPE, clickType)
+                .put(ConiumEventArgTypes.PLAYER, player)
+                .put(ConiumEventArgTypes.ITEM_STACK, cast())
+                .put(ConiumEventArgTypes.SLOT, slot);
+
+        // Item stack clicked event cannot cancel because it already completed.
+        if (clickedContext.presaging(item)) {
+            clickedContext.arising(item);
+        }
+    }
+
+    @Inject(
+            method = "inventoryTick",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void preInventoryTick(World world, Entity entity, int slot, boolean selected, CallbackInfo ci) {
+        // Request the item stack inventory tick context.
+        ConiumEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.ITEM_INVENTORY_TICK);
+
+        Item item = getItem();
+
+        // Fill the context args.
+        tickingContext.put(ConiumEventArgTypes.WORLD, world)
+                .put(ConiumEventArgTypes.ENTITY, entity)
+                .put(ConiumEventArgTypes.ITEM_STACK, cast())
+                .put(ConiumEventArgTypes.SLOT_NUMBER, slot)
+                .put(ConiumEventArgTypes.SELECT_STATUS, selected);
+
+        if (tickingContext.presaging(item)) {
+            tickingContext.arising(item);
+        } else {
+            // Cancel this event when presaging was rejected the event.
+            ci.cancel();
+        }
+    }
+
+    @Inject(
+            method = "inventoryTick",
+            at = @At("RETURN")
+    )
+    public void handleInventoryTick(World world, Entity entity, int slot, boolean selected, CallbackInfo ci) {
+        // Request the item stack inventory ticked context.
+        ConiumEventContext<?> tickedContext = ConiumEvent.request(ConiumEventType.ITEM_INVENTORY_TICKED);
+
+        Item item = getItem();
+
+        // Fill the context args.
+        tickedContext.put(ConiumEventArgTypes.WORLD, world)
+                .put(ConiumEventArgTypes.ENTITY, entity)
+                .put(ConiumEventArgTypes.ITEM_STACK, cast())
+                .put(ConiumEventArgTypes.SLOT_NUMBER, slot)
+                .put(ConiumEventArgTypes.SELECT_STATUS, selected);
+
+        // Item stack inventory ticked event cannot cancel because it already completed.
+        if (tickedContext.presaging(item)) {
+            tickedContext.arising(item);
         }
     }
 }

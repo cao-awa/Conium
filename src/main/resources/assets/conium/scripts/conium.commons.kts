@@ -24,6 +24,11 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_STATE
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_USAGE_CONTEXT
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_PLACEMENT_CONTEXT
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_STACK
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.CURSOR_STACK
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.CLICK_TYPE
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.SLOT
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.SLOT_NUMBER
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.SELECT_STATUS
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.REMAINING_USE_TICKS
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.HAND
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_HIT_RESULT
@@ -75,6 +80,10 @@ import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_USE_O
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_USED_ON_ENTITY
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_USAGE_TICK
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_USAGE_TICKED
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_INVENTORY_TICK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_INVENTORY_TICKED
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_STACK_CLICK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_STACK_CLICKED
 
 
 import net.minecraft.world.tick.ScheduledTickView

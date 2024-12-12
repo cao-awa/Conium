@@ -19,13 +19,13 @@ Conium lets you complete your mods only using datapacks.
 
 Conium has configured whole project, just clone the repository, and reload project then run the gradle task ```remapJar```.
 
-| Requirement |   Version    |               Notes                |
-|------------:|:------------:|:----------------------------------:|
-|        Java |     21!!     |         Only 21 can be use         |
-|      Gradle |     8.11     |     8.11 or other could be use     |
-|      Kotlin |   2.1.0!!    |       Only 2.1.0 can be use        |
-| Fabric loom | 1.9-SNAPSHOT | 1.9-SNAPSHOT or other could be use |
-|   Minecraft |   1.21.4!!   |       Only 1.21.4 can be use       |
+| Requirement | Version  |            Notes            |
+|------------:|:--------:|:---------------------------:|
+|        Java |   21!!   |     Only 21 can be use      |
+|      Gradle |   8.11   | 8.11 or other could be use  |
+|      Kotlin | 2.1.0!!  |    Only 2.1.0 can be use    |
+| Fabric loom |  1.9.2   | 1.9.2 or other could be use |
+|   Minecraft | 1.21.4!! |   Only 1.21.4 can be use    |
 
 ## Data driven
 

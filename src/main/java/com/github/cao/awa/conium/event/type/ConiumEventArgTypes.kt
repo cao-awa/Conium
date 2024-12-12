@@ -20,10 +20,12 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
+import net.minecraft.screen.slot.Slot
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
+import net.minecraft.util.ClickType
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
@@ -43,6 +45,21 @@ object ConiumEventArgTypes {
 
     @JvmField
     val ITEM_STACK: DynamicArgType<ItemStack>
+
+    @JvmField
+    val CURSOR_STACK: DynamicArgType<ItemStack>
+
+    @JvmField
+    val CLICK_TYPE: DynamicArgType<ClickType>
+
+    @JvmField
+    val SLOT: DynamicArgType<Slot>
+
+    @JvmField
+    val SLOT_NUMBER: DynamicArgType<Int>
+
+    @JvmField
+    val SELECT_STATUS: DynamicArgType<Boolean>
 
     @JvmField
     val HAND: DynamicArgType<Hand>
@@ -143,6 +160,16 @@ object ConiumEventArgTypes {
             transform(::ITEM_USAGE_CONTEXT, ItemUsageContext::getStack),
             transform(::ITEM_PLACEMENT_CONTEXT, ItemPlacementContext::getStack)
         )
+
+        CURSOR_STACK = arg("cursor_stack")
+
+        CLICK_TYPE = arg("click_type")
+
+        SLOT = arg("slot")
+
+        SLOT_NUMBER = arg("slot_number")
+
+        SELECT_STATUS = arg("select_status")
 
         HAND = arg(
             "hand",

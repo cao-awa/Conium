@@ -33,7 +33,7 @@ class Conium : ModInitializer {
         val isClient: Boolean get() = ConiumClient.initialized
 
         @JvmField
-        var VERSION = "1.0.0-alpha6"
+        var VERSION = "1.0.0-alpha7"
 
         @JvmField
         var LANGUAGE_TRANSLATOR_VERSION: String = LanguageTranslator.getVersion()
@@ -191,9 +191,9 @@ class Conium : ModInitializer {
         // Initialize for events
         ConiumEvent.init()
         ConiumEvent.events().let { events ->
-            LOGGER.info("Loaded {} events", events.size)
+            LOGGER.info("Loaded {} conium events", events.size)
             debug(
-                "Loaded {} events: {}",
+                "Loaded {} conium events: {}",
                 events::size,
                 { events },
                 LOGGER::info
@@ -237,13 +237,5 @@ class Conium : ModInitializer {
                 LOGGER::info
             )
         }
-
-        LOGGER.info("Loaded {} conium events", ConiumEvent.count())
-        debug(
-            "Loaded {} conium events: {}",
-            { ConiumEvent.count() },
-            { ConiumEvent.events() },
-            LOGGER::info
-        )
     }
 }

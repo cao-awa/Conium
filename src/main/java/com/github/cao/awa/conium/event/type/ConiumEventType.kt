@@ -25,6 +25,18 @@ class ConiumEventType<I : Any>(val name: String, val identityType: KClass<I>) {
         val ITEM_USAGE_TICKED: ConiumEventType<Item> = ConiumEventType("item_usage_tick", Item::class)
 
         @JvmField
+        val ITEM_INVENTORY_TICK: ConiumEventType<Item> = ConiumEventType("item_inventory_tick", Item::class)
+
+        @JvmField
+        val ITEM_INVENTORY_TICKED: ConiumEventType<Item> = ConiumEventType("item_inventory_ticked", Item::class)
+
+        @JvmField
+        val ITEM_STACK_CLICK: ConiumEventType<Item> = ConiumEventType("item_stack_click", Item::class)
+
+        @JvmField
+        val ITEM_STACK_CLICKED: ConiumEventType<Item> = ConiumEventType("item_stack_clicked", Item::class)
+
+        @JvmField
         val ITEM_USE_ON_BLOCK: ConiumEventType<Item> = ConiumEventType("item_use_on_block", Item::class)
 
         @JvmField

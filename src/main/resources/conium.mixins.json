@@ -29,6 +29,7 @@
     "registry.NamedRegistryEntryListMixin",
     "registry.RegistryEntryReferenceMixin",
     "registry.SimpleRegistryMixin",
+    "screen.ScreenHandlerMixin",
     "server.MinecraftServerMixin",
     "server.interaction.ServerPlayerInteractionManagerMixin",
     "server.world.ServerWorldMixin"
