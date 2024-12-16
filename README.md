@@ -1,7 +1,6 @@
 # What is Conium
 
-Conium is a datapack and script framework for the modern Minecraft, it provides very diverse features without Java coding,
-Conium lets you complete your mods only using datapacks.
+Conium is a datapack and script framework for the modern Minecraft, it provides very diverse features without Java coding, Conium lets you complete your mods only using datapacks.
 
 ![](https://count.getloli.com/@@cao-awa.conium?name=%40cao-awa.conium&theme=rule34&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=auto)
 
@@ -12,7 +11,7 @@ Conium lets you complete your mods only using datapacks.
 |                   Java |         21!!          |    Need     |      Only 21 can be use      |
 |              Minecraft |       1.21.4!!        |    Need     |    Only 1.21.4 can be use    |
 | Fabric language kotlin | 1.13.0+kotlin.2.1.0!! |    Need     | Only kotlin 2.1.0 can be use |
-|             Fabric API |           ?           | Unnecessary |      Any version is ok       |
+|             Fabric API |           ?           |    Need     |      Any version is ok       |
 |                 Fluxia |     1.1.0-fix2!!      | Unnecessary | Built-in contents translator |
 
 ### Build requirements
