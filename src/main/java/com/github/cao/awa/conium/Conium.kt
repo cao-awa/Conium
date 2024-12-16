@@ -14,12 +14,12 @@ import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
 import com.github.cao.awa.conium.server.datapack.ConiumServerLoadDatapacks
 import com.github.cao.awa.conium.template.ConiumTemplate
 import com.github.cao.awa.conium.template.ConiumTemplates
-import com.github.cao.awa.language.translator.translate.LanguageTranslator
-import com.github.cao.awa.language.translator.translate.lang.TranslateTarget
-import com.github.cao.awa.language.translator.translate.lang.element.TranslateElementData
 import com.github.cao.awa.sinuatum.resource.loader.ResourceLoader
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.github.cao.awa.sinuatum.util.io.IOUtil
+import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
+import com.github.cao.awa.translator.structuring.translate.element.TranslateElementData
+import com.github.cao.awa.translator.structuring.translate.language.LanguageTranslateTarget
 import net.fabricmc.api.ModInitializer
 import net.minecraft.util.Identifier
 import org.apache.logging.log4j.LogManager
@@ -36,7 +36,7 @@ class Conium : ModInitializer {
         var VERSION = "1.0.0-alpha7"
 
         @JvmField
-        var LANGUAGE_TRANSLATOR_VERSION: String = LanguageTranslator.getVersion()
+        var STRUCTURING_TRANSLATOR_VERSION: String = StructuringTranslator.getVersion()
 
         @JvmField
         var itemInjectManager: ItemPropertyInjectManager? = null
@@ -57,7 +57,7 @@ class Conium : ModInitializer {
         val reloadCallbacks: MutableList<Runnable> = CollectionFactor.arrayList()
 
         @JvmField
-        var enableDebugs: Boolean = false
+        var enableDebugs: Boolean = true
 
         @JvmField
         var allowBedrock: Boolean = true
@@ -158,9 +158,9 @@ class Conium : ModInitializer {
             }
         }
 
-        private fun collectTranslators(translators: Map<TranslateTarget, Map<TranslateElementData<*>, LanguageTranslator<*>>>): Map<TranslateTarget, Collection<Class<*>>> {
-            val result: MutableMap<TranslateTarget, Collection<Class<*>>> = CollectionFactor.hashMap()
-            translators.forEach { (target: TranslateTarget, targetTranslators: Map<TranslateElementData<*>, LanguageTranslator<*>>) ->
+        private fun collectTranslators(translators: Map<LanguageTranslateTarget, Map<TranslateElementData<*>, StructuringTranslator<*>>>): Map<LanguageTranslateTarget, Collection<Class<*>>> {
+            val result: MutableMap<LanguageTranslateTarget, Collection<Class<*>>> = CollectionFactor.hashMap()
+            translators.forEach { (target: LanguageTranslateTarget, targetTranslators: Map<TranslateElementData<*>, StructuringTranslator<*>>) ->
                 result[target] = targetTranslators.keys.map { it.clazz() }
             }
             return result
@@ -220,17 +220,17 @@ class Conium : ModInitializer {
         }
 
         // Initialize script translator for bedrock's typescript.
-        LOGGER.info("Loading conium '{}' language translator providers for [typescript]", VERSION)
+        LOGGER.info("Loading conium '{}' structuring translator providers for [typescript]", VERSION)
         ConiumScriptTranslator.postRegister()
 
-        LanguageTranslator.getTranslators("conium").let { translators ->
+        StructuringTranslator.getTranslators("conium").let { translators ->
             LOGGER.info(
-                "Loaded {} translators by conium language providers({})",
+                "Loaded {} translators by conium structuring translator providers({})",
                 translators.size,
                 VERSION
             )
             debug(
-                "Loaded {} translators by conium language providers({}): {}",
+                "Loaded {} translators by conium structuring translator providers({}): {}",
                 translators::size,
                 { VERSION },
                 { collectTranslators(translators) },

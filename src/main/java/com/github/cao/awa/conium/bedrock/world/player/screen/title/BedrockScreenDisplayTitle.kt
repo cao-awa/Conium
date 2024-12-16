@@ -26,5 +26,5 @@ class BedrockScreenDisplayTitle(private var title: String, private var subtitle:
         }
     }
 
-    fun updateSubtitle(title: String) = MinecraftClient.getInstance().inGameHud.setSubtitle(Text.of(title))
+    fun updateSubtitle(title: String): Unit = MinecraftClient.getInstance().inGameHud.setSubtitle(Text.of(title))
 }

@@ -8,16 +8,16 @@ import com.github.cao.awa.conium.script.ScriptExport
 import com.github.cao.awa.conium.script.eval.ScriptEval
 import com.github.cao.awa.conium.script.interaction.NamedInteractionScript
 import com.github.cao.awa.conium.script.kts.ConiumScript
-import com.github.cao.awa.language.translator.builtin.typescript.antlr.TypescriptLexer
-import com.github.cao.awa.language.translator.builtin.typescript.antlr.TypescriptParser
-import com.github.cao.awa.language.translator.builtin.typescript.translate.element.TypescriptTranslateElement
-import com.github.cao.awa.language.translator.builtin.typescript.tree.TypescriptFile
-import com.github.cao.awa.language.translator.builtin.typescript.visitor.LanguageTypescriptVisitor
-import com.github.cao.awa.language.translator.translate.LanguageTranslator
-import com.github.cao.awa.language.translator.translate.lang.TranslateTarget
 import com.github.cao.awa.sinuatum.resource.loader.ResourceLoader
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.github.cao.awa.sinuatum.util.io.IOUtil
+import com.github.cao.awa.translator.structuring.builtin.typescript.antlr.TypescriptLexer
+import com.github.cao.awa.translator.structuring.builtin.typescript.antlr.TypescriptParser
+import com.github.cao.awa.translator.structuring.builtin.typescript.translate.element.TypescriptTranslateElement
+import com.github.cao.awa.translator.structuring.builtin.typescript.tree.TypescriptFile
+import com.github.cao.awa.translator.structuring.builtin.typescript.visitor.LanguageTypescriptVisitor
+import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
+import com.github.cao.awa.translator.structuring.translate.language.LanguageTranslateTarget
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.resource.Resource
 import net.minecraft.resource.ResourceFinder
@@ -197,14 +197,18 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
                         LOGGER.warn("Conium are disabled bedrock script, ignored '$identifier'")
                     } else if (path.endsWith(".ts")) {
                         // Load script data after translate typescript to kotlin.
-                        scripts.add(
-                            ScriptEval(
-                                translateBedrockTypescript(content),
-                                path,
-                                "ConiumCommons",
-                                "ConiumBedrockCommons"
+                        runCatching {
+                            scripts.add(
+                                ScriptEval(
+                                    translateBedrockTypescript(content),
+                                    path,
+                                    "ConiumCommons",
+                                    "ConiumBedrockCommons"
+                                )
                             )
-                        )
+                        }.exceptionOrNull()?.let {
+                            LOGGER.warn("Failed to translate the script: {}", content, it)
+                        }
                     } else if (path.endsWith(".js")) {
                         // Javascript supports are not done.
                         TODO("Javascript translator are not implemented yet.")
@@ -250,12 +254,12 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
             typescriptFile.prepares()
 
             // Translate typescript to conium script (kotlin script with conium API).
-            val translated: String = LanguageTranslator.translate(
+            val translated: String = StructuringTranslator.translate(
                 // Use conium provider to processes something additional features.
                 // See the package 'com.github.cao.awa.conium.script.translate'
                 "conium",
                 // Translate to kotlin script.
-                TranslateTarget.KOTLIN_SCRIPT,
+                LanguageTranslateTarget.KOTLIN_SCRIPT,
                 // Whole file to translates.
                 TypescriptTranslateElement.FILE,
                 typescriptFile
@@ -265,13 +269,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
             // because the 'world' or 'system' or others variables may uniques in different context.
             // The bedrock commons use 'get() = access(this)' to access current context,
             // when context created, it will push to the 'contexts' in 'BedrockEventContext', so 'access' can got current context for this script.
-            return@let """
-            BedrockEventContext.post(this) {
-                $translated
-            }.also { 
-                BedrockEventContext.completePost()
-            }
-        """.trimIndent()
+            return@let translated
         }
     }
 
@@ -332,6 +330,13 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
         LOGGER.info(
             "Evaluating script '{}'",
             scriptEval.source
+        )
+
+        Conium.debug(
+            "Evaluating script '{}': {}",
+            scriptEval::source,
+            { content },
+            LOGGER::info
         )
 
         // The 'eval' in host will compile and evaluate the script.

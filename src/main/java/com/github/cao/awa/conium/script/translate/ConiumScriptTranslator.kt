@@ -1,15 +1,23 @@
 package com.github.cao.awa.conium.script.translate
 
+import com.github.cao.awa.conium.script.translate.kts.file.ConiumTypescriptFileTranslator
 import com.github.cao.awa.conium.script.translate.kts.file.obj.anonymous.ConiumTypescriptAnonymousObjectTranslator
+import com.github.cao.awa.conium.script.translate.kts.file.statement.importing.ConiumTypescriptImportTranslator
 import com.github.cao.awa.conium.script.translate.kts.file.statement.variable.ConiumTypescriptDefineVariableTranslator
-import com.github.cao.awa.language.translator.builtin.typescript.translate.element.TypescriptTranslateElement
-import com.github.cao.awa.language.translator.translate.LanguageTranslator
-import com.github.cao.awa.language.translator.translate.lang.TranslateTarget
-import com.github.cao.awa.language.translator.translate.tree.LanguageAst
+import com.github.cao.awa.translator.structuring.builtin.typescript.translate.element.TypescriptTranslateElement
+import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
+import com.github.cao.awa.translator.structuring.translate.language.LanguageTranslateTarget
+import com.github.cao.awa.translator.structuring.translate.tree.StructuringAst
 
-abstract class ConiumScriptTranslator<T : LanguageAst> : LanguageTranslator<T>() {
+abstract class ConiumScriptTranslator<T : StructuringAst> : StructuringTranslator<T>() {
     companion object {
         fun postRegister() {
+            registerKotlinScript(
+                "conium",
+                TypescriptTranslateElement.FILE,
+                ConiumTypescriptFileTranslator()
+            )
+
             // Most of the cases, generic provider is great,
             // but generic doesn't translate anonymous object, conium will impls it.
             registerKotlinScript(
@@ -37,8 +45,14 @@ abstract class ConiumScriptTranslator<T : LanguageAst> : LanguageTranslator<T>()
                 TypescriptTranslateElement.DEFINE_VARIABLE,
                 ConiumTypescriptDefineVariableTranslator()
             )
+
+            registerKotlinScript(
+                "conium",
+                TypescriptTranslateElement.IMPORT,
+                ConiumTypescriptImportTranslator()
+            )
         }
     }
 
-    override fun target(): TranslateTarget = TranslateTarget.KOTLIN_SCRIPT
+    override fun target(): LanguageTranslateTarget = LanguageTranslateTarget.KOTLIN_SCRIPT
 }

@@ -18,10 +18,11 @@ import com.github.cao.awa.catheter.receptacle.IntegerReceptacle
 import com.github.cao.awa.catheter.receptacle.LongReceptacle
 import com.github.cao.awa.conium.bedrock.system.BedrockSystem
 
+import com.github.cao.awa.conium.script.javascript.std.collection.set.Set
+
 ScriptExport(
     "ConiumBedrockCommons",
     { handler ->
-        handler("world", AbstractBedrockWorld::class) { instance -> BedrockEventContext.accessWorld(instance) }
-        handler("system", AbstractBedrockSystem::class) { BedrockEventContext.accessSystem() }
+        handler("world", AbstractBedrockWorld::class, BedrockEventContext::accessWorld)
     }
 )

@@ -38,7 +38,7 @@ repositories {
     }
     maven {
         name = "GitHubPackages"
-        url = "https://github.com/cao-awa/language-translator"
+        url = "https://github.com/cao-awa/structuring-translator"
         credentials {
             username = "cao-awa"
             password = "ghp_UgALm1Ta2ONYeNh" + "S2m0XoWSc27BcE22v4Umn"
@@ -52,7 +52,7 @@ configurations {
 }
 
 dependencies {
-    implementation 'org.jetbrains:annotations:23.0.0'
+    implementation 'org.jetbrains:annotations:26.0.1'
 
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -72,7 +72,8 @@ dependencies {
 
     shadow 'com.github.cao.awa:catheter:1.0.42'
     shadow 'com.github.cao.awa:sinuatum:1.0.11'
-    implementation "com.github.cao.awa:language-translator:${project.language_translator_version}"
+
+    implementation "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
 }
 
 processResources {

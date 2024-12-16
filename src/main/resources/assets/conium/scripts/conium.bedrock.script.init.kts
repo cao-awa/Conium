@@ -1,9 +1,8 @@
 BedrockEventContext.newSystem()
 
 request(
-    SERVER_TICK,
-    SERVER
-).arise { _, server ->
+    SERVER_TICK
+) { server ->
     BedrockEventContext.system.tick(server)
 
     true

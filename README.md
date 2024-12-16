@@ -13,7 +13,7 @@ Conium lets you complete your mods only using datapacks.
 |              Minecraft |       1.21.4!!        |    Need     |    Only 1.21.4 can be use    |
 | Fabric language kotlin | 1.13.0+kotlin.2.1.0!! |    Need     | Only kotlin 2.1.0 can be use |
 |             Fabric API |           ?           | Unnecessary |      Any version is ok       |
-|                 Fluxia |       1.0.10!!        | Unnecessary | Built-in contents translator |
+|                 Fluxia |     1.1.0-fix2!!      | Unnecessary | Built-in contents translator |
 
 ### Build requirements
 
@@ -41,7 +41,7 @@ Not completed bedrock script APIs supports now, only framework able to runs the 
 
 ### Grammars
 
-About typescript grammar, supported by ```language-translator``` or called ```fluxia```: [Typescript supports](https://github.com/cao-awa/language-translator/tree/main/doc/typescript)
+About typescript grammar, supported by ```structring-translator``` or called ```fluxia```: [Typescript supports](https://github.com/cao-awa/structring-translator/tree/main/doc/typescript)
 
 ### APIs
 

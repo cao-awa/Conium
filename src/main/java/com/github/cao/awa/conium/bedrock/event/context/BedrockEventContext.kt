@@ -8,12 +8,13 @@ import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 abstract class BedrockEventContext(val scriptSource: Any) {
     companion object {
-        var system: BedrockSystem = BedrockSystem()
+        val system: BedrockSystem get() = this._system
+        var _system: BedrockSystem = BedrockSystem()
         var currentPosting: Any? = null
         val contexts: MutableMap<Any, BedrockEventContext?> = CollectionFactor.hashMap()
 
         fun newSystem() {
-            this.system = BedrockSystem()
+            this._system = BedrockSystem()
         }
 
         @JvmStatic
