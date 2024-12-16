@@ -17,10 +17,11 @@ class ServerIndexD : IndexD() {
     }
 
     override fun forName(refName: String, action: Consumer<String>) {
-        mappings[refName]?.also { ref: String ->
+        val ref: String? = mappings[refName]
+        if (ref != null) {
             action.accept(ref)
-        } ?: {
-            LOGGER.warn("The reference name '{}' are not found in conium ServerIndexD(@minecraft/server)", refName)
+        } else {
+            LOGGER.warn("The reference name '{}' are not found in conium ServerIndexD(@minecraft/server), ignored", refName)
         }
     }
 }

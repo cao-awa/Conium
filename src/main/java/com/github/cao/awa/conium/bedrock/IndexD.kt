@@ -16,12 +16,13 @@ abstract class IndexD {
 
         @JvmStatic
         fun tryImport(packageName: String, refs: Collection<String>, action: Consumer<String>) {
-            packages[packageName]?.also { indexD: IndexD ->
+            val indexD: IndexD? = packages[packageName]
+            if (indexD != null) {
                 refs.distinct().forEach { ref: String ->
                     indexD.forName(ref, action)
                 }
-            } ?: {
-                LOGGER.warn("The package '{}' are not found in conium IndexD", packageName)
+            } else {
+                LOGGER.warn("The package '{}' are not found in conium IndexD, ignored", packageName)
             }
         }
     }
