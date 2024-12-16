@@ -27,3 +27,5 @@ Upload ```latest.log``` to [mclogs](https://mclo.gs/) and paste the link here.
 
 ## Labels
 If this bug has damaged the world, game data, gameplay or found CVE vulnerability, please add ```emergency``` label to this issue.
+
+And If this bug still happens when removed all other mods, please add ```compatibility``` label to this issue.
