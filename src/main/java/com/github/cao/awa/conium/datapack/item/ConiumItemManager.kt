@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.datapack.ConiumJsonDataLoader
 import com.github.cao.awa.conium.datapack.item.fuel.ConiumFuelRegistry
 import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.extend.ConiumDynamicRegistry
+import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry
 import com.github.cao.awa.conium.item.builder.bedrock.BedrockSchemaItemBuilder
 import com.github.cao.awa.conium.item.builder.conium.ConiumSchemaItemBuilder
 import com.github.cao.awa.conium.kotlin.extent.item.register

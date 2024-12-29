@@ -9,7 +9,7 @@ import com.github.cao.awa.conium.entity.builder.bedrock.BedrockSchemaEntityBuild
 import com.github.cao.awa.conium.entity.builder.conium.ConiumSchemaEntityBuilder
 import com.github.cao.awa.conium.entity.metadata.ConiumEntityMetadata
 import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.extend.ConiumDynamicRegistry
+import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry
 import com.github.cao.awa.conium.kotlin.extent.entity.register
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor

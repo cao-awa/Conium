@@ -17,4 +17,5 @@ inline val Number.int: Int get() = toInt()
 inline val Number.long: Long get() = toLong()
 inline val Number.float: Float get() = toFloat()
 inline val Number.double: Double get() = toDouble()
-
+inline val Number.char: Char get() = this.int.toChar()
+inline val Number.byte: Byte get() = toByte()

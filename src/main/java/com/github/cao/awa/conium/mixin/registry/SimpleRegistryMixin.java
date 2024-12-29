@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.mixin.registry;
 
-import com.github.cao.awa.conium.extend.ConiumDynamicRegistry;
+import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry;
 import com.github.cao.awa.sinuatum.manipulate.QuickManipulate;
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import com.google.common.collect.Iterators;
