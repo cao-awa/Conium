@@ -38,7 +38,7 @@ import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromTemplate
 
 /**
- * A dedicated script manager for conium that translate and compile scripts then evaluates.
+ * A dedicated script manager for conium that translates and compiles scripts then evaluates.
  *
  * ConiumScriptManager is script dynamic loadable.
  *
@@ -52,7 +52,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
         private val LOGGER: Logger = LogManager.getLogger("ConiumScriptManager")
         private val DATA_TYPE: String = RegistryKeys.getPath(ConiumRegistryKeys.SCRIPT)
 
-        // Commons script here, all script uses theses script.
+        // Commons script here, all scripts use these scripts.
         private val defaultCommons: String = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.commons.kts"))
         private val defaultBedrockScriptInit: String = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.bedrock.script.init.kts"))
         private val defaultBedrockCommons: String = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.bedrock.commons.kts"))
@@ -60,15 +60,15 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
         /**
          * The 'host' is kotlin scripting host that used to compile and evaluate the kotlin scripts.
          *
-         * Don't use JSR223 API to evaluates scripts, it will cause unexpected produce env problems!
+         * Don't use JSR223 API to evaluate scripts, it will cause unexpected produce env problems!
          */
         private val host: BasicJvmScriptingHost = BasicJvmScriptingHost()
     }
 
     /**
-     * The 'exportedScript' is shared script context when script return a '[ScriptExport]'
+     * The 'exportedScript' is shared script context when the script return a '[ScriptExport]'
      *
-     * Other scripts can use comment to import these contexts where they marked as:
+     * Other scripts can use comment to import these contexts where they are marked as:
      *
      * '// IMPORT: ExportName' or '// IMPORT: ExportName, OtherExportName'
      */
@@ -84,9 +84,9 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
     /**
      * Prepares the intermediate object.
      *
-     * This method is called in the prepare executor in a reload.
+     * This method is called in the prepared executor in a reload.
      *
-     * @param profiler the prepare profiler
+     * @param profiler the prepared profiler
      * @param manager the resource manager
      *
      * @return the prepared object
@@ -129,12 +129,12 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
         manager: ResourceManager,
         results: MutableMap<Identifier, Resource>
     ) {
-        // There are 3 types finder need to load.
+        // There is 3 types finder need to load.
         val kotlinFinder = ResourceFinder(DATA_TYPE, ".kts")
         val javascriptFinder = ResourceFinder(DATA_TYPE, ".js")
         val typescriptFinder = ResourceFinder(DATA_TYPE, ".ts")
 
-        // Load kotlin script.
+        // Load kotlin scripts.
         kotlinFinder.findResources(manager).entries.iterator().forEach {
             results[it.key] = it.value
         }
@@ -153,10 +153,10 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
     /**
      * Handles the prepared intermediate object.
      *
-     * This method is called in the apply executor, or the game engine, in a reload.
+     * This method is called in the applied executor, or the game engine, in a reload.
      *
      * @param manager the resource manager
-     * @param profiler the apply profiler
+     * @param profiler the profiler
      * @param prepared the prepared object
      *
      * @author aco_awa
@@ -173,12 +173,12 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
         // Clear old exported script, scripts will export to here again in next step loading
         this.exportedScript.clear()
 
-        // Add script for next step ordered loading.
+        // Add the script for next step ordered loading.
         CollectionFactor.linkedList<ScriptEval>().let { scripts ->
             // Load commons.
             scripts.add(ScriptEval(defaultCommons, "ConiumCommons"))
 
-            // Bedrock common is only load when conium allow bedrock.
+            // Bedrock common is only load when conium allows bedrock.
             if (Conium.allowBedrock) {
                 scripts.add(ScriptEval(defaultBedrockCommons, "ConiumBedrockCommons", "ConiumCommons"))
                 scripts.add(ScriptEval(defaultBedrockScriptInit, "ConiumBedrockScriptInit", "ConiumCommons", "ConiumBedrockCommons"))
@@ -193,7 +193,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
                         // Load script data after.
                         scripts.add(ScriptEval(content, path, "ConiumCommons"))
                     } else if (!Conium.allowBedrock) {
-                        // When disabled bedrock script allows, then script won't be load.
+                        // When bedrock scripting allows is disabled, then the script won't be load.
                         LOGGER.warn("Conium are disabled bedrock script, ignored '$identifier'")
                     } else if (path.endsWith(".ts")) {
                         // Load script data after translate typescript to kotlin.
@@ -210,13 +210,13 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
                             LOGGER.warn("Failed to translate the script: {}", content, it)
                         }
                     } else if (path.endsWith(".js")) {
-                        // Javascript supports are not done.
+                        // JavaScript supporting is not done.
                         TODO("Javascript translator are not implemented yet.")
                     }
                 }
             }
 
-            // Scripts will compiles and executions in order.
+            // Scripts will compile and executions in order.
             evalKotlin(scripts)
         }
     }
@@ -244,7 +244,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
             }
         })
 
-        // Use visitor to builds typescript AST after context parsed.
+        // Use the visitor to build typescript AST after context parsed.
         return LanguageTypescriptVisitor().visitProgram(parser.program())
     }
 
@@ -253,28 +253,29 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
             // Prepares the typescript AST for next step translating.
             typescriptFile.prepares()
 
-            // Translate typescript to conium script (kotlin script with conium API).
+            // Translate typescript to the conium script (kotlin script with conium API).
             val translated: String = StructuringTranslator.translate(
                 // Use conium provider to processes something additional features.
                 // See the package 'com.github.cao.awa.conium.script.translate'
                 "conium",
                 // Translate to kotlin script.
                 LanguageTranslateTarget.KOTLIN_SCRIPT,
-                // Whole file to translates.
+                // Whole file to translate.
                 TypescriptTranslateElement.FILE,
                 typescriptFile
             )
 
-            // Bedrock script need post script instance to 'BedrockEventContext',
+            // Bedrock script needs post the script instance to 'BedrockEventContext',
             // because the 'world' or 'system' or others variables may uniques in different context.
             // The bedrock commons use 'get() = access(this)' to access current context,
-            // when context created, it will push to the 'contexts' in 'BedrockEventContext', so 'access' can got current context for this script.
+            // when context created, it will push to the 'contexts' in 'BedrockEventContext',
+            // so 'access' can get current context for this script.
             return@let translated
         }
     }
 
     /**
-     * Post the kotlin scripts to ordered eval function.
+     * Post the kotlin scripts to ordering eval function.
      *
      * @param scripts scripts data
      *
@@ -287,7 +288,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
     /**
      * Compile and evaluate the kotlin scripts in order, post once when callback was called.
      *
-     * The callback will be calls after a script runs done.
+     * The callback will be called after a script runs done.
      *
      * @param scripts scripts data
      *
@@ -297,9 +298,9 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
      * @since 1.0.0
      */
     private fun evalKotlin(scripts: Iterator<ScriptEval>) {
-        // Do not continues load when scripts already not has next.
+        // Do not continue to load when scripts already not has next.
         if (scripts.hasNext()) {
-            // Get next script and process it.
+            // Get the next script and process it.
             evalKotlin(scripts.next()) {
                 // Continues to processes until scripts has no next present.
                 evalKotlin(scripts)
@@ -343,21 +344,21 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
         val result: ResultWithDiagnostics<EvaluationResult> = host.eval(
             StringScriptSource(content),
             // Create compilation configuration that dependencies whole java classpath.
-            // Dependencies whole classpath is necessary, otherwise kotlin script may not be executes anything,
+            // Dependencies whole classpath is necessary, otherwise the kotlin script may not be executing anything,
             // like unable to load class 'java.lang.Object' or ETC.
             createJvmCompilationConfigurationFromTemplate<ConiumScript> {
                 jvm {
                     dependenciesFromCurrentContext(wholeClasspath = true)
                 }
             },
-            // No evaluation configuration, script contexts has maintained by conium.
+            // No evaluation configuration, script contexts have maintained by conium.
             null
         )
 
-        // Processes export and calls callback to load next script.
+        // Processes export and calls callback to load the next script.
         when (result) {
             is ResultWithDiagnostics.Success -> {
-                // When result is 'Success', then 'returnValue' must not be null.
+                // When the result is 'Success', then 'returnValue' must not be null.
                 result.value
                     .returnValue
                     .let { returnValue: ResultValue ->
@@ -365,7 +366,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
                         (returnValue as? ResultValue.Value)
                             ?.let(ResultValue.Value::value)
                             ?.let { value ->
-                                // When value type is 'ScriptExport', then export it to conium contexts.
+                                // When the value type is 'ScriptExport', then export it to conium contexts.
                                 (value as? ScriptExport)?.let {
                                     // The 'ofCode' only allow types import can be import to scripts.
                                     this.exportedScript[it.name] = it.ofCode(content)

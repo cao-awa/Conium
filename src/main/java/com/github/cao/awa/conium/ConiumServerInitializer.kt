@@ -25,20 +25,8 @@ class ConiumServerInitializer : DedicatedServerModInitializer {
         ConiumClient.willNeverInitialized()
         ConiumDedicatedServer.onInitialized()
 
-//        Conium.reloadCallbacks.add {
-//            ConiumEventContextBuilder.request(
-//                ConiumEventType.USED_BLOCK,
-//                ConiumEventArgTypes.BLOCK_POS,
-//                ConiumEventArgTypes.SERVER_PLAYER
-//            ) { block, pos, player ->
-//                player.networkHandler.sendPacket(
-//                    SynchronizeRegistryPayload("Player ${player.name.literalString} used block '$block' at '$pos'").packet
-//                )
-//                true
-//            }
-//        }
-
-        ServerConfigurationConnectionEvents.CONFIGURE.register { handler: ServerConfigurationNetworkHandler, server: MinecraftServer ->
+        // Register the configuring packet to synchronize registries.
+        ServerConfigurationConnectionEvents.CONFIGURE.register { handler: ServerConfigurationNetworkHandler, _: MinecraftServer ->
             handler.sendPacket(
                 SynchronizeRegistryPayload().packet
             )

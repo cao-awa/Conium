@@ -53,7 +53,7 @@ class DynamicArgs<P : ParameterSelective?, R>(
      * @see DynamicArgsBuilder
      * @see DynamicArgType
      *
-     * @return the new context arguments that trying to fills required arguments instance
+     * @return the new context arguments that trying to fill required arguments instance
      *
      * @author cao_awa
      * @author 草二号机
@@ -67,7 +67,7 @@ class DynamicArgs<P : ParameterSelective?, R>(
         for ((key: DynamicArgType<*>, value: Any?) in sources) {
             // Only varying argument type to real argument instance.
             if (value is DynamicArgType<*>) {
-                // Dynamic args has multiple varying methods, find until found or no more method can trys.
+                // Dynamic args has multiple varying methods, find until found or no more method can try.
                 for (dynamicVarying: DynamicArgs<*, *>? in value.dynamicArgs) {
                     // Do not process null dynamic args or transform the dynamic args that doesn't have correct lifecycles.
                     if (dynamicVarying == null || dynamicVarying.lifecycle != DynamicArgsLifecycle.TRANSFORM) {
@@ -76,11 +76,11 @@ class DynamicArgs<P : ParameterSelective?, R>(
 
                     // Run the dynamic vary.
                     val result: Any? = dynamicVarying.runCatching {
-                        // Arise the dynamic args, it will continues to vary args or got a value.
+                        // Arise the dynamic args, it will continue to vary args or got a value.
                         arising(identity, sources, null)
                     }.getOrNull()
 
-                    // When result found, stop dynamic args varying.
+                    // When a result found, stop dynamic args varying.
                     if (result != null) {
                         // And put to arguments map.
                         args[key] = result
@@ -88,7 +88,7 @@ class DynamicArgs<P : ParameterSelective?, R>(
                     }
                 }
             } else {
-                // The real instance should directly put to arguments map.
+                // The real instance should directly put to the argument map.
                 args[key] = value
             }
         }
@@ -114,14 +114,15 @@ class DynamicArgs<P : ParameterSelective?, R>(
      * @since 1.0.0
      */
     fun arising(identity: Any, args: MutableMap<DynamicArgType<*>, Any?>, p: P?): R {
-        // When 'ParameterSelective' instance is null, means this dynamic args won't got more args, it should got a value.
+        // When 'ParameterSelective' instance is null, means this dynamic args won't get more dynamic args.
+        // Then this dynamic args instance should get a value later.
         if (p == null) {
             // Do trigger directly, no vary args.
             return this.trigger.apply(identity, args, null)
         }
 
         // Vary args to got more completed arguments.
-        // Put 'queryArg'(DynamicArgType<*>) to source arguments map, it will vary to other value in next step varying.
+        // Put 'queryArg' to source arguments map, it will vary to other value in the next step varying.
         for (queryArg: DynamicArgType<*> in this.queryArgs) {
             // Do not add query arg to varying when args contains the real value.
             if (args.containsKey(queryArg)) {
