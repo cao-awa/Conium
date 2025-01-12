@@ -4,14 +4,16 @@ import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.path.through.ConiumBlockPathFindThroughTemplate
 import net.minecraft.block.Block
+import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
+import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 
-class ConiumBlock(private val setting: ConiumBlockSettings) : Block(setting.vanillaSettings) {
+class ConiumBlock(private val setting: ConiumBlockSettings) : Block(setting.vanillaSettings), BlockEntityProvider {
     companion object {
         fun create(builder: ConiumBlockBuilder, settings: ConiumBlockSettings): ConiumBlock {
             builder.templates.forEach { it.prepare(settings) }
@@ -50,4 +52,6 @@ class ConiumBlock(private val setting: ConiumBlockSettings) : Block(setting.vani
             NavigationType.AIR -> this.setting.airPathThrough
         }
     }
+
+    override fun createBlockEntity(pos: BlockPos?, state: BlockState?): BlockEntity? = null
 }
