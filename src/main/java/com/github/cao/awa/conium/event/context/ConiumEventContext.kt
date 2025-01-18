@@ -6,7 +6,7 @@ import com.github.cao.awa.conium.parameter.DynamicArgType
 import com.github.cao.awa.conium.parameter.DynamicArgs
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective1
-import com.github.cao.awa.sinuatum.manipulate.ManipulateBuilder
+import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 /**
@@ -46,9 +46,9 @@ class ConiumEventContext<P : ParameterSelective?>(
     @Suppress("unchecked_cast")
     fun <X : Any> targetTo(predicate: (X) -> Boolean): ConiumEventContext<P> {
         this.targetedIdentity = ParameterSelective1 {
-            ManipulateBuilder.supply {
+            Manipulate.supplyLater {
                 predicate(it as X)
-            }.getOrDefault(false)
+            }.getOr(false)
         }
         return this
     }
