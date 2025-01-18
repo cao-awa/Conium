@@ -1,0 +1,17 @@
+{
+  "schema_style": "conium",
+  "identifier": "awa:conium_block",
+  "templates": {
+    "enable_block_entity": "awa:conium_block",
+    "data": {
+      "test1": {
+        "type": "string",
+        "value": "www"
+      },
+      "inc": {
+        "type": "int",
+        "value": 0
+      }
+    }
+  }
+}

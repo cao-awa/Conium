@@ -33,18 +33,20 @@
 
 ## Blocks
 
-| Conium schema key |       Bedrock schema impls       |                                  Notes                                  |        Value type        |
-|------------------:|:--------------------------------:|:-----------------------------------------------------------------------:|:------------------------:|
-|          hardness | minecraft:destructible_by_mining |                    Setting the hardness of the block                    |          float           |
-|         map_color |       minecraft:map_color        |           Setting the map color of the block (Not completed)            |     Map color object     |
-|         luminance |     minecraft:light_emission     |   Setting the lighting of the block (like torch or burning furnaces)    |           int            |
-|         collision |     minecraft:collision_box      |                 Setting the collision box of the block                  |     Collision object     |
-|       replaceable |             No impl              | Setting the block can be replaced when placing block like water or fire |         boolean          |
-| movement_velocity |             No impl              |    Setting the movement velocity when entities walk or jump on block    | Movement velocity object |
-|     walk_velocity |             No impl              |        Setting the movement velocity when entities walk on block        |          float           |
-|     jump_velocity |             No impl              |        Setting the movement velocity when entities jump on block        |          float           |
-|   piston_behavior |             No impl              |        Setting the behavior when piston interacting to the block        |          string          |
-|        instrument |             No impl              |                  Setting the instrument of note block                   |          string          |
+|   Conium schema key |       Bedrock schema impls       |                                  Notes                                  |        Value type        |
+|--------------------:|:--------------------------------:|:-----------------------------------------------------------------------:|:------------------------:|
+|            hardness | minecraft:destructible_by_mining |                    Setting the hardness of the block                    |          float           |
+|           map_color |       minecraft:map_color        |           Setting the map color of the block (Not completed)            |     Map color object     |
+|           luminance |     minecraft:light_emission     |   Setting the lighting of the block (like torch or burning furnaces)    |           int            |
+|           collision |     minecraft:collision_box      |                 Setting the collision box of the block                  |     Collision object     |
+|         replaceable |             No impl              | Setting the block can be replaced when placing block like water or fire |         boolean          |
+|   movement_velocity |             No impl              |    Setting the movement velocity when entities walk or jump on block    | Movement velocity object |
+|       walk_velocity |             No impl              |        Setting the movement velocity when entities walk on block        |          float           |
+|       jump_velocity |             No impl              |        Setting the movement velocity when entities jump on block        |          float           |
+|     piston_behavior |             No impl              |        Setting the behavior when piston interacting to the block        |          string          |
+|          instrument |             No impl              |                  Setting the instrument of note block                   |          string          |
+| enable_block_entity |             No impl              |              Setting the block entity register identifier               |          string          |
+|                data |             No impl              |     Setting the registrable data and default values of block entity     |    Block data object     |
 
 ## Entities
 

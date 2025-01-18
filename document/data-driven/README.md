@@ -1,4 +1,5 @@
 # Data driven
+For sample, see [samples](/sample).
 
 ## Datapack structure
 

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id "fabric-loom" version "1.9.2"
     id "maven-publish"
@@ -71,7 +73,7 @@ dependencies {
     shadow "org.jetbrains.kotlin:kotlin-scripting-dependencies:${project.kotlin_version}"
 
     shadow 'com.github.cao.awa:catheter:1.0.42'
-    shadow 'com.github.cao.awa:sinuatum:1.0.11'
+    shadow 'com.github.cao.awa:sinuatum:1.0.13'
 
     implementation "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
 }
@@ -148,6 +150,8 @@ loom {
             runDir "build/datagen"
         }
     }
+
+    accessWidenerPath = file("src/main/resources/conium.accesswidener")
 }
 
 runClient {
@@ -157,20 +161,26 @@ runClient {
 // Add the datagenned files into the jar.
 sourceSets {
     main {
+        java {
+            srcDirs += ['src/main/kotlin']
+        }
+        kotlin {
+            srcDirs += ['src/main/java']
+        }
         resources {
             srcDirs += [
-                    'src/main/generated'
+                'src/main/generated'
             ]
         }
     }
 }
-compileKotlin {
+
+// Configure Kotlin compilation
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     kotlinOptions {
-        jvmTarget = '21'
-    }
-}
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = '21'
+        jvmTarget = "21"
+        apiVersion = "2.1"
+        languageVersion = "2.1"
+        freeCompilerArgs += ["-Xjvm-default=all"]
     }
 }

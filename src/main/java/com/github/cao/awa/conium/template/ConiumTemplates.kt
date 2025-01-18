@@ -5,6 +5,8 @@ import com.github.cao.awa.conium.block.template.bedrock.destructible.ConiumBedro
 import com.github.cao.awa.conium.block.template.bedrock.destructible.explosion.ConiumBedrockDestructibleByExplosionTemplate
 import com.github.cao.awa.conium.block.template.bedrock.light.ConiumBedrockLightEmissionTemplate
 import com.github.cao.awa.conium.block.template.collision.ConiumBlockCollisionTemplate
+import com.github.cao.awa.conium.block.template.data.ConiumBlockDataTemplate
+import com.github.cao.awa.conium.block.template.entity.ConiumEnableBlockEntityTemplate
 import com.github.cao.awa.conium.block.template.explosion.resistance.ConiumExplosionResistanceTemplate
 import com.github.cao.awa.conium.block.template.instrument.ConiumBlockInstrumentTemplate
 import com.github.cao.awa.conium.block.template.luminance.ConiumLuminanceTemplate
@@ -407,6 +409,12 @@ object ConiumTemplates {
         // Path find.
         const val PATH_FIND_THROUGH: String = "path_find_through"
 
+        // Block entity.
+        const val ENABLE_BLOCK_ENTITY: String = "enable_block_entity"
+
+        // Block data.
+        const val DATA: String = "data"
+
         fun initBlockTemplates() {
             // Destructible.
             registerBlock(
@@ -472,6 +480,18 @@ object ConiumTemplates {
             registerBlock(
                 PATH_FIND_THROUGH,
                 ConiumBlockPathFindThroughTemplate::create
+            )
+
+            // Block entity.
+            registerBlock(
+                ENABLE_BLOCK_ENTITY,
+                ConiumEnableBlockEntityTemplate::create
+            )
+
+            // Block data.
+            registerBlock(
+                DATA,
+                ConiumBlockDataTemplate::create
             )
         }
     }
