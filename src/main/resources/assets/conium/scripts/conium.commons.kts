@@ -92,8 +92,6 @@ import com.github.cao.awa.conium.script.ScriptExport
 import com.github.cao.awa.conium.script.ScriptExport.Companion.accessExportedField
 
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
-import com.github.cao.awa.sinuatum.manipulate.QuickManipulate
-import com.github.cao.awa.sinuatum.manipulate.ManipulateBuilder
 
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective0
