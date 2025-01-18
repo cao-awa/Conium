@@ -7,13 +7,12 @@ import com.github.cao.awa.conium.datapack.inject.item.action.handler.math.ItemPr
 import com.github.cao.awa.conium.datapack.inject.item.action.handler.math.ItemPropertyInjectMultiplyHandler;
 import com.github.cao.awa.conium.datapack.inject.item.action.handler.set.ItemPropertyInjectSetHandler;
 import com.github.cao.awa.sinuatum.manipulate.Manipulate;
-import com.github.cao.awa.sinuatum.manipulate.QuickManipulate;
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 
 import java.util.Map;
 
 public abstract class ItemPropertyInjectHandler<T> {
-    private static final Map<ItemPropertyInjectAction, ItemPropertyInjectHandler<?>> handlers = QuickManipulate.operation(CollectionFactor.hashMap(), handlers -> {
+    private static final Map<ItemPropertyInjectAction, ItemPropertyInjectHandler<?>> handlers = Manipulate.make(CollectionFactor.hashMap(), handlers -> {
         handlers.put(ItemPropertyInjectAction.SET, new ItemPropertyInjectSetHandler<>());
         handlers.put(ItemPropertyInjectAction.SET_PRESET, new ItemPropertyInjectSetHandler<>());
 

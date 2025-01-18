@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.mixin.registry;
 
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry;
-import com.github.cao.awa.sinuatum.manipulate.QuickManipulate;
+import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
@@ -43,7 +43,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     @Unique
     private final Map<RegistryKey<T>, RegistryEntry.Reference<T>> dynamicKeyToEntry = CollectionFactor.hashMap();
     @Unique
-    private final Reference2IntMap<T> dynamicEntryToRawId = QuickManipulate.operation(new Reference2IntOpenHashMap<>(), map -> {
+    private final Reference2IntMap<T> dynamicEntryToRawId = Manipulate.make(new Reference2IntOpenHashMap<>(), map -> {
         map.defaultReturnValue(-1);
     });
     @Unique
