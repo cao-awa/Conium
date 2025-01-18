@@ -12,13 +12,12 @@ request(
     SERVER_WORLD,
     BLOCK_ENTITY
 ) { block, world, blockEntity ->
-    blockEntity as ConiumBlockEntity
+    (blockEntity as? ConiumBlockEntity).let {
+        val currentValue: Int = it["inc"]
 
-    val currentValue: Int = blockEntity["inc"] as Int
+        println("Current inc value is $currentValue")
 
-    println("Current inc value is $currentValue")
-
-    blockEntity["inc"] = currentValue + 1
-
+        it["inc"] = currentValue + 1
+    }
     true
 }
