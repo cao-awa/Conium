@@ -201,7 +201,7 @@ class ConiumClientBlockSettings(vanillaSettings: Settings) : ConiumAbstractBlock
 class ConiumBlockSettings(vanillaSettings: Settings) : ConiumAbstractBlockSettings<ConiumBlockSettings>(vanillaSettings) {
     companion object {
         @JvmStatic
-        fun create(templates: MutableList<ConiumBlockTemplate>, settings: Settings): ConiumBlockSettings {
+        fun create(templates: Collection<ConiumBlockTemplate>, settings: Settings): ConiumBlockSettings {
             return ConiumBlockSettings(settings).also {
                 templates.forEach { template ->
                     template.prepare(it)

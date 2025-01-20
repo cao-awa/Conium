@@ -4,12 +4,12 @@ import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.setting.ConiumItemSettings
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.template.ConiumBuilderWithTemplates
-import net.minecraft.item.Item
+import net.minecraft.util.Identifier
 
-abstract class ConiumItemBuilder : ConiumBuilderWithTemplates<
+abstract class ConiumItemBuilder(val identifier: Identifier) : ConiumBuilderWithTemplates<
         ConiumItemBuilder,
         ConiumItemSettings,
-        Item,
+        ConiumItem,
         ConiumItemTemplate>(
     ConiumItem::create
 )

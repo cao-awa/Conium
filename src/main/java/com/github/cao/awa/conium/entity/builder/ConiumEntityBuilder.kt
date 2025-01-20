@@ -25,7 +25,7 @@ abstract class ConiumEntityBuilder(val identifier: Identifier) : ConiumBuilderWi
                     type,
                     world,
                     builder.entitySettings
-                ).also { it.applyTemplates(builder.templates) }
+                ).also { it.applyTemplates(builder.templates()) }
             }, SpawnGroup.MISC)
 
             builder.groupTemplates.forEach { (name: String, templates: MutableList<ConiumEntityTemplate>) ->

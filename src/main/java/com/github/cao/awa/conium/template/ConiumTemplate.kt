@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger
 import java.util.*
 import kotlin.reflect.KClass
 
-abstract class ConiumTemplate<T, P>(val isClient: Boolean = false, private val name: String) {
+abstract class ConiumTemplate<R, P>(val isClient: Boolean = false, private val name: String, val conflicts: Map<Class<out ConiumTemplate<*, *>>, String> = CollectionFactor.hashMap()) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumTemplate")
         private val templates: MutableMap<String, ConiumTemplateCreator> = CollectionFactor.hashMap()
@@ -149,11 +149,11 @@ abstract class ConiumTemplate<T, P>(val isClient: Boolean = false, private val n
         fun notSupported(jsonElement: JsonElement): IllegalArgumentException = IllegalArgumentException("Not supported syntax: $jsonElement")
     }
 
-    // This contexts will be set in deserializing templates, do not set it again in feature.
+    // The contexts will be set in deserializing templates, do not set it again in feature.
     private lateinit var sharingContext: Map<Class<*>, Any>
 
-    // Use 'sharedContext' to delegate because reassignment shared contexts is unexpected.
-    // So only allow to get, instead to set it.
+    // Use 'sharedContext' to delegate because reassignment shared contexts are unexpected.
+    // So only allow getting, instead to set it.
     val sharedContext: Map<Class<*>, Any> get() = this.sharingContext
 
     fun <T : Any> getContext(clazz: KClass<T>): T? = getContext(clazz.java)
@@ -162,11 +162,11 @@ abstract class ConiumTemplate<T, P>(val isClient: Boolean = false, private val n
 
     fun name(): String = this.name
 
-    abstract fun attach(target: T)
+    abstract fun attach(target: R)
 
-    abstract fun complete(target: T)
+    abstract fun complete(target: R)
 
-    open fun finish(target: T) {
+    open fun finish(target: R) {
         // Do nothing here.
     }
 
@@ -174,7 +174,7 @@ abstract class ConiumTemplate<T, P>(val isClient: Boolean = false, private val n
         // Do nothing here.
     }
 
-    open fun results(): List<T> = listOf(result())
+    open fun results(): List<R> = listOf(result())
 
-    open fun result(): T = throw IllegalStateException("The template ${this.javaClass.simpleName} has no result")
+    open fun result(): R = throw IllegalStateException("The template ${this.javaClass.simpleName} has no result")
 }

@@ -14,12 +14,14 @@ import net.minecraft.world.BlockView
 class ConiumBlock(val setting: ConiumBlockSettings) : Block(setting.vanillaSettings), BlockEntityProvider {
     companion object {
         fun create(builder: ConiumBlockBuilder, settings: ConiumBlockSettings): ConiumBlock {
-            builder.templates.forEach { it.prepare(settings) }
+            builder.distinct()
+
+            builder.forEachTemplate { it.prepare(settings) }
 
             return ConiumBlock(settings).apply {
-                builder.templates.forEach { it.attach(this) }
+                builder.forEachTemplate { it.attach(this) }
 
-                builder.templates.forEach { it.complete(this) }
+                builder.forEachTemplate { it.complete(this) }
             }
         }
     }

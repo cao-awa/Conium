@@ -18,6 +18,6 @@ class ConiumCanDestroyInCreativeTemplate(private val canDestroy: Boolean) : Coni
     }
 
     override fun settings(settings: ConiumItemSettings) {
-        settings.canMinePredicate = { _: Item, _: BlockState, _: World, _: BlockPos, player: PlayerEntity -> !player.isCreative || this.canDestroy }
+        settings.canMinePredicate = { _: Item, _: BlockState, _: World, _: BlockPos, player: PlayerEntity -> this.canDestroy || !player.isCreative }
     }
 }

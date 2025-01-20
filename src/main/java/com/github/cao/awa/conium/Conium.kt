@@ -33,7 +33,7 @@ class Conium : ModInitializer {
         val isClient: Boolean get() = ConiumClient.initialized
 
         @JvmField
-        var VERSION = "1.0.0-alpha7-fix"
+        var VERSION = "1.0.0-alpha8"
 
         @JvmField
         var STRUCTURING_TRANSLATOR_VERSION: String = StructuringTranslator.getVersion()

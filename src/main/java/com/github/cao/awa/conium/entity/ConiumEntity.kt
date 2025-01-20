@@ -19,7 +19,9 @@ class ConiumEntity(entityType: EntityType<ConiumEntity>, world: World, private v
     companion object {
         @JvmStatic
         fun createType(builder: ConiumEntityBuilder, settings: ConiumEntitySettingsWithTypeBuilder): EntityType.Builder<ConiumEntity> {
-            builder.templates.forEach { it.prepare(settings) }
+            builder.distinct()
+
+            builder.forEachTemplate { it.prepare(settings) }
 
             return settings.builder
         }

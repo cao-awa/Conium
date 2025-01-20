@@ -26,14 +26,17 @@ public abstract class BlockItemMixin {
     public abstract Block getBlock();
 
     /**
-     * Inject to {@code place} to trigger event {@code PLACE_BLOCK}.
+     * Inject to {@code place} calling to trigger event {@code PLACE_BLOCK}.
      *
      * @param context the placement context
-     * @author cao_awa
+     *
      * @see ConiumEventType#PLACE_BLOCK
      * @see com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent ConiumPlaceBlockEvent
      * @see com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEvent ConiumPlacedBlockEvent
      * @see BlockItemMixin#placedBlock
+     *
+     * @author cao_awa
+     *
      * @since 1.0.0
      */
     @Inject(
@@ -51,7 +54,7 @@ public abstract class BlockItemMixin {
         placeBlockContext.put(ConiumEventArgTypes.ITEM_PLACEMENT_CONTEXT, context);
 
         if (placeBlockContext.presaging(block)) {
-            // Only presaging state is true can be continues.
+            // Only presaging state is true can be continued.
             placeBlockContext.arising(block);
         } else {
             // Cancel this event when presaging was rejected the event.
@@ -68,11 +71,14 @@ public abstract class BlockItemMixin {
      * @param state     the state of placed block
      * @param placer    the placer
      * @param itemStack the item stack that used to place the block
-     * @author cao_awa
+     *
      * @see ConiumEventType#PLACED_BLOCK
      * @see com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEvent ConiumPlacedBlockEvent
      * @see com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent ConiumPlaceBlockEvent
      * @see BlockItemMixin#placeBlock
+     *
+     * @author cao_awa
+     *
      * @since 1.0.0
      */
     @Redirect(
@@ -99,7 +105,7 @@ public abstract class BlockItemMixin {
         placedBlockContext.put(ConiumEventArgTypes.ITEM_STACK, itemStack);
 
         if (placedBlockContext.presaging(block)) {
-            // Only presaging state is true can be continues.
+            // Only presaging state is true can be continued.
             instance.onPlaced(world, pos, state, placer, itemStack);
 
             placedBlockContext.arising(block);

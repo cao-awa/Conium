@@ -17,7 +17,7 @@ fun ConiumBlockBuilder.register(afterAction: (ConiumBlock) -> Unit) {
             { settings: AbstractBlock.Settings ->
                 build(
                     ConiumBlockSettings.create(
-                        this.templates,
+                        this.templates.values,
                         settings
                     )
                 )

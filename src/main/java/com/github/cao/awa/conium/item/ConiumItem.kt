@@ -28,16 +28,18 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
         private val LOGGER: Logger = LogManager.getLogger("ConiumItem")
 
         fun create(builder: ConiumItemBuilder, settings: ConiumItemSettings): ConiumItem {
-            builder.templates.forEach {
+            builder.distinct()
+
+            builder.forEachTemplate {
                 it.prepare(settings)
             }
 
             forceOverrideSettings(settings.vanillaSettings)
 
             return ConiumItem(settings).apply {
-                builder.templates.forEach { it.attach(this) }
+                builder.forEachTemplate { it.attach(this) }
 
-                builder.templates.forEach { it.complete(this) }
+                builder.forEachTemplate { it.complete(this) }
             }
         }
 

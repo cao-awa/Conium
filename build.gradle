@@ -73,7 +73,7 @@ dependencies {
     shadow "org.jetbrains.kotlin:kotlin-scripting-dependencies:${project.kotlin_version}"
 
     shadow 'com.github.cao.awa:catheter:1.0.42'
-    shadow 'com.github.cao.awa:sinuatum:1.0.13'
+    shadow 'com.github.cao.awa:sinuatum:1.0.15'
 
     implementation "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
 }

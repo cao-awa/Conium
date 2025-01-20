@@ -15,6 +15,9 @@ import org.apache.logging.log4j.Logger
  *
  * Registered keys is avoided appearing unnecessary data or unexpected types it should consider as fields in an object instead of an arbitrary map.
  *
+ * @param registries the data keys and type serializers
+ * @param modifyCallback the callback before set data
+ *
  * @see NbtCompound
  * @see ConiumNbtDataSerializer
  *
@@ -65,14 +68,13 @@ class RegistrableNbt(
         this.values[key] = value
         // Only warning when enable debugs.
         // Normally registrable NBT will ignore all not registered data automatically.
-        if (Conium.enableDebugs) {
-            if (!this.registries.containsKey(key)) {
-                LOGGER.warn(
-                    "A data named '{}' set to registrable NBT but this key doesn't registered, the data will be ignored when serializing: {}",
-                    key,
-                    value
-                )
-            }
+        if (!this.registries.containsKey(key)) {
+            Conium.debug(
+                "A data named '{}' set to registrable NBT but this key doesn't registered, the data will be ignored when serializing: {}",
+                { key },
+                { value },
+                LOGGER::warn
+            )
         }
         this.modifyCallback()
     }

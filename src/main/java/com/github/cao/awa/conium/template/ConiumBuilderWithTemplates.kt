@@ -2,29 +2,51 @@ package com.github.cao.awa.conium.template
 
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 
-abstract class ConiumBuilderWithTemplates<R : ConiumBuilderWithTemplates<R, I, X, T>, I, X, T> {
-    private val builder: (R, I?) -> X
-
-    constructor(xBuilder: (R, I) -> X) {
-        this.builder = { r: R, i: I? -> xBuilder(r, i!!) }
+abstract class ConiumBuilderWithTemplates<B : ConiumBuilderWithTemplates<B, I, X, T>, I, X, T: ConiumTemplate<*, *>> {
+    companion object {
+        private val LOGGER: Logger = LogManager.getLogger("ConiumTemplatesBuilder")
     }
 
-    constructor(builder: (R) -> X) {
-        this.builder = { r: R, _: I? -> builder.invoke(r) }
+    private val builder: (B, I?) -> X
+    val templates: MutableMap<Class<out T>, T> = CollectionFactor.hashMap()
+
+    constructor(xBuilder: (B, I) -> X) {
+        this.builder = { builder: B, input: I? -> xBuilder(builder, input!!) }
     }
 
-    val templates: MutableList<T> = CollectionFactor.arrayList()
+    constructor(xBuilder: (B) -> X) {
+        this.builder = { builder: B, _: I? -> xBuilder.invoke(builder) }
+    }
 
-    fun addTemplate(template: T): ConiumBuilderWithTemplates<R, I, X, T> {
-        this.templates.add(template)
+    fun addTemplate(template: T): ConiumBuilderWithTemplates<B, I, X, T> {
+        this.templates[template::class.java] = template
         return this
     }
 
-    fun addTemplates(templates: List<T>): ConiumBuilderWithTemplates<R, I, X, T> {
-        this.templates.addAll(templates)
+    fun addTemplates(templates: List<T>): ConiumBuilderWithTemplates<B, I, X, T> {
+        templates.forEach(::addTemplate)
         return this
     }
+
+    fun distinct() {
+        for ((type, template) in CollectionFactor.hashMap(this.templates)) {
+            for ((conflictType, notice) in template.conflicts) {
+                if (this.templates.containsKey(conflictType)) {
+                    this.templates.remove(conflictType)
+                    LOGGER.warn(notice)
+                }
+            }
+        }
+    }
+
+    fun forEachTemplate(action: (T) -> Unit) {
+        this.templates.values.forEach(action)
+    }
+
+    fun templates(): MutableList<T> = this.templates.values.toMutableList()
 
     fun build(input: I): X = this.builder(Manipulate.cast(this), input)
 

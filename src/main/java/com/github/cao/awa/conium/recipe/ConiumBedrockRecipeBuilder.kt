@@ -44,6 +44,6 @@ class ConiumBedrockRecipeBuilder : ConiumBuilderWithTemplates<
             throw IllegalArgumentException("Unable to find bedrock recipe in: $jsonObject")
         }
 
-        fun build(template: ConiumBedrockRecipeBuilder): List<Recipe<*>> = template.templates[0].results()
+        fun build(template: ConiumBedrockRecipeBuilder): List<Recipe<*>> = template.templates()[0].results()
     }
 }

@@ -2,15 +2,22 @@ package com.github.cao.awa.conium.nbt.data
 
 import com.github.cao.awa.conium.nbt.data.color.ConiumNbtDyeColorSerializer
 import com.github.cao.awa.conium.nbt.data.primary.*
-import com.github.cao.awa.conium.nbt.data.str.ConiumNbtStringSerializer
+import com.github.cao.awa.conium.nbt.data.string.ConiumNbtStringSerializer
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
 /**
- * The serializer for registrable NBT data.
+ * The serializer for NBT data.
  * 
  * @param X the type of data
+ *
+ * @see JsonObject
+ * @see NbtCompound
+ * @see RegistrableNbt
+ *
+ * @author cao_awa
+ * @author 草二号机
  *
  * @since 1.0.0
  */
@@ -26,6 +33,17 @@ abstract class ConiumNbtDataSerializer<X> {
         val BOOLEAN: ConiumNbtBooleanSerializer = ConiumNbtBooleanSerializer()
         val DYE_COLOR: ConiumNbtDyeColorSerializer = ConiumNbtDyeColorSerializer()
 
+        /**
+         * Get preset serialize using name.
+         *
+         * @param type the name of type
+         *
+         * @return the serializer
+         *
+         * @author cao_awa
+         *
+         * @since 1.0.0
+         */
         fun getSerializer(type: String): ConiumNbtDataSerializer<*> = when (type) {
             "string" -> STRING
             "int" -> INT
@@ -46,19 +64,16 @@ abstract class ConiumNbtDataSerializer<X> {
      * @param nbt NBT compound
      * @param registries Registry wrapper lookup
      * @param key key of the data
+     *
      * @return the data read
+     *
+     * @see NbtCompound
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
      */
     abstract fun read(nbt: NbtCompound, registries: WrapperLookup, key: String): X
-
-    /**
-     * Read data from JSON object.
-     *
-     * @param json JSON object
-     * @param registries Registry wrapper lookup
-     * @param key key of the data
-     * @return the data read
-     */
-    abstract fun readFromJson(json: JsonObject, registries: WrapperLookup, key: String): X
 
     /**
      * Write data to NBT compound.
@@ -67,6 +82,29 @@ abstract class ConiumNbtDataSerializer<X> {
      * @param registries Registry wrapper lookup
      * @param key key of the data
      * @param value data to write
+     *
+     * @see NbtCompound
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
      */
     abstract fun write(nbt: NbtCompound, registries: WrapperLookup, key: String, value: X)
+
+    /**
+     * Read data from JSON object.
+     *
+     * @param json JSON object
+     * @param registries Registry wrapper lookup
+     * @param key key of the data
+     *
+     * @return the data read
+     *
+     * @see JsonObject
+     *
+     * @author 草二号机
+     *
+     * @since 1.0.0
+     */
+    abstract fun readFromJson(json: JsonObject, registries: WrapperLookup, key: String): X
 }

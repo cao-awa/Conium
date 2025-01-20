@@ -41,6 +41,8 @@ import com.github.cao.awa.conium.item.template.egg.ConiumSpawnEggTemplate
 import com.github.cao.awa.conium.item.template.food.ConiumFoodTemplate
 import com.github.cao.awa.conium.item.template.fuel.ConiumFuelTemplate
 import com.github.cao.awa.conium.item.template.glint.ConiumGlintTemplate
+import com.github.cao.awa.conium.item.template.ignite.ConiumClearEntityIgniteTemplate
+import com.github.cao.awa.conium.item.template.ignite.ConiumIgniteEntityTemplate
 import com.github.cao.awa.conium.item.template.rarity.ConiumRarityTemplate
 import com.github.cao.awa.conium.item.template.rarity.epic.ConiumCommonRarityTemplate
 import com.github.cao.awa.conium.item.template.rarity.epic.ConiumEpicRarityTemplate
@@ -111,6 +113,10 @@ object ConiumTemplates {
 
         // Mining speed
         const val FORCE_MINING_SPEED: String = "force_mining_speed"
+
+        // Ignite entity.
+        const val IGNITE: String = "ignite"
+        const val CLEAR_IGNITE: String = "clear_ignite"
 
         fun initItemTemplates() {
             // Spawn egg.
@@ -248,6 +254,16 @@ object ConiumTemplates {
             registerItem(
                 ARMOR,
                 ConiumArmorTemplate::create
+            )
+
+            // Ignite entity
+            registerItem(
+                IGNITE,
+                ConiumIgniteEntityTemplate::create
+            )
+            registerItem(
+                CLEAR_IGNITE,
+                ConiumClearEntityIgniteTemplate::create
             )
         }
     }

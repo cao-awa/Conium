@@ -32,9 +32,11 @@ import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultValue
 import kotlin.script.experimental.api.ResultWithDiagnostics
 import kotlin.script.experimental.host.StringScriptSource
+import kotlin.script.experimental.jvm.BasicJvmScriptEvaluator
 import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
 import kotlin.script.experimental.jvm.jvm
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
+import kotlin.script.experimental.jvmhost.JvmScriptCompiler
 import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromTemplate
 
 /**
@@ -61,6 +63,13 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
          * The 'host' is kotlin scripting host that used to compile and evaluate the kotlin scripts.
          *
          * Don't use JSR223 API to evaluate scripts, it will cause unexpected produce env problems!
+         *
+         * @see JvmScriptCompiler
+         * @see BasicJvmScriptEvaluator
+         *
+         * @author cao_awa
+         *
+         * @since 1.0.0
          */
         private val host: BasicJvmScriptingHost = BasicJvmScriptingHost()
     }
@@ -316,6 +325,8 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
      * @param scriptEval script source code and imports
      * @param resultCallback callback that let scripts be processes ordered
      *
+     * @see BasicJvmScriptingHost
+     *
      * @author cao_awa
      * @author 草二号机
      *
@@ -383,9 +394,6 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
                                 scriptEval.source
                             )
                         }
-
-                        // Calls callback to processes next script.
-                        resultCallback()
                     }
             }
             // Not succeed, ignored result of this script, directly load next.
@@ -395,10 +403,11 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
                     scriptEval.source,
                     result.reports
                 )
-
-                resultCallback()
             }
         }
+
+        // Calls callback to processes next script.
+        resultCallback()
 
         return result
     }
