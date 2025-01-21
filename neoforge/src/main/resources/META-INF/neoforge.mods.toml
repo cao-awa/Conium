@@ -4,7 +4,7 @@ issueTrackerURL = "https://github.com/cao-awa/conium/issues"
 license = "GPLv3"
 
 [[mods]]
-modId = "conium"
+modId = "neoconium"
 version = "${version}"
 displayName = "Conium"
 authors = "cao_awa"
@@ -13,21 +13,21 @@ Conium is a datapack and script framework for modern Minecraft, it provides very
 '''
 #logoFile = ""
 
-[[dependencies.conium]]
+[[dependencies.neoconium]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.4.0-beta,)"
+versionRange = "[21.4.67-beta,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.conium]]
+[[dependencies.neoconium]]
 modId = "minecraft"
 type = "required"
 versionRange = "[1.21.4,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.conium]]
+[[dependencies.neoconium]]
 modId = "architectury"
 type = "required"
 versionRange = "[15.0.1,)"
@@ -36,3 +36,8 @@ side = "BOTH"
 
 [[mixins]]
 config = "conium.mixins.json"
+
+[[accessTransformers]]
+## The file is relative to the output directory of the resources, or the root path inside the jar when compiled
+## The 'resources' directory represents the root output directory of the resources
+file="conium.accesswidener"

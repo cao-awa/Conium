@@ -10,6 +10,10 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
 class Neoconium {
     @SubscribeEvent
     fun register(event: RegisterPayloadHandlersEvent) {
-        Conium().onInitialize()
+        try {
+            Conium().onInitialize()
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
     }
 }
