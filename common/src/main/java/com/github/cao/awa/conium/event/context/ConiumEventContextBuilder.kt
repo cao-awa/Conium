@@ -56,7 +56,7 @@ object ConiumEventContextBuilder {
      * The event context be the base context to arise attached contexts with no argument provided.
      *
      * @param P1 Type of first parameter
-     * @param arg1 First parameter will input to attached contexts
+     * @param arg1 The first parameter will input to attached contexts
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -84,9 +84,9 @@ object ConiumEventContextBuilder {
      * The event context be the base context to arise attached contexts with no argument provided.
      *
      * @param P1 Type of first parameter
-     * @param arg1 First parameter will input to attached contexts
+     * @param arg1 The first parameter will input to attached contexts
      * @param P2 Type of second parameter
-     * @param arg2 Second parameter will input to attached contexts
+     * @param arg2 The second parameter will input to attached contexts
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -115,11 +115,11 @@ object ConiumEventContextBuilder {
      * The event context be the base context to arise attached contexts with no argument provided.
      *
      * @param P1 Type of first parameter
-     * @param arg1 First parameter will input to attached contexts
+     * @param arg1 The first parameter will input to attached contexts
      * @param P2 Type of second parameter
-     * @param arg2 Second parameter will input to attached contexts
+     * @param arg2 The second parameter will input to attached contexts
      * @param P3 Type of third parameter
-     * @param arg3 Third parameter will input to attached contexts
+     * @param arg3 The third parameter will input to attached contexts
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -149,13 +149,13 @@ object ConiumEventContextBuilder {
      * The event context be the base context to arise attached contexts with no argument provided.
      *
      * @param P1 Type of first parameter
-     * @param arg1 First parameter will input to attached contexts
+     * @param arg1 The first parameter will input to attached contexts
      * @param P2 Type of second parameter
-     * @param arg2 Second parameter will input to attached contexts
+     * @param arg2 The second parameter will input to attached contexts
      * @param P3 Type of third parameter
-     * @param arg3 Third parameter will input to attached contexts
+     * @param arg3 The third parameter will input to attached contexts
      * @param P4 Type of fourth parameter
-     * @param arg4 Fourth parameter will input to attached contexts
+     * @param arg4 The fourth parameter will input to attached contexts
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -186,15 +186,15 @@ object ConiumEventContextBuilder {
      * The event context be the base context to arise attached contexts with no argument provided.
      *
      * @param P1 Type of first parameter
-     * @param arg1 First parameter will input to attached contexts
+     * @param arg1 The first parameter will input to attached contexts
      * @param P2 Type of second parameter
-     * @param arg2 Second parameter will input to attached contexts
+     * @param arg2 The second parameter will input to attached contexts
      * @param P3 Type of third parameter
-     * @param arg3 Third parameter will input to attached contexts
+     * @param arg3 The third parameter will input to attached contexts
      * @param P4 Type of fourth parameter
-     * @param arg4 Fourth parameter will input to attached contexts
+     * @param arg4 The fourth parameter will input to attached contexts
      * @param P5 Type of fifth parameter
-     * @param arg5 Fifth parameter will input to attached contexts
+     * @param arg5 The fifth parameter will input to attached contexts
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -226,17 +226,17 @@ object ConiumEventContextBuilder {
      * The event context be the base context to arise attached contexts with no argument provided.
      *
      * @param P1 Type of first parameter
-     * @param arg1 First parameter will input to attached contexts
+     * @param arg1 The first parameter will input to attached contexts
      * @param P2 Type of second parameter
-     * @param arg2 Second parameter will input to attached contexts
+     * @param arg2 The second parameter will input to attached contexts
      * @param P3 Type of third parameter
-     * @param arg3 Third parameter will input to attached contexts
+     * @param arg3 The third parameter will input to attached contexts
      * @param P4 Type of fourth parameter
-     * @param arg4 Fourth parameter will input to attached contexts
+     * @param arg4 The fourth parameter will input to attached contexts
      * @param P5 Type of fifth parameter
-     * @param arg5 Fifth parameter will input to attached contexts
+     * @param arg5 The fifth parameter will input to attached contexts
      * @param P6 Type of sixth parameter
-     * @param arg6 Sixth parameter will input to attached contexts
+     * @param arg6 The sixth parameter will input to attached contexts
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -269,19 +269,19 @@ object ConiumEventContextBuilder {
      * The event context be the base context to arise attached contexts with no argument provided.
      *
      * @param P1 Type of first parameter
-     * @param arg1 First parameter will input to attached contexts
+     * @param arg1 The first parameter will input to attached contexts
      * @param P2 Type of second parameter
-     * @param arg2 Second parameter will input to attached contexts
+     * @param arg2 The second parameter will input to attached contexts
      * @param P3 Type of third parameter
-     * @param arg3 Third parameter will input to attached contexts
+     * @param arg3 The third parameter will input to attached contexts
      * @param P4 Type of fourth parameter
-     * @param arg4 Fourth parameter will input to attached contexts
+     * @param arg4 The fourth parameter will input to attached contexts
      * @param P5 Type of fifth parameter
-     * @param arg5 Fifth parameter will input to attached contexts
+     * @param arg5 The fifth parameter will input to attached contexts
      * @param P6 Type of sixth parameter
-     * @param arg6 Sixth parameter will input to attached contexts
-     * @param P6 Type of seventh parameter
-     * @param arg6 Seventh parameter will input to attached contexts
+     * @param arg6 The sixth parameter will input to attached contexts
+     * @param P7 Type of seventh parameter
+     * @param arg7 The seventh parameter will input to attached contexts
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -317,11 +317,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger presaging in the context with no arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers presaging in the context with no arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param eventType The event type that will be attaching
      * @param presaging The presaging trigger, default is always successes
      *
@@ -349,7 +349,7 @@ object ConiumEventContextBuilder {
             // Require a no argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(true).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage {
                 (it as? I)?.let(presaging::arise) ?: true
             }
@@ -357,11 +357,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger arising in the context with no arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers arising in the context with no arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param eventType The event type that will be attaching
      * @param arising The arising trigger, default is always successes
      *
@@ -397,11 +397,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type with no arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type with no arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param eventType The event type that will be attaching
      * @param arising The arising trigger, default is always successes
      * @param presaging The presaging trigger, default is always successes
@@ -431,7 +431,7 @@ object ConiumEventContextBuilder {
             // Require a no argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(true).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage {
                 (it as? I)?.let(presaging::arise) ?: true
             }
@@ -444,11 +444,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger presaging in the context with one argument, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers presaging in the context with one argument, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param eventType The event type that will be attaching
@@ -477,13 +477,13 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective2<Boolean, Any, P1>> {
         return forever(
             eventType,
-            // Require a one argument dynamic args and contract to forever lifecycle.
+            // Require a one-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 true
             ).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage { i: Any, p1: P1 ->
                 (i as? I)?.let { presaging(it, p1) } ?: true
             }
@@ -491,11 +491,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger arising in the context with one argument, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers arising in the context with one argument, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param eventType The event type that will be attaching
@@ -524,7 +524,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective2<Boolean, Any, P1>> {
         return forever(
             eventType,
-            // Require a one argument dynamic args and contract to forever lifecycle.
+            // Require a one-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 true
@@ -538,11 +538,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type with one argument, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type with one argument, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param eventType The event type that will be attaching
@@ -573,13 +573,13 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective2<Boolean, Any, P1>> {
         return forever(
             eventType,
-            // Require a one argument dynamic args and contract to forever lifecycle.
+            // Require a one-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 true
             ).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage { i: Any, p1: P1 ->
                 (i as? I)?.let { presaging(it, p1) } ?: true
             }
@@ -592,11 +592,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger presaging in the context with two arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers presaging in the context with two arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -628,14 +628,14 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
         return forever(
             eventType,
-            // Require a two argument dynamic args and contract to forever lifecycle.
+            // Require a two-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
                 true
             ).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage { i: Any, p1: P1, p2: P2 ->
                 (i as? I)?.let { presaging(it, p1, p2) } ?: true
             }
@@ -643,11 +643,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger arising in the context with two arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers arising in the context with two arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -679,7 +679,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
         return forever(
             eventType,
-            // Require a two argument dynamic args and contract to forever lifecycle.
+            // Require a two-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -694,11 +694,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type with two arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type with two arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -732,14 +732,14 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
         return forever(
             eventType,
-            // Require a two argument dynamic args and contract to forever lifecycle.
+            // Require a two-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
                 true
             ).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage { i: Any, p1: P1, p2: P2 ->
                 (i as? I)?.let { presaging(it, p1, p2) } ?: true
             }
@@ -752,11 +752,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger presaging in the context with three arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers presaging in the context with three arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -791,7 +791,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> {
         return forever(
             eventType,
-            // Require a three argument dynamic args and contract to forever lifecycle.
+            // Require a three-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -799,7 +799,7 @@ object ConiumEventContextBuilder {
                 true
             ).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage { i: Any, p1: P1, p2: P2, p3: P3 ->
                 (i as? I)?.let { presaging(it, p1, p2, p3) } ?: true
             }
@@ -807,11 +807,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger arising in the context with three arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers arising in the context with three arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -846,7 +846,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> {
         return forever(
             eventType,
-            // Require a three argument dynamic args and contract to forever lifecycle.
+            // Require a three-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -862,11 +862,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type with three arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type with three arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -903,7 +903,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> {
         return forever(
             eventType,
-            // Require a three argument dynamic args and contract to forever lifecycle.
+            // Require a three-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -911,7 +911,7 @@ object ConiumEventContextBuilder {
                 true
             ).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage { i: Any, p1: P1, p2: P2, p3: P3 ->
                 (i as? I)?.let { presaging(it, p1, p2, p3) } ?: true
             }
@@ -924,11 +924,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger presaging in the context with four arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers presaging in the context with four arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -966,7 +966,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
         return forever(
             eventType,
-            // Require a four argument dynamic args and contract to forever lifecycle.
+            // Require a four-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -975,7 +975,7 @@ object ConiumEventContextBuilder {
                 true
             ).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4 ->
                 (i as? I)?.let { presaging(it, p1, p2, p3, p4) } ?: true
             }
@@ -983,11 +983,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger arising in the context with four arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers arising in the context with four arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -1025,7 +1025,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
         return forever(
             eventType,
-            // Require a four argument dynamic args and contract to forever lifecycle.
+            // Require a four-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -1042,11 +1042,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type with four arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type with four arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -1086,7 +1086,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
         return forever(
             eventType,
-            // Require a four argument dynamic args and contract to forever lifecycle.
+            // Require a four-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -1095,7 +1095,7 @@ object ConiumEventContextBuilder {
                 true
             ).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4 ->
                 (i as? I)?.let { presaging(it, p1, p2, p3, p4) } ?: true
             }
@@ -1108,11 +1108,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger presaging in the context with five arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers presaging in the context with five arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -1153,7 +1153,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
         return forever(
             eventType,
-            // Require a five argument dynamic args and contract to forever lifecycle.
+            // Require a five-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -1163,7 +1163,7 @@ object ConiumEventContextBuilder {
                 true
             ).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5 ->
                 (i as? I)?.let { presaging(it, p1, p2, p3, p4, p5) } ?: true
             }
@@ -1171,11 +1171,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger arising in the context with five arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers arising in the context with five arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -1216,7 +1216,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
         return forever(
             eventType,
-            // Require a five argument dynamic args and contract to forever lifecycle.
+            // Require a five-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -1234,11 +1234,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type with five arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type with five arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -1281,7 +1281,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
         return forever(
             eventType,
-            // Require a five argument dynamic args and contract to forever lifecycle.
+            // Require a five-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -1291,7 +1291,7 @@ object ConiumEventContextBuilder {
                 true
             ).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5 ->
                 (i as? I)?.let { presaging(it, p1, p2, p3, p4, p5) } ?: true
             }
@@ -1304,11 +1304,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger presaging in the context with six arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers presaging in the context with six arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -1352,7 +1352,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
         return forever(
             eventType,
-            // Require a six argument dynamic args and contract to forever lifecycle.
+            // Require a six-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -1363,7 +1363,7 @@ object ConiumEventContextBuilder {
                 true
             ).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6 ->
                 (i as? I)?.let { presaging(it, p1, p2, p3, p4, p5, p6) } ?: true
             }
@@ -1371,11 +1371,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger arising in the context with six arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers arising in the context with six arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -1419,7 +1419,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
         return forever(
             eventType,
-            // Require a six argument dynamic args and contract to forever lifecycle.
+            // Require a six-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -1438,11 +1438,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type with six arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type with six arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -1488,7 +1488,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
         return forever(
             eventType,
-            // Require a six argument dynamic args and contract to forever lifecycle.
+            // Require a six-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -1499,7 +1499,7 @@ object ConiumEventContextBuilder {
                 true
             ).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6 ->
                 (i as? I)?.let { presaging(it, p1, p2, p3, p4, p5, p6) } ?: true
             }
@@ -1512,11 +1512,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger presaging in the context with seven arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers presaging in the context with seven arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -1563,7 +1563,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
         return forever(
             eventType,
-            // Require a seven argument dynamic args and contract to forever lifecycle.
+            // Require a seven-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -1575,7 +1575,7 @@ object ConiumEventContextBuilder {
                 true
             ).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7 ->
                 (i as? I)?.let { presaging(it, p1, p2, p3, p4, p5, p6, p7) } ?: true
             }
@@ -1583,11 +1583,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that only trigger arising in the context with seven arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that only triggers arising in the context with seven arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -1634,7 +1634,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
         return forever(
             eventType,
-            // Require a seven argument dynamic args and contract to forever lifecycle.
+            // Require a seven-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -1654,11 +1654,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type with seven arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type with seven arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
@@ -1707,7 +1707,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
         return forever(
             eventType,
-            // Require a seven argument dynamic args and contract to forever lifecycle.
+            // Require a seven-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(
                 arg1,
                 arg2,
@@ -1719,7 +1719,7 @@ object ConiumEventContextBuilder {
                 true
             ).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
-            // Attach presage trigger, this is event cancelable when parameter selective returns false.
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
             presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7 ->
                 (i as? I)?.let { presaging(it, p1, p2, p3, p4, p5, p6, p7) } ?: true
             }
@@ -1736,7 +1736,7 @@ object ConiumEventContextBuilder {
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param R The result type of the parameter selective
      * @param name The name of this exporting context
      * @param defaultResult The default value when failure
@@ -1792,7 +1792,7 @@ object ConiumEventContextBuilder {
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param R The result type of the parameter selective
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
@@ -1828,7 +1828,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective2<Boolean, Any, P1>> {
         return forever(
             eventType,
-            // Require a one argument dynamic args and contract to forever lifecycle.
+            // Require a one-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(arg1, true).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
             var result: R = defaultResult
@@ -1852,7 +1852,7 @@ object ConiumEventContextBuilder {
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param R The result type of the parameter selective
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
@@ -1891,7 +1891,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
         return forever(
             eventType,
-            // Require a two argument dynamic args and contract to forever lifecycle.
+            // Require a two-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, true).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
             var result: R = defaultResult
@@ -1911,11 +1911,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make a sub context of specified event type that changes a variable every time trigger with three arguments, then auto attach to forever lifecycle of the event type.
+     * Make a sub context of the specified event type that changes a variable every time trigger with three arguments, then auto attach to forever lifecycle of the event type.
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param R The result type of the parameter selective
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
@@ -1957,7 +1957,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> {
         return forever(
             eventType,
-            // Require a three argument dynamic args and contract to forever lifecycle.
+            // Require a three-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, true).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
             var result: R = defaultResult
@@ -1981,7 +1981,7 @@ object ConiumEventContextBuilder {
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param R The result type of the parameter selective
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
@@ -2026,7 +2026,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
         return forever(
             eventType,
-            // Require a four argument dynamic args and contract to forever lifecycle.
+            // Require a four-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, true).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
             var result: R = defaultResult
@@ -2050,7 +2050,7 @@ object ConiumEventContextBuilder {
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param R The result type of the parameter selective
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
@@ -2098,7 +2098,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
         return forever(
             eventType,
-            // Require a five argument dynamic args and contract to forever lifecycle.
+            // Require a five-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, true).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
             var result: R = defaultResult
@@ -2122,7 +2122,7 @@ object ConiumEventContextBuilder {
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param R The result type of the parameter selective
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
@@ -2173,7 +2173,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
         return forever(
             eventType,
-            // Require a six argument dynamic args and contract to forever lifecycle.
+            // Require a six-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, arg6, true).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
             var result: R = defaultResult
@@ -2197,7 +2197,7 @@ object ConiumEventContextBuilder {
      *
      * The context will arise when event base context arising and invalidate when reload events.
      *
-     * @param I The specified input identity instance, see reified type of [ConiumEventType][ConiumEventType]
+     * @param I The specified input identity instance, see the reified type of [ConiumEventType][ConiumEventType]
      * @param R The result type of the parameter selective
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
@@ -2251,7 +2251,7 @@ object ConiumEventContextBuilder {
     ): ConiumEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
         return forever(
             eventType,
-            // Require a seven argument dynamic args and contract to forever lifecycle.
+            // Require a seven-argument dynamic args and contract to forever lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, arg6, arg7, true).lifecycle(DynamicArgsLifecycle.FOREVER)
         ).apply {
             var result: R = defaultResult
@@ -2271,17 +2271,11 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make an unnamed event context with no arguments, it should manually attach to the events that needs to attach.
+     * Make an unnamed event context with no arguments, it should manually attach to the events that need to attach.
      *
-     * The context lifecycle only related to the lifecycle of it attached event context.
+     * The context lifecycle only related to the lifecycle of its attached event context.
      *
-     * @param P1 Type of first parameter
-     * @param arg1 The first parameter that will be input to the parameter selective instance
-     * @param P2 Type of second parameter
-     * @param arg2 The second parameter that will be input to the parameter selective instance
-     * @param P3 Type of third parameter
-     * @param arg3 The third parameter that will be input to the parameter selective instance
-     * @param arising The arising trigger, default is always successes
+     * @param R The result type of the parameter selective
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -2319,9 +2313,9 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make an unnamed event context with one argument, it should manually attach to the events that needs to attach.
+     * Make an unnamed event context with one argument, it should manually attach to the events that need to attach.
      *
-     * The context lifecycle only related to the lifecycle of it attached event context.
+     * The context lifecycle only related to the lifecycle of its attached event context.
      *
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
@@ -2352,7 +2346,7 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective2<Unit, Any, P1>
     ): ConiumEventContext<ParameterSelective2<Boolean, Any, P1>> {
         return ConiumEventContext(
-            // Require a one argument dynamic args and contract to unnamed lifecycle.
+            // Require a one-argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(arg1, true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         ).apply {
             // Attach arise trigger, not event cancelable.
@@ -2364,9 +2358,9 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make an unnamed event context with two arguments, it should manually attach to the events that needs to attach.
+     * Make an unnamed event context with two arguments, it should manually attach to the events that need to attach.
      *
-     * The context lifecycle only related to the lifecycle of it attached event context.
+     * The context lifecycle only related to the lifecycle of its attached event context.
      *
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
@@ -2400,7 +2394,7 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective3<Unit, Any, P1, P2>
     ): ConiumEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
         return ConiumEventContext(
-            // Require a two argument dynamic args and contract to unnamed lifecycle.
+            // Require a two-argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         ).apply {
             // Attach arise trigger, not event cancelable.
@@ -2412,9 +2406,9 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make an unnamed event context with three arguments, it should manually attach to the events that needs to attach.
+     * Make an unnamed event context with three arguments, it should manually attach to the events that need to attach.
      *
-     * The context lifecycle only related to the lifecycle of it attached event context.
+     * The context lifecycle only related to the lifecycle of its attached event context.
      *
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
@@ -2451,7 +2445,7 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective4<Unit, Any, P1, P2, P3>
     ): ConiumEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> {
         return ConiumEventContext(
-            // Require a three argument dynamic args and contract to unnamed lifecycle.
+            // Require a three-argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         ).apply {
             // Attach arise trigger, not event cancelable.
@@ -2463,9 +2457,9 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make an unnamed event context with four arguments, it should manually attach to the events that needs to attach.
+     * Make an unnamed event context with four arguments, it should manually attach to the events that need to attach.
      *
-     * The context lifecycle only related to the lifecycle of it attached event context.
+     * The context lifecycle only related to the lifecycle of its attached event context.
      *
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
@@ -2505,7 +2499,7 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective5<Unit, Any, P1, P2, P3, P4>
     ): ConiumEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
         return ConiumEventContext(
-            // Require a four argument dynamic args and contract to unnamed lifecycle.
+            // Require a four-argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         ).apply {
             // Attach arise trigger, not event cancelable.
@@ -2517,9 +2511,9 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make an unnamed event context with five arguments, it should manually attach to the events that needs to attach.
+     * Make an unnamed event context with five arguments, it should manually attach to the events that need to attach.
      *
-     * The context lifecycle only related to the lifecycle of it attached event context.
+     * The context lifecycle only related to the lifecycle of its attached event context.
      *
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
@@ -2562,7 +2556,7 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective6<Unit, Any, P1, P2, P3, P4, P5>
     ): ConiumEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
         return ConiumEventContext(
-            // Require a five argument dynamic args and contract to unnamed lifecycle.
+            // Require a five-argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         ).apply {
             // Attach arise trigger, not event cancelable.
@@ -2574,9 +2568,9 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make an unnamed event context with six arguments, it should manually attach to the events that needs to attach.
+     * Make an unnamed event context with six arguments, it should manually attach to the events that need to attach.
      *
-     * The context lifecycle only related to the lifecycle of it attached event context.
+     * The context lifecycle only related to the lifecycle of its attached event context.
      *
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
@@ -2622,7 +2616,7 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective7<Unit, Any, P1, P2, P3, P4, P5, P6>
     ): ConiumEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
         return ConiumEventContext(
-            // Require a six argument dynamic args and contract to unnamed lifecycle.
+            // Require a six-argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, arg6, true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         ).apply {
             // Attach arise trigger, not event cancelable.
@@ -2634,9 +2628,9 @@ object ConiumEventContextBuilder {
     }
 
     /**
-     * Make an unnamed event context with seven arguments, it should manually attach to the events that needs to attach.
+     * Make an unnamed event context with seven arguments, it should manually attach to the events that need to attach.
      *
-     * The context lifecycle only related to the lifecycle of it attached event context.
+     * The context lifecycle only related to the lifecycle of its attached event context.
      *
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
@@ -2685,7 +2679,7 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective8<Unit, Any, P1, P2, P3, P4, P5, P6, P7>
     ): ConiumEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
         return ConiumEventContext(
-            // Require a seven argument dynamic args and contract to unnamed lifecycle.
+            // Require a seven-argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, arg6, arg7, true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         ).apply {
             // Attach arise trigger, not event cancelable.
