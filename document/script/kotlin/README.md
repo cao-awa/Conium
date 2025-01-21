@@ -54,3 +54,24 @@ preRequest(
 }
 ```
 
+## Reference type
+Cause by minecraft obfuscation and class name mapping, kotlin scripts cannot import minecraft class like ```import net.minecraft.block.*``` or other, so conium mapping some useful classes to script context.
+
+The kotlin script can use that class with name, don't import any minecraft class manually!  
+
+For example, if you want to use ServerWorld, then use it directly:
+```kts
+val world: ServerWorld = player.world as ServerWorld
+doSomething(world)
+// Others...
+```
+
+Instead of:
+```kts
+// This import will not successes!
+import net.minecraft.server.world.ServerWorld
+
+val world: ServerWorld = player.world as ServerWorld
+doSomething(world)
+// Others...
+```
