@@ -50,50 +50,59 @@ In context:
 
 |   Name |                                              Conium API type                                               | Gametest API type |      Status      |
 |-------:|:----------------------------------------------------------------------------------------------------------:|:-----------------:|:----------------:|
-| system | [AbstractBedrockSystem](./src/main/java/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt) |      System       | Alpha (Unstable) |
-|  world |  [AbstractBedrockWorld](./src/main/java/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt)   |       World       | Alpha (Unstable) |
+| system | [AbstractBedrockSystem](./common/src/main/java/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt) |      System       | Alpha (Unstable) |
+|  world |  [AbstractBedrockWorld](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt)   |       World       | Alpha (Unstable) |
 
 In APIs:
 
 + world
-    + [AbstractBedrockWorld](./src/main/java/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt) impl by [BedrockWorld](./src/main/java/com/github/cao/awa/conium/bedrock/world/BedrockWorld.kt) as known as 'World' in SAPI
+    + [AbstractBedrockWorld](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt) impl by [BedrockWorld](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/BedrockWorld.kt) as known as 'World' in SAPI
         + player
-            + [BedrockPlayer](./src/main/java/com/github/cao/awa/conium/bedrock/world/player/BedrockPlayer.kt) as known as 'Player' in SAPI
+            + [BedrockPlayer](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/player/BedrockPlayer.kt) as known as 'Player' in SAPI
                 + delegate
-                    + [BedrockPlayerDelegate](./src/main/java/com/github/cao/awa/conium/bedrock/world/player/delegate/BedrockPlayerDelegate.kt) as known as 'Player[]' in SAPI
+                    + [BedrockPlayerDelegate](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/player/delegate/BedrockPlayerDelegate.kt) as known as 'Player[]' in SAPI
                 + screen
-                    + [BedrockOnScreenDisplay](./src/main/java/com/github/cao/awa/conium/bedrock/world/player/screen/BedrockOnScreenDisplay.kt) as known as 'ScreenDisplay' in SAPI
+                    + [BedrockOnScreenDisplay](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/player/screen/BedrockOnScreenDisplay.kt) as known as 'ScreenDisplay' in SAPI
     + dimension
-        + [BedrockDimensionLocation](./src/main/java/com/github/cao/awa/conium/bedrock/world/dimension/BedrockDimensionLocation.kt) as known as 'DimensionLocation' in SAPI
+        + [BedrockDimensionLocation](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/dimension/BedrockDimensionLocation.kt) as known as 'DimensionLocation' in SAPI
 + system
-    + [AbstractBedrockSystem](./src/main/java/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt) impl by [BedrockSystem](./src/main/java/com/github/cao/awa/conium/bedrock/system/BedrockSystem.kt) as known as 'System' in SAPI
+    + [AbstractBedrockSystem](./common/src/main/java/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt) impl by [BedrockSystem](./common/src/main/java/com/github/cao/awa/conium/bedrock/system/BedrockSystem.kt) as known as 'System' in SAPI
 + item
     + stack
-        + [BedrockItemStack](./src/main/java/com/github/cao/awa/conium/bedrock/item/stack/BedrockItemStack.kt) as known as 'ItemStack' in SAPI
+        + [BedrockItemStack](./common/src/main/java/com/github/cao/awa/conium/bedrock/item/stack/BedrockItemStack.kt) as known as 'ItemStack' in SAPI
 + script
-    + [BedrockScriptAnonymousObjectMap](./src/main/java/com/github/cao/awa/conium/bedrock/item/stack/BedrockItemStack.kt) as known as 'anonymous object' in Javascript
+    + [BedrockScriptAnonymousObjectMap](./common/src/main/java/com/github/cao/awa/conium/bedrock/item/stack/BedrockItemStack.kt) as known as 'anonymous object' in Javascript
 + event
-    + [BedrockBeforeEvents](./src/main/java/com/github/cao/awa/conium/bedrock/event/BedrockBeforeEvents.kt) as known as 'WorldBeforeEvents' in SAPI
+    + [BedrockBeforeEvents](./common/src/main/java/com/github/cao/awa/conium/bedrock/event/BedrockBeforeEvents.kt) as known as 'WorldBeforeEvents' in SAPI
         + context
-            + [BedrockEventContext](./src/main/java/com/github/cao/awa/conium/bedrock/event/context/BedrockEventContext.kt)
+            + [BedrockEventContext](./common/src/main/java/com/github/cao/awa/conium/bedrock/event/context/BedrockEventContext.kt)
             + item
                 + use
-                    + [BedrockItemUseOnEventContext](./src/main/java/com/github/cao/awa/conium/bedrock/event/context/item/use/BedrockItemUseOnEventContext.kt) as known as 'ItemUseOnBeforeEvent' and 'ItemUseOnAfterEvent' in SAPI
+                    + [BedrockItemUseOnEventContext](./common/src/main/java/com/github/cao/awa/conium/bedrock/event/context/item/use/BedrockItemUseOnEventContext.kt) as known as 'ItemUseOnBeforeEvent' and 'ItemUseOnAfterEvent' in SAPI
     + item
         + use
-            + [BedrockItemUseOnBeforeEvent](./src/main/java/com/github/cao/awa/conium/bedrock/event/item/use/BedrockItemUseOnBeforeEvent.kt) as known as 'ItemUseOnBeforeEventSignal' in SAPI
+            + [BedrockItemUseOnBeforeEvent](./common/src/main/java/com/github/cao/awa/conium/bedrock/event/item/use/BedrockItemUseOnBeforeEvent.kt) as known as 'ItemUseOnBeforeEventSignal' in SAPI
 
 By bedrock script APIs:
 
-+ [world](./src/main/java/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt)
-    + ```fun``` [getPlayers()](./src/main/java/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt): [BedrockPlayerDelegate](./src/main/java/com/github/cao/awa/conium/bedrock/world/player/delegate/BedrockPlayerDelegate.kt)
-        + ```operator fun``` [get](./src/main/java/com/github/cao/awa/conium/bedrock/world/player/delegate/BedrockPlayerDelegate.kt): [BedrockPlayer](./src/main/java/com/github/cao/awa/conium/bedrock/world/player/BedrockPlayer.kt)(index: Int)
-    + ```val``` [onScreenDisplay](./src/main/java/com/github/cao/awa/conium/bedrock/world/player/delegate/BedrockPlayerDelegate.kt): [BedrockOnScreenDisplay](./src/main/java/com/github/cao/awa/conium/bedrock/world/player/screen/BedrockOnScreenDisplay.kt)
-        + ```fun``` [setTitle](./src/main/java/com/github/cao/awa/conium/bedrock/world/player/screen/BedrockOnScreenDisplay.kt)(title: String, properties: [BedrockScriptAnonymousObjectMap](./src/main/java/com/github/cao/awa/conium/bedrock/script/BedrockScriptAnonymousObjectMap.kt))
-        + ```fun``` [updateSubtitle](./src/main/java/com/github/cao/awa/conium/bedrock/world/player/screen/BedrockOnScreenDisplay.kt)(title: String)
-    + ```val``` [eventsBefore](./src/main/java/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt) = ```get()```: [BedrockBeforeEvents](./src/main/java/com/github/cao/awa/conium/bedrock/event/BedrockBeforeEvents.kt)
-        + ```val``` [itemUseOn](./src/main/java/com/github/cao/awa/conium/bedrock/event/BedrockBeforeEvents.kt): [BedrockItemUseOnEvent](./src/main/java/com/github/cao/awa/conium/bedrock/event/item/use/BedrockItemUseOnBeforeEvent.kt)
-            + ```fun``` [subscribe](./src/main/java/com/github/cao/awa/conium/bedrock/event/item/use/BedrockItemUseOnBeforeEvent.kt)(action: ([BedrockItemUseOnEventContext](./src/main/java/com/github/cao/awa/conium/bedrock/event/context/item/use/BedrockItemUseOnEventContext.kt)) -> Unit)
-+ [system](./src/main/java/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt)
-    + ```fun``` [runInterval](./src/main/java/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt)(callback: () -> Unit, tickInterval: Int): IntegerReceptacle
-    + ```fun``` [clearRun](./src/main/java/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt)(runId: IntegerReceptacle)
++ [world](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt)
+    + ```fun``` [getPlayers()](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt): [BedrockPlayerDelegate](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/player/delegate/BedrockPlayerDelegate.kt)
+        + ```operator fun``` [get](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/player/delegate/BedrockPlayerDelegate.kt): [BedrockPlayer](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/player/BedrockPlayer.kt)(index: Int)
+    + ```val``` [onScreenDisplay](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/player/delegate/BedrockPlayerDelegate.kt): [BedrockOnScreenDisplay](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/player/screen/BedrockOnScreenDisplay.kt)
+        + ```fun``` [setTitle](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/player/screen/BedrockOnScreenDisplay.kt)(title: String, properties: [BedrockScriptAnonymousObjectMap](./common/src/main/java/com/github/cao/awa/conium/bedrock/script/BedrockScriptAnonymousObjectMap.kt))
+        + ```fun``` [updateSubtitle](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/player/screen/BedrockOnScreenDisplay.kt)(title: String)
+    + ```val``` [eventsBefore](./common/src/main/java/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt) = ```get()```: [BedrockBeforeEvents](./common/src/main/java/com/github/cao/awa/conium/bedrock/event/BedrockBeforeEvents.kt)
+        + ```val``` [itemUseOn](./common/src/main/java/com/github/cao/awa/conium/bedrock/event/BedrockBeforeEvents.kt): [BedrockItemUseOnEvent](./common/src/main/java/com/github/cao/awa/conium/bedrock/event/item/use/BedrockItemUseOnBeforeEvent.kt)
+            + ```fun``` [subscribe](./common/src/main/java/com/github/cao/awa/conium/bedrock/event/item/use/BedrockItemUseOnBeforeEvent.kt)(action: ([BedrockItemUseOnEventContext](./common/src/main/java/com/github/cao/awa/conium/bedrock/event/context/item/use/BedrockItemUseOnEventContext.kt)) -> Unit)
++ [system](./common/src/main/java/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt)
+    + ```fun``` [runInterval](./common/src/main/java/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt)(callback: () -> Unit, tickInterval: Int): IntegerReceptacle
+    + ```fun``` [clearRun](./common/src/main/java/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt)(runId: IntegerReceptacle)
+
+# Source code and commit
+Conium has large and complex source codes and architectures.\
+Read source codes still very challenging even though we are completing documents and comments try we best.
+
+So if you are willing to contribute to Conium, please do conversations with Conium developers to learn the details and specifications.\
+We will reject all pull requests that not after discussion. 
+
+If it is not necessary, avoid directly reading source codes.

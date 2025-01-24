@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.block.template.bedrock.destructible.ConiumBedro
 import com.github.cao.awa.conium.block.template.bedrock.destructible.explosion.ConiumBedrockDestructibleByExplosionTemplate
 import com.github.cao.awa.conium.block.template.bedrock.light.ConiumBedrockLightEmissionTemplate
 import com.github.cao.awa.conium.block.template.collision.ConiumBlockCollisionTemplate
-import com.github.cao.awa.conium.block.template.data.ConiumBlockDataTemplate
+import com.github.cao.awa.conium.block.entity.template.data.ConiumBlockDataTemplate
 import com.github.cao.awa.conium.block.template.entity.ConiumEnableBlockEntityTemplate
 import com.github.cao.awa.conium.block.template.explosion.resistance.ConiumExplosionResistanceTemplate
 import com.github.cao.awa.conium.block.template.instrument.ConiumBlockInstrumentTemplate

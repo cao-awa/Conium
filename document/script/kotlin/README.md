@@ -1,14 +1,14 @@
 # Kotlin script
-Conium supported to run kotlin script in game running, called to 'Conium script'.
+Conium supported to run the kotlin script in game running, called as 'Conium script.'
 
 Directly write and put the '.kts' file to ```/saves/<world>/datapacks/<pack-name>/data/script```.
 
 ## Events
-Conium script can handles game event used to complete what you need.
+Conium script can handle game events used to complete what you need.
 
 Use ```request``` to subscribe an event, first parameter is the type of event, for all events, see [Event types](/document/script/kotlin/event/README.md#event-types). 
 
-Then other parameters is the context args, for all args type, see [Context arg types](/document/script/kotlin/event/README.md#context-args).
+Then other parameters are the context args, for all args type, see [Context arg types](/document/script/kotlin/event/README.md#context-args).
 
 ### Arising
 ``` kts

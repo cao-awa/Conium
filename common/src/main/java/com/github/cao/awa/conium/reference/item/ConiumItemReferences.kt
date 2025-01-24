@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.github.cao.awa.conium.reference.item
 
 import net.minecraft.item.Item as ItemSource

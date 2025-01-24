@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.block.template.data
+package com.github.cao.awa.conium.block.entity.template.data
 
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
@@ -18,9 +18,12 @@ class ConiumBlockDataTemplate(private val registered: Map<String, ConiumNbtDataS
             val registered = CollectionFactor.hashMap<String, ConiumNbtDataSerializer<*>>()
             val defaultValues = CollectionFactor.hashMap<String, Any>()
 
+            // Build all data.
             element.keySet().forEach { key ->
                 val value = element[key] as JsonObject
+                // Get the type and serializer.
                 val serializer = ConiumNbtDataSerializer.getSerializer(value["type"].asString)
+                // Register serializer and default value.
                 registered[key] = serializer
                 defaultValues[key] = serializer.readFromJson(value, registryLookup, "value")
             }
@@ -33,6 +36,7 @@ class ConiumBlockDataTemplate(private val registered: Map<String, ConiumNbtDataS
     }
 
     override fun settings(settings: ConiumBlockSettings) {
+        // Setting registered data and default values.
         settings.blockEntity.registeredData = this.registered
         settings.blockEntity.defaultData = this.defaultValues
     }

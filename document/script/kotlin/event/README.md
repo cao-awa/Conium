@@ -47,12 +47,12 @@
 
 Cascade events are one or more events that only can happen when the preceding event is successful.
 
-For example, the ``BREAKING_BLOCK`` event occurs when a player starting mining a block, it normally takes time for the player to destroy the block, and only then can ``BREAK_BLOCK`` event occur, followed by the ``BROKEN_BLOCK`` event.\
+For example, the ``BREAKING_BLOCK`` event occur when a player starting mining a block, it normally takes time for the player to destroy the block, and only then can ``BREAK_BLOCK`` event occur, followed by the ``BROKEN_BLOCK`` event.\
 The ``BREAK_BLOCK`` and ``BROKEN_BLOCK`` events cannot happen if ``BREAKING_BLOCK`` event is canceled or failed.
 
-In summary, cascade events is one or more events that depends on certain preceding events.
+In summary, cascade events are one or more events that depends on the certain preceding events.
 
-Remember, all cascade event of the event cannot happen when you are canceling a event!\
+Remember, all cascade events of the event cannot happen when you are canceling an event!\
 Includes all ``arising`` and ``presaging`` context of cascaded events and ``arising`` context of this event.
 
 ## Context args
@@ -98,13 +98,13 @@ but the required args still able to get in scripts.
 
 This is the ``DynamicArgs`` transform(or adapter) mechanism, dynamic args use other presenting args try to found required arg.
 
-For details, see [ConiumEventArgTypes](/src/main/java/com/github/cao/awa/conium/event/type/ConiumEventArgTypes.kt) and [DynamicArgsBuilder#transform](/src/main/java/com/github/cao/awa/conium/parameter/DynamicArgsBuilder.kt).
+For details, see [ConiumEventArgTypes](/common/src/main/java/com/github/cao/awa/conium/event/type/ConiumEventArgTypes.kt) and [DynamicArgsBuilder#transform](/common/src/main/java/com/github/cao/awa/conium/parameter/DynamicArgsBuilder.kt).
 
 If required arg is still unable to found when the dynamic args for-each to all other args and runs all transform presets,\
 then this ``request`` of this event will not be arising, because the parameters of ``arising`` and ``presaging`` don't receive null value.
 
 Avoid the trouble of guessing yourself, all args possible to uses for every event is here, \
-if you are finding not rarely used parameters, then you need read the ``ConiumEventArgTypes``.
+if you are requesting rarely used parameters, then you need to read the ``ConiumEventArgTypes``.
 
 ### SERVER_TICK
 

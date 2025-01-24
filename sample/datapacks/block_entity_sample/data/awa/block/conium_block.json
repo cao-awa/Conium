@@ -11,9 +11,23 @@
       "inc": {
         "type": "int",
         "value": 0
+      },
+      "inventory":{
+        "type": "9x3",
+        "ui": "generic9x3"
+      }
+    },
+    "block_entity_template": {
+      "open_ui": {
+        "depends": "on_used",
+        "send_to": "player",
+        "inventory": "inventory"
+      },
+      "output_redstone_power": {
+        "depends":"on_used",
+        "output_type": "once",
+        "output_level": 7
       }
     }
   }
 }
-
-

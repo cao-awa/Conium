@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.github.cao.awa.conium.reference.world
 
 import net.minecraft.client.world.ClientWorld as ClientWorldSource

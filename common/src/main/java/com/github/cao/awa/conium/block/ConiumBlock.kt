@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.block
 
 import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
 import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
+import com.github.cao.awa.conium.block.entity.setting.ConiumBlockEntitySettings
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.path.through.ConiumBlockPathFindThroughTemplate
 import net.minecraft.block.*
@@ -26,6 +27,23 @@ class ConiumBlock(val setting: ConiumBlockSettings) : Block(setting.vanillaSetti
         }
     }
 
+    /**
+     * Make block outline shape.
+     *
+     * @param state the block state of this block
+     * @param world the world where this block at
+     * @param pos the block pos of this block
+     * @param context the shape context of this block
+     *
+     * @see AbstractBlock.getOutlineShape
+     * @see VoxelShape
+     *
+     * @return the outline shape of this block
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape = this.setting.outlineShape
 
     /**
@@ -36,7 +54,7 @@ class ConiumBlock(val setting: ConiumBlockSettings) : Block(setting.vanillaSetti
      * @param type the navigate type
      * @param state the block state
      *
-     * @see AbstractBlockState.canPathfindThrough
+     * @see AbstractBlock.AbstractBlockState.canPathfindThrough
      * @see ConiumBlockPathFindThroughTemplate
      *
      * @author cao_awa
@@ -53,11 +71,29 @@ class ConiumBlock(val setting: ConiumBlockSettings) : Block(setting.vanillaSetti
         }
     }
 
+    /**
+     * Create a Conium block entity with parsed settings, and got null when the block is not enabled block entity.
+     *
+     * @param pos the block pos of this block entity
+     * @param state the block state of this block entity
+     *
+     * @see BlockEntity
+     * @see ConiumBlockEntity
+     * @see ConiumBlockEntitySettings
+     *
+     * @author cao_awa
+     *
+     * @return the block entity with parsed settings
+     *
+     * @since 1.0.0
+     */
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity? {
+        // Do not create the block entity when the flag is not enabled.
         if (!this.setting.enableBlockEntity) {
             return null
         }
 
+        // Create block entity using parsed settings.
         return ConiumBlockEntity(
             this.setting.blockEntity,
             pos,
