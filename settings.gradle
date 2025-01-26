@@ -15,5 +15,3 @@ rootProject.name = 'conium'
 include 'common'
 include 'fabric'
 include 'neoforge'
-
-// Test github ruleset.
