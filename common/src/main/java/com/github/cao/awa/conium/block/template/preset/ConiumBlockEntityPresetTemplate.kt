@@ -20,14 +20,10 @@ class ConiumBlockEntityPresetTemplate(private val presetData: JsonObject, privat
     }
 
     override fun settings(settings: ConiumBlockSettings) {
-        println("Deserializing: ${this.presetData}")
-
         deserializeBlockEntityTemplates(
             this.presetData,
             this.registryLookup
         ).also { templates ->
-            println(templates)
-
             // Add all deserialized templates to settings.
             settings.blockEntity.blockEntityTemplates.addAll(
                 // Deserialize the block entity templates.
