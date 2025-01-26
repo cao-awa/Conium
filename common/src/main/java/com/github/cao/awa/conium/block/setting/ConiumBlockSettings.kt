@@ -8,9 +8,13 @@ import com.github.cao.awa.conium.setting.ConiumSettings
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.AbstractBlock.Settings
 import net.minecraft.block.BlockEntityProvider
+import net.minecraft.block.BlockState
 import net.minecraft.client.color.block.BlockColorProvider
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
+import net.minecraft.world.BlockView
 import net.minecraft.world.RaycastContext
 
 object ConiumBlockSettingsValue {
@@ -20,6 +24,8 @@ object ConiumBlockSettingsValue {
     const val WATER_PATH_THROUGH: Boolean = false
     const val AIR_PATH_THROUGH: Boolean = false
     const val ENABLE_BLOCK_ENTITY: Boolean = false
+    val NO_REDSTONE_POWER_PROVIDER: (BlockState, BlockView, BlockPos, Direction) -> Int = { state, world, pos, direction -> 0 }
+    const val EMITS_REDSTONE_POWER = false;
 }
 
 abstract class ConiumAbstractBlockSettings<B : ConiumAbstractBlockSettings<B>>(val vanillaSettings: Settings) : ConiumSettings<ConiumAbstractBlockSettings<B>, B>() {
@@ -153,6 +159,72 @@ abstract class ConiumAbstractBlockSettings<B : ConiumAbstractBlockSettings<B>>(v
     // The delegate.
     private var _blockEntity: ConiumBlockEntitySettings? = null
 
+    /**
+     * Setting the redstone weak power provider of block.
+     *
+     * Default is ``() -> 0``.
+     *
+     * @see AbstractBlock.emitsRedstonePower
+     * @see AbstractBlock.getWeakRedstonePower
+     * @see AbstractBlock.getStrongRedstonePower
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    var redstoneWeakPowerProvider: (BlockState, BlockView, BlockPos, Direction) -> Int
+        get() = this._redstoneWeakPowerProvider ?: ConiumBlockSettingsValue.NO_REDSTONE_POWER_PROVIDER
+        set(value) {
+            this._redstoneWeakPowerProvider = value
+        }
+
+    // The delegate.
+    private var _redstoneWeakPowerProvider: ((BlockState, BlockView, BlockPos, Direction) -> Int)? = null
+
+    /**
+     * Setting the redstone strong power provider of block.
+     *
+     * Default is ``() -> 0``.
+     *
+     * @see AbstractBlock.emitsRedstonePower
+     * @see AbstractBlock.getWeakRedstonePower
+     * @see AbstractBlock.getStrongRedstonePower
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    var redstoneStrongPowerProvider: (BlockState, BlockView, BlockPos, Direction) -> Int
+        get() = this._redstoneStrongPowerProvider ?: ConiumBlockSettingsValue.NO_REDSTONE_POWER_PROVIDER
+        set(value) {
+            this._redstoneStrongPowerProvider = value
+        }
+
+    // The delegate.
+    private var _redstoneStrongPowerProvider: ((BlockState, BlockView, BlockPos, Direction) -> Int)? = null
+
+    /**
+     * Setting the redstone power emits-able of block.
+     *
+     * Default is ``false``.
+     *
+     * @see AbstractBlock.emitsRedstonePower
+     * @see AbstractBlock.getWeakRedstonePower
+     * @see AbstractBlock.getStrongRedstonePower
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    var emitsRedstonePower: Boolean
+        get() = this._emitsRedstonePower ?: ConiumBlockSettingsValue.EMITS_REDSTONE_POWER
+        set(value) {
+            this._emitsRedstonePower = value
+        }
+
+    // The delegate.
+    private var _emitsRedstonePower: Boolean? = null
+
     override fun migrateTo(settings: B): B {
         return settings.also {
             // Apply settings (only configured, no default).
@@ -162,6 +234,9 @@ abstract class ConiumAbstractBlockSettings<B : ConiumAbstractBlockSettings<B>>(v
             this._airPathThrough?.apply { it.airPathThrough = this }
             this._enableBlockEntity?.apply { it.enableBlockEntity = this }
             this._blockEntity?.apply { it.blockEntity = this }
+            this._redstoneWeakPowerProvider?.apply { it.redstoneWeakPowerProvider = this }
+            this._redstoneStrongPowerProvider?.apply { it.redstoneStrongPowerProvider = this }
+            this._emitsRedstonePower?.apply { it.emitsRedstonePower = this }
         }
     }
 }

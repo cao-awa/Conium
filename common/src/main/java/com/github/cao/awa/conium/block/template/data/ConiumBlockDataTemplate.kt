@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.block.entity.template.data
+package com.github.cao.awa.conium.block.template.data
 
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate

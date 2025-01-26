@@ -2,6 +2,7 @@
 
 package com.github.cao.awa.conium.template
 
+import com.github.cao.awa.conium.block.entity.template.ConiumBlockEntityTemplate
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
@@ -42,6 +43,11 @@ abstract class ConiumTemplate<R, P>(val isClient: Boolean = false, private val n
         }
 
         @JvmStatic
+        fun registerBlockEntity(name: String, template: ConiumTemplateFactor, isBedrock: Boolean = false) {
+            register(name, "block_entity", template, isBedrock)
+        }
+
+        @JvmStatic
         fun registerEntity(name: String, template: ConiumTemplateFactor, isBedrock: Boolean = false) {
             register(name, "entity", template, isBedrock)
         }
@@ -65,6 +71,11 @@ abstract class ConiumTemplate<R, P>(val isClient: Boolean = false, private val n
             json: JsonObject,
             registryLookup: WrapperLookup,
         ): MutableList<ConiumBlockTemplate> = deserializeTemplates("block", json, registryLookup) as MutableList<ConiumBlockTemplate>
+
+        fun deserializeBlockEntityTemplates(
+            json: JsonObject,
+            registryLookup: WrapperLookup,
+        ): MutableList<ConiumBlockEntityTemplate> = deserializeTemplates("block_entity", json, registryLookup) as MutableList<ConiumBlockEntityTemplate>
 
         fun deserializeEntityTemplates(
             json: JsonObject,
@@ -108,10 +119,10 @@ abstract class ConiumTemplate<R, P>(val isClient: Boolean = false, private val n
             // Templates list.
             val templates: MutableList<ConiumTemplate<*, *>> = CollectionFactor.arrayList()
 
-            // Make sharing context used to shares data.
+            // Make sharing context used to share data.
             val sharingContext: HashMap<Class<*>, Any> = CollectionFactor.hashMap()
 
-            // Create all templates(also known as 'components' in bedrock).
+            // Create all templates (also known as 'components' in bedrock).
             for ((name: String, value: JsonElement) in json.entrySet()) {
                 // Deserialize template content.
                 deserializeTemplate(
@@ -122,9 +133,9 @@ abstract class ConiumTemplate<R, P>(val isClient: Boolean = false, private val n
                 ).let { result ->
                     // Complete the template.
                     result.fold({
-                        // Set sharing context used to shares data when stage 'attach', and 'complete' or other.
+                        // Set sharing context used to share data when the stage named 'attach', and 'complete' or other.
                         it.sharingContext = sharingContext
-                        // Add to template list.
+                        // Add to the template list.
                         templates.add(it)
                     }) {
                         // When errors.
@@ -147,6 +158,9 @@ abstract class ConiumTemplate<R, P>(val isClient: Boolean = false, private val n
 
         @Throws(IllegalArgumentException::class)
         fun notSupported(jsonElement: JsonElement): IllegalArgumentException = IllegalArgumentException("Not supported syntax: $jsonElement")
+
+        @Throws(IllegalArgumentException::class)
+        fun throwNotSupported(jsonElement: JsonElement): IllegalArgumentException = throw IllegalArgumentException("Not supported syntax: $jsonElement")
     }
 
     // The contexts will be set in deserializing templates, do not set it again in feature.

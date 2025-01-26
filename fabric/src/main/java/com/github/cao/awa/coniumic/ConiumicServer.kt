@@ -11,8 +11,13 @@ import net.fabricmc.fabric.api.networking.v1.ServerConfigurationConnectionEvents
 import net.fabricmc.fabric.impl.networking.PayloadTypeRegistryImpl
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerConfigurationNetworkHandler
+import org.apache.logging.log4j.LogManager
 
 class ConiumicServer : DedicatedServerModInitializer {
+    companion object {
+        private val LOGGER = LogManager.getLogger("ConiumicServer")
+    }
+
     override fun onInitializeServer() {
         // Register the configuring packet to synchronize registry.
         ServerConfigurationConnectionEvents.CONFIGURE.register { handler: ServerConfigurationNetworkHandler, server: MinecraftServer ->

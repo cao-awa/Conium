@@ -1,11 +1,12 @@
 package com.github.cao.awa.conium.template
 
+import com.github.cao.awa.conium.block.entity.template.preset.redstone.ConiumBlockEntityOutputRedstonePowerTemplate
 import com.github.cao.awa.conium.block.template.bedrock.collision.ConiumBedrockBlockCollisionBoxTemplate
 import com.github.cao.awa.conium.block.template.bedrock.destructible.ConiumBedrockDestructibleByMiningTemplate
 import com.github.cao.awa.conium.block.template.bedrock.destructible.explosion.ConiumBedrockDestructibleByExplosionTemplate
 import com.github.cao.awa.conium.block.template.bedrock.light.ConiumBedrockLightEmissionTemplate
 import com.github.cao.awa.conium.block.template.collision.ConiumBlockCollisionTemplate
-import com.github.cao.awa.conium.block.entity.template.data.ConiumBlockDataTemplate
+import com.github.cao.awa.conium.block.template.data.ConiumBlockDataTemplate
 import com.github.cao.awa.conium.block.template.entity.ConiumEnableBlockEntityTemplate
 import com.github.cao.awa.conium.block.template.explosion.resistance.ConiumExplosionResistanceTemplate
 import com.github.cao.awa.conium.block.template.instrument.ConiumBlockInstrumentTemplate
@@ -15,6 +16,10 @@ import com.github.cao.awa.conium.block.template.map.ConiumMapColorTemplate
 import com.github.cao.awa.conium.block.template.mining.ConiumHardnessTemplate
 import com.github.cao.awa.conium.block.template.path.through.ConiumBlockPathFindThroughTemplate
 import com.github.cao.awa.conium.block.template.piston.ConiumBlockPistonBehaviorsTemplate
+import com.github.cao.awa.conium.block.template.preset.ConiumBlockEntityPresetTemplate
+import com.github.cao.awa.conium.block.template.redstone.ConiumBlockEmitsRedstonePowerTemplate
+import com.github.cao.awa.conium.block.template.redstone.ConiumBlockEmitsStrongRedstonePowerTemplate
+import com.github.cao.awa.conium.block.template.redstone.ConiumBlockEmitsWeakRedstonePowerTemplate
 import com.github.cao.awa.conium.block.template.replaceable.ConiumBlockReplaceableTemplate
 import com.github.cao.awa.conium.block.template.velocity.ConiumBlockMovementVelocityTemplate
 import com.github.cao.awa.conium.block.template.velocity.jump.ConiumBlockJumpVelocityTemplate
@@ -57,6 +62,7 @@ import com.github.cao.awa.conium.recipe.template.bedrock.furnace.ConiumBedrockRe
 import com.github.cao.awa.conium.recipe.template.bedrock.shape.ConiumBedrockRecipeShapedTemplate
 import com.github.cao.awa.conium.recipe.template.bedrock.shape.ConiumBedrockRecipeShapelessTemplate
 import com.github.cao.awa.conium.template.ConiumTemplate.Companion.registerBlock
+import com.github.cao.awa.conium.template.ConiumTemplate.Companion.registerBlockEntity
 import com.github.cao.awa.conium.template.ConiumTemplate.Companion.registerEntity
 import com.github.cao.awa.conium.template.ConiumTemplate.Companion.registerItem
 import com.github.cao.awa.conium.template.ConiumTemplate.Companion.registerRecipe
@@ -431,6 +437,14 @@ object ConiumTemplates {
         // Block data.
         const val DATA: String = "data"
 
+        // Block entity preset.
+        const val BLOCK_ENTITY_PRESET: String = "block_entity_preset"
+
+        // Emits redstone power.
+        const val EMITS_REDSTONE_POWER: String = "emits_redstone_power"
+        const val EMITS_WEAK_REDSTONE_POWER: String = "emits_weak_redstone_power"
+        const val EMITS_STRONG_REDSTONE_POWER: String = "emits_strong_redstone_power"
+
         fun initBlockTemplates() {
             // Destructible.
             registerBlock(
@@ -508,6 +522,38 @@ object ConiumTemplates {
             registerBlock(
                 DATA,
                 ConiumBlockDataTemplate::create
+            )
+
+            // Block entity preset.
+            registerBlock(
+                BLOCK_ENTITY_PRESET,
+                ConiumBlockEntityPresetTemplate::create
+            )
+
+            // Emits redstone power.
+            registerBlock(
+                EMITS_REDSTONE_POWER,
+                ConiumBlockEmitsRedstonePowerTemplate::create
+            )
+            registerBlock(
+                EMITS_WEAK_REDSTONE_POWER,
+                ConiumBlockEmitsWeakRedstonePowerTemplate::create
+            )
+            registerBlock(
+                EMITS_STRONG_REDSTONE_POWER,
+                ConiumBlockEmitsStrongRedstonePowerTemplate::create
+            )
+        }
+    }
+
+    object BlockEntity {
+
+        const val OUTPUT_REDSTONE_POWER: String = "output_redstone_power"
+
+        fun initBlockEntityTemplates() {
+            registerBlockEntity(
+                OUTPUT_REDSTONE_POWER,
+                ConiumBlockEntityOutputRedstonePowerTemplate::create
             )
         }
     }
@@ -620,6 +666,7 @@ object ConiumTemplates {
     fun init() {
         Item.initItemTemplates()
         Block.initBlockTemplates()
+        BlockEntity.initBlockEntityTemplates()
         Entity.initEntityTemplates()
         BedrockItem.initBedrockItemTemplates()
         BedrockBlock.initBedrockBlockTemplates()

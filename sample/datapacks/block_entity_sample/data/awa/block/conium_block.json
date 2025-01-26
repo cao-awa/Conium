@@ -17,12 +17,7 @@
         "ui": "generic9x3"
       }
     },
-    "block_entity_template": {
-      "open_ui": {
-        "depends": "on_used",
-        "send_to": "player",
-        "inventory": "inventory"
-      },
+    "block_entity_preset": {
       "output_redstone_power": {
         "depends":"on_used",
         "output_type": "once",

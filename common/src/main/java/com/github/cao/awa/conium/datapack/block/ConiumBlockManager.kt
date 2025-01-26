@@ -9,11 +9,11 @@ import com.github.cao.awa.conium.block.builder.bedrock.BedrockSchemaBlockBuilder
 import com.github.cao.awa.conium.block.builder.conium.ConiumSchemaBlockBuilder
 import com.github.cao.awa.conium.datapack.ConiumJsonDataLoader
 import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.registry.extend.ConiumDynamicIdList
-import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry
 import com.github.cao.awa.conium.kotlin.extent.block.register
 import com.github.cao.awa.conium.kotlin.extent.item.registerBlockItem
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
+import com.github.cao.awa.conium.registry.extend.ConiumDynamicIdList
+import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.google.common.collect.UnmodifiableIterator
 import com.google.gson.JsonElement

@@ -45,12 +45,19 @@ dependencies {
     shadowBundle "org.jetbrains.kotlin:kotlin-scripting-jvm-host:${project.kotlin_version}"
     shadowBundle "org.jetbrains.kotlin:kotlin-scripting-dependencies:${project.kotlin_version}"
 
-    shadowBundle 'com.alibaba.fastjson2:fastjson2:2.0.50'
+    implementation 'com.alibaba.fastjson2:fastjson2:2.0.50'
 
-    shadowBundle 'com.github.cao.awa:catheter:1.0.42'
-    shadowBundle 'com.github.cao.awa:sinuatum:1.0.15'
+    implementation 'com.github.cao.awa:catheter:1.0.42'
+    implementation 'com.github.cao.awa:sinuatum:1.0.15'
 
-    shadowBundle "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
+    implementation "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
+
+    // Fabric Kotlin
+    modImplementation "net.fabricmc:fabric-language-kotlin:${rootProject.fabric_kotlin_version}"
+}
+
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
 }
 
 processResources {
@@ -69,9 +76,11 @@ shadowJar {
 remapJar {
     inputFile.set shadowJar.archiveFile
 }
+
 repositories {
     mavenCentral()
 }
+
 kotlin {
     jvmToolchain(21)
 }

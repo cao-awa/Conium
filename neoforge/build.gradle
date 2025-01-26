@@ -58,6 +58,10 @@ dependencies {
     shadowBundle "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
 }
 
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+}
+
 processResources {
     inputs.property 'version', project.version
 

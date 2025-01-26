@@ -4,6 +4,10 @@ import com.github.cao.awa.conium.block.entity.setting.ConiumBlockEntitySettings
 import com.github.cao.awa.conium.nbt.data.RegistrableNbt
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.component.Component
+import net.minecraft.component.ComponentMap
+import net.minecraft.component.ComponentType
+import net.minecraft.component.MergedComponentMap
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
@@ -87,6 +91,28 @@ class ConiumBlockEntity(
      */
     operator fun set(key: String, value: Any) {
         this.data[key] = value
+    }
+
+    /**
+     * To set the component value using the component key, should ensure the input is not a null value.
+     *
+     * @see NbtCompound
+     * @see Component
+     * @see ComponentType
+     * @see ComponentMap
+     * @see MergedComponentMap
+     *
+     * @param key the component key
+     * @param value the component value
+     *
+     * @author 草二号机
+     *
+     * @since 1.0.0
+     */
+    operator fun <T> set(key: ComponentType<T>, value: T) {
+        (this.components as? MergedComponentMap)?.let { components ->
+            components[key] = value
+        }
     }
 
     /**

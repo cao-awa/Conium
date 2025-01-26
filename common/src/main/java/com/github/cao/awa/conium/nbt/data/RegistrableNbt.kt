@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger
 /**
  * A registration restrictions NBT data delegate, it can write data to NBT compound and read data from NBT compound using registered keys.
  *
- * The registry are confirmed in constructing, keys cannot dynamically change in the registrable NBT lifecycle.
+ * The registry is confirmed in constructing, keys cannot dynamically change in the registrable NBT lifecycle.
  *
  * Registered keys is avoided appearing unnecessary data or unexpected types it should consider as fields in an object instead of an arbitrary map.
  *
@@ -94,7 +94,7 @@ class RegistrableNbt(
      * @since 1.0.0
      */
     fun writeTo(nbt: NbtCompound, registries: RegistryWrapper.WrapperLookup) {
-        // Using registry to serialize data, only registered data can be write, doesn't write others data anymore.
+        // Using registry to serialize data, only registered data can write, doesn't write others data anymore.
         for ((name, serializer) in this.registries) {
             // Write data to NBT compound.
             serializer.write(nbt, registries, name, Manipulate.cast(this.values[name]))

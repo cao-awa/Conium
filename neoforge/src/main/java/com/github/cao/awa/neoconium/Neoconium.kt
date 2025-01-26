@@ -10,7 +10,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
 /**
  * Not supported yet now.
  */
-@Mod("neoconium", dist = [Dist.CLIENT, Dist.DEDICATED_SERVER])
+@Mod("conium", dist = [Dist.CLIENT, Dist.DEDICATED_SERVER])
 class Neoconium(bus: IEventBus) {
     init {
         Conium().onInitialize()

@@ -9,8 +9,13 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.impl.networking.PayloadTypeRegistryImpl
+import org.apache.logging.log4j.LogManager
 
 class ConiumicClient : ClientModInitializer {
+    companion object {
+        private val LOGGER = LogManager.getLogger("ConiumicClient")
+    }
+
     override fun onInitializeClient() {
         ConiumPacketRegister.implementConfigurationToClient { id, codec ->
             PayloadTypeRegistryImpl.CONFIGURATION_S2C.register(id, codec)

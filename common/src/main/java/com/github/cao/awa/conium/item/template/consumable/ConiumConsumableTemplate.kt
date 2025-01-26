@@ -81,7 +81,7 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
                                 it.consumeEffect(theEffects)
                             }
                     } else {
-                        throw notSupported(effects)
+                        throwNotSupported(effects)
                     }
                 }
             }.build()

@@ -7,22 +7,34 @@ import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.path.through.ConiumBlockPathFindThroughTemplate
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
+import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
+import net.minecraft.world.World
 
 class ConiumBlock(val setting: ConiumBlockSettings) : Block(setting.vanillaSettings), BlockEntityProvider {
     companion object {
         fun create(builder: ConiumBlockBuilder, settings: ConiumBlockSettings): ConiumBlock {
             builder.distinct()
 
-            builder.forEachTemplate { it.prepare(settings) }
-
             return ConiumBlock(settings).apply {
                 builder.forEachTemplate { it.attach(this) }
 
                 builder.forEachTemplate { it.complete(this) }
+
+                settings.blockEntity.also { blockEntitySettings ->
+                    for (blockEntityTemplate in blockEntitySettings.blockEntityTemplates) {
+                        blockEntityTemplate.prepare(blockEntitySettings)
+
+                        blockEntityTemplate.attach(this)
+
+                        blockEntityTemplate.complete(this)
+                    }
+                }
             }
         }
     }
@@ -99,5 +111,36 @@ class ConiumBlock(val setting: ConiumBlockSettings) : Block(setting.vanillaSetti
             pos,
             state
         )
+    }
+
+    override fun emitsRedstonePower(state: BlockState?): Boolean = this.setting.emitsRedstonePower
+
+    override fun getWeakRedstonePower(state: BlockState, world: BlockView, pos: BlockPos, direction: Direction): Int = this.setting.redstoneWeakPowerProvider(state, world, pos, direction)
+
+    override fun getStrongRedstonePower(state: BlockState, world: BlockView, pos: BlockPos, direction: Direction): Int = this.setting.redstoneStrongPowerProvider(state, world, pos, direction)
+
+    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
+        if (!state.isOf(newState.block)) {
+            super.onStateReplaced(state, world, pos, newState, moved)
+            updateDirections(state, world, pos) { direction: Direction ->
+                this.setting.redstoneStrongPowerProvider(state, world, pos, direction) > 0
+            }
+        }
+    }
+
+    override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack) {
+        if (this.setting.emitsRedstonePower) {
+            updateDirections(state, world, pos) { direction: Direction ->
+                this.setting.redstoneStrongPowerProvider(state, world, pos, direction) > 0
+            }
+        }
+    }
+
+    fun updateDirections(state: BlockState, world: World, pos: BlockPos, predicate: (Direction) -> Boolean) {
+        DIRECTIONS.forEach { direction ->
+            if (predicate(direction)) {
+                world.updateNeighbors(pos.offset(direction), this)
+            }
+        }
     }
 }

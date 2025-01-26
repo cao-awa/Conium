@@ -32,7 +32,7 @@ abstract class ConiumBuilderWithTemplates<B : ConiumBuilderWithTemplates<B, I, X
     }
 
     fun distinct() {
-        for ((type, template) in CollectionFactor.hashMap(this.templates)) {
+        for ((_, template) in CollectionFactor.hashMap(this.templates)) {
             for ((conflictType, notice) in template.conflicts) {
                 if (this.templates.containsKey(conflictType)) {
                     this.templates.remove(conflictType)
