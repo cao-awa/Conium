@@ -26,6 +26,9 @@ Conium has configured whole project, just clone the repository, and reload proje
 | Fabric loom |  1.9.2   | 1.9.2 or other could be use |
 |   Minecraft | 1.21.4!! |   Only 1.21.4 can be use    |
 
+## Discord server
+You can join ours [discord](https://discord.com/invite/BUY2xQr37N) server to chat with Conium community！
+
 ## Data driven
 
 See the [Data driven](./document/data-driven/README.md)
