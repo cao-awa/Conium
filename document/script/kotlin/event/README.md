@@ -2,46 +2,68 @@
 
 ## Event types
 
-|                   Key |                       Notes                       | Environment | Cancelable |                                                                                                                                                  Cascade events | Input instance  |
-|----------------------:|:-------------------------------------------------:|------------:|-----------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------:|
-|           SERVER_TICK |           Trigger in every server tick            |      SERVER |      false |                                                                                                                                                 Too many events | MinecraftServer |
-|      SERVER_TICK_TAIL |      Trigger in every server tick completed       |      SERVER |      false |                                                                                                                                                               * | MinecraftServer |
-|     ITEM_USE_ON_BLOCK |        Trigger when an item use on a block        |         ALL |       true |                                                                                                                                          ``ITEM_USED_ON_BLOCK`` |      Item       |
-|    ITEM_USED_ON_BLOCK |       Trigger when an item used on a block        |         ALL |       true |                                                                                                                                                               * |      Item       |
-|    ITEM_USE_ON_ENTITY |       Trigger when an item use on an entity       |         ALL |       true |                                                                                                                                         ``ITEM_USED_ON_ENTITY`` |      Item       |
-|   ITEM_USED_ON_ENTITY |      Trigger when an item used on an entity       |         ALL |       true |                                                                                                                                                               * |      Item       |
-|       ITEM_USAGE_TICK |        Trigger when an item usage ticking         |         ALL |       true |                                                                                                                                           ``ITEM_USAGE_TICKED`` |      Item       |
-|     ITEM_USAGE_TICKED |         Trigger when an item usage ticked         |         ALL |       true |                                                                                                                                                               * |      Item       |
-|   ITEM_INVENTORY_TICK |     Trigger when an item ticking in inventory     |         ALL |       true |                                                                                                                                       ``ITEM_INVENTORY_TICKED`` |      Item       |
-| ITEM_INVENTORY_TICKED |     Trigger when an item ticked in inventory      |         ALL |       true |                                                                                                                                                               * |      Item       |
-|      ITEM_STACK_CLICK | Trigger when an item stack clicking in inventory  |         ALL |       true |                                                                                                                                          ``ITEM_STACK_CLICKED`` |      Item       |
-|    ITEM_STACK_CLICKED |  Trigger when an item stack clicked in inventory  |         ALL |       true |                                                                                                                                                               * |      Item       |
-|        BREAKING_BLOCK |            Trigger when breaking block            |         ALL |       true |                                                                                                                               ``BREAK_BLOCK``  ``BROKEN_BLOCK`` |      Block      |
-|           BREAK_BLOCK |            Trigger when broking block             |      SERVER |       true |                                                                                                                                                ``BROKEN_BLOCK`` |      Block      |
-|          BROKEN_BLOCK |             Trigger when broken block             |         ALL |      false |                                                                                                                                                               * |      Block      |
-|           PLACE_BLOCK |            Trigger when placing block             |         ALL |       true |                                                                                                                                                ``PLACED_BLOCK`` |      Block      |
-|          PLACED_BLOCK |             Trigger when block placed             |         ALL |      false |                                                                                                                                                               * |      Block      |
-|             USE_BLOCK |             Trigger when using block              |         ALL |       true |                                                                                                                                                  ``USED_BLOCK`` |      Block      |
-|            USED_BLOCK |              Trigger when block used              |         ALL |      false |                                                                                                                                                               * |      Block      |
-|         ENTITY_DAMAGE |           Trigger when entity damaging            |         ALL |       true |                                                                                                                                              ``ENTITY_DAMAGED`` |  EntityType<*>  |
-|        ENTITY_DAMAGED |            Trigger when entity damaged            |         ALL |      false |                                                                                                                                                               * |  EntityType<*>  |
-|            ENTITY_DIE |             Trigger when entity dying             |         ALL |       true |                                                                                                                                                 ``ENTITY_DEAD`` |  EntityType<*>  |
-|           ENTITY_DIED |             Trigger when entity died              |         ALL |      false |                                                                                                                                                               * |  EntityType<*>  |
-|   BLOCK_SCHEDULE_TICK |        Trigger when schedule ticking block        |      SERVER |       true |                                                                                                                                       ``BLOCK_SCHEDULE_TICKED`` |      Block      |
-| BLOCK_SCHEDULE_TICKED |             Trigger when block ticked             |      SERVER |      false |                                                                                                                                                               * |      Block      |
-|   FLUID_SCHEDULE_TICK |        Trigger when schedule ticking fluid        |      SERVER |       true |                                                                                                                                       ``FLUID_SCHEDULE_TICKED`` |      Fluid      |
-|   SHULKER_BOX_OPENING |  Trigger when player trying to open shulker box   |         ALL |       true |                                                                                         ``SHULKER_BOX_OPENED``  ``SHULKER_BOX_CLOSING``  ``SHULKER_BOX_CLOSED`` |      Block      |
-|    SHULKER_BOX_OPENED |          Trigger when shulker box opened          |         ALL |      false |                                                                                                                                                               * |      Block      |
-|   SHULKER_BOX_CLOSING |  Trigger when player trying to close shulker box  |         ALL |       true |                                                                                                                                         ``SHULKER_BOX_CLOSING`` |      Block      |
-|    SHULKER_BOX_CLOSED |          Trigger when shulker box closed          |         ALL |      false |                                                                                                                                                               * |      Block      |
-|         CHEST_OPENING |     Trigger when player trying to open chest      |         ALL |       true | ``CHEST_OPENED``  ``CHEST_CLOSING``  ``CHEST_CLOSED``  ``TRAPPED_CHEST_OPENING``  ``TRAPPED_CHEST_OPENED``  ``TRAPPED_CHEST_CLOSING``  ``TRAPPED_CHEST_CLOSED`` |      Block      |
-|          CHEST_OPENED |             Trigger when chest opened             |         ALL |      false |                                                                                                                                                               * |      Block      |
-|         CHEST_CLOSING |     Trigger when player trying to close chest     |         ALL |       true |                                                                                                                                                ``CHEST_CLOSED`` |      Block      |
-|          CHEST_CLOSED |             Trigger when chest closed             |         ALL |      false |                                                                                                                                                               * |      Block      |
-| TRAPPED_CHEST_OPENING | Trigger when player trying to open trapped chest  |         ALL |       true |                                                                                   ``TRAPPED_CHEST_OPENED``  ``TRAPPED_CHEST_CLOSING``  ``TRAPPED_CHEST_CLOSED`` |      Block      |
-|  TRAPPED_CHEST_OPENED |         Trigger when trapped chest opened         |         ALL |      false |                                                                                                                                                               * |      Block      |
-| TRAPPED_CHEST_CLOSING | Trigger when player trying to close trapped chest |         ALL |       true |                                                                                                                                        ``TRAPPED_CHEST_CLOSED`` |      Block      |
-|  TRAPPED_CHEST_CLOSED |         Trigger when trapped chest opened         |         ALL |      false |                                                                                                                                                               * |      Block      |
+### Server events
+
+|              Key |                 Notes                  | Environment | Cancelable |  Cascade events | Input instance  |
+|-----------------:|:--------------------------------------:|------------:|-----------:|----------------:|:---------------:|
+|      SERVER_TICK |      Trigger in every server tick      |      SERVER |      false | Too many events | MinecraftServer |
+| SERVER_TICK_TAIL | Trigger in every server tick completed |      SERVER |      false |               * | MinecraftServer |
+
+### Item events
+
+|                   Key |                      Notes                       | Environment | Cancelable |            Cascade events | Input instance |
+|----------------------:|:------------------------------------------------:|------------:|-----------:|--------------------------:|:--------------:|
+|     ITEM_USE_ON_BLOCK |       Trigger when an item use on a block        |         ALL |       true |    ``ITEM_USED_ON_BLOCK`` |      Item      |
+|    ITEM_USED_ON_BLOCK |       Trigger when an item used on a block       |         ALL |       true |                         * |      Item      |
+|    ITEM_USE_ON_ENTITY |      Trigger when an item use on an entity       |         ALL |       true |   ``ITEM_USED_ON_ENTITY`` |      Item      |
+|   ITEM_USED_ON_ENTITY |      Trigger when an item used on an entity      |         ALL |       true |                         * |      Item      |
+|       ITEM_USAGE_TICK |        Trigger when an item usage ticking        |         ALL |       true |     ``ITEM_USAGE_TICKED`` |      Item      |
+|     ITEM_USAGE_TICKED |        Trigger when an item usage ticked         |         ALL |       true |                         * |      Item      |
+|   ITEM_INVENTORY_TICK |    Trigger when an item ticking in inventory     |         ALL |       true | ``ITEM_INVENTORY_TICKED`` |      Item      |
+| ITEM_INVENTORY_TICKED |     Trigger when an item ticked in inventory     |         ALL |       true |                         * |      Item      |
+|      ITEM_STACK_CLICK | Trigger when an item stack clicking in inventory |         ALL |       true |    ``ITEM_STACK_CLICKED`` |      Item      |
+|    ITEM_STACK_CLICKED | Trigger when an item stack clicked in inventory  |         ALL |       true |                         * |      Item      |
+
+### Entity events
+
+|                      Key |                 Notes                  | Environment | Cancelable |               Cascade events | Input instance |
+|-------------------------:|:--------------------------------------:|------------:|-----------:|-----------------------------:|:--------------:|
+|            ENTITY_DAMAGE |      Trigger when entity damaging      |         ALL |       true |           ``ENTITY_DAMAGED`` | EntityType<*>  |
+|           ENTITY_DAMAGED |      Trigger when entity damaged       |         ALL |      false |                            * | EntityType<*>  |
+|               ENTITY_DIE |       Trigger when entity dying        |         ALL |       true |              ``ENTITY_DEAD`` | EntityType<*>  |
+|              ENTITY_DIED |        Trigger when entity died        |         ALL |      false |                            * | EntityType<*>  |
+|             ENTITY_SLEEP |  Trigger when entity trying to sleep   |      SERVER |       true |                            * | EntityType<*>  |
+|           ENTITY_WAKE_UP | Trigger when entity trying to wake up  |         ALL |       true |                            * | EntityType<*>  |
+|           ENTITY_ON_FIRE |      Trigger when entity on fire       |      SERVER |       true |                            * | EntityType<*>  |
+|   ENTITY_EXTINGUISH_FIRE | Trigger when entity fire extinguishing |      SERVER |       true | ``ENTITY_EXTINGUISHED_FIRE`` | EntityType<*>  |
+| ENTITY_EXTINGUISHED_FIRE | Trigger when entity fire extinguished  |      SERVER |      false |                            * | EntityType<*>  |
+
+### Block events
+
+|                   Key |                       Notes                       | Environment | Cancelable |                                                                                                                                                  Cascade events | Input instance |
+|----------------------:|:-------------------------------------------------:|------------:|-----------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------:|
+|        BREAKING_BLOCK |            Trigger when breaking block            |         ALL |       true |                                                                                                                               ``BREAK_BLOCK``  ``BROKEN_BLOCK`` |     Block      |
+|           BREAK_BLOCK |            Trigger when broking block             |      SERVER |       true |                                                                                                                                                ``BROKEN_BLOCK`` |     Block      |
+|          BROKEN_BLOCK |             Trigger when broken block             |         ALL |      false |                                                                                                                                                               * |     Block      |
+|           PLACE_BLOCK |            Trigger when placing block             |         ALL |       true |                                                                                                                                                ``PLACED_BLOCK`` |     Block      |
+|          PLACED_BLOCK |             Trigger when block placed             |         ALL |      false |                                                                                                                                                               * |     Block      |
+|             USE_BLOCK |             Trigger when using block              |         ALL |       true |                                                                                                                                                  ``USED_BLOCK`` |     Block      |
+|            USED_BLOCK |              Trigger when block used              |         ALL |      false |                                                                                                                                                               * |     Block      |
+|   BLOCK_SCHEDULE_TICK |        Trigger when schedule ticking block        |      SERVER |       true |                                                                                                                                       ``BLOCK_SCHEDULE_TICKED`` |     Block      |
+| BLOCK_SCHEDULE_TICKED |             Trigger when block ticked             |      SERVER |      false |                                                                                                                                                               * |     Block      |
+|   FLUID_SCHEDULE_TICK |        Trigger when schedule ticking fluid        |      SERVER |       true |                                                                                                                                       ``FLUID_SCHEDULE_TICKED`` |     Fluid      |
+|   SHULKER_BOX_OPENING |  Trigger when player trying to open shulker box   |         ALL |       true |                                                                                         ``SHULKER_BOX_OPENED``  ``SHULKER_BOX_CLOSING``  ``SHULKER_BOX_CLOSED`` |     Block      |
+|    SHULKER_BOX_OPENED |          Trigger when shulker box opened          |         ALL |      false |                                                                                                                                                               * |     Block      |
+|   SHULKER_BOX_CLOSING |  Trigger when player trying to close shulker box  |         ALL |       true |                                                                                                                                         ``SHULKER_BOX_CLOSING`` |     Block      |
+|    SHULKER_BOX_CLOSED |          Trigger when shulker box closed          |         ALL |      false |                                                                                                                                                               * |     Block      |
+|         CHEST_OPENING |     Trigger when player trying to open chest      |         ALL |       true | ``CHEST_OPENED``  ``CHEST_CLOSING``  ``CHEST_CLOSED``  ``TRAPPED_CHEST_OPENING``  ``TRAPPED_CHEST_OPENED``  ``TRAPPED_CHEST_CLOSING``  ``TRAPPED_CHEST_CLOSED`` |     Block      |
+|          CHEST_OPENED |             Trigger when chest opened             |         ALL |      false |                                                                                                                                                               * |     Block      |
+|         CHEST_CLOSING |     Trigger when player trying to close chest     |         ALL |       true |                                                                                                                                                ``CHEST_CLOSED`` |     Block      |
+|          CHEST_CLOSED |             Trigger when chest closed             |         ALL |      false |                                                                                                                                                               * |     Block      |
+| TRAPPED_CHEST_OPENING | Trigger when player trying to open trapped chest  |         ALL |       true |                                                                                   ``TRAPPED_CHEST_OPENED``  ``TRAPPED_CHEST_CLOSING``  ``TRAPPED_CHEST_CLOSED`` |     Block      |
+|  TRAPPED_CHEST_OPENED |         Trigger when trapped chest opened         |         ALL |      false |                                                                                                                                                               * |     Block      |
+| TRAPPED_CHEST_CLOSING | Trigger when player trying to close trapped chest |         ALL |       true |                                                                                                                                        ``TRAPPED_CHEST_CLOSED`` |     Block      |
+|  TRAPPED_CHEST_CLOSED |         Trigger when trapped chest opened         |         ALL |      false |                                                                                                                                                               * |     Block      |
 
 ### Cascade events
 
@@ -155,6 +177,14 @@ if you are requesting rarely used parameters, then you need to read the ``Conium
 ### ENTITY_DIE
 
 ### ENTITY_DIED
+
+### ENTITY_SLEEP
+
+### ENTITY_WAKE_UP
+
+### ENTITY_ON_FIRE
+
+### ENTITY_EXTINGUISH_FIRE
 
 ### BLOCK_SCHEDULE_TICK
 

@@ -188,6 +188,14 @@ class ConiumEventType<I : Any>(val name: String, val identityType: KClass<I>) {
         @JvmField
         val ENTITY_WAKE_UP: ConiumEventType<EntityType<*>> = ConiumEventType("entity_wake_up", EntityType::class)
 
+        @JvmField
+        val ENTITY_ON_FIRE: ConiumEventType<EntityType<*>> = ConiumEventType("entity_on_fire", EntityType::class)
+
+        @JvmField
+        val ENTITY_EXTINGUISH_FIRE: ConiumEventType<EntityType<*>> = ConiumEventType("entity_extinguish_fire", EntityType::class)
+
+        @JvmField
+        val ENTITY_EXTINGUISHED_FIRE: ConiumEventType<EntityType<*>> = ConiumEventType("entity_extinguished_fire", EntityType::class)
 
         @JvmField
         val BLOCK_SCHEDULE_TICK: ConiumEventType<Block> = ConiumEventType("block_schedule_tick", Block::class)

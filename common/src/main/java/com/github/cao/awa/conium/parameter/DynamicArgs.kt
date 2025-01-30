@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.parameter
 
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.mojang.datafixers.util.Function3
 import java.util.*
 import java.util.function.Supplier
@@ -71,9 +72,11 @@ class DynamicArgs<P : ParameterSelective?, R>{
      *
      * @since 1.0.0
      */
-    private fun varyArgs(identity: Any, args: MutableMap<DynamicArgType<*>, Any?>): Map<DynamicArgType<*>, Any?> {
+    private fun varyArgs(identity: Any, sources: MutableMap<DynamicArgType<*>, Any?>): Map<DynamicArgType<*>, Any?> {
+        val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
+
         // Find required arguments from context arguments (manually putted to map).
-        for ((key: DynamicArgType<*>, value: Any?) in args) {
+        for ((key: DynamicArgType<*>, value: Any?) in sources) {
             // Only varying argument type to real argument instance.
             if (value is DynamicArgType<*>) {
                 // Dynamic args has multiple varying methods, find until found or no more method can try.
@@ -86,7 +89,7 @@ class DynamicArgs<P : ParameterSelective?, R>{
                     // Run the dynamic vary.
                     val result: Any? = dynamicVarying.runCatching {
                         // Arise the dynamic args, it will continue to vary args or got a value.
-                        arising(identity, args, null)
+                        arising(identity, sources, null)
                     }.getOrNull()
 
                     // When a result found, stop dynamic args varying.
