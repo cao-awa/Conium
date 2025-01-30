@@ -1,34 +1,46 @@
 package com.github.cao.awa.conium.mixin.entity;
 
-import com.github.cao.awa.conium.event.ConiumEvent;
-import com.github.cao.awa.conium.event.context.ConiumEventContext;
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
+import com.github.cao.awa.conium.intermediary.mixin.entity.ConiumEntityEventMixinIntermediary;
+import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * @see Entity
+ * @see Entity#baseTick()
+ * @see Entity#setFireTicks(int)
+ * @see Entity#extinguish
+ * @see ConiumEntityEventMixinIntermediary#fireOnFireEvent(Entity)
+ * @see ConiumEntityEventMixinIntermediary#fireExtinguishEvent(Entity)
+ * @see ConiumEventType#ENTITY_ON_FIRE
+ * @see ConiumEventType#ENTITY_EXTINGUISH_FIRE
+ * @see ConiumEventType#ENTITY_EXTINGUISHED_FIRE
+ *
+ * @author cao_awa
+ *
+ * @since 1.0.0
+ */
 @Mixin(Entity.class)
-public abstract class EntityMixin {
-    @Shadow
-    private int fireTicks;
-
-    @Shadow public abstract World getWorld();
-
-    @Shadow public abstract void extinguish();
-
-    @Unique
-    private Entity cast() {
-        return (Entity) (Object) this;
-    }
-
+public class EntityMixin {
+    /**
+     * Trigger entity the on fire event when entity ticking during fire ticks has at least 1.
+     *
+     * @see Entity#baseTick()
+     * @see Entity#setFireTicks(int)
+     * @see Entity#extinguish
+     * @see ConiumEntityEventMixinIntermediary#fireOnFireEvent(Entity)
+     * @see ConiumEventType#ENTITY_ON_FIRE
+     *
+     * @param ci the callback info
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
     @Inject(
             method = "baseTick",
             at = @At(
@@ -37,67 +49,34 @@ public abstract class EntityMixin {
             )
     )
     public void onFireTick(CallbackInfo ci) {
-        // Only trigger event when fire ticks left at least 1.
-        if (this.fireTicks > 0) {
-            // Create on fire context.
-            ConiumEventContext<?> onFireContext = ConiumEvent.request(ConiumEventType.ENTITY_ON_FIRE);
-
-            Entity self = cast();
-
-            EntityType<?> type = self.getType();
-
-            // Fill the context args.
-            onFireContext.put(ConiumEventArgTypes.ENTITY, self)
-                    .put(ConiumEventArgTypes.INT, this.fireTicks);
-
-            // This event cannot cancel because it is not the fire tick event, on fire event just a notice event.
-            if (onFireContext.presaging(type)) {
-                onFireContext.arising(type);
-            }
-
-            if (this.fireTicks == 1) {
-                extinguish();
-            }
-        }
+        // Trigger entity on fire event.
+        ConiumEntityEventMixinIntermediary.fireOnFireEvent(Manipulate.cast(this));
     }
 
+    /**
+     * Trigger entity the fire extinguishes events when extinguishing.
+     *
+     * @see Entity#extinguish
+     * @see ConiumEntityEventMixinIntermediary#fireExtinguishEvent(Entity)
+     * @see ConiumEventType#ENTITY_EXTINGUISH_FIRE
+     * @see ConiumEventType#ENTITY_EXTINGUISHED_FIRE
+     *
+     * @param ci the callback info
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
     @Inject(
             method = "extinguish",
             at = @At("HEAD"),
             cancellable = true
     )
     public void extinguish(CallbackInfo ci) {
-        // Only trigger event when fire ticks left at least 1.
-        if (getWorld() instanceof ServerWorld) {
-            // Create fire extinguishing context.
-            ConiumEventContext<?> extinguishingContext = ConiumEvent.request(ConiumEventType.ENTITY_EXTINGUISH_FIRE);
-
-            Entity self = cast();
-
-            EntityType<?> type = self.getType();
-
-            // Fill the context args.
-            extinguishingContext.put(ConiumEventArgTypes.ENTITY, self)
-                    .put(ConiumEventArgTypes.INT, this.fireTicks);
-
-            if (extinguishingContext.presaging(type)) {
-                // Only presaging state is true can be continued.
-                extinguishingContext.arising(type);
-
-                // Create fire extinguished context.
-                ConiumEventContext<?> extinguishedContext = ConiumEvent.request(ConiumEventType.ENTITY_EXTINGUISHED_FIRE);
-
-                // Fill the context args.
-                extinguishedContext.put(ConiumEventArgTypes.ENTITY, self);
-
-                // This event cannot cancel because it already completed.
-                if (extinguishedContext.presaging(type)) {
-                    extinguishedContext.arising(type);
-                }
-            } else {
-                // Cancel this event when presaging was rejected the event.
-                ci.cancel();
-            }
+        // Trigger entity fire extinguish event.
+        if (ConiumEntityEventMixinIntermediary.fireExtinguishEvent(Manipulate.cast(this))) {
+            // Cancel this event when presaging was rejected the event.
+            ci.cancel();
         }
     }
 }
