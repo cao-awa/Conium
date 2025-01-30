@@ -1,6 +1,5 @@
 plugins {
     id 'com.github.johnrengelman.shadow'
-    id 'org.jetbrains.kotlin.jvm'
 }
 
 architectury {
@@ -38,19 +37,17 @@ dependencies {
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:2.1.0"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:${project.kotlin_version}"
 
-    shadowBundle "org.jetbrains.kotlin:kotlin-scripting-common:${project.kotlin_version}"
     shadowBundle "org.jetbrains.kotlin:kotlin-scripting-jvm:${project.kotlin_version}"
     shadowBundle "org.jetbrains.kotlin:kotlin-scripting-jvm-host:${project.kotlin_version}"
-    shadowBundle "org.jetbrains.kotlin:kotlin-scripting-dependencies:${project.kotlin_version}"
 
-    implementation 'com.alibaba.fastjson2:fastjson2:2.0.50'
+    shadowBundle 'com.alibaba.fastjson2:fastjson2:2.0.50'
 
-    implementation 'com.github.cao.awa:catheter:1.0.42'
-    implementation 'com.github.cao.awa:sinuatum:1.0.15'
+    shadowBundle 'com.github.cao.awa:catheter:1.0.42'
+    shadowBundle 'com.github.cao.awa:sinuatum:1.0.15'
 
-    implementation "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
+    shadowBundle "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
 
     // Fabric Kotlin
     modImplementation "net.fabricmc:fabric-language-kotlin:${rootProject.fabric_kotlin_version}"

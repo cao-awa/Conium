@@ -14,8 +14,8 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar
 /**
  * Not supported yet now.
  */
-@Mod("conium_client", dist = [Dist.CLIENT])
-class NeoconiumClient(eventBuf: IEventBus) {
+@Mod("conium", dist = [Dist.CLIENT])
+class NeoconiumClient(eventBus: IEventBus) {
     init {
         // Sets the current network version
         val registrar = PayloadRegistrar("1")
@@ -34,6 +34,6 @@ class NeoconiumClient(eventBuf: IEventBus) {
 
         ConiumClientInitializer().onInitializeClient()
 
-        eventBuf.register(this)
+//        NeoForge.EVENT_BUS.register(this)
     }
 }

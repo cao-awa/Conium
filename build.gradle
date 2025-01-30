@@ -1,11 +1,12 @@
 plugins {
+    id 'java'
     id 'java-library'
     id 'idea'
     id 'dev.architectury.loom' version '1.9-SNAPSHOT' apply false
     id 'architectury-plugin' version '3.4-SNAPSHOT'
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
     id 'fabric-loom' version '1.8.1' apply false
-    id "org.jetbrains.kotlin.jvm" version "2.1.0"
+    id 'org.jetbrains.kotlin.jvm' version '2.1.10'
 }
 
 architectury {
@@ -19,7 +20,8 @@ allprojects {
 
 subprojects {
     apply plugin: 'dev.architectury.loom'
-    apply plugin: 'kotlin'
+    apply plugin: 'java'
+    apply plugin: 'org.jetbrains.kotlin.jvm'
     apply plugin: 'architectury-plugin'
     apply plugin: 'fabric-loom'
 
@@ -54,19 +56,18 @@ subprojects {
     }
 
     dependencies {
-        minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
+        minecraft "net.minecraft:minecraft:${rootProject.minecraft_version}"
         mappings loom.layered {
-            it.mappings("net.fabricmc:yarn:$rootProject.yarn_mappings:v2")
-            it.mappings("dev.architectury:yarn-mappings-patch-neoforge:$rootProject.yarn_mappings_patch_neoforge_version")
+            it.mappings("net.fabricmc:yarn:${rootProject.yarn_mappings}:v2")
+            it.mappings("dev.architectury:yarn-mappings-patch-neoforge:${rootProject.yarn_mappings_patch_neoforge_version}")
         }
 
         implementation "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
         implementation "org.jetbrains.kotlin:kotlin-reflect:2.1.0"
 
-        implementation "org.jetbrains.kotlin:kotlin-scripting-common:${project.kotlin_version}"
+//        implementation "org.jetbrains.kotlin:kotlin-scripting-common:${project.kotlin_version}"
         implementation "org.jetbrains.kotlin:kotlin-scripting-jvm:${project.kotlin_version}"
         implementation "org.jetbrains.kotlin:kotlin-scripting-jvm-host:${project.kotlin_version}"
-        implementation "org.jetbrains.kotlin:kotlin-scripting-dependencies:${project.kotlin_version}"
 
         implementation 'com.alibaba.fastjson2:fastjson2:2.0.50'
 
