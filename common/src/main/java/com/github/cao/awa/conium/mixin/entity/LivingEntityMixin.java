@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -42,7 +43,7 @@ public class LivingEntityMixin {
                 .put(ConiumEventArgTypes.FLOAT, amount);
 
         if (eventContext.presaging(type)) {
-            // Only presaging state is true can be continues.
+            // Only presaging state is true can be continued.
             eventContext.arising(type);
         } else {
             // Cancel this event when presaging was rejected the event.
@@ -92,7 +93,7 @@ public class LivingEntityMixin {
                 .put(ConiumEventArgTypes.LIVING_ENTITY, self);
 
         if (eventContext.presaging(type)) {
-            // Only presaging state is true can be continues.
+            // Only presaging state is true can be continued.
             eventContext.arising(type);
         } else {
             // Cancel this event when presaging was rejected the event.
@@ -119,6 +120,65 @@ public class LivingEntityMixin {
         // The entity dead event is not cancelable, only arising the context.
         if (eventContext.presaging(type)) {
             eventContext.arising(type);
+        }
+    }
+
+    @Inject(
+            method = "sleep",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void sleep(BlockPos pos, CallbackInfo ci) {
+        // Request the entity sleep event.
+        ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.ENTITY_SLEEP);
+
+        LivingEntity self = cast();
+
+        EntityType<?> type = self.getType();
+
+        // Fill the context args.
+        eventContext.put(ConiumEventArgTypes.BLOCK_POS, pos)
+                .put(ConiumEventArgTypes.LIVING_ENTITY, self)
+                .put(ConiumEventArgTypes.WORLD, self.getWorld());
+
+        if (eventContext.presaging(type)) {
+            // Only presaging state is true can be continued.
+            eventContext.arising(type);
+        } else {
+            // Cancel this event when presaging was rejected the event.
+            ci.cancel();
+        }
+    }
+
+    @Inject(
+            method = "wakeUp",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void wakeUp(CallbackInfo ci) {
+        LivingEntity self = cast();
+
+        BlockPos sleepPos = self.getSleepingPosition().orElse(null);
+
+        // Only handle event when entity sleeping.
+        if (sleepPos != null) {
+            // Request the entity sleep event.
+            ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.ENTITY_SLEEP);
+
+            EntityType<?> type = self.getType();
+
+            // Fill the context args.
+            eventContext.put(ConiumEventArgTypes.BLOCK_POS, sleepPos)
+                    .put(ConiumEventArgTypes.LIVING_ENTITY, self)
+                    .put(ConiumEventArgTypes.WORLD, self.getWorld());
+
+            if (eventContext.presaging(type)) {
+                // Only presaging state is true can be continued.
+                eventContext.arising(type);
+            } else {
+                // Cancel this event when presaging was rejected the event.
+                ci.cancel();
+            }
         }
     }
 }

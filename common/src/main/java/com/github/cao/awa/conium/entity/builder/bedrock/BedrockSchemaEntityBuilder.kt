@@ -2,7 +2,6 @@ package com.github.cao.awa.conium.entity.builder.bedrock
 
 import com.github.cao.awa.conium.entity.builder.ConiumEntityBuilder
 import com.github.cao.awa.conium.template.ConiumTemplate
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.google.gson.JsonObject
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
@@ -19,8 +18,8 @@ class BedrockSchemaEntityBuilder(identifier: Identifier) : ConiumEntityBuilder(i
                 }
 
                 builder.addTemplates(
-                    Manipulate.cast(
-                        ConiumTemplate.deserializeEntityTemplates(entity["components"]!!.asJsonObject, registryLookup)
+                    ConiumTemplate.deserializeEntityTemplates(
+                        entity["components"]!!.asJsonObject, registryLookup
                     )
                 )
 
@@ -29,8 +28,8 @@ class BedrockSchemaEntityBuilder(identifier: Identifier) : ConiumEntityBuilder(i
 
                     builder.addTemplates(
                         groupName,
-                        Manipulate.cast(
-                            ConiumTemplate.deserializeEntityTemplates(group, registryLookup)
+                        ConiumTemplate.deserializeEntityTemplates(
+                            group, registryLookup
                         )
                     )
                 }

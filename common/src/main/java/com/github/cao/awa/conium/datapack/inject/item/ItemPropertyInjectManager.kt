@@ -6,8 +6,8 @@ import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectA
 import com.github.cao.awa.conium.datapack.inject.item.action.handler.ItemPropertyInjectHandler
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponent
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -98,7 +98,7 @@ class ItemPropertyInjectManager : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM_P
             )
 
             // Modifies present value.
-            stack.set(type, Manipulate.cast(calculatedValue))
+            stack.set(type, calculatedValue.doCast())
         }
     }
 
@@ -114,6 +114,6 @@ class ItemPropertyInjectManager : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM_P
         )
 
         // Append preset value to item.
-        stack.set(type, Manipulate.cast(value.value))
+        stack.set(type, value.value.doCast())
     }
 }

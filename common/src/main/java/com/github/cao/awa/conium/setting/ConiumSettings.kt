@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.setting
 
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 abstract class ConiumSettings<T : ConiumSettings<T, M>, M : T> {
@@ -45,7 +45,7 @@ abstract class ConiumSettings<T : ConiumSettings<T, M>, M : T> {
     }
 
     open fun compute(vararg names: String): T {
-        var result: T = Manipulate.cast(this)
+        var result: T = doCast()
         for (name in names) {
             // Migrates the settings.
             result = result.migrate(name)

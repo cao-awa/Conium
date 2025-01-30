@@ -16,9 +16,9 @@ For sample, see [samples](/sample).
                 + item
                     + This directory is item properties injectors, data type is '.json'
                 + block
-                    + This directory is block properties injectors, data type is '.json', current is no impls.
+                    + This directory is block properties injectors, data type is '.json'
             + script
-                + This directory is scripts, data type is 'kts', '.ts' and '.js'
+                + This directory is scripts, data type is 'kts', '.ts' and '.js' (js is not usable yet)
 
 ## Templates or components
 
@@ -59,7 +59,7 @@ Example:
       "effective_blocks": "minecraft:mineable/pickaxe",
       // This tool is what material.
       "material": "netherite",
-      // This tool is weapon or not.
+      // This tool is the weapon or not.
       // The durability will decrement 2 after this tool damage to entity when it not weapon.
       "is_weapon": false
     },
@@ -78,7 +78,7 @@ Example:
 {
   // If using bedrock schema, 'schema' can be missing.
   "schema_style": "bedrock",
-  // Format version is always can be missing, conium is supporting to the schemas by all versions. 
+  // Format version always can be missing, conium is supporting to the schemas by all versions. 
   "format_version": "1.20.10",
   "minecraft:item": {
     // Description and identifier must present.

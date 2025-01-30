@@ -17,7 +17,7 @@
         "ui": "generic9x3"
       }
     },
-    "block_entity_preset": {
+    "block_entity_presets": {
       "output_redstone_power": {
         "depends":"on_used",
         "output_type": "once",

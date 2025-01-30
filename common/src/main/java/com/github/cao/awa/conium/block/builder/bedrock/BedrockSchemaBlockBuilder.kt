@@ -2,7 +2,6 @@ package com.github.cao.awa.conium.block.builder.bedrock
 
 import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
 import com.github.cao.awa.conium.template.ConiumTemplate
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.google.gson.JsonObject
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
@@ -19,8 +18,8 @@ class BedrockSchemaBlockBuilder(identifier: Identifier) : ConiumBlockBuilder(ide
                 }
 
                 builder.addTemplates(
-                    Manipulate.cast(
-                        ConiumTemplate.deserializeBlockTemplates(block["components"]!!.asJsonObject, registryLookup)
+                    ConiumTemplate.deserializeBlockTemplates(
+                        block["components"]!!.asJsonObject, registryLookup
                     )
                 )
 

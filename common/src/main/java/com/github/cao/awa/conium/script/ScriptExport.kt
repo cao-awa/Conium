@@ -1,12 +1,12 @@
 package com.github.cao.awa.conium.script
 
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 import com.github.cao.awa.conium.script.field.SharedField
 import com.github.cao.awa.conium.script.field.SharedFieldByJvm
 import com.github.cao.awa.conium.script.field.SharedFieldHandler
 import com.github.cao.awa.conium.script.kts.clearDuplicateImports
 import com.github.cao.awa.conium.script.kts.filterImports
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 class ScriptExport(
@@ -63,7 +63,7 @@ class ScriptExport(
             result ?: return null
 
             if (result is SharedFieldByJvm<*>) {
-                return Manipulate.cast((result.value as ParameterSelective1<*, Any>).arise(instance))
+                return (result.value as ParameterSelective1<*, Any>).arise(instance).doCast()
             }
 
             return null

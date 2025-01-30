@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.datapack.inject.item.component
 import com.github.cao.awa.conium.codec.ConiumPacketCodec
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue.Companion.unverified
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
@@ -54,7 +54,7 @@ data class ItemPropertyInjectComponent<T>(
 
             val value: ItemPropertyInjectComponentValue<*> = unverified(json["value"])
 
-            return verified(Manipulate.cast(type), action, value)
+            return verified(type.doCast(), action, value)
         }
 
         @JvmStatic

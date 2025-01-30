@@ -2,7 +2,6 @@ package com.github.cao.awa.conium.entity.builder.conium
 
 import com.github.cao.awa.conium.entity.builder.ConiumEntityBuilder
 import com.github.cao.awa.conium.template.ConiumTemplate
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.google.gson.JsonObject
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
@@ -15,8 +14,8 @@ class ConiumSchemaEntityBuilder(identifier: Identifier) : ConiumEntityBuilder(id
 
             if (json.has("templates")) {
                 builder.addTemplates(
-                    Manipulate.cast(
-                        ConiumTemplate.deserializeEntityTemplates(json["templates"].asJsonObject, registryLookup)
+                    ConiumTemplate.deserializeEntityTemplates(
+                        json["templates"].asJsonObject, registryLookup
                     )
                 )
             }

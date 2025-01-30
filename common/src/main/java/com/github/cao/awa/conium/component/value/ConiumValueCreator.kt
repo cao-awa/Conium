@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.component.value
 
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.google.gson.JsonElement
 
 fun interface ConiumValueCreator<T> {
@@ -10,6 +10,6 @@ fun interface ConiumValueCreator<T> {
         if (value is JsonElement) {
             return createValue(value)
         }
-        return Manipulate.cast(value)
+        return value.doCast()
     }
 }

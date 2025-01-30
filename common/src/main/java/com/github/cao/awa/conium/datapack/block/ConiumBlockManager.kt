@@ -11,10 +11,10 @@ import com.github.cao.awa.conium.datapack.ConiumJsonDataLoader
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.kotlin.extent.block.register
 import com.github.cao.awa.conium.kotlin.extent.item.registerBlockItem
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicIdList
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.google.common.collect.UnmodifiableIterator
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -48,7 +48,7 @@ class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLook
     }
 
     fun load(identifier: Identifier, json: JsonObject) {
-        val stateIds: ConiumDynamicIdList<BlockState> = Manipulate.cast(Block.STATE_IDS)
+        val stateIds: ConiumDynamicIdList<BlockState> = Block.STATE_IDS.doCast()
 
         // Use to debug, trace inject details.
         Conium.debug(
