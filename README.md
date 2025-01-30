@@ -26,6 +26,11 @@ Conium has configured whole project, just clone the repository, and reload proje
 | Fabric loom |  1.9.2   | 1.9.2 or other could be use |
 |   Minecraft | 1.21.4!! |   Only 1.21.4 can be use    |
 
+### NeoForge
+About support of NeoForge, currently cannot be completed because the secure jar handler in NeoForge has conflict to kotlin native.
+
+And Conium cannot remove kotlin native because scripting running needs, Conium may try to run script evaluator without NeoForge environment in the future. 
+
 ## Discord server
 You can join ours [discord](https://discord.com/invite/BUY2xQr37N) server to chat with Conium community！
 
