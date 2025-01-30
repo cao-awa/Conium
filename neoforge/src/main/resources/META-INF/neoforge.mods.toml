@@ -27,12 +27,12 @@ versionRange = "[1.21.4,)"
 ordering = "NONE"
 side = "BOTH"
 
-#[[dependencies.conium]]
-#modId = "architectury"
-#type = "required"
-#versionRange = "[15.0.1,)"
-#ordering = "AFTER"
-#side = "BOTH"
+[[dependencies.conium]]
+modId = "architectury"
+type = "required"
+versionRange = "[15.0.1,)"
+ordering = "AFTER"
+side = "BOTH"
 
 [[mixins]]
 config = "conium.mixins.json"

@@ -16,8 +16,11 @@ class ConiumBlockEmitsStrongRedstonePowerTemplate(private val emitsRedstonePower
     }
 
     override fun settings(settings: ConiumBlockSettings) {
+        // Only setting power emits when power is more than 0.
         if (this.emitsRedstonePower > 0) {
+            // Enable redstone power emits.
             settings.emitsRedstonePower = true
+            // Setting redstone power.
             settings.redstoneStrongPowerProvider = { _, _, _, _ -> this.emitsRedstonePower }
         }
     }

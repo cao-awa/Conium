@@ -1,7 +1,8 @@
 package com.github.cao.awa.conium.parameter
 
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.mojang.datafixers.util.Function3
+import java.util.*
+import java.util.function.Supplier
 
 /**
  * Dynamic args is a data collecting and varying solution, it required arguments by dynamic arg types, and collect the real arguments to trigger.
@@ -23,20 +24,30 @@ import com.mojang.datafixers.util.Function3
  *
  * @since 1.0.0
  */
-class DynamicArgs<P : ParameterSelective?, R>(
-    private val trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>,
-    vararg args: () -> DynamicArgType<*>
-) {
-    private val queryArgs: MutableList<DynamicArgType<*>> = args.map { it() }.toMutableList()
+class DynamicArgs<P : ParameterSelective?, R>{
+    private val trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>
+    private val args: MutableList<DynamicArgType<*>>
+    private val queryArgs: MutableList<DynamicArgType<*>>
     private var lifecycle: DynamicArgsLifecycle = DynamicArgsLifecycle.ONCE
 
-    constructor(trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>, vararg args: DynamicArgType<*>) : this(trigger, *args.map {
-        // Vary 'DynamicArgType<*>' to '() -> DynamicArgType<*>'
-        { it }
-    }.toTypedArray())
+    constructor(trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>, vararg args: DynamicArgType<*>) {
+        this.trigger = trigger
+        this.args = args.toMutableList()
+        this.queryArgs = this.args
+    }
+
+    constructor(trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>, vararg args: Supplier<DynamicArgType<*>>) {
+        this.trigger = trigger
+        this.args = args.map(Supplier<DynamicArgType<*>>::get).toMutableList()
+        this.queryArgs = this.args
+    }
 
     // No varying args constructor.
-    constructor(trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>) : this(trigger, *mutableListOf<() -> DynamicArgType<*>>().toTypedArray())
+    constructor(trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>) {
+        this.trigger = trigger
+        this.args = Collections.emptyList()
+        this.queryArgs = Collections.emptyList()
+    }
 
     fun lifecycle(lifecycle: DynamicArgsLifecycle): DynamicArgs<P, R> {
         this.lifecycle = lifecycle
@@ -60,11 +71,9 @@ class DynamicArgs<P : ParameterSelective?, R>(
      *
      * @since 1.0.0
      */
-    private fun varyArgs(identity: Any, sources: MutableMap<DynamicArgType<*>, Any?>): Map<DynamicArgType<*>, Any?> {
-        val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
-
+    private fun varyArgs(identity: Any, args: MutableMap<DynamicArgType<*>, Any?>): Map<DynamicArgType<*>, Any?> {
         // Find required arguments from context arguments (manually putted to map).
-        for ((key: DynamicArgType<*>, value: Any?) in sources) {
+        for ((key: DynamicArgType<*>, value: Any?) in args) {
             // Only varying argument type to real argument instance.
             if (value is DynamicArgType<*>) {
                 // Dynamic args has multiple varying methods, find until found or no more method can try.
@@ -77,7 +86,7 @@ class DynamicArgs<P : ParameterSelective?, R>(
                     // Run the dynamic vary.
                     val result: Any? = dynamicVarying.runCatching {
                         // Arise the dynamic args, it will continue to vary args or got a value.
-                        arising(identity, sources, null)
+                        arising(identity, args, null)
                     }.getOrNull()
 
                     // When a result found, stop dynamic args varying.

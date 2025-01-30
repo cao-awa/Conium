@@ -16,7 +16,7 @@ import com.github.cao.awa.conium.block.template.map.ConiumMapColorTemplate
 import com.github.cao.awa.conium.block.template.mining.ConiumHardnessTemplate
 import com.github.cao.awa.conium.block.template.path.through.ConiumBlockPathFindThroughTemplate
 import com.github.cao.awa.conium.block.template.piston.ConiumBlockPistonBehaviorsTemplate
-import com.github.cao.awa.conium.block.template.preset.ConiumBlockEntityPresetTemplate
+import com.github.cao.awa.conium.block.template.preset.ConiumBlockEntityPresetsTemplate
 import com.github.cao.awa.conium.block.template.redstone.ConiumBlockEmitsRedstonePowerTemplate
 import com.github.cao.awa.conium.block.template.redstone.ConiumBlockEmitsStrongRedstonePowerTemplate
 import com.github.cao.awa.conium.block.template.redstone.ConiumBlockEmitsWeakRedstonePowerTemplate
@@ -437,8 +437,8 @@ object ConiumTemplates {
         // Block data.
         const val DATA: String = "data"
 
-        // Block entity preset.
-        const val BLOCK_ENTITY_PRESET: String = "block_entity_preset"
+        // Block entity presets.
+        const val BLOCK_ENTITY_PRESETS: String = "block_entity_presets"
 
         // Emits redstone power.
         const val EMITS_REDSTONE_POWER: String = "emits_redstone_power"
@@ -524,10 +524,10 @@ object ConiumTemplates {
                 ConiumBlockDataTemplate::create
             )
 
-            // Block entity preset.
+            // Block entity presets.
             registerBlock(
-                BLOCK_ENTITY_PRESET,
-                ConiumBlockEntityPresetTemplate::create
+                BLOCK_ENTITY_PRESETS,
+                ConiumBlockEntityPresetsTemplate::create
             )
 
             // Emits redstone power.

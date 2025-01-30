@@ -1,9 +1,9 @@
 package com.github.cao.awa.conium.network.registry
 
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.network.ConiumPacket
 import com.github.cao.awa.conium.network.packet.client.configuration.ConiumClientConfigurationPacket
 import com.github.cao.awa.conium.network.packet.client.play.ConiumClientPlayPacket
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.packet.CustomPayload.Id
@@ -20,7 +20,7 @@ fun interface ConiumPacketRegister<P : ConiumPacket<*, *, *>> {
 
         fun <P : ConiumClientConfigurationPacket> implementConfigurationToClient(impl: ConiumPacketRegister<P>) {
             try {
-                this.toClientConfigurationRegister = Manipulate.cast(impl)
+                this.toClientConfigurationRegister = impl.doCast()
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }
@@ -28,7 +28,7 @@ fun interface ConiumPacketRegister<P : ConiumPacket<*, *, *>> {
 
         fun <P : ConiumClientConfigurationPacket> unionConfigurationToClient(impl: ConiumPacketRegister<P>) {
             val oldImpl = this.toClientConfigurationRegister
-            this.toClientConfigurationRegister = Manipulate.cast(impl)
+            this.toClientConfigurationRegister = impl.doCast()
             val newImpl = this.toClientConfigurationRegister
             this.toClientConfigurationRegister = ConiumPacketRegister { id, codec ->
                 oldImpl.register(id, codec)
@@ -37,16 +37,16 @@ fun interface ConiumPacketRegister<P : ConiumPacket<*, *, *>> {
         }
 
         fun <P : ConiumClientConfigurationPacket> registerConfigurationToClient(id: Id<P>, codec: PacketCodec<PacketByteBuf, P>) {
-            this.toClientConfigurationRegister.register(Manipulate.cast(id), Manipulate.cast(codec))
+            this.toClientConfigurationRegister.register(id.doCast(), codec.doCast())
         }
 
         fun <P : ConiumClientPlayPacket> implementPlayToClient(impl: ConiumPacketRegister<P>) {
-            this.toClientPlayRegister = Manipulate.cast(impl)
+            this.toClientPlayRegister = impl.doCast()
         }
 
         fun <P : ConiumClientPlayPacket> unionPlayToClient(impl: ConiumPacketRegister<P>) {
             val oldImpl = this.toClientPlayRegister
-            this.toClientPlayRegister = Manipulate.cast(impl)
+            this.toClientPlayRegister = impl.doCast()
             val newImpl = this.toClientPlayRegister
             this.toClientPlayRegister = ConiumPacketRegister { id, codec ->
                 oldImpl.register(id, codec)
@@ -55,7 +55,7 @@ fun interface ConiumPacketRegister<P : ConiumPacket<*, *, *>> {
         }
 
         fun <P : ConiumClientPlayPacket> registerPlayToClient(id: Id<P>, codec: PacketCodec<PacketByteBuf, P>) {
-            this.toClientPlayRegister.register(Manipulate.cast(id), Manipulate.cast(codec))
+            this.toClientPlayRegister.register(id.doCast(), codec.doCast())
         }
     }
 

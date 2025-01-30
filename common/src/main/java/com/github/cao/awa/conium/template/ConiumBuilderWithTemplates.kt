@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.template
 
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -48,7 +48,7 @@ abstract class ConiumBuilderWithTemplates<B : ConiumBuilderWithTemplates<B, I, X
 
     fun templates(): MutableList<T> = this.templates.values.toMutableList()
 
-    fun build(input: I): X = this.builder(Manipulate.cast(this), input)
+    fun build(input: I): X = this.builder(doCast(), input)
 
-    fun build(): X = this.builder(Manipulate.cast(this), null)
+    fun build(): X = this.builder(doCast(), null)
 }

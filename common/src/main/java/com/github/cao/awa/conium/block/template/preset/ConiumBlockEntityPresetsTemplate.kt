@@ -8,18 +8,19 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
-class ConiumBlockEntityPresetTemplate(private val presetData: JsonObject, private val registryLookup: WrapperLookup) : ConiumBlockTemplate(name = ConiumTemplates.Block.BLOCK_ENTITY_PRESET) {
+class ConiumBlockEntityPresetsTemplate(private val presetData: JsonObject, private val registryLookup: WrapperLookup) : ConiumBlockTemplate(name = ConiumTemplates.Block.BLOCK_ENTITY_PRESETS) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockEntityPresetTemplate = element.asJsonObject.ifJsonObject(
+        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockEntityPresetsTemplate = element.asJsonObject.ifJsonObject(
             {
-                ConiumBlockEntityPresetTemplate(it, registryLookup)
+                ConiumBlockEntityPresetsTemplate(it, registryLookup)
             },
             notSupported()
         )!!
     }
 
     override fun settings(settings: ConiumBlockSettings) {
+        // Deserialize block entity templates.
         deserializeBlockEntityTemplates(
             this.presetData,
             this.registryLookup

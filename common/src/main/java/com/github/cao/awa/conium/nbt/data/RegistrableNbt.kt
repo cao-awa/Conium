@@ -1,6 +1,7 @@
 package com.github.cao.awa.conium.nbt.data
 
 import com.github.cao.awa.conium.Conium
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.nbt.NbtCompound
@@ -49,7 +50,7 @@ class RegistrableNbt(
      *
      * @since 1.0.0
      */
-    operator fun <X> get(key: String): X = Manipulate.cast(this.values[key])
+    operator fun <X> get(key: String): X = this.values[key].doCast()
 
     /**
      * To set the data value using key name, should ensure it already registered and won't be input a null value.
@@ -95,7 +96,7 @@ class RegistrableNbt(
      */
     fun writeTo(nbt: NbtCompound, registries: RegistryWrapper.WrapperLookup) {
         // Using registry to serialize data, only registered data can write, doesn't write others data anymore.
-        for ((name, serializer) in this.registries) {
+        for ((name: String, serializer: ConiumNbtDataSerializer<*>) in this.registries) {
             // Write data to NBT compound.
             serializer.write(nbt, registries, name, Manipulate.cast(this.values[name]))
         }
@@ -117,7 +118,7 @@ class RegistrableNbt(
      */
     fun readFrom(nbt: NbtCompound, registries: RegistryWrapper.WrapperLookup) {
         // Using registry to deserialize data, only registered data can be read, doesn't read others data anymore.
-        for ((name, serializer) in this.registries) {
+        for ((name: String, serializer: ConiumNbtDataSerializer<*>) in this.registries) {
             // Read and set data to delegate from NBT compound.
             this[name] = serializer.read(nbt, registries, name)!!
         }
