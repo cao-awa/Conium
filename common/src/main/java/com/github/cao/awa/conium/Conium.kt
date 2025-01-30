@@ -9,6 +9,7 @@ import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.datapack.script.ConiumScriptManager
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.function.consumer.string.`object`.*
+import com.github.cao.awa.conium.hitokoto.ConiumHitokoto
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
 import com.github.cao.awa.conium.server.datapack.ConiumServerLoadDatapacks
@@ -169,6 +170,8 @@ class Conium {
             for (line: String in IOUtil.read(ResourceLoader.get("assets/conium/banner.txt")).lines()) {
                 LOGGER.info(line)
             }
+            LOGGER.info("# {}", ConiumHitokoto.roll())
+            LOGGER.info("#")
         }
     }
 

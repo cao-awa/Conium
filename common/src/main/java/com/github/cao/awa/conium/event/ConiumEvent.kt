@@ -31,7 +31,9 @@ import com.github.cao.awa.conium.entity.event.fire.ConiumEntityOnFireEvent
 import com.github.cao.awa.conium.entity.event.fire.extinguish.ConiumEntityExtinguishFireEvent
 import com.github.cao.awa.conium.entity.event.fire.extinguish.ConiumEntityExtinguishedFireEvent
 import com.github.cao.awa.conium.entity.event.rest.sleep.ConiumEntitySleepEvent
+import com.github.cao.awa.conium.entity.event.rest.sleep.ConiumEntityTrySleepEvent
 import com.github.cao.awa.conium.entity.event.rest.wake.ConiumEntityWakeUpEvent
+import com.github.cao.awa.conium.entity.event.rest.wake.ConiumEntityWakedUpEvent
 import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickEvent
 import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickedEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
@@ -138,10 +140,16 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
         val entityDead: ConiumEntityDeadEvent = ConiumEntityDeadEvent()
 
         @JvmField
+        val entityTrySleep: ConiumEntityTrySleepEvent = ConiumEntityTrySleepEvent()
+
+        @JvmField
         val entitySleep: ConiumEntitySleepEvent = ConiumEntitySleepEvent()
 
         @JvmField
         val entityWakeUp: ConiumEntityWakeUpEvent = ConiumEntityWakeUpEvent()
+
+        @JvmField
+        val entityWakedUp: ConiumEntityWakedUpEvent = ConiumEntityWakedUpEvent()
 
         @JvmField
         val entityOnFire: ConiumEntityOnFireEvent = ConiumEntityOnFireEvent()
@@ -252,10 +260,13 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
             this.entityDamaged.clearSubscribes()
             this.entityDie.clearSubscribes()
             this.entityDead.clearSubscribes()
+            this.entityTrySleep.clearSubscribes()
             this.entitySleep.clearSubscribes()
             this.entityWakeUp.clearSubscribes()
+            this.entityWakedUp.clearSubscribes()
             this.entityOnFire.clearSubscribes()
             this.entityExtinguishFire.clearSubscribes()
+            this.entityExtinguishedFire.clearSubscribes()
         }
 
         fun clearItemSubscribes() {

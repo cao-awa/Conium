@@ -178,6 +178,14 @@ class ConiumEventType<I : Any>(val name: String, val identityType: KClass<I>) {
          * @since 1.0.0
          */
         @JvmField
+        val ENTITY_TRY_SLEEP: ConiumEventType<EntityType<*>> = ConiumEventType("entity_try_sleep", EntityType::class)
+
+        /**
+         * The event where that entity sleeps.
+         *
+         * @since 1.0.0
+         */
+        @JvmField
         val ENTITY_SLEEP: ConiumEventType<EntityType<*>> = ConiumEventType("entity_sleep", EntityType::class)
 
         /**
@@ -187,6 +195,14 @@ class ConiumEventType<I : Any>(val name: String, val identityType: KClass<I>) {
          */
         @JvmField
         val ENTITY_WAKE_UP: ConiumEventType<EntityType<*>> = ConiumEventType("entity_wake_up", EntityType::class)
+
+        /**
+         * The event where that entity waked up.
+         *
+         * @since 1.0.0
+         */
+        @JvmField
+        val ENTITY_WAKED_UP: ConiumEventType<EntityType<*>> = ConiumEventType("entity_waked_up", EntityType::class)
 
         @JvmField
         val ENTITY_ON_FIRE: ConiumEventType<EntityType<*>> = ConiumEventType("entity_on_fire", EntityType::class)

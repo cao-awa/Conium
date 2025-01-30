@@ -5,10 +5,8 @@ import com.github.cao.awa.conium.block.event.use.ConiumUsedBlockEvent;
 import com.github.cao.awa.conium.block.event.breaking.ConiumBreakBlockEvent;
 import com.github.cao.awa.conium.block.event.breaking.ConiumBreakingBlockEvent;
 import com.github.cao.awa.conium.block.event.breaking.ConiumBrokenBlockEvent;
-import com.github.cao.awa.conium.event.ConiumEvent;
-import com.github.cao.awa.conium.event.context.ConiumEventContext;
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
+import com.github.cao.awa.conium.intermediary.mixin.block.ConiumBlockEventMixinIntermediary;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -18,23 +16,26 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@SuppressWarnings("all")
 @Mixin(AbstractBlock.AbstractBlockState.class)
 public abstract class BlockStateMixin {
+    @Shadow protected abstract BlockState asBlockState();
+
     /**
-     * Inject to {@code onBlockBreakStart} calling of block breaking, make event context and trigger the event.
+     * Trigger block breaking event when the block starts breaking.
      *
-     * @param world          the world of the block
-     * @param blockPos       the position of the block
-     * @param playerEntity   the user
-     * @param ci             the callback info
+     * @param world        the world of the block
+     * @param blockPos     the position of the block
+     * @param playerEntity the miner
+     * @param ci           the callback info
      *
-     * @see Block
+     * @see Block#onBlockBreakStart(BlockState, World, BlockPos, PlayerEntity)
      * @see ConiumEventType#BREAK_BLOCK
      * @see ConiumEventType#BREAKING_BLOCK
      * @see ConiumEventType#BROKEN_BLOCK
@@ -52,24 +53,14 @@ public abstract class BlockStateMixin {
             cancellable = true
     )
     public void breakingBlock(World world, BlockPos blockPos, PlayerEntity playerEntity, CallbackInfo ci) {
-        // Request the breaking block context.
-        ConiumEventContext<?> breakingContext = ConiumEvent.request(ConiumEventType.BREAKING_BLOCK);
-
-        AbstractBlock.AbstractBlockState self = cast();
-
-        Block block = self.getBlock();
-
-        // Fill the context args.
-        breakingContext.put(ConiumEventArgTypes.WORLD, world);
-
-        breakingContext.put(ConiumEventArgTypes.PLAYER, playerEntity);
-
-        breakingContext.put(ConiumEventArgTypes.BLOCK_POS, blockPos);
-        breakingContext.put(ConiumEventArgTypes.BLOCK_STATE, self);
-
-        if (breakingContext.presaging(block)) {
-            breakingContext.arising(block);
-        } else {
+        // Trigger block breaking event.
+        if (ConiumBlockEventMixinIntermediary.fireBlockBreakingEvent(
+                ConiumEventType.BREAKING_BLOCK,
+                asBlockState(),
+                world,
+                playerEntity,
+                blockPos
+        )) {
             // Cancel this event when presaging was rejected the event.
             ci.cancel();
         }
@@ -106,45 +97,13 @@ public abstract class BlockStateMixin {
             )
     )
     public ActionResult useBlock(Block instance, BlockState blockState, World world, BlockPos blockPos, PlayerEntity playerEntity, BlockHitResult blockHitResult) {
-        // Create using block context.
-        ConiumEventContext<?> usingContext = ConiumEvent.request(ConiumEventType.USE_BLOCK);
-
-        Block block = blockState.getBlock();
-
-        // Fill the context args.
-        usingContext.put(ConiumEventArgTypes.WORLD, world)
-                .put(ConiumEventArgTypes.PLAYER, playerEntity)
-                .put(ConiumEventArgTypes.BLOCK_POS, blockPos)
-                .put(ConiumEventArgTypes.BLOCK_STATE, blockState)
-                .put(ConiumEventArgTypes.BLOCK_HIT_RESULT, blockHitResult);
-
-        if (usingContext.presaging(block)) {
-            usingContext.arising(block);
-
-            // Invoke the 'onUse' method.
-            ActionResult result = ((AbstractBlockMixin) instance).invokeOnUse(blockState, world, blockPos, playerEntity, blockHitResult);
-
-            // Create used block context.
-            ConiumEventContext<?> usedContext = ConiumEvent.request(ConiumEventType.USED_BLOCK);
-            usedContext.inherit(usingContext);
-
-            // The 'USED_BLOCK' context has an action result to acquire the result,
-            // this result is not cancelable or modifiable.
-            usedContext.put(ConiumEventArgTypes.ACTION_RESULT, result);
-
-            if (usedContext.presaging(block)) {
-                usedContext.arising(block);
-            }
-
-            return result;
-        } else {
-            // Cancel this event when presaging was rejected the event.
-            return ActionResult.FAIL;
-        }
-    }
-
-    @Unique
-    private AbstractBlock.AbstractBlockState cast() {
-        return (AbstractBlock.AbstractBlockState) (Object) this;
+        // Trigger block usage event.
+        return ConiumBlockEventMixinIntermediary.fireBlockUsageEvent(
+                blockState,
+                world,
+                playerEntity,
+                blockPos,
+                blockHitResult
+        );
     }
 }

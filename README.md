@@ -119,3 +119,8 @@ So if you are willing to contribute to Conium, please do conversations with Coni
 We will reject all pull requests that not after discussion.
 
 If it is not necessary, avoid directly reading source codes.
+
+## Hitokoto
+Conium will randomly roll a [Hitokoto](https://en.wiktionary.org/wiki/%E4%B8%80%E8%A8%80#Japanese) in console every time launching, the list of Hitokotos receives pull requests, only allow in English and Japanese, don't take other languages, don't accept nonsense sentences.
+
+For the list, see [ConiumHitokoto.kt](/common/src/main/java/com/github/cao/awa/conium/hitokoto/ConiumHitokoto.kt).

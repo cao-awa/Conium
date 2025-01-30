@@ -1,5 +1,7 @@
 package com.github.cao.awa.conium.mixin.block;
 
+import com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent;
+import com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEvent;
 import com.github.cao.awa.conium.event.ConiumEvent;
 import com.github.cao.awa.conium.event.context.ConiumEventContext;
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
@@ -29,10 +31,10 @@ public abstract class BlockItemMixin {
      * Inject to {@code place} calling to trigger event {@code PLACE_BLOCK}.
      *
      * @param context the placement context
+     * @param cir     the callback info
      *
      * @see ConiumEventType#PLACE_BLOCK
-     * @see com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent ConiumPlaceBlockEvent
-     * @see com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEvent ConiumPlacedBlockEvent
+     * @see ConiumPlaceBlockEvent
      * @see BlockItemMixin#placedBlock
      *
      * @author cao_awa
@@ -73,8 +75,7 @@ public abstract class BlockItemMixin {
      * @param itemStack the item stack that used to place the block
      *
      * @see ConiumEventType#PLACED_BLOCK
-     * @see com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEvent ConiumPlacedBlockEvent
-     * @see com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent ConiumPlaceBlockEvent
+     * @see ConiumPlacedBlockEvent
      * @see BlockItemMixin#placeBlock
      *
      * @author cao_awa

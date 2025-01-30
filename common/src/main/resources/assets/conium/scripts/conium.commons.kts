@@ -61,8 +61,10 @@ import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DAM
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DAMAGED
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DIE
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DEAD
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_TRY_SLEEP
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_SLEEP
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_WAKE_UP
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_WAKED_UP
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_ON_FIRE
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_EXTINGUISH_FIRE
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_EXTINGUISHED_FIRE
