@@ -6,13 +6,13 @@ Conium is a datapack and script framework for the modern Minecraft, it provides 
 
 ## Requirements
 
-|            Requirement |        Version        |  Installs   |            Notes             |
-|-----------------------:|:---------------------:|:-----------:|:----------------------------:|
-|                   Java |         21!!          |    Need     |      Only 21 can be use      |
-|              Minecraft |       1.21.4!!        |    Need     |    Only 1.21.4 can be use    |
-| Fabric language kotlin | 1.13.0+kotlin.2.1.0!! |    Need     | Only kotlin 2.1.0 can be use |
-|             Fabric API |           ?           |    Need     |      Any version is ok       |
-|                 Fluxia |        1.1.1!!        | Unnecessary | Built-in contents translator |
+|            Requirement |        Version         |  Installs   |             Notes             |
+|-----------------------:|:----------------------:|:-----------:|:-----------------------------:|
+|                   Java |          21!!          |    Need     |      Only 21 can be use       |
+|              Minecraft |        1.21.4!!        |    Need     |    Only 1.21.4 can be use     |
+| Fabric language kotlin | 1.13.1+kotlin.2.1.10!! |    Need     | Only kotlin 2.1.10 can be use |
+|             Fabric API |           ?            |    Need     |       Any version is ok       |
+|                 Fluxia |        1.1.1!!         | Unnecessary | Built-in contents translator  |
 
 ### Build requirements
 
@@ -22,7 +22,7 @@ Conium has configured whole project, just clone the repository, and reload proje
 |------------:|:--------:|:---------------------------:|
 |        Java |   21!!   |     Only 21 can be use      |
 |      Gradle |   8.11   | 8.11 or other could be use  |
-|      Kotlin | 2.1.0!!  |    Only 2.1.0 can be use    |
+|      Kotlin | 2.1.10!! |   Only 2.1.10 can be use    |
 | Fabric loom |  1.9.2   | 1.9.2 or other could be use |
 |   Minecraft | 1.21.4!! |   Only 1.21.4 can be use    |
 
@@ -52,7 +52,7 @@ About typescript grammar, supported by ```structring-translator``` or called ```
 
 ### APIs
 
-Currently, there's APIs is available:
+Currently, there APIs are available:
 
 In context:
 

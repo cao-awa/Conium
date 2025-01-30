@@ -18,7 +18,6 @@ import com.github.cao.awa.translator.structuring.builtin.typescript.tree.Typescr
 import com.github.cao.awa.translator.structuring.builtin.typescript.visitor.LanguageTypescriptVisitor
 import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
 import com.github.cao.awa.translator.structuring.translate.language.LanguageTranslateTarget
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.resource.Resource
 import net.minecraft.resource.ResourceFinder
 import net.minecraft.resource.ResourceManager
@@ -52,7 +51,7 @@ import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromT
 class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identifier, Resource>>() {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumScriptManager")
-        private val DATA_TYPE: String = RegistryKeys.getPath(ConiumRegistryKeys.SCRIPT)
+        private val DATA_TYPE: String = ConiumRegistryKeys.SCRIPT.value.path
 
         // Commons script here, all scripts use these scripts.
         private val defaultCommons: String = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.commons.kts"))

@@ -27,6 +27,9 @@ import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamageEvent
 import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamagedEvent
 import com.github.cao.awa.conium.entity.event.die.ConiumEntityDeadEvent
 import com.github.cao.awa.conium.entity.event.die.ConiumEntityDieEvent
+import com.github.cao.awa.conium.entity.event.fire.ConiumEntityOnFireEvent
+import com.github.cao.awa.conium.entity.event.fire.extinguish.ConiumEntityExtinguishFireEvent
+import com.github.cao.awa.conium.entity.event.fire.extinguish.ConiumEntityExtinguishedFireEvent
 import com.github.cao.awa.conium.entity.event.rest.sleep.ConiumEntitySleepEvent
 import com.github.cao.awa.conium.entity.event.rest.wake.ConiumEntityWakeUpEvent
 import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickEvent
@@ -141,6 +144,15 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
         val entityWakeUp: ConiumEntityWakeUpEvent = ConiumEntityWakeUpEvent()
 
         @JvmField
+        val entityOnFire: ConiumEntityOnFireEvent = ConiumEntityOnFireEvent()
+
+        @JvmField
+        val entityExtinguishFire: ConiumEntityExtinguishFireEvent = ConiumEntityExtinguishFireEvent()
+
+        @JvmField
+        val entityExtinguishedFire: ConiumEntityExtinguishedFireEvent = ConiumEntityExtinguishedFireEvent()
+
+        @JvmField
         val fluidScheduleTick: ConiumFluidScheduleTickEvent = ConiumFluidScheduleTickEvent()
 
         @JvmField
@@ -242,6 +254,8 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
             this.entityDead.clearSubscribes()
             this.entitySleep.clearSubscribes()
             this.entityWakeUp.clearSubscribes()
+            this.entityOnFire.clearSubscribes()
+            this.entityExtinguishFire.clearSubscribes()
         }
 
         fun clearItemSubscribes() {

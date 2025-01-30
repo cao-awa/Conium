@@ -7,12 +7,17 @@ import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.INT
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.LONG
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.FLOAT
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.DOUBLE
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.RANDOM
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.SERVER
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.SCHEDULE_TICK_VIEW
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.WORLD
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.CLIENT_WORLD
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.SERVER_WORLD
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ENTITY
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.LIVING_ENTITY
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.PLAYER
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.CLIENT_PLAYER
@@ -56,6 +61,11 @@ import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DAM
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DAMAGED
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DIE
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DEAD
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_SLEEP
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_WAKE_UP
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_ON_FIRE
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_EXTINGUISH_FIRE
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_EXTINGUISHED_FIRE
 
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.FLUID_SCHEDULE_TICK
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.FLUID_SCHEDULE_TICKED
@@ -110,5 +120,7 @@ import com.github.cao.awa.conium.reference.block.Block
 import com.github.cao.awa.conium.reference.block.Blocks
 import com.github.cao.awa.conium.reference.item.Item
 import com.github.cao.awa.conium.reference.item.Items
+
+import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
 
 ScriptExport("ConiumCommons")

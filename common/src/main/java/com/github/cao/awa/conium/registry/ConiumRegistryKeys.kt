@@ -25,5 +25,5 @@ object ConiumRegistryKeys {
     @JvmStatic
     val ENTITY: RegistryKey<Registry<ConiumEntityBuilder>> = of("entity")
 
-    private fun <T> of(id: String): RegistryKey<Registry<T>> = RegistryKey.ofRegistry(Identifier.of("conium", id))
+    private fun <T> of(path: String): RegistryKey<Registry<T>> = RegistryKey.ofRegistry(Identifier.of("conium", path))
 }

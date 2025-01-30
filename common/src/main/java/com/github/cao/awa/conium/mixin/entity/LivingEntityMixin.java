@@ -162,8 +162,8 @@ public class LivingEntityMixin {
 
         // Only handle event when entity sleeping.
         if (sleepPos != null) {
-            // Request the entity sleep event.
-            ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.ENTITY_SLEEP);
+            // Request the entity wake up event.
+            ConiumEventContext<?> eventContext = ConiumEvent.request(ConiumEventType.ENTITY_WAKE_UP);
 
             EntityType<?> type = self.getType();
 

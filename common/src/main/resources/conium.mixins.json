@@ -18,6 +18,7 @@
     "component.map.builder.ComponentMapBuilderAccessor",
     "datapack.DataPackContentsMixin",
     "entity.EntityAccessor",
+    "entity.EntityMixin",
     "entity.LivingEntityMixin",
     "entity.attribute.DefaultAttributeRegistryMixin",
     "item.ItemMixin",
