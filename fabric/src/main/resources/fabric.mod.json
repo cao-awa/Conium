@@ -14,9 +14,16 @@
     "Ryan 100c"
   ],
   "contact": {
-    "homepage": "https://github.com/cao-awa/Conium",
+    "homepage": "https://modrinth.com/mod/conium",
     "sources": "https://github.com/cao-awa/Conium",
     "issues": "https://github.com/cao-awa/Conium/issues"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/BUY2xQr37N"
+      }
+    }
   },
   "accessWidener": "conium.accesswidener",
   "license": "GPL-3.0",
@@ -41,13 +48,13 @@
     "fabricloader": "*",
     "fabric-language-kotlin": "1.13.1+kotlin.2.1.10",
     "minecraft": "1.21.4",
-    "java": "21"
+    "java": "21",
+    "fabric": "*"
   },
   "recommends": {
-    "fabric": "*",
     "lithium": "*",
     "sepals": ">=1.0.13",
-    "sodium": "*"
+    "annuus": ">=1.0.2"
   },
   "breaks": {
     "optifabric": "*"

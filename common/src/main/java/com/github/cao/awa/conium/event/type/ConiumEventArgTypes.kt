@@ -244,12 +244,7 @@ object ConiumEventArgTypes {
 
         C_BLOCK_ENTITY = arg(
             "c_block_entity",
-            transform(::WORLD, ::BLOCK_POS) { world, pos ->
-                world.getBlockEntity(pos).also {
-                    println("$it???")
-                    it as? ConiumBlockEntity
-                } as? ConiumBlockEntity
-            }
+            transform(::WORLD, ::BLOCK_POS) { world, pos -> world.getBlockEntity(pos) as? ConiumBlockEntity }
         )
 
         BLOCK_STATE = arg(
