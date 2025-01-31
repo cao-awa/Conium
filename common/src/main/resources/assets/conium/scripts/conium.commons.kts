@@ -25,6 +25,7 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.SERVER_PLAYER
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_POS
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.FLUID_STATE
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_ENTITY
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.C_BLOCK_ENTITY
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_STATE
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_USAGE_CONTEXT
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_PLACEMENT_CONTEXT

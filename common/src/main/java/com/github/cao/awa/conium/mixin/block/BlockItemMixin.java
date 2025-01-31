@@ -2,10 +2,8 @@ package com.github.cao.awa.conium.mixin.block;
 
 import com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent;
 import com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEvent;
-import com.github.cao.awa.conium.event.ConiumEvent;
-import com.github.cao.awa.conium.event.context.ConiumEventContext;
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
+import com.github.cao.awa.conium.intermediary.mixin.block.ConiumBlockEventMixinIntermediary;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -30,8 +28,8 @@ public abstract class BlockItemMixin {
     /**
      * Inject to {@code place} calling to trigger event {@code PLACE_BLOCK}.
      *
-     * @param context the placement context
-     * @param cir     the callback info
+     * @param placementContext the placement context
+     * @param cir              the callback info
      *
      * @see ConiumEventType#PLACE_BLOCK
      * @see ConiumPlaceBlockEvent
@@ -46,19 +44,12 @@ public abstract class BlockItemMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    public void placeBlock(ItemPlacementContext context, CallbackInfoReturnable<ActionResult> cir) {
-        // Request the event.
-        ConiumEventContext<?> placeBlockContext = ConiumEvent.request(ConiumEventType.PLACE_BLOCK);
-
-        Block block = getBlock();
-
-        // Fill the context args.
-        placeBlockContext.put(ConiumEventArgTypes.ITEM_PLACEMENT_CONTEXT, context);
-
-        if (placeBlockContext.presaging(block)) {
-            // Only presaging state is true can be continued.
-            placeBlockContext.arising(block);
-        } else {
+    public void placeBlock(ItemPlacementContext placementContext, CallbackInfoReturnable<ActionResult> cir) {
+        // Trigger block placing event.
+        if (ConiumBlockEventMixinIntermediary.firePlaceBlockEvent(
+                getBlock(),
+                placementContext
+        )) {
             // Cancel this event when presaging was rejected the event.
             cir.setReturnValue(ActionResult.FAIL);
         }
@@ -90,26 +81,13 @@ public abstract class BlockItemMixin {
             )
     )
     public void placedBlock(Block instance, World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
-        // Request the event.
-        ConiumEventContext<?> placedBlockContext = ConiumEvent.request(ConiumEventType.PLACED_BLOCK);
-
-        Block block = getBlock();
-
-        // Fill the context args.
-        placedBlockContext.put(ConiumEventArgTypes.WORLD, world);
-
-        placedBlockContext.put(ConiumEventArgTypes.LIVING_ENTITY, placer);
-
-        placedBlockContext.put(ConiumEventArgTypes.BLOCK_POS, pos);
-        placedBlockContext.put(ConiumEventArgTypes.BLOCK_STATE, state);
-
-        placedBlockContext.put(ConiumEventArgTypes.ITEM_STACK, itemStack);
-
-        if (placedBlockContext.presaging(block)) {
-            // Only presaging state is true can be continued.
-            instance.onPlaced(world, pos, state, placer, itemStack);
-
-            placedBlockContext.arising(block);
-        }
+        // Trigger block placing event.
+        ConiumBlockEventMixinIntermediary.firePlacedBlockEvent(
+                state,
+                world,
+                placer,
+                pos,
+                itemStack
+        );
     }
 }
