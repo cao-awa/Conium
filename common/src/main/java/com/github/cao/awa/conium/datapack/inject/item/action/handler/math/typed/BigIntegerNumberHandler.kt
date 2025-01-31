@@ -1,18 +1,16 @@
-package com.github.cao.awa.conium.datapack.inject.item.action.handler.math.typed;
+package com.github.cao.awa.conium.datapack.inject.item.action.handler.math.typed
 
-import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction;
+import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
+import java.math.BigInteger
 
-import java.math.BigInteger;
-
-public class BigIntegerNumberHandler extends NumberHandler<BigInteger> {
-    @Override
-    public BigInteger doHandle(BigInteger first, BigInteger second, ItemPropertyInjectAction action) {
-        return switch (action) {
-            case ADD -> first.add(second);
-            case MINUS -> first.subtract(second);
-            case DIVIDE -> first.divide(second);
-            case MULTIPLY -> first.multiply(second);
-            default -> first;
-        };
+class BigIntegerNumberHandler : NumberHandler<BigInteger>() {
+    override fun doHandle(first: BigInteger, second: BigInteger, action: ItemPropertyInjectAction): BigInteger {
+        return when (action) {
+            ItemPropertyInjectAction.ADD -> first.add(second)
+            ItemPropertyInjectAction.MINUS -> first.subtract(second)
+            ItemPropertyInjectAction.DIVIDE -> first.divide(second)
+            ItemPropertyInjectAction.MULTIPLY -> first.multiply(second)
+            else -> first
+        }
     }
 }

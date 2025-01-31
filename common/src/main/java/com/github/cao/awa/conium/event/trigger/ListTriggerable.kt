@@ -1,59 +1,55 @@
-package com.github.cao.awa.conium.event.trigger;
+package com.github.cao.awa.conium.event.trigger
 
-import com.github.cao.awa.conium.parameter.ParameterSelective;
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
+import com.github.cao.awa.conium.parameter.ParameterSelective
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
+import java.util.function.Predicate
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
+abstract class ListTriggerable<P : ParameterSelective> {
+    private val triggers: MutableMap<Any, MutableList<P>> = CollectionFactor.hashMap()
+    private val constantTriggers: MutableList<P> = CollectionFactor.arrayList()
 
-public abstract class ListTriggerable<P extends ParameterSelective> {
-    private final Map<Object, List<P>> triggers = CollectionFactor.hashMap();
-    private final List<P> constantTriggers = CollectionFactor.arrayList();
+    fun triggers(): Map<Any, MutableList<P>> = this.triggers
 
-    public Map<Object, List<P>> triggers() {
-        return this.triggers;
-    }
+    fun constantTriggers(): MutableList<P> = this.constantTriggers
 
-    public boolean hasAny(Object identity, Predicate<P> parameters) {
-        boolean has = false;
+    fun hasAny(identity: Any?, parameters: Predicate<P>): Boolean {
+        var has = false
 
-        for (P trigger : this.constantTriggers) {
-            has |= parameters.test(trigger);
+        for (trigger in this.constantTriggers) {
+            has = has or parameters.test(trigger)
         }
 
-        for (P trigger : this.triggers.getOrDefault(identity, Collections.emptyList())) {
-            has |= parameters.test(trigger);
+        for (trigger in this.triggers.getOrDefault(identity, emptyList<P>())) {
+            has = has or parameters.test(trigger)
         }
 
-        return has;
+        return has
     }
 
-    public boolean noFailure(Object identity, Predicate<P> parameters) {
-        boolean has = true;
+    fun noFailure(identity: Any?, parameters: Predicate<P>): Boolean {
+        var has = true
 
-        for (P trigger : this.constantTriggers) {
-            has &= parameters.test(trigger);
+        for (trigger in this.constantTriggers) {
+            has = has and parameters.test(trigger)
         }
 
-        for (P trigger : this.triggers.getOrDefault(identity, Collections.emptyList())) {
-            has &= parameters.test(trigger);
+        for (trigger in this.triggers.getOrDefault(identity, emptyList<P>())) {
+            has = has and parameters.test(trigger)
         }
-        return has;
+        return has
     }
 
-    public ListTriggerable<P> subscribe(Object identity, P trigger) {
-        this.triggers.computeIfAbsent(identity, (key) -> CollectionFactor.arrayList()).add(trigger);
-        return this;
+    fun subscribe(identity: Any, trigger: P): ListTriggerable<P> {
+        this.triggers.computeIfAbsent(identity) {
+            CollectionFactor.arrayList()
+        }.add(trigger)
+        return this
     }
 
-    public ListTriggerable<P> subscribe(P trigger) {
-        this.constantTriggers.add(trigger);
-        return this;
+    fun subscribe(trigger: P): ListTriggerable<P> {
+        this.constantTriggers.add(trigger)
+        return this
     }
 
-    public void clearSubscribes() {
-        this.triggers.clear();
-    }
+    fun clearSubscribes() = this.triggers.clear()
 }

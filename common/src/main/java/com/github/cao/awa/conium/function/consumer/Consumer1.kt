@@ -1,7 +1,6 @@
-package com.github.cao.awa.conium.function.consumer;
+package com.github.cao.awa.conium.function.consumer
 
-import java.util.function.Consumer;
+import java.util.function.Consumer
 
 @FunctionalInterface
-public interface Consumer1<I> extends Consumer<I> {
-}
+fun interface Consumer1<I> : Consumer<I>
