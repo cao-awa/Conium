@@ -10,7 +10,7 @@ import java.util.function.Supplier
 class ConiumEventMixinIntermediary {
     companion object {
         @JvmStatic
-        fun <I : Any> fireEvent(eventType: ConiumEventType<I>, input: I, argProducer: Consumer<ConiumEventContext<*>>) {
+        fun <I> fireEvent(eventType: ConiumEventType<I & Any>, input: I & Any, argProducer: Consumer<ConiumEventContext<*>>) {
             val context: ConiumEventContext<*> = ConiumEvent.request(eventType)
 
             argProducer.accept(context)
@@ -21,7 +21,20 @@ class ConiumEventMixinIntermediary {
         }
 
         @JvmStatic
-        fun <I : Any> fireEventCancelable(eventType: ConiumEventType<I>, input: I, argProducer: Consumer<ConiumEventContext<*>>): Boolean {
+        fun <I> fireEventIntermediary(eventType: ConiumEventType<I & Any>, input: I & Any, argProducer: Consumer<ConiumEventContext<*>>, action: () -> Unit) {
+            val context: ConiumEventContext<*> = ConiumEvent.request(eventType)
+
+            argProducer.accept(context)
+
+            if (context.presaging(input)) {
+                action()
+
+                context.arising(input)
+            }
+        }
+
+        @JvmStatic
+        fun <I> fireEventCancelable(eventType: ConiumEventType<I & Any>, input: I & Any, argProducer: Consumer<ConiumEventContext<*>>): Boolean {
             val context: ConiumEventContext<*> = ConiumEvent.request(eventType)
 
             argProducer.accept(context)

@@ -1,9 +1,6 @@
 package com.github.cao.awa.conium.mixin.client.interaction;
 
-import com.github.cao.awa.conium.event.ConiumEvent;
-import com.github.cao.awa.conium.event.context.ConiumEventContext;
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
-import com.github.cao.awa.conium.event.type.ConiumEventType;
+import com.github.cao.awa.conium.intermediary.mixin.block.ConiumBlockEventMixinIntermediary;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
@@ -24,19 +21,12 @@ public class ClientPlayerInteractionManagerMixin {
             )
     )
     public void breakBlock(Block instance, WorldAccess world, BlockPos pos, BlockState state) {
-        // Request the broken block event.
-        ConiumEventContext<?> brokenContext = ConiumEvent.request(ConiumEventType.BROKEN_BLOCK);
-
-        // Fill the context args.
-        brokenContext.put(ConiumEventArgTypes.WORLD, (World) world)
-                .put(ConiumEventArgTypes.BLOCK_POS, pos)
-                .put(ConiumEventArgTypes.BLOCK_STATE, state);
-
-        if (brokenContext.presaging(instance)) {
-            // Only presaging state is true can be continues.
-            brokenContext.arising(instance);
-
-            instance.onBroken(world, pos, state);
-        }
+        // Trigger block broken event.
+        ConiumBlockEventMixinIntermediary.fireBlockBrokenEvent(
+                instance,
+                (World) world,
+                pos,
+                state
+        );
     }
 }
