@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.event.type
 
+import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
 import com.github.cao.awa.conium.kotlin.extent.innate.*
 import com.github.cao.awa.conium.parameter.DynamicArgType
 import com.github.cao.awa.conium.parameter.DynamicArgsBuilder.Companion.transform
@@ -100,6 +101,9 @@ object ConiumEventArgTypes {
 
     @JvmField
     val BLOCK_ENTITY: DynamicArgType<BlockEntity>
+
+    @JvmField
+    val C_BLOCK_ENTITY: DynamicArgType<ConiumBlockEntity>
 
     @JvmField
     val BLOCK_STATE: DynamicArgType<AbstractBlockState>
@@ -236,6 +240,11 @@ object ConiumEventArgTypes {
         BLOCK_ENTITY = arg(
             "block_entity",
             transform(::WORLD, ::BLOCK_POS, World::getBlockEntity)
+        )
+
+        C_BLOCK_ENTITY = arg(
+            "c_block_entity",
+            transform(::WORLD, ::BLOCK_POS) { world, pos -> world.getBlockEntity(pos) as? ConiumBlockEntity }
         )
 
         BLOCK_STATE = arg(

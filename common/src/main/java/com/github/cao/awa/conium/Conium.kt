@@ -8,7 +8,8 @@ import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.datapack.script.ConiumScriptManager
 import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.function.consumer.string.`object`.*
+import com.github.cao.awa.conium.function.consumer.string.obj.*
+import com.github.cao.awa.conium.hitokoto.ConiumHitokoto
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
 import com.github.cao.awa.conium.server.datapack.ConiumServerLoadDatapacks
@@ -86,14 +87,14 @@ class Conium {
         }
 
         @JvmStatic
-        fun debug(message: String?, p1: Supplier<Any?>, debugger: StrObjConsumer1) {
+        fun debug(message: String, p1: Supplier<Any?>, debugger: StrObjConsumer1) {
             if (this.enableDebugs) {
                 debugger.accept(message, p1.get())
             }
         }
 
         @JvmStatic
-        fun debug(message: String?, p1: Supplier<Any?>, p2: Supplier<Any?>, debugger: StrObjConsumer2) {
+        fun debug(message: String, p1: Supplier<Any?>, p2: Supplier<Any?>, debugger: StrObjConsumer2) {
             if (this.enableDebugs) {
                 debugger.accept(message, p1.get(), p2.get())
             }
@@ -101,7 +102,7 @@ class Conium {
 
         @JvmStatic
         fun debug(
-            message: String?,
+            message: String,
             p1: Supplier<Any?>,
             p2: Supplier<Any?>,
             p3: Supplier<Any?>,
@@ -114,7 +115,7 @@ class Conium {
 
         @JvmStatic
         fun debug(
-            message: String?,
+            message: String,
             p1: Supplier<Any?>,
             p2: Supplier<Any?>,
             p3: Supplier<Any?>,
@@ -128,7 +129,7 @@ class Conium {
 
         @JvmStatic
         fun debug(
-            message: String?,
+            message: String,
             p1: Supplier<Any?>,
             p2: Supplier<Any?>,
             p3: Supplier<Any?>,
@@ -143,7 +144,7 @@ class Conium {
 
         @JvmStatic
         fun debug(
-            message: String?,
+            message: String,
             p1: Supplier<Any?>,
             p2: Supplier<Any?>,
             p3: Supplier<Any?>,
@@ -169,6 +170,8 @@ class Conium {
             for (line: String in IOUtil.read(ResourceLoader.get("assets/conium/banner.txt")).lines()) {
                 LOGGER.info(line)
             }
+            LOGGER.info("# {}", ConiumHitokoto.roll())
+            LOGGER.info("#")
         }
     }
 

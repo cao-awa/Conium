@@ -31,12 +31,15 @@ import com.github.cao.awa.conium.entity.event.fire.ConiumEntityOnFireEvent
 import com.github.cao.awa.conium.entity.event.fire.extinguish.ConiumEntityExtinguishFireEvent
 import com.github.cao.awa.conium.entity.event.fire.extinguish.ConiumEntityExtinguishedFireEvent
 import com.github.cao.awa.conium.entity.event.rest.sleep.ConiumEntitySleepEvent
+import com.github.cao.awa.conium.entity.event.rest.sleep.ConiumEntityTrySleepEvent
 import com.github.cao.awa.conium.entity.event.rest.wake.ConiumEntityWakeUpEvent
+import com.github.cao.awa.conium.entity.event.rest.wake.ConiumEntityWakedUpEvent
+import com.github.cao.awa.conium.entity.event.sprint.ConiumEntitySprintEvent
+import com.github.cao.awa.conium.entity.event.sprint.ConiumEntitySprintingEvent
+import com.github.cao.awa.conium.entity.event.sprint.ConiumEntityStopSprintEvent
 import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickEvent
 import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickedEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
-import com.github.cao.awa.conium.event.server.tick.ConiumServerTickEvent
-import com.github.cao.awa.conium.event.server.tick.ConiumServerTickTailEvent
 import com.github.cao.awa.conium.event.trigger.ListTriggerable
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.item.event.stack.click.ConiumItemStackClickEvent
@@ -51,6 +54,10 @@ import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickEvent
 import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickedEvent
 import com.github.cao.awa.conium.network.event.ConiumServerConfigurationConnectionEvent
 import com.github.cao.awa.conium.parameter.ParameterSelective
+import com.github.cao.awa.conium.random.event.ConiumRandomEvent
+import com.github.cao.awa.conium.server.event.random.ConiumServerRandomEvent
+import com.github.cao.awa.conium.server.event.tick.ConiumServerTickEvent
+import com.github.cao.awa.conium.server.event.tick.ConiumServerTickTailEvent
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -61,6 +68,9 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
         private val LOGGER: Logger = LogManager.getLogger("ConiumEvent")
         private val events: MutableMap<ConiumEventType<*>, ConiumEvent<*>> = CollectionFactor.hashMap()
         private val foreverContext: MutableMap<ConiumEventType<*>, MutableList<ConiumEventContext<*>>> = CollectionFactor.hashMap()
+
+        @JvmField
+        val random: ConiumRandomEvent = ConiumRandomEvent()
 
         @JvmField
         val itemUseOnBlockEvent: ConiumItemUseOnBlockEvent = ConiumItemUseOnBlockEvent()
@@ -94,6 +104,9 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
 
         @JvmField
         val serverTick: ConiumServerTickEvent = ConiumServerTickEvent()
+
+        @JvmField
+        val serverRandom: ConiumServerRandomEvent = ConiumServerRandomEvent()
 
         @JvmField
         val serverTickTail: ConiumServerTickTailEvent = ConiumServerTickTailEvent()
@@ -138,10 +151,25 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
         val entityDead: ConiumEntityDeadEvent = ConiumEntityDeadEvent()
 
         @JvmField
+        val entityTrySleep: ConiumEntityTrySleepEvent = ConiumEntityTrySleepEvent()
+
+        @JvmField
         val entitySleep: ConiumEntitySleepEvent = ConiumEntitySleepEvent()
 
         @JvmField
         val entityWakeUp: ConiumEntityWakeUpEvent = ConiumEntityWakeUpEvent()
+
+        @JvmField
+        val entityWakedUp: ConiumEntityWakedUpEvent = ConiumEntityWakedUpEvent()
+
+        @JvmField
+        val entitySprint: ConiumEntitySprintEvent = ConiumEntitySprintEvent()
+
+        @JvmField
+        val entitySprinting: ConiumEntitySprintingEvent = ConiumEntitySprintingEvent()
+
+        @JvmField
+        val entityStopSprint: ConiumEntityStopSprintEvent = ConiumEntityStopSprintEvent()
 
         @JvmField
         val entityOnFire: ConiumEntityOnFireEvent = ConiumEntityOnFireEvent()
@@ -252,10 +280,16 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
             this.entityDamaged.clearSubscribes()
             this.entityDie.clearSubscribes()
             this.entityDead.clearSubscribes()
+            this.entityTrySleep.clearSubscribes()
             this.entitySleep.clearSubscribes()
             this.entityWakeUp.clearSubscribes()
+            this.entityWakedUp.clearSubscribes()
+            this.entitySprint.clearSubscribes()
+            this.entitySprinting.clearSubscribes()
+            this.entityStopSprint.clearSubscribes()
             this.entityOnFire.clearSubscribes()
             this.entityExtinguishFire.clearSubscribes()
+            this.entityExtinguishedFire.clearSubscribes()
         }
 
         fun clearItemSubscribes() {
@@ -268,6 +302,8 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
 
         fun clearServerTickSubscribes() {
             this.serverTick.clearSubscribes()
+            this.serverRandom.clearSubscribes()
+            this.serverTickTail.clearSubscribes()
         }
 
         fun clearBlockSubscribes() {
@@ -296,6 +332,10 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
             this.trappedChestOpened.clearSubscribes()
             this.trappedChestClosing.clearSubscribes()
             this.trappedChestClosed.clearSubscribes()
+        }
+
+        fun clearRandomSubscribes() {
+            this.random.clearSubscribes()
         }
 
         fun clearNetworkSubscribes() {

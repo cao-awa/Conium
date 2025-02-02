@@ -25,6 +25,7 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.SERVER_PLAYER
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_POS
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.FLUID_STATE
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_ENTITY
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.C_BLOCK_ENTITY
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_STATE
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_USAGE_CONTEXT
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_PLACEMENT_CONTEXT
@@ -41,7 +42,10 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ACTION_RESULT
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.VIEWER_COUNT_MANAGER
 
 // Events
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.RANDOM
+
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.SERVER_TICK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.SERVER_RANDOM
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.SERVER_TICK_TAIL
 
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_USE_ON_BLOCK
@@ -61,8 +65,13 @@ import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DAM
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DAMAGED
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DIE
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_DEAD
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_TRY_SLEEP
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_SLEEP
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_WAKE_UP
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_WAKED_UP
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_SPRINT
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_SPRINTING
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_STOP_SPRINT
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_ON_FIRE
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_EXTINGUISH_FIRE
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_EXTINGUISHED_FIRE

@@ -3,6 +3,8 @@ package com.github.cao.awa.conium.event.type
 import com.github.cao.awa.conium.mixin.block.BlockStateMixin
 import com.github.cao.awa.conium.mixin.client.interaction.ClientPlayerInteractionManagerMixin
 import com.github.cao.awa.conium.mixin.server.interaction.ServerPlayerInteractionManagerMixin
+import com.github.cao.awa.sinuatum.annotations.Unsupported
+import com.mojang.authlib.minecraft.client.MinecraftClient
 import net.minecraft.block.Block
 import net.minecraft.entity.EntityType
 import net.minecraft.fluid.Fluid
@@ -10,9 +12,20 @@ import net.minecraft.item.Item
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerConfigurationNetworkHandler
 import kotlin.reflect.KClass
+import net.minecraft.util.Unit as MinecraftUnit
 
 class ConiumEventType<I : Any>(val name: String, val identityType: KClass<I>) {
     companion object {
+        @JvmField
+        val RANDOM: ConiumEventType<MinecraftUnit> = ConiumEventType("random", MinecraftUnit::class)
+
+        @JvmField
+        val SERVER_RANDOM: ConiumEventType<MinecraftServer> = ConiumEventType("server_random", MinecraftServer::class)
+
+        @JvmField
+        @Unsupported
+        val CLIENT_RANDOM: ConiumEventType<MinecraftClient> = ConiumEventType("client_random", MinecraftClient::class)
+
         @JvmField
         val SERVER_TICK: ConiumEventType<MinecraftServer> = ConiumEventType("server_tick", MinecraftServer::class)
 
@@ -178,6 +191,14 @@ class ConiumEventType<I : Any>(val name: String, val identityType: KClass<I>) {
          * @since 1.0.0
          */
         @JvmField
+        val ENTITY_TRY_SLEEP: ConiumEventType<EntityType<*>> = ConiumEventType("entity_try_sleep", EntityType::class)
+
+        /**
+         * The event where that entity sleeps.
+         *
+         * @since 1.0.0
+         */
+        @JvmField
         val ENTITY_SLEEP: ConiumEventType<EntityType<*>> = ConiumEventType("entity_sleep", EntityType::class)
 
         /**
@@ -187,6 +208,23 @@ class ConiumEventType<I : Any>(val name: String, val identityType: KClass<I>) {
          */
         @JvmField
         val ENTITY_WAKE_UP: ConiumEventType<EntityType<*>> = ConiumEventType("entity_wake_up", EntityType::class)
+
+        /**
+         * The event where that entity waked up.
+         *
+         * @since 1.0.0
+         */
+        @JvmField
+        val ENTITY_WAKED_UP: ConiumEventType<EntityType<*>> = ConiumEventType("entity_waked_up", EntityType::class)
+
+        @JvmField
+        val ENTITY_SPRINT: ConiumEventType<EntityType<*>> = ConiumEventType("entity_sprint", EntityType::class)
+
+        @JvmField
+        val ENTITY_SPRINTING: ConiumEventType<EntityType<*>> = ConiumEventType("entity_sprinting", EntityType::class)
+
+        @JvmField
+        val ENTITY_STOP_SPRINT: ConiumEventType<EntityType<*>> = ConiumEventType("entity_stop_sprint", EntityType::class)
 
         @JvmField
         val ENTITY_ON_FIRE: ConiumEventType<EntityType<*>> = ConiumEventType("entity_on_fire", EntityType::class)

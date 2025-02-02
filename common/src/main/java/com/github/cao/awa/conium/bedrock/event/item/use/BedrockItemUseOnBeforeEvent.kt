@@ -18,15 +18,13 @@ class BedrockItemUseOnBeforeEvent {
     fun subscribe(action: ParameterSelective1<Unit, BedrockItemUseOnEventContext>) {
         val currentPosting: Any = BedrockEventContext.currentPosting!!
 
-        ConiumEventContextBuilder.request(
+        ConiumEventContextBuilder.preRequestNr(
             ConiumEventType.ITEM_USE_ON_BLOCK,
             ConiumEventArgTypes.ITEM_USAGE_CONTEXT
-        ).presage { _: Any, usage: ItemUsageContext ->
+        ) { _: Any, usage: ItemUsageContext ->
             action(usage.toBedrock(currentPosting))
 
             BedrockEventContext.clearContext(currentPosting)
-
-            true
         }
     }
 }

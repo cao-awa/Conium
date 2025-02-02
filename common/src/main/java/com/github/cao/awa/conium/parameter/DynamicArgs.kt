@@ -25,7 +25,7 @@ import java.util.function.Supplier
  *
  * @since 1.0.0
  */
-class DynamicArgs<P : ParameterSelective?, R>{
+class DynamicArgs<P : ParameterSelective?, R> {
     private val trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>
     private val args: MutableList<DynamicArgType<*>>
     private val queryArgs: MutableList<DynamicArgType<*>>
