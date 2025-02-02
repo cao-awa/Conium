@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.event.server.tick
+package com.github.cao.awa.conium.server.event.tick
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext

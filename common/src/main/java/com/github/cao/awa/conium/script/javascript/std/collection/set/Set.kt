@@ -16,7 +16,7 @@ class Set<V> : MutableSet<V> {
     // Delegate operations.
     override fun iterator(): MutableIterator<V> = this.delegate.iterator()
 
-    // Also 'add' in Javascript.
+    // Also 'add' in JavaScript.
     @JavaScriptApi("Set", "add")
     override fun add(element: V): Boolean = this.delegate.add(element)
     override fun remove(element: V): Boolean = this.delegate.remove(element)
@@ -24,7 +24,7 @@ class Set<V> : MutableSet<V> {
     override fun removeAll(elements: Collection<V>): Boolean = this.delegate.removeAll(elements.toSet())
     override fun retainAll(elements: Collection<V>): Boolean = this.delegate.retainAll(elements.toSet())
 
-    // Also 'clear' in Javascript.
+    // Also 'clear' in JavaScript.
     @JavaScriptApi("Set", "clear")
     override fun clear(): Unit = this.delegate.clear()
     override fun isEmpty(): Boolean = this.delegate.isEmpty()

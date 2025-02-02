@@ -9,7 +9,7 @@ import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary
 import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary.Companion.fireEvent
 import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary.Companion.fireEventCancelable
 import com.github.cao.awa.conium.mixin.entity.EntityMixin
-import com.github.cao.awa.conium.mixin.entity.LivingEntityMixin
+import com.github.cao.awa.conium.mixin.entity.living.LivingEntityMixin
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -149,7 +149,7 @@ class ConiumEntityEventMixinIntermediary {
          * Trigger the entity on fire event when entity ticking during fire ticks has least 1.
          *
          * @see EntityMixin
-         * @see EntityMixin.extinguish
+         * @see EntityMixin.onExtinguish
          * @see Entity.baseTick
          * @see Entity.setFireTicks
          * @see ConiumEventType.ENTITY_ON_FIRE
@@ -188,7 +188,7 @@ class ConiumEntityEventMixinIntermediary {
          * Trigger the entity extinguishes events when entity fire extinguishing.
          *
          * @see EntityMixin
-         * @see EntityMixin.extinguish
+         * @see EntityMixin.onExtinguish
          * @see Entity.extinguish
          * @see ConiumEventType.ENTITY_EXTINGUISH_FIRE
          * @see ConiumEventType.ENTITY_EXTINGUISHED_FIRE
@@ -218,6 +218,63 @@ class ConiumEntityEventMixinIntermediary {
                     extinguishingContext[ConiumEventArgTypes.ENTITY] = entity
                 }
             )
+        }
+
+        /**
+         * Trigger the entity sprint state change events when entity start sprint or stop sprinting.
+         *
+         * @see EntityMixin
+         * @see EntityMixin.onSetSprint
+         * @see Entity.baseTick
+         * @see Entity.isSprinting
+         * @see ConiumEventType.ENTITY_SPRINT
+         * @see ConiumEventType.ENTITY_STOP_SPRINT
+         *
+         * @param entity the entity that extinguishing
+         *
+         * @return flag that noted should do mixin cancel
+         *
+         * @author cao_awa
+         *
+         * @since 1.0.0
+         */
+        @JvmStatic
+        fun fireEntitySprintsEvent(targetEvent: ConiumEventType<EntityType<*>>, entity: Entity): Boolean {
+            return fireEventCancelable(
+                targetEvent,
+                entity.type
+            ) { context: ConiumEventContext<*> ->
+                // Fill the context args.
+                context[ConiumEventArgTypes.ENTITY] = entity
+            }
+        }
+
+        /**
+         * Trigger the entity sprinting event when entity sprinting.
+         *
+         * @see EntityMixin
+         * @see EntityMixin.onSprinting
+         * @see Entity.baseTick
+         * @see Entity.isSprinting
+         * @see ConiumEventType.ENTITY_SPRINTING
+         *
+         * @param entity the entity that extinguishing
+         *
+         * @return flag that noted should do mixin cancel
+         *
+         * @author cao_awa
+         *
+         * @since 1.0.0
+         */
+        @JvmStatic
+        fun fireEntitySprintingEvent(entity: Entity): Boolean {
+            return fireEventCancelable(
+                ConiumEventType.ENTITY_SPRINTING,
+                entity.type
+            ) { context: ConiumEventContext<*> ->
+                // Fill the context args.
+                context[ConiumEventArgTypes.ENTITY] = entity
+            }
         }
     }
 }

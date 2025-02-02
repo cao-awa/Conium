@@ -1,7 +1,9 @@
-package com.github.cao.awa.conium.mixin.entity;
+package com.github.cao.awa.conium.mixin.entity.living;
 
 import com.github.cao.awa.conium.event.type.ConiumEventType;
 import com.github.cao.awa.conium.intermediary.mixin.entity.ConiumEntityEventMixinIntermediary;
+import com.github.cao.awa.conium.mixin.entity.EntityMixin;
+import com.github.cao.awa.conium.sprint.SprintMovementEntity;
 import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -17,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Optional;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin {
+public abstract class LivingEntityMixin extends EntityMixin {
     @Shadow public abstract Optional<BlockPos> getSleepingPosition();
 
     @Inject(
@@ -139,5 +141,17 @@ public abstract class LivingEntityMixin {
                 Manipulate.cast(this),
                 getSleepingPosition().orElse(null)
         );
+    }
+
+    @Inject(
+            method = "setSprinting",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/attribute/EntityAttributeInstance;addTemporaryModifier(Lnet/minecraft/entity/attribute/EntityAttributeModifier;)V"),
+            cancellable = true
+    )
+    public void onSetSprint(boolean sprinting, CallbackInfo ci) {
+        if (!canStartSprint()) {
+            setCanStartSprint(true);
+            ci.cancel();
+        }
     }
 }
