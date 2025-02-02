@@ -1,5 +1,8 @@
 # What is Conium
 
+> 新世代を呼ぶハロー、声はまだ途切れないだろう、 \
+> 新世界の扉を、ほら叩き続けよう！
+
 Conium is a datapack and script framework for the modern Minecraft, it provides very diverse features without Java coding, Conium lets you complete your mods only using datapacks.
 
 ![](https://count.getloli.com/@@cao-awa.conium?name=%40cao-awa.conium&theme=rule34&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=auto)
