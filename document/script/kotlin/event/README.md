@@ -2,12 +2,19 @@
 
 ## Event types
 
+## Generic random task
+
+|    Key |                           Notes                           | Environment | Cancelable |    Cascade events | Input instance |
+|-------:|:---------------------------------------------------------:|------------:|-----------:|------------------:|:--------------:|
+| RANDOM | Trigger when random boolean rolled to true on server tick |      SERVER |       true | ``SERVER_RANDOM`` |      Unit      |
+
 ### Server events
 
-|              Key |                 Notes                  | Environment | Cancelable |  Cascade events | Input instance  |
-|-----------------:|:--------------------------------------:|------------:|-----------:|----------------:|:---------------:|
-|      SERVER_TICK |      Trigger in every server tick      |      SERVER |      false | Too many events | MinecraftServer |
-| SERVER_TICK_TAIL | Trigger in every server tick completed |      SERVER |      false |               * | MinecraftServer |
+|              Key |                           Notes                           | Environment | Cancelable |  Cascade events | Input instance  |
+|-----------------:|:---------------------------------------------------------:|------------:|-----------:|----------------:|:---------------:|
+|      SERVER_TICK |               Trigger in every server tick                |      SERVER |      false | Too many events | MinecraftServer |
+|    SERVER_RANDOM | Trigger when random boolean rolled to true on server tick |      SERVER |      false |                 | MinecraftServer |
+| SERVER_TICK_TAIL |          Trigger in every server tick completed           |      SERVER |      false |               * | MinecraftServer |
 
 ### Item events
 
@@ -26,19 +33,22 @@
 
 ### Entity events
 
-|                      Key |                 Notes                  | Environment | Cancelable |               Cascade events | Input instance |
-|-------------------------:|:--------------------------------------:|------------:|-----------:|-----------------------------:|:--------------:|
-|            ENTITY_DAMAGE |      Trigger when entity damaging      |         ALL |       true |           ``ENTITY_DAMAGED`` | EntityType<*>  |
-|           ENTITY_DAMAGED |      Trigger when entity damaged       |         ALL |      false |                            * | EntityType<*>  |
-|               ENTITY_DIE |       Trigger when entity dying        |         ALL |       true |              ``ENTITY_DEAD`` | EntityType<*>  |
-|              ENTITY_DIED |        Trigger when entity died        |         ALL |      false |                            * | EntityType<*>  |
-|         ENTITY_TRY_SLEEP |  Trigger when entity trying to sleep   |      SERVER |       true |         ``ENTITY_TRY_SLEEP`` | EntityType<*>  |
-|             ENTITY_SLEEP |   Trigger when entity start sleeping   |      SERVER |      false |                            * | EntityType<*>  |
-|           ENTITY_WAKE_UP | Trigger when entity trying to wake up  |         ALL |       true |           ``ENTITY_WAKE_UP`` | EntityType<*>  |
-|          ENTITY_WAKED_UP |      Trigger when entity waked up      |         ALL |      false |                            * | EntityType<*>  |
-|           ENTITY_ON_FIRE |      Trigger when entity on fire       |      SERVER |       true |                            * | EntityType<*>  |
-|   ENTITY_EXTINGUISH_FIRE | Trigger when entity fire extinguishing |      SERVER |       true | ``ENTITY_EXTINGUISHED_FIRE`` | EntityType<*>  |
-| ENTITY_EXTINGUISHED_FIRE | Trigger when entity fire extinguished  |      SERVER |      false |                            * | EntityType<*>  |
+|                      Key |                     Notes                     | Environment | Cancelable |                                  Cascade events | Input instance |
+|-------------------------:|:---------------------------------------------:|------------:|-----------:|------------------------------------------------:|:--------------:|
+|            ENTITY_DAMAGE |         Trigger when entity damaging          |         ALL |       true |                              ``ENTITY_DAMAGED`` | EntityType<*>  |
+|           ENTITY_DAMAGED |          Trigger when entity damaged          |         ALL |      false |                                               * | EntityType<*>  |
+|               ENTITY_DIE |           Trigger when entity dying           |         ALL |       true |                                 ``ENTITY_DEAD`` | EntityType<*>  |
+|              ENTITY_DIED |           Trigger when entity died            |         ALL |      false |                                               * | EntityType<*>  |
+|         ENTITY_TRY_SLEEP |      Trigger when entity trying to sleep      |      SERVER |       true |                            ``ENTITY_TRY_SLEEP`` | EntityType<*>  |
+|             ENTITY_SLEEP |      Trigger when entity start sleeping       |      SERVER |      false |                                               * | EntityType<*>  |
+|           ENTITY_WAKE_UP |     Trigger when entity trying to wake up     |         ALL |       true |                              ``ENTITY_WAKE_UP`` | EntityType<*>  |
+|          ENTITY_WAKED_UP |         Trigger when entity waked up          |         ALL |      false |                                               * | EntityType<*>  |
+|            ENTITY_SPRINT |  Trigger when entity trying to start sprint   |         ALL |       true | ``ENTITY_SPRINTING``  ``ENTITY_STOP_SPRINTING`` | EntityType<*>  |
+|         ENTITY_SPRINTING | Trigger in every ticks if entity is sprinting |         ALL |      false |                                                 | EntityType<*>  |
+|       ENTITY_STOP_SPRINT |   Trigger when entity trying to stop sprint   |         ALL |       true |                                                 | EntityType<*>  |
+|           ENTITY_ON_FIRE |          Trigger when entity on fire          |      SERVER |       true |                                               * | EntityType<*>  |
+|   ENTITY_EXTINGUISH_FIRE |    Trigger when entity fire extinguishing     |      SERVER |       true |                    ``ENTITY_EXTINGUISHED_FIRE`` | EntityType<*>  |
+| ENTITY_EXTINGUISHED_FIRE |     Trigger when entity fire extinguished     |      SERVER |      false |                                               * | EntityType<*>  |
 
 ### Block events
 

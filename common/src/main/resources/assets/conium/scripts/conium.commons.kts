@@ -42,7 +42,10 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ACTION_RESULT
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.VIEWER_COUNT_MANAGER
 
 // Events
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.RANDOM
+
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.SERVER_TICK
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.SERVER_RANDOM
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.SERVER_TICK_TAIL
 
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ITEM_USE_ON_BLOCK
@@ -66,6 +69,9 @@ import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_TRY
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_SLEEP
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_WAKE_UP
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_WAKED_UP
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_SPRINT
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_SPRINTING
+import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_STOP_SPRINT
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_ON_FIRE
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_EXTINGUISH_FIRE
 import com.github.cao.awa.conium.event.type.ConiumEventType.Companion.ENTITY_EXTINGUISHED_FIRE
