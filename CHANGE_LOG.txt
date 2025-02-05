@@ -1,0 +1,8 @@
+-- 1.0.0-alpha9
+
+Fix bug of unable to load bedrock APIs in typescript.
+Fix bug of always trigger fire extinguishing event and extinguished event when entity in rain.
+Use kotlin package indexes to import classes to script context.
+Upgrade structuring-translator version.
+Use static delegate and extend function to make minecraft methods and members remap to the meaningful name.
+
