@@ -16,7 +16,7 @@ open class BedrockWorld(private val delegate: World) : AbstractBedrockWorld() {
 }
 
 class DummyBedrockWorld : AbstractBedrockWorld() {
-    override fun getPlayers(): BedrockPlayerDelegate = TODO("Will not be implements")
+    override fun getPlayers(): BedrockPlayerDelegate = throw IllegalAccessException("The 'world' of current context are not initialized, cannot access methods and members")
 }
 
 fun World.toBedrock(): BedrockWorld =  BedrockWorld(this)

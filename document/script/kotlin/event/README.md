@@ -4,9 +4,9 @@
 
 ## Generic random task
 
-|    Key |                           Notes                           | Environment | Cancelable |    Cascade events | Input instance |
-|-------:|:---------------------------------------------------------:|------------:|-----------:|------------------:|:--------------:|
-| RANDOM | Trigger when random boolean rolled to true on server tick |      SERVER |       true | ``SERVER_RANDOM`` |      Unit      |
+|    Key |                                                      Notes                                                      | Environment | Cancelable |    Cascade events | Input instance |
+|-------:|:---------------------------------------------------------------------------------------------------------------:|------------:|-----------:|------------------:|:--------------:|
+| RANDOM | Trigger when random boolean rolled to true on server tick, need specifically access: ``ConiumEventType.RANDOM`` |      SERVER |       true | ``SERVER_RANDOM`` |      Unit      |
 
 ### Server events
 

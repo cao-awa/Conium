@@ -15,7 +15,6 @@ class BedrockScreenDisplayTitle(private var title: String, private var subtitle:
 
     fun setTitle(title: String, properties: BedrockScriptAnonymousObjectMap) {
         MinecraftClient.getInstance().inGameHud.let { inGameHud: InGameHud ->
-            inGameHud.setTitle(Text.of(title))
             properties["subtitle"]?.let {
                 inGameHud.setSubtitle(Text.of(it as String))
             }
@@ -26,6 +25,7 @@ class BedrockScreenDisplayTitle(private var title: String, private var subtitle:
                 arg("fadeOutDuration", Int::class.java),
             ).arising(UNIT, properties.toDynamicArgs()) { _: Any, fadeInTicks: Int, stayTicks: Int, fadeOutTicks: Int ->
                 inGameHud.setTitleTicks(fadeInTicks, stayTicks, fadeOutTicks)
+                inGameHud.setTitle(Text.of(title))
             }
         }
     }

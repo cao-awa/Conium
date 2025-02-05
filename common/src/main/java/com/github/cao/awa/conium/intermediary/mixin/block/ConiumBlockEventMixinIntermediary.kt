@@ -11,7 +11,6 @@ import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary
 import com.github.cao.awa.conium.kotlin.extent.block.invokeOnUse
 import com.github.cao.awa.conium.mixin.block.BlockItemMixin
 import com.github.cao.awa.conium.mixin.block.BlockStateMixin
-import net.minecraft.block.AbstractBlock.AbstractBlockState
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.LivingEntity
@@ -46,7 +45,7 @@ class ConiumBlockEventMixinIntermediary {
          * @since 1.0.0
          */
         @JvmStatic
-        fun fireBlockBreakingEvent(eventType: ConiumEventType<Block>, state: AbstractBlockState, world: World, player: PlayerEntity, pos: BlockPos): Boolean {
+        fun fireBlockBreakingEvent(eventType: ConiumEventType<Block>, state: BlockState, world: World, player: PlayerEntity, pos: BlockPos): Boolean {
             return ConiumEventMixinIntermediary.fireEventCancelable(
                 eventType,
                 state.block

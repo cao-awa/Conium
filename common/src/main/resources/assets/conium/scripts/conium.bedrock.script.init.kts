@@ -1,4 +1,5 @@
-import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
+import com.github.cao.awa.conium.bedrock.index.*
+import com.github.cao.awa.conium.script.index.*
 
 request(
     SERVER_TICK
