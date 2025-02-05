@@ -167,7 +167,6 @@ class ConiumEntityEventMixinIntermediary {
             // Only trigger event when fire ticks left at least 1.
             if (entity.fireTicks > 0) {
                 // This event cannot cancel because it is not the fire tick event, on fire event just a notice event.
-
                 fireEvent(
                     ConiumEventType.ENTITY_ON_FIRE,
                     entity.type
@@ -203,21 +202,25 @@ class ConiumEntityEventMixinIntermediary {
          */
         @JvmStatic
         fun fireExtinguishEvent(entity: Entity): Boolean {
-            // Only trigger event on server.
-            return entity.world is ServerWorld && fireCascadedEvent(
-                ConiumEventType.ENTITY_EXTINGUISH_FIRE,
-                ConiumEventType.ENTITY_EXTINGUISHED_FIRE,
-                entity.type,
-                { extinguishContext: ConiumEventContext<*> ->
-                    // Fill extinguish context args.
-                    extinguishContext[ConiumEventArgTypes.ENTITY] = entity
-                    extinguishContext[ConiumEventArgTypes.INT] = entity.fireTicks
-                },
-                { extinguishingContext: ConiumEventContext<*> ->
-                    // Fill extinguished context args.
-                    extinguishingContext[ConiumEventArgTypes.ENTITY] = entity
-                }
-            )
+            // Only trigger event when fire ticks left at least 1.
+            if (entity.fireTicks > 0) {
+                // Only trigger event on server.
+                return entity.world is ServerWorld && fireCascadedEvent(
+                    ConiumEventType.ENTITY_EXTINGUISH_FIRE,
+                    ConiumEventType.ENTITY_EXTINGUISHED_FIRE,
+                    entity.type,
+                    { extinguishContext: ConiumEventContext<*> ->
+                        // Fill extinguish context args.
+                        extinguishContext[ConiumEventArgTypes.ENTITY] = entity
+                        extinguishContext[ConiumEventArgTypes.INT] = entity.fireTicks
+                    },
+                    { extinguishingContext: ConiumEventContext<*> ->
+                        // Fill extinguished context args.
+                        extinguishingContext[ConiumEventArgTypes.ENTITY] = entity
+                    }
+                )
+            }
+            return false
         }
 
         /**

@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.bedrock.script
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
 import com.github.cao.awa.conium.parameter.DynamicArgType
-import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder.arg
+import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder.argThrowaway
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 @BedrockScriptApi
@@ -24,7 +24,7 @@ open class BedrockScriptAnonymousObjectMap : Iterable<MutableMap.MutableEntry<St
 fun BedrockScriptAnonymousObjectMap.toDynamicArgs(): MutableMap<DynamicArgType<*>, Any?> {
     val map: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
     for ((key: String, value: Any?) in this) {
-        map[arg(key, key.javaClass)] = value
+        map[argThrowaway(key, key.javaClass)] = value
     }
     return map
 }

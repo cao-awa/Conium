@@ -30,6 +30,8 @@
 |            toughness (armor) |               No impl                |                          Setting armor toughness                          |           double            |
 |          enchantable (armor) |               No impl                |                 Setting armor enchantable (Not completed)                 |             int             |
 |           force_mining_speed |               No impl                |  Force override the mining speed of item, ignored material mining speed   |            float            |
+|                       ignite |               No impl                |       Setting the item can ignite the entity when it used on entity       |             int             |
+|                 clear_ignite |               No impl                |      Setting the item can clear entity fires when it used on entity       |           boolean           |
 
 ## Blocks
 

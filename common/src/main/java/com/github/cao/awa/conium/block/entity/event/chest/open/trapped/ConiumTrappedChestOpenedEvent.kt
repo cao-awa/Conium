@@ -11,6 +11,7 @@ import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective6
 import net.minecraft.block.AbstractBlock.AbstractBlockState
 import net.minecraft.block.Block
+import net.minecraft.block.BlockState
 import net.minecraft.block.TrappedChestBlock
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.TrappedChestBlockEntity
@@ -62,7 +63,7 @@ class ConiumTrappedChestOpenedEvent : ConiumEvent<ParameterSelective6<Boolean, W
             world: World,
             player: PlayerEntity,
             blockEntity: BlockEntity,
-            blockState: AbstractBlockState,
+            blockState: BlockState,
             blockPos: BlockPos,
             viewerManager: ViewerCountManager ->
             val trappedContext: ConiumEventContext<*> = request(ConiumEventType.TRAPPED_CHEST_OPENED)

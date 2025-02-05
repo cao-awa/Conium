@@ -7,6 +7,7 @@ import com.github.cao.awa.conium.parameter.DynamicArgsBuilder.Companion.transfor
 import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder.arg
 import net.minecraft.block.AbstractBlock.AbstractBlockState
 import net.minecraft.block.Block
+import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.ViewerCountManager
 import net.minecraft.client.network.ClientPlayerEntity
@@ -91,7 +92,7 @@ object ConiumEventArgTypes {
     val SERVER_WORLD: DynamicArgType<ServerWorld>
 
     @JvmField
-    var CLIENT_WORLD: DynamicArgType<ClientWorld>
+    val CLIENT_WORLD: DynamicArgType<ClientWorld>
 
     @JvmField
     val BLOCK: DynamicArgType<Block>
@@ -106,7 +107,7 @@ object ConiumEventArgTypes {
     val C_BLOCK_ENTITY: DynamicArgType<ConiumBlockEntity>
 
     @JvmField
-    val BLOCK_STATE: DynamicArgType<AbstractBlockState>
+    val BLOCK_STATE: DynamicArgType<BlockState>
 
     @JvmField
     val FLUID_STATE: DynamicArgType<FluidState>

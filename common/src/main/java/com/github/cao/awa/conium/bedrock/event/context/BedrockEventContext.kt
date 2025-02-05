@@ -8,36 +8,36 @@ import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 abstract class BedrockEventContext(val scriptSource: Any) {
     companion object {
-        val system: BedrockSystem get() = this._system
+        val system: BedrockSystem get() = _system
         var _system: BedrockSystem = BedrockSystem()
         var currentPosting: Any? = null
         val contexts: MutableMap<Any, BedrockEventContext?> = CollectionFactor.hashMap()
 
         fun newSystem() {
-            this._system = BedrockSystem()
+            _system = BedrockSystem()
         }
 
         @JvmStatic
         fun post(scriptSource: Any, body: () -> Unit) {
-            this.currentPosting = scriptSource
+            currentPosting = scriptSource
             body()
         }
 
         fun completePost() {
-            this.currentPosting = null
+            currentPosting = null
         }
 
         fun request(body: () -> Unit) = body()
 
         fun clearContext(scriptSource: Any) {
-            this.contexts[scriptSource] = null
+            contexts[scriptSource] = null
         }
 
         @JvmStatic
-        fun accessWorld(scriptSource: Any): AbstractBedrockWorld = this.contexts[scriptSource]?.world ?: BedrockWorld.DUMMY
+        fun accessWorld(scriptSource: Any): AbstractBedrockWorld = contexts[scriptSource]?.world ?: BedrockWorld.DUMMY
 
         @JvmStatic
-        fun accessSystem(): AbstractBedrockSystem = this.system
+        fun accessSystem(): AbstractBedrockSystem = system
     }
 
     private val world: AbstractBedrockWorld get() = world()

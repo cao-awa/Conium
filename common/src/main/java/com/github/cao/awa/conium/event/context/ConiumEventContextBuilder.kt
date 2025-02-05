@@ -333,7 +333,7 @@ object ConiumEventContextBuilder {
     @JvmStatic
     fun <I : Any> preRequest(
         eventType: ConiumEventType<I>,
-        presaging: ParameterSelective1<Boolean, I> = ParameterSelective1 { _ -> true }
+        presaging: ParameterSelective1<Boolean, I> = ParameterSelective1 { true }
     ): ConiumEventContext<ParameterSelective1<Boolean, Any>> {
         return forever(
             eventType,
@@ -405,7 +405,7 @@ object ConiumEventContextBuilder {
     @JvmStatic
     fun <I : Any> request(
         eventType: ConiumEventType<I>,
-        arising: ParameterSelective1<Boolean, I> = ParameterSelective1 { _ -> true }
+        arising: ParameterSelective1<Boolean, I> = ParameterSelective1 { true }
     ): ConiumEventContext<ParameterSelective1<Boolean, Any>> {
         return forever(
             eventType,
@@ -478,8 +478,8 @@ object ConiumEventContextBuilder {
     @JvmStatic
     fun <I : Any> request(
         eventType: ConiumEventType<I>,
-        arising: ParameterSelective1<Boolean, I> = ParameterSelective1 { _ -> true },
-        presaging: ParameterSelective1<Boolean, I> = ParameterSelective1 { _ -> true },
+        arising: ParameterSelective1<Boolean, I> = ParameterSelective1 { true },
+        presaging: ParameterSelective1<Boolean, I> = ParameterSelective1 { true },
     ): ConiumEventContext<ParameterSelective1<Boolean, Any>> {
         return forever(
             eventType,
