@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.bedrock.world
 
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
-import com.github.cao.awa.conium.bedrock.world.player.delegate.BedrockPlayerDelegate
+import com.github.cao.awa.conium.bedrock.entity.player.delegate.BedrockPlayerDelegate
 import net.minecraft.world.World
 
 @BedrockScriptApi

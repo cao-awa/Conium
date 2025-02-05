@@ -37,8 +37,11 @@ public abstract class EntityMixin implements SprintMovementEntity {
     @Shadow
     protected abstract void setFlag(int index, boolean value);
 
-    @Shadow public abstract World getWorld();
+    @Shadow
+    public abstract World getWorld();
 
+    @Shadow
+    private int fireTicks;
     @Unique
     public boolean conium$canStartSprint = true;
 
@@ -92,15 +95,17 @@ public abstract class EntityMixin implements SprintMovementEntity {
      * @since 1.0.0
      */
     @Inject(
-            method = "extinguish",
+            method = "setFireTicks",
             at = @At("HEAD"),
             cancellable = true
     )
-    public void onExtinguish(CallbackInfo ci) {
-        // Trigger entity fire extinguish event.
-        if (ConiumEntityEventMixinIntermediary.fireExtinguishEvent(Manipulate.cast(this))) {
-            // Cancel this event when presaging was rejected the event.
-            ci.cancel();
+    public void onExtinguish(int newFireTicks, CallbackInfo ci) {
+        if (this.fireTicks > 0 && newFireTicks <= 0) {
+            // Trigger entity fire extinguish event.
+            if (ConiumEntityEventMixinIntermediary.fireExtinguishEvent(Manipulate.cast(this))) {
+                // Cancel this event when presaging was rejected the event.
+                ci.cancel();
+            }
         }
     }
 

@@ -13,7 +13,7 @@
 |              Key |                           Notes                           | Environment | Cancelable |  Cascade events | Input instance  |
 |-----------------:|:---------------------------------------------------------:|------------:|-----------:|----------------:|:---------------:|
 |      SERVER_TICK |               Trigger in every server tick                |      SERVER |      false | Too many events | MinecraftServer |
-|    SERVER_RANDOM | Trigger when random boolean rolled to true on server tick |      SERVER |      false |                 | MinecraftServer |
+|    SERVER_RANDOM | Trigger when random boolean rolled to true on server tick |      SERVER |      false |               * | MinecraftServer |
 | SERVER_TICK_TAIL |          Trigger in every server tick completed           |      SERVER |      false |               * | MinecraftServer |
 
 ### Item events
@@ -44,8 +44,8 @@
 |           ENTITY_WAKE_UP |     Trigger when entity trying to wake up     |         ALL |       true |                              ``ENTITY_WAKE_UP`` | EntityType<*>  |
 |          ENTITY_WAKED_UP |         Trigger when entity waked up          |         ALL |      false |                                               * | EntityType<*>  |
 |            ENTITY_SPRINT |  Trigger when entity trying to start sprint   |         ALL |       true | ``ENTITY_SPRINTING``  ``ENTITY_STOP_SPRINTING`` | EntityType<*>  |
-|         ENTITY_SPRINTING | Trigger in every ticks if entity is sprinting |         ALL |      false |                                                 | EntityType<*>  |
-|       ENTITY_STOP_SPRINT |   Trigger when entity trying to stop sprint   |         ALL |       true |                                                 | EntityType<*>  |
+|         ENTITY_SPRINTING | Trigger in every ticks if entity is sprinting |         ALL |      false |                                               * | EntityType<*>  |
+|       ENTITY_STOP_SPRINT |   Trigger when entity trying to stop sprint   |         ALL |       true |                                               * | EntityType<*>  |
 |           ENTITY_ON_FIRE |          Trigger when entity on fire          |      SERVER |       true |                                               * | EntityType<*>  |
 |   ENTITY_EXTINGUISH_FIRE |    Trigger when entity fire extinguishing     |      SERVER |       true |                    ``ENTITY_EXTINGUISHED_FIRE`` | EntityType<*>  |
 | ENTITY_EXTINGUISHED_FIRE |     Trigger when entity fire extinguished     |      SERVER |      false |                                               * | EntityType<*>  |

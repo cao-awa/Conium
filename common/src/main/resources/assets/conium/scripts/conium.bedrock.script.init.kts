@@ -1,4 +1,4 @@
-BedrockEventContext.newSystem()
+import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
 
 request(
     SERVER_TICK

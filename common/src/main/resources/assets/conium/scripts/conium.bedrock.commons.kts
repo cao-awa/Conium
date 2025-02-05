@@ -3,9 +3,9 @@ import com.github.cao.awa.conium.bedrock.system.AbstractBedrockSystem
 import com.github.cao.awa.conium.bedrock.script.BedrockScriptAnonymousObjectMap
 
 import com.github.cao.awa.conium.bedrock.world.AbstractBedrockWorld
-import com.github.cao.awa.conium.bedrock.world.player.BedrockPlayer
-import com.github.cao.awa.conium.bedrock.world.player.delegate.BedrockPlayerDelegate
-import com.github.cao.awa.conium.bedrock.world.player.screen.BedrockOnScreenDisplay
+import com.github.cao.awa.conium.bedrock.entity.player.BedrockPlayer
+import com.github.cao.awa.conium.bedrock.entity.player.delegate.BedrockPlayerDelegate
+import com.github.cao.awa.conium.bedrock.entity.player.screen.BedrockOnScreenDisplay
 
 import com.github.cao.awa.conium.bedrock.item.stack.BedrockItemStack
 
