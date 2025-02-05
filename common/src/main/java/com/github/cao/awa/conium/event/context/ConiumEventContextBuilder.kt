@@ -3480,11 +3480,49 @@ object ConiumEventContextBuilder {
     }
 
     /**
+     * Make an unnamed event context that receiving the event context source, it should manually attach to the events that need to attach.
+     *
+     * The context lifecycle only related to the lifecycle of its attached event context.
+     *
+     * @param arising The callback to handle the event context source
+     *
+     * @see ConiumEvent
+     * @see ConiumEventContext
+     * @see DynamicArgs
+     * @see DynamicArgType
+     * @see ConiumEventArgTypes
+     * @see DynamicArgsLifecycle
+     *
+     * @return The context instance with [UNNAMED][DynamicArgsLifecycle.UNNAMED] lifecycle.
+     *
+     * @author cao_awa
+     * @author 草二号机
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    fun unnamed(
+        arising: (Any, ConiumEventContext<*>) -> Unit
+    ): ConiumEventContext<ParameterSelective1<Boolean, Any>> {
+        return ConiumEventContext(
+            // Require a no argument dynamic args and contract to unnamed lifecycle.
+            DynamicArgsBuilder.requires(true).lifecycle(DynamicArgsLifecycle.UNNAMED)
+        ).apply {
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any ->
+                arising(i, this)
+                true
+            }
+        }
+    }
+
+    /**
      * Make an unnamed event context with no arguments, it should manually attach to the events that need to attach.
      *
      * The context lifecycle only related to the lifecycle of its attached event context.
      *
      * @param R The result type of the parameter selective
+     * @param arising The arising trigger
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -3493,9 +3531,6 @@ object ConiumEventContextBuilder {
      * @see ConiumEventArgTypes
      * @see ParameterSelective
      * @see DynamicArgsLifecycle
-     * @see NamedInteractionScript
-     * @see ConiumScriptManager.acquire
-     * @see ConiumScriptManager.acquireResult
      *
      * @return The context instance with [UNNAMED][DynamicArgsLifecycle.UNNAMED] lifecycle.
      *
@@ -3527,7 +3562,7 @@ object ConiumEventContextBuilder {
      *
      * @param P1 Type of first parameter
      * @param arg1 The first parameter that will be input to the parameter selective instance
-     * @param arising The arising trigger, default is always successes
+     * @param arising The arising trigger
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -3536,9 +3571,6 @@ object ConiumEventContextBuilder {
      * @see ConiumEventArgTypes
      * @see ParameterSelective
      * @see DynamicArgsLifecycle
-     * @see NamedInteractionScript
-     * @see ConiumScriptManager.acquire
-     * @see ConiumScriptManager.acquireResult
      *
      * @return The context instance with [UNNAMED][DynamicArgsLifecycle.UNNAMED] lifecycle.
      *
@@ -3573,7 +3605,7 @@ object ConiumEventContextBuilder {
      * @param arg1 The first parameter that will be input to the parameter selective instance
      * @param P2 Type of second parameter
      * @param arg2 The second parameter that will be input to the parameter selective instance
-     * @param arising The arising trigger, default is always successes
+     * @param arising The arising trigger
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -3582,9 +3614,6 @@ object ConiumEventContextBuilder {
      * @see ConiumEventArgTypes
      * @see ParameterSelective
      * @see DynamicArgsLifecycle
-     * @see NamedInteractionScript
-     * @see ConiumScriptManager.acquire
-     * @see ConiumScriptManager.acquireResult
      *
      * @return The context instance with [UNNAMED][DynamicArgsLifecycle.UNNAMED] lifecycle.
      *
@@ -3622,7 +3651,7 @@ object ConiumEventContextBuilder {
      * @param arg2 The second parameter that will be input to the parameter selective instance
      * @param P3 Type of third parameter
      * @param arg3 The third parameter that will be input to the parameter selective instance
-     * @param arising The arising trigger, default is always successes
+     * @param arising The arising trigger
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -3631,9 +3660,6 @@ object ConiumEventContextBuilder {
      * @see ConiumEventArgTypes
      * @see ParameterSelective
      * @see DynamicArgsLifecycle
-     * @see NamedInteractionScript
-     * @see ConiumScriptManager.acquire
-     * @see ConiumScriptManager.acquireResult
      *
      * @return The context instance with [UNNAMED][DynamicArgsLifecycle.UNNAMED] lifecycle.
      *
@@ -3674,7 +3700,7 @@ object ConiumEventContextBuilder {
      * @param arg3 The third parameter that will be input to the parameter selective instance
      * @param P4 Type of fourth parameter
      * @param arg4 The fourth parameter that will be input to the parameter selective instance
-     * @param arising The arising trigger, default is always successes
+     * @param arising The arising trigger
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -3683,9 +3709,6 @@ object ConiumEventContextBuilder {
      * @see ConiumEventArgTypes
      * @see ParameterSelective
      * @see DynamicArgsLifecycle
-     * @see NamedInteractionScript
-     * @see ConiumScriptManager.acquire
-     * @see ConiumScriptManager.acquireResult
      *
      * @return The context instance with [UNNAMED][DynamicArgsLifecycle.UNNAMED] lifecycle.
      *
@@ -3729,7 +3752,7 @@ object ConiumEventContextBuilder {
      * @param arg4 The fourth parameter that will be input to the parameter selective instance
      * @param P5 Type of fifth parameter
      * @param arg5 The fifth parameter that will be input to the parameter selective instance
-     * @param arising The arising trigger, default is always successes
+     * @param arising The arising trigger
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -3738,9 +3761,6 @@ object ConiumEventContextBuilder {
      * @see ConiumEventArgTypes
      * @see ParameterSelective
      * @see DynamicArgsLifecycle
-     * @see NamedInteractionScript
-     * @see ConiumScriptManager.acquire
-     * @see ConiumScriptManager.acquireResult
      *
      * @return The context instance with [UNNAMED][DynamicArgsLifecycle.UNNAMED] lifecycle.
      *
@@ -3787,7 +3807,7 @@ object ConiumEventContextBuilder {
      * @param arg5 The fifth parameter that will be input to the parameter selective instance
      * @param P6 Type of sixth parameter
      * @param arg6 The sixth parameter that will be input to the parameter selective instance
-     * @param arising The arising trigger, default is always successes
+     * @param arising The arising trigger
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -3796,9 +3816,6 @@ object ConiumEventContextBuilder {
      * @see ConiumEventArgTypes
      * @see ParameterSelective
      * @see DynamicArgsLifecycle
-     * @see NamedInteractionScript
-     * @see ConiumScriptManager.acquire
-     * @see ConiumScriptManager.acquireResult
      *
      * @return The context instance with [UNNAMED][DynamicArgsLifecycle.UNNAMED] lifecycle.
      *
@@ -3848,7 +3865,7 @@ object ConiumEventContextBuilder {
      * @param arg6 The sixth parameter that will be input to the parameter selective instance
      * @param P7 Type of seventh parameter
      * @param arg7 The seventh parameter that will be input to the parameter selective instance
-     * @param arising The arising trigger, default is always successes
+     * @param arising The arising trigger
      *
      * @see ConiumEvent
      * @see ConiumEventContext
@@ -3857,9 +3874,6 @@ object ConiumEventContextBuilder {
      * @see ConiumEventArgTypes
      * @see ParameterSelective
      * @see DynamicArgsLifecycle
-     * @see NamedInteractionScript
-     * @see ConiumScriptManager.acquire
-     * @see ConiumScriptManager.acquireResult
      *
      * @return The context instance with [UNNAMED][DynamicArgsLifecycle.UNNAMED] lifecycle.
      *

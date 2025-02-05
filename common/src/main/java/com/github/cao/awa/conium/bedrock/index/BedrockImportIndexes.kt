@@ -21,7 +21,7 @@ import com.github.cao.awa.conium.bedrock.entity.player.screen.BedrockOnScreenDis
 // Event.
 import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
 import com.github.cao.awa.conium.bedrock.event.before.item.use.BedrockItemUseOnBeforeEvent
-import com.github.cao.awa.conium.bedrock.event.before.context.item.use.BedrockItemUseOnEventContext
+import com.github.cao.awa.conium.bedrock.event.context.item.use.BedrockItemUseOnEventContext
 
 // Item.
 import com.github.cao.awa.conium.bedrock.item.stack.BedrockItemStack
