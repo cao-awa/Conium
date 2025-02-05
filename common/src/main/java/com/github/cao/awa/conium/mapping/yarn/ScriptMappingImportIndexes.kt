@@ -79,7 +79,7 @@ import net.minecraft.fluid.FluidState
 
 // net.minecraft.item
 import net.minecraft.item.Item
-import net.minecraft.item.Items
+import com.github.cao.awa.conium.mapping.yarn.reference.YarnItems /* Static delegate of 'net.minecraft.item.Items' */
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemUsageContext
@@ -197,7 +197,7 @@ typealias FluidState = FluidState
 
 // net.minecraft.item
 typealias Item = Item
-typealias Items = Items
+typealias Items = YarnItems
 typealias ItemStack = ItemStack
 typealias ItemPlacementContext = ItemPlacementContext
 typealias ItemUsageContext = ItemUsageContext
