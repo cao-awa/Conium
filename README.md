@@ -124,32 +124,3 @@ If it is not necessary, avoid directly reading source codes.
 Conium will randomly roll a [Hitokoto](https://en.wiktionary.org/wiki/%E4%B8%80%E8%A8%80#Japanese) in console every time launching, the list of Hitokotos receives pull requests, only allow in English and Japanese, don't take other languages, don't accept nonsense sentences.
 
 For the list, see [ConiumHitokoto.kt](/common/src/main/java/com/github/cao/awa/conium/hitokoto/ConiumHitokoto.kt).
-
-We can see the [item](https://github.com/cao-awa/Conium/tree/main/document/data-driven/conium#items) has lots of templates could we to use.
-
-For example, if a schema key suffix follows the brace, then mean it is the child of this template, like this:
-
-|            Conium schema key |         Bedrock schema impls         |                                   Notes                                   |         Value type          |
-|-----------------------------:|:------------------------------------:|:-------------------------------------------------------------------------:|:---------------------------:|
-|                         tool |                  *                   |                          Make the item be a tool                          |         Tool object         |
-|         attack_damage (tool) |           minecraft:damage           |                  Setting tool damage amount to entities                   |            float            |
-|          attack_speed (tool) |               No impl                |                 Setting tool attack speed (the cooldown)                  |            float            |
-|            durability (tool) |         minecraft:durability         |                          Setting tool durability                          |             int             |
-
-The ``attack_damage``, ``attack_speed`` and ``durability`` is the child of template ``tool``, write like this:
-
-```json5
-{
-  "templates": {
-    // The tool template.
-    "tool": {
-      // Those keys are the child of template 'tool'. 
-      "attack_damage": 10.0,
-      "attack_speed": -3.0,
-      "durability": 50
-    }
-  }
-}
-```
-
-``to be continued``
