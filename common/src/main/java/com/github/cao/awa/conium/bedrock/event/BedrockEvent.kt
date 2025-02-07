@@ -54,6 +54,7 @@ abstract class BedrockEvent<E: BedrockEventContext>(private val targetEvent: Con
         ).also(this.subscribers::add)
     }
 
+    @BedrockScriptApi
     @BedrockScriptApiFacade("*EventSignal", "unsubscribe")
     fun unsubscribe(context: Any) = this.subscribers.removeIf { it == context }
 
