@@ -108,6 +108,16 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.EntityAttachments
 
+// net.minecraft.entity.effect
+import net.minecraft.entity.effect.StatusEffect
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
+import net.minecraft.entity.effect.StatusEffectUtil
+import net.minecraft.entity.effect.PoisonStatusEffect
+import net.minecraft.entity.effect.InstantStatusEffect
+import net.minecraft.entity.effect.StatusEffectCategory
+import net.minecraft.entity.effect.WitherStatusEffect
+
 // net.minecraft.entity.ai
 // net.minecraft.entity.ai.brain
 import net.minecraft.entity.ai.brain.Brain
@@ -330,6 +340,16 @@ typealias EnderChestInventory = EnderChestInventory
 typealias Entity = Entity
 typealias LivingEntity = LivingEntity
 typealias EntityAttachments = EntityAttachments
+
+// net.minecraft.entity.effect
+typealias StatusEffect = StatusEffect
+typealias StatusEffectInstance = StatusEffectInstance
+typealias StatusEffects = StatusEffects
+typealias StatusEffectUtil = StatusEffectUtil
+typealias PoisonStatusEffect = PoisonStatusEffect
+typealias InstantStatusEffect = InstantStatusEffect
+typealias StatusEffectCategory = StatusEffectCategory
+typealias WitherStatusEffect = WitherStatusEffect
 
 // net.minecraft.entity.ai
 // net.minecraft.entity.ai.brain
