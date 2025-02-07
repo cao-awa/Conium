@@ -1,5 +1,62 @@
+@file:Suppress("unused")
+
 package com.github.cao.awa.conium.bedrock.event
 
-open class BedrockEvent {
+import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
+import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
+import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
+import com.github.cao.awa.conium.event.ConiumEvent
+import com.github.cao.awa.conium.event.context.ConiumEventContext
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
+import com.github.cao.awa.conium.event.type.ConiumEventType
+import com.github.cao.awa.conium.parameter.ParameterSelective1
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
+abstract class BedrockEvent<E: BedrockEventContext>(private val targetEvent: ConiumEventType<*>) {
+    private val subscribers: MutableList<ConiumEventContext<*>> = CollectionFactor.arrayList()
+
+    /**
+     * Init the bedrock event instance, attaching to target conium event and trigger the subscribers.
+     *
+     * @author cao_awa
+     * @author 草二号机
+     *
+     * @since 1.0.0
+     */
+    init {
+        // Attach bedrock event instance to conium event.
+        ConiumEvent.forever(
+            this.targetEvent,
+            // Use unnamed context attaching.
+            ConiumEventContextBuilder.unnamed { i: Any, context: ConiumEventContext<*> ->
+                // Process all subscribers.
+                this.subscribers.forEach { subscriber: ConiumEventContext<*> ->
+                    // Let subscriber inherit the event context from the conium event system.
+                    subscriber.inherit(context)
+
+                    // Trigger subscribe arising.
+                    // The unnamed context also used dynamic args to transform args.
+                    // For more details, read some 'createUnnamed' implements.
+                    subscriber.arising(i)
+                }
+            }
+        )
+    }
+
+    @BedrockScriptApi
+    @BedrockScriptApiFacade("*EventSignal", "subscribe")
+    fun subscribe(action: ParameterSelective1<Unit, E>): Any {
+        // When subscribe to event, using unnamed context and put to the subscriber list instead of to request conium event.
+        // The event cannot unsubscribe if request to conium event because conium event using 'forever' lifecycle for all requesting contexts.
+        return createUnnamed(
+            action,
+            BedrockEventContext.currentPosting!!
+        ).also(this.subscribers::add)
+    }
+
+    @BedrockScriptApi
+    @BedrockScriptApiFacade("*EventSignal", "unsubscribe")
+    fun unsubscribe(context: Any) = this.subscribers.removeIf { it == context }
+
+    abstract fun createUnnamed(action: ParameterSelective1<Unit, E>, scriptSource: Any): ConiumEventContext<*>
 }

@@ -1,4 +1,5 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "unchecked_cast")
+
 package com.github.cao.awa.conium.event.context
 
 import com.github.cao.awa.conium.event.ConiumEvent
@@ -45,7 +46,6 @@ class ConiumEventContext<P : ParameterSelective?>(
         return this
     }
 
-    @Suppress("unchecked_cast")
     fun <X : Any> targetTo(predicate: (X) -> Boolean): ConiumEventContext<P> {
         this.targetedIdentity = ParameterSelective1 {
             Manipulate.supplyLater {

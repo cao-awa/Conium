@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.bedrock.event.before.context.item.use
+package com.github.cao.awa.conium.bedrock.event.context.item.use
 
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade

@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.bedrock.event.before.item.use
+package com.github.cao.awa.conium.bedrock.event.after.item.use
 
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
@@ -16,7 +16,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemUseOnBeforeEventSignal")
-class BedrockItemUseOnBeforeEvent: BedrockEvent<BedrockItemUseOnEventContext>(ConiumEventType.ITEM_USE_ON_BLOCK) {
+class BedrockItemUseOnAfterEvent: BedrockEvent<BedrockItemUseOnEventContext>(ConiumEventType.ITEM_USED_ON_BLOCK) {
     override fun createUnnamed(action: ParameterSelective1<Unit, BedrockItemUseOnEventContext>, scriptSource: Any): ConiumEventContext<*> {
         return ConiumEventContextBuilder.unnamed(
             ConiumEventArgTypes.ITEM_USAGE_CONTEXT,

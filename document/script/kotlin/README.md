@@ -55,6 +55,8 @@ preRequest(
 ```
 
 ## Reference type
+> See main article: [Reference type](/document/script/kotlin/reference/README.md)
+
 Cause by minecraft obfuscation and class name mapping, kotlin scripts cannot import minecraft class like ```import net.minecraft.block.*``` or other, so conium mapping some useful classes to script context.
 
 The kotlin script can use that class with name, don't import any minecraft class manually!  

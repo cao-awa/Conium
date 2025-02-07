@@ -1,10 +1,12 @@
 package com.github.cao.awa.conium.bedrock.world
 
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
+import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
 import com.github.cao.awa.conium.bedrock.entity.player.delegate.BedrockPlayerDelegate
 import net.minecraft.world.World
 
 @BedrockScriptApi
+@BedrockScriptApiFacade("World")
 open class BedrockWorld(private val delegate: World) : AbstractBedrockWorld() {
     companion object {
         val DUMMY: DummyBedrockWorld = DummyBedrockWorld()
