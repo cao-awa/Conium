@@ -66,11 +66,15 @@ import net.minecraft.registry.tag.TagEntry
 import net.minecraft.registry.tag.TagFile
 import net.minecraft.registry.tag.WorldPresetTags
 
+// net.minecraft.loot
+import net.minecraft.loot.LootTable
+
 // net.minecraft.block
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.block.BlockState
+import net.minecraft.block.MapColor
 import net.minecraft.block.Waterloggable
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.InventoryProvider
@@ -196,6 +200,9 @@ import net.minecraft.server.network.ServerPlayerInteractionManager
 // net.minecraft.stat
 import net.minecraft.stat.ServerStatHandler
 
+// net.minecraft.state
+import net.minecraft.state.StateManager
+
 // net.minecraft.text
 import net.minecraft.text.Text
 
@@ -229,6 +236,35 @@ import net.minecraft.world.World
 
 // net.minecraft.world.tick
 import net.minecraft.world.tick.ScheduledTickView
+
+// net.minecraft.component
+import net.minecraft.component.ComponentMap
+import net.minecraft.component.Component
+import net.minecraft.component.ComponentType
+import net.minecraft.component.ComponentHolder
+import net.minecraft.component.MergedComponentMap
+import net.minecraft.component.ComponentChanges
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.EnchantmentEffectComponentTypes
+
+// net.minecraft.resource
+// net.minecraft.resource.featuretoggle
+import net.minecraft.resource.featuretoggle.FeatureSet
+import net.minecraft.resource.featuretoggle.FeatureFlag
+import net.minecraft.resource.featuretoggle.FeatureFlags
+import net.minecraft.resource.featuretoggle.FeatureManager
+import net.minecraft.resource.featuretoggle.FeatureUniverse
+import net.minecraft.resource.featuretoggle.ToggleableFeature
+
+// net.minecraft.sound
+import net.minecraft.sound.SoundEvent
+import net.minecraft.sound.MusicSound
+import net.minecraft.sound.SoundEvents
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.BiomeMoodSound
+import net.minecraft.sound.BiomeAdditionsSound
+import net.minecraft.sound.BlockSoundGroup
+import net.minecraft.sound.MusicType
 
 // ----------
 
@@ -299,11 +335,15 @@ typealias TagEntry = TagEntry
 typealias TagFile = TagFile
 typealias WorldPresetTags = WorldPresetTags
 
+// net.minecraft.loot
+typealias LootTable = LootTable
+
 // net.minecraft.block
 typealias AbstractBlock = AbstractBlock
 typealias Block = Block
 typealias Blocks = Blocks
 typealias BlockState = BlockState
+typealias MapColor = MapColor
 typealias Waterloggable = Waterloggable
 typealias BlockEntityProvider = BlockEntityProvider
 typealias InventoryProvider = InventoryProvider
@@ -450,8 +490,40 @@ typealias World = World
 // net.minecraft.world.tick
 typealias ScheduledTickView = ScheduledTickView
 
+// net.minecraft.component
+typealias ComponentMap = ComponentMap
+typealias Component<T> = Component<T>
+typealias ComponentType<T> = ComponentType<T>
+typealias ComponentHolder = ComponentHolder
+typealias MergedComponentMap = MergedComponentMap
+typealias ComponentChanges = ComponentChanges
+typealias DataComponentTypes = DataComponentTypes
+typealias EnchantmentEffectComponentTypes = EnchantmentEffectComponentTypes
+
+// net.minecraft.resource
+// net.minecraft.resource.featuretoggle
+typealias FeatureSet = FeatureSet
+typealias FeatureFlag = FeatureFlag
+typealias FeatureFlags = FeatureFlags
+typealias FeatureManager = FeatureManager
+typealias FeatureUniverse = FeatureUniverse
+typealias ToggleableFeature = ToggleableFeature
+
+// net.minecraft.sound
+typealias SoundEvent = SoundEvent
+typealias MusicSound = MusicSound
+typealias SoundEvents = SoundEvents
+typealias SoundCategory = SoundCategory
+typealias BiomeMoodSound = BiomeMoodSound
+typealias BiomeAdditionsSound = BiomeAdditionsSound
+typealias BlockSoundGroup = BlockSoundGroup
+typealias MusicType = MusicType
+
 // net.minecraft.stat
 typealias ServerStatHandler = ServerStatHandler
+
+// net.minecraft.state
+typealias StateManager<O, S> = StateManager<O, S>
 
 // net.minecraft.recipe.book
 typealias RecipeBook = RecipeBook
