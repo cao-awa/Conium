@@ -41,7 +41,7 @@ class ConiumEventContext<P : ParameterSelective?>(
 
     private var targetedIdentity: ParameterSelective1<Boolean, Any> = ParameterSelective1 { true }
 
-    var enabled: Boolean = true;
+    var enabled: Boolean = true
 
     fun target(target: Any): ConiumEventContext<P> {
         this.targetedIdentity = ParameterSelective1 { it === target }
