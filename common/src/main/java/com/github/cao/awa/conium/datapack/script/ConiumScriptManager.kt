@@ -27,6 +27,7 @@ import net.minecraft.util.profiler.Profiler
 import org.antlr.v4.runtime.*
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+import java.io.File
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultValue
 import kotlin.script.experimental.api.ResultWithDiagnostics
@@ -206,14 +207,26 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
                     } else if (path.endsWith(".ts")) {
                         // Load script data after translate typescript to kotlin.
                         runCatching {
-                            scripts.add(
-                                ScriptEval(
-                                    translateBedrockTypescript(content),
-                                    path,
-                                    "ConiumCommons",
-                                    "ConiumBedrockCommons"
+                            translateBedrockTypescript(content).also { translated: String ->
+                                if (Conium.enableDebugs) {
+                                    IOUtil.write(
+                                        File("conium-debug/translated/${identifier.namespace}/${identifier.path}.kts").also {
+                                            it.parentFile.mkdirs()
+                                            println(it.absolutePath)
+                                        }.also(File::createNewFile).writer(),
+                                        translated
+                                    )
+                                }
+                            }.let { translated: String ->
+                                scripts.add(
+                                    ScriptEval(
+                                        translated,
+                                        path,
+                                        "ConiumCommons",
+                                        "ConiumBedrockCommons"
+                                    )
                                 )
-                            )
+                            }
                         }.exceptionOrNull()?.let {
                             LOGGER.warn("Failed to translate the script: {}", content, it)
                         }
