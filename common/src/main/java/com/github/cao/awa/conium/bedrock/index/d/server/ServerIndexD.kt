@@ -1,6 +1,6 @@
-package com.github.cao.awa.conium.bedrock.server
+package com.github.cao.awa.conium.bedrock.index.d.server
 
-import com.github.cao.awa.conium.bedrock.IndexD
+import com.github.cao.awa.conium.bedrock.index.d.IndexD
 import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import org.apache.logging.log4j.LogManager
@@ -20,7 +20,7 @@ class ServerIndexD : IndexD() {
         if (ref != null) {
             action.accept(ref)
         } else {
-            LOGGER.warn("The reference name '{}' are not found in conium ServerIndexD(@minecraft/server), ignored", refName)
+            LOGGER.warn("The reference name '{}' are not importable or not found in conium ServerIndexD(@minecraft/server), ignored", refName)
         }
     }
 }

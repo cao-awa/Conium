@@ -8,7 +8,9 @@ import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
 import com.github.cao.awa.conium.bedrock.item.stack.BedrockItemStack
 import com.github.cao.awa.conium.bedrock.item.stack.toBedrock
 import com.github.cao.awa.conium.bedrock.world.BedrockWorld
-import com.github.cao.awa.conium.bedrock.world.toBedrock
+import com.github.cao.awa.conium.bedrock.world.dimension.BedrockDimension
+import com.github.cao.awa.conium.bedrock.world.dimension.bedrock
+import com.github.cao.awa.conium.bedrock.world.bedrock
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -16,6 +18,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 @BedrockScriptApiFacade("ItemUseOnBeforeEvent", "ItemUseOnAfterEvent")
 class BedrockItemUseOnEventContext(
     scriptSource: Any,
+    val dimension: BedrockDimension,
     val world: BedrockWorld,
     val itemStack: BedrockItemStack,
     val source: BedrockPlayer
@@ -28,7 +31,8 @@ class BedrockItemUseOnEventContext(
 fun ItemUsageContext.toBedrock(scriptSource: Any, source: ServerPlayerEntity): BedrockItemUseOnEventContext {
     val context = BedrockItemUseOnEventContext(
         scriptSource,
-        this.world.toBedrock(),
+        this.world.bedrock,
+        this.world.server!!.bedrock,
         this.stack.toBedrock(),
         source.toBedrock()
     )
