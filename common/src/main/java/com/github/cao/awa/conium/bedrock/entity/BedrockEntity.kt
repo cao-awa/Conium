@@ -2,9 +2,12 @@ package com.github.cao.awa.conium.bedrock.entity
 
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
+import com.github.cao.awa.conium.annotation.script.javascript.ScriptReadonly
 import com.github.cao.awa.conium.bedrock.block.state.bedrock
 import com.github.cao.awa.conium.bedrock.raycast.hit.BlockRaycastHit
 import com.github.cao.awa.conium.bedrock.script.BedrockScriptAnonymousObjectMap
+import com.github.cao.awa.conium.bedrock.world.dimension.BedrockDimension
+import com.github.cao.awa.conium.bedrock.world.dimension.bedrock
 import com.github.cao.awa.conium.kotlin.extent.innate.int
 import com.github.cao.awa.conium.kotlin.extent.innate.orGetAuto
 import com.github.cao.awa.conium.kotlin.extent.world.executeCommand
@@ -18,13 +21,18 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("Entity")
 open class BedrockEntity(private val delegate: Entity) {
     companion object {
-        private val LOGGER = LogManager.getLogger("BedrockEntity")
+        private val LOGGER: Logger = LogManager.getLogger("BedrockEntity")
     }
+
+    @ScriptReadonly
+    @BedrockScriptApiFacade("Entity", "#dimension")
+    val dimension: BedrockDimension = this.delegate.world.bedrock
 
     @BedrockScriptApiFacade("Entity", "teleport")
     fun teleport(location: BedrockScriptAnonymousObjectMap, teleportOption: BedrockScriptAnonymousObjectMap) {
