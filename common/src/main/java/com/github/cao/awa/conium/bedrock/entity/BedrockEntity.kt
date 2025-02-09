@@ -7,7 +7,7 @@ import com.github.cao.awa.conium.bedrock.block.state.bedrock
 import com.github.cao.awa.conium.bedrock.raycast.hit.BlockRaycastHit
 import com.github.cao.awa.conium.bedrock.script.BedrockScriptAnonymousObjectMap
 import com.github.cao.awa.conium.bedrock.world.dimension.BedrockDimension
-import com.github.cao.awa.conium.bedrock.world.dimension.bedrock
+import com.github.cao.awa.conium.bedrock.world.dimension.bedrockDimension
 import com.github.cao.awa.conium.kotlin.extent.innate.int
 import com.github.cao.awa.conium.kotlin.extent.innate.orGetAuto
 import com.github.cao.awa.conium.kotlin.extent.world.executeCommand
@@ -32,7 +32,7 @@ open class BedrockEntity(private val delegate: Entity) {
 
     @ScriptReadonly
     @BedrockScriptApiFacade("Entity", "#dimension")
-    val dimension: BedrockDimension = this.delegate.world.bedrock
+    val dimension: BedrockDimension = this.delegate.world.bedrockDimension
 
     @BedrockScriptApiFacade("Entity", "teleport")
     fun teleport(location: BedrockScriptAnonymousObjectMap, teleportOption: BedrockScriptAnonymousObjectMap) {
@@ -132,4 +132,4 @@ open class BedrockEntity(private val delegate: Entity) {
     }
 }
 
-fun Entity.toBedrock(): BedrockEntity = BedrockEntity(this)
+fun Entity.bedrock(): BedrockEntity = BedrockEntity(this)

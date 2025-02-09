@@ -1,3 +1,6 @@
 > 1.0.0-alpha10
 
-Nothing here now.
+# Conium event
+Add events support:
+1. ITEM_USE
+2. ITEM_USED

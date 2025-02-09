@@ -29,7 +29,7 @@ class ConiumSpawnEggTemplate(private val entityType: EntityType<*>) : ConiumItem
     }
 
     override fun attach(target: ConiumItem) {
-        ConiumEvent.itemUseOnBlockEvent.subscribe(target) { world: World, context: ItemUsageContext ->
+        ConiumEvent.itemUseOnBlock.subscribe(target) { world: World, context: ItemUsageContext ->
             if (world is ServerWorld) {
                 world.spawnEntity(
                     entityType.create(

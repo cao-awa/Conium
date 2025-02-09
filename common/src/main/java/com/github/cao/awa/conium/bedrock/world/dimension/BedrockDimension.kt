@@ -36,5 +36,5 @@ class BedrockDimension(private val delegate: World) {
     }
 }
 
-val World.bedrock: BedrockDimension
+val World.bedrockDimension: BedrockDimension
     get() = BedrockDimension(this)

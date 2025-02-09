@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.bedrock.event.before
 
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
-import com.github.cao.awa.conium.bedrock.event.before.item.use.BedrockItemUseOnBeforeEvent
+import com.github.cao.awa.conium.bedrock.event.before.item.use.on.BedrockItemUseOnBeforeEvent
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("WorldBeforeEvents")

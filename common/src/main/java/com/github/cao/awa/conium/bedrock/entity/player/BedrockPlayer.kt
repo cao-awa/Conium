@@ -9,10 +9,11 @@ import net.minecraft.entity.player.PlayerEntity
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("Player")
-class BedrockPlayer(private val delegate: PlayerEntity): BedrockEntity(delegate) {
+class BedrockPlayer(private val delegate: PlayerEntity) : BedrockEntity(delegate) {
     @ScriptReadonly
     @BedrockScriptApiFacade("Player", "#onScreenDisplay")
     val onScreenDisplay: BedrockOnScreenDisplay = BedrockOnScreenDisplay(this)
 }
 
-fun PlayerEntity.toBedrock(): BedrockPlayer = BedrockPlayer(this)
+val PlayerEntity.bedrockPlayer: BedrockPlayer
+    get() = BedrockPlayer(this)
