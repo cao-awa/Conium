@@ -56,6 +56,9 @@ open class BedrockEntity(private val delegate: Entity) {
         }
     }
 
+    @BedrockScriptApiFacade("Entity", "runCommandAsync")
+    fun runCommandAsync(command: String) = runCommand(command)
+
     @BedrockScriptApiFacade("Entity", "getBlockFromViewDirection")
     fun getBlockFromViewDirection(options: BedrockScriptAnonymousObjectMap? = BedrockScriptAnonymousObjectMap.EMPTY): BlockRaycastHit? {
         val maxDistance: Double = options.orGetAuto(20.0) { it["maxDistance"] }
