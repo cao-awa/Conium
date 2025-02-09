@@ -9,10 +9,12 @@ import com.github.cao.awa.translator.structuring.builtin.typescript.tree.stateme
 
 class ConiumTypescriptDefineVariableTranslator : ConiumScriptTranslator<TypescriptDefineVariable>(), TypescriptDefineVariableTranslator {
     override fun translate(builder: StringBuilder, ast: TypescriptDefineVariable) {
-        if (ast.isFinal) {
-            builder.append("val ")
-        } else {
-            builder.append("var ")
+        if (ast.isDefine) {
+            if (ast.isFinal) {
+                builder.append("val ")
+            } else {
+                builder.append("var ")
+            }
         }
         builder.append(ast.name())
 
