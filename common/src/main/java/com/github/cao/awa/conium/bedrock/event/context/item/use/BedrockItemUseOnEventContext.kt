@@ -33,8 +33,8 @@ fun ItemUsageContext.bedrockEventContext(scriptSource: Any, source: ServerPlayer
         scriptSource,
         this.world.bedrockDimension,
         this.world.server!!.bedrockWorld,
-        this.stack.bedrockItemStack(),
-        source.bedrockPlayer()
+        this.stack.bedrockItemStack,
+        source.bedrockPlayer
     )
     BedrockEventContext.contexts[scriptSource] = context
     return context

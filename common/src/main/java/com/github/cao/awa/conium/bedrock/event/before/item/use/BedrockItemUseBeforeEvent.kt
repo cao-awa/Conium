@@ -29,7 +29,6 @@ class BedrockItemUseBeforeEvent: BedrockEvent<BedrockItemUseEventContext>(Conium
         ).arise { _: Any, world: ServerWorld, source: ServerPlayerEntity, itemStack: ItemStack ->
             BedrockItemUseEventContext(
                 scriptSource,
-                world.bedrockDimension,
                 world.server.bedrockWorld,
                 itemStack.bedrockItemStack,
                 source.bedrockPlayer

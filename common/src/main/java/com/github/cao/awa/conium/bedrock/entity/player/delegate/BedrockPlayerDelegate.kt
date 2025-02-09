@@ -10,6 +10,6 @@ import net.minecraft.server.MinecraftServer
 @BedrockScriptApiFacade("Player[]")
 class BedrockPlayerDelegate(private val delegate: MinecraftServer) {
     operator fun get(index: Int): BedrockPlayer {
-        return this.delegate.playerManager.playerList[index].bedrockPlayer()
+        return this.delegate.playerManager.playerList[index].bedrockPlayer
     }
 }
