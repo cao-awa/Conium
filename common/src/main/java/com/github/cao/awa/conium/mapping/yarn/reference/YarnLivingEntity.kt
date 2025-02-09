@@ -9,7 +9,7 @@ import java.util.*
 
 
 /**
- * See the mapping [Entity](https://mappings.dev/1.21.4/net/minecraft/world/entity/Entity.html).
+ * See the mapping [LivingEntity](https://mappings.dev/1.21.4/net/minecraft/world/entity/LivingEntity.html).
  *
  * @author cao_awa
  *

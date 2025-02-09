@@ -18,13 +18,14 @@ import net.minecraft.server.network.ServerPlayerEntity
 @BedrockScriptApiFacade("ItemUseOnBeforeEventSignal")
 class BedrockItemUseOnBeforeEvent: BedrockEvent<BedrockItemUseOnEventContext>(ConiumEventType.ITEM_USE_ON_BLOCK) {
     override fun createUnnamed(action: ParameterSelective1<Unit, BedrockItemUseOnEventContext>, scriptSource: Any): ConiumEventContext<*> {
-        return ConiumEventContextBuilder.unnamed(
+        return ConiumEventContextBuilder.requires(
             ConiumEventArgTypes.ITEM_USAGE_CONTEXT,
             ConiumEventArgTypes.SERVER_PLAYER
-        ) { _: Any, usage: ItemUsageContext, source: ServerPlayerEntity ->
-            action(usage.toBedrock(scriptSource, source))
-
-            BedrockEventContext.clearContext(scriptSource)
+        ).arise { _: Any, usage: ItemUsageContext, source: ServerPlayerEntity ->
+            !usage.toBedrock(scriptSource, source).also { context ->
+                action(context)
+                BedrockEventContext.clearContext(scriptSource)
+            }.cancel
         }
     }
 }

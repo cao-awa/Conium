@@ -23,7 +23,9 @@ val Entity.isOnFire: Boolean
 val Entity.isSpectator: Boolean
     get() = this.isSpectator
 val Entity.movement: Vec3d by Entity::movement
-val Entity.air: Int by Entity::air
+var Entity.air: Int
+    get() = this.air
+    set(value) { this.air = value }
 val Entity.maxAir: Int by Entity::maxAir
 val Entity.attachments: EntityAttachments by Entity::attachments
 val Entity.blockPos: BlockPos by Entity::blockPos

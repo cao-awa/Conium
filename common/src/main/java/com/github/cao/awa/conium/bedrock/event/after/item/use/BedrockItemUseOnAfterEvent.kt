@@ -15,7 +15,7 @@ import net.minecraft.item.ItemUsageContext
 import net.minecraft.server.network.ServerPlayerEntity
 
 @BedrockScriptApi
-@BedrockScriptApiFacade("ItemUseOnBeforeEventSignal")
+@BedrockScriptApiFacade("ItemUseOnAfterEventSignal")
 class BedrockItemUseOnAfterEvent: BedrockEvent<BedrockItemUseOnEventContext>(ConiumEventType.ITEM_USED_ON_BLOCK) {
     override fun createUnnamed(action: ParameterSelective1<Unit, BedrockItemUseOnEventContext>, scriptSource: Any): ConiumEventContext<*> {
         return ConiumEventContextBuilder.unnamed(

@@ -3501,7 +3501,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun unnamed(
+    fun unnamedNr(
         arising: (Any, ConiumEventContext<*>) -> Unit
     ): ConiumEventContext<ParameterSelective1<Boolean, Any>> {
         return ConiumEventContext(
@@ -3512,6 +3512,71 @@ object ConiumEventContextBuilder {
             arise { i: Any ->
                 arising(i, this)
                 true
+            }
+        }
+    }
+
+    /**
+     * Make an unnamed event context that no anything, it should manually attach to the events that need to attach.
+     *
+     * The context lifecycle only related to the lifecycle of its attached event context.
+     *
+     * @param arising The callback to handle the event context source
+     *
+     * @see ConiumEvent
+     * @see ConiumEventContext
+     * @see DynamicArgs
+     * @see DynamicArgType
+     * @see ConiumEventArgTypes
+     * @see DynamicArgsLifecycle
+     *
+     * @return The context instance with [UNNAMED][DynamicArgsLifecycle.UNNAMED] lifecycle.
+     *
+     * @author cao_awa
+     * @author 草二号机
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    fun unnamed(): ConiumEventContext<ParameterSelective1<Boolean, Any>> {
+        return ConiumEventContext(
+            // Require a no argument dynamic args and contract to unnamed lifecycle.
+            DynamicArgsBuilder.requires(true).lifecycle(DynamicArgsLifecycle.UNNAMED)
+        )
+    }
+
+    /**
+     * Make an unnamed event context that receiving the event context source, it should manually attach to the events that need to attach.
+     *
+     * The context lifecycle only related to the lifecycle of its attached event context.
+     *
+     * @param arising The callback to handle the event context source
+     *
+     * @see ConiumEvent
+     * @see ConiumEventContext
+     * @see DynamicArgs
+     * @see DynamicArgType
+     * @see ConiumEventArgTypes
+     * @see DynamicArgsLifecycle
+     *
+     * @return The context instance with [UNNAMED][DynamicArgsLifecycle.UNNAMED] lifecycle.
+     *
+     * @author cao_awa
+     * @author 草二号机
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    fun unnamed(
+        arising: (Any, ConiumEventContext<*>) -> Boolean
+    ): ConiumEventContext<ParameterSelective1<Boolean, Any>> {
+        return ConiumEventContext(
+            // Require a no argument dynamic args and contract to unnamed lifecycle.
+            DynamicArgsBuilder.requires(true).lifecycle(DynamicArgsLifecycle.UNNAMED)
+        ).apply {
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any ->
+                arising(i, this)
             }
         }
     }

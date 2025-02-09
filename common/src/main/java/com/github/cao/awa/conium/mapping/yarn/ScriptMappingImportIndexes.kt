@@ -2,13 +2,14 @@
 
 package com.github.cao.awa.conium.mapping.yarn
 
-// net.minecraft
+// net.minecraft | Completed 1.21.4
 import net.minecraft.GameVersion
 import net.minecraft.MinecraftVersion
 import net.minecraft.SaveVersion
 import net.minecraft.SharedConstants
+// Do not import Boostrap here.
 
-// net.minecraft.registry
+// net.minecraft.registry | Completed 1.21.4
 import net.minecraft.registry.Registry
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKey
@@ -37,7 +38,7 @@ import net.minecraft.registry.SimpleRegistry
 import net.minecraft.registry.TradeRebalanceBuiltinRegistries
 import net.minecraft.registry.VersionedIdentifier
 
-// net.minecraft.registry.entry
+// net.minecraft.registry.entry | Completed 1.21.4
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.registry.entry.RegistryEntryInfo
 import net.minecraft.registry.entry.RegistryEntryList
@@ -46,7 +47,7 @@ import net.minecraft.registry.entry.RegistryEntryOwner
 import net.minecraft.registry.entry.RegistryFixedCodec
 import net.minecraft.registry.entry.RegistryElementCodec
 
-// net.minecraft.registry.tag
+// net.minecraft.registry.tag | Completed 1.21.4
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.registry.tag.BiomeTags
 import net.minecraft.registry.tag.BlockTags
@@ -65,12 +66,20 @@ import net.minecraft.registry.tag.StructureTags
 import net.minecraft.registry.tag.TagEntry
 import net.minecraft.registry.tag.TagFile
 import net.minecraft.registry.tag.WorldPresetTags
+import net.minecraft.registry.tag.GameEventTags
+import net.minecraft.registry.tag.TagBuilder
+import net.minecraft.registry.tag.TagGroupLoader
+import net.minecraft.registry.tag.TagPacketSerializer
+
+// net.minecraft.loot
+import net.minecraft.loot.LootTable
 
 // net.minecraft.block
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.block.BlockState
+import net.minecraft.block.MapColor
 import net.minecraft.block.Waterloggable
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.InventoryProvider
@@ -196,6 +205,9 @@ import net.minecraft.server.network.ServerPlayerInteractionManager
 // net.minecraft.stat
 import net.minecraft.stat.ServerStatHandler
 
+// net.minecraft.state
+import net.minecraft.state.StateManager
+
 // net.minecraft.text
 import net.minecraft.text.Text
 
@@ -206,6 +218,58 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.PlayerInput
 import net.minecraft.util.Arm
+import net.minecraft.util.Clearable
+import net.minecraft.util.Nameable
+import net.minecraft.util.NameGenerator
+import net.minecraft.util.TimeSupplier
+import net.minecraft.util.Unit
+import net.minecraft.util.DyeColor
+import net.minecraft.util.ApiServices
+import net.minecraft.util.BlockMirror
+import net.minecraft.util.BlockRotation
+import net.minecraft.util.CuboidBlockIterator
+import net.minecraft.util.CachedMapper
+import net.minecraft.util.ColorCode
+import net.minecraft.util.Cooldown
+import net.minecraft.util.CsvWriter
+import net.minecraft.util.DateTimeFormatters
+import net.minecraft.util.DelegatingDataOutput
+import net.minecraft.util.DeprecatedLanguageData
+import net.minecraft.util.Downloader
+import net.minecraft.util.ErrorReporter
+import net.minecraft.util.FixedBufferInputStream
+import net.minecraft.util.Formatting
+import net.minecraft.util.ItemScatterer
+import net.minecraft.util.InterpolatedFlipFlop
+import net.minecraft.util.InvalidHierarchicalFileException
+import net.minecraft.util.InvalidIdentifierException
+import net.minecraft.util.JsonHelper
+import net.minecraft.util.JsonReaderUtils
+import net.minecraft.util.LowercaseEnumTypeAdapterFactory
+import net.minecraft.util.ModStatus
+import net.minecraft.util.NetworkUtils
+import net.minecraft.util.Nullables
+import net.minecraft.util.Pair
+import net.minecraft.util.PathUtil
+import net.minecraft.util.WorldSavePath
+import net.minecraft.util.Language
+import net.minecraft.util.PngMetadata
+import net.minecraft.util.ProgressListener
+import net.minecraft.util.Rarity
+import net.minecraft.util.StringHelper
+import net.minecraft.util.StringIdentifiable
+import net.minecraft.util.SystemDetails
+import net.minecraft.util.TextifiedException
+import net.minecraft.util.ThrowableDeliverer
+import net.minecraft.util.TickDurationMonitor
+import net.minecraft.util.TopologicalSorts
+import net.minecraft.util.TranslatableOption
+import net.minecraft.util.TriState
+import net.minecraft.util.TypeFilter
+import net.minecraft.util.UserCache
+import net.minecraft.util.Util
+import net.minecraft.util.WinNativeModuleUtil
+import net.minecraft.util.ZipCompressor
 
 // net.minecraft.util.hit
 import net.minecraft.util.hit.BlockHitResult
@@ -229,6 +293,35 @@ import net.minecraft.world.World
 
 // net.minecraft.world.tick
 import net.minecraft.world.tick.ScheduledTickView
+
+// net.minecraft.component
+import net.minecraft.component.ComponentMap
+import net.minecraft.component.Component
+import net.minecraft.component.ComponentType
+import net.minecraft.component.ComponentHolder
+import net.minecraft.component.MergedComponentMap
+import net.minecraft.component.ComponentChanges
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.EnchantmentEffectComponentTypes
+
+// net.minecraft.resource
+// net.minecraft.resource.featuretoggle
+import net.minecraft.resource.featuretoggle.FeatureSet
+import net.minecraft.resource.featuretoggle.FeatureFlag
+import net.minecraft.resource.featuretoggle.FeatureFlags
+import net.minecraft.resource.featuretoggle.FeatureManager
+import net.minecraft.resource.featuretoggle.FeatureUniverse
+import net.minecraft.resource.featuretoggle.ToggleableFeature
+
+// net.minecraft.sound
+import net.minecraft.sound.SoundEvent
+import net.minecraft.sound.MusicSound
+import net.minecraft.sound.SoundEvents
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.BiomeMoodSound
+import net.minecraft.sound.BiomeAdditionsSound
+import net.minecraft.sound.BlockSoundGroup
+import net.minecraft.sound.MusicType
 
 // ----------
 
@@ -298,12 +391,20 @@ typealias StructureTags = StructureTags
 typealias TagEntry = TagEntry
 typealias TagFile = TagFile
 typealias WorldPresetTags = WorldPresetTags
+typealias GameEventTags = GameEventTags
+typealias TagBuilder = TagBuilder
+typealias TagGroupLoader<T> = TagGroupLoader<T>
+typealias TagPacketSerializer = TagPacketSerializer
+
+// net.minecraft.loot
+typealias LootTable = LootTable
 
 // net.minecraft.block
 typealias AbstractBlock = AbstractBlock
 typealias Block = Block
 typealias Blocks = Blocks
 typealias BlockState = BlockState
+typealias MapColor = MapColor
 typealias Waterloggable = Waterloggable
 typealias BlockEntityProvider = BlockEntityProvider
 typealias InventoryProvider = InventoryProvider
@@ -426,6 +527,58 @@ typealias Hand = Hand
 typealias Identifier = Identifier
 typealias PlayerInput = PlayerInput
 typealias Arm = Arm
+typealias Clearable = Clearable
+typealias Nameable = Nameable
+typealias NameGenerator = NameGenerator
+typealias TimeSupplier = TimeSupplier
+typealias Unit = Unit
+typealias DyeColor = DyeColor
+typealias ApiServices = ApiServices
+typealias BlockMirror = BlockMirror
+typealias BlockRotation = BlockRotation
+typealias CuboidBlockIterator = CuboidBlockIterator
+typealias CachedMapper<K, V> = CachedMapper<K, V>
+typealias ColorCode = ColorCode
+typealias Cooldown = Cooldown
+typealias CsvWriter = CsvWriter
+typealias DateTimeFormatters = DateTimeFormatters
+typealias DelegatingDataOutput = DelegatingDataOutput
+typealias DeprecatedLanguageData = DeprecatedLanguageData
+typealias Downloader = Downloader
+typealias ErrorReporter = ErrorReporter
+typealias FixedBufferInputStream = FixedBufferInputStream
+typealias Formatting = Formatting
+typealias ItemScatterer = ItemScatterer
+typealias InterpolatedFlipFlop = InterpolatedFlipFlop
+typealias InvalidHierarchicalFileException = InvalidHierarchicalFileException
+typealias InvalidIdentifierException = InvalidIdentifierException
+typealias JsonHelper = JsonHelper
+typealias JsonReaderUtils = JsonReaderUtils
+typealias LowercaseEnumTypeAdapterFactory = LowercaseEnumTypeAdapterFactory
+typealias ModStatus = ModStatus
+typealias NetworkUtils = NetworkUtils
+typealias Nullables = Nullables
+typealias Pair<A, B> = Pair<A, B>
+typealias PathUtil = PathUtil
+typealias WorldSavePath = WorldSavePath
+typealias Language = Language
+typealias PngMetadata = PngMetadata
+typealias ProgressListener = ProgressListener
+typealias Rarity = Rarity
+typealias StringHelper = StringHelper
+typealias StringIdentifiable = StringIdentifiable
+typealias SystemDetails = SystemDetails
+typealias TextifiedException = TextifiedException
+typealias ThrowableDeliverer<T> = ThrowableDeliverer<T>
+typealias TickDurationMonitor = TickDurationMonitor
+typealias TopologicalSorts = TopologicalSorts
+typealias TranslatableOption = TranslatableOption
+typealias TriState = TriState
+typealias TypeFilter<B, T> = TypeFilter<B, T>
+typealias UserCache = UserCache
+typealias Util = Util
+typealias WinNativeModuleUtil = WinNativeModuleUtil
+typealias ZipCompressor = ZipCompressor
 
 // net.minecraft.util.hit
 typealias BlockHitResult = BlockHitResult
@@ -450,8 +603,40 @@ typealias World = World
 // net.minecraft.world.tick
 typealias ScheduledTickView = ScheduledTickView
 
+// net.minecraft.component
+typealias ComponentMap = ComponentMap
+typealias Component<T> = Component<T>
+typealias ComponentType<T> = ComponentType<T>
+typealias ComponentHolder = ComponentHolder
+typealias MergedComponentMap = MergedComponentMap
+typealias ComponentChanges = ComponentChanges
+typealias DataComponentTypes = DataComponentTypes
+typealias EnchantmentEffectComponentTypes = EnchantmentEffectComponentTypes
+
+// net.minecraft.resource
+// net.minecraft.resource.featuretoggle
+typealias FeatureSet = FeatureSet
+typealias FeatureFlag = FeatureFlag
+typealias FeatureFlags = FeatureFlags
+typealias FeatureManager = FeatureManager
+typealias FeatureUniverse = FeatureUniverse
+typealias ToggleableFeature = ToggleableFeature
+
+// net.minecraft.sound
+typealias SoundEvent = SoundEvent
+typealias MusicSound = MusicSound
+typealias SoundEvents = SoundEvents
+typealias SoundCategory = SoundCategory
+typealias BiomeMoodSound = BiomeMoodSound
+typealias BiomeAdditionsSound = BiomeAdditionsSound
+typealias BlockSoundGroup = BlockSoundGroup
+typealias MusicType = MusicType
+
 // net.minecraft.stat
 typealias ServerStatHandler = ServerStatHandler
+
+// net.minecraft.state
+typealias StateManager<O, S> = StateManager<O, S>
 
 // net.minecraft.recipe.book
 typealias RecipeBook = RecipeBook

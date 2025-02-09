@@ -116,7 +116,7 @@ public abstract class ItemStackMixin implements ComponentHolder {
             ConiumEventContext<?> usedContext = ConiumEvent.request(ConiumEventType.ITEM_USED_ON_BLOCK);
             usedContext.inherit(usingContext);
 
-            // Used context has action result to acquire the result, this result not cancel or modifiable.
+            // Used context has an action result to acquire the result, this result not cancel or modifiable.
             usedContext.put(ConiumEventArgTypes.ACTION_RESULT, result);
 
             if (usedContext.presaging(instance)) {
@@ -125,6 +125,8 @@ public abstract class ItemStackMixin implements ComponentHolder {
 
             return result;
         } else {
+            System.out.println("Canceled #onUseOnBlock");
+
             // Cancel this event when presaging was rejected the event.
             return ActionResult.FAIL;
         }

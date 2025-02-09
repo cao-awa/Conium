@@ -12,7 +12,7 @@ import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
-abstract class BedrockEvent<E: BedrockEventContext>(private val targetEvent: ConiumEventType<*>) {
+abstract class BedrockEvent<E : BedrockEventContext>(private val targetEvent: ConiumEventType<*>) {
     private val subscribers: MutableList<ConiumEventContext<*>> = CollectionFactor.arrayList()
 
     /**
@@ -24,21 +24,23 @@ abstract class BedrockEvent<E: BedrockEventContext>(private val targetEvent: Con
      * @since 1.0.0
      */
     init {
+        // Use unnamed context attaching.
+        val context: ConiumEventContext<ParameterSelective1<Boolean, Any>> = ConiumEventContextBuilder.unnamed()
+
         // Attach bedrock event instance to conium event.
         ConiumEvent.forever(
             this.targetEvent,
-            // Use unnamed context attaching.
-            ConiumEventContextBuilder.unnamed { i: Any, context: ConiumEventContext<*> ->
+            context.presage { identity: Any ->
                 // Process all subscribers.
-                this.subscribers.forEach { subscriber: ConiumEventContext<*> ->
+                subscribers.map { subscriber: ConiumEventContext<*> ->
                     // Let subscriber inherit the event context from the conium event system.
                     subscriber.inherit(context)
 
                     // Trigger subscribe arising.
                     // The unnamed context also used dynamic args to transform args.
                     // For more details, read some 'createUnnamed' implements.
-                    subscriber.arising(i)
-                }
+                    subscriber.arising(identity)
+                }.none { !it }
             }
         )
     }

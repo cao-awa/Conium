@@ -41,6 +41,8 @@ class ConiumEventContext<P : ParameterSelective?>(
 
     private var targetedIdentity: ParameterSelective1<Boolean, Any> = ParameterSelective1 { true }
 
+    var enabled: Boolean = true
+
     fun target(target: Any): ConiumEventContext<P> {
         this.targetedIdentity = ParameterSelective1 { it === target }
         return this
@@ -106,6 +108,10 @@ class ConiumEventContext<P : ParameterSelective?>(
     }
 
     fun presaging(identity: Any): Boolean {
+        if (!this.enabled) {
+            return true
+        }
+
         if (!this.targetedIdentity(identity)) {
             // Do not presage when identity is not target.
             return true
@@ -122,6 +128,10 @@ class ConiumEventContext<P : ParameterSelective?>(
     }
 
     fun arising(identity: Any): Boolean {
+        if (!this.enabled) {
+            return true
+        }
+
         if (!this.targetedIdentity(identity)) {
             // Do not presage when identity is not target.
             return true

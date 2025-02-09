@@ -20,6 +20,8 @@ class BedrockItemUseOnEventContext(
     val itemStack: BedrockItemStack,
     val source: BedrockPlayer
 ) : BedrockEventContext(scriptSource) {
+    var cancel: Boolean = false
+
     override fun world(): BedrockWorld = this.world
 }
 
