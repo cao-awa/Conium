@@ -88,6 +88,28 @@ public abstract class ItemStackMixin implements ComponentHolder {
         }
     }
 
+    @Inject(
+            method = "use",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void onUse(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        // Trigger item using event.
+        if (ConiumItemEventMixinIntermediary.fireItemUseEvent(world, user, hand, user.getStackInHand(hand))) {
+            // Cancel this event when intermediary was rejected the event.
+            cir.setReturnValue(ActionResult.FAIL);
+        }
+    }
+
+    @Inject(
+            method = "use",
+            at = @At("RETURN")
+    )
+    public void onUsed(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        // Trigger item used event.
+        ConiumItemEventMixinIntermediary.fireItemUsedEvent(world, user, hand, user.getStackInHand(hand), cir.getReturnValue());
+    }
+
     @Redirect(
             method = "useOnBlock",
             at = @At(

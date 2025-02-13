@@ -11,6 +11,7 @@ import com.github.cao.awa.conium.bedrock.world.dimension.bedrockDimension
 import com.github.cao.awa.conium.kotlin.extent.innate.int
 import com.github.cao.awa.conium.kotlin.extent.innate.orGetAuto
 import com.github.cao.awa.conium.kotlin.extent.world.executeCommand
+import com.github.cao.awa.conium.raycast.ConiumRaycast
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.entity.Entity
 import net.minecraft.server.network.ServerPlayerEntity
@@ -73,7 +74,8 @@ open class BedrockEntity(private val delegate: Entity) {
         val includeLiquidBlocks: Boolean = options.orGetAuto(false) { it["includeLiquidBlocks"] }
         val includePassableBlocks: Boolean = options.orGetAuto(false) { it["includePassableBlocks"] }
 
-        raycast(
+        ConiumRaycast.raycast(
+            this.delegate,
             maxDistance,
             0F,
             includeLiquidBlocks,
@@ -99,32 +101,6 @@ open class BedrockEntity(private val delegate: Entity) {
                 blockPos
             )
         }
-    }
-
-    private fun raycast(maxDistance: Double, tickDelta: Float, includeFluids: Boolean, includePassableBlocks: Boolean): HitResult {
-        val entity: Entity = this.delegate
-
-        val start: Vec3d = entity.getCameraPosVec(tickDelta)
-        val delta: Vec3d = entity.getRotationVec(tickDelta)
-        val end = start.add(delta.x * maxDistance, delta.y * maxDistance, delta.z * maxDistance)
-
-        val blockShapeType: RaycastContext.ShapeType = if (includePassableBlocks) {
-            RaycastContext.ShapeType.COLLIDER
-        } else {
-            RaycastContext.ShapeType.OUTLINE
-        }
-
-        val fluidHandling: RaycastContext.FluidHandling = if (includeFluids) RaycastContext.FluidHandling.ANY else RaycastContext.FluidHandling.NONE
-
-        return entity.world.raycast(
-            RaycastContext(
-                start,
-                end,
-                blockShapeType,
-                fluidHandling,
-                entity
-            )
-        )
     }
 
     private fun ifServerEntity(action: (ServerWorld) -> Unit) {

@@ -73,39 +73,41 @@ class DynamicArgs<P : ParameterSelective?, R> {
      * @since 1.0.0
      */
     private fun varyArgs(identity: Any, sources: MutableMap<DynamicArgType<*>, Any?>): Map<DynamicArgType<*>, Any?> {
-        val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
+        return synchronized(this) {
+            val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
 
-        // Find required arguments from context arguments (manually putted to map).
-        for ((key: DynamicArgType<*>, value: Any?) in sources) {
-            // Only varying argument type to real argument instance.
-            if (value is DynamicArgType<*>) {
-                // Dynamic args has multiple varying methods, find until found or no more method can try.
-                for (dynamicVarying: DynamicArgs<*, *>? in value.dynamicArgs) {
-                    // Do not process null dynamic args or transform the dynamic args that doesn't have correct lifecycles.
-                    if (dynamicVarying == null || dynamicVarying.lifecycle != DynamicArgsLifecycle.TRANSFORM) {
-                        continue
+            // Find required arguments from context arguments (manually putted to map).
+            for ((key: DynamicArgType<*>, value: Any?) in sources) {
+                // Only varying argument type to real argument instance.
+                if (value is DynamicArgType<*>) {
+                    // Dynamic args has multiple varying methods, find until found or no more method can try.
+                    for (dynamicVarying: DynamicArgs<*, *>? in value.dynamicArgs) {
+                        // Do not process null dynamic args or transform the dynamic args that doesn't have correct lifecycles.
+                        if (dynamicVarying == null || dynamicVarying.lifecycle != DynamicArgsLifecycle.TRANSFORM) {
+                            continue
+                        }
+
+                        // Run the dynamic vary.
+                        val result: Any? = dynamicVarying.runCatching {
+                            // Arise the dynamic args, it will continue to vary args or got a value.
+                            arising(identity, sources, null)
+                        }.getOrNull()
+
+                        // When a result found, stop dynamic args varying.
+                        if (result != null) {
+                            // And put to arguments map.
+                            args[key] = result
+                            break
+                        }
                     }
-
-                    // Run the dynamic vary.
-                    val result: Any? = dynamicVarying.runCatching {
-                        // Arise the dynamic args, it will continue to vary args or got a value.
-                        arising(identity, sources, null)
-                    }.getOrNull()
-
-                    // When a result found, stop dynamic args varying.
-                    if (result != null) {
-                        // And put to arguments map.
-                        args[key] = result
-                        break
-                    }
+                } else {
+                    // The real instance should directly put to the argument map.
+                    args[key] = value
                 }
-            } else {
-                // The real instance should directly put to the argument map.
-                args[key] = value
             }
-        }
 
-        return args
+            args
+        }
     }
 
     /**
