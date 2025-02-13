@@ -5,6 +5,7 @@
 2. Move more event trigger to intermediary.
 3. Fix bug of event 'ITEM_USE' and 'ITEM_USED' not imported in the common script
 4. Fix bug of event 'ITEM_USE' and 'ITEM_USED' not triggered when player using item stack
+5. Add 'attachPreparation' in event context, used to pre-vary raw inputted args.
 
 ## New event support
 Add events support:

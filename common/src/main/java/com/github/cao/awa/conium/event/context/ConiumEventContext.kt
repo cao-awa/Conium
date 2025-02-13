@@ -4,13 +4,13 @@ package com.github.cao.awa.conium.event.context
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.parameter.DynamicArgType
 import com.github.cao.awa.conium.parameter.DynamicArgs
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
-import net.minecraft.item.Items
 
 /**
  *
@@ -36,6 +36,7 @@ class ConiumEventContext<P : ParameterSelective?>(
     private var presageTrigger: P? = null
 
     private val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
+    private val attachesPreparation: MutableList<(ConiumEventContext<*>) -> Unit> = CollectionFactor.arrayList()
     private val attaches: MutableList<ConiumEventContext<*>> = CollectionFactor.arrayList()
     private val attachesDynamic: MutableList<P> = CollectionFactor.arrayList()
 
@@ -75,6 +76,8 @@ class ConiumEventContext<P : ParameterSelective?>(
 
     operator fun <X> set(argType: DynamicArgType<X>, value: X): ConiumEventContext<P> = put(argType, value)
 
+    operator fun <X> get(argType: DynamicArgType<X>): X? = this.args[argType]?.doCast()
+
     fun <X> put(arg: DynamicArgType<X>, value: X): ConiumEventContext<P> {
         this.args[arg] = value
         return this
@@ -104,6 +107,16 @@ class ConiumEventContext<P : ParameterSelective?>(
 
     fun attach(context: MutableList<ConiumEventContext<*>>): ConiumEventContext<P> {
         this.attaches.addAll(context)
+        return this
+    }
+
+    fun attachPreparation(context: (ConiumEventContext<*>) -> Unit): ConiumEventContext<P> {
+        this.attachesPreparation.add(context)
+        return this
+    }
+
+    fun attachPreparation(context: MutableList<(ConiumEventContext<*>) -> Unit>): ConiumEventContext<P> {
+        this.attachesPreparation.addAll(context)
         return this
     }
 
@@ -137,6 +150,9 @@ class ConiumEventContext<P : ParameterSelective?>(
             return true
         }
 
+        for (preparation: (ConiumEventContext<*>) -> Unit in this.attachesPreparation) {
+            preparation(this)
+        }
         var success: Boolean = this.ariseTrigger == null || this.dynamicArgs.arising(identity, this.args, this.ariseTrigger!!)
         for (attach: ConiumEventContext<*> in this.attaches) {
             if (attach.ariseTrigger != null) {
@@ -144,12 +160,14 @@ class ConiumEventContext<P : ParameterSelective?>(
                 success = attach.arising(identity) && success
             }
         }
-        for (attachDynamic: P in this.attachesDynamic) {
-            this.dynamicArgs.arising(
-                identity,
-                this.args,
-                attachDynamic
-            )
+        if (success) {
+            for (attachDynamic: P in this.attachesDynamic) {
+                success = this.dynamicArgs.arising(
+                    identity,
+                    this.args,
+                    attachDynamic
+                )
+            }
         }
         return success
     }
