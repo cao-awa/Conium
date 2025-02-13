@@ -2,6 +2,7 @@ package com.github.cao.awa.conium
 
 import com.github.cao.awa.conium.client.ConiumClient
 import com.github.cao.awa.conium.component.ConiumComponentTypes
+import com.github.cao.awa.conium.config.ConiumConfig
 import com.github.cao.awa.conium.datapack.block.ConiumBlockManager
 import com.github.cao.awa.conium.datapack.entity.ConiumEntityManager
 import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager
@@ -33,7 +34,7 @@ class Conium {
         val isClient: Boolean get() = ConiumClient.initialized
 
         @JvmField
-        var VERSION = "1.0.0-alpha9"
+        var VERSION = "1.0.0-alpha10"
 
         @JvmField
         var STRUCTURING_TRANSLATOR_VERSION: String = StructuringTranslator.getVersion()
@@ -57,12 +58,6 @@ class Conium {
         val reloadCallbacks: MutableList<Runnable> = CollectionFactor.arrayList()
 
         @JvmField
-        var enableDebugs: Boolean = true
-
-        @JvmField
-        var allowBedrock: Boolean = true
-
-        @JvmField
         var pendingDatapack: ConiumServerLoadDatapacks = ConiumServerLoadDatapacks()
 
         @JvmStatic
@@ -81,21 +76,21 @@ class Conium {
 
         @JvmStatic
         fun debug(debugger: Runnable) {
-            if (this.enableDebugs) {
+            if (ConiumConfig.debugs) {
                 debugger.run()
             }
         }
 
         @JvmStatic
         fun debug(message: String, p1: Supplier<Any?>, debugger: StrObjConsumer1) {
-            if (this.enableDebugs) {
+            if (ConiumConfig.debugs) {
                 debugger.accept(message, p1.get())
             }
         }
 
         @JvmStatic
         fun debug(message: String, p1: Supplier<Any?>, p2: Supplier<Any?>, debugger: StrObjConsumer2) {
-            if (this.enableDebugs) {
+            if (ConiumConfig.debugs) {
                 debugger.accept(message, p1.get(), p2.get())
             }
         }
@@ -108,7 +103,7 @@ class Conium {
             p3: Supplier<Any?>,
             debugger: StrObjConsumer3
         ) {
-            if (this.enableDebugs) {
+            if (ConiumConfig.debugs) {
                 debugger.accept(message, p1.get(), p2.get(), p3.get())
             }
         }
@@ -122,7 +117,7 @@ class Conium {
             p4: Supplier<Any?>,
             debugger: StrObjConsumer4
         ) {
-            if (this.enableDebugs) {
+            if (ConiumConfig.debugs) {
                 debugger.accept(message, p1.get(), p2.get(), p3.get(), p4.get())
             }
         }
@@ -137,7 +132,7 @@ class Conium {
             p5: Supplier<Any?>,
             debugger: StrObjConsumer5
         ) {
-            if (this.enableDebugs) {
+            if (ConiumConfig.debugs) {
                 debugger.accept(message, p1.get(), p2.get(), p3.get(), p4.get(), p5.get())
             }
         }
@@ -153,7 +148,7 @@ class Conium {
             p6: Supplier<Any?>,
             debugger: StrObjConsumer6
         ) {
-            if (this.enableDebugs) {
+            if (ConiumConfig.debugs) {
                 debugger.accept(message, p1.get(), p2.get(), p3.get(), p4.get(), p5.get(), p6.get())
             }
         }
@@ -176,7 +171,13 @@ class Conium {
     }
 
     fun onInitialize() {
+        // Print big banner, let user know Conium is loaded.
+        // Conium is a very large and complex framework, potential conflict may more than other mods.
+        // Need to prevent Conium unexpectedly loads in modpacks that don't use Conium feature.
         printBanner()
+
+        // Read config to toggle features.
+        ConiumConfig.makeConfig()
 
         // Initialize for item injecting.
         ConiumComponentTypes.init()

@@ -21,7 +21,7 @@ public class ItemMixin {
     )
     public void onUse(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         // Trigger item using event.
-        if (ConiumItemEventMixinIntermediary.fireItemUseEvent(world, user, hand, Manipulate.cast(this))) {
+        if (ConiumItemEventMixinIntermediary.fireItemUseEvent(world, user, hand, user.getStackInHand(hand))) {
             // Cancel this event when intermediary was rejected the event.
             cir.setReturnValue(ActionResult.FAIL);
         }
@@ -33,6 +33,6 @@ public class ItemMixin {
     )
     public void onUsed(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         // Trigger item used event.
-        ConiumItemEventMixinIntermediary.fireItemUsedEvent(world, user, hand, Manipulate.cast(this), cir.getReturnValue());
+        ConiumItemEventMixinIntermediary.fireItemUsedEvent(world, user, hand, user.getStackInHand(hand), cir.getReturnValue());
     }
 }

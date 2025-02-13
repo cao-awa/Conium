@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.mixin.item.stack;
 
 import com.github.cao.awa.conium.Conium;
 import com.github.cao.awa.conium.component.ConiumComponentType;
+import com.github.cao.awa.conium.config.ConiumConfig;
 import com.github.cao.awa.conium.intermediary.mixin.item.ConiumItemEventMixinIntermediary;
 import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import net.minecraft.component.ComponentHolder;
@@ -67,7 +68,7 @@ public abstract class ItemStackMixin implements ComponentHolder {
             at = @At(value = "RETURN")
     )
     public void getTooltip(Item.TooltipContext context, @Nullable PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir) {
-        if (Conium.enableDebugs) {
+        if (ConiumConfig.debugs) {
             if (type.isCreative() || !contains(DataComponentTypes.HIDE_TOOLTIP)) {
                 List<Text> tooltip = cir.getReturnValue();
 
