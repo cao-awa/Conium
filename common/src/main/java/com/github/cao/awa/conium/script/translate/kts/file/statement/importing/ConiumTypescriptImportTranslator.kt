@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.script.translate.kts.file.statement.importing
 
-import com.github.cao.awa.conium.bedrock.IndexD.Companion.tryImport
+import com.github.cao.awa.conium.bedrock.index.d.IndexD.Companion.tryImport
 import com.github.cao.awa.translator.structuring.builtin.typescript.translate.base.file.statement.importing.TypescriptImportingTranslator
 import com.github.cao.awa.translator.structuring.builtin.typescript.translate.kts.TypescriptKotlinScriptTranslator
 import com.github.cao.awa.translator.structuring.builtin.typescript.tree.statement.importing.TypescriptImportStatement

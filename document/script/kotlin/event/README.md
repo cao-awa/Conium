@@ -20,6 +20,8 @@
 
 |                   Key |                      Notes                       | Environment | Cancelable |            Cascade events | Input instance |
 |----------------------:|:------------------------------------------------:|------------:|-----------:|--------------------------:|:--------------:|
+|              ITEM_USE |            Trigger when an item using            |         ALL |       true |             ``ITEM_USED`` |      Item      |
+|             ITEM_USED |            Trigger when an item used             |         ALL |      false |                         * |      Item      |
 |     ITEM_USE_ON_BLOCK |       Trigger when an item use on a block        |         ALL |       true |    ``ITEM_USED_ON_BLOCK`` |      Item      |
 |    ITEM_USED_ON_BLOCK |       Trigger when an item used on a block       |         ALL |      false |                         * |      Item      |
 |    ITEM_USE_ON_ENTITY |      Trigger when an item use on an entity       |         ALL |       true |   ``ITEM_USED_ON_ENTITY`` |      Item      |

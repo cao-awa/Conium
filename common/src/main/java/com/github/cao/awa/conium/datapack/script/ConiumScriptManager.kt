@@ -1,6 +1,7 @@
 package com.github.cao.awa.conium.datapack.script
 
 import com.github.cao.awa.conium.Conium
+import com.github.cao.awa.conium.config.ConiumConfig
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
@@ -188,7 +189,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
             scripts.add(ScriptEval(defaultCommons, "ConiumCommons"))
 
             // Bedrock common is only load when conium allows bedrock.
-            if (Conium.allowBedrock) {
+            if (ConiumConfig.enableBedrockScript) {
                 scripts.add(ScriptEval(defaultBedrockCommons, "ConiumBedrockCommons", "ConiumCommons"))
                 scripts.add(ScriptEval(defaultBedrockScriptInit, "ConiumBedrockScriptInit", "ConiumCommons", "ConiumBedrockCommons"))
             }
@@ -201,14 +202,18 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
                     if (path.endsWith(".kts")) {
                         // Load script data after.
                         scripts.add(ScriptEval(content, path, "ConiumCommons"))
-                    } else if (!Conium.allowBedrock) {
-                        // When bedrock scripting allows is disabled, then the script won't be load.
-                        LOGGER.warn("Conium are disabled bedrock script, ignored '$identifier'")
+                    } else if (!ConiumConfig.enableBedrockScript) {
+                        // If not TypeScript or JavaScript file, then not bedrock script, do not notice bedrock script support status.
+                        if (path.endsWith(".ts") || path.endsWith(".js")) {
+                            // When bedrock scripting allows is disabled, then the script won't be load.
+                            LOGGER.warn("Conium are disabled bedrock script, ignored '$identifier'")
+                        }
                     } else if (path.endsWith(".ts")) {
                         // Load script data after translate typescript to kotlin.
                         runCatching {
                             translateBedrockTypescript(content).also { translated: String ->
-                                if (Conium.enableDebugs) {
+                                // Debug write.
+                                if (ConiumConfig.debugs) {
                                     IOUtil.write(
                                         File("conium-debug/translated/${identifier.namespace}/${identifier.path}.kts").also {
                                             it.parentFile.mkdirs()

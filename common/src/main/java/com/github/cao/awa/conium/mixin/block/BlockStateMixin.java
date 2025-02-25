@@ -61,7 +61,7 @@ public abstract class BlockStateMixin {
                 playerEntity,
                 blockPos
         )) {
-            // Cancel this event when presaging was rejected the event.
+            // Cancel this event when intermediary was rejected the event.
             ci.cancel();
         }
     }

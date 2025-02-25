@@ -46,6 +46,9 @@ import com.github.cao.awa.conium.parameter.ParameterSelective8
 // Conium block entity.
 import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
 
+// Raycast.
+import com.github.cao.awa.conium.raycast.ConiumRaycast
+
 // Event.
 typealias ConiumEventType<I> = ConiumEventType<I>
 typealias ConiumEventContext<P> = ConiumEventContext<P>
@@ -577,6 +580,8 @@ val TRAPPED_CHEST_OPENING = ConiumEventType.TRAPPED_CHEST_OPENING
 val TRAPPED_CHEST_OPENED = ConiumEventType.TRAPPED_CHEST_OPENED
 val TRAPPED_CHEST_CLOSING = ConiumEventType.TRAPPED_CHEST_CLOSING
 val TRAPPED_CHEST_CLOSED = ConiumEventType.TRAPPED_CHEST_CLOSED
+val ITEM_USE = ConiumEventType.ITEM_USE
+val ITEM_USED = ConiumEventType.ITEM_USED
 val ITEM_USE_ON_ENTITY = ConiumEventType.ITEM_USE_ON_ENTITY
 val ITEM_USED_ON_ENTITY = ConiumEventType.ITEM_USED_ON_ENTITY
 val ITEM_USAGE_TICK = ConiumEventType.ITEM_USAGE_TICK
@@ -655,3 +660,6 @@ typealias ParameterSelective8<R, P1, P2, P3, P4, P5, P6, P7, P8> = ParameterSele
 
 // Conium block entity.
 typealias ConiumBlockEntity = ConiumBlockEntity
+
+// Raycast.
+typealias ConiumRaycast = ConiumRaycast

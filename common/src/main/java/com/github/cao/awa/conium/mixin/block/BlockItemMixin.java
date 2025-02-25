@@ -50,7 +50,7 @@ public abstract class BlockItemMixin {
                 getBlock(),
                 placementContext
         )) {
-            // Cancel this event when presaging was rejected the event.
+            // Cancel this event when intermediary was rejected the event.
             cir.setReturnValue(ActionResult.FAIL);
         }
     }

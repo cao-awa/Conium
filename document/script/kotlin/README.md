@@ -77,3 +77,10 @@ val world: ServerWorld = player.world as ServerWorld
 doSomething(world)
 // Others...
 ```
+
+## Registry attach
+> Not really available now, this is a planning feature 
+
+Maybe you can use 'register' method in the kotlin script to register your items, blocks, entities and other registerable elements.
+
+But you never want to register or deregister in the game-running without conium reload, it will cause game crash or something problems come up.

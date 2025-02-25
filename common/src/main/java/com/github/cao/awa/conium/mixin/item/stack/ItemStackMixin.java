@@ -2,10 +2,9 @@ package com.github.cao.awa.conium.mixin.item.stack;
 
 import com.github.cao.awa.conium.Conium;
 import com.github.cao.awa.conium.component.ConiumComponentType;
-import com.github.cao.awa.conium.event.ConiumEvent;
-import com.github.cao.awa.conium.event.context.ConiumEventContext;
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
-import com.github.cao.awa.conium.event.type.ConiumEventType;
+import com.github.cao.awa.conium.config.ConiumConfig;
+import com.github.cao.awa.conium.intermediary.mixin.item.ConiumItemEventMixinIntermediary;
+import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import net.minecraft.component.ComponentHolder;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
@@ -57,7 +56,7 @@ public abstract class ItemStackMixin implements ComponentHolder {
             at = @At("RETURN")
     )
     public void init(ItemConvertible item, int count, MergedComponentMap components, CallbackInfo ci) {
-        // Do not apply inject when inject manager aren't prepared.
+        // Do not apply injection when inject manager isn't prepared.
         if (Conium.itemInjectManager != null) {
             // Inject to current stack.
             Conium.itemInjectManager.inject(cast());
@@ -69,7 +68,7 @@ public abstract class ItemStackMixin implements ComponentHolder {
             at = @At(value = "RETURN")
     )
     public void getTooltip(Item.TooltipContext context, @Nullable PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir) {
-        if (Conium.enableDebugs) {
+        if (ConiumConfig.debugs) {
             if (type.isCreative() || !contains(DataComponentTypes.HIDE_TOOLTIP)) {
                 List<Text> tooltip = cir.getReturnValue();
 
@@ -83,10 +82,32 @@ public abstract class ItemStackMixin implements ComponentHolder {
     @Unique
     private void overallComponents(Consumer<ConiumComponentType<?>> action) {
         for (ComponentType<?> componentsType : this.components.getTypes()) {
-            if (componentsType instanceof ConiumComponentType<?> trtrComponentType) {
-                action.accept(trtrComponentType);
+            if (componentsType instanceof ConiumComponentType<?> coniumComponentType) {
+                action.accept(coniumComponentType);
             }
         }
+    }
+
+    @Inject(
+            method = "use",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void onUse(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        // Trigger item using event.
+        if (ConiumItemEventMixinIntermediary.fireItemUseEvent(world, user, hand, user.getStackInHand(hand))) {
+            // Cancel this event when intermediary was rejected the event.
+            cir.setReturnValue(ActionResult.FAIL);
+        }
+    }
+
+    @Inject(
+            method = "use",
+            at = @At("RETURN")
+    )
+    public void onUsed(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        // Trigger item used event.
+        ConiumItemEventMixinIntermediary.fireItemUsedEvent(world, user, hand, user.getStackInHand(hand), cir.getReturnValue());
     }
 
     @Redirect(
@@ -97,39 +118,8 @@ public abstract class ItemStackMixin implements ComponentHolder {
             )
     )
     public ActionResult onUseOnBlock(Item instance, ItemUsageContext context) {
-        // Request the item using on block context.
-        ConiumEventContext<?> usingContext = ConiumEvent.request(ConiumEventType.ITEM_USE_ON_BLOCK);
-
-        // Fill the context args.
-        usingContext.put(ConiumEventArgTypes.WORLD, context.getWorld())
-                .put(ConiumEventArgTypes.ITEM_USAGE_CONTEXT, context)
-                .put(ConiumEventArgTypes.PLAYER, context.getPlayer())
-                .put(ConiumEventArgTypes.BLOCK_POS, context.getBlockPos());
-
-        if (usingContext.presaging(instance)) {
-            usingContext.arising(instance);
-
-            // Invoke 'useOnBlock' method.
-            ActionResult result = instance.useOnBlock(context);
-
-            // Request the item used on block context.
-            ConiumEventContext<?> usedContext = ConiumEvent.request(ConiumEventType.ITEM_USED_ON_BLOCK);
-            usedContext.inherit(usingContext);
-
-            // Used context has an action result to acquire the result, this result not cancel or modifiable.
-            usedContext.put(ConiumEventArgTypes.ACTION_RESULT, result);
-
-            if (usedContext.presaging(instance)) {
-                usedContext.arising(instance);
-            }
-
-            return result;
-        } else {
-            System.out.println("Canceled #onUseOnBlock");
-
-            // Cancel this event when presaging was rejected the event.
-            return ActionResult.FAIL;
-        }
+        // Trigger item use on block events.
+        return ConiumItemEventMixinIntermediary.fireItemUseOnBlock(context);
     }
 
     @Redirect(
@@ -140,37 +130,8 @@ public abstract class ItemStackMixin implements ComponentHolder {
             )
     )
     public ActionResult preUseOnEntity(Item instance, ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        // Request the item using on entity context.
-        ConiumEventContext<?> usingContext = ConiumEvent.request(ConiumEventType.ITEM_USE_ON_ENTITY);
-
-        // Fill the context args.
-        usingContext.put(ConiumEventArgTypes.PLAYER, user)
-                .put(ConiumEventArgTypes.LIVING_ENTITY, entity)
-                .put(ConiumEventArgTypes.ITEM_STACK, stack)
-                .put(ConiumEventArgTypes.HAND, hand);
-
-        if (usingContext.presaging(instance)) {
-            usingContext.arising(instance);
-
-            // Invoke 'useOnEntity' method.
-            ActionResult result = instance.useOnEntity(stack, user, entity, hand);
-
-            // Request the item used on entity context.
-            ConiumEventContext<?> usedContext = ConiumEvent.request(ConiumEventType.ITEM_USED_ON_ENTITY);
-            usedContext.inherit(usingContext);
-
-            // Used context has action result to acquire the result, this result not cancel or modifiable.
-            usedContext.put(ConiumEventArgTypes.ACTION_RESULT, result);
-
-            if (usedContext.presaging(instance)) {
-                usedContext.arising(instance);
-            }
-
-            return result;
-        } else {
-            // Cancel this event when presaging was rejected the event.
-            return ActionResult.FAIL;
-        }
+        // Trigger item use on entity events.
+        return ConiumItemEventMixinIntermediary.fireItemUseOnEntity(stack, user, entity, hand);
     }
 
     @Inject(
@@ -179,22 +140,9 @@ public abstract class ItemStackMixin implements ComponentHolder {
             cancellable = true
     )
     public void preUsageTick(World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
-        // Request the item usage tick context.
-        ConiumEventContext<?> usingContext = ConiumEvent.request(ConiumEventType.ITEM_USAGE_TICK);
-
-        ItemStack stack = cast();
-        Item item = getItem();
-
-        // Fill the context args.
-        usingContext.put(ConiumEventArgTypes.WORLD, world)
-                .put(ConiumEventArgTypes.LIVING_ENTITY, user)
-                .put(ConiumEventArgTypes.ITEM_STACK, stack)
-                .put(ConiumEventArgTypes.REMAINING_USE_TICKS, remainingUseTicks);
-
-        if (usingContext.presaging(item)) {
-            usingContext.arising(item);
-        } else {
-            // Cancel this event when presaging was rejected the event.
+        // Trigger item pre-usage tick event.
+        if (ConiumItemEventMixinIntermediary.fireItemPreUsageTickEvent(world, user, Manipulate.cast(this), remainingUseTicks)) {
+            // Cancel this event when intermediary was rejected the event.
             ci.cancel();
         }
     }
@@ -204,22 +152,8 @@ public abstract class ItemStackMixin implements ComponentHolder {
             at = @At("RETURN")
     )
     public void onUsageTick(World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
-        // Request the item usage ticked context.
-        ConiumEventContext<?> usingContext = ConiumEvent.request(ConiumEventType.ITEM_USAGE_TICKED);
-
-        ItemStack stack = cast();
-        Item item = getItem();
-
-        // Fill the context args.
-        usingContext.put(ConiumEventArgTypes.WORLD, world)
-                .put(ConiumEventArgTypes.LIVING_ENTITY, user)
-                .put(ConiumEventArgTypes.ITEM_STACK, stack)
-                .put(ConiumEventArgTypes.REMAINING_USE_TICKS, remainingUseTicks);
-
-        // Usage ticked event cannot cancel because it already completed.
-        if (usingContext.presaging(item)) {
-            usingContext.arising(item);
-        }
+        // Trigger item usage tick event.
+        ConiumItemEventMixinIntermediary.fireItemUsageTickEvent(world, user, Manipulate.cast(this), remainingUseTicks);
     }
 
     @Inject(
@@ -227,21 +161,8 @@ public abstract class ItemStackMixin implements ComponentHolder {
             at = @At("RETURN")
     )
     private void handleSlotClicked(Slot slot, ClickType clickType, PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
-        // Request the item stack click context.
-        ConiumEventContext<?> clickedContext = ConiumEvent.request(ConiumEventType.ITEM_STACK_CLICKED);
-
-        Item item = getItem();
-
-        // Fill the context args.
-        clickedContext.put(ConiumEventArgTypes.CLICK_TYPE, clickType)
-                .put(ConiumEventArgTypes.PLAYER, player)
-                .put(ConiumEventArgTypes.ITEM_STACK, cast())
-                .put(ConiumEventArgTypes.SLOT, slot);
-
-        // Item stack clicked event cannot cancel because it already completed.
-        if (clickedContext.presaging(item)) {
-            clickedContext.arising(item);
-        }
+        // Trigger item stack clicked event.
+        ConiumItemEventMixinIntermediary.fireItemStackClickedEvent(player, Manipulate.cast(this), slot, clickType);
     }
 
     @Inject(
@@ -250,22 +171,9 @@ public abstract class ItemStackMixin implements ComponentHolder {
             cancellable = true
     )
     public void preInventoryTick(World world, Entity entity, int slot, boolean selected, CallbackInfo ci) {
-        // Request the item stack inventory tick context.
-        ConiumEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.ITEM_INVENTORY_TICK);
-
-        Item item = getItem();
-
-        // Fill the context args.
-        tickingContext.put(ConiumEventArgTypes.WORLD, world)
-                .put(ConiumEventArgTypes.ENTITY, entity)
-                .put(ConiumEventArgTypes.ITEM_STACK, cast())
-                .put(ConiumEventArgTypes.SLOT_NUMBER, slot)
-                .put(ConiumEventArgTypes.SELECT_STATUS, selected);
-
-        if (tickingContext.presaging(item)) {
-            tickingContext.arising(item);
-        } else {
-            // Cancel this event when presaging was rejected the event.
+        // Trigger item inventory tick event.
+        if (ConiumItemEventMixinIntermediary.fireItemInventoryTickEvent(world, entity, Manipulate.cast(this), slot, selected)) {
+            // Cancel this event when intermediary was rejected the event.
             ci.cancel();
         }
     }
@@ -275,21 +183,7 @@ public abstract class ItemStackMixin implements ComponentHolder {
             at = @At("RETURN")
     )
     public void handleInventoryTick(World world, Entity entity, int slot, boolean selected, CallbackInfo ci) {
-        // Request the item stack inventory ticked context.
-        ConiumEventContext<?> tickedContext = ConiumEvent.request(ConiumEventType.ITEM_INVENTORY_TICKED);
-
-        Item item = getItem();
-
-        // Fill the context args.
-        tickedContext.put(ConiumEventArgTypes.WORLD, world)
-                .put(ConiumEventArgTypes.ENTITY, entity)
-                .put(ConiumEventArgTypes.ITEM_STACK, cast())
-                .put(ConiumEventArgTypes.SLOT_NUMBER, slot)
-                .put(ConiumEventArgTypes.SELECT_STATUS, selected);
-
-        // Item stack inventory ticked event cannot cancel because it already completed.
-        if (tickedContext.presaging(item)) {
-            tickedContext.arising(item);
-        }
+        // Trigger item inventory ticked event.
+        ConiumItemEventMixinIntermediary.fireItemInventoryTickedEvent(world, entity, Manipulate.cast(this), slot, selected);
     }
 }

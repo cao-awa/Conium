@@ -46,6 +46,8 @@ import com.github.cao.awa.conium.item.event.stack.click.ConiumItemStackClickEven
 import com.github.cao.awa.conium.item.event.stack.click.ConiumItemStackClickedEvent
 import com.github.cao.awa.conium.item.event.tick.inventory.ConiumItemInventoryTickEvent
 import com.github.cao.awa.conium.item.event.tick.inventory.ConiumItemInventoryTickedEvent
+import com.github.cao.awa.conium.item.event.use.ConiumItemUseEvent
+import com.github.cao.awa.conium.item.event.use.ConiumItemUsedEvent
 import com.github.cao.awa.conium.item.event.use.block.ConiumItemUseOnBlockEvent
 import com.github.cao.awa.conium.item.event.use.block.ConiumItemUsedOnBlockEvent
 import com.github.cao.awa.conium.item.event.use.entity.ConiumItemUseOnEntityEvent
@@ -73,34 +75,40 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
         val random: ConiumRandomEvent = ConiumRandomEvent()
 
         @JvmField
-        val itemUseOnBlockEvent: ConiumItemUseOnBlockEvent = ConiumItemUseOnBlockEvent()
+        val itemUse: ConiumItemUseEvent= ConiumItemUseEvent()
 
         @JvmField
-        val itemUsedOnBlockEvent: ConiumItemUsedOnBlockEvent = ConiumItemUsedOnBlockEvent()
+        val itemUsed: ConiumItemUsedEvent = ConiumItemUsedEvent()
 
         @JvmField
-        val itemUseOnEntityEvent: ConiumItemUseOnEntityEvent = ConiumItemUseOnEntityEvent()
+        val itemUseOnBlock: ConiumItemUseOnBlockEvent = ConiumItemUseOnBlockEvent()
 
         @JvmField
-        val itemUsedOnEntityEvent: ConiumItemUsedOnEntityEvent = ConiumItemUsedOnEntityEvent()
+        val itemUsedOnBlock: ConiumItemUsedOnBlockEvent = ConiumItemUsedOnBlockEvent()
 
         @JvmField
-        val itemUsageTickEvent: ConiumItemUsageTickEvent = ConiumItemUsageTickEvent()
+        val itemUseOnEntity: ConiumItemUseOnEntityEvent = ConiumItemUseOnEntityEvent()
 
         @JvmField
-        val itemUsageTickedEvent: ConiumItemUsageTickedEvent = ConiumItemUsageTickedEvent()
+        val itemUsedOnEntity: ConiumItemUsedOnEntityEvent = ConiumItemUsedOnEntityEvent()
 
         @JvmField
-        val itemStackClickEvent: ConiumItemStackClickEvent = ConiumItemStackClickEvent()
+        val itemUsageTick: ConiumItemUsageTickEvent = ConiumItemUsageTickEvent()
 
         @JvmField
-        val itemStackClickedEvent: ConiumItemStackClickedEvent = ConiumItemStackClickedEvent()
+        val itemUsageTicked: ConiumItemUsageTickedEvent = ConiumItemUsageTickedEvent()
 
         @JvmField
-        val itemInventoryTickEvent: ConiumItemInventoryTickEvent = ConiumItemInventoryTickEvent()
+        val itemStackClick: ConiumItemStackClickEvent = ConiumItemStackClickEvent()
 
         @JvmField
-        val itemInventoryTickedEvent: ConiumItemInventoryTickedEvent = ConiumItemInventoryTickedEvent()
+        val itemStackClicked: ConiumItemStackClickedEvent = ConiumItemStackClickedEvent()
+
+        @JvmField
+        val itemInventoryTick: ConiumItemInventoryTickEvent = ConiumItemInventoryTickEvent()
+
+        @JvmField
+        val itemInventoryTicked: ConiumItemInventoryTickedEvent = ConiumItemInventoryTickedEvent()
 
         @JvmField
         val serverTick: ConiumServerTickEvent = ConiumServerTickEvent()
@@ -293,11 +301,20 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
         }
 
         fun clearItemSubscribes() {
-            this.itemUseOnBlockEvent.clearSubscribes()
-            this.itemUsedOnBlockEvent.clearSubscribes()
+            this.itemUse.clearSubscribes()
+            this.itemUsed.clearSubscribes()
 
-            this.itemUseOnEntityEvent.clearSubscribes()
-            this.itemUsedOnEntityEvent.clearSubscribes()
+            this.itemUseOnBlock.clearSubscribes()
+            this.itemUsedOnBlock.clearSubscribes()
+            this.itemUseOnEntity.clearSubscribes()
+            this.itemUsedOnEntity.clearSubscribes()
+
+            this.itemUsageTick.clearSubscribes()
+            this.itemUsageTicked.clearSubscribes()
+            this.itemStackClick.clearSubscribes()
+            this.itemStackClicked.clearSubscribes()
+            this.itemInventoryTick.clearSubscribes()
+            this.itemInventoryTicked.clearSubscribes()
         }
 
         fun clearServerTickSubscribes() {

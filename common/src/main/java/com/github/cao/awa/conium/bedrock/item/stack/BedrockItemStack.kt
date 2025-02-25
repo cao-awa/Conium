@@ -13,8 +13,5 @@ class BedrockItemStack(private val delegate: ItemStack) {
     private fun typeId(): String = Registries.ITEM.getId(this.delegate.item).toString()
 }
 
-fun ItemStack.toBedrock(): BedrockItemStack {
-    return BedrockItemStack(
-        this
-    )
-}
+val ItemStack.bedrockItemStack: BedrockItemStack
+    get() = BedrockItemStack(this)

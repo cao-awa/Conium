@@ -1,6 +1,6 @@
-package com.github.cao.awa.conium.bedrock
+package com.github.cao.awa.conium.bedrock.index.d
 
-import com.github.cao.awa.conium.bedrock.server.ServerIndexD
+import com.github.cao.awa.conium.bedrock.index.d.server.ServerIndexD
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger

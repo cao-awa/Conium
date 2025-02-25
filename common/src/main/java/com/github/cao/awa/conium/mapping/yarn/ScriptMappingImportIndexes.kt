@@ -272,7 +272,9 @@ import net.minecraft.util.WinNativeModuleUtil
 import net.minecraft.util.ZipCompressor
 
 // net.minecraft.util.hit
+import net.minecraft.util.hit.HitResult
 import net.minecraft.util.hit.BlockHitResult
+import net.minecraft.util.hit.EntityHitResult
 
 // net.minecraft.util.math
 import net.minecraft.util.math.BlockPos
@@ -581,7 +583,9 @@ typealias WinNativeModuleUtil = WinNativeModuleUtil
 typealias ZipCompressor = ZipCompressor
 
 // net.minecraft.util.hit
+typealias HitResult = HitResult
 typealias BlockHitResult = BlockHitResult
+typealias EntityHitResult = EntityHitResult
 
 // net.minecraft.util.math
 typealias MathHelper = MathHelper

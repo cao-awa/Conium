@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.bedrock.script
 
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
+import com.github.cao.awa.conium.bedrock.index.BedrockScriptAnonymousObjectMap
 import com.github.cao.awa.conium.parameter.DynamicArgType
 import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder.argThrowaway
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
@@ -9,7 +10,11 @@ import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 @BedrockScriptApi
 @BedrockScriptApiFacade("anonymous object")
 open class BedrockScriptAnonymousObjectMap : Iterable<MutableMap.MutableEntry<String, Any?>> {
-    private val map = CollectionFactor.hashMap<String, Any?>()
+    companion object {
+        val EMPTY: BedrockScriptAnonymousObjectMap = BedrockScriptAnonymousObjectMap()
+    }
+
+    private val map: MutableMap<String, Any?> = CollectionFactor.hashMap<String, Any?>()
 
     fun add(key: String, value: Any?): BedrockScriptAnonymousObjectMap {
         this.map[key] = value
