@@ -14,6 +14,7 @@ import com.github.cao.awa.conium.mapping.yarn.*
  * @since 1.0.0
  */
 
+// ‘setWorld’ isn’t public here, only mapping ‘getWorld’
 val Entity.world: World by Entity::world
 val Entity.server: MinecraftServer? by Entity::server
 val Entity.isAlive: Boolean
