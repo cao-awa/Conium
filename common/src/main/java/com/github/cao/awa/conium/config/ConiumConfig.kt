@@ -46,6 +46,8 @@ class ConiumConfig {
         }
 
         fun createConfig() {
+            this.CONFIG_FILE.parentFile.mkdirs()
+
             IOUtil.write(
                 this.CONFIG_FILE.writer(),
                 IOUtil.read(ResourceLoader.get("assets/conium/config/default.conium.config.json"))
