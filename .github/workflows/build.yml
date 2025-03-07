@@ -15,7 +15,7 @@ jobs:
           21
         ]
         # and run on both Linux and Windows
-        os: [ ubuntu-22.04, windows-2022 ]
+        os: [ ubuntu-22.04 ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout repository
@@ -35,7 +35,7 @@ jobs:
         run: ./gradlew build
       - name: capture build artifacts
         # Upload all artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Artifacts
           path: build/libs/
