@@ -404,6 +404,7 @@ typealias LootTable = LootTable
 // net.minecraft.block
 typealias AbstractBlock = AbstractBlock
 typealias Block = Block
+typealias BlockSettings = AbstractBlock.Settings
 typealias Blocks = Blocks
 typealias BlockState = BlockState
 typealias MapColor = MapColor
@@ -496,6 +497,8 @@ typealias ChatVisibility = ChatVisibility
 
 // net.minecraft.item
 typealias Item = Item
+typealias ItemSettings = Item.Settings
+typealias ItemTooltipContext = Item.TooltipContext
 typealias Items = YarnItems
 typealias ItemStack = ItemStack
 typealias ItemPlacementContext = ItemPlacementContext

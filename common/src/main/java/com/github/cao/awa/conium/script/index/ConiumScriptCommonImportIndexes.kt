@@ -23,6 +23,7 @@ import com.github.cao.awa.catheter.receptacle.LongReceptacle
 import com.github.cao.awa.catheter.receptacle.DoubleReceptacle
 import com.github.cao.awa.catheter.receptacle.ByteReceptacle
 import com.github.cao.awa.catheter.receptacle.BooleanReceptacle
+import com.github.cao.awa.conium.Conium
 
 // Export info.
 import com.github.cao.awa.conium.script.ScriptExport
@@ -53,6 +54,18 @@ import com.github.cao.awa.conium.raycast.ConiumRaycast
 typealias ConiumEventType<I> = ConiumEventType<I>
 typealias ConiumEventContext<P> = ConiumEventContext<P>
 typealias ConiumEventContextBuilder = ConiumEventContextBuilder
+
+fun register(identifier: Identifier, itemProvider: (ItemSettings) -> Item): Item {
+    return Conium.coniumItemManager!!.register(identifier, itemProvider)
+}
+
+fun register(
+    identifier: Identifier,
+    blockProvider: (BlockSettings) -> Block,
+    settingsProvider: ((ItemSettings) -> Unit)? = null
+): Block {
+    return Conium.coniumBlockManager!!.register(identifier, blockProvider, settingsProvider)
+}
 
 fun <I : Any> preRequest(
     eventType: ConiumEventType<I>,

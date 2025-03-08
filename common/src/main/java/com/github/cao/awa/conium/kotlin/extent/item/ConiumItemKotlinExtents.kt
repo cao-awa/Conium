@@ -6,6 +6,7 @@ import com.github.cao.awa.conium.item.builder.ConiumItemBuilder
 import com.github.cao.awa.conium.item.builder.conium.ConiumSchemaItemBuilder
 import com.github.cao.awa.conium.item.setting.ConiumItemSettings
 import com.github.cao.awa.conium.mixin.item.setting.ItemSettingsAccessor
+import net.minecraft.block.Block
 import net.minecraft.component.ComponentMap
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
@@ -26,11 +27,15 @@ fun registerItem(identifier: Identifier, itemProvider: (Item.Settings) -> Item):
     }
 }
 
-fun ConiumBlockBuilder.registerBlockItem(block: ConiumBlock, settingsProvider: (Item.Settings) -> Unit = { }) {
-    Items.register(itemKeyOf(this.identifier)) {
+fun registerBlockItem(identifier: Identifier, block: Block, settingsProvider: (Item.Settings) -> Unit): Item {
+    return Items.register(itemKeyOf(identifier)) {
         settingsProvider(it)
         BlockItem(block, it)
     }
+}
+
+fun ConiumBlockBuilder.registerBlockItem(block: ConiumBlock, settingsProvider: (Item.Settings) -> Unit = { }): Item {
+    return registerBlockItem(this.identifier, block, settingsProvider)
 }
 
 fun itemKeyOf(id: Identifier): RegistryKey<Item> = RegistryKey.of(RegistryKeys.ITEM, id)

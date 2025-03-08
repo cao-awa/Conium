@@ -8,6 +8,7 @@ import com.github.cao.awa.conium.item.builder.ConiumItemBuilder
 import com.github.cao.awa.conium.item.builder.bedrock.BedrockSchemaItemBuilder
 import com.github.cao.awa.conium.item.builder.conium.ConiumSchemaItemBuilder
 import com.github.cao.awa.conium.kotlin.extent.item.register
+import com.github.cao.awa.conium.kotlin.extent.item.registerItem
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry
 import com.github.cao.awa.conium.template.ConiumTemplate
@@ -72,6 +73,8 @@ class ConiumItemManager(
 
         builder.register()
     }
+
+    fun register(identifier: Identifier, item: (Item.Settings) -> Item): Item = registerItem(identifier, item)
 
     fun addFuel(item: Item, duration: Int) = this.fuelRegistry.add(item, duration)
 

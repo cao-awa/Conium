@@ -3,12 +3,16 @@ package com.github.cao.awa.conium.kotlin.extent.block
 import com.github.cao.awa.conium.block.ConiumBlock
 import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
+import com.github.cao.awa.conium.kotlin.extent.item.itemKeyOf
+import com.github.cao.awa.conium.kotlin.extent.item.registerBlockItem
 import com.github.cao.awa.conium.mixin.block.AbstractBlockMixin
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
+import net.minecraft.item.Items
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.ActionResult
@@ -20,8 +24,8 @@ import net.minecraft.world.World
 
 fun ConiumBlockBuilder.register(afterAction: (ConiumBlock) -> Unit) {
     afterAction(
-        Blocks.register(
-            blockKeyOf(this.identifier),
+        registerBlock(
+            this.identifier,
             { settings: AbstractBlock.Settings ->
                 build(
                     ConiumBlockSettings.create(
@@ -29,9 +33,16 @@ fun ConiumBlockBuilder.register(afterAction: (ConiumBlock) -> Unit) {
                         settings
                     )
                 )
-            },
-            AbstractBlock.Settings.create()
+            }
         ) as ConiumBlock
+    )
+}
+
+fun registerBlock(identifier: Identifier, blockProvider: (AbstractBlock.Settings) -> Block): Block {
+    return Blocks.register(
+        blockKeyOf(identifier),
+        blockProvider,
+        AbstractBlock.Settings.create()
     )
 }
 
