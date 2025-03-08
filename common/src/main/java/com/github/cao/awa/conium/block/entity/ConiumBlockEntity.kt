@@ -20,11 +20,14 @@ class ConiumBlockEntity(
     state: BlockState
 ) : BlockEntity(setting.type, pos, state) {
     private val data: RegistrableNbt = RegistrableNbt(
+        // Setting allows keys.
         this.setting.registeredData,
+        // Use mark dirty to listens data updates.
         ::markDirty
-    ).also {
+    ).also { nbt: RegistrableNbt ->
+        // Setting default data.
         for ((key, value) in this.setting.defaultData) {
-            it[key] = value
+            nbt[key] = value
         }
     }
 

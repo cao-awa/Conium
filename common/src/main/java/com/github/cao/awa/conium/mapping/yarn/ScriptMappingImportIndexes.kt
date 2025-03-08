@@ -305,6 +305,7 @@ import net.minecraft.component.MergedComponentMap
 import net.minecraft.component.ComponentChanges
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.EnchantmentEffectComponentTypes
+import net.minecraft.entity.EntityType
 
 // net.minecraft.resource
 // net.minecraft.resource.featuretoggle
@@ -404,6 +405,7 @@ typealias LootTable = LootTable
 // net.minecraft.block
 typealias AbstractBlock = AbstractBlock
 typealias Block = Block
+typealias BlockSettings = AbstractBlock.Settings
 typealias Blocks = Blocks
 typealias BlockState = BlockState
 typealias MapColor = MapColor
@@ -441,6 +443,8 @@ typealias EnderChestInventory = EnderChestInventory
 
 // net.minecraft.entity
 typealias Entity = Entity
+typealias EntityType<T> = EntityType<T>
+typealias EntityTypeBuilder<T> = EntityType.Builder<T>
 typealias LivingEntity = LivingEntity
 typealias EntityAttachments = EntityAttachments
 
@@ -496,6 +500,8 @@ typealias ChatVisibility = ChatVisibility
 
 // net.minecraft.item
 typealias Item = Item
+typealias ItemSettings = Item.Settings
+typealias ItemTooltipContext = Item.TooltipContext
 typealias Items = YarnItems
 typealias ItemStack = ItemStack
 typealias ItemPlacementContext = ItemPlacementContext

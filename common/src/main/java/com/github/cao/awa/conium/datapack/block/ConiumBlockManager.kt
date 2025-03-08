@@ -10,7 +10,9 @@ import com.github.cao.awa.conium.block.builder.conium.ConiumSchemaBlockBuilder
 import com.github.cao.awa.conium.datapack.ConiumJsonDataLoader
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.kotlin.extent.block.register
+import com.github.cao.awa.conium.kotlin.extent.block.registerBlock
 import com.github.cao.awa.conium.kotlin.extent.item.registerBlockItem
+import com.github.cao.awa.conium.kotlin.extent.item.registerItem
 import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicIdList
@@ -18,8 +20,10 @@ import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry
 import com.google.common.collect.UnmodifiableIterator
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.item.Item
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.resource.ResourceManager
@@ -48,8 +52,6 @@ class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLook
     }
 
     fun load(identifier: Identifier, json: JsonObject) {
-        val stateIds: ConiumDynamicIdList<BlockState> = Block.STATE_IDS.doCast()
-
         // Use to debug, trace inject details.
         Conium.debug(
             "Registering block '{}' from '{}'",
@@ -65,17 +67,37 @@ class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLook
         }
 
         builder.register { block: ConiumBlock ->
-            val var2: UnmodifiableIterator<*> = block.stateManager.states.iterator()
-
-            while (var2.hasNext()) {
-                val blockState: BlockState = var2.next() as BlockState
-                stateIds.addDynamic(blockState)
-                blockState.initShapeCache()
-            }
-
-            block.lootTableKey
+            registerBlockStates(block)
 
             builder.registerBlockItem(block)
+        }
+    }
+
+    fun registerBlockStates(block: Block) {
+        val stateIds: ConiumDynamicIdList<BlockState> = Block.STATE_IDS.doCast()
+
+        val var2: UnmodifiableIterator<*> = block.stateManager.states.iterator()
+
+        while (var2.hasNext()) {
+            val blockState: BlockState = var2.next() as BlockState
+            stateIds.addDynamic(blockState)
+            blockState.initShapeCache()
+        }
+
+        block.lootTableKey
+    }
+
+    fun register(
+        identifier: Identifier,
+        blockProvider: (AbstractBlock.Settings) -> Block,
+        itemSettings: ((Item.Settings) -> Unit)? = null
+    ): Block {
+        return registerBlock(identifier, blockProvider).also { block: Block ->
+            registerBlockStates(block)
+
+            if (itemSettings != null) {
+                registerBlockItem(identifier, block, itemSettings)
+            }
         }
     }
 }
