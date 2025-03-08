@@ -19,19 +19,28 @@ import net.minecraft.world.World
 class ConiumBlock(val setting: ConiumBlockSettings) : Block(setting.vanillaSettings), BlockEntityProvider {
     companion object {
         fun create(builder: ConiumBlockBuilder, settings: ConiumBlockSettings): ConiumBlock {
+            // Remove duplicated templates.
             builder.distinct()
 
+            // Build block.
             return ConiumBlock(settings).apply {
+                // Attach block.
                 builder.forEachTemplate { it.attach(this) }
 
+                // Complete block.
                 builder.forEachTemplate { it.complete(this) }
 
-                settings.blockEntity.also { blockEntitySettings ->
+                // Build block entity.
+                settings.blockEntity.also { blockEntitySettings: ConiumBlockEntitySettings ->
+                    // Only do build if block has block entity templates,
                     for (blockEntityTemplate in blockEntitySettings.blockEntityTemplates) {
+                        // Prepare block entity.
                         blockEntityTemplate.prepare(blockEntitySettings)
 
+                        // Attach block entity.
                         blockEntityTemplate.attach(this)
 
+                        // Complete block entity.
                         blockEntityTemplate.complete(this)
                     }
                 }

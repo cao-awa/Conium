@@ -50,6 +50,9 @@ import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
 // Raycast.
 import com.github.cao.awa.conium.raycast.ConiumRaycast
 
+// Entity.
+import com.github.cao.awa.conium.kotlin.extent.entity.registerEntity
+
 // Event.
 typealias ConiumEventType<I> = ConiumEventType<I>
 typealias ConiumEventContext<P> = ConiumEventContext<P>
@@ -65,6 +68,10 @@ fun register(
     settingsProvider: ((ItemSettings) -> Unit)? = null
 ): Block {
     return Conium.coniumBlockManager!!.register(identifier, blockProvider, settingsProvider)
+}
+
+fun <T: Entity> register(identifier: Identifier, entityType: EntityTypeBuilder<T>): EntityType<T> {
+    return registerEntity(identifier, entityType)
 }
 
 fun <I : Any> preRequest(
@@ -128,7 +135,7 @@ fun <I : Any, P1> request(
     arg1: DynamicArgType<P1>,
     arising: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true },
     presaging: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true }
-): ConiumEventContext<ParameterSelective2<Boolean, Any, P1>> = ConiumEventContextBuilder.request(eventType, arg1, arising)
+): ConiumEventContext<ParameterSelective2<Boolean, Any, P1>> = ConiumEventContextBuilder.request(eventType, arg1, arising, presaging)
 
 fun <I : Any, P1> requestNr(
     eventType: ConiumEventType<I>,

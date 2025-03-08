@@ -305,6 +305,7 @@ import net.minecraft.component.MergedComponentMap
 import net.minecraft.component.ComponentChanges
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.EnchantmentEffectComponentTypes
+import net.minecraft.entity.EntityType
 
 // net.minecraft.resource
 // net.minecraft.resource.featuretoggle
@@ -442,6 +443,8 @@ typealias EnderChestInventory = EnderChestInventory
 
 // net.minecraft.entity
 typealias Entity = Entity
+typealias EntityType<T> = EntityType<T>
+typealias EntityTypeBuilder<T> = EntityType.Builder<T>
 typealias LivingEntity = LivingEntity
 typealias EntityAttachments = EntityAttachments
 

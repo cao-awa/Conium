@@ -3,9 +3,8 @@
 # Conium event
 1. Renamed events, remove suffixes 'event' in the events list.
 2. Move more event trigger to intermediary.
-3. Fix bug of event 'ITEM_USE' and 'ITEM_USED' not imported in the common script
-4. Fix bug of event 'ITEM_USE' and 'ITEM_USED' not triggered when player using item stack
-5. Add 'attachPreparation' in event context, used to pre-vary raw inputted args.
+3. Add 'attachPreparation' in event context, used to pre-vary raw inputted args.
+4. Add dynamic register APIs for item, block and entity.
 
 ## New event support
 Add events support:
