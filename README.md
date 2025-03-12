@@ -7,7 +7,7 @@
 
 Conium is a datapack and script framework for the modern Minecraft, it provides very diverse features without Java coding, Conium lets you complete your mods only using datapacks.
 
-![](https://count.getloli.com/@@cao-awa.conium?name=%40cao-awa.conium&theme=rule34&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=auto)
+![](https://count.getloli.com/@@cao-awa.conium?name=%40cao-awa.conium&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=auto)
 
 ## Requirements
 
