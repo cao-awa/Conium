@@ -24,7 +24,7 @@ object ConiumBlockSettingsValue {
     const val WATER_PATH_THROUGH: Boolean = false
     const val AIR_PATH_THROUGH: Boolean = false
     const val ENABLE_BLOCK_ENTITY: Boolean = false
-    val NO_REDSTONE_POWER_PROVIDER: (BlockState, BlockView, BlockPos, Direction) -> Int = { state, world, pos, direction -> 0 }
+    val NO_REDSTONE_POWER_PROVIDER: (BlockState, BlockView, BlockPos, Direction) -> Int = { _, _, _, _ -> 0 }
     const val EMITS_REDSTONE_POWER = false;
 }
 

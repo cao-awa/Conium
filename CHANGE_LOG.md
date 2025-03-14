@@ -5,6 +5,7 @@
 2. Move more event trigger to intermediary.
 3. Add 'attachPreparation' in event context, used to pre-vary raw inputted args.
 4. Add dynamic register APIs for item, block and entity.
+5. Add more minecraft class import.
 
 ## New event support
 Add events support:

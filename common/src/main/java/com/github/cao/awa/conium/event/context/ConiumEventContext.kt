@@ -130,6 +130,10 @@ class ConiumEventContext<P : ParameterSelective?>(
             return true
         }
 
+        for (preparation: (ConiumEventContext<*>) -> Unit in this.attachesPreparation) {
+            preparation(this)
+        }
+
         var success: Boolean = this.presageTrigger == null || this.dynamicArgs.arising(identity, this.args, this.presageTrigger!!)
         for (attach: ConiumEventContext<*> in this.attaches) {
             if (attach.presageTrigger != null) {
@@ -150,9 +154,6 @@ class ConiumEventContext<P : ParameterSelective?>(
             return true
         }
 
-        for (preparation: (ConiumEventContext<*>) -> Unit in this.attachesPreparation) {
-            preparation(this)
-        }
         var success: Boolean = this.ariseTrigger == null || this.dynamicArgs.arising(identity, this.args, this.ariseTrigger!!)
         for (attach: ConiumEventContext<*> in this.attaches) {
             if (attach.ariseTrigger != null) {
