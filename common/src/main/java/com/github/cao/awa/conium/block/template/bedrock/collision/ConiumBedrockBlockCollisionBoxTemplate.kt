@@ -8,6 +8,17 @@ import com.github.cao.awa.conium.template.ConiumTemplates.BedrockBlock.COLLISION
 import com.google.gson.JsonElement
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
 
+/**
+ * The block collision box template for bedrock schema.
+ *
+ * For details, see [ConiumBlockCollisionTemplate].
+ *
+ * @see ConiumBlockCollisionTemplate
+ *
+ * @author cao_awa
+ *
+ * @since 1.0.0
+ */
 object ConiumBedrockBlockCollisionBoxTemplate {
     @JvmStatic
     fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockCollisionTemplate = element.objectOrBoolean(
@@ -16,7 +27,8 @@ object ConiumBedrockBlockCollisionBoxTemplate {
             createWithCubed(COLLISION_BOX) { cubed ->
                 // Push all int to cubed array.
                 it["origin"].asJsonArray.let {
-                    // Bedrock base offset is '-8', make it be conium offset '0'.
+                    // Bedrock base offset of x and z axis is '-8', make it be the conium offset '0'.
+                    // But y axis is zero that same to the conium offset.
                     cubed(it[0].asInt + 8)
                     cubed(it[1].asInt)
                     cubed(it[2].asInt + 8)
