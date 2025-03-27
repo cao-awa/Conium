@@ -7,7 +7,7 @@ import net.minecraft.GameVersion
 import net.minecraft.MinecraftVersion
 import net.minecraft.SaveVersion
 import net.minecraft.SharedConstants
-// Do not import Boostrap here.
+// Do not import the 'Boostrap.class' here.
 
 // net.minecraft.registry | Completed 1.21.4
 import net.minecraft.registry.Registry
@@ -71,8 +71,15 @@ import net.minecraft.registry.tag.TagBuilder
 import net.minecraft.registry.tag.TagGroupLoader
 import net.minecraft.registry.tag.TagPacketSerializer
 
-// net.minecraft.loot
+// net.minecraft.loot | Completed 1.21.4
 import net.minecraft.loot.LootTable
+import net.minecraft.loot.LootChoice
+import net.minecraft.loot.LootTables
+import net.minecraft.loot.LootPool
+import net.minecraft.loot.LootDataType
+import net.minecraft.loot.ContainerComponentModifier
+import net.minecraft.loot.ContainerComponentModifiers
+import net.minecraft.loot.LootTableReporter
 
 // net.minecraft.block
 import net.minecraft.block.AbstractBlock
@@ -401,6 +408,13 @@ typealias TagPacketSerializer = TagPacketSerializer
 
 // net.minecraft.loot
 typealias LootTable = LootTable
+typealias LootChoice = LootChoice
+typealias LootTables = LootTables
+typealias LootPool = LootPool
+typealias LootDataType<T> = LootDataType<T>
+typealias ContainerComponentModifier<T> = ContainerComponentModifier<T>
+typealias ContainerComponentModifiers = ContainerComponentModifiers
+typealias LootTableReporter = LootTableReporter
 
 // net.minecraft.block
 typealias AbstractBlock = AbstractBlock

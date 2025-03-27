@@ -17,6 +17,8 @@ class ConiumConfig {
         var debugs: Boolean = false
         @JvmField
         var enableBedrockScript: Boolean = true
+        @JvmField
+        var sendBugTrace: Boolean = false
 
         fun makeConfig() {
             LOGGER.info("Processing conium config")
@@ -42,6 +44,10 @@ class ConiumConfig {
                 config["enable_bedrock_script"].ifBoolean {
                     this.enableBedrockScript = it
                 }
+
+//                config["send_bug_report"].ifBoolean {
+//                    this.sendBugTrace = it
+//                }
             }
         }
 
@@ -62,6 +68,10 @@ class ConiumConfig {
             if (!this.enableBedrockScript) {
                 LOGGER.info("Conium is disabled bedrock script supports by configuration")
             }
+//            Not available now
+//            if (this.sendBugTrace) {
+//                LOGGER.info("Conium bug tracer are enabled, the error trace may send to server")
+//            }
         }
     }
 }

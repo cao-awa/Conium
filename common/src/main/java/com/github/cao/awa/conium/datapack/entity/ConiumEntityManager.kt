@@ -41,7 +41,6 @@ class ConiumEntityManager(private val registryLookup: RegistryWrapper.WrapperLoo
 
     fun resetRegistries() {
         (Registries.ENTITY_TYPE as ConiumDynamicRegistry).clearDynamic()
-        ConiumEvent.clearEntitySubscribes()
         ConiumEntityAttributeRegistry.resetAttributes()
 
         if (Conium.isClient) {

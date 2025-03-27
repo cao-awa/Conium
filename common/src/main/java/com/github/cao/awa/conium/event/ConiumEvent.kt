@@ -23,6 +23,8 @@ import com.github.cao.awa.conium.block.event.tick.fluid.ConiumFluidScheduleTickE
 import com.github.cao.awa.conium.block.event.tick.fluid.ConiumFluidScheduleTickedEvent
 import com.github.cao.awa.conium.block.event.use.ConiumUseBlockEvent
 import com.github.cao.awa.conium.block.event.use.ConiumUsedBlockEvent
+import com.github.cao.awa.conium.chunk.event.receive.ConiumReceiveChunkEvent
+import com.github.cao.awa.conium.chunk.event.receive.ConiumReceivedChunkEvent
 import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamageEvent
 import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamagedEvent
 import com.github.cao.awa.conium.entity.event.die.ConiumEntityDeadEvent
@@ -237,6 +239,12 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
         val trappedChestClosed: ConiumTrappedChestClosedEvent = ConiumTrappedChestClosedEvent()
 
         @JvmField
+        val receiveChunk: ConiumReceiveChunkEvent = ConiumReceiveChunkEvent()
+
+        @JvmField
+        val receivedChunk: ConiumReceivedChunkEvent = ConiumReceivedChunkEvent()
+
+        @JvmField
         val enterConfigurationConnection: ConiumServerConfigurationConnectionEvent = ConiumServerConfigurationConnectionEvent()
 
         /**
@@ -279,6 +287,17 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
         @JvmStatic
         fun init() {
 
+        }
+
+        @JvmStatic
+        fun clearAll() {
+            clearEntitySubscribes()
+            clearChunkSubscribes()
+            clearRandomSubscribes()
+            clearNetworkSubscribes()
+            clearItemSubscribes()
+            clearBlockSubscribes()
+            clearServerTickSubscribes()
         }
 
         fun clearEntitySubscribes() {
@@ -353,6 +372,11 @@ abstract class ConiumEvent<P : ParameterSelective>(val eventType: ConiumEventTyp
 
         fun clearRandomSubscribes() {
             this.random.clearSubscribes()
+        }
+
+        fun clearChunkSubscribes() {
+            this.receiveChunk.clearSubscribes()
+            this.receivedChunk.clearSubscribes()
         }
 
         fun clearNetworkSubscribes() {

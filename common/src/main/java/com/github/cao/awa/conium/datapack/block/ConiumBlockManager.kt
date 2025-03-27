@@ -48,7 +48,6 @@ class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLook
     fun resetRegistries() {
         (Registries.BLOCK as ConiumDynamicRegistry).clearDynamic()
         (Block.STATE_IDS as ConiumDynamicIdList<BlockState>).clearDynamic()
-        ConiumEvent.clearBlockSubscribes()
     }
 
     fun load(identifier: Identifier, json: JsonObject) {

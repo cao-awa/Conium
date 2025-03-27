@@ -47,7 +47,6 @@ class ConiumItemManager(
 
     fun resetRegistries() {
         (Registries.ITEM as ConiumDynamicRegistry).clearDynamic()
-        ConiumEvent.clearItemSubscribes()
         this.fuelRegistry.resetComputedFuels()
     }
 

@@ -9,8 +9,11 @@ import net.minecraft.block.Block
 import net.minecraft.entity.EntityType
 import net.minecraft.fluid.Fluid
 import net.minecraft.item.Item
+import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerConfigurationNetworkHandler
+import net.minecraft.world.chunk.Chunk
+import net.minecraft.world.chunk.WorldChunk
 import kotlin.reflect.KClass
 import net.minecraft.util.Unit as MinecraftUnit
 
@@ -252,6 +255,12 @@ class ConiumEventType<I : Any>(val name: String, val identityType: KClass<I>) {
 
         @JvmField
         val FLUID_SCHEDULE_TICKED: ConiumEventType<Fluid> = ConiumEventType("fluid_schedule_ticked", Fluid::class)
+
+        @JvmField
+        val RECEIVE_CHUNK: ConiumEventType<ChunkDataS2CPacket> = ConiumEventType("receive_chunk", ChunkDataS2CPacket::class)
+
+        @JvmField
+        val RECEIVED_CHUNK: ConiumEventType<WorldChunk> = ConiumEventType("received_chunk", WorldChunk::class)
 
         @JvmField
         val SERVER_CONFIGURATION_CONNECTION: ConiumEventType<ServerConfigurationNetworkHandler> = ConiumEventType("server_configuration_connection", ServerConfigurationNetworkHandler::class)
