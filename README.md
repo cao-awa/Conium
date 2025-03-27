@@ -127,3 +127,5 @@ Conium will randomly roll a [Hitokoto](https://en.wiktionary.org/wiki/%E4%B8%80%
 
 For the list, see [ConiumHitokoto.kt](/common/src/main/java/com/github/cao/awa/conium/hitokoto/ConiumHitokoto.kt).
 
+# Chinese wiki
+The [Hyacinth wiki](https://www.hyacinthwiki.com/index.php?title=Conium_(模组)).
