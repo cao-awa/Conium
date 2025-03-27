@@ -22,6 +22,8 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
+import net.minecraft.network.packet.s2c.play.ChunkData
+import net.minecraft.network.packet.s2c.play.LightData
 import net.minecraft.screen.slot.Slot
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerConfigurationNetworkHandler
@@ -34,6 +36,8 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
+import net.minecraft.world.chunk.Chunk
+import net.minecraft.world.chunk.WorldChunk
 import net.minecraft.world.tick.ScheduledTickView
 
 object ConiumEventArgTypes {
@@ -93,6 +97,18 @@ object ConiumEventArgTypes {
 
     @JvmField
     val CLIENT_WORLD: DynamicArgType<ClientWorld>
+
+    @JvmField
+    val CHUNK: DynamicArgType<Chunk>
+
+    @JvmField
+    val WORLD_CHUNK: DynamicArgType<WorldChunk>
+
+    @JvmField
+    val CHUNK_DATA: DynamicArgType<ChunkData>
+
+    @JvmField
+    val LIGHT_DATA: DynamicArgType<LightData>
 
     @JvmField
     val BLOCK: DynamicArgType<Block>
@@ -226,6 +242,23 @@ object ConiumEventArgTypes {
             "client_world",
             transform(::WORLD) { world: World -> world as? ClientWorld },
             transform(::ITEM_PLACEMENT_CONTEXT) { placement: ItemPlacementContext -> placement.world as? ClientWorld }
+        )
+
+        CHUNK = arg(
+            "chunk"
+        )
+
+        WORLD_CHUNK = arg(
+            "world_chunk",
+            transform(::CHUNK) { chunk: Chunk -> chunk as WorldChunk }
+        )
+
+        CHUNK_DATA = arg(
+            "chunk_data"
+        )
+
+        LIGHT_DATA = arg(
+            "light_data"
         )
 
         BLOCK = arg(
