@@ -13,7 +13,6 @@
     "block.BlockStateMixin",
     "block.entity.shulker.ChestBlockEntityMixin",
     "block.entity.shulker.ShulkerBoxBlockEntityMixin",
-    "chunk.ChunkDataS2CPacketMixin",
     "collection.IdListMixin",
     "component.attribute.AttributeModifiersComponentBuilderMixin",
     "component.map.builder.ComponentMapBuilderAccessor",
@@ -41,7 +40,6 @@
   "client": [
     "client.MinecraftClientAccessor",
     "client.interaction.ClientPlayerInteractionManagerMixin",
-    "client.play.ClientPlayNetworkHanderMixin",
     "client.play.ClientPlayNetworkHandlerMixin",
     "renderer.entity.EntityRenderDispatcherMixin",
     "renderer.entity.EntityRenderersMixin",
