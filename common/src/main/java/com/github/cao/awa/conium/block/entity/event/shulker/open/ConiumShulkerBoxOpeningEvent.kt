@@ -4,6 +4,7 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.kotlin.extent.innate.isIt
@@ -25,8 +26,10 @@ import net.minecraft.world.World
  *
  * @since 1.0.0
  */
-class ConiumShulkerBoxOpeningEvent : ConiumEvent<ParameterSelective5<Boolean, World, PlayerEntity, ShulkerBoxBlockEntity, AbstractBlockState, BlockPos>>(ConiumEventType.SHULKER_BOX_OPENING) {
-    override fun requirement(): ConiumEventContext<out ParameterSelective> {
+class ConiumShulkerBoxOpeningEvent : ConiumEvent<ParameterSelective5<Boolean, World, PlayerEntity, ShulkerBoxBlockEntity, AbstractBlockState, BlockPos>, ConiumShulkerOpeningEventMetadata>(
+    ConiumEventType.SHULKER_BOX_OPENING
+) {
+    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.PLAYER,
@@ -40,6 +43,10 @@ class ConiumShulkerBoxOpeningEvent : ConiumEvent<ParameterSelective5<Boolean, Wo
         }
     }
 
+    override fun metadata(context: ConiumEventContext): ConiumShulkerOpeningEventMetadata {
+        return ConiumShulkerOpeningEventMetadata(context)
+    }
+
     override fun attach() {
         // Request using block event, only handle shulker box here.
         ConiumEventContextBuilder.preRequest(
@@ -50,7 +57,7 @@ class ConiumShulkerBoxOpeningEvent : ConiumEvent<ParameterSelective5<Boolean, Wo
         ) { block: Block, pos: BlockPos, player: PlayerEntity, blockEntity: BlockEntity ->
             if (blockEntity is ShulkerBoxBlockEntity && blockEntity.world != null && !blockEntity.isRemoved && block == blockEntity.cachedState.block) {
                 // Request the opening shulker box context.
-                val openingContext: ConiumEventContext<*> = request(ConiumEventType.SHULKER_BOX_OPENING)
+                val openingContext: ConiumArisingEventContext<*> = request(ConiumEventType.SHULKER_BOX_OPENING)
 
                 // Fill context args.
                 openingContext.put(ConiumEventArgTypes.BLOCK_POS, pos)

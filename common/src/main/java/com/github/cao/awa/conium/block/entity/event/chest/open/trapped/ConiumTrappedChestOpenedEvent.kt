@@ -4,6 +4,7 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.kotlin.extent.innate.isIt
@@ -27,8 +28,10 @@ import net.minecraft.world.World
  *
  * @since 1.0.0
  */
-class ConiumTrappedChestOpenedEvent : ConiumEvent<ParameterSelective6<Boolean, World, PlayerEntity, TrappedChestBlockEntity, AbstractBlockState, BlockPos, ViewerCountManager>>(ConiumEventType.TRAPPED_CHEST_OPENED) {
-    override fun requirement(): ConiumEventContext<out ParameterSelective> {
+class ConiumTrappedChestOpenedEvent : ConiumEvent<ParameterSelective6<Boolean, World, PlayerEntity, TrappedChestBlockEntity, AbstractBlockState, BlockPos, ViewerCountManager>, ConiumTrappedChestOpenedEventMetadata>(
+    ConiumEventType.TRAPPED_CHEST_OPENED
+) {
+    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.PLAYER,
@@ -49,6 +52,10 @@ class ConiumTrappedChestOpenedEvent : ConiumEvent<ParameterSelective6<Boolean, W
         }
     }
 
+    override fun metadata(context: ConiumEventContext): ConiumTrappedChestOpenedEventMetadata {
+        return ConiumTrappedChestOpenedEventMetadata(context)
+    }
+
     override fun attach() {
         // Request using block event, only handle shulker box here.
         ConiumEventContextBuilder.preRequest(
@@ -66,7 +73,7 @@ class ConiumTrappedChestOpenedEvent : ConiumEvent<ParameterSelective6<Boolean, W
             blockState: BlockState,
             blockPos: BlockPos,
             viewerManager: ViewerCountManager ->
-            val trappedContext: ConiumEventContext<*> = request(ConiumEventType.TRAPPED_CHEST_OPENED)
+            val trappedContext: ConiumArisingEventContext<*> = request(ConiumEventType.TRAPPED_CHEST_OPENED)
 
             trappedContext[ConiumEventArgTypes.WORLD] = world
             trappedContext[ConiumEventArgTypes.PLAYER] = player

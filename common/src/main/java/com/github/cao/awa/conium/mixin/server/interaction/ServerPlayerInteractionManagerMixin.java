@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.mixin.server.interaction;
 
 import com.github.cao.awa.conium.event.ConiumEvent;
 import com.github.cao.awa.conium.event.context.ConiumEventContext;
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext;
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
 import net.minecraft.block.Block;
@@ -52,7 +53,7 @@ public abstract class ServerPlayerInteractionManagerMixin {
                 cir.setReturnValue(false);
             } else {
                 // Request the block break event.
-                ConiumEventContext<?> breakContext = ConiumEvent.request(ConiumEventType.BREAK_BLOCK);
+                ConiumArisingEventContext<?> breakContext = ConiumEvent.request(ConiumEventType.BREAK_BLOCK);
 
                 // Fill the context args.
                 breakContext.put(ConiumEventArgTypes.WORLD, world)
@@ -73,15 +74,15 @@ public abstract class ServerPlayerInteractionManagerMixin {
                 boolean removedBlock = this.world.removeBlock(pos, false);
                 if (removedBlock) {
                     // Request the block broken event.
-                    ConiumEventContext<?> brokenContext = ConiumEvent.request(ConiumEventType.BROKEN_BLOCK);
+                    ConiumArisingEventContext<?> brokenContext = ConiumEvent.request(ConiumEventType.BROKEN_BLOCK);
 
                     // Fill the context args.
                     brokenContext.inherit(breakContext);
                     brokenContext.put(ConiumEventArgTypes.BLOCK_STATE, brokenState);
 
                     // The block broken event is not cancelable, only arising the context.
-                    if (breakContext.presaging(block)) {
-                        breakContext.arising(block);
+                    if (brokenContext.presaging(block)) {
+                        brokenContext.arising(block);
                     }
 
                     block.onBroken(this.world, pos, brokenState);

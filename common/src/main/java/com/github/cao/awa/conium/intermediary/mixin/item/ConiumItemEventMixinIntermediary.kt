@@ -1,6 +1,7 @@
 package com.github.cao.awa.conium.intermediary.mixin.item
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary.Companion.fireEvent
@@ -57,7 +58,7 @@ class ConiumItemEventMixinIntermediary {
             return fireEventCancelable(
                 ConiumEventType.ITEM_USE,
                 item
-            ) { context: ConiumEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*> ->
                 context[ConiumEventArgTypes.WORLD] = world
                 context[ConiumEventArgTypes.PLAYER] = user
                 context[ConiumEventArgTypes.HAND] = hand
@@ -90,7 +91,7 @@ class ConiumItemEventMixinIntermediary {
             fireEvent(
                 ConiumEventType.ITEM_USED,
                 item
-            ) { context: ConiumEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*> ->
                 context[ConiumEventArgTypes.WORLD] = world
                 context[ConiumEventArgTypes.PLAYER] = user
                 context[ConiumEventArgTypes.HAND] = hand
@@ -123,10 +124,10 @@ class ConiumItemEventMixinIntermediary {
                 ConiumEventType.ITEM_USE_ON_BLOCK,
                 ConiumEventType.ITEM_USED_ON_BLOCK,
                 item,
-                { context: ConiumEventContext<*> ->
+                { context: ConiumArisingEventContext<*> ->
                     context[ConiumEventArgTypes.ITEM_USAGE_CONTEXT] = usageContext
                 },
-                { result: ActionResult, context: ConiumEventContext<*> ->
+                { result: ActionResult, context: ConiumArisingEventContext<*> ->
                     context[ConiumEventArgTypes.ACTION_RESULT] = result
                 },
                 {
@@ -162,7 +163,7 @@ class ConiumItemEventMixinIntermediary {
                 ConiumEventType.ITEM_USE_ON_ENTITY,
                 ConiumEventType.ITEM_USED_ON_ENTITY,
                 item,
-                { context: ConiumEventContext<*> ->
+                { context: ConiumArisingEventContext<*> ->
                     context[ConiumEventArgTypes.ITEM_STACK] = itemStack
                     context[ConiumEventArgTypes.PLAYER] = user
                     context[ConiumEventArgTypes.LIVING_ENTITY] = target
@@ -203,7 +204,7 @@ class ConiumItemEventMixinIntermediary {
             return fireEventCancelable(
                 ConiumEventType.ITEM_USAGE_TICK,
                 item
-            ) { context: ConiumEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*> ->
                 // Fill the context args.
                 context[ConiumEventArgTypes.WORLD] = world
                 context[ConiumEventArgTypes.LIVING_ENTITY] = user
@@ -235,7 +236,7 @@ class ConiumItemEventMixinIntermediary {
             fireEvent(
                 ConiumEventType.ITEM_USAGE_TICKED,
                 item
-            ) { context: ConiumEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*> ->
                 // Fill the context args.
                 context[ConiumEventArgTypes.WORLD] = world
                 context[ConiumEventArgTypes.LIVING_ENTITY] = user
@@ -270,7 +271,7 @@ class ConiumItemEventMixinIntermediary {
             return fireEventCancelable(
                 ConiumEventType.ITEM_INVENTORY_TICK,
                 item
-            ) { context: ConiumEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*> ->
                 // Fill the context args.
                 context[ConiumEventArgTypes.WORLD] = world
                 context[ConiumEventArgTypes.ENTITY] = holder
@@ -306,7 +307,7 @@ class ConiumItemEventMixinIntermediary {
             return fireEventCancelable(
                 ConiumEventType.ITEM_INVENTORY_TICKED,
                 item
-            ) { context: ConiumEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*> ->
                 // Fill the context args.
                 context[ConiumEventArgTypes.WORLD] = world
                 context[ConiumEventArgTypes.ENTITY] = holder
@@ -341,7 +342,7 @@ class ConiumItemEventMixinIntermediary {
             return fireEventCancelable(
                 ConiumEventType.ITEM_STACK_CLICKED,
                 item
-            ) { context: ConiumEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*> ->
                 // Fill the context args.
                 context[ConiumEventArgTypes.ENTITY] = player
                 context[ConiumEventArgTypes.ITEM_STACK] = itemStack

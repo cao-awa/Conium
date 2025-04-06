@@ -3,6 +3,7 @@ package com.github.cao.awa.conium.entity.event.die
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
@@ -11,8 +12,10 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.world.World
 
-class ConiumEntityDieEvent : ConiumEvent<ParameterSelective3<Boolean, World, LivingEntity, DamageSource>>(ConiumEventType.ENTITY_DIE) {
-    override fun requirement(): ConiumEventContext<out ParameterSelective> {
+class ConiumEntityDieEvent : ConiumEvent<ParameterSelective3<Boolean, World, LivingEntity, DamageSource>, ConiumEntityDieEventMetadata>(
+    ConiumEventType.ENTITY_DIE
+) {
+    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.LIVING_ENTITY,
@@ -22,5 +25,9 @@ class ConiumEntityDieEvent : ConiumEvent<ParameterSelective3<Boolean, World, Liv
                 parameterSelective(world, livingEntity, damageSource)
             }
         }
+    }
+
+    override fun metadata(context: ConiumEventContext): ConiumEntityDieEventMetadata {
+        return ConiumEntityDieEventMetadata(context)
     }
 }

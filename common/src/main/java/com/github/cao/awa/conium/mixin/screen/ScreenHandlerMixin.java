@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.mixin.screen;
 
 import com.github.cao.awa.conium.event.ConiumEvent;
 import com.github.cao.awa.conium.event.context.ConiumEventContext;
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext;
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -32,7 +33,7 @@ public class ScreenHandlerMixin {
             CallbackInfoReturnable<Boolean> cir
     ) {
         // Request the item stack click context.
-        ConiumEventContext<?> clickingContext = ConiumEvent.request(ConiumEventType.ITEM_STACK_CLICK);
+        ConiumArisingEventContext<?> clickingContext = ConiumEvent.request(ConiumEventType.ITEM_STACK_CLICK);
 
         Item item = stack.getItem();
 

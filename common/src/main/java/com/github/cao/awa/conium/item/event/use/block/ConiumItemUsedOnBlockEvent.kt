@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.item.event.use.block
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.item.event.ConiumItemEvent
@@ -11,8 +12,10 @@ import net.minecraft.item.ItemUsageContext
 import net.minecraft.util.ActionResult
 import net.minecraft.world.World
 
-class ConiumItemUsedOnBlockEvent : ConiumItemEvent<ParameterSelective3<Boolean, World, ItemUsageContext, ActionResult>>(ConiumEventType.ITEM_USED_ON_BLOCK) {
-    override fun requirement(): ConiumEventContext<out ParameterSelective> {
+class ConiumItemUsedOnBlockEvent : ConiumItemEvent<ParameterSelective3<Boolean, World, ItemUsageContext, ActionResult>, ConiumItemUsedOnBlockEventMetadata>(
+    ConiumEventType.ITEM_USED_ON_BLOCK
+) {
+    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.ITEM_USAGE_CONTEXT,
@@ -22,5 +25,9 @@ class ConiumItemUsedOnBlockEvent : ConiumItemEvent<ParameterSelective3<Boolean, 
                 parameterSelective(world, context, result)
             }
         }
+    }
+
+    override fun metadata(context: ConiumEventContext): ConiumItemUsedOnBlockEventMetadata {
+        return ConiumItemUsedOnBlockEventMetadata(context)
     }
 }

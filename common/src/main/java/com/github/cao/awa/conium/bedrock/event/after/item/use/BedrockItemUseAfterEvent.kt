@@ -8,9 +8,8 @@ import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
 import com.github.cao.awa.conium.bedrock.event.context.item.use.BedrockItemUseEventContext
 import com.github.cao.awa.conium.bedrock.item.stack.bedrockItemStack
 import com.github.cao.awa.conium.bedrock.world.bedrockWorld
-import com.github.cao.awa.conium.bedrock.world.dimension.bedrockDimension
-import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective1
@@ -21,7 +20,7 @@ import net.minecraft.server.world.ServerWorld
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemUseAfterEventSignal")
 class BedrockItemUseAfterEvent: BedrockEvent<BedrockItemUseEventContext>(ConiumEventType.ITEM_USED) {
-    override fun createUnnamed(action: ParameterSelective1<Unit, BedrockItemUseEventContext>, scriptSource: Any): ConiumEventContext<*> {
+    override fun createUnnamed(action: ParameterSelective1<Unit, BedrockItemUseEventContext>, scriptSource: Any): ConiumArisingEventContext<*> {
         return ConiumEventContextBuilder.requires(
             ConiumEventArgTypes.SERVER_WORLD,
             ConiumEventArgTypes.SERVER_PLAYER,

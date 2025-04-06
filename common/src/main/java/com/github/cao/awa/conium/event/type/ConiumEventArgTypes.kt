@@ -87,7 +87,7 @@ object ConiumEventArgTypes {
     val SERVER: DynamicArgType<MinecraftServer>
 
     @JvmField
-    val SCHEDULE_TICK_VIEW: DynamicArgType<ScheduledTickView>
+    val SCHEDULED_TICK_VIEW: DynamicArgType<ScheduledTickView>
 
     @JvmField
     val WORLD: DynamicArgType<World>
@@ -220,7 +220,7 @@ object ConiumEventArgTypes {
             transform(::SERVER_WORLD, ServerWorld::getServer)
         )
 
-        SCHEDULE_TICK_VIEW = arg(
+        SCHEDULED_TICK_VIEW = arg(
             "schedule_tick_view",
             transform(::WORLD, World::asIt)
         )

@@ -4,6 +4,7 @@ import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.config.ConiumConfig
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.script.ScriptExport
 import com.github.cao.awa.conium.script.eval.ScriptEval
@@ -109,7 +110,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
         load(manager, it)
     }
 
-    fun export(name: String, context: ConiumEventContext<*>, result: (Any) -> Any) {
+    fun export(name: String, context: ConiumArisingEventContext<*>, result: (Any) -> Any) {
         this.exportedInteraction[name] = NamedInteractionScript(
             name,
             context,
@@ -117,7 +118,7 @@ class ConiumScriptManager : SinglePreparationResourceReloader<MutableMap<Identif
         )
     }
 
-    fun acquire(name: String): ConiumEventContext<*> {
+    fun acquire(name: String): ConiumArisingEventContext<*> {
         return this.exportedInteraction[name]!!.context
     }
 

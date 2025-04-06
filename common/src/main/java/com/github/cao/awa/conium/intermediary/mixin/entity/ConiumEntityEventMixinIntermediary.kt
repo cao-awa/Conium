@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.intermediary.mixin.entity
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary
@@ -68,7 +69,7 @@ class ConiumEntityEventMixinIntermediary {
                 damageContext[ConiumEventArgTypes.WORLD] = entity.world
                 damageContext[ConiumEventArgTypes.DAMAGE_SOURCE] = damageSource
                 damageContext[ConiumEventArgTypes.LIVING_ENTITY] = entity
-                damageContext[ConiumEventArgTypes.FLOAT] = amount
+                damageContext[ConiumEventArgTypes.DAMAGE_AMOUNT] = amount
             }
         }
 
@@ -170,7 +171,7 @@ class ConiumEntityEventMixinIntermediary {
                 fireEvent(
                     ConiumEventType.ENTITY_ON_FIRE,
                     entity.type
-                ) { context: ConiumEventContext<*> ->
+                ) { context: ConiumArisingEventContext<*> ->
                     // Fill the context args.
                     context[ConiumEventArgTypes.ENTITY] = entity
                     context[ConiumEventArgTypes.INT] = entity.fireTicks
@@ -209,12 +210,12 @@ class ConiumEntityEventMixinIntermediary {
                     ConiumEventType.ENTITY_EXTINGUISH_FIRE,
                     ConiumEventType.ENTITY_EXTINGUISHED_FIRE,
                     entity.type,
-                    { extinguishContext: ConiumEventContext<*> ->
+                    { extinguishContext: ConiumArisingEventContext<*> ->
                         // Fill extinguish context args.
                         extinguishContext[ConiumEventArgTypes.ENTITY] = entity
                         extinguishContext[ConiumEventArgTypes.INT] = entity.fireTicks
                     },
-                    { extinguishingContext: ConiumEventContext<*> ->
+                    { extinguishingContext: ConiumArisingEventContext<*> ->
                         // Fill extinguished context args.
                         extinguishingContext[ConiumEventArgTypes.ENTITY] = entity
                     }
@@ -246,7 +247,7 @@ class ConiumEntityEventMixinIntermediary {
             return fireEventCancelable(
                 targetEvent,
                 entity.type
-            ) { context: ConiumEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*> ->
                 // Fill the context args.
                 context[ConiumEventArgTypes.ENTITY] = entity
             }
@@ -274,7 +275,7 @@ class ConiumEntityEventMixinIntermediary {
             return fireEventCancelable(
                 ConiumEventType.ENTITY_SPRINTING,
                 entity.type
-            ) { context: ConiumEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*> ->
                 // Fill the context args.
                 context[ConiumEventArgTypes.ENTITY] = entity
             }
