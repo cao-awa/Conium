@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.mixin.block.entity.shulker;
 
 import com.github.cao.awa.conium.event.ConiumEvent;
 import com.github.cao.awa.conium.event.context.ConiumEventContext;
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext;
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
 import net.minecraft.block.Block;
@@ -38,7 +39,7 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
         }
 
         // Request the opened shulker box context.
-        ConiumEventContext<?> openingContext = buildContext(ConiumEventType.SHULKER_BOX_OPENED, player);
+        ConiumArisingEventContext<?> openingContext = buildContext(ConiumEventType.SHULKER_BOX_OPENED, player);
 
         Block block = getCachedState().getBlock();
 
@@ -61,7 +62,7 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
         }
 
         // Request the closing shulker box context.
-        ConiumEventContext<?> closingContext = buildContext(ConiumEventType.SHULKER_BOX_CLOSING, player);
+        ConiumArisingEventContext<?> closingContext = buildContext(ConiumEventType.SHULKER_BOX_CLOSING, player);
 
         Block block = getCachedState().getBlock();
 
@@ -86,7 +87,7 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
         }
 
         // Request the closed shulker box context.
-        ConiumEventContext<?> closedContext = buildContext(ConiumEventType.SHULKER_BOX_CLOSED, player);
+        ConiumArisingEventContext<?> closedContext = buildContext(ConiumEventType.SHULKER_BOX_CLOSED, player);
 
         Block block = getCachedState().getBlock();
 
@@ -98,9 +99,9 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
 
     @Unique
     @NotNull
-    private ConiumEventContext<?> buildContext(@NotNull ConiumEventType<?> eventType, @NotNull PlayerEntity player) {
+    private ConiumArisingEventContext<?> buildContext(@NotNull ConiumEventType<?> eventType, @NotNull PlayerEntity player) {
         // Request the event context.
-        ConiumEventContext<?> eventContext = ConiumEvent.request(eventType);
+        ConiumArisingEventContext<?> eventContext = ConiumEvent.request(eventType);
 
         // Fill context args.
         eventContext.put(ConiumEventArgTypes.BLOCK_POS, this.pos)

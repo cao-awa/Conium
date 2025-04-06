@@ -3,6 +3,7 @@ package com.github.cao.awa.conium.block.entity.event.shulker.open
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.mixin.block.entity.shulker.ShulkerBoxBlockEntityMixin
@@ -24,8 +25,10 @@ import net.minecraft.world.World
  *
  * @since 1.0.0
  */
-class ConiumShulkerBoxOpenedEvent : ConiumEvent<ParameterSelective5<Boolean, World, PlayerEntity, ShulkerBoxBlockEntity, AbstractBlockState, BlockPos>>(ConiumEventType.SHULKER_BOX_OPENED) {
-    override fun requirement(): ConiumEventContext<out ParameterSelective> {
+class ConiumShulkerBoxOpenedEvent : ConiumEvent<ParameterSelective5<Boolean, World, PlayerEntity, ShulkerBoxBlockEntity, AbstractBlockState, BlockPos>, ConiumShulkerOpenedEventMetadata>(
+    ConiumEventType.SHULKER_BOX_OPENED
+) {
+    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.PLAYER,
@@ -37,5 +40,9 @@ class ConiumShulkerBoxOpenedEvent : ConiumEvent<ParameterSelective5<Boolean, Wor
                 parameterSelective(world, pos, blockEntity as ShulkerBoxBlockEntity, blockState, blockPos)
             }
         }
+    }
+
+    override fun metadata(context: ConiumEventContext): ConiumShulkerOpenedEventMetadata {
+        return ConiumShulkerOpenedEventMetadata(context)
     }
 }

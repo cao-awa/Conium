@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.item.event.tick.inventory
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.item.event.ConiumItemEvent
@@ -11,8 +12,10 @@ import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
 import net.minecraft.world.World
 
-class ConiumItemInventoryTickedEvent : ConiumItemEvent<ParameterSelective5<Boolean, World, Entity, ItemStack, Int, Boolean>>(ConiumEventType.ITEM_INVENTORY_TICKED) {
-    override fun requirement(): ConiumEventContext<out ParameterSelective> {
+class ConiumItemInventoryTickedEvent : ConiumItemEvent<ParameterSelective5<Boolean, World, Entity, ItemStack, Int, Boolean>, ConiumItemInventoryTickedEventMetadata>(
+    ConiumEventType.ITEM_INVENTORY_TICKED
+) {
+    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.ENTITY,
@@ -24,5 +27,9 @@ class ConiumItemInventoryTickedEvent : ConiumItemEvent<ParameterSelective5<Boole
                 parameterSelective(world, entity, itemStack, slotNumber, selectStatus)
             }
         }
+    }
+
+    override fun metadata(context: ConiumEventContext): ConiumItemInventoryTickedEventMetadata {
+        return ConiumItemInventoryTickedEventMetadata(context)
     }
 }

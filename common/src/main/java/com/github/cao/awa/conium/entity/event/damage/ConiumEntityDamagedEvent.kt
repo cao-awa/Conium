@@ -3,6 +3,7 @@ package com.github.cao.awa.conium.entity.event.damage
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
@@ -11,8 +12,10 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.world.World
 
-class ConiumEntityDamagedEvent : ConiumEvent<ParameterSelective4<Boolean, World, LivingEntity, DamageSource, Float>>(ConiumEventType.ENTITY_DAMAGED) {
-    override fun requirement(): ConiumEventContext<out ParameterSelective> {
+class ConiumEntityDamagedEvent : ConiumEvent<ParameterSelective4<Boolean, World, LivingEntity, DamageSource, Float>, ConiumEntityDamagedEventMetadata>(
+    ConiumEventType.ENTITY_DAMAGED
+) {
+    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.LIVING_ENTITY,
@@ -23,5 +26,9 @@ class ConiumEntityDamagedEvent : ConiumEvent<ParameterSelective4<Boolean, World,
                 parameterSelective(world, livingEntity, damageSource, amount)
             }
         }
+    }
+
+    override fun metadata(context: ConiumEventContext): ConiumEntityDamagedEventMetadata {
+        return ConiumEntityDamagedEventMetadata(context)
     }
 }

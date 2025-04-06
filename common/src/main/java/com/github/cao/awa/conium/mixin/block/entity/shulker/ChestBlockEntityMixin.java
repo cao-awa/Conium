@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.mixin.block.entity.shulker;
 
 import com.github.cao.awa.conium.event.ConiumEvent;
 import com.github.cao.awa.conium.event.context.ConiumEventContext;
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext;
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
 import net.minecraft.block.Block;
@@ -35,7 +36,7 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
     )
     public void onOpenChest(ViewerCountManager instance, PlayerEntity player, World world, BlockPos pos, BlockState state) {
         // Request the opening chest context.
-        ConiumEventContext<?> openingContext = buildContext(
+        ConiumArisingEventContext<?> openingContext = buildContext(
                 ConiumEventType.CHEST_OPENING,
                 instance,
                 player,
@@ -50,7 +51,7 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
             openingContext.arising(block);
 
             // Request the closed shulker box context.
-            ConiumEventContext<?> openedContext = ConiumEvent.request(ConiumEventType.CHEST_OPENED);
+            ConiumArisingEventContext<?> openedContext = ConiumEvent.request(ConiumEventType.CHEST_OPENED);
 
             openedContext.inherit(openingContext);
 
@@ -70,7 +71,7 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
     )
     public void onCloseChest(ViewerCountManager instance, PlayerEntity player, World world, BlockPos pos, BlockState state) {
         // Request the closing shulker box context.
-        ConiumEventContext<?> closingContext = buildContext(
+        ConiumArisingEventContext<?> closingContext = buildContext(
                 ConiumEventType.CHEST_CLOSING,
                 instance,
                 player,
@@ -87,7 +88,7 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
             instance.closeContainer(player, world, pos, state);
 
             // Request the closed chest context.
-            ConiumEventContext<?> closedContext = ConiumEvent.request(ConiumEventType.CHEST_CLOSED);
+            ConiumArisingEventContext<?> closedContext = ConiumEvent.request(ConiumEventType.CHEST_CLOSED);
 
             closedContext.inherit(closingContext);
 
@@ -100,7 +101,7 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
 
     @Unique
     @NotNull
-    private ConiumEventContext<?> buildContext(
+    private ConiumArisingEventContext<?> buildContext(
             @NotNull ConiumEventType<?> eventType,
             @NotNull ViewerCountManager viewerManager,
             @NotNull PlayerEntity player,
@@ -109,7 +110,7 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
             @NotNull BlockState state
     ) {
         // Request the event context.
-        ConiumEventContext<?> eventContext = ConiumEvent.request(eventType);
+        ConiumArisingEventContext<?> eventContext = ConiumEvent.request(eventType);
 
         // Fill context args.
         eventContext.put(ConiumEventArgTypes.BLOCK_POS, pos)

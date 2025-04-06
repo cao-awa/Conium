@@ -3,6 +3,7 @@ package com.github.cao.awa.conium.chunk.event.receive
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
@@ -15,8 +16,8 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.chunk.WorldChunk
 
-class ConiumReceivedChunkEvent : ConiumEvent<ParameterSelective1<Boolean, WorldChunk>>(ConiumEventType.RECEIVED_CHUNK) {
-    override fun requirement(): ConiumEventContext<out ParameterSelective> {
+class ConiumReceivedChunkEvent : ConiumEvent<ParameterSelective1<Boolean, WorldChunk>, ConiumReceivedChunkEventMetadata>(ConiumEventType.RECEIVED_CHUNK) {
+    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD_CHUNK
         ).arise { identity: Any, chunk: WorldChunk ->
@@ -24,5 +25,9 @@ class ConiumReceivedChunkEvent : ConiumEvent<ParameterSelective1<Boolean, WorldC
                 parameterSelective(chunk)
             }
         }
+    }
+
+    override fun metadata(context: ConiumEventContext): ConiumReceivedChunkEventMetadata {
+        return ConiumReceivedChunkEventMetadata(context)
     }
 }

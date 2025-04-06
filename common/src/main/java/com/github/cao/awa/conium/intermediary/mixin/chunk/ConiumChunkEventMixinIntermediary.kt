@@ -1,6 +1,7 @@
 package com.github.cao.awa.conium.intermediary.mixin.chunk
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary.Companion.fireEvent
@@ -42,7 +43,7 @@ class ConiumChunkEventMixinIntermediary {
             return fireEventCancelable(
                 ConiumEventType.RECEIVE_CHUNK,
                 packet
-            ) { context: ConiumEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*> ->
                 context[ConiumEventArgTypes.CHUNK_DATA] = packet.chunkData
                 context[ConiumEventArgTypes.LIGHT_DATA] = packet.lightData
             }
@@ -66,7 +67,7 @@ class ConiumChunkEventMixinIntermediary {
             return fireEventCancelable(
                 ConiumEventType.RECEIVED_CHUNK,
                 chunk
-            ) { context: ConiumEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*> ->
                 context[ConiumEventArgTypes.WORLD_CHUNK] = chunk
             }
         }

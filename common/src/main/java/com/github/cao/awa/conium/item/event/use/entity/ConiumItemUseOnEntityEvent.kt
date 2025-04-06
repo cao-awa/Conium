@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.item.event.use.entity
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.item.event.ConiumItemEvent
@@ -12,8 +13,10 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
 
-class ConiumItemUseOnEntityEvent : ConiumItemEvent<ParameterSelective4<Boolean, PlayerEntity, LivingEntity, ItemStack, Hand>>(ConiumEventType.ITEM_USE_ON_ENTITY) {
-    override fun requirement(): ConiumEventContext<out ParameterSelective> {
+class ConiumItemUseOnEntityEvent : ConiumItemEvent<ParameterSelective4<Boolean, PlayerEntity, LivingEntity, ItemStack, Hand>, ConiumItemUseOnEntityEventMetadata>(
+    ConiumEventType.ITEM_USE_ON_ENTITY
+) {
+    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.PLAYER,
             ConiumEventArgTypes.LIVING_ENTITY,
@@ -24,5 +27,9 @@ class ConiumItemUseOnEntityEvent : ConiumItemEvent<ParameterSelective4<Boolean, 
                 parameterSelective(player, livingEntity, itemStack, hand)
             }
         }
+    }
+
+    override fun metadata(context: ConiumEventContext): ConiumItemUseOnEntityEventMetadata {
+        return ConiumItemUseOnEntityEventMetadata(context)
     }
 }

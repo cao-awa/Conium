@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.mixin.server.world;
 
 import com.github.cao.awa.conium.event.ConiumEvent;
 import com.github.cao.awa.conium.event.context.ConiumEventContext;
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext;
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
 import net.minecraft.block.Block;
@@ -33,7 +34,7 @@ public class ServerWorldMixin {
     )
     public void tickEntity(@NotNull Entity entity, CallbackInfo ci) {
         // Request the entity ticking context.
-        ConiumEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.ENTITY_TICK);
+        ConiumArisingEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.ENTITY_TICK);
 
         EntityType<?> type = entity.getType();
 
@@ -59,7 +60,7 @@ public class ServerWorldMixin {
     )
     public void tickedEntity(@NotNull Entity entity, CallbackInfo ci) {
         // Request the entity ticked context.
-        ConiumEventContext<?> tickedContext = ConiumEvent.request(ConiumEventType.ENTITY_TICKED);
+        ConiumArisingEventContext<?> tickedContext = ConiumEvent.request(ConiumEventType.ENTITY_TICKED);
 
         EntityType<?> type = entity.getType();
 
@@ -82,13 +83,13 @@ public class ServerWorldMixin {
     )
     private void scheduledFluidTick(@NotNull FluidState instance, ServerWorld world, BlockPos pos, BlockState blockState) {
         // Request the fluid ticking context.
-        ConiumEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.FLUID_SCHEDULE_TICK);
+        ConiumArisingEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.FLUID_SCHEDULE_TICK);
 
         Fluid fluid = instance.getFluid();
 
         // Fill the context args.
         tickingContext.put(ConiumEventArgTypes.WORLD, world)
-                .put(ConiumEventArgTypes.SCHEDULE_TICK_VIEW, world)
+                .put(ConiumEventArgTypes.SCHEDULED_TICK_VIEW, world)
                 .put(ConiumEventArgTypes.BLOCK_POS, pos)
                 .put(ConiumEventArgTypes.BLOCK_STATE, blockState)
                 .put(ConiumEventArgTypes.FLUID_STATE, instance);
@@ -100,7 +101,7 @@ public class ServerWorldMixin {
             instance.onScheduledTick(world, pos, blockState);
 
             // Request the fluid ticked context.
-            ConiumEventContext<?> tickedContext = ConiumEvent.request(ConiumEventType.FLUID_SCHEDULE_TICKED);
+            ConiumArisingEventContext<?> tickedContext = ConiumEvent.request(ConiumEventType.FLUID_SCHEDULE_TICKED);
 
             tickedContext.inherit(tickingContext);
 
@@ -120,13 +121,13 @@ public class ServerWorldMixin {
     )
     private void tickBlock(@NotNull BlockState instance, ServerWorld world, BlockPos pos, Random random) {
         // Request the block ticking context.
-        ConiumEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.BLOCK_SCHEDULE_TICK);
+        ConiumArisingEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.BLOCK_SCHEDULE_TICK);
 
         Block block = instance.getBlock();
 
         // Fill the context args.
         tickingContext.put(ConiumEventArgTypes.WORLD, world)
-                .put(ConiumEventArgTypes.SCHEDULE_TICK_VIEW, world)
+                .put(ConiumEventArgTypes.SCHEDULED_TICK_VIEW, world)
                 .put(ConiumEventArgTypes.BLOCK_POS, pos)
                 .put(ConiumEventArgTypes.BLOCK_STATE, instance)
                 .put(ConiumEventArgTypes.RANDOM, random);
@@ -138,7 +139,7 @@ public class ServerWorldMixin {
             instance.scheduledTick(world, pos, random);
 
             // Request the block ticked context.
-            ConiumEventContext<?> tickedContext = ConiumEvent.request(ConiumEventType.BLOCK_SCHEDULE_TICKED);
+            ConiumArisingEventContext<?> tickedContext = ConiumEvent.request(ConiumEventType.BLOCK_SCHEDULE_TICKED);
 
             tickedContext.inherit(tickingContext);
 

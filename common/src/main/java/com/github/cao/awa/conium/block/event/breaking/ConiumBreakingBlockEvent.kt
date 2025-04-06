@@ -3,6 +3,7 @@ package com.github.cao.awa.conium.block.event.breaking
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
@@ -12,8 +13,10 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class ConiumBreakingBlockEvent : ConiumEvent<ParameterSelective4<Boolean, World, PlayerEntity, BlockPos, AbstractBlockState>>(ConiumEventType.BREAKING_BLOCK) {
-    override fun requirement(): ConiumEventContext<out ParameterSelective> {
+class ConiumBreakingBlockEvent : ConiumEvent<ParameterSelective4<Boolean, World, PlayerEntity, BlockPos, AbstractBlockState>, ConiumBreakingBlockEventMetadata>(
+    ConiumEventType.BREAKING_BLOCK
+) {
+    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.PLAYER,
@@ -24,5 +27,9 @@ class ConiumBreakingBlockEvent : ConiumEvent<ParameterSelective4<Boolean, World,
                 parameterSelective(world, player, blockPos, state)
             }
         }
+    }
+
+    override fun metadata(context: ConiumEventContext): ConiumBreakingBlockEventMetadata {
+        return ConiumBreakingBlockEventMetadata(context)
     }
 }

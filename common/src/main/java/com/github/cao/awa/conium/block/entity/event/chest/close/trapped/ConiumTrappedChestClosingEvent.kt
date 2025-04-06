@@ -4,6 +4,7 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.kotlin.extent.innate.isIt
@@ -27,8 +28,10 @@ import net.minecraft.world.World
  *
  * @since 1.0.0
  */
-class ConiumTrappedChestClosingEvent : ConiumEvent<ParameterSelective6<Boolean, World, PlayerEntity, TrappedChestBlockEntity, AbstractBlockState, BlockPos, ViewerCountManager>>(ConiumEventType.TRAPPED_CHEST_CLOSING) {
-    override fun requirement(): ConiumEventContext<out ParameterSelective> {
+class ConiumTrappedChestClosingEvent : ConiumEvent<ParameterSelective6<Boolean, World, PlayerEntity, TrappedChestBlockEntity, AbstractBlockState, BlockPos, ViewerCountManager>, ConiumTrappedChestClosingEventMetadata>(
+    ConiumEventType.TRAPPED_CHEST_CLOSING
+) {
+    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.PLAYER,
@@ -36,8 +39,6 @@ class ConiumTrappedChestClosingEvent : ConiumEvent<ParameterSelective6<Boolean, 
             ConiumEventArgTypes.BLOCK_STATE,
             ConiumEventArgTypes.BLOCK_POS,
             ConiumEventArgTypes.VIEWER_COUNT_MANAGER
-        ).attach(
-            forever(ConiumEventType.TRAPPED_CHEST_CLOSING)
         ).arise { identity: Any,
                   world: World,
                   player: PlayerEntity,
@@ -46,9 +47,20 @@ class ConiumTrappedChestClosingEvent : ConiumEvent<ParameterSelective6<Boolean, 
                   blockPos: BlockPos,
                   viewerManager: ViewerCountManager ->
             noFailure(identity) { parameterSelective ->
-                parameterSelective(world, player, blockEntity as TrappedChestBlockEntity, blockState, blockPos, viewerManager)
+                parameterSelective(
+                    world,
+                    player,
+                    blockEntity as TrappedChestBlockEntity,
+                    blockState,
+                    blockPos,
+                    viewerManager
+                )
             }
         }
+    }
+
+    override fun metadata(context: ConiumEventContext): ConiumTrappedChestClosingEventMetadata {
+        return ConiumTrappedChestClosingEventMetadata(context)
     }
 
     override fun attach() {
@@ -68,7 +80,7 @@ class ConiumTrappedChestClosingEvent : ConiumEvent<ParameterSelective6<Boolean, 
             blockState: BlockState,
             blockPos: BlockPos,
             viewerManager: ViewerCountManager ->
-            val trappedContext: ConiumEventContext<*> = request(ConiumEventType.TRAPPED_CHEST_CLOSING)
+            val trappedContext: ConiumArisingEventContext<*> = request(ConiumEventType.TRAPPED_CHEST_CLOSING)
 
             trappedContext[ConiumEventArgTypes.WORLD] = world
             trappedContext[ConiumEventArgTypes.PLAYER] = player

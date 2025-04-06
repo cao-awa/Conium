@@ -3,6 +3,7 @@ package com.github.cao.awa.conium.block.entity.event.chest.open
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
@@ -22,8 +23,10 @@ import net.minecraft.world.World
  *
  * @since 1.0.0
  */
-class ConiumChestOpeningEvent : ConiumEvent<ParameterSelective6<Boolean, World, PlayerEntity, ChestBlockEntity, AbstractBlockState, BlockPos, ViewerCountManager>>(ConiumEventType.CHEST_OPENING) {
-    override fun requirement(): ConiumEventContext<out ParameterSelective> {
+class ConiumChestOpeningEvent : ConiumEvent<ParameterSelective6<Boolean, World, PlayerEntity, ChestBlockEntity, AbstractBlockState, BlockPos, ViewerCountManager>, ConiumChestOpeningEventMetadata>(
+    ConiumEventType.CHEST_OPENING
+) {
+    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.PLAYER,
@@ -42,5 +45,9 @@ class ConiumChestOpeningEvent : ConiumEvent<ParameterSelective6<Boolean, World, 
                 parameterSelective(world, player, blockEntity as ChestBlockEntity, blockState, blockPos, viewerManager)
             }
         }
+    }
+
+    override fun metadata(context: ConiumEventContext): ConiumChestOpeningEventMetadata {
+        return ConiumChestOpeningEventMetadata(context)
     }
 }

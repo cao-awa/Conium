@@ -6,14 +6,14 @@ import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
 import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
 import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
+import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 abstract class BedrockEvent<E : BedrockEventContext>(private val targetEvent: ConiumEventType<*>) {
-    private val subscribers: MutableList<ConiumEventContext<*>> = CollectionFactor.arrayList()
+    private val subscribers: MutableList<ConiumArisingEventContext<*>> = CollectionFactor.arrayList()
 
     /**
      * Init the bedrock event instance, attaching to target conium event and trigger the subscribers.
@@ -25,14 +25,14 @@ abstract class BedrockEvent<E : BedrockEventContext>(private val targetEvent: Co
      */
     init {
         // Use unnamed context attaching.
-        val context: ConiumEventContext<ParameterSelective1<Boolean, Any>> = ConiumEventContextBuilder.unnamed()
+        val context: ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> = ConiumEventContextBuilder.unnamed()
 
         // Attach bedrock event instance to conium event.
         ConiumEvent.forever(
             this.targetEvent,
             context.presage { identity: Any ->
                 // Process all subscribers.
-                subscribers.map { subscriber: ConiumEventContext<*> ->
+                subscribers.map { subscriber: ConiumArisingEventContext<*> ->
                     // Let subscriber inherit the event context from the conium event system.
                     subscriber.inherit(context)
 
@@ -60,5 +60,5 @@ abstract class BedrockEvent<E : BedrockEventContext>(private val targetEvent: Co
     @BedrockScriptApiFacade("*EventSignal", "unsubscribe")
     fun unsubscribe(context: Any) = this.subscribers.removeIf { it == context }
 
-    abstract fun createUnnamed(action: ParameterSelective1<Unit, E>, scriptSource: Any): ConiumEventContext<*>
+    abstract fun createUnnamed(action: ParameterSelective1<Unit, E>, scriptSource: Any): ConiumArisingEventContext<*>
 }
