@@ -2,10 +2,13 @@
 
 package com.github.cao.awa.conium.script.index
 
+import com.github.cao.awa.conium.Conium
+
 // Mappings.
 import com.github.cao.awa.conium.mapping.yarn.*
 
 // Event.
+import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
@@ -23,7 +26,6 @@ import com.github.cao.awa.catheter.receptacle.LongReceptacle
 import com.github.cao.awa.catheter.receptacle.DoubleReceptacle
 import com.github.cao.awa.catheter.receptacle.ByteReceptacle
 import com.github.cao.awa.catheter.receptacle.BooleanReceptacle
-import com.github.cao.awa.conium.Conium
 
 // Export info.
 import com.github.cao.awa.conium.script.ScriptExport
@@ -56,6 +58,7 @@ import com.github.cao.awa.conium.raycast.ConiumRaycast
 import com.github.cao.awa.conium.kotlin.extent.entity.registerEntity
 
 // Event.
+typealias ConiumEvent<P, M> = ConiumEvent<P, M>
 typealias ConiumEventType<I> = ConiumEventType<I>
 typealias ConiumEventContext = ConiumEventContext
 typealias ConiumArisingEventContext<P> = ConiumArisingEventContext<P>

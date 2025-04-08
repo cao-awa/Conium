@@ -419,7 +419,10 @@ abstract class ConiumEvent<
         return requirement().attaches(
             forever(this.eventType)
         ).attachPreparation { context: ConiumArisingEventContext<out ParameterSelective> ->
-            metadata(context)
+            val metadata: M = metadata(context)
+            this.listeners.forEach { listener: (M) -> Unit ->
+                listener(metadata)
+            }
         }
     }
 
