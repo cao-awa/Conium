@@ -1,0 +1,7 @@
+{
+  "schema_style": "conium",
+  "identifier": "trtr:lit_kindling",
+  "templates": {
+    "ignite": 100
+  }
+}

@@ -1,6 +1,5 @@
 package com.github.cao.awa.conium.recipe.template
 
-import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.template.ConiumTemplate
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -12,26 +11,6 @@ import net.minecraft.util.Identifier
 
 abstract class ConiumRecipeTemplate<T : Recipe<*>>(name: String) : ConiumTemplate<T, Nothing>(name = name) {
     companion object {
-        fun createItem(jsonObject: JsonObject, name: String): ItemStack {
-            return jsonObject[name]!!.let { result: JsonElement ->
-                val count: Int
-                val resultItemName: String
-
-                if (result is JsonObject) {
-                    count = ConiumItemTemplate.validateStackSize(result["count"]?.asInt ?: 1)
-                    resultItemName = result["item"].asString
-                } else {
-                    count = 1
-                    resultItemName = result.asString
-                }
-
-                ItemStack(
-                    Registries.ITEM.get(Identifier.of(resultItemName)),
-                    count
-                )
-            }
-        }
-
         fun createItemNoData(jsonObject: JsonObject, name: String): ItemStack {
             return ItemStack(
                 Registries.ITEM.get(Identifier.of(jsonObject[name]!!.asString)),
@@ -50,7 +29,7 @@ abstract class ConiumRecipeTemplate<T : Recipe<*>>(name: String) : ConiumTemplat
         fun <T : ConiumRecipeTemplate<*>> createBasic(jsonObject: JsonObject, template: T, resultName: String = "result") {
             template.identifier = Identifier.of(jsonObject["description"].asJsonObject["identifier"].asString)
 
-            template.result = createItem(jsonObject, resultName)
+            template.result = createItemStack(jsonObject, resultName)
 
             template.group = jsonObject["group"].asString
         }

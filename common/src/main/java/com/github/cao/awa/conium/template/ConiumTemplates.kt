@@ -41,6 +41,7 @@ import com.github.cao.awa.conium.item.template.bedrock.glint.ConiumBedrockGlintT
 import com.github.cao.awa.conium.item.template.bedrock.stack.size.ConiumBedrockMaxStackSizeTemplate
 import com.github.cao.awa.conium.item.template.bedrock.wearable.ConiumBedrockWearableTemplate
 import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
+import com.github.cao.awa.conium.item.template.convert.block.ConiumUsedOnBlockConvertToTemplate
 import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
 import com.github.cao.awa.conium.item.template.egg.ConiumSpawnEggTemplate
 import com.github.cao.awa.conium.item.template.food.ConiumFoodTemplate
@@ -123,6 +124,9 @@ object ConiumTemplates {
         // Ignite entity.
         const val IGNITE: String = "ignite"
         const val CLEAR_IGNITE: String = "clear_ignite"
+
+        // Convert.
+        const val USED_ON_BLOCK_CONVERT_TO: String = "used_on_block_convert_to"
 
         fun initItemTemplates() {
             // Spawn egg.
@@ -270,6 +274,12 @@ object ConiumTemplates {
             registerItem(
                 CLEAR_IGNITE,
                 ConiumClearEntityIgniteTemplate::create
+            )
+
+            // Convert.
+            registerItem(
+                USED_ON_BLOCK_CONVERT_TO,
+                ConiumUsedOnBlockConvertToTemplate::create
             )
         }
     }

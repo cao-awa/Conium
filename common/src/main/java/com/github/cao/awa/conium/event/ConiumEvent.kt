@@ -44,6 +44,7 @@ import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickedEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
+import com.github.cao.awa.conium.event.trigger.ConiumEventTrigger
 import com.github.cao.awa.conium.event.trigger.ListTriggerable
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.item.event.stack.click.ConiumItemStackClickEvent
@@ -63,6 +64,7 @@ import com.github.cao.awa.conium.network.event.ConiumServerConfigurationConnecti
 import com.github.cao.awa.conium.parameter.DynamicArgs
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.random.event.ConiumRandomEvent
+import com.github.cao.awa.conium.script.index.unnamed
 import com.github.cao.awa.conium.server.event.random.ConiumServerRandomEvent
 import com.github.cao.awa.conium.server.event.tick.ConiumServerTickEvent
 import com.github.cao.awa.conium.server.event.tick.ConiumServerTickTailEvent
@@ -393,7 +395,7 @@ abstract class ConiumEvent<
         }
     }
 
-    private val listeners: MutableList<(M) -> Unit> = CollectionFactor.arrayList()
+    private val listeners: MutableList<ConiumEventTrigger<M>> = CollectionFactor.arrayList()
 
     init {
         register()
@@ -418,13 +420,28 @@ abstract class ConiumEvent<
     fun request(): ConiumArisingEventContext<out ParameterSelective> {
         return requirement().attaches(
             forever(this.eventType)
-        ).attachPreparation { context: ConiumArisingEventContext<out ParameterSelective> ->
-            metadata(context)
+        ).also { context: ConiumArisingEventContext<out ParameterSelective> ->
+            context.attach(unnamed {
+                val metadata: M = metadata(context)
+                this.listeners.forEach { listener: ConiumEventTrigger<M> ->
+                    if (listener.targetIdentity(context.identity)) {
+                        listener.callback(metadata)
+                    }
+                }
+            })
         }
     }
 
     fun listen(callback: (M) -> Unit) {
-        this.listeners.add(callback)
+        this.listeners.add(
+            ConiumEventTrigger(callback) { true }
+        )
+    }
+
+    fun listen(identity: Any?, callback: (M) -> Unit) {
+        this.listeners.add(
+            ConiumEventTrigger(callback) { it == identity }
+        )
     }
 
     abstract fun metadata(context: ConiumEventContext): M

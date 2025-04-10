@@ -4,12 +4,16 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
+import com.github.cao.awa.conium.event.type.ConiumEventType
+import com.github.cao.awa.conium.mapping.yarn.reference.identifier
 import com.github.cao.awa.conium.parameter.DynamicArgType
 import com.github.cao.awa.conium.parameter.DynamicArgs
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective1
+import com.github.cao.awa.conium.script.index.requestNr
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
+import net.minecraft.item.Item
 
 /**
  *
@@ -51,6 +55,7 @@ open class ConiumArisingEventContext<P : ParameterSelective?>(
                 predicate(it as X)
             }.getOr(false)
         }
+
         return this
     }
 
@@ -130,6 +135,8 @@ open class ConiumArisingEventContext<P : ParameterSelective?>(
             // Do not presage when identity is not target.
             return true
         }
+
+        this.identity = identity
 
         var success: Boolean = this.ariseTrigger == null || this.dynamicArgs.arising(identity, copyArgs(), this.ariseTrigger!!)
         for (attach: ConiumArisingEventContext<*> in this.attaches) {

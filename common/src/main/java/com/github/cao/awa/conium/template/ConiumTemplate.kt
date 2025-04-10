@@ -12,8 +12,11 @@ import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Recipe
+import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.util.Identifier
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.util.*
@@ -156,11 +159,30 @@ abstract class ConiumTemplate<R, P>(val isClient: Boolean = false, private val n
 
         fun <R> notSupported(): (JsonElement) -> R = { throw notSupported(it) }
 
-        @Throws(IllegalArgumentException::class)
         fun notSupported(jsonElement: JsonElement): IllegalArgumentException = IllegalArgumentException("Not supported syntax: $jsonElement")
 
         @Throws(IllegalArgumentException::class)
         fun throwNotSupported(jsonElement: JsonElement): IllegalArgumentException = throw IllegalArgumentException("Not supported syntax: $jsonElement")
+
+        fun createItemStack(jsonObject: JsonObject, name: String): ItemStack {
+            return jsonObject[name]!!.let { result: JsonElement ->
+                val count: Int
+                val resultItemName: String
+
+                if (result is JsonObject) {
+                    count = ConiumItemTemplate.validateStackSize(result["count"]?.asInt ?: 1)
+                    resultItemName = result["item"].asString
+                } else {
+                    count = 1
+                    resultItemName = result.asString
+                }
+
+                ItemStack(
+                    Registries.ITEM.get(Identifier.of(resultItemName)),
+                    count
+                )
+            }
+        }
     }
 
     // The contexts will be set in deserializing templates, do not set it again in feature.

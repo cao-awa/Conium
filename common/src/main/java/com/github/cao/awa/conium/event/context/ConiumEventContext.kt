@@ -47,7 +47,7 @@ abstract class ConiumEventContext {
     }
 
     open fun postInherit(context: ConiumEventContext) {
-
+        // Nothing here.
     }
 
     fun copyArgs(): MutableMap<DynamicArgType<*>, Any?> {
