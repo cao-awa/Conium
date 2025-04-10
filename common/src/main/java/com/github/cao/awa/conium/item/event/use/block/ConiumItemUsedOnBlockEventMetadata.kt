@@ -3,26 +3,21 @@ package com.github.cao.awa.conium.item.event.use.block
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ACTION_RESULT
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_POS
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ENTITY
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.HAND
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_STACK
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_USAGE_CONTEXT
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.LIVING_ENTITY
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.PLAYER
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.WORLD
-import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
+import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 class ConiumItemUsedOnBlockEventMetadata(val context: ConiumEventContext) : ConiumEventMetadata() {
-    val world: World = this.context[WORLD]
     val itemUsageContext: ItemUsageContext = this.context[ITEM_USAGE_CONTEXT]
+    val world: World get() = this.itemUsageContext.world
+    val player: PlayerEntity? get() = this.itemUsageContext.player
+    val blockPos: BlockPos get() = this.itemUsageContext.blockPos
+    val blockState: BlockState get() = this.world.getBlockState(this.blockPos)
+    val stack: ItemStack get() = this.itemUsageContext.stack
     val actionResult: ActionResult = this.context[ACTION_RESULT]
 }

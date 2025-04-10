@@ -1,0 +1,13 @@
+{
+  "schema_style": "conium",
+  "identifier": "trtr:kindling",
+  "templates": {
+    "used_on_block_convert_to": {
+      "block": "minecraft:stone",
+      "result": {
+        "item": "minecraft:bedrock",
+        "count": 1
+      }
+    }
+  }
+}

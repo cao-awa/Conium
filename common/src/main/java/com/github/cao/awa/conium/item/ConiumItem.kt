@@ -18,6 +18,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.item.consume.UseAction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
@@ -49,6 +50,8 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
             }
         }
     }
+
+    var useAction: UseAction = UseAction.NONE
 
     /**
      * Check the item is allowing to break blocks when player holding this item.
