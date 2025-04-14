@@ -41,6 +41,7 @@ import com.github.cao.awa.conium.item.template.bedrock.glint.ConiumBedrockGlintT
 import com.github.cao.awa.conium.item.template.bedrock.stack.size.ConiumBedrockMaxStackSizeTemplate
 import com.github.cao.awa.conium.item.template.bedrock.wearable.ConiumBedrockWearableTemplate
 import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
+import com.github.cao.awa.conium.item.template.consume.ConiumConsumeOnUsedTemplate
 import com.github.cao.awa.conium.item.template.convert.block.ConiumUsedOnBlockConvertToTemplate
 import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
 import com.github.cao.awa.conium.item.template.egg.ConiumSpawnEggTemplate
@@ -76,7 +77,9 @@ object ConiumTemplates {
 
         // Consumable.
         const val CONSUMABLE: String = "consumable"
+        const val CONSUME_ON_USED: String = "consume_on_used"
 
+        // Use action.
         const val USE_ACTION: String = "use_action"
 
         // Stack max count.
@@ -152,6 +155,13 @@ object ConiumTemplates {
                 CONSUMABLE,
                 ConiumConsumableTemplate::create
             )
+
+            registerItem(
+                CONSUME_ON_USED,
+                ConiumConsumeOnUsedTemplate::create
+            )
+
+            // Use action.
             registerItem(
                 USE_ACTION,
                 ConiumUseActionTemplate::create

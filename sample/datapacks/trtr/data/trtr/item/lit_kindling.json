@@ -2,6 +2,9 @@
   "schema_style": "conium",
   "identifier": "trtr:lit_kindling",
   "templates": {
-    "ignite": 100
+    "ignite": 100,
+    "consume_on_used": {
+      "used_on_entity": true
+    }
   }
 }

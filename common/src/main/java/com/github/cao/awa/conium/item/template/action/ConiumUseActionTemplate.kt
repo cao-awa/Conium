@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.item.template.action
 
+import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.component.withComponentProvides
 import com.github.cao.awa.conium.kotlin.extent.component.withComputeUseAction
@@ -26,5 +27,9 @@ class ConiumUseActionTemplate(private val useAction: UseAction) : ConiumItemTemp
             withComputeUseAction(),
             this::useAction
         )
+    }
+
+    override fun complete(target: ConiumItem) {
+        target.useAction = this.useAction
     }
 }

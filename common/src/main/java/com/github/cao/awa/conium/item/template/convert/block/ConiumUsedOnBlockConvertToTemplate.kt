@@ -53,8 +53,6 @@ class ConiumUsedOnBlockConvertToTemplate(
     } else null
 
     override fun attach(target: ConiumItem) {
-        target.useAction = UseAction.BLOCK
-
         ConiumEvent.itemUsedOnBlock.listen(target) { metadata: ConiumItemUsedOnBlockEventMetadata ->
             val player: PlayerEntity? = metadata.player
             if (player != null) {
