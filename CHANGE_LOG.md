@@ -5,4 +5,4 @@
 
 # Item templates
 1. 'used_on_block_convert_to'
-2. 'consume_on_usedC'
+2. 'consume_on_used'
