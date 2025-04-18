@@ -26,14 +26,13 @@ import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.util.*
 
-class ConiumItemManager(
-    private val registryLookup: RegistryWrapper.WrapperLookup,
-    private val pendingTagLoad: List<Registry.PendingTagLoad<*>>
-) : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM.value) {
+class ConiumItemManager : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM.value) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumItemManager")
     }
 
+    var registryLookup: RegistryWrapper.WrapperLookup? = null
+    var pendingTagLoad: List<Registry.PendingTagLoad<*>>? = null
     private val fuelRegistry: ConiumFuelRegistry = ConiumFuelRegistry()
     val fuels: Set<Item> get() = this.fuelRegistry.fuelItems
 
@@ -54,9 +53,9 @@ class ConiumItemManager(
         val builder: ConiumItemBuilder
 
         if (json["schema_style"]?.asString == "conium") {
-            builder = ConiumSchemaItemBuilder.deserialize(json, this.registryLookup)
+            builder = ConiumSchemaItemBuilder.deserialize(json, this.registryLookup!!)
         } else {
-            builder = BedrockSchemaItemBuilder.deserialize(json, this.registryLookup)
+            builder = BedrockSchemaItemBuilder.deserialize(json, this.registryLookup!!)
         }
 
         // Use to debug, trace inject details.

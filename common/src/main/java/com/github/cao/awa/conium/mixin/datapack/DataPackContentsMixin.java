@@ -48,16 +48,6 @@ public abstract class DataPackContentsMixin {
     @Shadow
     @Final
     private ServerRecipeManager recipeManager;
-    @Unique
-    private ItemPropertyInjectManager itemPropertyInjectManager;
-    @Unique
-    private ConiumItemManager coniumItemManager;
-    @Unique
-    private ConiumBlockManager coniumBlockManager;
-    @Unique
-    private ConiumEntityManager coniumEntityManager;
-    @Unique
-    private ConiumScriptManager scriptManager;
 
     @Inject(method = "reload", at = @At(value = "RETURN"))
     private static void reload(
@@ -94,16 +84,15 @@ public abstract class DataPackContentsMixin {
     )
     public void init(CombinedDynamicRegistries<ServerDynamicRegistryType> dynamicRegistries, RegistryWrapper.WrapperLookup registries, FeatureSet enabledFeatures, CommandManager.RegistrationEnvironment environment, List<Registry.PendingTagLoad<?>> pendingTagLoads, int functionPermissionLevel, CallbackInfo ci) {
         RegistryWrapper.WrapperLookup lookup = ((ServerRecipeManagerAccessor) this.recipeManager).getRegistries();
-        this.itemPropertyInjectManager = new ItemPropertyInjectManager();
-        this.coniumItemManager = new ConiumItemManager(lookup, pendingTagLoads);
-        this.coniumBlockManager = new ConiumBlockManager(lookup);
-        this.coniumEntityManager = new ConiumEntityManager(lookup);
-        this.scriptManager = new ConiumScriptManager();
-        Conium.itemInjectManager = this.itemPropertyInjectManager;
-        Conium.coniumItemManager = this.coniumItemManager;
-        Conium.coniumBlockManager = this.coniumBlockManager;
-        Conium.coniumEntityManager = this.coniumEntityManager;
-        Conium.scriptManager = this.scriptManager;
+        Conium.itemInjectManager = new ItemPropertyInjectManager();
+        Conium.coniumItemManager = new ConiumItemManager();
+        Conium.coniumItemManager.setRegistryLookup(lookup);
+        Conium.coniumItemManager.setPendingTagLoad(pendingTagLoads);
+        Conium.coniumBlockManager = new ConiumBlockManager();
+        Conium.coniumBlockManager.setRegistryLookup(lookup);
+        Conium.coniumEntityManager = new ConiumEntityManager();
+        Conium.coniumEntityManager.setRegistryLookup(lookup);
+        Conium.scriptManager  = new ConiumScriptManager();
     }
 
     @Redirect(
@@ -124,11 +113,11 @@ public abstract class DataPackContentsMixin {
     )
     public void contents(CallbackInfoReturnable<List<ResourceReloader>> cir) {
         List<ResourceReloader> reloaderList = CollectionFactor.arrayList(cir.getReturnValue());
-        reloaderList.add(this.scriptManager);
-        reloaderList.add(this.coniumEntityManager);
-        reloaderList.add(this.coniumItemManager);
-        reloaderList.add(this.itemPropertyInjectManager);
-        reloaderList.add(this.coniumBlockManager);
+        reloaderList.add(Conium.itemInjectManager);
+        reloaderList.add(Conium.coniumItemManager);
+        reloaderList.add(Conium.coniumBlockManager);
+        reloaderList.add(Conium.coniumEntityManager);
+        reloaderList.add(Conium.scriptManager);
         cir.setReturnValue(reloaderList);
     }
 }

@@ -23,11 +23,13 @@ import net.minecraft.util.profiler.Profiler
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-class ConiumEntityManager(private val registryLookup: RegistryWrapper.WrapperLookup) :
+class ConiumEntityManager() :
     ConiumJsonDataLoader(ConiumRegistryKeys.ENTITY.value) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumEntityManager")
     }
+
+    var registryLookup: RegistryWrapper.WrapperLookup? = null
 
     val metadata: MutableList<ConiumEntityMetadata> = CollectionFactor.arrayList()
 
@@ -60,11 +62,11 @@ class ConiumEntityManager(private val registryLookup: RegistryWrapper.WrapperLoo
         var metadata: ConiumEntityMetadata? = null
 
         if (json["schema_style"]?.asString == "conium") {
-            ConiumSchemaEntityBuilder.deserialize(json, this.registryLookup).register {
+            ConiumSchemaEntityBuilder.deserialize(json, this.registryLookup!!).register {
                 metadata = it
             }
         } else {
-            BedrockSchemaEntityBuilder.deserialize(json, this.registryLookup).register {
+            BedrockSchemaEntityBuilder.deserialize(json, this.registryLookup!!).register {
                 metadata = it
             }
         }

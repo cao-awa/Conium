@@ -32,10 +32,12 @@ import net.minecraft.util.profiler.Profiler
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLookup) : ConiumJsonDataLoader(ConiumRegistryKeys.BLOCK.value) {
+class ConiumBlockManager() : ConiumJsonDataLoader(ConiumRegistryKeys.BLOCK.value) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumBlockManager")
     }
+
+    var registryLookup: RegistryWrapper.WrapperLookup? = null
 
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
         resetRegistries()
@@ -60,9 +62,9 @@ class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLook
         )
 
         val builder: ConiumBlockBuilder = if (json["schema_style"]?.asString == "conium") {
-            ConiumSchemaBlockBuilder.deserialize(json, this.registryLookup)
+            ConiumSchemaBlockBuilder.deserialize(json, this.registryLookup!!)
         } else {
-            BedrockSchemaBlockBuilder.deserialize(json, this.registryLookup)
+            BedrockSchemaBlockBuilder.deserialize(json, this.registryLookup!!)
         }
 
         builder.register { block: ConiumBlock ->
@@ -92,6 +94,12 @@ class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLook
         itemSettings: ((Item.Settings) -> Unit)? = null
     ): Block {
         return registerBlock(identifier, blockProvider).also { block: Block ->
+            Conium.debug(
+                "Registering block '{}'",
+                { block },
+                LOGGER::info,
+            )
+
             registerBlockStates(block)
 
             if (itemSettings != null) {
