@@ -23,8 +23,7 @@ import net.minecraft.util.profiler.Profiler
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-class ConiumEntityManager() :
-    ConiumJsonDataLoader(ConiumRegistryKeys.ENTITY.value) {
+class ConiumEntityManager: ConiumJsonDataLoader(ConiumRegistryKeys.ENTITY.value) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumEntityManager")
     }
@@ -32,6 +31,9 @@ class ConiumEntityManager() :
     var registryLookup: RegistryWrapper.WrapperLookup? = null
 
     val metadata: MutableList<ConiumEntityMetadata> = CollectionFactor.arrayList()
+    override fun earlyLoad(manager: ResourceManager, dataType: Identifier, result: MutableMap<Identifier, JsonElement>) {
+        // TODO
+    }
 
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
         resetRegistries()

@@ -26,7 +26,7 @@ import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.util.*
 
-class ConiumItemManager : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM.value) {
+class ConiumItemManager: ConiumJsonDataLoader(ConiumRegistryKeys.ITEM.value) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumItemManager")
     }
@@ -35,6 +35,9 @@ class ConiumItemManager : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM.value) {
     var pendingTagLoad: List<Registry.PendingTagLoad<*>>? = null
     private val fuelRegistry: ConiumFuelRegistry = ConiumFuelRegistry()
     val fuels: Set<Item> get() = this.fuelRegistry.fuelItems
+    override fun earlyLoad(manager: ResourceManager, dataType: Identifier, result: MutableMap<Identifier, JsonElement>) {
+        // TODO
+    }
 
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
         resetRegistries()

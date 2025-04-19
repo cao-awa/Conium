@@ -27,6 +27,9 @@ class ItemPropertyInjectManager : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM_P
     }
 
     private val injects: HashMap<Item, MutableList<ItemPropertyInject<*>>> = CollectionFactor.hashMap()
+    override fun earlyLoad(manager: ResourceManager, dataType: Identifier, result: MutableMap<Identifier, JsonElement>) {
+        // Nothing here.
+    }
 
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
         for ((key: Identifier, value: JsonElement) in prepared) {

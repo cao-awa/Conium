@@ -22,5 +22,12 @@ class ConiumSchemaBlockBuilder(identifier: Identifier) : ConiumBlockBuilder(iden
 
             return builder
         }
+
+        @JvmStatic
+        fun earlyDeserialize(json: JsonObject): ConiumSchemaBlockBuilder {
+            val builder = ConiumSchemaBlockBuilder(Identifier.of(json["identifier"].asString))
+
+            return builder
+        }
     }
 }

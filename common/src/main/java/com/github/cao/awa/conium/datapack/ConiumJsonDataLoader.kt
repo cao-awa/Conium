@@ -19,7 +19,19 @@ abstract class ConiumJsonDataLoader(private val dataType: Identifier) : SinglePr
         private val LOGGER: Logger = LogManager.getLogger("ConiumJsonDataLoader")
     }
 
-    override fun prepare(resourceManager: ResourceManager, profiler: Profiler): MutableMap<Identifier, JsonElement> = CollectionFactor.hashMap<Identifier, JsonElement>().also {
+    fun earlyPrepare(resourceManager: ResourceManager) {
+        val results: MutableMap<Identifier, JsonElement> = CollectionFactor.hashMap()
+        load(resourceManager, this.dataType, results)
+        earlyLoad(resourceManager, this.dataType, results)
+    }
+
+    abstract fun earlyLoad(
+        manager: ResourceManager,
+        dataType: Identifier,
+        result: MutableMap<Identifier, JsonElement>
+    )
+
+    override fun prepare(resourceManager: ResourceManager, profiler: Profiler?): MutableMap<Identifier, JsonElement> = CollectionFactor.hashMap<Identifier, JsonElement>().also {
         load(resourceManager, this.dataType, it)
     }
 

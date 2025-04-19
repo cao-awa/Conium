@@ -206,6 +206,10 @@ abstract class ConiumTemplate<R, P>(val isClient: Boolean = false, private val n
         // Do nothing here.
     }
 
+    open fun change(target: R) {
+        // Do nothing here.
+    }
+
     open fun prepare(target: P) {
         // Do nothing here.
     }

@@ -26,5 +26,18 @@ class BedrockSchemaBlockBuilder(identifier: Identifier) : ConiumBlockBuilder(ide
                 builder
             }
         }
+
+        @JvmStatic
+        fun earlyDeserialize(json: JsonObject): BedrockSchemaBlockBuilder {
+            return json["minecraft:block"]!!.asJsonObject.let { block ->
+                val builder = block["description"]!!.asJsonObject.let { description ->
+                    BedrockSchemaBlockBuilder(Identifier.of(description["identifier"].asString)).also {
+//                        it.templates.add()
+                    }
+                }
+
+                builder
+            }
+        }
     }
 }
