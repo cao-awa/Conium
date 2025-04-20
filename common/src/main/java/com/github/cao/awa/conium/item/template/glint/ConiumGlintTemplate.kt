@@ -13,12 +13,12 @@ import com.google.gson.JsonObject
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumGlintTemplate(private val glint: Boolean, private val scriptName: String? = null) : ConiumItemTemplate(name = GLINT) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumGlintTemplate = element.ifJsonObject({ json: JsonObject ->
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumGlintTemplate = element.ifJsonObject({ json: JsonObject ->
             ConiumGlintTemplate(json["default"].asBoolean, json["script"].asString)
         }) {
             ConiumGlintTemplate(it.asBoolean)

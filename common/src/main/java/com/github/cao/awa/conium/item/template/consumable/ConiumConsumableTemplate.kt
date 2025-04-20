@@ -15,13 +15,13 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.consume.ApplyEffectsConsumeEffect
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryOps
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 
 class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) : ConiumItemTemplate(name = CONSUMABLE) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumConsumableTemplate = element.objectOrString(
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumConsumableTemplate = element.objectOrString(
             {
                 // Use constructor create.
                 ConiumConsumableTemplate(it, registryLookup)
@@ -51,7 +51,7 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
             )
         }!!
 
-        fun createConvert(jsonObject: JsonObject, registryLookup: WrapperLookup, customKey: String, callback: (ItemStack) -> Unit) {
+        fun createConvert(jsonObject: JsonObject, registryLookup: RegistryWrapper.WrapperLookup, customKey: String, callback: (ItemStack) -> Unit) {
             jsonObject[customKey]?.let { convert ->
                 if (convert.isJsonObject) {
                     ItemStack.CODEC.parse(registryLookup.getOps(JsonOps.INSTANCE), convert.asJsonObject).orThrow
@@ -66,7 +66,7 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
         private fun createFoodComponent(
             template: ConiumConsumableTemplate,
             jsonObject: JsonObject,
-            registryLookup: WrapperLookup
+            registryLookup: RegistryWrapper.WrapperLookup
         ): ConsumableComponent {
             return ConsumableComponent.builder().also {
                 createConvert(jsonObject, registryLookup, "convert_to") { remainder ->
@@ -97,7 +97,7 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
         }
     }
 
-    constructor(jsonObject: JsonObject, registryLookup: WrapperLookup) : this(null) {
+    constructor(jsonObject: JsonObject, registryLookup: RegistryWrapper.WrapperLookup) : this(null) {
         this.consumableComponent = createFoodComponent(this, jsonObject, registryLookup)
     }
 

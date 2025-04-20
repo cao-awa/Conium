@@ -21,9 +21,11 @@ import com.google.gson.JsonObject
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
-import net.minecraft.registry.Registries
+import net.minecraft.registry.DynamicRegistryManager
 import net.minecraft.registry.RegistryWrapper
+import net.minecraft.registry.Registries
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 import net.minecraft.util.profiler.Profiler
@@ -36,46 +38,28 @@ class ConiumBlockManager : ConiumJsonDataLoader(ConiumRegistryKeys.BLOCK.value) 
     }
 
     var registryLookup: RegistryWrapper.WrapperLookup? = null
-    override fun earlyLoad(manager: ResourceManager, dataType: Identifier, result: MutableMap<Identifier, JsonElement>) {
+
+    override fun earlyLoad(manager: ResourceManager, dataType: Identifier, result: MutableMap<Identifier, JsonElement>, registryLookup: DynamicRegistryManager) {
         resetRegistries()
 
+        this.registryLookup = registryLookup
+
         for ((key: Identifier, value: JsonElement) in result) {
-            earlyLoad(key, value as JsonObject)
+            load(key, value as JsonObject)
         }
     }
 
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
-        (Block.STATE_IDS as ConiumDynamicIdList<BlockState>).clearDynamic()
-
-        for ((key: Identifier, value: JsonElement) in prepared) {
-            load(key, value as JsonObject)
-        }
+//        (Block.STATE_IDS as ConiumDynamicIdList<BlockState>).clearDynamic()
+//
+//        for ((key: Identifier, value: JsonElement) in prepared) {
+//            load(key, value as JsonObject)
+//        }
     }
 
     fun resetRegistries() {
         (Registries.BLOCK as ConiumDynamicRegistry).clearDynamic()
         (Block.STATE_IDS as ConiumDynamicIdList<BlockState>).clearDynamic()
-    }
-
-    fun earlyLoad(identifier: Identifier, json: JsonObject) {
-        // Use to debug, trace inject details.
-        Conium.debug(
-            "Early registering block '{}' from '{}'",
-            identifier::getPath,
-            identifier::getNamespace,
-            LOGGER::info
-        )
-
-        val builder: ConiumBlockBuilder = if (json["schema_style"]?.asString == "conium") {
-            ConiumSchemaBlockBuilder.earlyDeserialize(json)
-        } else {
-            BedrockSchemaBlockBuilder.earlyDeserialize(json)
-
-        }
-
-        builder.register { block: ConiumBlock ->
-            registerBlockStates(block)
-        }
     }
 
     fun load(identifier: Identifier, json: JsonObject) {
@@ -96,7 +80,9 @@ class ConiumBlockManager : ConiumJsonDataLoader(ConiumRegistryKeys.BLOCK.value) 
         builder.register { block: ConiumBlock ->
             registerBlockStates(block)
 
-            builder.registerBlockItem(block)
+            Conium.coniumItemManager!!.pendingBlockItem(Registries.BLOCK.getId(block)) {
+                settings: Item.Settings -> BlockItem(block, settings)
+            }
         }
     }
 

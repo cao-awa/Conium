@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.kotlin.extent.json.createIfJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates.Item.STONE_PICKAXE
 import com.google.gson.JsonElement
 import net.minecraft.item.ToolMaterial
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumItemStonePickaxeTemplate : ConiumItemPickaxeTemplate(
     ToolMaterial.STONE,
@@ -12,6 +12,6 @@ class ConiumItemStonePickaxeTemplate : ConiumItemPickaxeTemplate(
 ) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumItemStonePickaxeTemplate = element.createIfJsonObject(::ConiumItemStonePickaxeTemplate, notSupported())!!
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumItemStonePickaxeTemplate = element.createIfJsonObject(::ConiumItemStonePickaxeTemplate, notSupported())!!
     }
 }

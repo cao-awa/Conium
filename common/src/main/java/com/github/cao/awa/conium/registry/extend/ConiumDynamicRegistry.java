@@ -13,23 +13,6 @@ public interface ConiumDynamicRegistry {
     }
 
     void conium$clearDynamic();
-    default <T> T replace(Identifier id, Supplier<T> value) {
-        return conium$replace(id, value);
-    }
-
-    <T> T conium$replace(Identifier id, Supplier<T> value);
-
-    default boolean isReplacing() {
-        return conium$isReplacing();
-    }
-
-    boolean conium$isReplacing();
-
-    default <T> RegistryEntry.Reference<T> getReplacingEntry() {
-        return (RegistryEntry.Reference<T>) conium$getReplacingEntry();
-    }
-
-    RegistryEntry.Reference<?>  conium$getReplacingEntry();
 
     default <T> RegistryKey<T> getKey(Identifier identifier) {
         return (RegistryKey<T>) conium$getKey(identifier);

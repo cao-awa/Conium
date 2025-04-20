@@ -6,7 +6,7 @@ import com.github.cao.awa.conium.kotlin.extent.json.eachInt
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrBoolean
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockBlock.COLLISION_BOX
 import com.google.gson.JsonElement
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 /**
  * The block collision box template for bedrock schema.
@@ -21,7 +21,7 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup
  */
 object ConiumBedrockBlockCollisionBoxTemplate {
     @JvmStatic
-    fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockCollisionTemplate = element.objectOrBoolean(
+    fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumBlockCollisionTemplate = element.objectOrBoolean(
         {
             // Create the custom cubed block.
             createWithCubed(COLLISION_BOX) { cubed ->

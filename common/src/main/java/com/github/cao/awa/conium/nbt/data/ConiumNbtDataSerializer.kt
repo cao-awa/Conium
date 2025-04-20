@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.nbt.data.primary.*
 import com.github.cao.awa.conium.nbt.data.string.ConiumNbtStringSerializer
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 /**
  * The serializer for NBT data.
@@ -73,7 +73,7 @@ abstract class ConiumNbtDataSerializer<X> {
      *
      * @since 1.0.0
      */
-    abstract fun read(nbt: NbtCompound, registries: WrapperLookup, key: String): X
+    abstract fun read(nbt: NbtCompound, registries: RegistryWrapper.WrapperLookup, key: String): X
 
     /**
      * Write data to NBT compound.
@@ -89,7 +89,7 @@ abstract class ConiumNbtDataSerializer<X> {
      *
      * @since 1.0.0
      */
-    abstract fun write(nbt: NbtCompound, registries: WrapperLookup, key: String, value: X)
+    abstract fun write(nbt: NbtCompound, registries: RegistryWrapper.WrapperLookup, key: String, value: X)
 
     /**
      * Read data from JSON object.
@@ -106,5 +106,5 @@ abstract class ConiumNbtDataSerializer<X> {
      *
      * @since 1.0.0
      */
-    abstract fun readFromJson(json: JsonObject, registries: WrapperLookup, key: String): X
+    abstract fun readFromJson(json: JsonObject, registries: RegistryWrapper.WrapperLookup, key: String): X
 }

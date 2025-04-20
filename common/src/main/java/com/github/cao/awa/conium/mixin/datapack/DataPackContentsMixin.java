@@ -12,10 +12,7 @@ import com.github.cao.awa.conium.mixin.recipe.ServerRecipeManagerAccessor;
 import com.github.cao.awa.conium.server.ConiumDedicatedServer;
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import net.minecraft.recipe.ServerRecipeManager;
-import net.minecraft.registry.CombinedDynamicRegistries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.ServerDynamicRegistryType;
+import net.minecraft.registry.*;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.ResourceReloader;
 import net.minecraft.resource.featuretoggle.FeatureSet;
@@ -85,14 +82,17 @@ public abstract class DataPackContentsMixin {
     public void init(CombinedDynamicRegistries<ServerDynamicRegistryType> dynamicRegistries, RegistryWrapper.WrapperLookup registries, FeatureSet enabledFeatures, CommandManager.RegistrationEnvironment environment, List<Registry.PendingTagLoad<?>> pendingTagLoads, int functionPermissionLevel, CallbackInfo ci) {
         RegistryWrapper.WrapperLookup lookup = ((ServerRecipeManagerAccessor) this.recipeManager).getRegistries();
         Conium.itemInjectManager = new ItemPropertyInjectManager();
-        Conium.coniumItemManager = new ConiumItemManager();
+//        Conium.coniumItemManager = new ConiumItemManager();
+        assert Conium.coniumItemManager != null;
         Conium.coniumItemManager.setRegistryLookup(lookup);
         Conium.coniumItemManager.setPendingTagLoad(pendingTagLoads);
-        Conium.coniumBlockManager = new ConiumBlockManager();
+//        Conium.coniumBlockManager = new ConiumBlockManager();
+        assert Conium.coniumBlockManager != null;
         Conium.coniumBlockManager.setRegistryLookup(lookup);
-        Conium.coniumEntityManager = new ConiumEntityManager();
+//        Conium.coniumEntityManager = new ConiumEntityManager();
+        assert Conium.coniumEntityManager != null;
         Conium.coniumEntityManager.setRegistryLookup(lookup);
-        Conium.scriptManager  = new ConiumScriptManager();
+//        Conium.scriptManager = new ConiumScriptManager();
     }
 
     @Redirect(
@@ -117,6 +117,7 @@ public abstract class DataPackContentsMixin {
         reloaderList.add(Conium.coniumItemManager);
         reloaderList.add(Conium.coniumBlockManager);
         reloaderList.add(Conium.coniumEntityManager);
+        reloaderList.add(Conium.placedFeatureManager);
         reloaderList.add(Conium.scriptManager);
         cir.setReturnValue(reloaderList);
     }

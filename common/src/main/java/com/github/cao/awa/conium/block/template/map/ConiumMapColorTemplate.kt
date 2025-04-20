@@ -6,13 +6,13 @@ import com.github.cao.awa.conium.template.ConiumTemplates.Block.MAP_COLOR
 import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.MapColor
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumMapColorTemplate(private val color: MapColor, name: String = MAP_COLOR) : ConiumBlockTemplate(name = name) {
     companion object {
         // Not completed supports.
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumMapColorTemplate = ConiumMapColorTemplate(parseAndFindColor(element.asString))
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumMapColorTemplate = ConiumMapColorTemplate(parseAndFindColor(element.asString))
     }
 
     override fun settings(settings: AbstractBlock.Settings) {

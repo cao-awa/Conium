@@ -6,7 +6,7 @@ import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.ifInt
 import com.github.cao.awa.conium.template.ConiumTemplates
 import com.google.gson.JsonElement
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 /**
  * Setting a block emits strong redstone power to neighbor blocks.
@@ -36,7 +36,7 @@ class ConiumBlockEmitsStrongRedstonePowerTemplate(private val emitsRedstonePower
          *
          * @since 1.0.0
          */
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockEmitsStrongRedstonePowerTemplate {
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumBlockEmitsStrongRedstonePowerTemplate {
             // If the value is int, then it should be emitting power level.
             return element.ifInt(
                 ::ConiumBlockEmitsStrongRedstonePowerTemplate,

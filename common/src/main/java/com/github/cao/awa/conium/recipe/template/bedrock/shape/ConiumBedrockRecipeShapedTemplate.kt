@@ -9,12 +9,12 @@ import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RawShapedRecipe
 import net.minecraft.recipe.ShapedRecipe
 import net.minecraft.recipe.book.CraftingRecipeCategory
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumBedrockRecipeShapedTemplate : ConiumRecipeTemplate<ShapedRecipe>(RECIPE_SHAPED) {
     companion object {
         @JvmStatic
-        fun create(jsonObject: JsonElement, registryLookup: WrapperLookup): ConiumBedrockRecipeShapedTemplate {
+        fun create(jsonObject: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumBedrockRecipeShapedTemplate {
             jsonObject as JsonObject
 
             return ConiumBedrockRecipeShapedTemplate().also {

@@ -1,7 +1,6 @@
 package com.github.cao.awa.conium.mixin.registry;
 
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry;
-import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistryEntryDelegate;
 import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import com.google.common.collect.Iterators;
@@ -58,10 +57,6 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     private final Map<RegistryKey<T>, RegistryEntryInfo> dynamicKeyToEntryInfo = new IdentityHashMap<>();
     @Unique
     private final Map<TagKey<T>, RegistryEntryList.Named<T>> dynamicTags = new IdentityHashMap<>();
-    @Unique
-    private boolean isReplacing = false;
-    @Unique
-    private  RegistryEntry.Reference<?> replacingEntry = null;
     @Shadow
     private boolean frozen;
     @Shadow
@@ -575,36 +570,6 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
         this.dynamicRawIdToEntry.clear();
         this.dynamicKeyToEntryInfo.clear();
         this.dynamicTags.clear();
-    }
-
-    @Override
-    public <X> X conium$replace(Identifier id, Supplier<X> value) {
-        this.isReplacing = true;
-        getEntry(id).ifPresent(entry -> this.replacingEntry = entry);
-
-        T oldValue = get(id);
-        X newValue = value.get();
-
-        ((RegistryEntryReferenceAccessor<Object>) this.replacingEntry).value(newValue);
-
-        if (this.replacingEntry != null && newValue instanceof ConiumDynamicRegistryEntryDelegate delegate) {
-            delegate.setRegistryReference(this.replacingEntry);
-        }
-
-        if (this.replacingEntry != null && oldValue instanceof ConiumDynamicRegistryEntryDelegate delegate) {
-            delegate.setRegistryReference(this.replacingEntry);
-        }
-
-        this.replacingEntry = null;
-
-        this.isReplacing = false;
-
-        return newValue;
-    }
-
-    @Override
-    public boolean conium$isReplacing() {
-        return this.isReplacing;
     }
 
     @Override

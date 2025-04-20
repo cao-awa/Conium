@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.kotlin.extent.json.createIfJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates.Item.WOODEN_AXE
 import com.google.gson.JsonElement
 import net.minecraft.item.ToolMaterial
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumItemWoodenAxeTemplate : ConiumItemAxeTemplate(
     ToolMaterial.WOOD,
@@ -14,6 +14,6 @@ class ConiumItemWoodenAxeTemplate : ConiumItemAxeTemplate(
 ) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumItemWoodenAxeTemplate = element.createIfJsonObject(::ConiumItemWoodenAxeTemplate, notSupported())!!
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumItemWoodenAxeTemplate = element.createIfJsonObject(::ConiumItemWoodenAxeTemplate, notSupported())!!
     }
 }

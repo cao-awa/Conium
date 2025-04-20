@@ -8,7 +8,7 @@ import com.google.gson.JsonObject
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.*
 import net.minecraft.recipe.book.CookingRecipeCategory
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumBedrockRecipeFurnaceTemplate : ConiumRecipeTemplate<Recipe<*>>(RECIPE_FURNACE) {
     companion object {
@@ -21,7 +21,7 @@ class ConiumBedrockRecipeFurnaceTemplate : ConiumRecipeTemplate<Recipe<*>>(RECIP
         )
 
         @JvmStatic
-        fun create(jsonObject: JsonElement, registryLookup: WrapperLookup): ConiumBedrockRecipeFurnaceTemplate {
+        fun create(jsonObject: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumBedrockRecipeFurnaceTemplate {
             jsonObject as JsonObject
 
             return ConiumBedrockRecipeFurnaceTemplate().also {

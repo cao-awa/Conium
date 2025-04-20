@@ -8,6 +8,7 @@ import com.github.cao.awa.conium.datapack.entity.ConiumEntityManager
 import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.datapack.script.ConiumScriptManager
+import com.github.cao.awa.conium.datapack.worldgen.ConiumPlacedFeatureManager
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.function.consumer.string.obj.*
 import com.github.cao.awa.conium.hitokoto.ConiumHitokoto
@@ -51,6 +52,9 @@ class Conium {
 
         @JvmField
         var coniumEntityManager: ConiumEntityManager? = null
+
+        @JvmField
+        var placedFeatureManager: ConiumPlacedFeatureManager? = null
 
         @JvmField
         var scriptManager: ConiumScriptManager? = null

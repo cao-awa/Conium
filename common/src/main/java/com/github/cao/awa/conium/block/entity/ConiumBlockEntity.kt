@@ -11,7 +11,7 @@ import net.minecraft.component.MergedComponentMap
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.math.BlockPos
 
 class ConiumBlockEntity(
@@ -45,7 +45,7 @@ class ConiumBlockEntity(
      *
      * @since 1.0.0
      */
-    override fun writeNbt(nbt: NbtCompound, registries: WrapperLookup) = this.data.writeTo(nbt, registries)
+    override fun writeNbt(nbt: NbtCompound, registries: RegistryWrapper.WrapperLookup) = this.data.writeTo(nbt, registries)
 
     /**
      * Read the block entity data from NBT compound using registrable-NBT.
@@ -61,7 +61,7 @@ class ConiumBlockEntity(
      *
      * @since 1.0.0
      */
-    override fun readNbt(nbt: NbtCompound, registries: WrapperLookup) = this.data.readFrom(nbt, registries)
+    override fun readNbt(nbt: NbtCompound, registries: RegistryWrapper.WrapperLookup) = this.data.readFrom(nbt, registries)
 
     /**
      * To get a non-null data using key name, should ensure it already registered.

@@ -8,7 +8,7 @@ import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_S
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_SHAPELESS
 import com.google.gson.JsonObject
 import net.minecraft.recipe.Recipe
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumBedrockRecipeBuilder : ConiumBuilderWithTemplates<
         ConiumBedrockRecipeBuilder,
@@ -28,7 +28,7 @@ class ConiumBedrockRecipeBuilder : ConiumBuilderWithTemplates<
         fun create(template: ConiumRecipeTemplate<Recipe<*>>): ConiumBedrockRecipeBuilder = ConiumBedrockRecipeBuilder().apply { addTemplate(template) }
 
         @JvmStatic
-        fun findBedrock(jsonObject: JsonObject, registryLookup: WrapperLookup): List<Recipe<*>> {
+        fun findBedrock(jsonObject: JsonObject, registryLookup: RegistryWrapper.WrapperLookup): List<Recipe<*>> {
             for (bedrockRecipe: String in this.bedrockRecipes) {
                 jsonObject[bedrockRecipe]?.asJsonObject?.let {
                     return ConiumTemplate.deserializeRecipeTemplate(bedrockRecipe, it, registryLookup).fold(

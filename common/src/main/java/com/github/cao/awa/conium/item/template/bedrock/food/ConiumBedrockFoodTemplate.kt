@@ -11,12 +11,12 @@ import net.minecraft.component.type.FoodComponent
 import net.minecraft.component.type.UseRemainderComponent
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumBedrockFoodTemplate() : ConiumItemTemplate(name = FOOD) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockFoodTemplate = element.createIfJsonObject(
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumBedrockFoodTemplate = element.createIfJsonObject(
             {
                 // Create food template.
                 ConiumBedrockFoodTemplate(element.asJsonObject, registryLookup)
@@ -24,7 +24,7 @@ class ConiumBedrockFoodTemplate() : ConiumItemTemplate(name = FOOD) {
             notSupported()
         )!!
 
-        private fun createFoodComponent(template: ConiumBedrockFoodTemplate, jsonObject: JsonObject, registryLookup: WrapperLookup): FoodComponent {
+        private fun createFoodComponent(template: ConiumBedrockFoodTemplate, jsonObject: JsonObject, registryLookup: RegistryWrapper.WrapperLookup): FoodComponent {
             FoodComponent.Builder().let {
                 if (jsonObject.has("nutrition")) {
                     it.nutrition(jsonObject["nutrition"].asInt)
@@ -50,7 +50,7 @@ class ConiumBedrockFoodTemplate() : ConiumItemTemplate(name = FOOD) {
     private lateinit var foodComponent: FoodComponent
     private var useRemainder: ItemStack = ItemStack.EMPTY
 
-    constructor(element: JsonElement, registryLookup: WrapperLookup) : this() {
+    constructor(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup) : this() {
         this.foodComponent = createFoodComponent(this, element.asJsonObject, registryLookup)
     }
 

@@ -15,7 +15,7 @@ import com.google.gson.JsonObject
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Recipe
 import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -67,57 +67,57 @@ abstract class ConiumTemplate<R, P>(val isClient: Boolean = false, private val n
 
         fun deserializeItemTemplates(
             json: JsonObject,
-            registryLookup: WrapperLookup,
+            registryLookup: RegistryWrapper.WrapperLookup,
         ): MutableList<ConiumItemTemplate> = deserializeTemplates("item", json, registryLookup) as MutableList<ConiumItemTemplate>
 
         fun deserializeBlockTemplates(
             json: JsonObject,
-            registryLookup: WrapperLookup,
+            registryLookup: RegistryWrapper.WrapperLookup,
         ): MutableList<ConiumBlockTemplate> = deserializeTemplates("block", json, registryLookup) as MutableList<ConiumBlockTemplate>
 
         fun deserializeBlockEntityTemplates(
             json: JsonObject,
-            registryLookup: WrapperLookup,
+            registryLookup: RegistryWrapper.WrapperLookup,
         ): MutableList<ConiumBlockEntityTemplate> = deserializeTemplates("block_entity", json, registryLookup) as MutableList<ConiumBlockEntityTemplate>
 
         fun deserializeEntityTemplates(
             json: JsonObject,
-            registryLookup: WrapperLookup,
+            registryLookup: RegistryWrapper.WrapperLookup,
         ): MutableList<ConiumEntityTemplate> = deserializeTemplates("entity", json, registryLookup) as MutableList<ConiumEntityTemplate>
 
         fun deserializeRecipeTemplates(
             json: JsonObject,
-            registryLookup: WrapperLookup,
+            registryLookup: RegistryWrapper.WrapperLookup,
         ): MutableList<ConiumRecipeTemplate<Recipe<*>>> = deserializeTemplates("recipe", json, registryLookup) as MutableList<ConiumRecipeTemplate<Recipe<*>>>
 
         fun deserializeItemTemplate(
             name: String,
             json: JsonObject,
-            registryLookup: WrapperLookup,
+            registryLookup: RegistryWrapper.WrapperLookup,
         ): Result<ConiumItemTemplate> = deserializeTemplate(name, "item", json, registryLookup) as Result<ConiumItemTemplate>
 
         fun deserializeBlockTemplate(
             name: String,
             json: JsonObject,
-            registryLookup: WrapperLookup,
+            registryLookup: RegistryWrapper.WrapperLookup,
         ): Result<ConiumBlockTemplate> = deserializeTemplate(name, "block", json, registryLookup) as Result<ConiumBlockTemplate>
 
         fun deserializeEntityTemplate(
             name: String,
             json: JsonObject,
-            registryLookup: WrapperLookup,
+            registryLookup: RegistryWrapper.WrapperLookup,
         ): Result<ConiumEntityTemplate> = deserializeTemplate(name, "entity", json, registryLookup) as Result<ConiumEntityTemplate>
 
         fun deserializeRecipeTemplate(
             name: String,
             json: JsonObject,
-            registryLookup: WrapperLookup,
+            registryLookup: RegistryWrapper.WrapperLookup,
         ): Result<ConiumRecipeTemplate<Recipe<*>>> = deserializeTemplate(name, "recipe", json, registryLookup) as Result<ConiumRecipeTemplate<Recipe<*>>>
 
         fun deserializeTemplates(
             subtype: String,
             json: JsonObject,
-            registryLookup: WrapperLookup,
+            registryLookup: RegistryWrapper.WrapperLookup,
         ): MutableList<ConiumTemplate<*, *>> {
             // Templates list.
             val templates: MutableList<ConiumTemplate<*, *>> = CollectionFactor.arrayList()
@@ -150,7 +150,7 @@ abstract class ConiumTemplate<R, P>(val isClient: Boolean = false, private val n
             return templates
         }
 
-        fun deserializeTemplate(name: String, subtype: String, json: JsonElement, registryLookup: WrapperLookup): Result<ConiumTemplate<*, *>> {
+        fun deserializeTemplate(name: String, subtype: String, json: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): Result<ConiumTemplate<*, *>> {
             return this.templates["$name:$subtype"]?.createResult(json, registryLookup) ?: throw IllegalArgumentException("Unable to deserialize template '$name:$subtype' because it does not exist")
         }
 

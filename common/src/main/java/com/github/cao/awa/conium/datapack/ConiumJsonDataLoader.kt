@@ -4,6 +4,8 @@ import com.github.cao.awa.conium.server.ConiumDedicatedServer
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
+import net.minecraft.registry.DynamicRegistryManager
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.resource.Resource
 import net.minecraft.resource.ResourceFinder
 import net.minecraft.resource.ResourceManager
@@ -19,16 +21,17 @@ abstract class ConiumJsonDataLoader(private val dataType: Identifier) : SinglePr
         private val LOGGER: Logger = LogManager.getLogger("ConiumJsonDataLoader")
     }
 
-    fun earlyPrepare(resourceManager: ResourceManager) {
+    fun earlyPrepare(resourceManager: ResourceManager, registryLookup: DynamicRegistryManager) {
         val results: MutableMap<Identifier, JsonElement> = CollectionFactor.hashMap()
         load(resourceManager, this.dataType, results)
-        earlyLoad(resourceManager, this.dataType, results)
+        earlyLoad(resourceManager, this.dataType, results, registryLookup)
     }
 
     abstract fun earlyLoad(
         manager: ResourceManager,
         dataType: Identifier,
-        result: MutableMap<Identifier, JsonElement>
+        result: MutableMap<Identifier, JsonElement>,
+        registryLookup: DynamicRegistryManager
     )
 
     override fun prepare(resourceManager: ResourceManager, profiler: Profiler?): MutableMap<Identifier, JsonElement> = CollectionFactor.hashMap<Identifier, JsonElement>().also {

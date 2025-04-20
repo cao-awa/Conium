@@ -8,7 +8,7 @@ import com.github.cao.awa.conium.template.ConiumTemplates.Entity.MODEL
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.client.render.entity.EntityRendererFactory
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 
 class ConiumEntityModelTemplate(
@@ -17,7 +17,7 @@ class ConiumEntityModelTemplate(
 ) : ConiumEntityTemplate(true, MODEL) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumEntityModelTemplate {
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumEntityModelTemplate {
             check(Conium.isClient) { "The template 'model'(ConiumEntityModelTemplate) can only loads in client" }
 
             return ConiumEntityModelTemplate(element.asJsonObject["texture"].let {

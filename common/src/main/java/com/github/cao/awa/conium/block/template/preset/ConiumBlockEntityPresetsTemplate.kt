@@ -6,12 +6,12 @@ import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
-class ConiumBlockEntityPresetsTemplate(private val presetData: JsonObject, private val registryLookup: WrapperLookup) : ConiumBlockTemplate(name = ConiumTemplates.Block.BLOCK_ENTITY_PRESETS) {
+class ConiumBlockEntityPresetsTemplate(private val presetData: JsonObject, private val registryLookup: RegistryWrapper.WrapperLookup) : ConiumBlockTemplate(name = ConiumTemplates.Block.BLOCK_ENTITY_PRESETS) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockEntityPresetsTemplate = element.asJsonObject.ifJsonObject(
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumBlockEntityPresetsTemplate = element.asJsonObject.ifJsonObject(
             {
                 ConiumBlockEntityPresetsTemplate(it, registryLookup)
             },

@@ -6,12 +6,12 @@ import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates.Block.MOVEMENT_VELOCITY
 import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 open class ConiumBlockMovementVelocityTemplate(private val walkVelocity: Float, private val jumpVelocity: Float, name: String = MOVEMENT_VELOCITY) : ConiumBlockTemplate(name = name) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockMovementVelocityTemplate = element.ifJsonObject({
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumBlockMovementVelocityTemplate = element.ifJsonObject({
             ConiumBlockMovementVelocityTemplate(
                 it["walk"]?.asFloat ?: 1.0F,
                 it["jump"]?.asFloat ?: 1.0F

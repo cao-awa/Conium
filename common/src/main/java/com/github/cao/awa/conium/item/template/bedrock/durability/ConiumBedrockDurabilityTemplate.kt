@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.item.template.durability.ConiumDurabilityTempla
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrInt
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.DURABILITY
 import com.google.gson.JsonElement
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumBedrockDurabilityTemplate(
     durability: Int,
@@ -16,7 +16,7 @@ class ConiumBedrockDurabilityTemplate(
 ) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockDurabilityTemplate = element.objectOrInt(
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumBedrockDurabilityTemplate = element.objectOrInt(
             {
                 // Bedrock schema is:
                 // "minecraft:durability": {

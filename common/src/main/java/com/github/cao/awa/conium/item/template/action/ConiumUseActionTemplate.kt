@@ -11,12 +11,12 @@ import com.google.gson.JsonElement
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
 import net.minecraft.item.consume.UseAction
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumUseActionTemplate(private val useAction: UseAction) : ConiumItemTemplate(name = USE_ACTION) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumUseActionTemplate = ConiumUseActionTemplate(createUseAction(element.asString))
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumUseActionTemplate = ConiumUseActionTemplate(createUseAction(element.asString))
     }
 
     override fun settings(settings: Item.Settings) {

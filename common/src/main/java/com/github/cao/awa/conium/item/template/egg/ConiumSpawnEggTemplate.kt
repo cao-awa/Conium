@@ -8,14 +8,14 @@ import com.google.gson.JsonElement
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnReason
 import net.minecraft.item.ItemUsageContext
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.world.World
 
 class ConiumSpawnEggTemplate(private val entityType: EntityType<*>) : ConiumItemTemplate(name = SPAWN_EGG) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumSpawnEggTemplate {
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumSpawnEggTemplate {
             if (element.isJsonObject) {
                 throw IllegalArgumentException("Not supported: $element")
             }

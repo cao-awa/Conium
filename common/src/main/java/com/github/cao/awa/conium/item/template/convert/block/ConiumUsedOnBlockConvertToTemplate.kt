@@ -30,11 +30,10 @@ class ConiumUsedOnBlockConvertToTemplate(
         ): ConiumUsedOnBlockConvertToTemplate = element.ifJsonObject(
             {
                 ConiumUsedOnBlockConvertToTemplate(
-                    it["block"].asString,
-                    {
-                        createItemStack(it, "result")
-                    }
-                )
+                    it["block"].asString
+                ) {
+                    createItemStack(it, "result")
+                }
             }
         ) {
             throw notSupported(it)

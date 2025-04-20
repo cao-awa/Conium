@@ -4,9 +4,9 @@ import com.github.cao.awa.conium.block.template.luminance.ConiumLuminanceTemplat
 import com.github.cao.awa.conium.block.template.luminance.ConiumLuminanceTemplate.Companion.validateLuminance
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockBlock.LIGHT_EMISSION
 import com.google.gson.JsonElement
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 object ConiumBedrockLightEmissionTemplate {
     @JvmStatic
-    fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumLuminanceTemplate = ConiumLuminanceTemplate(validateLuminance(element.asInt), LIGHT_EMISSION)
+    fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumLuminanceTemplate = ConiumLuminanceTemplate(validateLuminance(element.asInt), LIGHT_EMISSION)
 }

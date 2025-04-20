@@ -16,14 +16,14 @@ import java.util.Set;
 
 @Mixin(RegistryEntry.Reference.class)
 public class RegistryEntryReferenceMixin<T> {
-    @Inject(
-            method = "getTags",
-            at = @At("RETURN"),
-            cancellable = true
-    )
-    public void getTagsNotNull(CallbackInfoReturnable<Set<TagKey<T>>> cir) {
-        if (cir.getReturnValue() == null) {
-            cir.setReturnValue(Collections.emptySet());
-        }
-    }
+//    @Inject(
+//            method = "getTags",
+//            at = @At("RETURN"),
+//            cancellable = true
+//    )
+//    public void getTagsNotNull(CallbackInfoReturnable<Set<TagKey<T>>> cir) {
+//        if (cir.getReturnValue() == null) {
+//            cir.setReturnValue(Collections.emptySet());
+//        }
+//    }
 }
