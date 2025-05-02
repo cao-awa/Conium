@@ -32,7 +32,7 @@ publishing {
     }
     publications {
         gpr(MavenPublication) {
-            groupId = "com.github.cao.awa.conium"
+            groupId = "com.github.cao.awa"
             artifactId = "conium"
             version = project.mod_version
 
