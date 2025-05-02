@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'java-library'
+    id 'maven-publish'
     id 'idea'
     id 'dev.architectury.loom' version '1.9-SNAPSHOT' apply false
     id 'architectury-plugin' version '3.4-SNAPSHOT'
