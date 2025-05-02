@@ -13,10 +13,7 @@ import net.minecraft.recipe.*
 import net.minecraft.recipe.ServerRecipeManager.SoleIngredientGetter
 import net.minecraft.recipe.display.CuttingRecipeDisplay
 import net.minecraft.recipe.input.RecipeInput
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.RegistryOps
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.*
 import net.minecraft.resource.Resource
 import net.minecraft.resource.ResourceFinder
 import net.minecraft.resource.ResourceManager
@@ -31,7 +28,7 @@ import java.util.*
 import java.util.function.Consumer
 import java.util.stream.Collectors
 
-class ConiumRecipeManager(private val registries: WrapperLookup) : ServerRecipeManager(registries) {
+class ConiumRecipeManager(private val registries: RegistryWrapper.WrapperLookup) : ServerRecipeManager(registries) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumRecipeManager")
 

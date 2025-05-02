@@ -5,12 +5,12 @@ import com.github.cao.awa.conium.template.ConiumTemplates.Block.INSTRUMENT
 import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.enums.NoteBlockInstrument
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 open class ConiumBlockInstrumentTemplate(private val instrument: NoteBlockInstrument, name: String = INSTRUMENT) : ConiumBlockTemplate(name = name) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockInstrumentTemplate = ConiumBlockInstrumentTemplate(createBehaviors(element.asString))
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumBlockInstrumentTemplate = ConiumBlockInstrumentTemplate(createBehaviors(element.asString))
 
         @JvmStatic
         fun createBehaviors(name: String): NoteBlockInstrument {

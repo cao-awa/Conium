@@ -6,11 +6,11 @@ import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockEntity.COLLISION_BOX
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 object ConiumBedrockEntityCollisionBoxTemplate {
     @JvmStatic
-    fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumEntityDimensionTemplate = element.ifJsonObject(
+    fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumEntityDimensionTemplate = element.ifJsonObject(
         { json: JsonObject ->
             ConiumEntityDimensionTemplate(
                 json["width"].asFloat,

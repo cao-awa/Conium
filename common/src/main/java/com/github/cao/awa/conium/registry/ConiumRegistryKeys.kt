@@ -25,5 +25,8 @@ object ConiumRegistryKeys {
     @JvmStatic
     val ENTITY: RegistryKey<Registry<ConiumEntityBuilder>> = of("entity")
 
+    @JvmStatic
+    val PLACED_FEATURE: RegistryKey<Registry<ConiumItemBuilder>> = of("worldgen/placed_feature")
+
     private fun <T> of(path: String): RegistryKey<Registry<T>> = RegistryKey.ofRegistry(Identifier.of("conium", path))
 }

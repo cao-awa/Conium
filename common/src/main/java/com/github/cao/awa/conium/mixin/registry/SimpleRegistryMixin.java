@@ -32,9 +32,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 @Mixin(SimpleRegistry.class)
+@SuppressWarnings("unchecked")
 public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     @Unique
     private final Map<T, RegistryEntry.Reference<T>> dynamicIntrusiveValueToEntry = new IdentityHashMap<>();
@@ -92,6 +95,14 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     @Shadow
     public abstract void resetTagEntries();
 
+    @Shadow @Nullable public abstract T get(@Nullable Identifier id);
+
+    @Shadow public abstract Optional<RegistryEntry.Reference<T>> getEntry(Identifier id);
+
+    @Shadow public abstract RegistryEntry<T> getEntry(T value);
+
+    @Shadow public abstract Optional<RegistryKey<T>> getKey(T entry);
+
     @Inject(
             method = "add",
             at = @At("HEAD"),
@@ -117,7 +128,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
                 throw new AssertionError("Missing intrusive holder for " + var10002 + ":" + value);
             }
 
-            ((RegistryEntryReferenceMixin<T>) reference).registryKey(key);
+            ((RegistryEntryReferenceAccessor<T>) reference).registryKey(key);
 
             this.dynamicKeyToEntry.put(key, reference);
             this.dynamicIdToEntry.put(key.getValue(), reference);
@@ -137,7 +148,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     @Unique
     @SuppressWarnings("unchecked")
     private void postChanged() {
-        this.dynamicValueToEntry.forEach((value, entry) -> ((RegistryEntryReferenceMixin<T>) entry).value(value));
+        this.dynamicValueToEntry.forEach((value, entry) -> ((RegistryEntryReferenceAccessor<T>) entry).value(value));
     }
 
     @Unique
@@ -559,5 +570,19 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
         this.dynamicRawIdToEntry.clear();
         this.dynamicKeyToEntryInfo.clear();
         this.dynamicTags.clear();
+    }
+
+    @Override
+    public RegistryKey<?> conium$getKey(Identifier identifier) {
+        AtomicReference<RegistryKey<?>> result = new AtomicReference<>();
+
+        getKey(get(identifier)).ifPresent(result::set);
+
+        return result.get();
+    }
+
+    @Override
+    public boolean conium$isPresent(Identifier identifier) {
+        return get(identifier) != null;
     }
 }

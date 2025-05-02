@@ -8,7 +8,7 @@ import com.github.cao.awa.conium.kotlin.extent.json.objectOrBoolean
 import com.github.cao.awa.conium.template.ConiumTemplates.Block.COLLISION
 import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.block.Block
@@ -52,7 +52,7 @@ open class ConiumBlockCollisionTemplate(
 ) : ConiumBlockTemplate(name = name) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBlockCollisionTemplate = element.objectOrBoolean(
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumBlockCollisionTemplate = element.objectOrBoolean(
             {
                 // Create the custom cubed block.
                 createWithCubed { cubed ->

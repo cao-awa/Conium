@@ -14,7 +14,7 @@ class ConiumConfig {
         private val LOGGER: Logger = LogManager.getLogger("ConiumConfig")
         val CONFIG_FILE: File = File("config/conium.json")
         @JvmField
-        var debugs: Boolean = false
+        var debugs: Boolean = true
         @JvmField
         var enableBedrockScript: Boolean = true
         @JvmField

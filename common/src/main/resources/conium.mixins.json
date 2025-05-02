@@ -29,11 +29,13 @@
     "recipe.ServerRecipeManagerAccessor",
     "recipe.property.RecipePropertySetAccessor",
     "registry.NamedRegistryEntryListMixin",
+    "registry.RegistryEntryReferenceAccessor",
     "registry.RegistryEntryReferenceMixin",
     "registry.SimpleRegistryMixin",
     "screen.ScreenHandlerMixin",
     "server.MinecraftServerMixin",
     "server.interaction.ServerPlayerInteractionManagerMixin",
+    "server.save.SaveLoadingMixin",
     "server.world.ServerWorldMixin",
     "world.WorldAccessor"
   ],

@@ -8,14 +8,14 @@ import com.google.gson.JsonElement
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 class ConiumBedrockCanDestroyInCreativeTemplate(private val canDestroy: Boolean) : ConiumItemTemplate(name = CAN_DESTROY_IN_CREATIVE) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockCanDestroyInCreativeTemplate = element.objectOrBoolean(
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumBedrockCanDestroyInCreativeTemplate = element.objectOrBoolean(
             {
                 // Bedrock schema is:
                 // "minecraft:can_destroy_in_creative": {

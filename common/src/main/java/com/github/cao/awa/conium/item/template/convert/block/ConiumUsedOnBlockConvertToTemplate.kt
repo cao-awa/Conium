@@ -30,11 +30,10 @@ class ConiumUsedOnBlockConvertToTemplate(
         ): ConiumUsedOnBlockConvertToTemplate = element.ifJsonObject(
             {
                 ConiumUsedOnBlockConvertToTemplate(
-                    it["block"].asString,
-                    {
-                        createItemStack(it, "result")
-                    }
-                )
+                    it["block"].asString
+                ) {
+                    createItemStack(it, "result")
+                }
             }
         ) {
             throw notSupported(it)
@@ -53,8 +52,6 @@ class ConiumUsedOnBlockConvertToTemplate(
     } else null
 
     override fun attach(target: ConiumItem) {
-        target.useAction = UseAction.BLOCK
-
         ConiumEvent.itemUsedOnBlock.listen(target) { metadata: ConiumItemUsedOnBlockEventMetadata ->
             val player: PlayerEntity? = metadata.player
             if (player != null) {

@@ -3,11 +3,14 @@
   "identifier": "trtr:kindling",
   "templates": {
     "used_on_block_convert_to": {
-      "block": "minecraft:stone",
+      "block": "minecraft:fire",
       "result": {
-        "item": "minecraft:bedrock",
+        "item": "minecraft:lit_kindling",
         "count": 1
       }
+    },
+    "consume_on_used": {
+      "used_on_block": "minecraft:fire"
     }
   }
 }

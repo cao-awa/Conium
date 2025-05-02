@@ -4,11 +4,11 @@ import com.github.cao.awa.conium.block.template.mining.ConiumHardnessTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrFloat
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockBlock.DESTRUCTIBLE_BY_MINING
 import com.google.gson.JsonElement
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 object ConiumBedrockDestructibleByMiningTemplate {
     @JvmStatic
-    fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumHardnessTemplate = element.objectOrFloat(
+    fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumHardnessTemplate = element.objectOrFloat(
         {
             // Bedrock schema is:
             // "minecraft:destructible_by_mining": {

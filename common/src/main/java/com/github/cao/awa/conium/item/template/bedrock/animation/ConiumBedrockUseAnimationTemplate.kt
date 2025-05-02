@@ -11,12 +11,12 @@ import com.google.gson.JsonElement
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
 import net.minecraft.item.consume.UseAction
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumBedrockUseAnimationTemplate(private val useAction: UseAction) : ConiumItemTemplate(true, USE_ANIMATION) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockUseAnimationTemplate = element.objectOrString(
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumBedrockUseAnimationTemplate = element.objectOrString(
             {
                 // Bedrock schema is:
                 // "minecraft:use_animation": {

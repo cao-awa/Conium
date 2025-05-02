@@ -1,7 +1,4 @@
-import net.minecraft.entity.LivingEntity
-import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
-import net.minecraft.util.math.Vec3d
 
 val random = Random()
 

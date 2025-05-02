@@ -6,7 +6,7 @@ import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrBoolean
 import com.github.cao.awa.conium.template.ConiumTemplates.Entity.PUSHABLE
 import com.google.gson.JsonElement
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumEntityPushableTemplate(
     private val pushableByEntity: Boolean,
@@ -16,7 +16,7 @@ class ConiumEntityPushableTemplate(
 ) : ConiumEntityTemplate(name = name) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup, name: String): ConiumEntityPushableTemplate = element.objectOrBoolean(
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup, name: String): ConiumEntityPushableTemplate = element.objectOrBoolean(
             {
                 ConiumEntityPushableTemplate(
                     it["is_pushable"]?.asBoolean ?: ConiumEntitySettingsValue.pushable,
@@ -36,7 +36,7 @@ class ConiumEntityPushableTemplate(
         }!!
 
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumEntityPushableTemplate = create(element, registryLookup, PUSHABLE)
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumEntityPushableTemplate = create(element, registryLookup, PUSHABLE)
     }
 
     override fun settings(settings: ConiumEntitySettings) {

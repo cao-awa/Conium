@@ -18,7 +18,10 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.item.ItemUsageContext
 import net.minecraft.item.consume.UseAction
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
@@ -52,6 +55,9 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
     }
 
     var useAction: UseAction = UseAction.NONE
+    var consumeOnUsed: Boolean = false
+    var consumeOnUsedOnBlock: (BlockState) -> Boolean = { false }
+    var consumeOnUsedOnEntity: (LivingEntity) -> Boolean = { false }
 
     /**
      * Check the item is allowing to break blocks when player holding this item.
@@ -165,6 +171,43 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
             super.getMiningSpeed(stack, state)
         } else {
             this.settings.forceMiningSpeed
+        }
+    }
+
+    override fun getUseAction(stack: ItemStack): UseAction {
+        return this.useAction
+    }
+
+    override fun use(world: World, user: PlayerEntity, hand: Hand): ActionResult {
+        val actionResult: ActionResult = super.use(world, user, hand)
+
+        return if (this.consumeOnUsed) {
+            ActionResult.CONSUME
+        } else {
+            actionResult
+        }
+    }
+
+    override fun useOnBlock(context: ItemUsageContext): ActionResult {
+        val actionResult: ActionResult = super.useOnBlock(context)
+        val world: World = context.world
+        val blockPos: BlockPos = context.blockPos
+        val blockState: BlockState = world.getBlockState(blockPos)
+
+        return if (this.consumeOnUsedOnBlock(blockState)) {
+            ActionResult.CONSUME
+        } else {
+            actionResult
+        }
+    }
+
+    override fun useOnEntity(stack: ItemStack, user: PlayerEntity, entity: LivingEntity, hand: Hand): ActionResult {
+        val actionResult: ActionResult = super.useOnEntity(stack, user, entity, hand)
+
+        return if (this.consumeOnUsedOnEntity(entity)) {
+            ActionResult.CONSUME
+        } else {
+            actionResult
         }
     }
 }

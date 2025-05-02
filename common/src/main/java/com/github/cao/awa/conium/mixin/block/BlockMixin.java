@@ -5,5 +5,5 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(Block.class)
 public class BlockMixin {
-    //
+
 }

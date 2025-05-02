@@ -10,7 +10,7 @@ import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.item.Item
 import net.minecraft.item.equipment.EquipmentType
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 
 /**
@@ -34,7 +34,7 @@ class ConiumArmorTemplate(
 ) : ConiumWearableTemplate(equipment, defense, ARMOR) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumArmorTemplate = element.objectOrString(
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumArmorTemplate = element.objectOrString(
             {
                 ConiumArmorTemplate(
                     createEquipment(it["slot"].asString),

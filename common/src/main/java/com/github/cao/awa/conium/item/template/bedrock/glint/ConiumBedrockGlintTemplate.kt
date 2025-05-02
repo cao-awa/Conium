@@ -6,12 +6,12 @@ import com.github.cao.awa.conium.template.ConiumTemplates.Item.GLINT
 import com.google.gson.JsonElement
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumBedrockGlintTemplate(private val glint: Boolean) : ConiumItemTemplate(name = GLINT) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumBedrockGlintTemplate = element.objectOrBoolean(
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumBedrockGlintTemplate = element.objectOrBoolean(
             {
                 // Bedrock schema is:
                 // "minecraft:glint": {

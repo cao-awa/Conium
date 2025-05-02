@@ -8,11 +8,9 @@ import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
 import com.github.cao.awa.conium.block.builder.bedrock.BedrockSchemaBlockBuilder
 import com.github.cao.awa.conium.block.builder.conium.ConiumSchemaBlockBuilder
 import com.github.cao.awa.conium.datapack.ConiumJsonDataLoader
-import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.kotlin.extent.block.register
 import com.github.cao.awa.conium.kotlin.extent.block.registerBlock
 import com.github.cao.awa.conium.kotlin.extent.item.registerBlockItem
-import com.github.cao.awa.conium.kotlin.extent.item.registerItem
 import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicIdList
@@ -23,26 +21,40 @@ import com.google.gson.JsonObject
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
-import net.minecraft.registry.Registries
+import net.minecraft.registry.DynamicRegistryManager
 import net.minecraft.registry.RegistryWrapper
+import net.minecraft.registry.Registries
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 import net.minecraft.util.profiler.Profiler
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLookup) : ConiumJsonDataLoader(ConiumRegistryKeys.BLOCK.value) {
+class ConiumBlockManager : ConiumJsonDataLoader(ConiumRegistryKeys.BLOCK.value) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumBlockManager")
     }
 
-    override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
+    var registryLookup: RegistryWrapper.WrapperLookup? = null
+
+    override fun earlyLoad(manager: ResourceManager, dataType: Identifier, result: MutableMap<Identifier, JsonElement>, registryLookup: DynamicRegistryManager) {
         resetRegistries()
 
-        for ((key: Identifier, value: JsonElement) in prepared) {
+        this.registryLookup = registryLookup
+
+        for ((key: Identifier, value: JsonElement) in result) {
             load(key, value as JsonObject)
         }
+    }
+
+    override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
+//        (Block.STATE_IDS as ConiumDynamicIdList<BlockState>).clearDynamic()
+//
+//        for ((key: Identifier, value: JsonElement) in prepared) {
+//            load(key, value as JsonObject)
+//        }
     }
 
     fun resetRegistries() {
@@ -60,15 +72,17 @@ class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLook
         )
 
         val builder: ConiumBlockBuilder = if (json["schema_style"]?.asString == "conium") {
-            ConiumSchemaBlockBuilder.deserialize(json, this.registryLookup)
+            ConiumSchemaBlockBuilder.deserialize(json, this.registryLookup!!)
         } else {
-            BedrockSchemaBlockBuilder.deserialize(json, this.registryLookup)
+            BedrockSchemaBlockBuilder.deserialize(json, this.registryLookup!!)
         }
 
         builder.register { block: ConiumBlock ->
             registerBlockStates(block)
 
-            builder.registerBlockItem(block)
+            Conium.coniumItemManager!!.pendingBlockItem(Registries.BLOCK.getId(block)) {
+                settings: Item.Settings -> BlockItem(block, settings)
+            }
         }
     }
 
@@ -92,6 +106,12 @@ class ConiumBlockManager(private val registryLookup: RegistryWrapper.WrapperLook
         itemSettings: ((Item.Settings) -> Unit)? = null
     ): Block {
         return registerBlock(identifier, blockProvider).also { block: Block ->
+            Conium.debug(
+                "Registering block '{}'",
+                { block },
+                LOGGER::info,
+            )
+
             registerBlockStates(block)
 
             if (itemSettings != null) {

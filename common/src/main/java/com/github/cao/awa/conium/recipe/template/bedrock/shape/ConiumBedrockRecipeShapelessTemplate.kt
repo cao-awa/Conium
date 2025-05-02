@@ -9,12 +9,12 @@ import com.google.gson.JsonObject
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.ShapelessRecipe
 import net.minecraft.recipe.book.CraftingRecipeCategory
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumBedrockRecipeShapelessTemplate : ConiumRecipeTemplate<ShapelessRecipe>(RECIPE_SHAPELESS) {
     companion object {
         @JvmStatic
-        fun create(jsonObject: JsonElement, registryLookup: WrapperLookup): ConiumBedrockRecipeShapelessTemplate {
+        fun create(jsonObject: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumBedrockRecipeShapelessTemplate {
             jsonObject as JsonObject
 
             return ConiumBedrockRecipeShapelessTemplate().also {

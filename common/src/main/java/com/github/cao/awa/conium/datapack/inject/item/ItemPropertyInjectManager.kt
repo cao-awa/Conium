@@ -14,6 +14,8 @@ import com.google.gson.JsonObject
 import net.minecraft.component.ComponentType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.DynamicRegistryManager
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.Registries
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
@@ -27,6 +29,10 @@ class ItemPropertyInjectManager : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM_P
     }
 
     private val injects: HashMap<Item, MutableList<ItemPropertyInject<*>>> = CollectionFactor.hashMap()
+
+    override fun earlyLoad(manager: ResourceManager, dataType: Identifier, result: MutableMap<Identifier, JsonElement>, registryLookup: DynamicRegistryManager) {
+        // Nothing here.
+    }
 
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
         for ((key: Identifier, value: JsonElement) in prepared) {

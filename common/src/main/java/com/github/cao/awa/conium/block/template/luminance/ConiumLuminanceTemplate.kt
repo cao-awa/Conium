@@ -4,12 +4,12 @@ import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.template.ConiumTemplates.Block.LUMINANCE
 import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumLuminanceTemplate(private val level: Int, name: String = LUMINANCE) : ConiumBlockTemplate(name = name) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumLuminanceTemplate = ConiumLuminanceTemplate(validateLuminance(element.asInt))
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumLuminanceTemplate = ConiumLuminanceTemplate(validateLuminance(element.asInt))
 
         fun validateLuminance(level: Int): Int {
             if (level in 0..15) {

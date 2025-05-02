@@ -8,12 +8,12 @@ import com.google.gson.JsonObject
 import net.minecraft.component.type.FoodComponent
 import net.minecraft.component.type.FoodComponents.*
 import net.minecraft.item.Item
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumFoodTemplate(private val foodComponent: FoodComponent) : ConiumItemTemplate(name = FOOD) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement, registryLookup: WrapperLookup): ConiumFoodTemplate = element.objectOrString(
+        fun create(element: JsonElement, registryLookup: RegistryWrapper.WrapperLookup): ConiumFoodTemplate = element.objectOrString(
             {
                 // Create component if element is json object.
                 ConiumFoodTemplate(createFoodComponent(element.asJsonObject, registryLookup))
@@ -68,7 +68,7 @@ class ConiumFoodTemplate(private val foodComponent: FoodComponent) : ConiumItemT
             )
         }!!
 
-        private fun createFoodComponent(jsonObject: JsonObject, registryLookup: WrapperLookup): FoodComponent {
+        private fun createFoodComponent(jsonObject: JsonObject, registryLookup: RegistryWrapper.WrapperLookup): FoodComponent {
             FoodComponent.Builder().let {
                 if (jsonObject.has("nutrition")) {
                     it.nutrition(jsonObject["nutrition"].asInt)
