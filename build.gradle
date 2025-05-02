@@ -34,7 +34,7 @@ publishing {
         gpr(MavenPublication) {
             groupId = "com.github.cao.awa.conium"
             artifactId = "conium"
-            version = project.name
+            version = project.mod_version
 
             from components.java
         }
