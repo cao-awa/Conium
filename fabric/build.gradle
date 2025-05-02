@@ -7,6 +7,28 @@ architectury {
     fabric()
 }
 
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/cao-awa/Conium")
+            credentials {
+                username = System.getenv("GH_ACTOR")
+                password = System.getenv("GH_TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            groupId = "com.github.cao.awa"
+            artifactId = "conium-fabric"
+            version = project.mod_version
+
+            from components.java
+        }
+    }
+}
+
 configurations {
     common {
         canBeResolved = true
