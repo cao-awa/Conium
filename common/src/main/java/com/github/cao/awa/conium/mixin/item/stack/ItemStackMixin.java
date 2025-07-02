@@ -9,7 +9,9 @@ import net.minecraft.component.ComponentHolder;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.MergedComponentMap;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -69,7 +71,8 @@ public abstract class ItemStackMixin implements ComponentHolder {
     )
     public void getTooltip(Item.TooltipContext context, @Nullable PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir) {
         if (ConiumConfig.debugs) {
-            if (type.isCreative() || !contains(DataComponentTypes.HIDE_TOOLTIP)) {
+            boolean hideTooltip = getOrDefault(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplayComponent.DEFAULT).hideTooltip();
+            if (type.isCreative() || !hideTooltip) {
                 List<Text> tooltip = cir.getReturnValue();
 
                 overallComponents(componentType -> {
@@ -170,9 +173,9 @@ public abstract class ItemStackMixin implements ComponentHolder {
             at = @At("HEAD"),
             cancellable = true
     )
-    public void preInventoryTick(World world, Entity entity, int slot, boolean selected, CallbackInfo ci) {
+    public void preInventoryTick(World world, Entity entity, EquipmentSlot slot, CallbackInfo ci) {
         // Trigger item inventory tick event.
-        if (ConiumItemEventMixinIntermediary.fireItemInventoryTickEvent(world, entity, Manipulate.cast(this), slot, selected)) {
+        if (ConiumItemEventMixinIntermediary.fireItemInventoryTickEvent(world, entity, Manipulate.cast(this), slot)) {
             // Cancel this event when intermediary was rejected the event.
             ci.cancel();
         }
@@ -182,8 +185,8 @@ public abstract class ItemStackMixin implements ComponentHolder {
             method = "inventoryTick",
             at = @At("RETURN")
     )
-    public void handleInventoryTick(World world, Entity entity, int slot, boolean selected, CallbackInfo ci) {
+    public void handleInventoryTick(World world, Entity entity, EquipmentSlot slot, CallbackInfo ci) {
         // Trigger item inventory ticked event.
-        ConiumItemEventMixinIntermediary.fireItemInventoryTickedEvent(world, entity, Manipulate.cast(this), slot, selected);
+        ConiumItemEventMixinIntermediary.fireItemInventoryTickedEvent(world, entity, Manipulate.cast(this), slot);
     }
 }

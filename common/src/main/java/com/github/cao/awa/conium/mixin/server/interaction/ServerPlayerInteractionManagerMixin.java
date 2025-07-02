@@ -42,7 +42,8 @@ public abstract class ServerPlayerInteractionManagerMixin {
     )
     public void tryBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         BlockState blockState = this.world.getBlockState(pos);
-        if (!this.player.getMainHandStack().getItem().canMine(blockState, this.world, pos, this.player)) {
+        ItemStack stack = this.player.getMainHandStack();
+        if (!stack.getItem().canMine(stack, blockState, this.world, pos, this.player)) {
             cir.setReturnValue(false);
         } else {
             Block block = blockState.getBlock();
@@ -91,9 +92,8 @@ public abstract class ServerPlayerInteractionManagerMixin {
                 if (isCreative()) {
                     cir.setReturnValue(true);
                 } else {
-                    ItemStack itemStack = this.player.getMainHandStack();
                     boolean canHarvest = this.player.canHarvest(brokenState);
-                    itemStack.postMine(this.world, brokenState, pos, this.player);
+                    stack.postMine(this.world, brokenState, pos, this.player);
                     if (removedBlock && canHarvest) {
                         block.afterBreak(
                                 this.world,
@@ -101,7 +101,7 @@ public abstract class ServerPlayerInteractionManagerMixin {
                                 pos,
                                 brokenState,
                                 this.world.getBlockEntity(pos),
-                                itemStack.copy()
+                                stack.copy()
                         );
                     }
 

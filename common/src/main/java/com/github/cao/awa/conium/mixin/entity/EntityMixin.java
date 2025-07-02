@@ -2,12 +2,9 @@ package com.github.cao.awa.conium.mixin.entity;
 
 import com.github.cao.awa.conium.event.type.ConiumEventType;
 import com.github.cao.awa.conium.intermediary.mixin.entity.ConiumEntityEventMixinIntermediary;
-import com.github.cao.awa.conium.mixin.entity.living.LivingEntityAccessor;
 import com.github.cao.awa.conium.sprint.SprintMovementEntity;
 import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

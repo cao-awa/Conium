@@ -34,17 +34,17 @@ public class SaveLoadingMixin {
         CombinedDynamicRegistries<ServerDynamicRegistryType> registries = original.call();
         DynamicRegistryManager registryManager = registries.getPrecedingRegistryManagers(ServerDynamicRegistryType.STATIC);
 
-        Conium.itemInjectManager = new ItemPropertyInjectManager();
-        Conium.coniumItemManager = new ConiumItemManager();
-        Conium.coniumBlockManager = new ConiumBlockManager();
-        Conium.coniumEntityManager = new ConiumEntityManager();
-        Conium.placedFeatureManager = new ConiumPlacedFeatureManager();
-        Conium.scriptManager  = new ConiumScriptManager();
+        Conium.itemInjectManager = new ItemPropertyInjectManager(registryManager);
+        Conium.coniumItemManager = new ConiumItemManager(registryManager);
+        Conium.coniumBlockManager = new ConiumBlockManager(registryManager);
+        Conium.coniumEntityManager = new ConiumEntityManager(registryManager);
+        Conium.placedFeatureManager = new ConiumPlacedFeatureManager(registryManager);
+        Conium.scriptManager = new ConiumScriptManager(registryManager);
 
-        Conium.coniumItemManager.earlyPrepare(closeableResourceManager, registryManager);
-        Conium.coniumBlockManager.earlyPrepare(closeableResourceManager, registryManager);
-        Conium.coniumEntityManager.earlyPrepare(closeableResourceManager, registryManager);
-        Conium.placedFeatureManager.earlyPrepare(closeableResourceManager, registryManager);
+        Conium.coniumItemManager.earlyPrepare(closeableResourceManager);
+        Conium.coniumBlockManager.earlyPrepare(closeableResourceManager);
+        Conium.coniumEntityManager.earlyPrepare(closeableResourceManager);
+        Conium.placedFeatureManager.earlyPrepare(closeableResourceManager);
 
         return registries;
     }

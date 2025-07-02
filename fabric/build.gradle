@@ -7,6 +7,28 @@ architectury {
     fabric()
 }
 
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/cao-awa/Conium")
+            credentials {
+                username = System.getenv("GH_ACTOR")
+                password = System.getenv("GH_TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            groupId = "com.github.cao.awa"
+            artifactId = "conium-fabric"
+            version = project.mod_version
+
+            from components.java
+        }
+    }
+}
+
 configurations {
     common {
         canBeResolved = true
@@ -44,17 +66,21 @@ dependencies {
 
     shadowBundle 'com.alibaba.fastjson2:fastjson2:2.0.50'
 
-    shadowBundle 'com.github.cao.awa:catheter:1.0.42'
-    shadowBundle 'com.github.cao.awa:sinuatum:1.0.15'
+    shadowBundle 'com.github.cao.awa:catheter:1.0.43'
+    shadowBundle 'com.github.cao.awa:sinuatum:1.0.17'
 
     shadowBundle "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
 
     // Fabric Kotlin
-    modImplementation "net.fabricmc:fabric-language-kotlin:${rootProject.fabric_kotlin_version}"
+    modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 }
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
+
+    kotlin {
+        kotlinDaemonJvmArgs = ["-Dfabric.kotlin.remap=true"]
+    }
 }
 
 processResources {

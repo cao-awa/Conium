@@ -20,7 +20,7 @@ public class AttributeModifiersComponentBuilderMixin {
     private final List<AttributeModifiersComponent.Entry> entryList = CollectionFactor.arrayList();
 
     @Inject(
-            method = "add",
+            method = "add(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/entity/attribute/EntityAttributeModifier;Lnet/minecraft/component/type/AttributeModifierSlot;)Lnet/minecraft/component/type/AttributeModifiersComponent$Builder;",
             at = @At("HEAD"),
             cancellable = true
     )
@@ -35,7 +35,7 @@ public class AttributeModifiersComponentBuilderMixin {
             cancellable = true
     )
     public void build(CallbackInfoReturnable<AttributeModifiersComponent> cir) {
-        cir.setReturnValue(new AttributeModifiersComponent(this.entryList, true));
+        cir.setReturnValue(new AttributeModifiersComponent(this.entryList));
     }
 
     @Unique

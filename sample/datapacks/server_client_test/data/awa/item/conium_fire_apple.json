@@ -1,0 +1,15 @@
+{
+  "schema_style": "conium",
+  "identifier": "awa:conium_fire_apple",
+  "templates": {
+    "max_count": 64,
+    "ignite": 5,
+    "food": {
+      "nutrition": 5,
+      "saturation": 1.0,
+      "can_always_eat": true
+    },
+    "glint": true,
+    "rarity": "epic"
+  }
+}

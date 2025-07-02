@@ -22,8 +22,8 @@ dependencies {
 
     implementation 'com.alibaba.fastjson2:fastjson2:2.0.50'
 
-    implementation 'com.github.cao.awa:catheter:1.0.42'
-    implementation 'com.github.cao.awa:sinuatum:1.0.15'
+    implementation 'com.github.cao.awa:catheter:1.0.43'
+    implementation 'com.github.cao.awa:sinuatum:1.0.17'
 
     implementation "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
 }

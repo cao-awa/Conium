@@ -1,14 +1,8 @@
 package com.github.cao.awa.conium.mixin.datapack;
 
 import com.github.cao.awa.conium.Conium;
-import com.github.cao.awa.conium.datapack.block.ConiumBlockManager;
-import com.github.cao.awa.conium.datapack.entity.ConiumEntityManager;
-import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager;
-import com.github.cao.awa.conium.datapack.item.ConiumItemManager;
 import com.github.cao.awa.conium.datapack.recipe.ConiumRecipeManager;
-import com.github.cao.awa.conium.datapack.script.ConiumScriptManager;
 import com.github.cao.awa.conium.event.ConiumEvent;
-import com.github.cao.awa.conium.mixin.recipe.ServerRecipeManagerAccessor;
 import com.github.cao.awa.conium.server.ConiumDedicatedServer;
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import net.minecraft.recipe.ServerRecipeManager;
@@ -23,7 +17,6 @@ import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -80,19 +73,8 @@ public abstract class DataPackContentsMixin {
             at = @At("RETURN")
     )
     public void init(CombinedDynamicRegistries<ServerDynamicRegistryType> dynamicRegistries, RegistryWrapper.WrapperLookup registries, FeatureSet enabledFeatures, CommandManager.RegistrationEnvironment environment, List<Registry.PendingTagLoad<?>> pendingTagLoads, int functionPermissionLevel, CallbackInfo ci) {
-        RegistryWrapper.WrapperLookup lookup = ((ServerRecipeManagerAccessor) this.recipeManager).getRegistries();
-        Conium.itemInjectManager = new ItemPropertyInjectManager();
-//        Conium.coniumItemManager = new ConiumItemManager();
         assert Conium.coniumItemManager != null;
-        Conium.coniumItemManager.setRegistryLookup(lookup);
         Conium.coniumItemManager.setPendingTagLoad(pendingTagLoads);
-//        Conium.coniumBlockManager = new ConiumBlockManager();
-        assert Conium.coniumBlockManager != null;
-        Conium.coniumBlockManager.setRegistryLookup(lookup);
-//        Conium.coniumEntityManager = new ConiumEntityManager();
-        assert Conium.coniumEntityManager != null;
-        Conium.coniumEntityManager.setRegistryLookup(lookup);
-//        Conium.scriptManager = new ConiumScriptManager();
     }
 
     @Redirect(

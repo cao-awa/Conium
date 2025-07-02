@@ -46,15 +46,15 @@
   "depends": {
     "fluxia": "1.1.4-fix3",
     "fabricloader": "*",
-    "fabric-language-kotlin": "1.13.1+kotlin.2.1.10",
-    "minecraft": "1.21.4",
+    "fabric-language-kotlin": "1.13.4+kotlin.2.2.0",
+    "minecraft": "1.21.6",
     "java": "21",
     "fabric": "*"
   },
   "recommends": {
     "lithium": "*",
-    "sepals": ">=1.0.13",
-    "annuus": ">=1.0.2"
+    "sepals": ">=1.0.21-FIX",
+    "annuus": ">=1.0.11-SNAPSHOT"
   },
   "breaks": {
     "optifabric": "*"
