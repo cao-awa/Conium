@@ -13,6 +13,7 @@ class BedrockOnScreenDisplay(val player: BedrockPlayer) {
 
     @BedrockScriptApiFacade("ScreenDisplay", "setTitle")
     fun setTitle(title: String, properties: BedrockScriptAnonymousObjectMap) = this.screenDisplayTitle.setTitle(title, properties)
+
     @BedrockScriptApiFacade("ScreenDisplay", "updateTitle")
     fun updateSubtitle(title: String) = this.screenDisplayTitle.updateSubtitle(title)
 
