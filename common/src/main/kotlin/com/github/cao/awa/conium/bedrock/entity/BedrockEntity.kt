@@ -19,7 +19,6 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
-import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -40,9 +39,9 @@ open class BedrockEntity(private val delegate: Entity) {
         ifServerEntity { serverWorld: ServerWorld ->
             this.delegate.teleport(
                 serverWorld,
-                (location["x"] as Number).toDouble(),
-                (location["y"] as Number).toDouble(),
-                (location["z"] as Number).toDouble(),
+                location.getAs<Number>("x").toDouble(),
+                location.getAs<Number>("y").toDouble(),
+                location.getAs<Number>("z").toDouble(),
                 CollectionFactor.hashSet(),
                 this.delegate.yaw,
                 this.delegate.pitch,

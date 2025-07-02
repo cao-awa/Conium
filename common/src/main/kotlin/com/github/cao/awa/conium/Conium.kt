@@ -7,7 +7,7 @@ import com.github.cao.awa.conium.datapack.block.ConiumBlockManager
 import com.github.cao.awa.conium.datapack.entity.ConiumEntityManager
 import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager
-import com.github.cao.awa.conium.datapack.script.ConiumScriptManager
+import com.github.cao.awa.conium.script.manager.ConiumScriptManager
 import com.github.cao.awa.conium.datapack.worldgen.ConiumPlacedFeatureManager
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.function.consumer.string.obj.*
@@ -36,7 +36,7 @@ class Conium {
         val isClient: Boolean get() = ConiumClient.initialized
 
         @JvmField
-        var VERSION = "1.0.0-alpha11"
+        var VERSION = "1.0.0-alpha11-fix1"
 
         @JvmField
         var STRUCTURING_TRANSLATOR_VERSION: String = StructuringTranslator.getVersion()

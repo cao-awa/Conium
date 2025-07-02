@@ -12,17 +12,19 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 import net.minecraft.item.ItemUsageContext
-import net.minecraft.server.network.ServerPlayerEntity
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemUseOnBeforeEventSignal")
 class BedrockItemUseOnBeforeEvent: BedrockEvent<BedrockItemUseOnEventContext>(ConiumEventType.ITEM_USE_ON_BLOCK) {
     override fun createUnnamed(action: ParameterSelective1<Unit, BedrockItemUseOnEventContext>, scriptSource: Any): ConiumArisingEventContext<*> {
+        println("ALREADY???")
         return ConiumEventContextBuilder.requires(
-            ConiumEventArgTypes.ITEM_USAGE_CONTEXT,
-            ConiumEventArgTypes.SERVER_PLAYER
-        ).arise { _: Any, usage: ItemUsageContext, source: ServerPlayerEntity ->
-            !usage.bedrockEventContext(scriptSource, source).also { context ->
+            ConiumEventArgTypes.ITEM_USAGE_CONTEXT
+        ).arise { _: Any, usage: ItemUsageContext ->
+            println("WTT???")
+            !usage.bedrockEventContext(scriptSource, usage.player).also { context: BedrockItemUseOnEventContext ->
+                BedrockEventContext.contexts[scriptSource] = context
+            }.also { context: BedrockItemUseOnEventContext ->
                 action(context)
                 BedrockEventContext.clearContext(scriptSource)
             }.cancel

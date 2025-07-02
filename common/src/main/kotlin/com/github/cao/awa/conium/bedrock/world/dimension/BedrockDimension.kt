@@ -24,9 +24,9 @@ class BedrockDimension(private val delegate: World) {
             source,
             null,
             AdvancedExplosionBehavior(destroyBlocks, true, Optional.empty(), Optional.empty()),
-            (location["x"] as Number).toDouble(),
-            (location["y"] as Number).toDouble(),
-            (location["z"] as Number).toDouble(),
+            location.getAs<Number>("x").toDouble(),
+            location.getAs<Number>("y").toDouble(),
+            location.getAs<Number>("z").toDouble(),
             radius.toFloat(),
             createFire,
             World.ExplosionSourceType.NONE

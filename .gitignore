@@ -114,6 +114,11 @@ gradle-app.setting
 # Common working directory
 run/
 runs/
+debug/
+logs/
+
+# Test
+common/src/test/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar

@@ -22,9 +22,13 @@ class BedrockItemUseOnAfterEvent: BedrockEvent<BedrockItemUseOnEventContext>(Con
             ConiumEventArgTypes.ITEM_USAGE_CONTEXT,
             ConiumEventArgTypes.SERVER_PLAYER
         ) { _: Any, usage: ItemUsageContext, source: ServerPlayerEntity ->
-            action(usage.bedrockEventContext(scriptSource, source))
+            usage.bedrockEventContext(scriptSource, source).also { context: BedrockItemUseOnEventContext ->
+                BedrockEventContext.contexts[scriptSource] = context
+            }.also{ context: BedrockItemUseOnEventContext ->
+                action(context)
 
-            BedrockEventContext.clearContext(scriptSource)
+                BedrockEventContext.clearContext(scriptSource)
+            }
         }
     }
 }

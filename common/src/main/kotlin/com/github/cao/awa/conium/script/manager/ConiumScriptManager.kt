@@ -1,9 +1,8 @@
-package com.github.cao.awa.conium.datapack.script
+package com.github.cao.awa.conium.script.manager
 
 import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.config.ConiumConfig
 import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.script.ScriptExport
@@ -27,19 +26,23 @@ import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SinglePreparationResourceReloader
 import net.minecraft.util.Identifier
 import net.minecraft.util.profiler.Profiler
-import org.antlr.v4.runtime.*
+import org.antlr.v4.runtime.BaseErrorListener
+import org.antlr.v4.runtime.CharStreams
+import org.antlr.v4.runtime.CommonTokenStream
+import org.antlr.v4.runtime.RecognitionException
+import org.antlr.v4.runtime.Recognizer
+import org.antlr.v4.runtime.TokenStream
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.io.File
+import kotlin.collections.iterator
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultValue
 import kotlin.script.experimental.api.ResultWithDiagnostics
 import kotlin.script.experimental.host.StringScriptSource
-import kotlin.script.experimental.jvm.BasicJvmScriptEvaluator
 import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
 import kotlin.script.experimental.jvm.jvm
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
-import kotlin.script.experimental.jvmhost.JvmScriptCompiler
 import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromTemplate
 
 /**
@@ -68,8 +71,8 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
          *
          * Don't use JSR223 API to evaluate scripts, it will cause unexpected produce env problems!
          *
-         * @see JvmScriptCompiler
-         * @see BasicJvmScriptEvaluator
+         * @see kotlin.script.experimental.jvmhost.JvmScriptCompiler
+         * @see kotlin.script.experimental.jvm.BasicJvmScriptEvaluator
          *
          * @author cao_awa
          *
@@ -79,7 +82,7 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
     }
 
     /**
-     * The 'exportedScript' is shared script context when the script return a '[ScriptExport]'
+     * The 'exportedScript' is shared script context when the script return a '[com.github.cao.awa.conium.script.ScriptExport]'
      *
      * Other scripts can use comment to import these contexts where they are marked as:
      *
@@ -179,9 +182,9 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
      */
     override fun apply(prepared: MutableMap<Identifier, Resource>, manager: ResourceManager, profiler: Profiler) {
         // Clear conium event attaches.
-        ConiumEvent.resetForever()
+        ConiumEvent.Companion.resetForever()
 
-        ConiumEvent.attach()
+        ConiumEvent.Companion.attach()
 
         // Clear old exported script, scripts will export to here again in next step loading
         this.exportedScript.clear()
@@ -191,12 +194,12 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
             // Load commons.
             scripts.add(ScriptEval(defaultCommons, "ConiumCommons"))
 
-            if (Conium.isClient) {
+            if (Conium.Companion.isClient) {
                 scripts.add(ScriptEval(defaultClientCommons, "ConiumClientCommons"))
             }
 
             // Bedrock common is only load when conium allows bedrock.
-            if (ConiumConfig.enableBedrockScript) {
+            if (ConiumConfig.Companion.enableBedrockScript) {
                 scripts.add(ScriptEval(defaultBedrockCommons, "ConiumBedrockCommons", "ConiumCommons"))
                 scripts.add(ScriptEval(defaultBedrockScriptInit, "ConiumBedrockScriptInit", "ConiumCommons", "ConiumBedrockCommons"))
             }
@@ -209,7 +212,7 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
                     if (path.endsWith(".kts")) {
                         // Load script data after.
                         scripts.add(ScriptEval(content, path, "ConiumCommons"))
-                    } else if (!ConiumConfig.enableBedrockScript) {
+                    } else if (!ConiumConfig.Companion.enableBedrockScript) {
                         // If not TypeScript or JavaScript file, then not bedrock script, do not notice bedrock script support status.
                         if (path.endsWith(".ts") || path.endsWith(".js")) {
                             // When bedrock scripting allows is disabled, then the script won't be load.
@@ -220,9 +223,9 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
                         runCatching {
                             translateBedrockTypescript(content).also { translated: String ->
                                 // Debug write.
-                                if (ConiumConfig.debugs) {
+                                if (ConiumConfig.Companion.debugs) {
                                     IOUtil.write(
-                                        File("conium-debug/translated/${identifier.namespace}/${identifier.path}.kts").also {
+                                        File("debug/conium-debug/translated/${identifier.namespace}/${identifier.path}.kts").also {
                                             it.parentFile.mkdirs()
                                             println(it.absolutePath)
                                         }.also(File::createNewFile).writer(),
@@ -361,14 +364,14 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
         resultCallback: () -> Unit
     ): ResultWithDiagnostics<EvaluationResult> {
         // Import scripts to this script.
-        val content: String = ScriptExport.import(this.exportedScript, scriptEval.codes, *scriptEval.defaultImports)
+        val content: String = ScriptExport.Companion.import(this.exportedScript, scriptEval.codes, *scriptEval.defaultImports)
 
         LOGGER.info(
             "Evaluating script '{}'",
             scriptEval.source
         )
 
-        Conium.debug(
+        Conium.Companion.debug(
             "Evaluating script '{}': {}",
             scriptEval::source,
             { content },

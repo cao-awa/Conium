@@ -14,30 +14,32 @@ abstract class BedrockEventContext(val scriptSource: Any) {
         val contexts: MutableMap<Any, BedrockEventContext?> = CollectionFactor.hashMap()
 
         fun newSystem() {
-            _system = BedrockSystem()
+            this._system = BedrockSystem()
         }
 
         @JvmStatic
         fun post(scriptSource: Any, body: () -> Unit) {
-            currentPosting = scriptSource
+            this.currentPosting = scriptSource
             body()
         }
 
         fun completePost() {
-            currentPosting = null
+            this.currentPosting = null
         }
 
         fun request(body: () -> Unit) = body()
 
         fun clearContext(scriptSource: Any) {
-            contexts[scriptSource] = null
+            this.contexts.remove(scriptSource)
         }
 
         @JvmStatic
-        fun accessWorld(scriptSource: Any): AbstractBedrockWorld = contexts[scriptSource]?.world ?: BedrockWorld.DUMMY
+        fun accessWorld(scriptSource: Any): AbstractBedrockWorld {
+            return this.contexts[scriptSource]?.world ?: BedrockWorld.DUMMY
+        }
 
         @JvmStatic
-        fun accessSystem(): AbstractBedrockSystem = system
+        fun accessSystem(): AbstractBedrockSystem = this.system
     }
 
     private val world: AbstractBedrockWorld get() = world()

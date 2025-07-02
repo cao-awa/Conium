@@ -303,6 +303,7 @@ object ConiumEventArgTypes {
         PLAYER = arg(
             "player",
             transform(::ITEM_PLACEMENT_CONTEXT, ItemPlacementContext::getPlayer),
+            transform(::ITEM_USAGE_CONTEXT, ItemUsageContext::getPlayer),
             transform(::LIVING_ENTITY) { entity: LivingEntity -> entity as? PlayerEntity },
             transform(::SERVER_PLAYER, ServerPlayerEntity::asIt),
         )

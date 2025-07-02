@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.datapack.block.ConiumBlockManager;
 import com.github.cao.awa.conium.datapack.entity.ConiumEntityManager;
 import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager;
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager;
-import com.github.cao.awa.conium.datapack.script.ConiumScriptManager;
+import com.github.cao.awa.conium.script.manager.ConiumScriptManager;
 import com.github.cao.awa.conium.datapack.worldgen.ConiumPlacedFeatureManager;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

@@ -127,6 +127,12 @@ class ConiumItemEventMixinIntermediary {
                 item,
                 { context: ConiumArisingEventContext<*> ->
                     context[ConiumEventArgTypes.ITEM_USAGE_CONTEXT] = usageContext
+                    context[ConiumEventArgTypes.ITEM_STACK] = usageContext.stack
+                    context[ConiumEventArgTypes.WORLD] = usageContext.world
+                    context[ConiumEventArgTypes.HAND] = usageContext.hand
+                    if (usageContext.player != null) {
+                        context[ConiumEventArgTypes.PLAYER] = usageContext.player!!
+                    }
                 },
                 { result: ActionResult, context: ConiumArisingEventContext<*> ->
                     context[ConiumEventArgTypes.ACTION_RESULT] = result

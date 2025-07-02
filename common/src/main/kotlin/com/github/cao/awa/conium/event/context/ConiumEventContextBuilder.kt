@@ -3,7 +3,7 @@
 package com.github.cao.awa.conium.event.context
 
 import com.github.cao.awa.conium.Conium
-import com.github.cao.awa.conium.datapack.script.ConiumScriptManager
+import com.github.cao.awa.conium.script.manager.ConiumScriptManager
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes

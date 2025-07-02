@@ -1,19 +1,23 @@
-import { world, system } from "@minecraft/server";
+import { world, system, DimensionLocation } from "@minecraft/server";
 
-const context = world.beforeEvents.itemUseOn.subscribe((event: ItemUseOnBeforeEvent) => {
-    if (event.itemStack.typeId === "minecraft:stick") {
-        event.source.runCommand("/say Hello Conium!");
-    }
-});
+function countdown(targetLocation: DimensionLocation) {
+    const players = world.getPlayers();
 
-world.beforeEvents.itemUseOn.subscribe((event: ItemUseOnBeforeEvent) => {
-    if (event.itemStack.typeId === "minecraft:diamond") {
-        event.source.runCommand("/say Bye Bedrock!");
+    players[0].onScreenDisplay.setTitle("Get ready!", {
+        stayDuration: 220,
+        fadeInDuration: 2,
+        fadeOutDuration: 4,
+        subtitle: "10",
+    });
 
-        world.beforeEvents.itemUseOn.unsubscribe(context);
+    let countdown = 10;
 
-        event.cancel = true;
-    }
-});
+    const intervalId = system.runInterval(() => {
+        countdown--;
+        players[0].onScreenDisplay.updateSubtitle(countdown.toString());
 
-
+        if (countdown == 0) {
+            system.clearRun(intervalId);
+        }
+    }, 20);
+}

@@ -27,6 +27,9 @@ import com.github.cao.awa.conium.bedrock.event.after.item.use.on.BedrockItemUseO
 // Item.
 import com.github.cao.awa.conium.bedrock.item.stack.BedrockItemStack
 
+// DimensionLocation
+import com.github.cao.awa.conium.bedrock.world.dimension.BedrockDimensionLocation
+
 // System typealias.
 typealias AbstractBedrockSystem = AbstractBedrockSystem
 typealias BedrockSystem = BedrockSystem
@@ -54,3 +57,6 @@ typealias ItemUseOnAfterEvent = BedrockItemUseOnEventContext
 
 // Item typealias.
 typealias BedrockItemStack = BedrockItemStack
+
+// DimensionLocation
+typealias DimensionLocation = BedrockDimensionLocation

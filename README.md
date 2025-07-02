@@ -15,11 +15,11 @@ Conium is currently as 'on client' mode, the server needs to synchronize the dat
 
 |            Requirement |        Version        |   Installs   |            Notes             |
 |-----------------------:|:---------------------:|:------------:|:----------------------------:|
-|                   Java |          21+          | 21 Or higher |
-|              Minecraft |       1.21.6!!        |     Need     |    Only 1.21.6 can be use    |
+|                   Java |          21+          | 21 Or higher |      21 Or higher is ok      |
+|              Minecraft |       >=1.21.6        |     Need     | 1.21.6 or higher can be use  |
 | Fabric language kotlin | 1.13.4+kotlin.2.2.0!! |     Need     | Only kotlin 2.2.0 can be use |
 |             Fabric API |           ?           |     Need     |      Any version is ok       |
-|                 Fluxia |     1.1.4-fix3!!      | Unnecessary  | Built-in contents translator |
+|                 Fluxia |     1.1.4-fix4!!      | Unnecessary  | Built-in contents translator |
 
 ### Build requirements
 
@@ -31,7 +31,7 @@ Conium has configured whole project, just clone the repository, and reload proje
 |      Gradle |    8.14.2     |    8.14.2 or higher could be use    |
 |      Kotlin |    2.2.0!!    |        Only 2.2.0 can be use        |
 | Fabric loom | 1.10-SNAPSHOT | 1.10-SNAPSHOT or other could be use |
-|   Minecraft |   1.21.6!!    |       Only 1.21.6 can be use        |
+|   Minecraft |   >=1.21.6    |  Only 1.21.6 or higher can be use   |
 
 ### NeoForge
 
@@ -65,8 +65,8 @@ Currently, there APIs are available:
 
 In context:
 
-|   Name |                                                  Conium API type                                                  | Gametest API type |      Status      |
-|-------:|:-----------------------------------------------------------------------------------------------------------------:|:-----------------:|:----------------:|
+|   Name |                                                   Conium API type                                                   | Gametest API type |      Status      |
+|-------:|:-------------------------------------------------------------------------------------------------------------------:|:-----------------:|:----------------:|
 | system | [AbstractBedrockSystem](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt) |      System       | Alpha (Unstable) |
 |  world |  [AbstractBedrockWorld](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt)   |       World       | Alpha (Unstable) |
 
@@ -98,7 +98,7 @@ In APIs:
                     + [BedrockItemUseOnEventContext](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/event/context/item/use/BedrockItemUseOnEventContext.kt) as known as 'ItemUseOnBeforeEvent' and 'ItemUseOnAfterEvent' in SAPI
     + item
         + use
-            + [BedrockItemUseOnBeforeEvent](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/event/item/use/BedrockItemUseOnBeforeEvent.kt) as known as 'ItemUseOnBeforeEventSignal' in SAPI
+            + [BedrockItemUseOnBeforeEvent](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/event/before/item/use/on/BedrockItemUseOnBeforeEvent.kt) as known as 'ItemUseOnBeforeEventSignal' in SAPI
 
 By bedrock script APIs:
 

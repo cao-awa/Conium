@@ -32,7 +32,7 @@ abstract class BedrockEvent<E : BedrockEventContext>(private val targetEvent: Co
             this.targetEvent,
             context.presage { identity: Any ->
                 // Process all subscribers.
-                subscribers.map { subscriber: ConiumArisingEventContext<*> ->
+                this.subscribers.map { subscriber: ConiumArisingEventContext<*> ->
                     // Let subscriber inherit the event context from the conium event system.
                     subscriber.inherit(context)
 

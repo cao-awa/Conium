@@ -3,27 +3,22 @@ package com.github.cao.awa.conium.bedrock.script
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
 import com.github.cao.awa.conium.bedrock.index.BedrockScriptAnonymousObjectMap
+import com.github.cao.awa.conium.script.generic.anonymous.AnonymousObject
 import com.github.cao.awa.conium.parameter.DynamicArgType
 import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder.argThrowaway
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("anonymous object")
-open class BedrockScriptAnonymousObjectMap : Iterable<MutableMap.MutableEntry<String, Any?>> {
+open class BedrockScriptAnonymousObjectMap(size: Int) : AnonymousObject(size) {
     companion object {
-        val EMPTY: BedrockScriptAnonymousObjectMap = BedrockScriptAnonymousObjectMap()
+        val EMPTY: BedrockScriptAnonymousObjectMap = BedrockScriptAnonymousObjectMap(0)
     }
 
-    private val map: MutableMap<String, Any?> = CollectionFactor.hashMap<String, Any?>()
-
-    fun add(key: String, value: Any?): BedrockScriptAnonymousObjectMap {
-        this.map[key] = value
+    override operator fun set(key: String, element: Any?): BedrockScriptAnonymousObjectMap {
+        super.set(key, element)
         return this
     }
-
-    operator fun get(key: String): Any? = this.map[key]
-
-    override fun iterator(): Iterator<MutableMap.MutableEntry<String, Any?>> = this.map.iterator()
 }
 
 fun BedrockScriptAnonymousObjectMap.toDynamicArgs(): MutableMap<DynamicArgType<*>, Any?> {
