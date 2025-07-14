@@ -99,7 +99,7 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
 
     @Unique
     @NotNull
-    private ConiumArisingEventContext<?> buildContext(@NotNull ConiumEventType<?> eventType, @NotNull PlayerEntity player) {
+    private ConiumArisingEventContext<?> buildContext(@NotNull ConiumEventType<?, ?> eventType, @NotNull PlayerEntity player) {
         // Request the event context.
         ConiumArisingEventContext<?> eventContext = ConiumEvent.request(eventType);
 

@@ -22,7 +22,7 @@ import net.minecraft.world.World
  *
  * @since 1.0.0
  */
-class ConiumShulkerBoxClosedEvent : ConiumEvent<ParameterSelective5<Boolean, World, PlayerEntity, ShulkerBoxBlockEntity, AbstractBlockState, BlockPos>, ConiumShulkerClosedEventMetadata>(
+class ConiumShulkerBoxClosedEvent : ConiumEvent<ParameterSelective5<Boolean, World, PlayerEntity, ShulkerBoxBlockEntity, AbstractBlockState, BlockPos>, ConiumShulkerBoxClosedEventMetadata>(
     ConiumEventType.SHULKER_BOX_CLOSED
 ) {
     override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
@@ -39,7 +39,7 @@ class ConiumShulkerBoxClosedEvent : ConiumEvent<ParameterSelective5<Boolean, Wor
         }
     }
 
-    override fun metadata(context: ConiumEventContext): ConiumShulkerClosedEventMetadata {
-        return ConiumShulkerClosedEventMetadata(context)
+    override fun metadata(context: ConiumEventContext): ConiumShulkerBoxClosedEventMetadata {
+        return ConiumShulkerBoxClosedEventMetadata(context)
     }
 }

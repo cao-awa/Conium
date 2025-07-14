@@ -102,7 +102,7 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
     @Unique
     @NotNull
     private ConiumArisingEventContext<?> buildContext(
-            @NotNull ConiumEventType<?> eventType,
+            @NotNull ConiumEventType<?, ?> eventType,
             @NotNull ViewerCountManager viewerManager,
             @NotNull PlayerEntity player,
             @NotNull World world,

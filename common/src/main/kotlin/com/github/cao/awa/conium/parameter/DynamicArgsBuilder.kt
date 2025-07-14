@@ -55,6 +55,25 @@ class DynamicArgsBuilder {
 
         @JvmStatic
         @SuppressWarnings("UNCHECKED_CAST")
+        fun <P1> requiresAny(
+            arg1: DynamicArgType<P1>
+        ): DynamicArgs<ParameterSelective2<Any?, Any, P1>, Any?> {
+            return DynamicArgs({ identity, args, p ->
+                val p1 = args[arg1] as P1
+
+                if (p1 == null) {
+                    null
+                } else {
+                    p.arise(
+                        identity,
+                        p1
+                    )
+                }
+            }, arg1)
+        }
+
+        @JvmStatic
+        @SuppressWarnings("UNCHECKED_CAST")
         fun <R, P1> requires(
             arg1: DynamicArgType<P1>,
             resultWhenFailure: R

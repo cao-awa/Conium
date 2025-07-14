@@ -65,7 +65,6 @@ open class ConiumArisingEventContext<P : ParameterSelective?>(
         return this
     }
 
-
     fun attachDynamic(dynamicArgs: P): ConiumArisingEventContext<P> {
         this.attachesDynamic.add(dynamicArgs)
         return this
@@ -112,7 +111,7 @@ open class ConiumArisingEventContext<P : ParameterSelective?>(
             preparation(this)
         }
 
-        var success: Boolean = this.presageTrigger == null || this.dynamicArgs.arising(identity, copyArgs(), this.presageTrigger!!)
+        var success: Boolean = this.presageTrigger == null || this.dynamicArgs.transform(identity, copyArgs(), this.presageTrigger!!)
         for (attach: ConiumArisingEventContext<*> in this.attaches) {
             if (attach.presageTrigger != null) {
                 attach.inherit(this)
@@ -134,7 +133,7 @@ open class ConiumArisingEventContext<P : ParameterSelective?>(
 
         this.identity = identity
 
-        var success: Boolean = this.ariseTrigger == null || this.dynamicArgs.arising(identity, copyArgs(), this.ariseTrigger!!)
+        var success: Boolean = this.ariseTrigger == null || this.dynamicArgs.transform(identity, copyArgs(), this.ariseTrigger!!)
         for (attach: ConiumArisingEventContext<*> in this.attaches) {
             if (attach.ariseTrigger != null) {
                 attach.inherit(this)
@@ -143,7 +142,7 @@ open class ConiumArisingEventContext<P : ParameterSelective?>(
         }
         if (success) {
             for (attachDynamic: P in this.attachesDynamic) {
-                success = this.dynamicArgs.arising(
+                success = this.dynamicArgs.transform(
                     identity,
                     copyArgs(),
                     attachDynamic

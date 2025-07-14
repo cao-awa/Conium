@@ -1,7 +1,14 @@
 package com.github.cao.awa.conium.intermediary.mixin.entity
 
+import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamageEventMetadata
+import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamagesEventMetadata
+import com.github.cao.awa.conium.entity.event.die.ConiumEntityDeathsEventMetadata
+import com.github.cao.awa.conium.entity.event.die.ConiumEntityDieEventMetadata
+import com.github.cao.awa.conium.entity.event.rest.ConiumEntityRestEventMetadata
+import com.github.cao.awa.conium.entity.event.rest.sleep.ConiumEntitySleepEventMetadata
+import com.github.cao.awa.conium.entity.event.sprint.ConiumEntitySprintEventMetadata
+import com.github.cao.awa.conium.entity.event.sprint.ConiumEntitySprintsEventMetadata
 import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
@@ -60,7 +67,7 @@ class ConiumEntityEventMixinIntermediary {
          * @since 1.0.0
          */
         @JvmStatic
-        fun fireEntityDamageEvent(eventType: ConiumEventType<EntityType<*>>, entity: LivingEntity, damageSource: DamageSource, amount: Float): Boolean {
+        fun <M: ConiumEntityDamagesEventMetadata> fireEntityDamageEvent(eventType: ConiumEventType<EntityType<*>, M>, entity: LivingEntity, damageSource: DamageSource, amount: Float): Boolean {
             return fireEventCancelable(
                 eventType,
                 entity.type
@@ -94,7 +101,7 @@ class ConiumEntityEventMixinIntermediary {
          * @since 1.0.0
          */
         @JvmStatic
-        fun fireEntityDyeEvent(eventType: ConiumEventType<EntityType<*>>, entity: LivingEntity, damageSource: DamageSource): Boolean {
+        fun <M: ConiumEntityDeathsEventMetadata> fireEntityDieEvent(eventType: ConiumEventType<EntityType<*>, M>, entity: LivingEntity, damageSource: DamageSource): Boolean {
             return fireEventCancelable(
                 eventType,
                 entity.type
@@ -126,7 +133,7 @@ class ConiumEntityEventMixinIntermediary {
          * @since 1.0.0
          */
         @JvmStatic
-        fun fireEntityRestEvent(eventType: ConiumEventType<EntityType<*>>, entity: LivingEntity, sleepPos: BlockPos?): Boolean {
+        fun <M: ConiumEntityRestEventMetadata> fireEntityRestEvent(eventType: ConiumEventType<EntityType<*>, M>, entity: LivingEntity, sleepPos: BlockPos?): Boolean {
             // Let this event failure directly when sleeping pos is null,
             // because the 'sleep' call will input a position to try sleep,
             // and 'wakeUp' call input a null when mean this entity are not sleeping currently.
@@ -243,7 +250,7 @@ class ConiumEntityEventMixinIntermediary {
          * @since 1.0.0
          */
         @JvmStatic
-        fun fireEntitySprintsEvent(targetEvent: ConiumEventType<EntityType<*>>, entity: Entity): Boolean {
+        fun <M: ConiumEntitySprintsEventMetadata> fireEntitySprintsEvent(targetEvent: ConiumEventType<EntityType<*>, M>, entity: Entity): Boolean {
             return fireEventCancelable(
                 targetEvent,
                 entity.type

@@ -3,6 +3,7 @@ package com.github.cao.awa.conium.intermediary.mixin
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
+import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import java.util.function.BiConsumer
 import java.util.function.Consumer
@@ -11,7 +12,7 @@ import java.util.function.Supplier
 class ConiumEventMixinIntermediary {
     companion object {
         @JvmStatic
-        fun <I> fireEvent(eventType: ConiumEventType<I & Any>, input: I & Any, argProducer: Consumer<ConiumArisingEventContext<*>>) {
+        fun <I: Any, M: ConiumEventMetadata> fireEvent(eventType: ConiumEventType<I, M>, input: I, argProducer: Consumer<ConiumArisingEventContext<*>>) {
             val context: ConiumArisingEventContext<*> = ConiumEvent.request(eventType)
 
             argProducer.accept(context)
@@ -22,7 +23,7 @@ class ConiumEventMixinIntermediary {
         }
 
         @JvmStatic
-        fun <I> fireEventIntermediary(eventType: ConiumEventType<I & Any>, input: I & Any, argProducer: Consumer<ConiumArisingEventContext<*>>, action: () -> Unit) {
+        fun <I: Any, M: ConiumEventMetadata> fireEventIntermediary(eventType: ConiumEventType<I, M>, input: I, argProducer: Consumer<ConiumArisingEventContext<*>>, action: () -> Unit) {
             val context: ConiumArisingEventContext<*> = ConiumEvent.request(eventType)
 
             argProducer.accept(context)
@@ -35,7 +36,7 @@ class ConiumEventMixinIntermediary {
         }
 
         @JvmStatic
-        fun <I> fireEventCancelable(eventType: ConiumEventType<I & Any>, input: I & Any, argProducer: Consumer<ConiumArisingEventContext<*>>): Boolean {
+        fun <I: Any, M: ConiumEventMetadata> fireEventCancelable(eventType: ConiumEventType<I, M>, input: I, argProducer: Consumer<ConiumArisingEventContext<*>>): Boolean {
             val context: ConiumArisingEventContext<*> = ConiumEvent.request(eventType)
 
             argProducer.accept(context)
@@ -50,10 +51,10 @@ class ConiumEventMixinIntermediary {
         }
 
         @JvmStatic
-        fun <I> fireCascadedEvent(
-            eventType: ConiumEventType<I & Any>,
-            subEventType: ConiumEventType<I & Any>,
-            input: I & Any,
+        fun <I: Any, M: ConiumEventMetadata, M2: ConiumEventMetadata> fireCascadedEvent(
+            eventType: ConiumEventType<I, M>,
+            subEventType: ConiumEventType<I, M2>,
+            input: I,
             argProducer: Consumer<ConiumArisingEventContext<*>>,
             subArgProducer: Consumer<ConiumArisingEventContext<*>>
         ): Boolean {
@@ -67,10 +68,10 @@ class ConiumEventMixinIntermediary {
         }
 
         @JvmStatic
-        fun <I> fireInheritedCascadedEvent(
-            eventType: ConiumEventType<I & Any>,
-            subEventType: ConiumEventType<I & Any>,
-            input: I & Any,
+        fun <I: Any, M: ConiumEventMetadata> fireInheritedCascadedEvent(
+            eventType: ConiumEventType<I, M>,
+            subEventType: ConiumEventType<I, M>,
+            input: I,
             argProducer: Consumer<ConiumArisingEventContext<*>>,
             subArgProducer: Consumer<ConiumArisingEventContext<*>>
         ): Boolean {
@@ -98,10 +99,10 @@ class ConiumEventMixinIntermediary {
         }
 
         @JvmStatic
-        fun <I, R> fireInheritedCascadedResultEvent(
-            eventType: ConiumEventType<I & Any>,
-            subEventType: ConiumEventType<I & Any>,
-            input: I & Any,
+        fun <I: Any, M: ConiumEventMetadata, M2: ConiumEventMetadata, R> fireInheritedCascadedResultEvent(
+            eventType: ConiumEventType<I, M>,
+            subEventType: ConiumEventType<I, M2>,
+            input: I,
             argProducer: Consumer<ConiumArisingEventContext<*>>,
             subArgProducer: BiConsumer<R, ConiumArisingEventContext<*>>,
             resultProducer: Supplier<R>,

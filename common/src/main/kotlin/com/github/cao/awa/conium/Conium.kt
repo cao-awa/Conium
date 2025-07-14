@@ -9,9 +9,13 @@ import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.script.manager.ConiumScriptManager
 import com.github.cao.awa.conium.datapack.worldgen.ConiumPlacedFeatureManager
+import com.github.cao.awa.conium.dsl.DSLEventMetadata
 import com.github.cao.awa.conium.event.ConiumEvent
+import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
+import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.function.consumer.string.obj.*
 import com.github.cao.awa.conium.hitokoto.ConiumHitokoto
+import com.github.cao.awa.conium.script.index.common.ConiumEventContextBuilder
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
 import com.github.cao.awa.conium.server.datapack.ConiumServerLoadDatapacks

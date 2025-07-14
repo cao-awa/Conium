@@ -1,6 +1,7 @@
 package com.github.cao.awa.conium.intermediary.mixin.block
 
 import com.github.cao.awa.conium.block.event.breaking.ConiumBreakBlockEvent
+import com.github.cao.awa.conium.block.event.breaking.ConiumBreakingBlockEventMetadata
 import com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent
 import com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEvent
 import com.github.cao.awa.conium.block.event.use.ConiumUseBlockEvent
@@ -45,7 +46,7 @@ class ConiumBlockEventMixinIntermediary {
          * @since 1.0.0
          */
         @JvmStatic
-        fun fireBlockBreakingEvent(eventType: ConiumEventType<Block>, state: BlockState, world: World, player: PlayerEntity, pos: BlockPos): Boolean {
+        fun fireBlockBreakingEvent(eventType: ConiumEventType<Block, ConiumBreakingBlockEventMetadata>, state: BlockState, world: World, player: PlayerEntity, pos: BlockPos): Boolean {
             return ConiumEventMixinIntermediary.fireEventCancelable(
                 eventType,
                 state.block

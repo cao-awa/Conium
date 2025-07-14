@@ -2,14 +2,11 @@
 
 package com.github.cao.awa.conium.event.context
 
-import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.parameter.*
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
-abstract class ConiumEventContext {
+abstract class ConiumEventContext() {
     private val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
 
     var enabled: Boolean = true
@@ -20,6 +17,16 @@ abstract class ConiumEventContext {
         this.args.clear()
         this.args.putAll(args)
         return this
+    }
+
+    open fun <R> transform(required: DynamicArgType<R>, action: R.() -> Unit) {
+        val result: R = DynamicArgsBuilder.requiresAny(required).transform(
+            this,
+            this.args,
+            null
+        ) as R
+
+        action(result)
     }
 
     operator fun <X> set(argType: DynamicArgType<X>, value: X): ConiumEventContext = put(argType, value)

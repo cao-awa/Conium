@@ -59,7 +59,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
     )
     public void dying(DamageSource damageSource, CallbackInfo ci) {
         // Trigger entity dying event.
-        if (ConiumEntityEventMixinIntermediary.fireEntityDyeEvent(
+        if (ConiumEntityEventMixinIntermediary.fireEntityDieEvent(
                 ConiumEventType.ENTITY_DIE,
                 Manipulate.cast(this),
                 damageSource
@@ -75,7 +75,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
     )
     public void dead(DamageSource damageSource, CallbackInfo ci) {
         // Trigger entity dead event.
-        ConiumEntityEventMixinIntermediary.fireEntityDyeEvent(
+        ConiumEntityEventMixinIntermediary.fireEntityDieEvent(
                 ConiumEventType.ENTITY_DEAD,
                 Manipulate.cast(this),
                 damageSource

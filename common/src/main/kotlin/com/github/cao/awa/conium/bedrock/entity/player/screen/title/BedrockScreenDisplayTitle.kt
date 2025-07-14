@@ -19,7 +19,7 @@ class BedrockScreenDisplayTitle(private var title: String, private var subtitle:
                 arg("fadeInDuration"),
                 arg("stayDuration"),
                 arg("fadeOutDuration"),
-            ).arising(UNIT, properties.toDynamicArgs()) { _: Any, fadeInTicks: Int, stayTicks: Int, fadeOutTicks: Int ->
+            ).transform(UNIT, properties.toDynamicArgs()) { _: Any, fadeInTicks: Int, stayTicks: Int, fadeOutTicks: Int ->
                 inGameHud.setTitleTicks(fadeInTicks, stayTicks, fadeOutTicks)
             }
 

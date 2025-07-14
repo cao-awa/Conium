@@ -12,9 +12,9 @@ import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 class ConiumHitokoto {
     companion object {
         private val hitokotos: MutableList<String> = mutableListOf(
-            "新世代を呼ぶハロー、声はまだ途切れないだろう、",
-            "新世界の扉を、ほら叩き続けよう、",
-            "バイバイまたねの次は、何か残るのか いつか？"
+            "新世代を呼ぶハロー、声はまだ途切れないだろう、",  // By 'Yunomi' in the music: ハローニュージェネレーション
+            "新世界の扉を、ほら叩き続けよう、",             // By 'Yunomi' in the music: ハローニュージェネレーション
+            "バイバイまたねの次は、何か残るのか いつか？"     // By 'ぽわぽわP' in the music: シティライツ
         )
 
         /**

@@ -75,12 +75,12 @@ abstract class ConiumEvent<
         P : ParameterSelective,
         M : ConiumEventMetadata
 >(
-    val eventType: ConiumEventType<*>
+    val eventType: ConiumEventType<*, M>
 ) : ListTriggerable<P>() {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumEvent")
-        private val events: MutableMap<ConiumEventType<*>, ConiumEvent<*, *>> = CollectionFactor.hashMap()
-        private val foreverContext: MutableMap<ConiumEventType<*>, MutableList<ConiumArisingEventContext<*>>> = CollectionFactor.hashMap()
+        private val events: MutableMap<ConiumEventType<*, *>, ConiumEvent<*, *>> = CollectionFactor.hashMap()
+        private val foreverContext: MutableMap<ConiumEventType<*, *>, MutableList<ConiumArisingEventContext<*>>> = CollectionFactor.hashMap()
 
         @JvmField
         val random: ConiumRandomEvent = ConiumRandomEvent()
@@ -262,24 +262,29 @@ abstract class ConiumEvent<
          * @param type the type of event
          */
         @JvmStatic
-        fun request(type: ConiumEventType<*>): ConiumArisingEventContext<out ParameterSelective> {
+        fun request(type: ConiumEventType<*, *>): ConiumArisingEventContext<out ParameterSelective> {
             return this.events[type]!!.request()
         }
 
         @JvmStatic
-        fun <M: ConiumEventMetadata, X : ConiumEvent<X, M>> findEvent(type: ConiumEventType<*>): X {
+        fun <M: ConiumEventMetadata, X : ConiumEvent<X, M>> findEvent(type: ConiumEventType<*, *>): X {
             return this.events[type] as X
+        }
+
+        @JvmStatic
+        fun unsafeFindEvent(type: ConiumEventType<*, *>): ConiumEvent<*, *> {
+            return this.events[type] as ConiumEvent<*, *>
         }
 
         fun count(): Int = this.events.size
 
-        fun events(): Map<ConiumEventType<*>, ConiumEvent<*, *>> = Collections.unmodifiableMap(this.events)
+        fun events(): Map<ConiumEventType<*, *>, ConiumEvent<*, *>> = Collections.unmodifiableMap(this.events)
 
-        fun forever(eventType: ConiumEventType<*>, context: ConiumArisingEventContext<*>) {
+        fun forever(eventType: ConiumEventType<*, *>, context: ConiumArisingEventContext<*>) {
             this.foreverContext.computeIfAbsent(eventType) { CollectionFactor.arrayList() }.add(context)
         }
 
-        fun forever(eventType: ConiumEventType<*>): MutableList<ConiumArisingEventContext<*>> {
+        fun forever(eventType: ConiumEventType<*, *>): MutableList<ConiumArisingEventContext<*>> {
             return this.foreverContext.getOrDefault(eventType, Collections.emptyList())
         }
 
@@ -288,7 +293,7 @@ abstract class ConiumEvent<
         }
 
         fun attach() {
-            for ((_: ConiumEventType<*>, event: ConiumEvent<*, *>) in this.events) {
+            for ((_: ConiumEventType<*, *>, event: ConiumEvent<*, *>) in this.events) {
                 event.attach()
             }
         }

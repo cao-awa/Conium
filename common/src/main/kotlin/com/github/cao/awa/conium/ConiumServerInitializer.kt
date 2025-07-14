@@ -1,9 +1,13 @@
 package com.github.cao.awa.conium
 
 import com.github.cao.awa.conium.client.ConiumClient
+import com.github.cao.awa.conium.dsl.DSLEventMetadata
 import com.github.cao.awa.conium.event.ConiumEvent
+import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
+import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.network.packet.client.configuration.registry.SynchronizeRegistryPayload
 import com.github.cao.awa.conium.network.registry.ConiumPacketRegistry
+import com.github.cao.awa.conium.script.index.common.ConiumEventContextBuilder
 import com.github.cao.awa.conium.server.ConiumDedicatedServer
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.codec.PacketCodec

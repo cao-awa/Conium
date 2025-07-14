@@ -87,10 +87,10 @@ class DynamicArgs<P : ParameterSelective?, R> {
                             continue
                         }
 
-                        // Run the dynamic vary.
+                        // Run the dynamic vary, usually, not all args must got a result, when exception, it means the args cannot transform from any other args.
                         val result: Any? = dynamicVarying.runCatching {
                             // Arise the dynamic args, it will continue to vary args or got a value.
-                            arising(identity, sources, null)
+                            transform(identity, sources, null)
                         }.getOrNull()
 
                         // When a result found, stop dynamic args varying.
@@ -127,14 +127,7 @@ class DynamicArgs<P : ParameterSelective?, R> {
      *
      * @since 1.0.0
      */
-    fun arising(identity: Any, args: MutableMap<DynamicArgType<*>, Any?>, p: P?): R {
-        // When 'ParameterSelective' instance is null, means this dynamic args won't get more dynamic args.
-        // Then this dynamic args instance should get a value later.
-        if (p == null) {
-            // Do trigger directly, no vary args.
-            return this.trigger.apply(identity, args, null)
-        }
-
+    fun transform(identity: Any, args: MutableMap<DynamicArgType<*>, Any?>, p: P?): R {
         // Vary args to got more completed arguments.
         // Put 'queryArg' to source arguments map, it will vary to other value in the next step varying.
         for (queryArg: DynamicArgType<*> in this.queryArgs) {
@@ -145,6 +138,7 @@ class DynamicArgs<P : ParameterSelective?, R> {
             // Put to varying when no real value contains.
             args[queryArg] = queryArg
         }
+
         // Do vary and trigger.
         return this.trigger.apply(identity, varyArgs(identity, args), p)
     }

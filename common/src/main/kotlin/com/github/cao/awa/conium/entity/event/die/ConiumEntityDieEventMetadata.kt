@@ -22,8 +22,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 
-class ConiumEntityDieEventMetadata(val context: ConiumEventContext) : ConiumEventMetadata() {
-    val world: World = this.context[WORLD]
-    val livingEntity: LivingEntity = this.context[LIVING_ENTITY]
-    val damageSource: DamageSource = this.context[DAMAGE_SOURCE]
+class ConiumEntityDieEventMetadata(context: ConiumEventContext) : ConiumEntityDeathsEventMetadata(context) {
+
 }
