@@ -17,6 +17,14 @@ fun main() {
             println("awa")
             true
         }
+
+        catching {
+            this.exception.printStackTrace()
+        }
+
+        finalize {
+            println("DSL Event completed execute!")
+        }
     }
 
     onEvent(ConiumEventType.SERVER_TICK) {
