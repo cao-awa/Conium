@@ -78,6 +78,38 @@ doSomething(world)
 // Others...
 ```
 
+## DSL style (tentative)
+You can use the DSL style to process the events like:
+```kts
+onEvent(ITEM_USE_ON_BLOCK) {
+    action {
+        // Main event handler logic.
+        println(this.itemUsageContext)
+        println(this.world)
+
+        // Test exception happening 
+        throw NullPointerException()
+    }
+
+    catching {
+        // Trigger when 'action' happening exceptions or errors.
+        this.exception.printStackTrace()
+    }
+
+    finalize {
+        // Trigger when all handler done (include 'catching').
+        println("DSL style event handle compled! ")
+    }
+}
+
+// or
+onEvent {
+    target = ITEM_USE_ON_BLOCK
+
+    // ...... here is same to last example 
+}
+```
+
 ## Registry attach
 > Not really available now, this is a planning feature 
 
