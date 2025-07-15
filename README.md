@@ -31,7 +31,7 @@ Conium has configured whole project, just clone the repository, and reload proje
 |      Gradle |    8.14.2     |    8.14.2 or higher could be use    |
 |      Kotlin |    2.2.0!!    |        Only 2.2.0 can be use        |
 | Fabric loom | 1.10-SNAPSHOT | 1.10-SNAPSHOT or other could be use |
-|   Minecraft |   >=1.21.6    |  Only 1.21.6 or higher can be use   |
+|   Minecraft |   \>=1.21.6   |  Only 1.21.6 or higher can be use   |
 
 ### NeoForge
 

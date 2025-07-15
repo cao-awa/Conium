@@ -7,7 +7,7 @@ import com.github.cao.awa.conium.event.type.ConiumEventType
 open class DSLEventMetadata<I: Any, M: ConiumEventMetadata, T: ConiumEventType<I, M>> {
     private var catcher: (DSLEventExceptionMetadata<I, M, T>.() -> Unit)? = null
     private var finalizer: (M.() -> Unit)? = null
-    var target: T? = null
+    private var target: T? = null
         set(value) {
             if (field != null) {
                 throw IllegalStateException("The event target already specified, cannot set a new value")

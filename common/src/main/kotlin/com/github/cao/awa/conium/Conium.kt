@@ -238,7 +238,7 @@ class Conium {
             )
         }
 
-        // Initialize script translator for bedrock's typescript.
+        // Initialize script translator for bedrock's typescript translates.
         LOGGER.info("Loading conium '{}' structuring translator providers for [typescript]", VERSION)
         ConiumScriptTranslator.postRegister()
 
@@ -256,5 +256,42 @@ class Conium {
                 LOGGER::info
             )
         }
+
+        doDslTest()
     }
+
+    fun doDslTest() {
+        onEvent(ConiumEventType.ITEM_USE_ON_BLOCK) {
+            action {
+                println(this.itemUsageContext.stack)
+                println("awa")
+                true
+            }
+
+            catching {
+                this.exception.printStackTrace()
+            }
+
+            finalize {
+                println("DSL Event completed execute!")
+            }
+        }
+
+        ConiumEventContextBuilder.request(ConiumEventType.ITEM_USE_ON_BLOCK) {
+            println("???")
+            true
+        }
+    }
+
+    fun <I: Any, M: ConiumEventMetadata, T: ConiumEventType<I, M>> onEvent(
+        eventType: T,
+        block: DSLEventMetadata<I, M, T>.() -> Unit
+    ): DSLEventMetadata<I, M, T> = DSLEventMetadata(eventType).also { dslEventMetadata: DSLEventMetadata<I, M, T> ->
+        block(dslEventMetadata)
+    }
+
+    fun <I: Any, M: ConiumEventMetadata, T: ConiumEventType<I, M>> listen(
+        eventType: T,
+        block: DSLEventMetadata<I, M, T>.() -> Unit
+    ): DSLEventMetadata<I, M, T> = onEvent(eventType, block)
 }

@@ -54,7 +54,7 @@
   },
   "recommends": {
     "lithium": "*",
-    "sepals": ">=1.0.21-FIX",
+    "sepals": ">=1.0.21-FIX2",
     "annuus": ">=1.0.11-SNAPSHOT"
   },
   "breaks": {

@@ -77,7 +77,8 @@ class DynamicArgs<P : ParameterSelective?, R> {
             val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
 
             // Find required arguments from context arguments (manually putted to map).
-            for ((key: DynamicArgType<*>, value: Any?) in sources) {
+            // Copy the map data to prevent ConcurrentModificationException.
+            for ((key: DynamicArgType<*>, value: Any?) in CollectionFactor.hashMap(sources)) {
                 // Only varying argument type to real argument instance.
                 if (value is DynamicArgType<*>) {
                     // Dynamic args has multiple varying methods, find until found or no more method can try.

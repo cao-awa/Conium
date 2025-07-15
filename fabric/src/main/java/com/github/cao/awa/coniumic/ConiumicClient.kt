@@ -16,6 +16,7 @@ class ConiumicClient : ClientModInitializer {
         private val LOGGER = LogManager.getLogger("ConiumicClient")
     }
 
+    // TODO remove fabric APIs.
     override fun onInitializeClient() {
         ConiumPacketRegister.implementConfigurationToClient { id, codec ->
             PayloadTypeRegistryImpl.CONFIGURATION_S2C.register(id, codec)
