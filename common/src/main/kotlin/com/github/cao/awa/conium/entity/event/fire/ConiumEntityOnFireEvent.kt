@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.entity.event.fire
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
-import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requiresAny
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
@@ -14,7 +14,7 @@ class ConiumEntityOnFireEvent : ConiumEvent<ParameterSelective2<Boolean, Entity,
     ConiumEventType.ENTITY_ON_FIRE
 ) {
     override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return requires(
+        return requiresAny(
             ConiumEventArgTypes.ENTITY,
             ConiumEventArgTypes.INT
         ).arise { identity: Any, entity: Entity, fireTicks: Int ->

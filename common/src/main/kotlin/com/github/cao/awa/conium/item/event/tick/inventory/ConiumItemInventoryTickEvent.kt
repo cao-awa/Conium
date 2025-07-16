@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.item.event.tick.inventory
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
-import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requiresAny
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
@@ -16,7 +16,7 @@ class ConiumItemInventoryTickEvent : ConiumItemEvent<ParameterSelective5<Boolean
     ConiumEventType.ITEM_INVENTORY_TICK
 ) {
     override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return requires(
+        return requiresAny(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.ENTITY,
             ConiumEventArgTypes.ITEM_STACK,

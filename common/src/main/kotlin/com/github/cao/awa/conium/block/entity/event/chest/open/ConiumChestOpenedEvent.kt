@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.block.entity.event.chest.open
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
-import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requiresAny
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
@@ -27,7 +27,7 @@ class ConiumChestOpenedEvent : ConiumEvent<ParameterSelective6<Boolean, World, P
     ConiumEventType.CHEST_OPENED
 ) {
     override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return requires(
+        return requiresAny(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.PLAYER,
             ConiumEventArgTypes.BLOCK_ENTITY,

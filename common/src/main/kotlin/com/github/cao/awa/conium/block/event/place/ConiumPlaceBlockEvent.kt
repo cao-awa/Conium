@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.block.event.place
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
-import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requiresAny
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
@@ -14,7 +14,7 @@ class ConiumPlaceBlockEvent : ConiumEvent<ParameterSelective1<Boolean, ItemPlace
     ConiumEventType.PLACE_BLOCK
 ) {
     override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return requires(
+        return requiresAny(
             ConiumEventArgTypes.ITEM_PLACEMENT_CONTEXT
         ).arise { identity: Any, context: ItemPlacementContext ->
             noFailure(identity) {  parameterSelective ->

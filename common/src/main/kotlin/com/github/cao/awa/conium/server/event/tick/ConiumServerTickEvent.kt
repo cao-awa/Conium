@@ -3,7 +3,6 @@ package com.github.cao.awa.conium.server.event.tick
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
-import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requiresWith
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
@@ -15,7 +14,7 @@ class ConiumServerTickEvent : ConiumEvent<ParameterSelective0<Boolean>, ConiumSe
     ConiumEventType.SERVER_TICK
 ) {
     override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return requiresWith(ConiumEventArgTypes.SERVER).arise { server: MinecraftServer ->
+        return requires(ConiumEventArgTypes.SERVER) { server: MinecraftServer ->
             noFailure(server, ParameterSelective0<Boolean>::arise)
         }
     }

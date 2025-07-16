@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.entity.event.rest.wake
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
-import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requiresAny
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
@@ -16,7 +16,7 @@ class ConiumEntityWakedUpEvent : ConiumEvent<ParameterSelective3<Boolean, World,
     ConiumEventType.ENTITY_WAKED_UP
 ) {
     override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return requires(
+        return requiresAny(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.LIVING_ENTITY,
             ConiumEventArgTypes.BLOCK_POS

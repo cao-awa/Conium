@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.item.event.use.entity
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
-import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requiresAny
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
@@ -18,7 +18,7 @@ class ConiumItemUsedOnEntityEvent : ConiumItemEvent<ParameterSelective5<Boolean,
     ConiumEventType.ITEM_USED_ON_ENTITY
 ) {
     override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return requires(
+        return requiresAny(
             ConiumEventArgTypes.PLAYER,
             ConiumEventArgTypes.LIVING_ENTITY,
             ConiumEventArgTypes.ITEM_STACK,

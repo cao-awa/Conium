@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.item.event.stack.click
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
-import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requiresAny
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
@@ -17,7 +17,7 @@ class ConiumItemStackClickedEvent : ConiumItemEvent<ParameterSelective4<Boolean,
     ConiumEventType.ITEM_STACK_CLICKED
 ) {
     override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return requires(
+        return requiresAny(
             ConiumEventArgTypes.PLAYER,
             ConiumEventArgTypes.ITEM_STACK,
             ConiumEventArgTypes.CLICK_TYPE,

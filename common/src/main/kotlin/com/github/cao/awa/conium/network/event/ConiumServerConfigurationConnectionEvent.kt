@@ -15,7 +15,7 @@ class ConiumServerConfigurationConnectionEvent : ConiumEvent<ParameterSelective2
     ConiumEventType.SERVER_CONFIGURATION_CONNECTION
 ) {
     override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return ConiumEventContextBuilder.requires(
+        return ConiumEventContextBuilder.requiresAny(
             ConiumEventArgTypes.SERVER_CONFIGURATION_NETWORK_HANDLER,
             ConiumEventArgTypes.SERVER
         ).arise { identity: Any, networkHandler: ServerConfigurationNetworkHandler, server: MinecraftServer ->
