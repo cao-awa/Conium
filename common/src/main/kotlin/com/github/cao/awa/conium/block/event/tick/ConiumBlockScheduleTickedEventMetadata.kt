@@ -9,11 +9,12 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.RANDOM
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.SERVER_WORLD
 import com.github.cao.awa.conium.mapping.yarn.ScheduledTickView
 import com.github.cao.awa.conium.mapping.yarn.ServerWorld
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
 
-class ConiumBlockScheduleTickedEventMetadata(val context: ConiumEventContext) : ConiumEventMetadata() {
+class ConiumBlockScheduleTickedEventMetadata(val context: ConiumEventContext<Block>) : ConiumEventMetadata<Block>() {
     val serverWorld: ServerWorld = this.context[SERVER_WORLD]
     val scheduledTickView: ScheduledTickView = this.context[SCHEDULED_TICK_VIEW]
     val blockPos: BlockPos = this.context[BLOCK_POS]

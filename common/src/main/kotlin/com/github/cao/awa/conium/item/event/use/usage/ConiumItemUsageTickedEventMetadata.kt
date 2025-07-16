@@ -7,10 +7,11 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.LIVING_ENTITY
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.WORLD
 import com.github.cao.awa.conium.script.index.common.REMAINING_USE_TICKS
 import net.minecraft.entity.LivingEntity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.world.World
 
-class ConiumItemUsageTickedEventMetadata(val context: ConiumEventContext) : ConiumEventMetadata() {
+class ConiumItemUsageTickedEventMetadata(val context: ConiumEventContext<Item>) : ConiumEventMetadata<Item>() {
     val world: World = this.context[WORLD]
     val livingEntity: LivingEntity = this.context[LIVING_ENTITY]
     val itemStack: ItemStack = this.context[ITEM_STACK]

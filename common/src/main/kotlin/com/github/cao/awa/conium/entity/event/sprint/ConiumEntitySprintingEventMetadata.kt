@@ -4,7 +4,8 @@ import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ENTITY
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
 
-class ConiumEntitySprintingEventMetadata(context: ConiumEventContext) : ConiumEntitySprintsEventMetadata(context) {
+class ConiumEntitySprintingEventMetadata(context: ConiumEventContext<EntityType<*>>) : ConiumEntitySprintsEventMetadata(context) {
 
 }

@@ -8,10 +8,11 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ENTITY
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.LIVING_ENTITY
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.WORLD
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class ConiumEntityTrySleepEventMetadata(context: ConiumEventContext) : ConiumEntityRestEventMetadata(context) {
+class ConiumEntityTrySleepEventMetadata(context: ConiumEventContext<EntityType<*>>) : ConiumEntityRestEventMetadata(context) {
 
 }

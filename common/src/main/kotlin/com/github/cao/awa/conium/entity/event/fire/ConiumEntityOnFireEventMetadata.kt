@@ -19,13 +19,14 @@ import com.github.cao.awa.conium.mapping.yarn.ScheduledTickView
 import com.github.cao.awa.conium.mapping.yarn.ServerWorld
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 
-class ConiumEntityOnFireEventMetadata(val context: ConiumEventContext) : ConiumEventMetadata() {
+class ConiumEntityOnFireEventMetadata(val context: ConiumEventContext<EntityType<*>>) : ConiumEventMetadata<EntityType<*>>() {
     val entity: Entity = this.context[ENTITY]
     val fireTicks: Int = this.context[INT]
 }

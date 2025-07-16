@@ -9,6 +9,7 @@ import com.github.cao.awa.conium.item.event.ConiumItemEvent
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective5
 import net.minecraft.entity.Entity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.world.World
 
@@ -29,7 +30,7 @@ class ConiumItemInventoryTickEvent : ConiumItemEvent<ParameterSelective5<Boolean
         }
     }
 
-    override fun metadata(context: ConiumEventContext): ConiumItemInventoryTickEventMetadata {
+    override fun metadata(context: ConiumEventContext<Item>): ConiumItemInventoryTickEventMetadata {
         return ConiumItemInventoryTickEventMetadata(context)
     }
 }

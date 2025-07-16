@@ -290,7 +290,7 @@ class Conium {
         }
     }
 
-    fun <I: Any, M: ConiumEventMetadata, T: ConiumEventType<I, M>> onEvent(
+    fun <I: Any, M: ConiumEventMetadata<I>, T: ConiumEventType<I, M>> onEvent(
         eventType: T,
         block: DSLEventMetadata<I, M, T>.() -> Unit
     ): DSLEventMetadata<I, M, T> {
@@ -303,7 +303,7 @@ class Conium {
         }
     }
 
-    fun <I: Any, M: ConiumEventMetadata, T: ConiumEventType<I, M>> listen(
+    fun <I: Any, M: ConiumEventMetadata<I>, T: ConiumEventType<I, M>> listen(
         eventType: T,
         block: DSLEventMetadata<I, M, T>.() -> Unit
     ): DSLEventMetadata<I, M, T> = onEvent(eventType, block)

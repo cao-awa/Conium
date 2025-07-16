@@ -59,10 +59,10 @@ import com.github.cao.awa.conium.raycast.ConiumRaycast
 import com.github.cao.awa.conium.kotlin.extent.entity.registerEntity
 
 // Event.
-typealias ConiumEvent<P, M> = ConiumEvent<P, M>
+typealias ConiumEvent<I, P, M> = ConiumEvent<I, P, M>
 typealias ConiumEventType<I, M> = ConiumEventType<I, M>
-typealias ConiumEventContext = ConiumEventContext
-typealias ConiumArisingEventContext<P> = ConiumArisingEventContext<P>
+typealias ConiumEventContext<I> = ConiumEventContext<I>
+typealias ConiumArisingEventContext<I, P> = ConiumArisingEventContext<I, P>
 typealias ConiumArgOnlyEventContext = ConiumArgOnlyEventContext
 typealias ConiumEventContextBuilder = ConiumEventContextBuilder
 
@@ -82,207 +82,207 @@ fun <T: Entity> register(identifier: Identifier, entityType: EntityTypeBuilder<T
     return registerEntity(identifier, entityType)
 }
 
-fun <I : Any, M: ConiumEventMetadata> preRequest(
+fun <I : Any, M: ConiumEventMetadata<I>> preRequest(
     eventType: ConiumEventType<I, M>,
     presaging: ParameterSelective1<Boolean, I> = ParameterSelective1 { true }
-): ConiumArisingEventContext<*> = ConiumEventContextBuilder.preRequest(eventType, presaging)
+): ConiumArisingEventContext<I, *> = ConiumEventContextBuilder.preRequest(eventType, presaging)
 
-fun <I : Any, M: ConiumEventMetadata> preRequestNr(
+fun <I : Any, M: ConiumEventMetadata<I>> preRequestNr(
     eventType: ConiumEventType<I, M>,
     presaging: ParameterSelective1<Unit, I> = ParameterSelective1 { }
-): ConiumArisingEventContext<*> = ConiumEventContextBuilder.preRequestNr(eventType, presaging)
+): ConiumArisingEventContext<I, *> = ConiumEventContextBuilder.preRequestNr(eventType, presaging)
 
-fun <I : Any, M: ConiumEventMetadata> request(
+fun <I : Any, M: ConiumEventMetadata<I>> request(
     eventType: ConiumEventType<I, M>,
     arising: ParameterSelective1<Boolean, I> = ParameterSelective1 { true }
-): ConiumArisingEventContext<*> = ConiumEventContextBuilder.request(eventType, arising)
+): ConiumArisingEventContext<I, *> = ConiumEventContextBuilder.request(eventType, arising)
 
-fun <I : Any, M: ConiumEventMetadata> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>> requestNr(
     eventType: ConiumEventType<I, M>,
     arising: ParameterSelective1<Unit, I> = ParameterSelective1 { },
-): ConiumArisingEventContext<*> = ConiumEventContextBuilder.requestNr(eventType, arising)
+): ConiumArisingEventContext<I, *> = ConiumEventContextBuilder.requestNr(eventType, arising)
 
-fun <I : Any, M: ConiumEventMetadata> request(
+fun <I : Any, M: ConiumEventMetadata<I>> request(
     eventType: ConiumEventType<I, M>,
     arising: ParameterSelective1<Boolean, I> = ParameterSelective1 { true },
     presaging: ParameterSelective1<Boolean, I> = ParameterSelective1 { true },
-): ConiumArisingEventContext<*> = ConiumEventContextBuilder.request(eventType, arising, presaging)
+): ConiumArisingEventContext<I, *> = ConiumEventContextBuilder.request(eventType, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>> requestNr(
     eventType: ConiumEventType<I, M>,
     arising: ParameterSelective1<Unit, I> = ParameterSelective1 { },
     presaging: ParameterSelective1<Unit, I> = ParameterSelective1 { },
-): ConiumArisingEventContext<*> = ConiumEventContextBuilder.requestNr(eventType, arising, presaging)
+): ConiumArisingEventContext<I, *> = ConiumEventContextBuilder.requestNr(eventType, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1> preRequest(
+fun <I : Any, M: ConiumEventMetadata<I>, P1> preRequest(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     presaging: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> = ConiumEventContextBuilder.preRequest(eventType, arg1, presaging)
+): ConiumArisingEventContext<I, ParameterSelective2<Boolean, I, P1>> = ConiumEventContextBuilder.preRequest(eventType, arg1, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1> preRequestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1> preRequestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     presaging: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> }
-): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> = ConiumEventContextBuilder.requestNr(eventType, arg1, presaging)
+): ConiumArisingEventContext<I, ParameterSelective2<Boolean, I, P1>> = ConiumEventContextBuilder.requestNr(eventType, arg1, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1> request(
+fun <I : Any, M: ConiumEventMetadata<I>, P1> request(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arising: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> = ConiumEventContextBuilder.request(eventType, arg1, arising)
+): ConiumArisingEventContext<I, ParameterSelective2<Boolean, I, P1>> = ConiumEventContextBuilder.request(eventType, arg1, arising)
 
-fun <I : Any, M: ConiumEventMetadata, P1> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1> requestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arising: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> }
-): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arising)
+): ConiumArisingEventContext<I, ParameterSelective2<Boolean, I, P1>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arising)
 
-fun <I : Any, M: ConiumEventMetadata, P1> request(
+fun <I : Any, M: ConiumEventMetadata<I>, P1> request(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arising: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true },
     presaging: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> = ConiumEventContextBuilder.request(eventType, arg1, arising, presaging)
+): ConiumArisingEventContext<I, ParameterSelective2<Boolean, I, P1>> = ConiumEventContextBuilder.request(eventType, arg1, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1> requestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arising: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> },
     presaging: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> }
-): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arising, presaging)
+): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2> preRequest(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2> preRequest(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     presaging: ParameterSelective3<Boolean, I, P1, P2> = ParameterSelective3 { _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> = ConiumEventContextBuilder.preRequest(eventType, arg1, arg2, presaging)
+): ConiumArisingEventContext<I, ParameterSelective3<Boolean, I, P1, P2>> = ConiumEventContextBuilder.preRequest(eventType, arg1, arg2, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2> preRequestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2> preRequestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     presaging: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> = ConiumEventContextBuilder.preRequestNr(eventType, arg1, arg2, presaging)
+): ConiumArisingEventContext<I, ParameterSelective3<Boolean, I, P1, P2>> = ConiumEventContextBuilder.preRequestNr(eventType, arg1, arg2, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2> request(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2> request(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     arising: ParameterSelective3<Boolean, I, P1, P2> = ParameterSelective3 { _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arising)
+): ConiumArisingEventContext<I, ParameterSelective3<Boolean, I, P1, P2>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arising)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2> requestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     arising: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arising)
+): ConiumArisingEventContext<I, ParameterSelective3<Boolean, I, P1, P2>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arising)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2> request(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2> request(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     arising: ParameterSelective3<Boolean, I, P1, P2> = ParameterSelective3 { _, _, _ -> true },
     presaging: ParameterSelective3<Boolean, I, P1, P2> = ParameterSelective3 { _, _, _ -> true },
-): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arising, presaging)
+): ConiumArisingEventContext<I, ParameterSelective3<Boolean, I, P1, P2>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2> requestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     arising: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> },
     presaging: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> },
-): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arising, presaging)
+): ConiumArisingEventContext<I, ParameterSelective3<Boolean, I, P1, P2>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3> preRequest(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3> preRequest(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     arg3: DynamicArgType<P3>,
     presaging: ParameterSelective4<Boolean, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> = ConiumEventContextBuilder.preRequest(eventType, arg1, arg2, arg3, presaging)
+): ConiumArisingEventContext<I, ParameterSelective4<Boolean, I, P1, P2, P3>> = ConiumEventContextBuilder.preRequest(eventType, arg1, arg2, arg3, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3> preRequestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3> preRequestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     arg3: DynamicArgType<P3>,
     presaging: ParameterSelective4<Unit, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> = ConiumEventContextBuilder.preRequestNr(eventType, arg1, arg2, arg3, presaging)
+): ConiumArisingEventContext<I, ParameterSelective4<Boolean, I, P1, P2, P3>> = ConiumEventContextBuilder.preRequestNr(eventType, arg1, arg2, arg3, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3> request(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3> request(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     arg3: DynamicArgType<P3>,
     arising: ParameterSelective4<Boolean, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arising)
+): ConiumArisingEventContext<I, ParameterSelective4<Boolean, I, P1, P2, P3>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arising)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3> requestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     arg3: DynamicArgType<P3>,
     arising: ParameterSelective4<Unit, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arising)
+): ConiumArisingEventContext<I, ParameterSelective4<Boolean, I, P1, P2, P3>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arising)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3> request(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3> request(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     arg3: DynamicArgType<P3>,
     arising: ParameterSelective4<Boolean, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> true },
     presaging: ParameterSelective4<Boolean, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arising, presaging)
+): ConiumArisingEventContext<I, ParameterSelective4<Boolean, I, P1, P2, P3>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3> requestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     arg3: DynamicArgType<P3>,
     arising: ParameterSelective4<Unit, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> },
     presaging: ParameterSelective4<Unit, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arising, presaging)
+): ConiumArisingEventContext<I, ParameterSelective4<Boolean, I, P1, P2, P3>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4> preRequest(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4> preRequest(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     arg3: DynamicArgType<P3>,
     arg4: DynamicArgType<P4>,
     presaging: ParameterSelective5<Boolean, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> = ConiumEventContextBuilder.preRequest(eventType, arg1, arg2, arg3, arg4, presaging)
+): ConiumArisingEventContext<I, ParameterSelective5<Boolean, I, P1, P2, P3, P4>> = ConiumEventContextBuilder.preRequest(eventType, arg1, arg2, arg3, arg4, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4> preRequestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4> preRequestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     arg3: DynamicArgType<P3>,
     arg4: DynamicArgType<P4>,
     presaging: ParameterSelective5<Unit, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> = ConiumEventContextBuilder.preRequestNr(eventType, arg1, arg2, arg3, arg4, presaging)
+): ConiumArisingEventContext<I, ParameterSelective5<Boolean, I, P1, P2, P3, P4>> = ConiumEventContextBuilder.preRequestNr(eventType, arg1, arg2, arg3, arg4, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4> request(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4> request(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     arg3: DynamicArgType<P3>,
     arg4: DynamicArgType<P4>,
     arising: ParameterSelective5<Boolean, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arising)
+): ConiumArisingEventContext<I, ParameterSelective5<Boolean, I, P1, P2, P3, P4>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arising)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4> requestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
     arg3: DynamicArgType<P3>,
     arg4: DynamicArgType<P4>,
     arising: ParameterSelective5<Unit, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arising)
+): ConiumArisingEventContext<I, ParameterSelective5<Boolean, I, P1, P2, P3, P4>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arising)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4> request(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4> request(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -290,9 +290,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4> request(
     arg4: DynamicArgType<P4>,
     arising: ParameterSelective5<Boolean, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> true },
     presaging: ParameterSelective5<Boolean, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arising, presaging)
+): ConiumArisingEventContext<I, ParameterSelective5<Boolean, I, P1, P2, P3, P4>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4> requestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -300,9 +300,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4> requestNr(
     arg4: DynamicArgType<P4>,
     arising: ParameterSelective5<Unit, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> },
     presaging: ParameterSelective5<Unit, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arising, presaging)
+): ConiumArisingEventContext<I, ParameterSelective5<Boolean, I, P1, P2, P3, P4>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5> preRequest(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5> preRequest(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -310,9 +310,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5> preRequest(
     arg4: DynamicArgType<P4>,
     arg5: DynamicArgType<P5>,
     presaging: ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> = ConiumEventContextBuilder.preRequest(eventType, arg1, arg2, arg3, arg4, arg5, presaging)
+): ConiumArisingEventContext<I, ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>> = ConiumEventContextBuilder.preRequest(eventType, arg1, arg2, arg3, arg4, arg5, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5> preRequestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5> preRequestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -320,9 +320,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5> preRequestNr(
     arg4: DynamicArgType<P4>,
     arg5: DynamicArgType<P5>,
     presaging: ParameterSelective6<Unit, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> = ConiumEventContextBuilder.preRequestNr(eventType, arg1, arg2, arg3, arg4, arg5, presaging)
+): ConiumArisingEventContext<I, ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>> = ConiumEventContextBuilder.preRequestNr(eventType, arg1, arg2, arg3, arg4, arg5, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5> request(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5> request(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -330,9 +330,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5> request(
     arg4: DynamicArgType<P4>,
     arg5: DynamicArgType<P5>,
     arising: ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arg5, arising)
+): ConiumArisingEventContext<I, ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arg5, arising)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5> requestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -340,9 +340,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5> requestNr(
     arg4: DynamicArgType<P4>,
     arg5: DynamicArgType<P5>,
     arising: ParameterSelective6<Unit, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arg5, arising)
+): ConiumArisingEventContext<I, ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arg5, arising)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5> request(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5> request(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -351,9 +351,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5> request(
     arg5: DynamicArgType<P5>,
     arising: ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> true },
     presaging: ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arg5, arising, presaging)
+): ConiumArisingEventContext<I, ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arg5, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5> requestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -362,9 +362,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5> requestNr(
     arg5: DynamicArgType<P5>,
     arising: ParameterSelective6<Unit, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> },
     presaging: ParameterSelective6<Unit, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arg5, arising, presaging)
+): ConiumArisingEventContext<I, ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arg5, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6> preRequest(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> preRequest(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -373,9 +373,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6> preRequest(
     arg5: DynamicArgType<P5>,
     arg6: DynamicArgType<P6>,
     presaging: ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> = ConiumEventContextBuilder.preRequest(eventType, arg1, arg2, arg3, arg4, arg5, arg6, presaging)
+): ConiumArisingEventContext<I, ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>> = ConiumEventContextBuilder.preRequest(eventType, arg1, arg2, arg3, arg4, arg5, arg6, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6> preRequestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> preRequestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -384,9 +384,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6> preRequestNr(
     arg5: DynamicArgType<P5>,
     arg6: DynamicArgType<P6>,
     presaging: ParameterSelective7<Unit, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> = ConiumEventContextBuilder.preRequestNr(eventType, arg1, arg2, arg3, arg4, arg5, arg6, presaging)
+): ConiumArisingEventContext<I, ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>> = ConiumEventContextBuilder.preRequestNr(eventType, arg1, arg2, arg3, arg4, arg5, arg6, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6> request(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> request(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -395,9 +395,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6> request(
     arg5: DynamicArgType<P5>,
     arg6: DynamicArgType<P6>,
     arising: ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arising)
+): ConiumArisingEventContext<I, ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arising)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> requestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -406,9 +406,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6> requestNr(
     arg5: DynamicArgType<P5>,
     arg6: DynamicArgType<P6>,
     arising: ParameterSelective7<Unit, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arising)
+): ConiumArisingEventContext<I, ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arising)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6> request(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> request(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -418,9 +418,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6> request(
     arg6: DynamicArgType<P6>,
     arising: ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> true },
     presaging: ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arising, presaging)
+): ConiumArisingEventContext<I, ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> requestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -430,9 +430,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6> requestNr(
     arg6: DynamicArgType<P6>,
     arising: ParameterSelective7<Unit, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> },
     presaging: ParameterSelective7<Unit, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arising, presaging)
+): ConiumArisingEventContext<I, ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> preRequest(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> preRequest(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -442,9 +442,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> preRequest(
     arg6: DynamicArgType<P6>,
     arg7: DynamicArgType<P7>,
     presaging: ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> = ConiumEventContextBuilder.preRequest(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arg7, presaging)
+): ConiumArisingEventContext<I, ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> = ConiumEventContextBuilder.preRequest(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arg7, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> preRequestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> preRequestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -454,9 +454,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> preRequestNr(
     arg6: DynamicArgType<P6>,
     arg7: DynamicArgType<P7>,
     presaging: ParameterSelective8<Unit, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> = ConiumEventContextBuilder.preRequestNr(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arg7, presaging)
+): ConiumArisingEventContext<I, ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> = ConiumEventContextBuilder.preRequestNr(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arg7, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> request(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> request(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -466,9 +466,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> request(
     arg6: DynamicArgType<P6>,
     arg7: DynamicArgType<P7>,
     arising: ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arising)
+): ConiumArisingEventContext<I, ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arising)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> requestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -478,9 +478,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> requestNr(
     arg6: DynamicArgType<P6>,
     arg7: DynamicArgType<P7>,
     arising: ParameterSelective8<Unit, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arising)
+): ConiumArisingEventContext<I, ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arising)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> request(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> request(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -491,9 +491,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> request(
     arg7: DynamicArgType<P7>,
     arising: ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> true },
     presaging: ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> true }
-): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arising, presaging)
+): ConiumArisingEventContext<I, ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> = ConiumEventContextBuilder.request(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arising, presaging)
 
-fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> requestNr(
+fun <I : Any, M: ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> requestNr(
     eventType: ConiumEventType<I, M>,
     arg1: DynamicArgType<P1>,
     arg2: DynamicArgType<P2>,
@@ -504,9 +504,9 @@ fun <I : Any, M: ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> requestNr(
     arg7: DynamicArgType<P7>,
     arising: ParameterSelective8<Unit, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> },
     presaging: ParameterSelective8<Unit, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> }
-): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arising, presaging)
+): ConiumArisingEventContext<I, ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> = ConiumEventContextBuilder.requestNr(eventType, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arising, presaging)
 
-fun <R : Any> unnamed(arising: ParameterSelective1<R, Any>): ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> = ConiumEventContextBuilder.unnamed(arising)
+fun <R: Any, I : Any> unnamed(arising: ParameterSelective1<R, I>): ConiumArisingEventContext<I, ParameterSelective1<Boolean, I>> = ConiumEventContextBuilder.unnamed(arising)
 
 fun <P1> unnamed(
     arg1: DynamicArgType<P1>,

@@ -5,8 +5,9 @@ import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ENTITY
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.INT
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
 
-class ConiumEntityExtinguishFireEventMetadata(val context: ConiumEventContext) : ConiumEventMetadata() {
+class ConiumEntityExtinguishFireEventMetadata(val context: ConiumEventContext<EntityType<*>>) : ConiumEventMetadata<EntityType<*>>() {
     val entity: Entity = this.context[ENTITY]
     val leftFireTicks: Int = this.context[INT]
 }

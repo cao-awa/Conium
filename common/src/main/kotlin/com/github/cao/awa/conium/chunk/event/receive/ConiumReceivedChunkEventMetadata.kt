@@ -6,6 +6,6 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.WORLD_CHUNK
 import net.minecraft.world.chunk.WorldChunk
 
-class ConiumReceivedChunkEventMetadata(val context: ConiumEventContext) : ConiumEventMetadata() {
+class ConiumReceivedChunkEventMetadata(val context: ConiumEventContext<WorldChunk>) : ConiumEventMetadata<WorldChunk>() {
     val worldChunk: WorldChunk = this.context[WORLD_CHUNK]
 }

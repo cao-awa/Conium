@@ -7,7 +7,7 @@ import com.github.cao.awa.conium.script.index.common.SERVER
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerConfigurationNetworkHandler
 
-class ConiumServerConfigurationConnectionEventMetadata(val context: ConiumEventContext): ConiumEventMetadata() {
+class ConiumServerConfigurationConnectionEventMetadata(val context: ConiumEventContext<ServerConfigurationNetworkHandler>): ConiumEventMetadata<ServerConfigurationNetworkHandler>() {
     val serverConfigurationNetworkHandler: ServerConfigurationNetworkHandler = this.context[SERVER_CONFIGURATION_NETWORK_HANDLER]
     val server: MinecraftServer = this.context[SERVER]
 }

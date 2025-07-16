@@ -10,6 +10,7 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.WORLD
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_STATE
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_STACK
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.LIVING_ENTITY
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.ViewerCountManager
@@ -19,7 +20,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class ConiumPlacedBlockEventMetadata(val context: ConiumEventContext) : ConiumEventMetadata() {
+class ConiumPlacedBlockEventMetadata(val context: ConiumEventContext<Block>) : ConiumEventMetadata<Block>() {
     val world: World = this.context[WORLD]
     val placer: LivingEntity = this.context[LIVING_ENTITY]
     val blockPos: BlockPos = this.context[BLOCK_POS]

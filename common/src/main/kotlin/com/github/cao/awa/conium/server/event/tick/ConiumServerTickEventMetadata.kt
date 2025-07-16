@@ -5,6 +5,6 @@ import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import net.minecraft.server.MinecraftServer
 
-class ConiumServerTickEventMetadata(val context: ConiumEventContext) : ConiumEventMetadata() {
+class ConiumServerTickEventMetadata(val context: ConiumEventContext<MinecraftServer>) : ConiumEventMetadata<MinecraftServer>() {
     val server: MinecraftServer = this.context[ConiumEventArgTypes.SERVER]
 }

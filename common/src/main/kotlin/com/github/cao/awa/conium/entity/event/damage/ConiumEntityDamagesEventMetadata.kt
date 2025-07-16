@@ -12,17 +12,16 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.SCHEDULED_TICK_V
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.RANDOM
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.SERVER_WORLD
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.WORLD
-import com.github.cao.awa.conium.mapping.yarn.DamageSource
-import com.github.cao.awa.conium.mapping.yarn.ScheduledTickView
-import com.github.cao.awa.conium.mapping.yarn.ServerWorld
 import net.minecraft.block.BlockState
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.damage.DamageSource
 import net.minecraft.fluid.FluidState
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 
-abstract class ConiumEntityDamagesEventMetadata(val context: ConiumEventContext) : ConiumEventMetadata() {
+abstract class ConiumEntityDamagesEventMetadata(val context: ConiumEventContext<EntityType<*>>) : ConiumEventMetadata<EntityType<*>>() {
     val world: World = this.context[WORLD]
     val livingEntity: LivingEntity = this.context[LIVING_ENTITY]
     val damageSource: DamageSource = this.context[DAMAGE_SOURCE]

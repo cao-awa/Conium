@@ -9,6 +9,7 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.VIEWER_COUNT_MAN
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.WORLD
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.BLOCK_STATE
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_PLACEMENT_CONTEXT
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.ViewerCountManager
@@ -17,6 +18,6 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class ConiumPlaceBlockEventMetadata(val context: ConiumEventContext) : ConiumEventMetadata() {
+class ConiumPlaceBlockEventMetadata(val context: ConiumEventContext<Block>) : ConiumEventMetadata<Block>() {
     val itemPlacementContext: ItemPlacementContext = this.context[ITEM_PLACEMENT_CONTEXT]
 }

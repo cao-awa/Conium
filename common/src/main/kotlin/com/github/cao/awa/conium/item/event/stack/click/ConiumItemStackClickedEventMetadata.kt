@@ -9,12 +9,13 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.PLAYER
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.SLOT
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.WORLD
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.slot.Slot
 import net.minecraft.util.ClickType
 import net.minecraft.world.World
 
-class ConiumItemStackClickedEventMetadata(val context: ConiumEventContext) : ConiumEventMetadata() {
+class ConiumItemStackClickedEventMetadata(val context: ConiumEventContext<Item>) : ConiumEventMetadata<Item>() {
     val player: PlayerEntity = this.context[PLAYER]
     val itemStack: ItemStack = this.context[ITEM_STACK]
     val clickType: ClickType = this.context[CLICK_TYPE]
