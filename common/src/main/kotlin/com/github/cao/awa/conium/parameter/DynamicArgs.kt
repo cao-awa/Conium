@@ -25,7 +25,7 @@ import java.util.function.Supplier
  *
  * @since 1.0.0
  */
-class DynamicArgs<P : ParameterSelective?, R> {
+class DynamicArgs<I: Any, P : ParameterSelective?, R> {
     private val trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>
     private val args: MutableList<DynamicArgType<*>>
     private val queryArgs: MutableList<DynamicArgType<*>>
@@ -50,7 +50,7 @@ class DynamicArgs<P : ParameterSelective?, R> {
         this.queryArgs = Collections.emptyList()
     }
 
-    fun lifecycle(lifecycle: DynamicArgsLifecycle): DynamicArgs<P, R> {
+    fun lifecycle(lifecycle: DynamicArgsLifecycle): DynamicArgs<I, P, R> {
         this.lifecycle = lifecycle
         return this
     }
@@ -82,7 +82,7 @@ class DynamicArgs<P : ParameterSelective?, R> {
                 // Only varying argument type to real argument instance.
                 if (value is DynamicArgType<*>) {
                     // Dynamic args has multiple varying methods, find until found or no more method can try.
-                    for (dynamicVarying: DynamicArgs<*, *>? in value.dynamicArgs) {
+                    for (dynamicVarying: DynamicArgs<*, *, *>? in value.dynamicArgs) {
                         // Do not process null dynamic args or transform the dynamic args that doesn't have correct lifecycles.
                         if (dynamicVarying == null || dynamicVarying.lifecycle != DynamicArgsLifecycle.TRANSFORM) {
                             continue

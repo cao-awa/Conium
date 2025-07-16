@@ -23,11 +23,11 @@ import net.minecraft.world.World
 @BedrockScriptApiFacade("ItemUseBeforeEventSignal")
 class BedrockItemUseBeforeEvent: BedrockEvent<BedrockItemUseEventContext>(ConiumEventType.ITEM_USE) {
     override fun createUnnamed(action: ParameterSelective1<Unit, BedrockItemUseEventContext>, scriptSource: Any): ConiumArisingEventContext<*> {
-        return ConiumEventContextBuilder.requires(
+        return ConiumEventContextBuilder.unnamed(
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.PLAYER,
             ConiumEventArgTypes.ITEM_STACK
-        ).arise { _: Any, world: World, source: PlayerEntity, itemStack: ItemStack ->
+        ) { _: Any, world: World, source: PlayerEntity, itemStack: ItemStack ->
             val server: MinecraftServer? = world.server
 
             if (server == null) {

@@ -47,7 +47,7 @@ abstract class BedrockEvent<E : BedrockEventContext>(private val targetEvent: Co
 
     @BedrockScriptApi
     @BedrockScriptApiFacade("*EventSignal", "subscribe")
-    fun subscribe(action: ParameterSelective1<Unit, E>): Any {
+    fun subscribe(action: ParameterSelective1<Unit, E>): ConiumArisingEventContext<*> {
         // When subscribe to event, using unnamed context and put to the subscriber list instead of to request conium event.
         // The event cannot unsubscribe if request to conium event because conium event using 'forever' lifecycle for all requesting contexts.
         return createUnnamed(
@@ -58,7 +58,7 @@ abstract class BedrockEvent<E : BedrockEventContext>(private val targetEvent: Co
 
     @BedrockScriptApi
     @BedrockScriptApiFacade("*EventSignal", "unsubscribe")
-    fun unsubscribe(context: Any) = this.subscribers.removeIf { it == context }
+    fun unsubscribe(context: ConiumArisingEventContext<*>) = this.subscribers.removeIf { it == context }
 
     abstract fun createUnnamed(action: ParameterSelective1<Unit, E>, scriptSource: Any): ConiumArisingEventContext<*>
 }

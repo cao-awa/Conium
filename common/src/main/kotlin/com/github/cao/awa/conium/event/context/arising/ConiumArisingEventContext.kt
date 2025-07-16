@@ -29,7 +29,7 @@ import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
  * @since 1.0.0
  */
 open class ConiumArisingEventContext<P : ParameterSelective?>(
-    private val dynamicArgs: DynamicArgs<P, Boolean>
+    private val dynamicArgs: DynamicArgs<*, P, Boolean>
 ) : ConiumEventContext() {
     private var ariseTrigger: P? = null
     private var presageTrigger: P? = null

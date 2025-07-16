@@ -16,12 +16,13 @@ import net.minecraft.item.ItemUsageContext
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemUseOnBeforeEventSignal")
 class BedrockItemUseOnBeforeEvent: BedrockEvent<BedrockItemUseOnEventContext>(ConiumEventType.ITEM_USE_ON_BLOCK) {
-    override fun createUnnamed(action: ParameterSelective1<Unit, BedrockItemUseOnEventContext>, scriptSource: Any): ConiumArisingEventContext<*> {
-        println("ALREADY???")
-        return ConiumEventContextBuilder.requires(
+    override fun createUnnamed(
+        action: ParameterSelective1<Unit, BedrockItemUseOnEventContext>,
+        scriptSource: Any
+    ): ConiumArisingEventContext<*> {
+        return ConiumEventContextBuilder.unnamed(
             ConiumEventArgTypes.ITEM_USAGE_CONTEXT
-        ).arise { _: Any, usage: ItemUsageContext ->
-            println("WTT???")
+        ) { _: Any, usage: ItemUsageContext ->
             !usage.bedrockEventContext(scriptSource, usage.player).also { context: BedrockItemUseOnEventContext ->
                 BedrockEventContext.contexts[scriptSource] = context
             }.also { context: BedrockItemUseOnEventContext ->
