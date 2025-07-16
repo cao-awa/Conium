@@ -357,7 +357,7 @@ object ConiumEventContextBuilder {
         arg7: DynamicArgType<P7>,
         p: ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>
     ): ConiumTypedArisingEventContext<I, ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> {
-        return requires(identityArg, arg1, arg2, arg3, arg4, arg5, arg6).arise(p).doCast()
+        return requires(identityArg, arg1, arg2, arg3, arg4, arg5, arg6, arg7).arise(p).doCast()
     }
 
 
