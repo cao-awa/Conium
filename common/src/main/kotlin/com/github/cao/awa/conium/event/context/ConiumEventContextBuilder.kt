@@ -10,7 +10,6 @@ import com.github.cao.awa.conium.event.context.arising.ConiumTypedArisingEventCo
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.parameter.*
 import com.github.cao.awa.conium.script.interaction.NamedInteractionScript
 
@@ -110,45 +109,48 @@ object ConiumEventContextBuilder {
     fun <P1, P2> requiresAny(
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>
-    ): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> =
-        ConiumArisingEventContext(DynamicArgsBuilder.requires(
-            arg1,
-            arg2,
-            true
-        ))
+    ): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
+        return ConiumArisingEventContext(
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                true
+            )
+        )
+    }
 
     @JvmStatic
     fun <I : Any> requires(
         identityArg: DynamicArgType<I>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective1<Boolean, I>> {
+    ): ConiumTypedArisingEventContext<ParameterSelective1<Boolean, I>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
                 true
             )
-        ).doCast()
+        )
     }
 
     @JvmStatic
     fun <I : Any> requires(
         identityArg: DynamicArgType<I>,
         p: ParameterSelective1<Boolean, I>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective1<Boolean, I>> {
-        return requires(identityArg).arise(p).doCast()
+    ): ConiumTypedArisingEventContext<ParameterSelective1<Boolean, I>> {
+        return arise(requires(identityArg), p)
     }
 
     @JvmStatic
     fun <I : Any, P1> requires(
         identityArg: DynamicArgType<I>,
         arg1: DynamicArgType<P1>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective2<Boolean, I, P1>> {
+    ): ConiumTypedArisingEventContext<ParameterSelective2<Boolean, I, P1>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
                 arg1,
                 true
             )
-        ).doCast()
+        )
     }
 
     @JvmStatic
@@ -156,8 +158,8 @@ object ConiumEventContextBuilder {
         identityArg: DynamicArgType<I>,
         arg1: DynamicArgType<P1>,
         p: ParameterSelective2<Boolean, I, P1>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective1<Boolean, I>> {
-        return requires(identityArg, arg1).arise(p).doCast()
+    ): ConiumTypedArisingEventContext<ParameterSelective2<Boolean, I, P1>> {
+        return arise(requires(identityArg, arg1), p)
     }
 
     @JvmStatic
@@ -165,7 +167,7 @@ object ConiumEventContextBuilder {
         identityArg: DynamicArgType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective3<Boolean, I, P1, P2>> {
+    ): ConiumTypedArisingEventContext<ParameterSelective3<Boolean, I, P1, P2>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
@@ -173,7 +175,7 @@ object ConiumEventContextBuilder {
                 arg2,
                 true
             )
-        ).doCast()
+        )
     }
 
     @JvmStatic
@@ -182,8 +184,8 @@ object ConiumEventContextBuilder {
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         p: ParameterSelective3<Boolean, I, P1, P2>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective3<Boolean, I, P1, P2>> {
-        return requires(identityArg, arg1, arg2).arise(p).doCast()
+    ): ConiumTypedArisingEventContext<ParameterSelective3<Boolean, I, P1, P2>> {
+        return arise(requires(identityArg, arg1, arg2), p)
     }
 
     @JvmStatic
@@ -192,7 +194,7 @@ object ConiumEventContextBuilder {
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective4<Boolean, I, P1, P2, P3>> {
+    ): ConiumTypedArisingEventContext<ParameterSelective4<Boolean, I, P1, P2, P3>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
@@ -201,7 +203,7 @@ object ConiumEventContextBuilder {
                 arg3,
                 true
             )
-        ).doCast()
+        )
     }
 
     @JvmStatic
@@ -211,8 +213,8 @@ object ConiumEventContextBuilder {
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         p: ParameterSelective4<Boolean, I, P1, P2, P3>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective4<Boolean, I, P1, P2, P3>> {
-        return requires(identityArg, arg1, arg2, arg3).arise(p).doCast()
+    ): ConiumTypedArisingEventContext<ParameterSelective4<Boolean, I, P1, P2, P3>> {
+        return arise(requires(identityArg, arg1, arg2, arg3), p)
     }
 
     @JvmStatic
@@ -222,7 +224,7 @@ object ConiumEventContextBuilder {
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective5<Boolean, I, P1, P2, P3, P4>> {
+    ): ConiumTypedArisingEventContext<ParameterSelective5<Boolean, I, P1, P2, P3, P4>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
@@ -232,7 +234,7 @@ object ConiumEventContextBuilder {
                 arg4,
                 true
             )
-        ).doCast()
+        )
     }
 
     @JvmStatic
@@ -243,8 +245,8 @@ object ConiumEventContextBuilder {
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>,
         p: ParameterSelective5<Boolean, I, P1, P2, P3, P4>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective5<Boolean, I, P1, P2, P3, P4>> {
-        return requires(identityArg, arg1, arg2, arg3, arg4).arise(p).doCast()
+    ): ConiumTypedArisingEventContext<ParameterSelective5<Boolean, I, P1, P2, P3, P4>> {
+        return arise(requires(identityArg, arg1, arg2, arg3, arg4), p)
     }
 
     @JvmStatic
@@ -255,7 +257,7 @@ object ConiumEventContextBuilder {
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>> {
+    ): ConiumTypedArisingEventContext<ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
@@ -263,9 +265,10 @@ object ConiumEventContextBuilder {
                 arg2,
                 arg3,
                 arg4,
+                arg5,
                 true
             )
-        ).doCast()
+        )
     }
 
     @JvmStatic
@@ -277,8 +280,8 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>,
         p: ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>> {
-        return requires(identityArg, arg1, arg2, arg3, arg4, arg5).arise(p).doCast()
+    ): ConiumTypedArisingEventContext<ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>> {
+        return arise(requires(identityArg, arg1, arg2, arg3, arg4, arg5), p)
     }
 
     @JvmStatic
@@ -290,7 +293,7 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>> {
+    ): ConiumTypedArisingEventContext<ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
@@ -302,7 +305,7 @@ object ConiumEventContextBuilder {
                 arg6,
                 true
             )
-        ).doCast()
+        )
     }
 
     @JvmStatic
@@ -315,8 +318,8 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>,
         p: ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>> {
-        return requires(identityArg, arg1, arg2, arg3, arg4, arg5, arg6).arise(p).doCast()
+    ): ConiumTypedArisingEventContext<ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>> {
+        return arise(requires(identityArg, arg1, arg2, arg3, arg4, arg5, arg6), p)
     }
 
     @JvmStatic
@@ -329,7 +332,7 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>,
         arg7: DynamicArgType<P7>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> {
+    ): ConiumTypedArisingEventContext<ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
@@ -342,7 +345,7 @@ object ConiumEventContextBuilder {
                 arg7,
                 true
             )
-        ).doCast()
+        )
     }
 
     @JvmStatic
@@ -356,10 +359,19 @@ object ConiumEventContextBuilder {
         arg6: DynamicArgType<P6>,
         arg7: DynamicArgType<P7>,
         p: ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>
-    ): ConiumTypedArisingEventContext<I, ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> {
-        return requires(identityArg, arg1, arg2, arg3, arg4, arg5, arg6, arg7).arise(p).doCast()
+    ): ConiumTypedArisingEventContext<ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> {
+        return arise(requires(identityArg, arg1, arg2, arg3, arg4, arg5, arg6, arg7), p)
     }
 
+    @JvmStatic
+    private fun <P : ParameterSelective> arise(
+        context: ConiumTypedArisingEventContext<P>,
+        p: P
+    ): ConiumTypedArisingEventContext<P> {
+        context.arise(p)
+
+        return context
+    }
 
     /**
      * Make an event context that should only call in event [requirement][ConiumEvent.requirement].
@@ -563,7 +575,7 @@ object ConiumEventContextBuilder {
 
     private fun <P : ParameterSelective, I : Any, M : ConiumEventMetadata> forever(
         eventType: ConiumEventType<I, M>,
-        dynamicArgs: DynamicArgs<Any, P, Boolean>
+        dynamicArgs: DynamicArgs<P, Boolean>
     ): ConiumArisingEventContext<P> {
         return ConiumArisingEventContext(dynamicArgs).apply {
             // Attach this context to event.

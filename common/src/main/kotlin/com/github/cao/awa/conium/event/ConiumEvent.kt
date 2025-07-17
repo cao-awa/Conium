@@ -59,6 +59,7 @@ import com.github.cao.awa.conium.item.event.use.entity.ConiumItemUseOnEntityEven
 import com.github.cao.awa.conium.item.event.use.entity.ConiumItemUsedOnEntityEvent
 import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickEvent
 import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickedEvent
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.network.event.ConiumServerConfigurationConnectionEvent
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.random.event.ConiumRandomEvent
@@ -267,8 +268,8 @@ abstract class ConiumEvent<
         }
 
         @JvmStatic
-        fun <M: ConiumEventMetadata, X : ConiumEvent<X, M>> findEvent(type: ConiumEventType<*, *>): X {
-            return this.events[type] as X
+        fun <M: ConiumEventMetadata> findEvent(type: ConiumEventType<*, *>): ConiumEvent<*, M> {
+            return this.events[type].doCast()
         }
 
         @JvmStatic

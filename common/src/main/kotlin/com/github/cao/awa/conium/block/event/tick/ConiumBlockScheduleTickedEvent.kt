@@ -26,7 +26,7 @@ class ConiumBlockScheduleTickedEvent : ConiumEvent<ParameterSelective5<Boolean, 
             ConiumEventArgTypes.BLOCK_STATE,
             ConiumEventArgTypes.SCHEDULED_TICK_VIEW,
             ConiumEventArgTypes.RANDOM
-        ).arise { identity: Block, world: ServerWorld, pos: BlockPos, blockState: AbstractBlockState, scheduler: ScheduledTickView, random: Random ->
+        ) { identity: Block, world: ServerWorld, pos: BlockPos, blockState: AbstractBlockState, scheduler: ScheduledTickView, random: Random ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, pos, blockState, scheduler, random)
             }

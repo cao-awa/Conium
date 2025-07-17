@@ -28,28 +28,28 @@ import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
  *
  * @since 1.0.0
  */
-open class ConiumTypedArisingEventContext<I: Any, P : ParameterSelective?>(
-    private val dynamicArgs: DynamicArgs<I, P, Boolean>
+open class ConiumTypedArisingEventContext<P : ParameterSelective?>(
+    private val dynamicArgs: DynamicArgs<P, Boolean>
 ) : ConiumArisingEventContext<P>(dynamicArgs) {
-    private val attachesPreparation: MutableList<(ConiumTypedArisingEventContext<I, P>) -> Unit> = CollectionFactor.arrayList()
-    private val attaches: MutableList<ConiumTypedArisingEventContext<*, *>> = CollectionFactor.arrayList()
+    private val attachesPreparation: MutableList<(ConiumTypedArisingEventContext<P>) -> Unit> = CollectionFactor.arrayList()
+    private val attaches: MutableList<ConiumTypedArisingEventContext<*>> = CollectionFactor.arrayList()
 
-    fun attach(context: ConiumTypedArisingEventContext<I, *>): ConiumTypedArisingEventContext<I, P> {
+    fun attach(context: ConiumTypedArisingEventContext<*>): ConiumTypedArisingEventContext<P> {
         this.attaches.add(context)
         return this
     }
 
-    fun attaches(context: MutableList<ConiumTypedArisingEventContext<I, *>>): ConiumTypedArisingEventContext<I, P> {
+    fun attaches(context: MutableList<ConiumTypedArisingEventContext<*>>): ConiumTypedArisingEventContext<P> {
         this.attaches.addAll(context)
         return this
     }
 
-    fun attachPreparation(context: (ConiumTypedArisingEventContext<I, P>) -> Unit): ConiumTypedArisingEventContext<I, P> {
+    fun attachPreparation(context: (ConiumTypedArisingEventContext<P>) -> Unit): ConiumTypedArisingEventContext<P> {
         this.attachesPreparation.add(context)
         return this
     }
 
-    fun attachPreparations(context: MutableList<(ConiumTypedArisingEventContext<I, P>) -> Unit>): ConiumTypedArisingEventContext<I, P> {
+    fun attachPreparations(context: MutableList<(ConiumTypedArisingEventContext<P>) -> Unit>): ConiumTypedArisingEventContext<P> {
         this.attachesPreparation.addAll(context)
         return this
     }

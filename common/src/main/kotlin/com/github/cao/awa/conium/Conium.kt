@@ -30,6 +30,7 @@ import com.github.cao.awa.translator.structuring.translate.language.LanguageTran
 import net.minecraft.util.Identifier
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+import java.lang.NullPointerException
 import java.util.function.Consumer
 import java.util.function.Supplier
 
@@ -262,14 +263,20 @@ class Conium {
 
     fun doDslTest() {
         onEvent(ConiumEventType.ITEM_USE_ON_BLOCK) {
+            this.async = true
+
             action {
                 println(this.itemUsageContext.stack)
                 println("awa")
                 true
             }
 
-            catching {
-                this.exception.printStackTrace()
+            catching { exception ->
+                exception.printStackTrace()
+            }
+
+            catching(NullPointerException::class.java) { exception ->
+                println("NullPointerException happening!")
             }
 
             finalize {
@@ -286,8 +293,14 @@ class Conium {
     fun <I: Any, M: ConiumEventMetadata, T: ConiumEventType<I, M>> onEvent(
         eventType: T,
         block: DSLEventMetadata<I, M, T>.() -> Unit
-    ): DSLEventMetadata<I, M, T> = DSLEventMetadata(eventType).also { dslEventMetadata: DSLEventMetadata<I, M, T> ->
-        block(dslEventMetadata)
+    ): DSLEventMetadata<I, M, T> {
+         return DSLEventMetadata(eventType).also { dslEventMetadata: DSLEventMetadata<I, M, T> ->
+             ConiumEvent.findEvent<M>(eventType).listen {
+                 dslEventMetadata.doAction(it)
+             }
+
+            block(dslEventMetadata)
+        }
     }
 
     fun <I: Any, M: ConiumEventMetadata, T: ConiumEventType<I, M>> listen(
