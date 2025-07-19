@@ -32,7 +32,7 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: build
-        run: ./gradlew build
+        run: ./gradlew remapJar
       - name: capture build artifacts
         # Upload all artifacts
         uses: actions/upload-artifact@v4
