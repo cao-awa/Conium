@@ -1,13 +1,13 @@
 package com.github.cao.awa.conium.parameter
 
-class DynamicArgType<I: Any, R>(val key: String) {
-    var dynamicArgs: MutableList<DynamicArgs<I, *, R?>?> = mutableListOf()
+class DynamicArgType<R>(val key: String) {
+    var dynamicArgs: MutableList<DynamicArgs< *, R?>?> = mutableListOf()
 
-    constructor(key: String, vararg dynamicArgs: DynamicArgs<I, *, R?>?) : this(key) {
+    constructor(key: String, vararg dynamicArgs: DynamicArgs< *, R?>?) : this(key) {
         this.dynamicArgs.addAll(dynamicArgs)
     }
 
-    fun appendArgs(dynamicArgs: DynamicArgs<I, *, R?>?) {
+    fun appendArgs(dynamicArgs: DynamicArgs< *, R?>?) {
         this.dynamicArgs.add(dynamicArgs)
     }
 }

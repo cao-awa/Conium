@@ -16,12 +16,14 @@ import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.FluidState
 import net.minecraft.item.Item
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.network.packet.s2c.play.ChunkData
+import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket
 import net.minecraft.network.packet.s2c.play.LightData
 import net.minecraft.screen.slot.Slot
 import net.minecraft.server.MinecraftServer
@@ -38,8 +40,12 @@ import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.chunk.WorldChunk
 import net.minecraft.world.tick.ScheduledTickView
+import net.minecraft.util.Unit as MinecraftUnit
 
 object ConiumEventArgTypes {
+    @JvmField
+    val UNIT: DynamicArgType<MinecraftUnit>
+
     @JvmField
     val ITEM: DynamicArgType<Item>
 
@@ -107,6 +113,9 @@ object ConiumEventArgTypes {
     val CHUNK_DATA: DynamicArgType<ChunkData>
 
     @JvmField
+    val CHUNK_DATA_S2C_PACKET: DynamicArgType<ChunkDataS2CPacket>
+
+    @JvmField
     val LIGHT_DATA: DynamicArgType<LightData>
 
     @JvmField
@@ -126,6 +135,9 @@ object ConiumEventArgTypes {
 
     @JvmField
     val FLUID_STATE: DynamicArgType<FluidState>
+
+    @JvmField
+    val FLUID: DynamicArgType<Fluid>
 
     @JvmField
     val BLOCK_HIT_RESULT: DynamicArgType<BlockHitResult>
@@ -167,6 +179,8 @@ object ConiumEventArgTypes {
     val SERVER_CONFIGURATION_NETWORK_HANDLER: DynamicArgType<ServerConfigurationNetworkHandler>
 
     init {
+        UNIT = arg("unit")
+
         ITEM = arg(
             "item",
             transform(::ITEM_STACK, ItemStack::getItem)
@@ -251,6 +265,10 @@ object ConiumEventArgTypes {
             "chunk_data"
         )
 
+        CHUNK_DATA_S2C_PACKET = arg(
+            "chunk_data_s2c_packet"
+        )
+
         LIGHT_DATA = arg(
             "light_data"
         )
@@ -281,6 +299,11 @@ object ConiumEventArgTypes {
         )
 
         FLUID_STATE = arg("fluid_state")
+
+        FLUID = arg(
+            "fluid",
+            transform(::FLUID_STATE, FluidState::getFluid)
+        )
 
         BLOCK_HIT_RESULT = arg("block_hit_result")
 

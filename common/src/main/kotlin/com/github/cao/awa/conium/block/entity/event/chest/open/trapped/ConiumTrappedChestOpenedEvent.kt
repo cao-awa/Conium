@@ -3,6 +3,7 @@ package com.github.cao.awa.conium.block.entity.event.chest.open.trapped
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requiresAny
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
@@ -28,18 +29,19 @@ import net.minecraft.world.World
  *
  * @since 1.0.0
  */
-class ConiumTrappedChestOpenedEvent : ConiumEvent<ParameterSelective6<Boolean, World, PlayerEntity, TrappedChestBlockEntity, AbstractBlockState, BlockPos, ViewerCountManager>, ConiumTrappedChestOpenedEventMetadata>(
+class ConiumTrappedChestOpenedEvent : ConiumEvent<Block, ConiumTrappedChestOpenedEventMetadata, ParameterSelective6<Boolean, World, PlayerEntity, TrappedChestBlockEntity, AbstractBlockState, BlockPos, ViewerCountManager>>(
     ConiumEventType.TRAPPED_CHEST_OPENED
 ) {
-    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return requiresAny(
+    override fun requirement(): ConiumArisingEventContext<Block, out ParameterSelective> {
+        return requires(
+            ConiumEventArgTypes.BLOCK,
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.PLAYER,
             ConiumEventArgTypes.BLOCK_ENTITY,
             ConiumEventArgTypes.BLOCK_STATE,
             ConiumEventArgTypes.BLOCK_POS,
             ConiumEventArgTypes.VIEWER_COUNT_MANAGER
-        ).arise { identity: Any,
+        ) { identity: Any,
                   world: World,
                   player: PlayerEntity,
                   blockEntity: BlockEntity,
@@ -52,7 +54,7 @@ class ConiumTrappedChestOpenedEvent : ConiumEvent<ParameterSelective6<Boolean, W
         }
     }
 
-    override fun metadata(context: ConiumEventContext): ConiumTrappedChestOpenedEventMetadata {
+    override fun metadata(context: ConiumEventContext<Block>): ConiumTrappedChestOpenedEventMetadata {
         return ConiumTrappedChestOpenedEventMetadata(context)
     }
 
@@ -73,7 +75,7 @@ class ConiumTrappedChestOpenedEvent : ConiumEvent<ParameterSelective6<Boolean, W
             blockState: BlockState,
             blockPos: BlockPos,
             viewerManager: ViewerCountManager ->
-            val trappedContext: ConiumArisingEventContext<*> = request(ConiumEventType.TRAPPED_CHEST_OPENED)
+            val trappedContext: ConiumArisingEventContext<*, *> = request(ConiumEventType.TRAPPED_CHEST_OPENED)
 
             trappedContext[ConiumEventArgTypes.WORLD] = world
             trappedContext[ConiumEventArgTypes.PLAYER] = player

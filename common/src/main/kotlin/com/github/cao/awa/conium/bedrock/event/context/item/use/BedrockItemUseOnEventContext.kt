@@ -12,6 +12,7 @@ import com.github.cao.awa.conium.bedrock.world.dimension.BedrockDimension
 import com.github.cao.awa.conium.bedrock.world.dimension.bedrockDimension
 import com.github.cao.awa.conium.bedrock.world.bedrockWorld
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -23,7 +24,7 @@ class BedrockItemUseOnEventContext(
     val world: BedrockWorld,
     val itemStack: BedrockItemStack,
     val source: BedrockPlayer?
-) : BedrockEventContext(scriptSource) {
+) : BedrockEventContext<Item>(scriptSource) {
     var cancel: Boolean = false
 
     override fun world(): BedrockWorld = this.world

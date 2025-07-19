@@ -19,7 +19,7 @@ abstract class ConiumEventContext<I: Any>() {
         return this
     }
 
-    open fun <R> transform(required: DynamicArgType<R>, action: R.() -> Unit) {
+    open fun <R: Any> transform(required: DynamicArgType<R>, action: R.() -> Unit) {
         val result: R = DynamicArgsBuilder.requiresAny(required).transform(
             this,
             this.args,
@@ -29,18 +29,18 @@ abstract class ConiumEventContext<I: Any>() {
         action(result)
     }
 
-    operator fun <X> set(argType: DynamicArgType<X>, value: X): ConiumEventContext<I> = put(argType, value)
+    operator fun <X: Any> set(argType: DynamicArgType<X>, value: X): ConiumEventContext<I> = put(argType, value)
 
-    operator fun <X> get(argType: DynamicArgType<X>): X = this.args[argType].doCast()
+    operator fun <X: Any> get(argType: DynamicArgType<X>): X = this.args[argType].doCast()
 
-    operator fun <X> get(argType: DynamicArgType<X>, default: X): X = this.args[argType]?.doCast() ?: default
+    operator fun <X: Any> get(argType: DynamicArgType<X>, default: X): X = this.args[argType]?.doCast() ?: default
 
-    fun <X> put(arg: DynamicArgType<X>, value: X): ConiumEventContext<I> {
+    fun <X: Any> put(arg: DynamicArgType<X>, value: X): ConiumEventContext<I> {
         this.args[arg] = value
         return this
     }
 
-    fun <X> dynamic(vararg args: DynamicArgType<X>): ConiumEventContext<I> {
+    fun <X: Any> dynamic(vararg args: DynamicArgType<X>): ConiumEventContext<I> {
         for (arg: DynamicArgType<X> in args) {
             this.args[arg] = arg
         }

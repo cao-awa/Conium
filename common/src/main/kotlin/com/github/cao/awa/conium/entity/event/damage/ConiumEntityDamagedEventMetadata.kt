@@ -16,12 +16,11 @@ import com.github.cao.awa.conium.mapping.yarn.DamageSource
 import com.github.cao.awa.conium.mapping.yarn.ScheduledTickView
 import com.github.cao.awa.conium.mapping.yarn.ServerWorld
 import net.minecraft.block.BlockState
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.fluid.FluidState
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 
-class ConiumEntityDamagedEventMetadata(context: ConiumEventContext) : ConiumEntityDamagesEventMetadata(context) {
-
-}
+class ConiumEntityDamagedEventMetadata(context: ConiumEventContext<EntityType<*>>) : ConiumEntityDamagesEventMetadata(context)

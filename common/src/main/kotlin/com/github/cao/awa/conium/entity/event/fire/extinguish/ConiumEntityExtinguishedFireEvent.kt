@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.entity.event.fire.extinguish
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requiresAny
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
@@ -9,12 +10,14 @@ import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
 
-class ConiumEntityExtinguishedFireEvent : ConiumEvent<ParameterSelective1<Boolean, Entity>, ConiumEntityExtinguishedFireEventMetadata>(
+class ConiumEntityExtinguishedFireEvent : ConiumEvent<EntityType<*>, ConiumEntityExtinguishedFireEventMetadata,ParameterSelective1<Boolean, Entity>>(
     ConiumEventType.ENTITY_EXTINGUISHED_FIRE
 ) {
-    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return requiresAny(
+    override fun requirement(): ConiumArisingEventContext<EntityType<*>, out ParameterSelective> {
+        return requires(
+            ConiumEventArgTypes.ENTITY_TYPE,
             ConiumEventArgTypes.ENTITY
         ).arise { identity: Any, entity: Entity ->
             noFailure(identity) { parameterSelective ->
@@ -23,7 +26,7 @@ class ConiumEntityExtinguishedFireEvent : ConiumEvent<ParameterSelective1<Boolea
         }
     }
 
-    override fun metadata(context: ConiumEventContext): ConiumEntityExtinguishedFireEventMetadata {
+    override fun metadata(context: ConiumEventContext<EntityType<*>>): ConiumEntityExtinguishedFireEventMetadata {
         return ConiumEntityExtinguishedFireEventMetadata(context)
     }
 }

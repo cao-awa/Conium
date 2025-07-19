@@ -50,7 +50,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun requiresAny(): ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> =
+    fun requiresAny(): ConiumArisingEventContext<Any, ParameterSelective1<Boolean, Any>> =
         ConiumArisingEventContext(DynamicArgsBuilder.force())
 
     /**
@@ -78,7 +78,7 @@ object ConiumEventContextBuilder {
     @JvmStatic
     fun <P1> requiresAny(
         arg1: DynamicArgType<P1>
-    ): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> =
+    ): ConiumArisingEventContext<Any, ParameterSelective2<Boolean, Any, P1>> =
         ConiumArisingEventContext(DynamicArgsBuilder.requires(arg1, true))
 
     /**
@@ -109,7 +109,7 @@ object ConiumEventContextBuilder {
     fun <P1, P2> requiresAny(
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>
-    ): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
+    ): ConiumArisingEventContext<Any, ParameterSelective3<Boolean, Any, P1, P2>> {
         return ConiumArisingEventContext(
             DynamicArgsBuilder.requires(
                 arg1,
@@ -122,7 +122,7 @@ object ConiumEventContextBuilder {
     @JvmStatic
     fun <I : Any> requires(
         identityArg: DynamicArgType<I>
-    ): ConiumTypedArisingEventContext<ParameterSelective1<Boolean, I>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective1<Boolean, I>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
@@ -135,7 +135,7 @@ object ConiumEventContextBuilder {
     fun <I : Any> requires(
         identityArg: DynamicArgType<I>,
         p: ParameterSelective1<Boolean, I>
-    ): ConiumTypedArisingEventContext<ParameterSelective1<Boolean, I>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective1<Boolean, I>> {
         return arise(requires(identityArg), p)
     }
 
@@ -143,7 +143,7 @@ object ConiumEventContextBuilder {
     fun <I : Any, P1> requires(
         identityArg: DynamicArgType<I>,
         arg1: DynamicArgType<P1>
-    ): ConiumTypedArisingEventContext<ParameterSelective2<Boolean, I, P1>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective2<Boolean, I, P1>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
@@ -158,7 +158,7 @@ object ConiumEventContextBuilder {
         identityArg: DynamicArgType<I>,
         arg1: DynamicArgType<P1>,
         p: ParameterSelective2<Boolean, I, P1>
-    ): ConiumTypedArisingEventContext<ParameterSelective2<Boolean, I, P1>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective2<Boolean, I, P1>> {
         return arise(requires(identityArg, arg1), p)
     }
 
@@ -167,7 +167,7 @@ object ConiumEventContextBuilder {
         identityArg: DynamicArgType<I>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>
-    ): ConiumTypedArisingEventContext<ParameterSelective3<Boolean, I, P1, P2>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective3<Boolean, I, P1, P2>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
@@ -184,7 +184,7 @@ object ConiumEventContextBuilder {
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         p: ParameterSelective3<Boolean, I, P1, P2>
-    ): ConiumTypedArisingEventContext<ParameterSelective3<Boolean, I, P1, P2>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective3<Boolean, I, P1, P2>> {
         return arise(requires(identityArg, arg1, arg2), p)
     }
 
@@ -194,7 +194,7 @@ object ConiumEventContextBuilder {
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>
-    ): ConiumTypedArisingEventContext<ParameterSelective4<Boolean, I, P1, P2, P3>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective4<Boolean, I, P1, P2, P3>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
@@ -213,7 +213,7 @@ object ConiumEventContextBuilder {
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         p: ParameterSelective4<Boolean, I, P1, P2, P3>
-    ): ConiumTypedArisingEventContext<ParameterSelective4<Boolean, I, P1, P2, P3>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective4<Boolean, I, P1, P2, P3>> {
         return arise(requires(identityArg, arg1, arg2, arg3), p)
     }
 
@@ -224,7 +224,7 @@ object ConiumEventContextBuilder {
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>
-    ): ConiumTypedArisingEventContext<ParameterSelective5<Boolean, I, P1, P2, P3, P4>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective5<Boolean, I, P1, P2, P3, P4>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
@@ -245,7 +245,7 @@ object ConiumEventContextBuilder {
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>,
         p: ParameterSelective5<Boolean, I, P1, P2, P3, P4>
-    ): ConiumTypedArisingEventContext<ParameterSelective5<Boolean, I, P1, P2, P3, P4>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective5<Boolean, I, P1, P2, P3, P4>> {
         return arise(requires(identityArg, arg1, arg2, arg3, arg4), p)
     }
 
@@ -257,7 +257,7 @@ object ConiumEventContextBuilder {
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>
-    ): ConiumTypedArisingEventContext<ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
@@ -280,7 +280,7 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>,
         p: ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>
-    ): ConiumTypedArisingEventContext<ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5>> {
         return arise(requires(identityArg, arg1, arg2, arg3, arg4, arg5), p)
     }
 
@@ -293,7 +293,7 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>
-    ): ConiumTypedArisingEventContext<ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
@@ -318,7 +318,7 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>,
         p: ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>
-    ): ConiumTypedArisingEventContext<ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6>> {
         return arise(requires(identityArg, arg1, arg2, arg3, arg4, arg5, arg6), p)
     }
 
@@ -332,7 +332,7 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>,
         arg7: DynamicArgType<P7>
-    ): ConiumTypedArisingEventContext<ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> {
         return ConiumTypedArisingEventContext(
             DynamicArgsBuilder.requiresWithBoolean(
                 identityArg,
@@ -359,15 +359,15 @@ object ConiumEventContextBuilder {
         arg6: DynamicArgType<P6>,
         arg7: DynamicArgType<P7>,
         p: ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>
-    ): ConiumTypedArisingEventContext<ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> {
+    ): ConiumTypedArisingEventContext<I, ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7>> {
         return arise(requires(identityArg, arg1, arg2, arg3, arg4, arg5, arg6, arg7), p)
     }
 
     @JvmStatic
-    private fun <P : ParameterSelective> arise(
-        context: ConiumTypedArisingEventContext<P>,
+    private fun <I: Any, P : ParameterSelective> arise(
+        context: ConiumTypedArisingEventContext<I, P>,
         p: P
-    ): ConiumTypedArisingEventContext<P> {
+    ): ConiumTypedArisingEventContext<I, P> {
         context.arise(p)
 
         return context
@@ -404,7 +404,7 @@ object ConiumEventContextBuilder {
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>
-    ): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> =
+    ): ConiumArisingEventContext<Any, ParameterSelective4<Boolean, Any, P1, P2, P3>> =
         ConiumArisingEventContext(DynamicArgsBuilder.requires(arg1, arg2, arg3, true))
 
     /**
@@ -441,7 +441,7 @@ object ConiumEventContextBuilder {
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>
-    ): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> =
+    ): ConiumArisingEventContext<Any, ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> =
         ConiumArisingEventContext(DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, true))
 
     /**
@@ -481,7 +481,7 @@ object ConiumEventContextBuilder {
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>
-    ): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> =
+    ): ConiumArisingEventContext<Any, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> =
         ConiumArisingEventContext(DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, true))
 
     /**
@@ -524,7 +524,7 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>
-    ): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> =
+    ): ConiumArisingEventContext<Any, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> =
         ConiumArisingEventContext(DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, arg6, true))
 
     /**
@@ -570,14 +570,14 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>,
         arg7: DynamicArgType<P7>
-    ): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> =
+    ): ConiumArisingEventContext<Any, ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> =
         ConiumArisingEventContext(DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, arg6, arg7, true))
 
-    private fun <P : ParameterSelective, I : Any, M : ConiumEventMetadata> forever(
+    private fun <I: Any, P : ParameterSelective, M : ConiumEventMetadata<I>> forever(
         eventType: ConiumEventType<I, M>,
         dynamicArgs: DynamicArgs<P, Boolean>
-    ): ConiumArisingEventContext<P> {
-        return ConiumArisingEventContext(dynamicArgs).apply {
+    ): ConiumArisingEventContext<I, P> {
+        return ConiumArisingEventContext<I, P>(dynamicArgs).apply {
             // Attach this context to event.
             ConiumEvent.forever(eventType, this)
         }
@@ -606,10 +606,10 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata> preRequest(
+    fun <I : Any, M : ConiumEventMetadata<I>> preRequest(
         eventType: ConiumEventType<I, M>,
         presaging: ParameterSelective1<Boolean, I> = ParameterSelective1 { true }
-    ): ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> {
+    ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
         return forever(
             eventType,
             // Require a no argument dynamic args and contract to forever lifecycle.
@@ -645,10 +645,10 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata> preRequestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>> preRequestNr(
         eventType: ConiumEventType<I, M>,
         presaging: ParameterSelective1<Unit, I> = ParameterSelective1 { }
-    ): ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> {
+    ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
         return preRequest(eventType) { i: I ->
             presaging(i)
             true
@@ -678,10 +678,10 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata> request(
+    fun <I : Any, M : ConiumEventMetadata<I>> request(
         eventType: ConiumEventType<I, M>,
         arising: ParameterSelective1<Boolean, I> = ParameterSelective1 { true }
-    ): ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> {
+    ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
         return forever(
             eventType,
             // Require a no argument dynamic args and contract to forever lifecycle.
@@ -717,10 +717,10 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>> requestNr(
         eventType: ConiumEventType<I, M>,
         arising: ParameterSelective1<Unit, I> = ParameterSelective1 { }
-    ): ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> {
+    ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
         return request(eventType) { i: I ->
             arising(i)
             true
@@ -751,11 +751,11 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata> request(
+    fun <I : Any, M : ConiumEventMetadata<I>> request(
         eventType: ConiumEventType<I, M>,
         arising: ParameterSelective1<Boolean, I> = ParameterSelective1 { true },
         presaging: ParameterSelective1<Boolean, I> = ParameterSelective1 { true },
-    ): ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> {
+    ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
         return forever(
             eventType,
             // Require a no argument dynamic args and contract to forever lifecycle.
@@ -797,11 +797,11 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>> requestNr(
         eventType: ConiumEventType<I, M>,
         arising: ParameterSelective1<Unit, I> = ParameterSelective1 { },
         presaging: ParameterSelective1<Unit, I> = ParameterSelective1 { },
-    ): ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> {
+    ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
         return request(
             eventType,
             { i: I ->
@@ -841,11 +841,11 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1> preRequest(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1> preRequest(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         presaging: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> {
+    ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
         return forever(
             eventType,
             // Require a one-argument dynamic args and contract to forever lifecycle.
@@ -887,11 +887,11 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1> preRequestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1> preRequestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         presaging: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> {
+    ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
         return preRequest(
             eventType,
             arg1
@@ -902,10 +902,10 @@ object ConiumEventContextBuilder {
     }
 
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata> requestDsl(
+    fun <I : Any, M : ConiumEventMetadata<I>> requestDsl(
         eventType: ConiumEventType<I, M>,
         handler: M.() -> Boolean
-    ): ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> {
+    ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
         return forever(
             eventType,
             // Require a one-argument dynamic args and contract to forever lifecycle.
@@ -946,11 +946,11 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1> request(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1> request(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arising: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> {
+    ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
         return forever(
             eventType,
             // Require a one-argument dynamic args and contract to forever lifecycle.
@@ -992,11 +992,11 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1> requestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arising: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> {
+    ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
         return request(
             eventType,
             arg1
@@ -1033,12 +1033,12 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1> request(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1> request(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arising: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true },
         presaging: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> {
+    ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
         return forever(
             eventType,
             // Require a one-argument dynamic args and contract to forever lifecycle.
@@ -1086,12 +1086,12 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1> requestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arising: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> },
         presaging: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> {
+    ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
         return request(
             eventType,
             arg1,
@@ -1134,12 +1134,12 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2> preRequest(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2> preRequest(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         presaging: ParameterSelective3<Boolean, I, P1, P2> = ParameterSelective3 { _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
+    ): ConiumArisingEventContext<I, ParameterSelective3<Boolean, Any, P1, P2>> {
         return forever(
             eventType,
             // Require a two-argument dynamic args and contract to forever lifecycle.
@@ -1184,12 +1184,12 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2> preRequestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2> preRequestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         presaging: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
+    ): ConiumArisingEventContext<I, ParameterSelective3<Boolean, Any, P1, P2>> {
         return preRequest(
             eventType,
             arg1,
@@ -1228,12 +1228,12 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2> request(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2> request(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arising: ParameterSelective3<Boolean, I, P1, P2> = ParameterSelective3 { _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
+    ): ConiumArisingEventContext<I, ParameterSelective3<Boolean, Any, P1, P2>> {
         return forever(
             eventType,
             // Require a two-argument dynamic args and contract to forever lifecycle.
@@ -1278,12 +1278,12 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2> requestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arising: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
+    ): ConiumArisingEventContext<I, ParameterSelective3<Boolean, Any, P1, P2>> {
         return request(
             eventType,
             arg1,
@@ -1323,13 +1323,13 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2> request(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2> request(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arising: ParameterSelective3<Boolean, I, P1, P2> = ParameterSelective3 { _, _, _ -> true },
         presaging: ParameterSelective3<Boolean, I, P1, P2> = ParameterSelective3 { _, _, _ -> true },
-    ): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
+    ): ConiumArisingEventContext<I, ParameterSelective3<Boolean, Any, P1, P2>> {
         return forever(
             eventType,
             // Require a two-argument dynamic args and contract to forever lifecycle.
@@ -1380,13 +1380,13 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2> requestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arising: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> },
         presaging: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> },
-    ): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
+    ): ConiumArisingEventContext<I, ParameterSelective3<Boolean, Any, P1, P2>> {
         return request(
             eventType,
             arg1,
@@ -1432,13 +1432,13 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3> preRequest(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3> preRequest(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         presaging: ParameterSelective4<Boolean, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> {
+    ): ConiumArisingEventContext<I, ParameterSelective4<Boolean, Any, P1, P2, P3>> {
         return forever(
             eventType,
             // Require a three-argument dynamic args and contract to forever lifecycle.
@@ -1486,13 +1486,13 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3> preRequestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3> preRequestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         presaging: ParameterSelective4<Unit, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> {
+    ): ConiumArisingEventContext<I, ParameterSelective4<Boolean, Any, P1, P2, P3>> {
         return preRequest(
             eventType,
             arg1,
@@ -1534,13 +1534,13 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3> request(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3> request(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         arising: ParameterSelective4<Boolean, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> {
+    ): ConiumArisingEventContext<I, ParameterSelective4<Boolean, Any, P1, P2, P3>> {
         return forever(
             eventType,
             // Require a three-argument dynamic args and contract to forever lifecycle.
@@ -1588,13 +1588,13 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3> requestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         arising: ParameterSelective4<Unit, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> {
+    ): ConiumArisingEventContext<I, ParameterSelective4<Boolean, Any, P1, P2, P3>> {
         return request(
             eventType,
             arg1,
@@ -1637,14 +1637,14 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3> request(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3> request(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         arising: ParameterSelective4<Boolean, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> true },
         presaging: ParameterSelective4<Boolean, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> {
+    ): ConiumArisingEventContext<I, ParameterSelective4<Boolean, Any, P1, P2, P3>> {
         return forever(
             eventType,
             // Require a three-argument dynamic args and contract to forever lifecycle.
@@ -1698,14 +1698,14 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3> requestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         arising: ParameterSelective4<Unit, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> },
         presaging: ParameterSelective4<Unit, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> {
+    ): ConiumArisingEventContext<I, ParameterSelective4<Boolean, Any, P1, P2, P3>> {
         return request(
             eventType,
             arg1,
@@ -1754,14 +1754,14 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4> preRequest(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4> preRequest(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>,
         presaging: ParameterSelective5<Boolean, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
+    ): ConiumArisingEventContext<I, ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
         return forever(
             eventType,
             // Require a four-argument dynamic args and contract to forever lifecycle.
@@ -1812,14 +1812,14 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4> preRequestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4> preRequestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>,
         presaging: ParameterSelective5<Unit, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
+    ): ConiumArisingEventContext<I, ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
         return preRequest(
             eventType,
             arg1,
@@ -1864,14 +1864,14 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4> request(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4> request(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>,
         arising: ParameterSelective5<Boolean, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
+    ): ConiumArisingEventContext<I, ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
         return forever(
             eventType,
             // Require a four-argument dynamic args and contract to forever lifecycle.
@@ -1922,14 +1922,14 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4> requestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>,
         arising: ParameterSelective5<Unit, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
+    ): ConiumArisingEventContext<I, ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
         return request(
             eventType,
             arg1,
@@ -1975,7 +1975,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4> request(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4> request(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -1983,7 +1983,7 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arising: ParameterSelective5<Boolean, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> true },
         presaging: ParameterSelective5<Boolean, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
+    ): ConiumArisingEventContext<I, ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
         return forever(
             eventType,
             // Require a four-argument dynamic args and contract to forever lifecycle.
@@ -2040,7 +2040,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4> requestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2048,7 +2048,7 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arising: ParameterSelective5<Unit, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> },
         presaging: ParameterSelective5<Unit, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
+    ): ConiumArisingEventContext<I, ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
         return request(
             eventType,
             arg1,
@@ -2100,7 +2100,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5> preRequest(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5> preRequest(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2108,7 +2108,7 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>,
         presaging: ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
+    ): ConiumArisingEventContext<I, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
         return forever(
             eventType,
             // Require a five-argument dynamic args and contract to forever lifecycle.
@@ -2162,7 +2162,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5> preRequestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5> preRequestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2170,7 +2170,7 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>,
         presaging: ParameterSelective6<Unit, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
+    ): ConiumArisingEventContext<I, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
         return preRequest(
             eventType,
             arg1,
@@ -2218,7 +2218,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5> request(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5> request(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2226,7 +2226,7 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>,
         arising: ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
+    ): ConiumArisingEventContext<I, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
         return forever(
             eventType,
             // Require a five-argument dynamic args and contract to forever lifecycle.
@@ -2280,7 +2280,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5> requestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2288,7 +2288,7 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>,
         arising: ParameterSelective6<Unit, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
+    ): ConiumArisingEventContext<I, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
         return request(
             eventType,
             arg1,
@@ -2337,7 +2337,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5> request(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5> request(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2346,7 +2346,7 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arising: ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> true },
         presaging: ParameterSelective6<Boolean, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
+    ): ConiumArisingEventContext<I, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
         return forever(
             eventType,
             // Require a five-argument dynamic args and contract to forever lifecycle.
@@ -2406,7 +2406,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5> requestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2415,7 +2415,7 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arising: ParameterSelective6<Unit, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> },
         presaging: ParameterSelective6<Unit, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
+    ): ConiumArisingEventContext<I, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
         return request(
             eventType,
             arg1,
@@ -2470,7 +2470,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5, P6> preRequest(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> preRequest(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2479,7 +2479,7 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>,
         presaging: ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
+    ): ConiumArisingEventContext<I, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
         return forever(
             eventType,
             // Require a six-argument dynamic args and contract to forever lifecycle.
@@ -2536,7 +2536,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5, P6> preRequestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> preRequestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2545,7 +2545,7 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>,
         presaging: ParameterSelective7<Unit, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
+    ): ConiumArisingEventContext<I, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
         return preRequest(
             eventType,
             arg1,
@@ -2596,7 +2596,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5, P6> request(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> request(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2605,7 +2605,7 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>,
         arising: ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
+    ): ConiumArisingEventContext<I, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
         return forever(
             eventType,
             // Require a six-argument dynamic args and contract to forever lifecycle.
@@ -2662,7 +2662,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5, P6> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> requestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2671,7 +2671,7 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>,
         arising: ParameterSelective7<Unit, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
+    ): ConiumArisingEventContext<I, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
         return request(
             eventType,
             arg1,
@@ -2723,7 +2723,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5, P6> request(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> request(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2733,7 +2733,7 @@ object ConiumEventContextBuilder {
         arg6: DynamicArgType<P6>,
         arising: ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> true },
         presaging: ParameterSelective7<Boolean, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
+    ): ConiumArisingEventContext<I, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
         return forever(
             eventType,
             // Require a six-argument dynamic args and contract to forever lifecycle.
@@ -2796,7 +2796,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5, P6> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> requestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2806,7 +2806,7 @@ object ConiumEventContextBuilder {
         arg6: DynamicArgType<P6>,
         arising: ParameterSelective7<Unit, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> },
         presaging: ParameterSelective7<Unit, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
+    ): ConiumArisingEventContext<I, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
         return request(
             eventType,
             arg1,
@@ -2864,7 +2864,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> preRequest(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> preRequest(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2874,7 +2874,7 @@ object ConiumEventContextBuilder {
         arg6: DynamicArgType<P6>,
         arg7: DynamicArgType<P7>,
         presaging: ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
+    ): ConiumArisingEventContext<I, ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
         return forever(
             eventType,
             // Require a seven-argument dynamic args and contract to forever lifecycle.
@@ -2934,7 +2934,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> preRequestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> preRequestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -2944,7 +2944,7 @@ object ConiumEventContextBuilder {
         arg6: DynamicArgType<P6>,
         arg7: DynamicArgType<P7>,
         presaging: ParameterSelective8<Unit, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
+    ): ConiumArisingEventContext<I, ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
         return preRequest(
             eventType,
             arg1,
@@ -2998,7 +2998,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> request(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> request(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -3008,7 +3008,7 @@ object ConiumEventContextBuilder {
         arg6: DynamicArgType<P6>,
         arg7: DynamicArgType<P7>,
         arising: ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
+    ): ConiumArisingEventContext<I, ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
         return forever(
             eventType,
             // Require a seven-argument dynamic args and contract to forever lifecycle.
@@ -3068,7 +3068,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> requestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -3078,7 +3078,7 @@ object ConiumEventContextBuilder {
         arg6: DynamicArgType<P6>,
         arg7: DynamicArgType<P7>,
         arising: ParameterSelective8<Unit, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
+    ): ConiumArisingEventContext<I, ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
         return request(
             eventType,
             arg1,
@@ -3133,7 +3133,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> request(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> request(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -3144,7 +3144,7 @@ object ConiumEventContextBuilder {
         arg7: DynamicArgType<P7>,
         arising: ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> true },
         presaging: ParameterSelective8<Boolean, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> true }
-    ): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
+    ): ConiumArisingEventContext<I, ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
         return forever(
             eventType,
             // Require a seven-argument dynamic args and contract to forever lifecycle.
@@ -3210,7 +3210,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, P1, P2, P3, P4, P5, P6, P7> requestNr(
+    fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> requestNr(
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
@@ -3221,7 +3221,7 @@ object ConiumEventContextBuilder {
         arg7: DynamicArgType<P7>,
         arising: ParameterSelective8<Unit, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> },
         presaging: ParameterSelective8<Unit, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> }
-    ): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
+    ): ConiumArisingEventContext<I, ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
         return request(
             eventType,
             arg1,
@@ -3270,12 +3270,12 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, R : Any> export(
+    fun <I : Any, M : ConiumEventMetadata<I>, R : Any> export(
         name: String,
         defaultResult: R,
         eventType: ConiumEventType<I, M>,
         arising: ParameterSelective1<R, I>
-    ): ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> {
+    ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
         return forever(
             eventType,
             // Require a no argument dynamic args and contract to forever lifecycle.
@@ -3328,13 +3328,13 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, R : Any, P1> export(
+    fun <I : Any, M : ConiumEventMetadata<I>, R : Any, P1> export(
         name: String,
         defaultResult: R,
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arising: ParameterSelective2<R, I, P1>
-    ): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> {
+    ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
         return forever(
             eventType,
             // Require a one-argument dynamic args and contract to forever lifecycle.
@@ -3389,14 +3389,14 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, R : Any, P1, P2> export(
+    fun <I : Any, M : ConiumEventMetadata<I>, R : Any, P1, P2> export(
         name: String,
         defaultResult: R,
         eventType: ConiumEventType<I, M>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arising: ParameterSelective3<R, I, P1, P2>
-    ): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
+    ): ConiumArisingEventContext<I, ParameterSelective3<Boolean, Any, P1, P2>> {
         return forever(
             eventType,
             // Require a two-argument dynamic args and contract to forever lifecycle.
@@ -3453,7 +3453,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, R : Any, P1, P2, P3> export(
+    fun <I : Any, M : ConiumEventMetadata<I>, R : Any, P1, P2, P3> export(
         name: String,
         defaultResult: R,
         eventType: ConiumEventType<I, M>,
@@ -3461,7 +3461,7 @@ object ConiumEventContextBuilder {
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         arising: ParameterSelective4<R, I, P1, P2, P3>
-    ): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> {
+    ): ConiumArisingEventContext<I, ParameterSelective4<Boolean, Any, P1, P2, P3>> {
         return forever(
             eventType,
             // Require a three-argument dynamic args and contract to forever lifecycle.
@@ -3520,7 +3520,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, R : Any, P1, P2, P3, P4> export(
+    fun <I : Any, M : ConiumEventMetadata<I>, R : Any, P1, P2, P3, P4> export(
         name: String,
         defaultResult: R,
         eventType: ConiumEventType<I, M>,
@@ -3529,7 +3529,7 @@ object ConiumEventContextBuilder {
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>,
         arising: ParameterSelective5<R, I, P1, P2, P3, P4>
-    ): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
+    ): ConiumArisingEventContext<I, ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
         return forever(
             eventType,
             // Require a four-argument dynamic args and contract to forever lifecycle.
@@ -3590,7 +3590,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, R : Any, P1, P2, P3, P4, P5> export(
+    fun <I : Any, M : ConiumEventMetadata<I>, R : Any, P1, P2, P3, P4, P5> export(
         name: String,
         defaultResult: R,
         eventType: ConiumEventType<I, M>,
@@ -3600,7 +3600,7 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>,
         arising: ParameterSelective6<R, I, P1, P2, P3, P4, P5>
-    ): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
+    ): ConiumArisingEventContext<I, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
         return forever(
             eventType,
             // Require a five-argument dynamic args and contract to forever lifecycle.
@@ -3663,7 +3663,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, R : Any, P1, P2, P3, P4, P5, P6> export(
+    fun <I : Any, M : ConiumEventMetadata<I>, R : Any, P1, P2, P3, P4, P5, P6> export(
         name: String,
         defaultResult: R,
         eventType: ConiumEventType<I, M>,
@@ -3674,7 +3674,7 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>,
         arising: ParameterSelective7<R, I, P1, P2, P3, P4, P5, P6>
-    ): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
+    ): ConiumArisingEventContext<I, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
         return forever(
             eventType,
             // Require a six-argument dynamic args and contract to forever lifecycle.
@@ -3740,7 +3740,7 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata, R : Any, P1, P2, P3, P4, P5, P6, P7> export(
+    fun <I : Any, M : ConiumEventMetadata<I>, R : Any, P1, P2, P3, P4, P5, P6, P7> export(
         name: String,
         defaultResult: R,
         eventType: ConiumEventType<I, M>,
@@ -3752,7 +3752,7 @@ object ConiumEventContextBuilder {
         arg6: DynamicArgType<P6>,
         arg7: DynamicArgType<P7>,
         arising: ParameterSelective8<R, I, P1, P2, P3, P4, P5, P6, P7>
-    ): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
+    ): ConiumArisingEventContext<I, ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
         return forever(
             eventType,
             // Require a seven-argument dynamic args and contract to forever lifecycle.
@@ -3798,9 +3798,9 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun unnamedNr(
-        arising: (Any, ConiumArisingEventContext<*>) -> Unit
-    ): ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> {
-        return ConiumArisingEventContext(
+        arising: (Any, ConiumArisingEventContext<*, *>) -> Unit
+    ): ConiumArisingEventContext<Any, ParameterSelective1<Boolean, Any>> {
+        return ConiumArisingEventContext<Any, ParameterSelective1<Boolean, Any>>(
             // Require a no argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         ).apply {
@@ -3834,47 +3834,11 @@ object ConiumEventContextBuilder {
      * @since 1.0.0
      */
     @JvmStatic
-    fun unnamed(): ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> {
+    fun unnamed(): ConiumArisingEventContext<Any, ParameterSelective1<Boolean, Any>> {
         return ConiumArisingEventContext(
             // Require a no argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         )
-    }
-
-    /**
-     * Make an unnamed event context that receiving the event context source, it should manually attach to the events that need to attach.
-     *
-     * The context lifecycle only related to the lifecycle of its attached event context.
-     *
-     * @param arising The callback to handle the event context source
-     *
-     * @see ConiumEvent
-     * @see ConiumArisingEventContext
-     * @see DynamicArgs
-     * @see DynamicArgType
-     * @see ConiumEventArgTypes
-     * @see DynamicArgsLifecycle
-     *
-     * @return The context instance with [UNNAMED][DynamicArgsLifecycle.UNNAMED] lifecycle.
-     *
-     * @author cao_awa
-     * @author 草二号机
-     *
-     * @since 1.0.0
-     */
-    @JvmStatic
-    fun unnamed(
-        arising: (Any, ConiumArisingEventContext<*>) -> Boolean
-    ): ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> {
-        return ConiumArisingEventContext(
-            // Require a no argument dynamic args and contract to unnamed lifecycle.
-            DynamicArgsBuilder.requires(true).lifecycle(DynamicArgsLifecycle.UNNAMED)
-        ).apply {
-            // Attach arise trigger, not event cancelable.
-            arise { i: Any ->
-                arising(i, this)
-            }
-        }
     }
 
     /**
@@ -3903,8 +3867,8 @@ object ConiumEventContextBuilder {
     @JvmStatic
     fun <R : Any> unnamed(
         arising: ParameterSelective1<R, Any>
-    ): ConiumArisingEventContext<ParameterSelective1<Boolean, Any>> {
-        return ConiumArisingEventContext(
+    ): ConiumArisingEventContext<Any, ParameterSelective1<Boolean, Any>> {
+        return ConiumArisingEventContext<Any, ParameterSelective1<Boolean, Any>>(
             // Require a no argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         ).apply {
@@ -3944,8 +3908,8 @@ object ConiumEventContextBuilder {
     fun <P1> unnamed(
         arg1: DynamicArgType<P1>,
         arising: ParameterSelective2<Unit, Any, P1>
-    ): ConiumArisingEventContext<ParameterSelective2<Boolean, Any, P1>> {
-        return ConiumArisingEventContext(
+    ): ConiumArisingEventContext<Any, ParameterSelective2<Boolean, Any, P1>> {
+        return ConiumArisingEventContext<Any, ParameterSelective2<Boolean, Any, P1>>(
             // Require a one-argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(arg1, true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         ).apply {
@@ -3988,8 +3952,8 @@ object ConiumEventContextBuilder {
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arising: ParameterSelective3<Unit, Any, P1, P2>
-    ): ConiumArisingEventContext<ParameterSelective3<Boolean, Any, P1, P2>> {
-        return ConiumArisingEventContext(
+    ): ConiumArisingEventContext<Any, ParameterSelective3<Boolean, Any, P1, P2>> {
+        return ConiumArisingEventContext<Any, ParameterSelective3<Boolean, Any, P1, P2>> (
             // Require a two-argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         ).apply {
@@ -4035,8 +3999,8 @@ object ConiumEventContextBuilder {
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
         arising: ParameterSelective4<Unit, Any, P1, P2, P3>
-    ): ConiumArisingEventContext<ParameterSelective4<Boolean, Any, P1, P2, P3>> {
-        return ConiumArisingEventContext(
+    ): ConiumArisingEventContext<Any, ParameterSelective4<Boolean, Any, P1, P2, P3>> {
+        return ConiumArisingEventContext<Any, ParameterSelective4<Boolean, Any, P1, P2, P3>> (
             // Require a three-argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         ).apply {
@@ -4085,8 +4049,8 @@ object ConiumEventContextBuilder {
         arg3: DynamicArgType<P3>,
         arg4: DynamicArgType<P4>,
         arising: ParameterSelective5<Unit, Any, P1, P2, P3, P4>
-    ): ConiumArisingEventContext<ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
-        return ConiumArisingEventContext(
+    ): ConiumArisingEventContext<Any, ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
+        return ConiumArisingEventContext<Any, ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> (
             // Require a four-argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         ).apply {
@@ -4138,8 +4102,8 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arg5: DynamicArgType<P5>,
         arising: ParameterSelective6<Unit, Any, P1, P2, P3, P4, P5>
-    ): ConiumArisingEventContext<ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
-        return ConiumArisingEventContext(
+    ): ConiumArisingEventContext<Any, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
+        return ConiumArisingEventContext<Any, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>>(
             // Require a five-argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, true).lifecycle(DynamicArgsLifecycle.UNNAMED)
         ).apply {
@@ -4194,8 +4158,8 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arg6: DynamicArgType<P6>,
         arising: ParameterSelective7<Unit, Any, P1, P2, P3, P4, P5, P6>
-    ): ConiumArisingEventContext<ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
-        return ConiumArisingEventContext(
+    ): ConiumArisingEventContext<Any, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
+        return ConiumArisingEventContext<Any, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>>(
             // Require a six-argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, arg6, true)
                 .lifecycle(DynamicArgsLifecycle.UNNAMED)
@@ -4254,8 +4218,8 @@ object ConiumEventContextBuilder {
         arg6: DynamicArgType<P6>,
         arg7: DynamicArgType<P7>,
         arising: ParameterSelective8<Unit, Any, P1, P2, P3, P4, P5, P6, P7>
-    ): ConiumArisingEventContext<ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
-        return ConiumArisingEventContext(
+    ): ConiumArisingEventContext<Any, ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
+        return ConiumArisingEventContext<Any, ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>>(
             // Require a seven-argument dynamic args and contract to unnamed lifecycle.
             DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, arg6, arg7, true)
                 .lifecycle(DynamicArgsLifecycle.UNNAMED)
@@ -4263,6 +4227,19 @@ object ConiumEventContextBuilder {
             // Attach arise trigger, not event cancelable.
             arise { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7 ->
                 arising(i, p1, p2, p3, p4, p5, p6, p7)
+                true
+            }
+        }
+    }
+
+    fun unnamed0(arising: ParameterSelective1<Boolean, Any>): ConiumArisingEventContext<Any, ParameterSelective1<Boolean, Any>> {
+        return ConiumArisingEventContext<Any, ParameterSelective1<Boolean, Any>> (
+            // Require a no-argument dynamic args and contract to unnamed lifecycle.
+            DynamicArgsBuilder.force<Boolean>().lifecycle(DynamicArgsLifecycle.UNNAMED)
+        ).apply {
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any ->
+                arising(i)
                 true
             }
         }

@@ -33,7 +33,7 @@ public class ScreenHandlerMixin {
             CallbackInfoReturnable<Boolean> cir
     ) {
         // Request the item stack click context.
-        ConiumArisingEventContext<?> clickingContext = ConiumEvent.request(ConiumEventType.ITEM_STACK_CLICK);
+        ConiumArisingEventContext<?, ?> clickingContext = ConiumEvent.request(ConiumEventType.ITEM_STACK_CLICK);
 
         Item item = stack.getItem();
 

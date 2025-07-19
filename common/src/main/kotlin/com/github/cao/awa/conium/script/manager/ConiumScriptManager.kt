@@ -115,7 +115,7 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
         load(manager, it)
     }
 
-    fun export(name: String, context: ConiumArisingEventContext<*>, result: (Any) -> Any) {
+    fun export(name: String, context: ConiumArisingEventContext<*, *>, result: (Any) -> Any) {
         this.exportedInteraction[name] = NamedInteractionScript(
             name,
             context,
@@ -123,7 +123,7 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
         )
     }
 
-    fun acquire(name: String): ConiumArisingEventContext<*> {
+    fun acquire(name: String): ConiumArisingEventContext<*, *> {
         return this.exportedInteraction[name]!!.context
     }
 

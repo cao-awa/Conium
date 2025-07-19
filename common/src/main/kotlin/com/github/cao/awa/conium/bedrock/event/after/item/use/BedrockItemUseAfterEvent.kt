@@ -20,11 +20,11 @@ import net.minecraft.server.world.ServerWorld
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemUseAfterEventSignal")
-class BedrockItemUseAfterEvent : BedrockEvent<BedrockItemUseEventContext>(ConiumEventType.ITEM_USED) {
+class BedrockItemUseAfterEvent : BedrockEvent<Item, BedrockItemUseEventContext>(ConiumEventType.ITEM_USED) {
     override fun createUnnamed(
         action: ParameterSelective1<Unit, BedrockItemUseEventContext>,
         scriptSource: Any
-    ): ConiumArisingEventContext<*> {
+    ): ConiumArisingEventContext<*, *> {
         return ConiumEventContextBuilder.unnamed(
             ConiumEventArgTypes.SERVER_WORLD,
             ConiumEventArgTypes.SERVER_PLAYER,

@@ -17,13 +17,15 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemUseOnAfterEventSignal")
-class BedrockItemUseOnAfterEvent: BedrockEvent<BedrockItemUseOnEventContext>(ConiumEventType.ITEM_USED_ON_BLOCK) {
-    override fun createUnnamed(action: ParameterSelective1<Unit, BedrockItemUseOnEventContext>, scriptSource: Any): ConiumArisingEventContext<Item, *> {
-        return ConiumEventContextBuilder.requires(
-            ConiumEventArgTypes.ITEM,
+class BedrockItemUseOnAfterEvent: BedrockEvent<Item, BedrockItemUseOnEventContext>(ConiumEventType.ITEM_USED_ON_BLOCK) {
+    override fun createUnnamed(
+        action: ParameterSelective1<Unit, BedrockItemUseOnEventContext>,
+        scriptSource: Any
+    ): ConiumArisingEventContext<*, *> {
+        return ConiumEventContextBuilder.unnamed(
             ConiumEventArgTypes.ITEM_USAGE_CONTEXT,
             ConiumEventArgTypes.SERVER_PLAYER
-        ) { _: Item, usage: ItemUsageContext, source: ServerPlayerEntity ->
+        ) { _: Any, usage: ItemUsageContext, source: ServerPlayerEntity ->
             usage.bedrockEventContext(scriptSource, source).also { context: BedrockItemUseOnEventContext ->
                 BedrockEventContext.contexts[scriptSource] = context
             }.also{ context: BedrockItemUseOnEventContext ->

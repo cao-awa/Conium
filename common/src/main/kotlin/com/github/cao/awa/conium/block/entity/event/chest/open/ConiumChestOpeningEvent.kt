@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.block.entity.event.chest.open
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requiresAny
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
@@ -9,6 +10,7 @@ import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective6
 import net.minecraft.block.AbstractBlock.AbstractBlockState
+import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.ChestBlockEntity
 import net.minecraft.block.entity.ViewerCountManager
@@ -23,18 +25,19 @@ import net.minecraft.world.World
  *
  * @since 1.0.0
  */
-class ConiumChestOpeningEvent : ConiumEvent<ParameterSelective6<Boolean, World, PlayerEntity, ChestBlockEntity, AbstractBlockState, BlockPos, ViewerCountManager>, ConiumChestOpeningEventMetadata>(
+class ConiumChestOpeningEvent : ConiumEvent<Block, ConiumChestOpeningEventMetadata, ParameterSelective6<Boolean, World, PlayerEntity, ChestBlockEntity, AbstractBlockState, BlockPos, ViewerCountManager>>(
     ConiumEventType.CHEST_OPENING
 ) {
-    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return requiresAny(
+    override fun requirement(): ConiumArisingEventContext<Block, out ParameterSelective> {
+        return requires(
+            ConiumEventArgTypes.BLOCK,
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.PLAYER,
             ConiumEventArgTypes.BLOCK_ENTITY,
             ConiumEventArgTypes.BLOCK_STATE,
             ConiumEventArgTypes.BLOCK_POS,
             ConiumEventArgTypes.VIEWER_COUNT_MANAGER
-        ).arise { identity: Any,
+        ) { identity: Any,
                   world: World,
                   player: PlayerEntity,
                   blockEntity: BlockEntity,
@@ -47,7 +50,7 @@ class ConiumChestOpeningEvent : ConiumEvent<ParameterSelective6<Boolean, World, 
         }
     }
 
-    override fun metadata(context: ConiumEventContext): ConiumChestOpeningEventMetadata {
+    override fun metadata(context: ConiumEventContext<Block>): ConiumChestOpeningEventMetadata {
         return ConiumChestOpeningEventMetadata(context)
     }
 }

@@ -25,7 +25,7 @@ object ConiumBlockSettingsValue {
     const val AIR_PATH_THROUGH: Boolean = false
     const val ENABLE_BLOCK_ENTITY: Boolean = false
     val NO_REDSTONE_POWER_PROVIDER: (BlockState, BlockView, BlockPos, Direction) -> Int = { _, _, _, _ -> 0 }
-    const val EMITS_REDSTONE_POWER = false;
+    const val EMITS_REDSTONE_POWER = false
 }
 
 abstract class ConiumAbstractBlockSettings<B : ConiumAbstractBlockSettings<B>>(val vanillaSettings: Settings) : ConiumSettings<ConiumAbstractBlockSettings<B>, B>() {

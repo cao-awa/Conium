@@ -43,7 +43,7 @@ class ConiumChunkEventMixinIntermediary {
             return fireEventCancelable(
                 ConiumEventType.RECEIVE_CHUNK,
                 packet
-            ) { context: ConiumArisingEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*, *> ->
                 context[ConiumEventArgTypes.CHUNK_DATA] = packet.chunkData
                 context[ConiumEventArgTypes.LIGHT_DATA] = packet.lightData
             }
@@ -67,7 +67,7 @@ class ConiumChunkEventMixinIntermediary {
             return fireEventCancelable(
                 ConiumEventType.RECEIVED_CHUNK,
                 chunk
-            ) { context: ConiumArisingEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*, *> ->
                 context[ConiumEventArgTypes.WORLD_CHUNK] = chunk
             }
         }

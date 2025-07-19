@@ -34,7 +34,7 @@ class ConiumTypescriptFileTranslator : TypescriptKotlinScriptTranslator<Typescri
                 next.postTranslate(builder, statement, this)
             }
 
-            builder.append("}.also{");
+            builder.append("}.also{")
             translateLineWrap(this)
 
             builder.append("BedrockEventContext.completePost()")

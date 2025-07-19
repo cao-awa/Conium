@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.block.event.place
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requiresAny
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
@@ -9,22 +10,24 @@ import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective5
 import net.minecraft.block.AbstractBlock.AbstractBlockState
+import net.minecraft.block.Block
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class ConiumPlacedBlockEvent : ConiumEvent<ParameterSelective5<Boolean, World, LivingEntity, BlockPos, AbstractBlockState, ItemStack>, ConiumPlacedBlockEventMetadata>(
+class ConiumPlacedBlockEvent : ConiumEvent<Block, ConiumPlacedBlockEventMetadata, ParameterSelective5<Boolean, World, LivingEntity, BlockPos, AbstractBlockState, ItemStack>>(
     ConiumEventType.PLACED_BLOCK
 ) {
-    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return requiresAny(
+    override fun requirement(): ConiumArisingEventContext<Block, out ParameterSelective> {
+        return requires(
+            ConiumEventArgTypes.BLOCK,
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.LIVING_ENTITY,
             ConiumEventArgTypes.BLOCK_POS,
             ConiumEventArgTypes.BLOCK_STATE,
             ConiumEventArgTypes.ITEM_STACK
-        ).arise { identity: Any,
+        ) { identity: Block,
                   world: World,
                   entity: LivingEntity,
                   blockPos: BlockPos,
@@ -36,7 +39,7 @@ class ConiumPlacedBlockEvent : ConiumEvent<ParameterSelective5<Boolean, World, L
         }
     }
 
-    override fun metadata(context: ConiumEventContext): ConiumPlacedBlockEventMetadata {
+    override fun metadata(context: ConiumEventContext<Block>): ConiumPlacedBlockEventMetadata {
         return ConiumPlacedBlockEventMetadata(context)
     }
 }

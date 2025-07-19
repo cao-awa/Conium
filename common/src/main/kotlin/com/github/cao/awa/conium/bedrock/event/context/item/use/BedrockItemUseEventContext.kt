@@ -7,6 +7,7 @@ import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
 import com.github.cao.awa.conium.bedrock.item.stack.BedrockItemStack
 import com.github.cao.awa.conium.bedrock.world.BedrockWorld
 import com.github.cao.awa.conium.bedrock.world.dimension.BedrockDimension
+import net.minecraft.item.Item
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemUseBeforeEvent", "ItemUseAfterEvent")
@@ -15,7 +16,7 @@ class BedrockItemUseEventContext(
     val world: BedrockWorld,
     val itemStack: BedrockItemStack,
     val source: BedrockPlayer
-) : BedrockEventContext(scriptSource) {
+) : BedrockEventContext<Item>(scriptSource) {
     var cancel: Boolean = false
 
     override fun world(): BedrockWorld = this.world

@@ -13,10 +13,14 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class ConiumBreakBlockEvent : ConiumEvent<ParameterSelective3<Boolean, World, PlayerEntity, BlockPos>, ConiumBreakBlockEventMetadata>(
+class ConiumBreakBlockEvent : ConiumEvent<
+        Block,
+        ConiumBreakBlockEventMetadata,
+        ParameterSelective3<Boolean, World, PlayerEntity, BlockPos>,
+>(
     ConiumEventType.BREAK_BLOCK
 ) {
-    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
+    override fun requirement(): ConiumArisingEventContext<Block, out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.BLOCK,
             ConiumEventArgTypes.WORLD,
@@ -29,7 +33,7 @@ class ConiumBreakBlockEvent : ConiumEvent<ParameterSelective3<Boolean, World, Pl
         }
     }
 
-    override fun metadata(context: ConiumEventContext): ConiumBreakBlockEventMetadata {
+    override fun metadata(context: ConiumEventContext<Block>): ConiumBreakBlockEventMetadata {
         return ConiumBreakBlockEventMetadata(context)
     }
 }

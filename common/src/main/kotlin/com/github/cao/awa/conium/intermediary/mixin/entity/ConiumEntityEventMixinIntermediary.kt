@@ -178,7 +178,7 @@ class ConiumEntityEventMixinIntermediary {
                 fireEvent(
                     ConiumEventType.ENTITY_ON_FIRE,
                     entity.type
-                ) { context: ConiumArisingEventContext<*> ->
+                ) { context: ConiumArisingEventContext<*, *> ->
                     // Fill the context args.
                     context[ConiumEventArgTypes.ENTITY] = entity
                     context[ConiumEventArgTypes.INT] = entity.fireTicks
@@ -217,12 +217,12 @@ class ConiumEntityEventMixinIntermediary {
                     ConiumEventType.ENTITY_EXTINGUISH_FIRE,
                     ConiumEventType.ENTITY_EXTINGUISHED_FIRE,
                     entity.type,
-                    { extinguishContext: ConiumArisingEventContext<*> ->
+                    { extinguishContext: ConiumArisingEventContext<*, *> ->
                         // Fill extinguish context args.
                         extinguishContext[ConiumEventArgTypes.ENTITY] = entity
                         extinguishContext[ConiumEventArgTypes.INT] = entity.fireTicks
                     },
-                    { extinguishingContext: ConiumArisingEventContext<*> ->
+                    { extinguishingContext: ConiumArisingEventContext<*, *> ->
                         // Fill extinguished context args.
                         extinguishingContext[ConiumEventArgTypes.ENTITY] = entity
                     }
@@ -254,7 +254,7 @@ class ConiumEntityEventMixinIntermediary {
             return fireEventCancelable(
                 targetEvent,
                 entity.type
-            ) { context: ConiumArisingEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*, *> ->
                 // Fill the context args.
                 context[ConiumEventArgTypes.ENTITY] = entity
             }
@@ -282,7 +282,7 @@ class ConiumEntityEventMixinIntermediary {
             return fireEventCancelable(
                 ConiumEventType.ENTITY_SPRINTING,
                 entity.type
-            ) { context: ConiumArisingEventContext<*> ->
+            ) { context: ConiumArisingEventContext<*, *> ->
                 // Fill the context args.
                 context[ConiumEventArgTypes.ENTITY] = entity
             }

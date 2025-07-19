@@ -1,6 +1,7 @@
 package com.github.cao.awa.conium.item.event.tick.inventory
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requiresAny
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
@@ -13,17 +14,18 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.world.World
 
-class ConiumItemInventoryTickEvent : ConiumItemEvent<ParameterSelective5<Boolean, World, Entity, ItemStack, Int, Boolean>, ConiumItemInventoryTickEventMetadata>(
+class ConiumItemInventoryTickEvent : ConiumItemEvent<ConiumItemInventoryTickEventMetadata, ParameterSelective5<Boolean, World, Entity, ItemStack, Int, Boolean>>(
     ConiumEventType.ITEM_INVENTORY_TICK
 ) {
-    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return requiresAny(
+    override fun requirement(): ConiumArisingEventContext<Item, out ParameterSelective> {
+        return requires(
+            ConiumEventArgTypes.ITEM,
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.ENTITY,
             ConiumEventArgTypes.ITEM_STACK,
             ConiumEventArgTypes.SLOT_NUMBER,
             ConiumEventArgTypes.SELECT_STATUS,
-        ).arise { identity: Any, world: World, entity: Entity, itemStack: ItemStack, slotNumber: Int, selectStatus: Boolean ->
+        ) { identity: Item, world: World, entity: Entity, itemStack: ItemStack, slotNumber: Int, selectStatus: Boolean ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, entity, itemStack, slotNumber, selectStatus)
             }

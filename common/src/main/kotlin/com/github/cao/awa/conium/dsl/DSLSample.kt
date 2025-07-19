@@ -5,7 +5,5 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.script.index.common.ConiumEventContextBuilder
 
-class DSLSample {
-
-}
+class DSLSample
 

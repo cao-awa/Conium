@@ -15,10 +15,10 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.tick.ScheduledTickView
 
-class ConiumBlockScheduleTickedEvent : ConiumEvent<ParameterSelective5<Boolean, ServerWorld, BlockPos, AbstractBlockState, ScheduledTickView, Random>, ConiumBlockScheduleTickedEventMetadata>(
+class ConiumBlockScheduleTickedEvent : ConiumEvent<Block, ConiumBlockScheduleTickedEventMetadata, ParameterSelective5<Boolean, ServerWorld, BlockPos, AbstractBlockState, ScheduledTickView, Random>>(
     ConiumEventType.BLOCK_SCHEDULE_TICKED
 ) {
-    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
+    override fun requirement(): ConiumArisingEventContext<Block, out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.BLOCK,
             ConiumEventArgTypes.SERVER_WORLD,
@@ -33,7 +33,7 @@ class ConiumBlockScheduleTickedEvent : ConiumEvent<ParameterSelective5<Boolean, 
         }
     }
 
-    override fun metadata(context: ConiumEventContext): ConiumBlockScheduleTickedEventMetadata {
+    override fun metadata(context: ConiumEventContext<Block>): ConiumBlockScheduleTickedEventMetadata {
         return ConiumBlockScheduleTickedEventMetadata(context)
     }
 }

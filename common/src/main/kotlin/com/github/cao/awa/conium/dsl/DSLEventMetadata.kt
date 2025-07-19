@@ -6,7 +6,7 @@ import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import java.util.function.Consumer
 
-open class DSLEventMetadata<I : Any, M : ConiumEventMetadata, T : ConiumEventType<I, M>> {
+open class DSLEventMetadata<I : Any, M : ConiumEventMetadata<I>, T : ConiumEventType<I, M>> {
     var async: Boolean? = null
         set(value) {
             if (warningNoRepeats(field, "event async mode")) {

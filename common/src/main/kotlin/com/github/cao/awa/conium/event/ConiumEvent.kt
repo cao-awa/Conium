@@ -42,6 +42,7 @@ import com.github.cao.awa.conium.entity.event.sprint.ConiumEntityStopSprintEvent
 import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickEvent
 import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickedEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
+import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.unnamed
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.trigger.ConiumEventTrigger
@@ -73,15 +74,16 @@ import org.apache.logging.log4j.Logger
 import java.util.*
 
 abstract class ConiumEvent<
-        P : ParameterSelective,
-        M : ConiumEventMetadata
+        I: Any,
+        M: ConiumEventMetadata<I>,
+        P: ParameterSelective
 >(
-    val eventType: ConiumEventType<*, M>
+    val eventType: ConiumEventType<I, M>
 ) : ListTriggerable<P>() {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumEvent")
-        private val events: MutableMap<ConiumEventType<*, *>, ConiumEvent<*, *>> = CollectionFactor.hashMap()
-        private val foreverContext: MutableMap<ConiumEventType<*, *>, MutableList<ConiumArisingEventContext<*>>> = CollectionFactor.hashMap()
+        private val events: MutableMap<ConiumEventType<*, *>, ConiumEvent<*, *, *>> = CollectionFactor.hashMap()
+        private val foreverContext: MutableMap<ConiumEventType<*, *>, MutableList<ConiumArisingEventContext<*, *>>> = CollectionFactor.hashMap()
 
         @JvmField
         val random: ConiumRandomEvent = ConiumRandomEvent()
@@ -263,29 +265,29 @@ abstract class ConiumEvent<
          * @param type the type of event
          */
         @JvmStatic
-        fun request(type: ConiumEventType<*, *>): ConiumArisingEventContext<out ParameterSelective> {
-            return this.events[type]!!.request()
+        fun <I: Any> request(type: ConiumEventType<I, out ConiumEventMetadata<I>>): ConiumArisingEventContext<*, out ParameterSelective> {
+            return findEvent(type).request()
         }
 
         @JvmStatic
-        fun <M: ConiumEventMetadata> findEvent(type: ConiumEventType<*, *>): ConiumEvent<*, M> {
+        fun <I: Any, M: ConiumEventMetadata<I>> findEvent(type: ConiumEventType<I, M>): ConiumEvent<I, M, *> {
             return this.events[type].doCast()
         }
 
         @JvmStatic
-        fun unsafeFindEvent(type: ConiumEventType<*, *>): ConiumEvent<*, *> {
-            return this.events[type] as ConiumEvent<*, *>
+        fun unsafeFindEvent(type: ConiumEventType<*, *>): ConiumEvent<*, *, *> {
+            return this.events[type] as ConiumEvent<*, *, *>
         }
 
         fun count(): Int = this.events.size
 
-        fun events(): Map<ConiumEventType<*, *>, ConiumEvent<*, *>> = Collections.unmodifiableMap(this.events)
+        fun events(): Map<ConiumEventType<*, *>, ConiumEvent<*, *, *>> = Collections.unmodifiableMap(this.events)
 
-        fun forever(eventType: ConiumEventType<*, *>, context: ConiumArisingEventContext<*>) {
+        fun <I: Any> forever(eventType: ConiumEventType<I, out ConiumEventMetadata<I>>, context: ConiumArisingEventContext<*, *>) {
             this.foreverContext.computeIfAbsent(eventType) { CollectionFactor.arrayList() }.add(context)
         }
 
-        fun forever(eventType: ConiumEventType<*, *>): MutableList<ConiumArisingEventContext<*>> {
+        fun forever(eventType: ConiumEventType<*, *>): MutableList<ConiumArisingEventContext<*, *>> {
             return this.foreverContext.getOrDefault(eventType, Collections.emptyList())
         }
 
@@ -294,7 +296,7 @@ abstract class ConiumEvent<
         }
 
         fun attach() {
-            for ((_: ConiumEventType<*, *>, event: ConiumEvent<*, *>) in this.events) {
+            for ((_: ConiumEventType<*, *>, event: ConiumEvent<*, *, *>) in this.events) {
                 event.attach()
             }
         }
@@ -399,14 +401,14 @@ abstract class ConiumEvent<
         }
     }
 
-    private val listeners: MutableList<ConiumEventTrigger<M>> = CollectionFactor.arrayList()
+    private val listeners: MutableList<ConiumEventTrigger<I, M>> = CollectionFactor.arrayList()
 
     init {
         register()
     }
 
     private fun register() {
-        events[this.eventType]?.let { event: ConiumEvent<*, *> ->
+        events[this.eventType]?.let { event: ConiumEvent<*, *, *> ->
             if (!shouldForceOverride()) {
                 throw IllegalStateException("The event type '${this.eventType.name}' already registered as '${event.javaClass.name}', '${this.javaClass.name}' cannot override it")
             } else {
@@ -421,17 +423,18 @@ abstract class ConiumEvent<
         events[this.eventType] = this
     }
 
-    fun request(): ConiumArisingEventContext<out ParameterSelective> {
+    fun request(): ConiumArisingEventContext<*, out ParameterSelective> {
         return requirement().attaches(
             forever(this.eventType)
-        ).also { context: ConiumArisingEventContext<out ParameterSelective> ->
+        ).also { context: ConiumArisingEventContext<*, out ParameterSelective> ->
             context.attach(unnamed {
-                val metadata: M = metadata(context)
-                this.listeners.forEach { listener: ConiumEventTrigger<M> ->
-                    if (listener.targetIdentity(context.identity)) {
+                val metadata: M = metadata(context.doCast())
+                this.listeners.forEach { listener: ConiumEventTrigger<I, M> ->
+                    if (listener.targetIdentity(context.identity.doCast())) {
                         listener.callback(metadata)
                     }
                 }
+                true
             })
         }
     }
@@ -448,9 +451,9 @@ abstract class ConiumEvent<
         )
     }
 
-    abstract fun metadata(context: ConiumEventContext): M
+    abstract fun metadata(context: ConiumEventContext<I>): M
 
-    abstract fun requirement(): ConiumArisingEventContext<out ParameterSelective>
+    abstract fun requirement(): ConiumArisingEventContext<I, out ParameterSelective>
 
     open fun attach() {
         // No default attaches.

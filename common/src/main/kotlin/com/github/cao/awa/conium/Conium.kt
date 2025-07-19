@@ -12,9 +12,12 @@ import com.github.cao.awa.conium.datapack.worldgen.ConiumPlacedFeatureManager
 import com.github.cao.awa.conium.dsl.DSLEventMetadata
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.function.consumer.string.obj.*
 import com.github.cao.awa.conium.hitokoto.ConiumHitokoto
+import com.github.cao.awa.conium.item.event.use.block.ConiumItemUseOnBlockEvent
+import com.github.cao.awa.conium.item.event.use.block.ConiumItemUseOnBlockEventMetadata
 import com.github.cao.awa.conium.script.index.common.ConiumEventContextBuilder
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
@@ -27,6 +30,8 @@ import com.github.cao.awa.sinuatum.util.io.IOUtil
 import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
 import com.github.cao.awa.translator.structuring.translate.element.TranslateElementData
 import com.github.cao.awa.translator.structuring.translate.language.LanguageTranslateTarget
+import net.minecraft.block.Block
+import net.minecraft.item.Item
 import net.minecraft.util.Identifier
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -284,7 +289,9 @@ class Conium {
             }
         }
 
-        ConiumEventContextBuilder.request(ConiumEventType.ITEM_USE_ON_BLOCK) {
+        ConiumEventContextBuilder.request(
+            ConiumEventType.ITEM_USE_ON_BLOCK
+        ) {
             println("???")
             true
         }
@@ -295,7 +302,7 @@ class Conium {
         block: DSLEventMetadata<I, M, T>.() -> Unit
     ): DSLEventMetadata<I, M, T> {
          return DSLEventMetadata(eventType).also { dslEventMetadata: DSLEventMetadata<I, M, T> ->
-             ConiumEvent.findEvent<M>(eventType).listen {
+             ConiumEvent.findEvent<I, M>(eventType).listen {
                  dslEventMetadata.doAction(it)
              }
 

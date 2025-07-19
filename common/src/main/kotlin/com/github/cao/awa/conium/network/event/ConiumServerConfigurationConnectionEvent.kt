@@ -11,21 +11,21 @@ import com.github.cao.awa.conium.parameter.ParameterSelective2
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerConfigurationNetworkHandler
 
-class ConiumServerConfigurationConnectionEvent : ConiumEvent<ParameterSelective2<Boolean, ServerConfigurationNetworkHandler, MinecraftServer>, ConiumServerConfigurationConnectionEventMetadata>(
+class ConiumServerConfigurationConnectionEvent : ConiumEvent<ServerConfigurationNetworkHandler, ConiumServerConfigurationConnectionEventMetadata, ParameterSelective2<Boolean, ServerConfigurationNetworkHandler, MinecraftServer>>(
     ConiumEventType.SERVER_CONFIGURATION_CONNECTION
 ) {
-    override fun requirement(): ConiumArisingEventContext<out ParameterSelective> {
-        return ConiumEventContextBuilder.requiresAny(
+    override fun requirement(): ConiumArisingEventContext<ServerConfigurationNetworkHandler, out ParameterSelective> {
+        return ConiumEventContextBuilder.requires(
             ConiumEventArgTypes.SERVER_CONFIGURATION_NETWORK_HANDLER,
             ConiumEventArgTypes.SERVER
-        ).arise { identity: Any, networkHandler: ServerConfigurationNetworkHandler, server: MinecraftServer ->
-            noFailure(identity) { parameterSelective ->
+        ).arise { networkHandler: ServerConfigurationNetworkHandler, server: MinecraftServer ->
+            noFailure(networkHandler) { parameterSelective ->
                 parameterSelective(networkHandler, server)
             }
         }
     }
 
-    override fun metadata(context: ConiumEventContext): ConiumServerConfigurationConnectionEventMetadata {
+    override fun metadata(context: ConiumEventContext<ServerConfigurationNetworkHandler>): ConiumServerConfigurationConnectionEventMetadata {
         return ConiumServerConfigurationConnectionEventMetadata(context)
     }
 }

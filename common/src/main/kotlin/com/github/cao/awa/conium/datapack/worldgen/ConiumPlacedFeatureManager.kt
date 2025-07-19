@@ -12,7 +12,7 @@ import net.minecraft.util.profiler.Profiler
 
 class ConiumPlacedFeatureManager(var registryLookup: RegistryWrapper.WrapperLookup) : ConiumJsonDataLoader(ConiumRegistryKeys.PLACED_FEATURE.value) {
     override fun earlyLoad(manager: ResourceManager, dataType: Identifier, result: MutableMap<Identifier, JsonElement>) {
-        for ((identifier: Identifier, placedFeature: JsonElement) in result) {
+        for ((identifier: Identifier, _: JsonElement) in result) {
             if (identifier.namespace.equals("minecraft")) {
                 continue
             }

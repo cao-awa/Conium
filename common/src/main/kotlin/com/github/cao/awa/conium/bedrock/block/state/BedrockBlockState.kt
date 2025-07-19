@@ -6,9 +6,7 @@ import net.minecraft.block.BlockState
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("Block")
-class BedrockBlockState(private val delegate: BlockState) {
-
-}
+class BedrockBlockState(private val delegate: BlockState)
 
 val BlockState.bedrock: BedrockBlockState
     get() = BedrockBlockState(this)

@@ -47,7 +47,7 @@ typealias BedrockPlayerDelegate = BedrockPlayerDelegate
 typealias BedrockOnScreenDisplay = BedrockOnScreenDisplay
 
 // Event typealias.
-typealias BedrockEventContext = BedrockEventContext
+typealias BedrockEventContext<I> = BedrockEventContext<I>
 typealias ItemUseOnBeforeEventSignal = BedrockItemUseOnBeforeEvent
 typealias ItemUseOnAfterEventSignal = BedrockItemUseOnAfterEvent
 typealias ItemUseOnBeforeEvent = BedrockItemUseOnEventContext

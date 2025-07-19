@@ -23,6 +23,4 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 
-class ConiumEntityDamageEventMetadata(context: ConiumEventContext<EntityType<*>>) : ConiumEntityDamagesEventMetadata(context) {
-
-}
+class ConiumEntityDamageEventMetadata(context: ConiumEventContext<EntityType<*>>) : ConiumEntityDamagesEventMetadata(context)

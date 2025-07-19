@@ -13,6 +13,4 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class ConiumEntityWakeUpEventMetadata(context: ConiumEventContext<EntityType<*>>) : ConiumEntityRestEventMetadata(context) {
-
-}
+class ConiumEntityWakeUpEventMetadata(context: ConiumEventContext<EntityType<*>>) : ConiumEntityRestEventMetadata(context)

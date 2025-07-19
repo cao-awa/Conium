@@ -24,6 +24,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerWorld.class)
 public class ServerWorldMixin {
+    private ServerWorld asWorld() {
+        return (ServerWorld) (Object) this;
+    }
+
     @Inject(
             method = "tickEntity",
             at = @At(
@@ -34,12 +38,12 @@ public class ServerWorldMixin {
     )
     public void tickEntity(@NotNull Entity entity, CallbackInfo ci) {
         // Request the entity ticking context.
-        ConiumArisingEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.ENTITY_TICK);
+        ConiumArisingEventContext<?, ?> tickingContext = ConiumEvent.request(ConiumEventType.ENTITY_TICK);
 
         EntityType<?> type = entity.getType();
 
         // Fill the context args.
-        tickingContext.put(ConiumEventArgTypes.WORLD, (World) (Object) this)
+        tickingContext.put(ConiumEventArgTypes.WORLD, asWorld())
                 .put(ConiumEventArgTypes.ENTITY, entity);
 
         if (tickingContext.presaging(type)) {
@@ -60,12 +64,12 @@ public class ServerWorldMixin {
     )
     public void tickedEntity(@NotNull Entity entity, CallbackInfo ci) {
         // Request the entity ticked context.
-        ConiumArisingEventContext<?> tickedContext = ConiumEvent.request(ConiumEventType.ENTITY_TICKED);
+        ConiumArisingEventContext<?, ?> tickedContext = ConiumEvent.request(ConiumEventType.ENTITY_TICKED);
 
         EntityType<?> type = entity.getType();
 
         // Fill the context args.
-        tickedContext.put(ConiumEventArgTypes.WORLD, (World) (Object) this)
+        tickedContext.put(ConiumEventArgTypes.WORLD, asWorld())
                 .put(ConiumEventArgTypes.ENTITY, entity);
 
         if (tickedContext.presaging(type)) {
@@ -83,7 +87,7 @@ public class ServerWorldMixin {
     )
     private void scheduledFluidTick(@NotNull FluidState instance, ServerWorld world, BlockPos pos, BlockState blockState) {
         // Request the fluid ticking context.
-        ConiumArisingEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.FLUID_SCHEDULE_TICK);
+        ConiumArisingEventContext<?, ?> tickingContext = ConiumEvent.request(ConiumEventType.FLUID_SCHEDULE_TICK);
 
         Fluid fluid = instance.getFluid();
 
@@ -101,7 +105,7 @@ public class ServerWorldMixin {
             instance.onScheduledTick(world, pos, blockState);
 
             // Request the fluid ticked context.
-            ConiumArisingEventContext<?> tickedContext = ConiumEvent.request(ConiumEventType.FLUID_SCHEDULE_TICKED);
+            ConiumArisingEventContext<?, ?> tickedContext = ConiumEvent.request(ConiumEventType.FLUID_SCHEDULE_TICKED);
 
             tickedContext.inherit(tickingContext);
 
@@ -121,7 +125,7 @@ public class ServerWorldMixin {
     )
     private void tickBlock(@NotNull BlockState instance, ServerWorld world, BlockPos pos, Random random) {
         // Request the block ticking context.
-        ConiumArisingEventContext<?> tickingContext = ConiumEvent.request(ConiumEventType.BLOCK_SCHEDULE_TICK);
+        ConiumArisingEventContext<?, ?> tickingContext = ConiumEvent.request(ConiumEventType.BLOCK_SCHEDULE_TICK);
 
         Block block = instance.getBlock();
 
@@ -139,7 +143,7 @@ public class ServerWorldMixin {
             instance.scheduledTick(world, pos, random);
 
             // Request the block ticked context.
-            ConiumArisingEventContext<?> tickedContext = ConiumEvent.request(ConiumEventType.BLOCK_SCHEDULE_TICKED);
+            ConiumArisingEventContext<?, ?> tickedContext = ConiumEvent.request(ConiumEventType.BLOCK_SCHEDULE_TICKED);
 
             tickedContext.inherit(tickingContext);
 

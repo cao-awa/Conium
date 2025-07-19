@@ -11,15 +11,16 @@ import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective1
+import net.minecraft.item.Item
 import net.minecraft.item.ItemUsageContext
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemUseOnBeforeEventSignal")
-class BedrockItemUseOnBeforeEvent: BedrockEvent<BedrockItemUseOnEventContext>(ConiumEventType.ITEM_USE_ON_BLOCK) {
+class BedrockItemUseOnBeforeEvent: BedrockEvent<Item, BedrockItemUseOnEventContext>(ConiumEventType.ITEM_USE_ON_BLOCK) {
     override fun createUnnamed(
         action: ParameterSelective1<Unit, BedrockItemUseOnEventContext>,
         scriptSource: Any
-    ): ConiumArisingEventContext<*> {
+    ): ConiumArisingEventContext<*, *> {
         return ConiumEventContextBuilder.unnamed(
             ConiumEventArgTypes.ITEM_USAGE_CONTEXT
         ) { _: Any, usage: ItemUsageContext ->
