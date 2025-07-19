@@ -39,8 +39,3 @@ jobs:
         with:
           name: Artifacts-fabric
           path: fabric/build/libs/
-      - name: publish fabric package
-        run: ./gradlew :fabric:publish
-        env:
-          GH_ACTOR: ${{ github.actor }}
-          GH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
