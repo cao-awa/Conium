@@ -46,7 +46,7 @@ class Conium {
         val isClient: Boolean get() = ConiumClient.initialized
 
         @JvmField
-        var VERSION = "1.0.0-alpha11-fix1"
+        var VERSION = "1.0.0-alpha12"
 
         @JvmField
         var STRUCTURING_TRANSLATOR_VERSION: String = StructuringTranslator.getVersion()
@@ -263,7 +263,7 @@ class Conium {
             )
         }
 
-        doDslTest()
+//        doDslTest()
     }
 
     fun doDslTest() {
