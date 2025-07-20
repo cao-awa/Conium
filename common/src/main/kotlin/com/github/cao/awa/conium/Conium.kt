@@ -263,7 +263,7 @@ class Conium {
             )
         }
 
-//        doDslTest()
+        doDslTest()
     }
 
     fun doDslTest() {
@@ -302,16 +302,11 @@ class Conium {
         block: DSLEventMetadata<I, M, T>.() -> Unit
     ): DSLEventMetadata<I, M, T> {
          return DSLEventMetadata(eventType).also { dslEventMetadata: DSLEventMetadata<I, M, T> ->
-             ConiumEvent.findEvent<I, M>(eventType).listen {
+             ConiumEvent.findEvent(eventType).listen {
                  dslEventMetadata.doAction(it)
              }
 
             block(dslEventMetadata)
         }
     }
-
-    fun <I: Any, M: ConiumEventMetadata<I>, T: ConiumEventType<I, M>> listen(
-        eventType: T,
-        block: DSLEventMetadata<I, M, T>.() -> Unit
-    ): DSLEventMetadata<I, M, T> = onEvent(eventType, block)
 }
