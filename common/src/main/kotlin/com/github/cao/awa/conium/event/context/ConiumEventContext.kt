@@ -7,11 +7,19 @@ import com.github.cao.awa.conium.parameter.*
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 abstract class ConiumEventContext<I: Any>() {
+    open var async: Boolean = false
     private val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
 
     var enabled: Boolean = true
 
     var identity: Any? = null
+
+    fun warningNoRepeats(field: Any?, message: String): Boolean {
+        if (field != null) {
+            throw IllegalStateException("The $message already specified, cannot set a new value")
+        }
+        return true
+    }
 
     private fun resetArgs(args: MutableMap<DynamicArgType<*>, Any?>): ConiumEventContext<I> {
         this.args.clear()
@@ -27,6 +35,16 @@ abstract class ConiumEventContext<I: Any>() {
         ) as R
 
         action(result)
+    }
+
+    fun async(): ConiumEventContext<I> {
+        this.async = true
+        return this
+    }
+
+    fun sync(): ConiumEventContext<I> {
+        this.async = false
+        return this
     }
 
     operator fun <X: Any> set(argType: DynamicArgType<X>, value: X): ConiumEventContext<I> = put(argType, value)

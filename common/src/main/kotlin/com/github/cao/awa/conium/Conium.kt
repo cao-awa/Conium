@@ -9,16 +9,12 @@ import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.script.manager.ConiumScriptManager
 import com.github.cao.awa.conium.datapack.worldgen.ConiumPlacedFeatureManager
-import com.github.cao.awa.conium.dsl.DSLEventMetadata
+import com.github.cao.awa.conium.event.dsl.ConiumDSLEventContext
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.function.consumer.string.obj.*
 import com.github.cao.awa.conium.hitokoto.ConiumHitokoto
-import com.github.cao.awa.conium.item.event.use.block.ConiumItemUseOnBlockEvent
-import com.github.cao.awa.conium.item.event.use.block.ConiumItemUseOnBlockEventMetadata
-import com.github.cao.awa.conium.script.index.common.ConiumEventContextBuilder
 import com.github.cao.awa.conium.script.index.common.request
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
@@ -31,8 +27,6 @@ import com.github.cao.awa.sinuatum.util.io.IOUtil
 import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
 import com.github.cao.awa.translator.structuring.translate.element.TranslateElementData
 import com.github.cao.awa.translator.structuring.translate.language.LanguageTranslateTarget
-import net.minecraft.block.Block
-import net.minecraft.item.Item
 import net.minecraft.util.Identifier
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -295,14 +289,14 @@ class Conium {
         ) {
             println("???")
             true
-        }
+        }.async()
     }
 
     fun <I: Any, M: ConiumEventMetadata<I>, T: ConiumEventType<I, M>> onEvent(
         eventType: T,
-        block: DSLEventMetadata<I, M, T>.() -> Unit
-    ): DSLEventMetadata<I, M, T> {
-         return DSLEventMetadata(eventType).also { dslEventMetadata: DSLEventMetadata<I, M, T> ->
+        block: ConiumDSLEventContext<I, M, T>.() -> Unit
+    ): ConiumDSLEventContext<I, M, T> {
+         return ConiumDSLEventContext(eventType).also { dslEventMetadata: ConiumDSLEventContext<I, M, T> ->
              ConiumEvent.findEvent(eventType).listen {
                  dslEventMetadata.doAction(it)
              }

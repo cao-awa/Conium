@@ -423,12 +423,12 @@ abstract class ConiumEvent<
         events[this.eventType] = this
     }
 
-    fun request(): ConiumArisingEventContext<*, out ParameterSelective> {
+    fun request(): ConiumArisingEventContext<I, out ParameterSelective> {
         return requirement().attaches(
             forever(this.eventType)
-        ).also { context: ConiumArisingEventContext<*, out ParameterSelective> ->
+        ).also { context:  ConiumArisingEventContext<I, out ParameterSelective> ->
             context.attach(unnamed {
-                val metadata: M = metadata(context.doCast())
+                val metadata: M = metadata(context)
                 this.listeners.forEach { listener: ConiumEventTrigger<I, M> ->
                     if (listener.targetIdentity(context.identity.doCast())) {
                         listener.callback(metadata)

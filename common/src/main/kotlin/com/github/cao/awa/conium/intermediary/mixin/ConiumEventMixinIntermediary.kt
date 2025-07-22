@@ -3,6 +3,7 @@ package com.github.cao.awa.conium.intermediary.mixin
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
+import com.github.cao.awa.conium.event.handler.ConiumEventHandler
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import java.util.function.BiConsumer
@@ -17,9 +18,7 @@ class ConiumEventMixinIntermediary {
 
             argProducer.accept(context)
 
-            if (context.presaging(input)) {
-                context.arising(input)
-            }
+            ConiumEventHandler.execute(context, input)
         }
 
         @JvmStatic
@@ -28,11 +27,7 @@ class ConiumEventMixinIntermediary {
 
             argProducer.accept(context)
 
-            if (context.presaging(input)) {
-                action()
-
-                context.arising(input)
-            }
+            ConiumEventHandler.executeWithMiddleAction(context, input, action)
         }
 
         @JvmStatic
@@ -41,13 +36,7 @@ class ConiumEventMixinIntermediary {
 
             argProducer.accept(context)
 
-            if (context.presaging(input)) {
-                context.arising(input)
-
-                return false
-            }
-
-            return true
+            return ConiumEventHandler.execute(context, input)
         }
 
         @JvmStatic
@@ -88,9 +77,7 @@ class ConiumEventMixinIntermediary {
 
                 subArgProducer.accept(subContext)
 
-                if (subContext.presaging(input)) {
-                    subContext.arising(input)
-                }
+                ConiumEventHandler.execute(subContext, input)
 
                 return false
             }
@@ -99,7 +86,7 @@ class ConiumEventMixinIntermediary {
         }
 
         @JvmStatic
-        fun <I: Any, M: ConiumEventMetadata<I>, M2: ConiumEventMetadata<I>, R> fireInheritedCascadedResultEvent(
+        fun <I: Any, M: ConiumEventMetadata<I>, M2: ConiumEventMetadata<I>, R: Any> fireInheritedCascadedResultEvent(
             eventType: ConiumEventType<I, M>,
             subEventType: ConiumEventType<I, M2>,
             input: I,
@@ -112,9 +99,7 @@ class ConiumEventMixinIntermediary {
 
             argProducer.accept(context)
 
-            if (context.presaging(input)) {
-                context.arising(input)
-
+            return ConiumEventHandler.executeWithPresaging(context, input, defaultResult) {
                 val result: R = resultProducer.get()
 
                 val subContext: ConiumArisingEventContext<*, *> = ConiumEvent.request(subEventType)
@@ -123,14 +108,10 @@ class ConiumEventMixinIntermediary {
 
                 subArgProducer.accept(result, subContext)
 
-                if (subContext.presaging(input)) {
-                    subContext.arising(input)
-
-                    return result
+                return@executeWithPresaging ConiumEventHandler.executeWithPresaging(subContext, input,defaultResult) {
+                    result
                 }
             }
-
-            return defaultResult
         }
     }
 }
