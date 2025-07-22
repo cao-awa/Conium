@@ -364,14 +364,14 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
         resultCallback: () -> Unit
     ): ResultWithDiagnostics<EvaluationResult> {
         // Import scripts to this script.
-        val content: String = ScriptExport.Companion.import(this.exportedScript, scriptEval.codes, *scriptEval.defaultImports)
+        val content: String = ScriptExport.import(this.exportedScript, scriptEval.codes, *scriptEval.defaultImports)
 
         LOGGER.info(
             "Evaluating script '{}'",
             scriptEval.source
         )
 
-        Conium.Companion.debug(
+        Conium.debug(
             "Evaluating script '{}': {}",
             scriptEval::source,
             { content },
@@ -409,19 +409,12 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
                                     // The 'ofCode' only allow types import can be import to scripts.
                                     this.exportedScript[it.name] = it.ofCode(content)
                                 }
-
-                                LOGGER.info(
-                                    "Succeed executed script '{}', return value: {}",
-                                    scriptEval.source,
-                                    value
-                                )
-                            } ?: run {
-                            LOGGER.info(
-                                "Succeed executed script '{}'",
-                                scriptEval.source
-                            )
-                        }
+                            }
                     }
+                LOGGER.info(
+                    "Succeed executed script '{}'",
+                    scriptEval.source
+                )
             }
             // Not succeed, ignored result of this script, directly load next.
             is ResultWithDiagnostics.Failure -> {

@@ -19,6 +19,7 @@ import com.github.cao.awa.conium.hitokoto.ConiumHitokoto
 import com.github.cao.awa.conium.item.event.use.block.ConiumItemUseOnBlockEvent
 import com.github.cao.awa.conium.item.event.use.block.ConiumItemUseOnBlockEventMetadata
 import com.github.cao.awa.conium.script.index.common.ConiumEventContextBuilder
+import com.github.cao.awa.conium.script.index.common.request
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
 import com.github.cao.awa.conium.server.datapack.ConiumServerLoadDatapacks
@@ -289,7 +290,7 @@ class Conium {
             }
         }
 
-        ConiumEventContextBuilder.request(
+        request(
             ConiumEventType.ITEM_USE_ON_BLOCK
         ) {
             println("???")

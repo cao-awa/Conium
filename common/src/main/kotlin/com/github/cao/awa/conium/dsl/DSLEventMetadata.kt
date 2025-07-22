@@ -3,21 +3,16 @@ package com.github.cao.awa.conium.dsl
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.threadpool.ConiumThreadPool
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import java.util.function.Consumer
 
 open class DSLEventMetadata<I : Any, M : ConiumEventMetadata<I>, T : ConiumEventType<I, M>> {
-    var async: Boolean? = null
+    var async: Boolean = false
         set(value) {
             if (warningNoRepeats(field, "event async mode")) {
                 field = value
             }
-        }
-        get() {
-            if (field == null) {
-                return false
-            }
-            return field
         }
     private var catcher: Consumer<Throwable>? = null
         set(value) {
@@ -63,6 +58,17 @@ open class DSLEventMetadata<I : Any, M : ConiumEventMetadata<I>, T : ConiumEvent
     }
 
     fun doAction(metadata: M): Boolean {
+        if (this.async) {
+            ConiumThreadPool.execute {
+                execute(metadata)
+            }
+            return true
+        } else {
+            return execute(metadata)
+        }
+    }
+
+    private fun execute(metadata: M): Boolean {
         this.handler?.let { handler ->
             runCatching {
                 handler(metadata)
