@@ -170,14 +170,6 @@ class Conium {
             }
         }
 
-        private fun collectTranslators(translators: Map<LanguageTranslateTarget, Map<TranslateElementData<*>, StructuringTranslator<*>>>): Map<LanguageTranslateTarget, Collection<Class<*>>> {
-            val result: MutableMap<LanguageTranslateTarget, Collection<Class<*>>> = CollectionFactor.hashMap()
-            translators.forEach { (target: LanguageTranslateTarget, targetTranslators: Map<TranslateElementData<*>, StructuringTranslator<*>>) ->
-                result[target] = targetTranslators.keys.map { it.clazz() }
-            }
-            return result
-        }
-
         private fun printBanner() {
             for (line: String in IOUtil.read(ResourceLoader.get("assets/conium/banner.txt")).lines()) {
                 LOGGER.info(line)
@@ -239,7 +231,27 @@ class Conium {
             )
         }
 
-        // Initialize script translator for bedrock's typescript translates.
+
+        // Initialize script translator for generic typescript translates.
+        LOGGER.info("Loading structuring translator {} provider '{}' for [typescript]", StructuringTranslator.getVersion(), StructuringTranslator.DEFAULT_PROVIDER)
+        TypescriptKotlinScriptTranslator.postRegister()
+
+        StructuringTranslator.getTranslators(StructuringTranslator.DEFAULT_PROVIDER).let { translators ->
+            LOGGER.info(
+                "The structuring translator provider '{}' has loaded {} translators",
+                StructuringTranslator.DEFAULT_PROVIDER,
+                translators.size
+            )
+            debug(
+                "The structuring translator provider '{}' has loaded {} translators: {}",
+                { StructuringTranslator.DEFAULT_PROVIDER },
+                { translators.size },
+                { collectTranslators(translators) },
+                LOGGER::info
+            )
+        }
+
+        // Initialize script translator for conium bedrock's typescript translates.
         LOGGER.info("Loading conium '{}' structuring translator providers for [typescript]", VERSION)
         ConiumScriptTranslator.postRegister()
 
@@ -255,24 +267,6 @@ class Conium {
                 { VERSION },
                 { collectTranslators(translators) },
                 LOGGER::info
-            )
-        }
-
-        LOGGER.info("Loading fluxia structuring translator {} provider '{}' for [typescript]", StructuringTranslator.getVersion(), StructuringTranslator.DEFAULT_PROVIDER)
-        TypescriptKotlinScriptTranslator.postRegister()
-
-        val typescriptTranslators = StructuringTranslator.getTranslators(StructuringTranslator.DEFAULT_PROVIDER)
-        LOGGER.info(
-            "The structuring translator provider '{}' has loaded {} translators",
-            StructuringTranslator.DEFAULT_PROVIDER,
-            typescriptTranslators.size
-        )
-        if (ConiumConfig.debugs) {
-            LOGGER.info(
-                "The structuring translator provider '{}' has loaded {} translators: {}",
-                StructuringTranslator.DEFAULT_PROVIDER,
-                typescriptTranslators.size,
-                collectTranslators(typescriptTranslators)
             )
         }
 
