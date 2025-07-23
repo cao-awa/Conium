@@ -3,6 +3,7 @@
 package com.github.cao.awa.conium.mapping.yarn
 
 // net.minecraft | Completed 1.21.4
+import com.github.cao.awa.conium.mapping.yarn.reference.YarnBlocks
 import net.minecraft.GameVersion
 import net.minecraft.MinecraftVersion
 import net.minecraft.SaveVersion
@@ -416,7 +417,7 @@ typealias LootTableReporter = LootTableReporter
 typealias AbstractBlock = AbstractBlock
 typealias Block = Block
 typealias BlockSettings = AbstractBlock.Settings
-typealias Blocks = Blocks
+typealias Blocks = YarnBlocks
 typealias BlockState = BlockState
 typealias MapColor = MapColor
 typealias Waterloggable = Waterloggable
