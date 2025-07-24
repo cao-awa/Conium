@@ -170,6 +170,14 @@ class Conium {
             }
         }
 
+        /**
+         * Print the banner let users known the Conium is loading.
+         *
+         * @since 1.0.0
+         *
+         * @author cao_awa
+         */
+        @JvmStatic
         private fun printBanner() {
             for (line: String in IOUtil.read(ResourceLoader.get("assets/conium/banner.txt")).lines()) {
                 LOGGER.info(line)
@@ -179,6 +187,17 @@ class Conium {
         }
     }
 
+    /**
+     * Initialize the conium framework.
+     *
+     * @since 1.0.0
+     *
+     * @see StructuringTranslator
+     * @see ConiumScriptTranslator
+     *
+     * @author cao_awa
+     * @author 草二号机
+     */
     fun onInitialize() {
         // Print big banner, let user know Conium is loaded.
         // Conium is a very large and complex framework, potential conflict may more than other mods.
@@ -273,9 +292,9 @@ class Conium {
         doDslTest()
     }
 
-    private fun collectTranslators(translators: MutableMap<LanguageTranslateTarget?, MutableMap<TranslateElementData<*>?, StructuringTranslator<*>?>?>): MutableMap<LanguageTranslateTarget?, MutableList<Any?>?> {
-        val result = HashMap<LanguageTranslateTarget?, MutableList<Any?>?>()
-        translators.forEach { (target: LanguageTranslateTarget?, targetTranslators: MutableMap<TranslateElementData<*>?, StructuringTranslator<*>?>?) -> result.put(target, mutableListOf(targetTranslators!!.keys.stream().map { obj: TranslateElementData<*>? -> obj!!.clazz() }.toList())) }
+    private fun collectTranslators(translators: MutableMap<LanguageTranslateTarget, MutableMap<TranslateElementData<*>, StructuringTranslator<*>>>): MutableMap<LanguageTranslateTarget, MutableList<Any>> {
+        val result = HashMap<LanguageTranslateTarget, MutableList<Any>>()
+        translators.forEach { (target: LanguageTranslateTarget, targetTranslators: MutableMap<TranslateElementData<*>, StructuringTranslator<*>>) -> result.put(target, mutableListOf(targetTranslators.keys.stream().map { obj: TranslateElementData<*> -> obj.clazz() }.toList())) }
         return result
     }
 
