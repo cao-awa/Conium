@@ -32,7 +32,6 @@
     "registry.RegistryEntryReferenceAccessor",
     "registry.RegistryEntryReferenceMixin",
     "registry.SimpleRegistryMixin",
-    "screen.ScreenHandlerMixin",
     "server.MinecraftServerMixin",
     "server.interaction.ServerPlayerInteractionManagerMixin",
     "server.save.SaveLoadingMixin",
@@ -43,8 +42,9 @@
     "client.MinecraftClientAccessor",
     "client.interaction.ClientPlayerInteractionManagerMixin",
     "client.play.ClientPlayNetworkHandlerMixin",
-    "renderer.entity.EntityRenderDispatcherMixin",
-    "renderer.entity.EntityRenderersMixin",
-    "world.renderer.WorldRendererMixin"
+    "client.renderer.entity.EntityRenderDispatcherMixin",
+    "client.renderer.entity.EntityRenderersMixin",
+    "client.world.renderer.WorldRendererMixin",
+    "client.screen.ScreenHandlerMixin"
   ]
 }

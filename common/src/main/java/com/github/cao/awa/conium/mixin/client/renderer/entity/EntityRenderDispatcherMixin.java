@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.mixin.renderer.entity;
+package com.github.cao.awa.conium.mixin.client.renderer.entity;
 
 import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;

@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.mixin.renderer.entity;
+package com.github.cao.awa.conium.mixin.client.renderer.entity;
 
 import com.github.cao.awa.conium.client.entity.renderer.ConiumEntityRenderers;
 import com.google.common.collect.ImmutableMap;

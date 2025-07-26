@@ -29,17 +29,10 @@ import java.util.concurrent.Executor;
 
 @Mixin(DataPackContents.class)
 public abstract class DataPackContentsMixin {
-    @Shadow
-    @Final
-    private static CompletableFuture<Unit> COMPLETED_UNIT;
-    @Shadow
-    @Final
-    private static Logger LOGGER;
-    @Shadow
-    @Final
-    private ServerRecipeManager recipeManager;
-
-    @Inject(method = "reload", at = @At(value = "RETURN"))
+    @Inject(
+            method = "reload",
+            at = @At("RETURN")
+    )
     private static void reload(
             ResourceManager resourceManager,
             CombinedDynamicRegistries<ServerDynamicRegistryType> dynamicRegistries,
@@ -54,11 +47,10 @@ public abstract class DataPackContentsMixin {
         if (ConiumDedicatedServer.isInitialized()) {
             ConiumDedicatedServer.onReload();
         }
-
         ConiumEvent.clearAll();
 
         // Do callbacks when completed reloading.
-        cir.getReturnValue().whenComplete(((dataPackContents, throwable) -> {
+        cir.getReturnValue().whenCompleteAsync(((dataPackContents, throwable) -> {
             for (Runnable reloadCallback : Conium.reloadCallbacks) {
                 reloadCallback.run();
             }

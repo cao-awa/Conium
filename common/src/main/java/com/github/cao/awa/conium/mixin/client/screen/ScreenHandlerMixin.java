@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.mixin.screen;
+package com.github.cao.awa.conium.mixin.client.screen;
 
 import com.github.cao.awa.conium.event.ConiumEvent;
 import com.github.cao.awa.conium.event.context.ConiumEventContext;

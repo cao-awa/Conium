@@ -16,17 +16,21 @@ import java.util.function.BooleanSupplier;
 
 @Mixin(MinecraftServer.class)
 public class MinecraftServerMixin {
+    private MinecraftServer asServer() {
+        return Manipulate.cast(this);
+    }
+
     @Inject(
             method = "tick",
             at = @At("HEAD")
     )
     public void tickStart(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
         // Trigger server tick event.
-        ConiumServerEventMixinIntermediary.fireServerTickEvent(Manipulate.cast(this));
+        ConiumServerEventMixinIntermediary.fireServerTickEvent(asServer());
 
         // Trigger random task on server.
         if (ConiumRandom.nextBoolean()) {
-            ConiumServerEventMixinIntermediary.fireServerRandomEvent(Manipulate.cast(this));
+            ConiumServerEventMixinIntermediary.fireServerRandomEvent(asServer());
         }
     }
 
@@ -36,6 +40,6 @@ public class MinecraftServerMixin {
     )
     public void tickTail(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
         // Trigger server tick tail event.
-        ConiumServerEventMixinIntermediary.fireServerTickTailEvent(Manipulate.cast(this));
+        ConiumServerEventMixinIntermediary.fireServerTickTailEvent(asServer());
     }
 }

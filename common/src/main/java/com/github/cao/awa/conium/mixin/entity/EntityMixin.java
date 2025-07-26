@@ -52,7 +52,7 @@ public abstract class EntityMixin implements SprintMovementEntity {
     }
 
     @Unique
-    private Entity conium$asEntity() {
+    private Entity asEntity() {
         return Manipulate.cast(this);
     }
 
@@ -77,7 +77,7 @@ public abstract class EntityMixin implements SprintMovementEntity {
     )
     public void onFireTick(CallbackInfo ci) {
         // Trigger entity on fire event.
-        ConiumEntityEventMixinIntermediary.fireOnFireEvent(Manipulate.cast(this));
+        ConiumEntityEventMixinIntermediary.fireOnFireEvent(asEntity());
     }
 
     /**
@@ -99,7 +99,7 @@ public abstract class EntityMixin implements SprintMovementEntity {
     public void onExtinguish(int newFireTicks, CallbackInfo ci) {
         if (this.fireTicks > 0 && newFireTicks <= 0) {
             // Trigger entity fire extinguish event.
-            if (ConiumEntityEventMixinIntermediary.fireExtinguishEvent(Manipulate.cast(this))) {
+            if (ConiumEntityEventMixinIntermediary.fireExtinguishEvent(asEntity())) {
                 // Cancel this event when presaging was rejected the event.
                 ci.cancel();
             }
@@ -114,7 +114,7 @@ public abstract class EntityMixin implements SprintMovementEntity {
     public void onSetSprint(boolean sprinting, CallbackInfo ci) {
         if (sprinting) {
             // Trigger entity sprint event.
-            if (ConiumEntityEventMixinIntermediary.fireEntitySprintsEvent(ConiumEventType.ENTITY_SPRINT, Manipulate.cast(this))) {
+            if (ConiumEntityEventMixinIntermediary.fireEntitySprintsEvent(ConiumEventType.ENTITY_SPRINT, asEntity())) {
                 setFlag(3, false);
 
                 setCanStartSprint(false);
@@ -123,7 +123,7 @@ public abstract class EntityMixin implements SprintMovementEntity {
             }
         } else {
             // Trigger entity stop sprint event.
-            if (ConiumEntityEventMixinIntermediary.fireEntitySprintsEvent(ConiumEventType.ENTITY_STOP_SPRINT, Manipulate.cast(this))) {
+            if (ConiumEntityEventMixinIntermediary.fireEntitySprintsEvent(ConiumEventType.ENTITY_STOP_SPRINT, asEntity())) {
                 setFlag(3, true);
                 ci.cancel();
             }
@@ -138,7 +138,7 @@ public abstract class EntityMixin implements SprintMovementEntity {
     public void onSprinting(CallbackInfo ci) {
         if (isSprinting()) {
             // Trigger entity sprinting event.
-            if (ConiumEntityEventMixinIntermediary.fireEntitySprintingEvent(Manipulate.cast(this))) {
+            if (ConiumEntityEventMixinIntermediary.fireEntitySprintingEvent(asEntity())) {
                 // Cancel this event when presaging was rejected the event.
                 ci.cancel();
             }

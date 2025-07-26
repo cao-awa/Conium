@@ -1,30 +1,15 @@
 package com.github.cao.awa.conium.event.handler;
 
-import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
-import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.threadpool.ConiumThreadPool
-import java.util.function.Function
-import java.util.function.Supplier
 
 class ConiumEventHandler {
     companion object {
         fun <I: Any> execute(context: ConiumArisingEventContext<*, *>, input: I): Boolean {
-            if (context.presaging(input)) {
-                if (context.async) {
-                    ConiumThreadPool.execute {
-                        context.arising(input)
-                    }
-                } else {
-                    context.arising(input)
-                }
-                return false
-            }
-
-            return true
+            return execute(context, input) { }
         }
 
-        fun <I: Any> executeWithMiddleAction(context: ConiumArisingEventContext<*, *>, input: I, action: () -> Unit): Boolean {
+        fun <I: Any> execute(context: ConiumArisingEventContext<*, *>, input: I, action: () -> Unit): Boolean {
             if (context.presaging(input)) {
                 if (context.async) {
                     ConiumThreadPool.execute {
@@ -35,12 +20,11 @@ class ConiumEventHandler {
                 } else {
                     action()
 
-                    context.arising(input)
+                    return !context.arising(input)
                 }
-                return false
             }
 
-            return true
+            return false
         }
 
 

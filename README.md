@@ -19,7 +19,6 @@ Conium is currently as 'on client' mode, the server needs to synchronize the dat
 |              Minecraft |       >=1.21.6        |     Need     | 1.21.6 or higher can be use  |
 | Fabric language kotlin | 1.13.4+kotlin.2.2.0!! |     Need     | Only kotlin 2.2.0 can be use |
 |             Fabric API |           ?           |     Need     |      Any version is ok       |
-|                 Fluxia |     1.1.4-fix4!!      | Unnecessary  | Built-in contents translator |
 
 ### Build requirements
 

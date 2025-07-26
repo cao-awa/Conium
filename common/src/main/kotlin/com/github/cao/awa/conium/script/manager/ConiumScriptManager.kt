@@ -335,12 +335,9 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
      */
     private fun evalKotlin(scripts: Iterator<ScriptEval>) {
         // Do not continue to load when scripts already not has next.
-        if (scripts.hasNext()) {
+        while (scripts.hasNext()) {
             // Get the next script and process it.
-            evalKotlin(scripts.next()) {
-                // Continues to processes until scripts has no next present.
-                evalKotlin(scripts)
-            }
+            evalKotlin(scripts.next())
         }
     }
 
@@ -361,7 +358,7 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
      */
     private fun evalKotlin(
         scriptEval: ScriptEval,
-        resultCallback: () -> Unit
+        resultCallback: () -> Unit = { }
     ): ResultWithDiagnostics<EvaluationResult> {
         // Import scripts to this script.
         val content: String = ScriptExport.import(this.exportedScript, scriptEval.codes, *scriptEval.defaultImports)

@@ -72,43 +72,41 @@ class DynamicArgs<P : ParameterSelective?, R> {
      *
      * @since 1.0.0
      */
-    private fun varyArgs(identity: Any, sources: MutableMap<DynamicArgType<*>, Any?>): Map<DynamicArgType<*>, Any?> {
-        return synchronized(this) {
-            val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
+    private fun varyArgs(identity: Any, sources: MutableMap<DynamicArgType<*>, Any?>, depth: Int): Map<DynamicArgType<*>, Any?> {
+        val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
 
-            // Find required arguments from context arguments (manually putted to map).
-            // Copy the map data to prevent ConcurrentModificationException.
-            for ((key: DynamicArgType<*>, value: Any?) in CollectionFactor.hashMap(sources)) {
-                // Only varying argument type to real argument instance.
-                if (value is DynamicArgType<*>) {
-                    // Dynamic args has multiple varying methods, find until found or no more method can try.
-                    for (dynamicVarying: DynamicArgs<*, *>? in value.dynamicArgs) {
-                        // Do not process null dynamic args or transform the dynamic args that doesn't have correct lifecycles.
-                        if (dynamicVarying == null || dynamicVarying.lifecycle != DynamicArgsLifecycle.TRANSFORM) {
-                            continue
-                        }
-
-                        // Run the dynamic vary, usually, not all args must got a result, when exception, it means the args cannot transform from any other args.
-                        val result: Any? = dynamicVarying.runCatching {
-                            // Arise the dynamic args, it will continue to vary args or got a value.
-                            transform(identity, sources, null)
-                        }.getOrNull()
-
-                        // When a result found, stop dynamic args varying.
-                        if (result != null) {
-                            // And put to arguments map.
-                            args[key] = result
-                            break
-                        }
+        // Find required arguments from context arguments (manually putted to map).
+        // Copy the map data to prevent ConcurrentModificationException.
+        for ((key: DynamicArgType<*>, value: Any?) in CollectionFactor.hashMap(sources)) {
+            // Only varying argument type to real argument instance.
+            if (value is DynamicArgType<*> && depth < 10) {
+                // Dynamic args has multiple varying methods, find until found or no more method can try.
+                for (dynamicVarying: DynamicArgs<*, *>? in value.dynamicArgs) {
+                    // Do not process null dynamic args or transform the dynamic args that doesn't have correct lifecycles.
+                    if (dynamicVarying == null || dynamicVarying.lifecycle != DynamicArgsLifecycle.TRANSFORM) {
+                        continue
                     }
-                } else {
-                    // The real instance should directly put to the argument map.
-                    args[key] = value
-                }
-            }
 
-            args
+                    // Run the dynamic vary, usually, not all args must got a result, when exception, it means the args cannot transform from any other args.
+                    val result: Any? = dynamicVarying.runCatching {
+                            // Arise the dynamic args, it will continue to vary args or got a value.
+                            transform(identity, sources, null, depth + 1)
+                    }.getOrNull()
+
+                    // When a result found, stop dynamic args varying.
+                    if (result != null) {
+                        // And put to arguments map.
+                        args[key] = result
+                        break
+                    }
+                }
+            } else {
+                // The real instance should directly put to the argument map.
+                args[key] = value
+            }
         }
+
+        return args
     }
 
     /**
@@ -128,7 +126,7 @@ class DynamicArgs<P : ParameterSelective?, R> {
      *
      * @since 1.0.0
      */
-    fun transform(identity: Any, args: MutableMap<DynamicArgType<*>, Any?>, p: P?): R {
+    fun transform(identity: Any, args: MutableMap<DynamicArgType<*>, Any?>, p: P?, depth: Int): R {
         // Vary args to got more completed arguments.
         // Put 'queryArg' to source arguments map, it will vary to other value in the next step varying.
         for (queryArg: DynamicArgType<*> in this.queryArgs) {
@@ -141,6 +139,10 @@ class DynamicArgs<P : ParameterSelective?, R> {
         }
 
         // Do vary and trigger.
-        return this.trigger.apply(identity, varyArgs(identity, args), p)
+        return this.trigger.apply(identity, varyArgs(identity, args, depth), p)
+    }
+
+    fun transform(identity: Any, args: MutableMap<DynamicArgType<*>, Any?>, p: P?): R {
+        return transform(identity, args, p, 0)
     }
 }

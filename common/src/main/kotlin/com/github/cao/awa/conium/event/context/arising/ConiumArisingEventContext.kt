@@ -54,6 +54,7 @@ open class ConiumArisingEventContext<I: Any, P : ParameterSelective?>(
         return this
     }
 
+    @Suppress("unchecked_cast")
     fun <X : Any> targetTo(predicate: (X) -> Boolean): ConiumEventContext<I> {
         this.targetedIdentity = ParameterSelective1 {
             Manipulate.supplyLater {

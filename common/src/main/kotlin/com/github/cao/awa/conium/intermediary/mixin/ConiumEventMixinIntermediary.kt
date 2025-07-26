@@ -1,7 +1,6 @@
 package com.github.cao.awa.conium.intermediary.mixin
 
 import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.handler.ConiumEventHandler
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
@@ -27,7 +26,7 @@ class ConiumEventMixinIntermediary {
 
             argProducer.accept(context)
 
-            ConiumEventHandler.executeWithMiddleAction(context, input, action)
+            ConiumEventHandler.execute(context, input, action)
         }
 
         @JvmStatic

@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.mixin.world.renderer;
+package com.github.cao.awa.conium.mixin.client.world.renderer;
 
 import net.minecraft.client.render.WorldRenderer;
 import org.spongepowered.asm.mixin.Mixin;

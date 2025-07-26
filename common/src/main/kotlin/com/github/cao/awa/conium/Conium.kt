@@ -300,8 +300,6 @@ class Conium {
 
     fun doDslTest() {
         onEvent(ConiumEventType.ITEM_USE_ON_BLOCK) {
-            this.async = true
-
             action {
                 println(this.itemUsageContext.stack)
                 println("awa")
@@ -326,7 +324,7 @@ class Conium {
         ) {
             println("???")
             true
-        }.async()
+        }
     }
 
     fun <I: Any, M: ConiumEventMetadata<I>, T: ConiumEventType<I, M>> onEvent(
