@@ -3,8 +3,8 @@ package com.github.cao.awa.coniumic.feature
 import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.feature.ConiumFeatureRegister
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
-import net.fabricmc.fabric.api.biome.v1.*
-import net.fabricmc.fabric.impl.biome.modification.BiomeModificationImpl
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
@@ -19,6 +19,7 @@ class ConiumFabricFeatureRegister : ConiumFeatureRegister() {
 
     private val modifiers: MutableSet<Identifier> = CollectionFactor.hashSet()
 
+    //  TODO Remove fabric api
     override fun placedFeature(id: Identifier?) {
         if (id == null) {
             LOGGER.warn("Cannot register null identifier to the feature registry", NullPointerException("Null identifier"))

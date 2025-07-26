@@ -1,9 +1,12 @@
-package com.github.cao.awa.conium.intermediary.mixin.server
+package com.github.cao.awa.conium.intermediary.server
 
+import com.github.cao.awa.conium.event.ConiumEvent
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
-import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary.Companion.fireEvent
-import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary.Companion.fireEventCancelable
+import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.Companion.fireEvent
+import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.Companion.fireEventCancelable
 import net.minecraft.server.MinecraftServer
+import net.minecraft.server.network.ServerConfigurationNetworkHandler
 import net.minecraft.util.Unit
 
 /**
@@ -85,6 +88,28 @@ class ConiumServerEventMixinIntermediary {
                 ConiumEventType.SERVER_TICK_TAIL,
                 server,
             ) { /* No contexts arg need to add */ }
+        }
+
+        /**
+         * Trigger the enter server configuration connection.
+         *
+         * @see MinecraftServer
+         * @see ConiumEventType.SERVER_CONFIGURATION_CONNECTION
+         *
+         * @param server the minecraft server
+         *
+         * @author cao_awa
+         *
+         * @since 1.0.0
+         */
+        @JvmStatic
+        fun fireServerConfigurationEvent(server: MinecraftServer, handler: ServerConfigurationNetworkHandler) {
+            fireEvent(
+                ConiumEventType.SERVER_CONFIGURATION_CONNECTION,
+                handler
+            ) { context ->
+                context[ConiumEventArgTypes.SERVER] = server
+            }
         }
     }
 }

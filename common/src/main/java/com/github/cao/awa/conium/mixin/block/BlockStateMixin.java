@@ -6,7 +6,7 @@ import com.github.cao.awa.conium.block.event.breaking.ConiumBreakBlockEvent;
 import com.github.cao.awa.conium.block.event.breaking.ConiumBreakingBlockEvent;
 import com.github.cao.awa.conium.block.event.breaking.ConiumBrokenBlockEvent;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
-import com.github.cao.awa.conium.intermediary.mixin.block.ConiumBlockEventMixinIntermediary;
+import com.github.cao.awa.conium.intermediary.block.ConiumBlockEventMixinIntermediary;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.mixin.entity;
 
 import com.github.cao.awa.conium.event.type.ConiumEventType;
-import com.github.cao.awa.conium.intermediary.mixin.entity.ConiumEntityEventMixinIntermediary;
+import com.github.cao.awa.conium.intermediary.entity.ConiumEntityEventMixinIntermediary;
 import com.github.cao.awa.conium.sprint.SprintMovementEntity;
 import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import net.minecraft.entity.Entity;

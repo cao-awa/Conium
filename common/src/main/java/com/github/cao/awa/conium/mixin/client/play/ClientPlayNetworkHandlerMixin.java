@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.mixin.client.play;
 
-import com.github.cao.awa.conium.intermediary.mixin.chunk.ConiumChunkEventMixinIntermediary;
+import com.github.cao.awa.conium.intermediary.chunk.ConiumChunkEventMixinIntermediary;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket;
 import net.minecraft.world.chunk.WorldChunk;

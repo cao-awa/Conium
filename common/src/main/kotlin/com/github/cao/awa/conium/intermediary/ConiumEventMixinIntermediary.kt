@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.intermediary.mixin
+package com.github.cao.awa.conium.intermediary
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext

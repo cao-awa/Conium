@@ -1,14 +1,11 @@
-package com.github.cao.awa.conium.intermediary.mixin.chunk
+package com.github.cao.awa.conium.intermediary.chunk
 
-import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
-import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary.Companion.fireEvent
-import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary.Companion.fireEventCancelable
+import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.Companion.fireEventCancelable
 import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket
 import net.minecraft.server.MinecraftServer
-import net.minecraft.util.Unit
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.chunk.WorldChunk
 

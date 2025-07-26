@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.intermediary.mixin.block
+package com.github.cao.awa.conium.intermediary.block
 
 import com.github.cao.awa.conium.block.event.breaking.ConiumBreakBlockEvent
 import com.github.cao.awa.conium.block.event.breaking.ConiumBreakingBlockEventMetadata
@@ -8,7 +8,7 @@ import com.github.cao.awa.conium.block.event.use.ConiumUseBlockEvent
 import com.github.cao.awa.conium.block.event.use.ConiumUsedBlockEvent
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
-import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary
+import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary
 import com.github.cao.awa.conium.kotlin.extent.block.invokeOnUse
 import com.github.cao.awa.conium.mixin.block.BlockItemMixin
 import com.github.cao.awa.conium.mixin.block.BlockStateMixin

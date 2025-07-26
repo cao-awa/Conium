@@ -1,21 +1,17 @@
-package com.github.cao.awa.conium.intermediary.mixin.entity
+package com.github.cao.awa.conium.intermediary.entity
 
-import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamageEventMetadata
 import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamagesEventMetadata
 import com.github.cao.awa.conium.entity.event.die.ConiumEntityDeathsEventMetadata
-import com.github.cao.awa.conium.entity.event.die.ConiumEntityDieEventMetadata
 import com.github.cao.awa.conium.entity.event.rest.ConiumEntityRestEventMetadata
-import com.github.cao.awa.conium.entity.event.rest.sleep.ConiumEntitySleepEventMetadata
-import com.github.cao.awa.conium.entity.event.sprint.ConiumEntitySprintEventMetadata
 import com.github.cao.awa.conium.entity.event.sprint.ConiumEntitySprintsEventMetadata
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
-import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary
-import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary.Companion.fireCascadedEvent
-import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary.Companion.fireEvent
-import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary.Companion.fireEventCancelable
+import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary
+import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.Companion.fireCascadedEvent
+import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.Companion.fireEvent
+import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.Companion.fireEventCancelable
 import com.github.cao.awa.conium.mixin.entity.EntityMixin
 import com.github.cao.awa.conium.mixin.entity.living.LivingEntityMixin
 import net.minecraft.entity.Entity

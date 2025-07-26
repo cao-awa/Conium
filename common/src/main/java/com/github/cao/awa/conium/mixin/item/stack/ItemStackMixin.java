@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.mixin.item.stack;
 import com.github.cao.awa.conium.Conium;
 import com.github.cao.awa.conium.component.ConiumComponentType;
 import com.github.cao.awa.conium.config.ConiumConfig;
-import com.github.cao.awa.conium.intermediary.mixin.item.ConiumItemEventMixinIntermediary;
+import com.github.cao.awa.conium.intermediary.item.ConiumItemEventMixinIntermediary;
 import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import net.minecraft.component.ComponentHolder;
 import net.minecraft.component.ComponentType;

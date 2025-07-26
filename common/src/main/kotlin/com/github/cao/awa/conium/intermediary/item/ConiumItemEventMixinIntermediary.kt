@@ -1,12 +1,11 @@
-package com.github.cao.awa.conium.intermediary.mixin.item
+package com.github.cao.awa.conium.intermediary.item
 
-import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
-import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary.Companion.fireEvent
-import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary.Companion.fireEventCancelable
-import com.github.cao.awa.conium.intermediary.mixin.ConiumEventMixinIntermediary.Companion.fireInheritedCascadedResultEvent
+import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.Companion.fireEvent
+import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.Companion.fireEventCancelable
+import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.Companion.fireInheritedCascadedResultEvent
 import com.github.cao.awa.conium.mapping.yarn.LivingEntity
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot

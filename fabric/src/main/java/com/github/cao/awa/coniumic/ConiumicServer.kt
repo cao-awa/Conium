@@ -19,17 +19,6 @@ class ConiumicServer : DedicatedServerModInitializer {
     }
 
     override fun onInitializeServer() {
-        // Register the configuring packet to synchronize registry.
-        ServerConfigurationConnectionEvents.CONFIGURE.register { handler: ServerConfigurationNetworkHandler, server: MinecraftServer ->
-            val context = ConiumEvent.enterConfigurationConnection.request()
-
-            context[ConiumEventArgTypes.SERVER] = server
-
-            if (context.presaging(handler)) {
-                context.arising(handler)
-            }
-        }
-
         // Network packets.
         ConiumPacketRegister.implementConfigurationToClient<ConiumClientConfigurationPacket> { id, codec ->
             PayloadTypeRegistryImpl.CONFIGURATION_S2C.register(id, codec)

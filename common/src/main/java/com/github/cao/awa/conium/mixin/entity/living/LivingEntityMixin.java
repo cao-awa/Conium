@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.mixin.entity.living;
 
 import com.github.cao.awa.conium.event.type.ConiumEventType;
-import com.github.cao.awa.conium.intermediary.mixin.entity.ConiumEntityEventMixinIntermediary;
+import com.github.cao.awa.conium.intermediary.entity.ConiumEntityEventMixinIntermediary;
 import com.github.cao.awa.conium.mixin.entity.EntityMixin;
 import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import net.minecraft.entity.LivingEntity;
