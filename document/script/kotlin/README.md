@@ -101,12 +101,33 @@ onEvent(ITEM_USE_ON_BLOCK) {
         println("DSL style event handle compled! ")
     }
 }
+```
+and cascaded event：
+```kts
+onEvent(ITEM_USE_ON_BLOCK) {
+    action {
+        // Main event handler logic.
+        println(this.itemUsageContext)
+        println(this.world)
 
-// or
-onEvent {
-    target = ITEM_USE_ON_BLOCK
+        // Test exception happening 
+        throw NullPointerException()
+    }
 
-    // ...... here is same to last example 
+    catching {
+        // Trigger when 'action' happening exceptions or errors.
+        this.exception.printStackTrace()
+    }
+
+    finalize {
+        // Trigger when all handler done (include 'catching').
+        println("DSL style event handle compled! ")
+    }
+}.then {
+    // Same as the above content.
+    action {
+        true
+    }
 }
 ```
 
