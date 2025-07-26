@@ -16,7 +16,8 @@ import net.minecraft.util.math.random.Random
 import net.minecraft.world.tick.ScheduledTickView
 
 class ConiumBlockScheduleTickEvent : ConiumEvent<Block, ConiumBlockScheduleTickEventMetadata, ParameterSelective5<Boolean, ServerWorld, BlockPos, AbstractBlockState, ScheduledTickView, Random>>(
-    ConiumEventType.BLOCK_SCHEDULE_TICK
+    ConiumEventType.BLOCK_SCHEDULE_TICK,
+    { ConiumEventType.BLOCK_SCHEDULE_TICKED }
 ) {
     override fun requirement(): ConiumArisingEventContext<Block, out ParameterSelective> {
         return requires(

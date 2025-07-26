@@ -15,7 +15,8 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 class ConiumEntityWakeUpEvent : ConiumEvent<EntityType<*>, ConiumEntityWakeUpEventMetadata, ParameterSelective3<Boolean, World, LivingEntity, BlockPos>>(
-    ConiumEventType.ENTITY_WAKE_UP
+    ConiumEventType.ENTITY_WAKE_UP,
+    { ConiumEventType.ENTITY_WAKED_UP }
 ) {
     override fun requirement(): ConiumArisingEventContext<EntityType<*>, out ParameterSelective> {
         return requires(

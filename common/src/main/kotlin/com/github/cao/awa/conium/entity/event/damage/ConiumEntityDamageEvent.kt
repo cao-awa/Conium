@@ -16,7 +16,8 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.world.World
 
 class ConiumEntityDamageEvent : ConiumEvent<EntityType<*>, ConiumEntityDamageEventMetadata, ParameterSelective4<Boolean, World, LivingEntity, DamageSource, Float>>(
-    ConiumEventType.ENTITY_DAMAGE
+    ConiumEventType.ENTITY_DAMAGE,
+    { ConiumEventType.ENTITY_DAMAGED }
 ) {
     override fun requirement(): ConiumArisingEventContext<EntityType<*>, out ParameterSelective> {
         return requires(

@@ -30,7 +30,8 @@ import net.minecraft.world.World
  * @since 1.0.0
  */
 class ConiumTrappedChestClosingEvent : ConiumEvent<Block, ConiumTrappedChestClosingEventMetadata, ParameterSelective6<Boolean, World, PlayerEntity, TrappedChestBlockEntity, AbstractBlockState, BlockPos, ViewerCountManager>>(
-    ConiumEventType.TRAPPED_CHEST_CLOSING
+    ConiumEventType.TRAPPED_CHEST_CLOSING,
+    { ConiumEventType.TRAPPED_CHEST_CLOSED }
 ) {
     override fun requirement(): ConiumArisingEventContext<Block, out ParameterSelective> {
         return requires(

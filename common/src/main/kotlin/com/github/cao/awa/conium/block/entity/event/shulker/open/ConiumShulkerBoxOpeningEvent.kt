@@ -28,7 +28,8 @@ import net.minecraft.world.World
  * @since 1.0.0
  */
 class ConiumShulkerBoxOpeningEvent : ConiumEvent<Block, ConiumShulkerBoxOpeningEventMetadata, ParameterSelective5<Boolean, World, PlayerEntity, ShulkerBoxBlockEntity, AbstractBlockState, BlockPos>>(
-    ConiumEventType.SHULKER_BOX_OPENING
+    ConiumEventType.SHULKER_BOX_OPENING,
+    { ConiumEventType.SHULKER_BOX_OPENED }
 ) {
     override fun requirement(): ConiumArisingEventContext<Block, out ParameterSelective> {
         return requires(

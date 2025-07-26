@@ -63,7 +63,7 @@ class ConiumEntityEventMixinIntermediary {
          * @since 1.0.0
          */
         @JvmStatic
-        fun <M: ConiumEntityDamagesEventMetadata> fireEntityDamageEvent(eventType: ConiumEventType<EntityType<*>, M>, entity: LivingEntity, damageSource: DamageSource, amount: Float): Boolean {
+        fun <M: ConiumEntityDamagesEventMetadata> fireEntityDamageEvent(eventType: ConiumEventType<EntityType<*>, M, *, *>, entity: LivingEntity, damageSource: DamageSource, amount: Float): Boolean {
             return fireEventCancelable(
                 eventType,
                 entity.type
@@ -97,7 +97,7 @@ class ConiumEntityEventMixinIntermediary {
          * @since 1.0.0
          */
         @JvmStatic
-        fun <M: ConiumEntityDeathsEventMetadata> fireEntityDieEvent(eventType: ConiumEventType<EntityType<*>, M>, entity: LivingEntity, damageSource: DamageSource): Boolean {
+        fun <M: ConiumEntityDeathsEventMetadata> fireEntityDieEvent(eventType: ConiumEventType<EntityType<*>, M, *, *>, entity: LivingEntity, damageSource: DamageSource): Boolean {
             return fireEventCancelable(
                 eventType,
                 entity.type
@@ -129,7 +129,7 @@ class ConiumEntityEventMixinIntermediary {
          * @since 1.0.0
          */
         @JvmStatic
-        fun <M: ConiumEntityRestEventMetadata> fireEntityRestEvent(eventType: ConiumEventType<EntityType<*>, M>, entity: LivingEntity, sleepPos: BlockPos?): Boolean {
+        fun <M: ConiumEntityRestEventMetadata> fireEntityRestEvent(eventType: ConiumEventType<EntityType<*>, M, *, *>, entity: LivingEntity, sleepPos: BlockPos?): Boolean {
             // Let this event failure directly when sleeping pos is null,
             // because the 'sleep' call will input a position to try sleep,
             // and 'wakeUp' call input a null when mean this entity are not sleeping currently.
@@ -246,7 +246,7 @@ class ConiumEntityEventMixinIntermediary {
          * @since 1.0.0
          */
         @JvmStatic
-        fun <M: ConiumEntitySprintsEventMetadata> fireEntitySprintsEvent(targetEvent: ConiumEventType<EntityType<*>, M>, entity: Entity): Boolean {
+        fun <M: ConiumEntitySprintsEventMetadata> fireEntitySprintsEvent(targetEvent: ConiumEventType<EntityType<*>, M, *, *>, entity: Entity): Boolean {
             return fireEventCancelable(
                 targetEvent,
                 entity.type

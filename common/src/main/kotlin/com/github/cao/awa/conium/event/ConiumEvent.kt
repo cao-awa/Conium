@@ -44,6 +44,7 @@ import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickedEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.unnamed
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
+import com.github.cao.awa.conium.event.inactive.ConiumInactiveEvent
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.trigger.ConiumEventTrigger
 import com.github.cao.awa.conium.event.trigger.ListTriggerable
@@ -78,18 +79,19 @@ abstract class ConiumEvent<
         M: ConiumEventMetadata<I>,
         P: ParameterSelective
 >(
-    val eventType: ConiumEventType<I, M>
+    val eventType: ConiumEventType<I, M, *, *>,
+    val nextEvent: () -> ConiumEventType<*, *, *, *> = { ConiumEventType.INACTIVE }
 ) : ListTriggerable<P>() {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumEvent")
-        private val events: MutableMap<ConiumEventType<*, *>, ConiumEvent<*, *, *>> = CollectionFactor.hashMap()
-        private val foreverContext: MutableMap<ConiumEventType<*, *>, MutableList<ConiumArisingEventContext<*, *>>> = CollectionFactor.hashMap()
+        private val events: MutableMap<ConiumEventType<*, *, *, *>, ConiumEvent<*, *, *>> = CollectionFactor.hashMap()
+        private val foreverContext: MutableMap<ConiumEventType<*, *, *, *>, MutableList<ConiumArisingEventContext<*, *>>> = CollectionFactor.hashMap()
 
         @JvmField
         val random: ConiumRandomEvent = ConiumRandomEvent()
 
         @JvmField
-        val itemUse: ConiumItemUseEvent= ConiumItemUseEvent()
+        val itemUse: ConiumItemUseEvent = ConiumItemUseEvent()
 
         @JvmField
         val itemUsed: ConiumItemUsedEvent = ConiumItemUsedEvent()
@@ -265,29 +267,29 @@ abstract class ConiumEvent<
          * @param type the type of event
          */
         @JvmStatic
-        fun <I: Any> request(type: ConiumEventType<I, out ConiumEventMetadata<I>>): ConiumArisingEventContext<*, out ParameterSelective> {
+        fun <I: Any> request(type: ConiumEventType<I, out ConiumEventMetadata<I>, *, *>): ConiumArisingEventContext<*, out ParameterSelective> {
             return findEvent(type).request()
         }
 
         @JvmStatic
-        fun <I: Any, M: ConiumEventMetadata<I>> findEvent(type: ConiumEventType<I, M>): ConiumEvent<I, M, *> {
+        fun <I: Any, M: ConiumEventMetadata<I>> findEvent(type: ConiumEventType<I, M, *, *>): ConiumEvent<I, M, *> {
             return this.events[type].doCast()
         }
 
         @JvmStatic
-        fun unsafeFindEvent(type: ConiumEventType<*, *>): ConiumEvent<*, *, *> {
+        fun unsafeFindEvent(type: ConiumEventType<*, *, *, *>): ConiumEvent<*, *, *> {
             return this.events[type] as ConiumEvent<*, *, *>
         }
 
         fun count(): Int = this.events.size
 
-        fun events(): Map<ConiumEventType<*, *>, ConiumEvent<*, *, *>> = Collections.unmodifiableMap(this.events)
+        fun events(): Map<ConiumEventType<*, *, *, *>, ConiumEvent<*, *, *>> = Collections.unmodifiableMap(this.events)
 
-        fun <I: Any> forever(eventType: ConiumEventType<I, out ConiumEventMetadata<I>>, context: ConiumArisingEventContext<*, *>) {
+        fun <I: Any> forever(eventType: ConiumEventType<I, out ConiumEventMetadata<I>, *, *>, context: ConiumArisingEventContext<*, *>) {
             this.foreverContext.computeIfAbsent(eventType) { CollectionFactor.arrayList() }.add(context)
         }
 
-        fun forever(eventType: ConiumEventType<*, *>): MutableList<ConiumArisingEventContext<*, *>> {
+        fun forever(eventType: ConiumEventType<*, *, *, *>): MutableList<ConiumArisingEventContext<*, *>> {
             return this.foreverContext.getOrDefault(eventType, Collections.emptyList())
         }
 
@@ -296,7 +298,7 @@ abstract class ConiumEvent<
         }
 
         fun attach() {
-            for ((_: ConiumEventType<*, *>, event: ConiumEvent<*, *, *>) in this.events) {
+            for ((_: ConiumEventType<*, *, *, *>, event: ConiumEvent<*, *, *>) in this.events) {
                 event.attach()
             }
         }

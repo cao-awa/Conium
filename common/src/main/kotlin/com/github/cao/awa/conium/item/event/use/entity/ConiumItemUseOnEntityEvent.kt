@@ -16,7 +16,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
 
 class ConiumItemUseOnEntityEvent : ConiumItemEvent<ConiumItemUseOnEntityEventMetadata, ParameterSelective4<Boolean, PlayerEntity, LivingEntity, ItemStack, Hand>>(
-    ConiumEventType.ITEM_USE_ON_ENTITY
+    ConiumEventType.ITEM_USE_ON_ENTITY,
+    { ConiumEventType.ITEM_USED_ON_ENTITY }
 ) {
     override fun requirement(): ConiumArisingEventContext<Item, out ParameterSelective> {
         return requires(

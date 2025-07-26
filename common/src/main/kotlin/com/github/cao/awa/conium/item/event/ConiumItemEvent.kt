@@ -7,5 +7,6 @@ import com.github.cao.awa.conium.parameter.ParameterSelective
 import net.minecraft.item.Item
 
 abstract class ConiumItemEvent<M: ConiumEventMetadata<Item>, P : ParameterSelective>(
-    eventType: ConiumEventType<Item, M>
-) : ConiumEvent<Item, M, P>(eventType)
+    eventType: ConiumEventType<Item, M, *, *>,
+    nextEvent: () -> ConiumEventType<*, *, *, *> = { ConiumEventType.INACTIVE }
+) : ConiumEvent<Item, M, P>(eventType, nextEvent)

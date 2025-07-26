@@ -15,7 +15,8 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.world.World
 
 class ConiumEntityDieEvent : ConiumEvent<EntityType<*>, ConiumEntityDieEventMetadata, ParameterSelective3<Boolean, World, LivingEntity, DamageSource>>(
-    ConiumEventType.ENTITY_DIE
+    ConiumEventType.ENTITY_DIE,
+    { ConiumEventType.ENTITY_DEAD }
 ) {
     override fun requirement(): ConiumArisingEventContext<EntityType<*>, out ParameterSelective> {
         return requires(

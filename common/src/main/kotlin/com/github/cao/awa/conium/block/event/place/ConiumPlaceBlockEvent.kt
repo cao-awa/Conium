@@ -13,7 +13,8 @@ import net.minecraft.block.Block
 import net.minecraft.item.ItemPlacementContext
 
 class ConiumPlaceBlockEvent : ConiumEvent<Block, ConiumPlaceBlockEventMetadata, ParameterSelective1<Boolean, ItemPlacementContext>>(
-    ConiumEventType.PLACE_BLOCK
+    ConiumEventType.PLACE_BLOCK,
+    { ConiumEventType.PLACED_BLOCK }
 ) {
     override fun requirement(): ConiumArisingEventContext<Block, out ParameterSelective> {
         return requires(

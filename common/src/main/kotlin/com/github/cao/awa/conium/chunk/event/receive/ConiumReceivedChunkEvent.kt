@@ -11,7 +11,10 @@ import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 import net.minecraft.world.chunk.WorldChunk
 
-class ConiumReceivedChunkEvent : ConiumEvent<WorldChunk, ConiumReceivedChunkEventMetadata, ParameterSelective1<Boolean, WorldChunk>>(ConiumEventType.RECEIVED_CHUNK) {
+class ConiumReceivedChunkEvent : ConiumEvent<WorldChunk, ConiumReceivedChunkEventMetadata, ParameterSelective1<Boolean, WorldChunk>>(
+    ConiumEventType.RECEIVED_CHUNK,
+    { ConiumEventType.RECEIVED_CHUNK }
+) {
     override fun requirement(): ConiumArisingEventContext<WorldChunk, out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.WORLD_CHUNK,

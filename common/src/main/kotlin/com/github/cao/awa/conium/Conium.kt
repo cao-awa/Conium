@@ -10,6 +10,7 @@ import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.datapack.worldgen.ConiumPlacedFeatureManager
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.dsl.ConiumDSLEventContext
+import com.github.cao.awa.conium.event.dsl.DSLSample
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.function.consumer.string.obj.*
@@ -290,7 +291,7 @@ class Conium {
         }
 
         if (ConiumConfig.debugs) {
-            doDslTest()
+            DSLSample.doDslTest()
         }
     }
 
@@ -300,45 +301,4 @@ class Conium {
         return result
     }
 
-    fun doDslTest() {
-        onEvent(ConiumEventType.ITEM_USE_ON_BLOCK) {
-            action {
-                println(this.itemUsageContext.stack)
-                println("awa")
-                true
-            }
-
-            catching { exception ->
-                exception.printStackTrace()
-            }
-
-            catching(NullPointerException::class.java) { exception ->
-                println("NullPointerException happening!")
-            }
-
-            finalize {
-                println("DSL Event completed execute!")
-            }
-        }
-
-        request(
-            ConiumEventType.ITEM_USE_ON_BLOCK
-        ) {
-            println("???")
-            true
-        }
-    }
-
-    fun <I: Any, M: ConiumEventMetadata<I>, T: ConiumEventType<I, M>> onEvent(
-        eventType: T,
-        block: ConiumDSLEventContext<I, M, T>.() -> Unit
-    ): ConiumDSLEventContext<I, M, T> {
-         return ConiumDSLEventContext(eventType).also { dslEventMetadata: ConiumDSLEventContext<I, M, T> ->
-             ConiumEvent.findEvent(eventType).listen {
-                 dslEventMetadata.doAction(it)
-             }
-
-            block(dslEventMetadata)
-        }
-    }
 }

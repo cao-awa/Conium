@@ -17,7 +17,8 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 class ConiumUseBlockEvent : ConiumEvent<Block, ConiumUseBlockEventMetadata, ParameterSelective5<Boolean, World, PlayerEntity, BlockPos, AbstractBlockState, BlockHitResult>>(
-    ConiumEventType.USE_BLOCK
+    ConiumEventType.USE_BLOCK,
+    { ConiumEventType.USED_BLOCK }
 ) {
     override fun requirement(): ConiumArisingEventContext<Block, out ParameterSelective> {
         return requires(

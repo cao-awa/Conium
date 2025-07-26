@@ -14,7 +14,7 @@ import com.github.cao.awa.conium.parameter.ParameterSelective1
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.block.Block
 
-abstract class BedrockEvent<I: Any, E : BedrockEventContext<I>>(private val targetEvent: ConiumEventType<I, out ConiumEventMetadata<I>>) {
+abstract class BedrockEvent<I: Any, E : BedrockEventContext<I>>(private val targetEvent: ConiumEventType<I, out ConiumEventMetadata<I>, *, *>) {
     private val subscribers: MutableList<ConiumArisingEventContext<*, *>> = CollectionFactor.arrayList()
 
     /**

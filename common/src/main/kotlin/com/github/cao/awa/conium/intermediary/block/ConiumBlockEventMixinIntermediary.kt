@@ -46,7 +46,7 @@ class ConiumBlockEventMixinIntermediary {
          * @since 1.0.0
          */
         @JvmStatic
-        fun fireBlockBreakingEvent(eventType: ConiumEventType<Block, ConiumBreakingBlockEventMetadata>, state: BlockState, world: World, player: PlayerEntity, pos: BlockPos): Boolean {
+        fun fireBlockBreakingEvent(eventType: ConiumEventType<Block, ConiumBreakingBlockEventMetadata, *, *>, state: BlockState, world: World, player: PlayerEntity, pos: BlockPos): Boolean {
             return ConiumEventMixinIntermediary.fireEventCancelable(
                 eventType,
                 state.block

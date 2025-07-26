@@ -25,7 +25,8 @@ import net.minecraft.world.World
  * @since 1.0.0
  */
 class ConiumShulkerBoxClosingEvent : ConiumEvent<Block, ConiumShulkerBoxClosingEventMetadata, ParameterSelective5<Boolean, World, PlayerEntity, ShulkerBoxBlockEntity, AbstractBlockState, BlockPos>>(
-    ConiumEventType.SHULKER_BOX_CLOSING
+    ConiumEventType.SHULKER_BOX_CLOSING,
+    { ConiumEventType.SHULKER_BOX_CLOSED }
 ) {
     override fun requirement(): ConiumArisingEventContext<Block, out ParameterSelective> {
         return requires(

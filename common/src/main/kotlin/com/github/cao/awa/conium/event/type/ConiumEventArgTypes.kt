@@ -44,7 +44,10 @@ import net.minecraft.util.Unit as MinecraftUnit
 
 object ConiumEventArgTypes {
     @JvmField
-    val UNIT: DynamicArgType<MinecraftUnit>
+    val MINECRAFT_UNIT: DynamicArgType<MinecraftUnit>
+
+    @JvmField
+    val UNIT: DynamicArgType<Unit>
 
     @JvmField
     val ITEM: DynamicArgType<Item>
@@ -179,6 +182,8 @@ object ConiumEventArgTypes {
     val SERVER_CONFIGURATION_NETWORK_HANDLER: DynamicArgType<ServerConfigurationNetworkHandler>
 
     init {
+        MINECRAFT_UNIT = arg("minecraft_unit")
+
         UNIT = arg("unit")
 
         ITEM = arg(

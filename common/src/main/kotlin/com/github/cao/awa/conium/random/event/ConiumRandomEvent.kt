@@ -13,7 +13,7 @@ import net.minecraft.util.Unit as MinecraftUnit
 class ConiumRandomEvent : ConiumEvent<MinecraftUnit, ConiumRandomEventMetadata, ParameterSelective0<Boolean>>(ConiumEventType.RANDOM) {
     override fun requirement(): ConiumArisingEventContext<MinecraftUnit, out ParameterSelective> {
         return ConiumEventContextBuilder.requires(
-            ConiumEventArgTypes.UNIT
+            ConiumEventArgTypes.MINECRAFT_UNIT
         ) { identity: MinecraftUnit ->
             noFailure(identity, ParameterSelective0<Boolean>::arise)
         }

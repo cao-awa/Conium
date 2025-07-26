@@ -15,7 +15,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.world.World
 
 class ConiumItemInventoryTickEvent : ConiumItemEvent<ConiumItemInventoryTickEventMetadata, ParameterSelective5<Boolean, World, Entity, ItemStack, Int, Boolean>>(
-    ConiumEventType.ITEM_INVENTORY_TICK
+    ConiumEventType.ITEM_INVENTORY_TICK,
+    { ConiumEventType.ITEM_INVENTORY_TICKED }
 ) {
     override fun requirement(): ConiumArisingEventContext<Item, out ParameterSelective> {
         return requires(

@@ -13,7 +13,8 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 
 class ConiumEntitySprintingEvent : ConiumEvent<EntityType<*>, ConiumEntitySprintingEventMetadata, ParameterSelective1<Boolean, Entity>>(
-    ConiumEventType.ENTITY_SPRINTING
+    ConiumEventType.ENTITY_SPRINTING,
+    { ConiumEventType.ENTITY_STOP_SPRINT }
 ) {
     override fun requirement(): ConiumArisingEventContext<EntityType<*>, out ParameterSelective> {
         return requires(

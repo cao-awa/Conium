@@ -1,16 +1,32 @@
 package com.github.cao.awa.conium.event.dsl
 
+import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
-import com.github.cao.awa.conium.event.handler.ConiumEventHandler
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.extend.ConiumExtends.ifException
 import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.threadpool.ConiumThreadPool
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import java.util.function.Consumer
 
-open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, T : ConiumEventType<I, M>>: ConiumEventContext<I> {
+open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumEventMetadata<I>, T : ConiumEventType<I, M, *, N>>(val event: ConiumEvent<I, M, *>): ConiumEventContext<I>() {
+    companion object {
+        fun <I: Any, M: ConiumEventMetadata<I>, N: ConiumEventMetadata<I>, T: ConiumEventType<I, M, *, N>> onEvent(
+            eventType: T,
+            block: ConiumDSLEventContext<I, M, N, T>.() -> Unit
+        ): ConiumDSLEventContext<I, M, N, T> {
+            return ConiumDSLEventContext(eventType, ConiumEvent.findEvent(eventType)).also { dslEventMetadata: ConiumDSLEventContext<I, M, N, T> ->
+                ConiumEvent.findEvent(eventType).listen {
+                    dslEventMetadata.doAction(it)
+                }
+
+                block(dslEventMetadata)
+            }
+        }
+    }
+
     private var catcher: Consumer<Throwable>? = null
         set(value) {
             if (warningNoRepeats(field, "event exception catcher")) {
@@ -37,9 +53,7 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, T : Conium
             }
         }
 
-    constructor()
-
-    constructor(eventType: T) {
+    constructor(eventType: T, event: ConiumEvent<I, M, *>) : this(event) {
         this.target = eventType
     }
 
@@ -75,7 +89,7 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, T : Conium
                     }
                 }
 
-                false
+                true
             }
         }
 
@@ -98,6 +112,10 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, T : Conium
 
     fun finalize(handler: M.() -> Unit) {
         this.finalizer = handler
+    }
+
+    fun then(next: ConiumDSLEventContext<I, N, *, *>.() -> Unit) {
+        onEvent(this.event.nextEvent().doCast(), next)
     }
 }
 

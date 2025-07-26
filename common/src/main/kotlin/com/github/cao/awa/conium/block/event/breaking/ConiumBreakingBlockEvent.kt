@@ -16,7 +16,8 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 class ConiumBreakingBlockEvent : ConiumEvent<Block, ConiumBreakingBlockEventMetadata, ParameterSelective4<Boolean, World, PlayerEntity, BlockPos, AbstractBlockState>>(
-    ConiumEventType.BREAKING_BLOCK
+    ConiumEventType.BREAKING_BLOCK,
+    { ConiumEventType.BROKEN_BLOCK }
 ) {
     override fun requirement(): ConiumArisingEventContext<Block, out ParameterSelective> {
         return requires(

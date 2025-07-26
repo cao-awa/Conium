@@ -13,7 +13,8 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 
 class ConiumEntityTickEvent : ConiumEvent<EntityType<*>, ConiumEntityTickEventMetadata, ParameterSelective1<Boolean, Entity>, >(
-    ConiumEventType.ENTITY_TICK
+    ConiumEventType.ENTITY_TICK,
+    { ConiumEventType.ENTITY_TICKED }
 ) {
     override fun requirement(): ConiumArisingEventContext<EntityType<*>, out ParameterSelective> {
         return requires(

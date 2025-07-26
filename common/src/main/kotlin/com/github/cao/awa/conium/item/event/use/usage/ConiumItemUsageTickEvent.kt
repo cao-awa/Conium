@@ -15,7 +15,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.world.World
 
 class ConiumItemUsageTickEvent : ConiumItemEvent<ConiumItemUsageTickEventMetadata, ParameterSelective4<Boolean, World, LivingEntity, ItemStack, Int>>(
-    ConiumEventType.ITEM_USAGE_TICK
+    ConiumEventType.ITEM_USAGE_TICK,
+    { ConiumEventType.ITEM_USAGE_TICKED }
 ) {
     override fun requirement(): ConiumArisingEventContext<Item, out ParameterSelective> {
         return requires(

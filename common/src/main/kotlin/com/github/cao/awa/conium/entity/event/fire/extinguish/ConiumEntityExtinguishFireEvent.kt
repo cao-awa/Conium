@@ -13,7 +13,8 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 
 class ConiumEntityExtinguishFireEvent : ConiumEvent<EntityType<*>, ConiumEntityExtinguishFireEventMetadata, ParameterSelective2<Boolean, Entity, Int>>(
-    ConiumEventType.ENTITY_EXTINGUISH_FIRE
+    ConiumEventType.ENTITY_EXTINGUISH_FIRE,
+    { ConiumEventType.ENTITY_EXTINGUISHED_FIRE }
 ) {
     override fun requirement(): ConiumArisingEventContext<EntityType<*>, out ParameterSelective> {
         return requires(

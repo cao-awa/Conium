@@ -574,7 +574,7 @@ object ConiumEventContextBuilder {
         ConiumArisingEventContext(DynamicArgsBuilder.requires(arg1, arg2, arg3, arg4, arg5, arg6, arg7, true))
 
     private fun <I: Any, P : ParameterSelective, M : ConiumEventMetadata<I>> forever(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         dynamicArgs: DynamicArgs<P, Boolean>
     ): ConiumArisingEventContext<I, P> {
         return ConiumArisingEventContext<I, P>(dynamicArgs).apply {
@@ -607,7 +607,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>> preRequest(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         presaging: ParameterSelective1<Boolean, I> = ParameterSelective1 { true }
     ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
         return forever(
@@ -646,7 +646,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>> preRequestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         presaging: ParameterSelective1<Unit, I> = ParameterSelective1 { }
     ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
         return preRequest(eventType) { i: I ->
@@ -679,7 +679,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arising: ParameterSelective1<Boolean, I> = ParameterSelective1 { true }
     ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
         return forever(
@@ -718,7 +718,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arising: ParameterSelective1<Unit, I> = ParameterSelective1 { }
     ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
         return request(eventType) { i: I ->
@@ -752,7 +752,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arising: ParameterSelective1<Boolean, I> = ParameterSelective1 { true },
         presaging: ParameterSelective1<Boolean, I> = ParameterSelective1 { true },
     ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
@@ -798,7 +798,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arising: ParameterSelective1<Unit, I> = ParameterSelective1 { },
         presaging: ParameterSelective1<Unit, I> = ParameterSelective1 { },
     ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
@@ -842,7 +842,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1> preRequest(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         presaging: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true }
     ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
@@ -888,7 +888,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1> preRequestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         presaging: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
@@ -903,7 +903,7 @@ object ConiumEventContextBuilder {
 
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>> requestDsl(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         handler: M.() -> Boolean
     ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
         return forever(
@@ -947,7 +947,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arising: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true }
     ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
@@ -993,7 +993,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arising: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
@@ -1034,7 +1034,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arising: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true },
         presaging: ParameterSelective2<Boolean, I, P1> = ParameterSelective2 { _, _ -> true }
@@ -1087,7 +1087,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arising: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> },
         presaging: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> }
@@ -1135,7 +1135,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2> preRequest(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         presaging: ParameterSelective3<Boolean, I, P1, P2> = ParameterSelective3 { _, _, _ -> true }
@@ -1185,7 +1185,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2> preRequestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         presaging: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> }
@@ -1229,7 +1229,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arising: ParameterSelective3<Boolean, I, P1, P2> = ParameterSelective3 { _, _, _ -> true }
@@ -1279,7 +1279,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arising: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> }
@@ -1324,7 +1324,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arising: ParameterSelective3<Boolean, I, P1, P2> = ParameterSelective3 { _, _, _ -> true },
@@ -1381,7 +1381,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arising: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> },
@@ -1433,7 +1433,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3> preRequest(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -1487,7 +1487,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3> preRequestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -1535,7 +1535,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -1589,7 +1589,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -1638,7 +1638,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -1699,7 +1699,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -1755,7 +1755,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4> preRequest(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -1813,7 +1813,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4> preRequestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -1865,7 +1865,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -1923,7 +1923,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -1976,7 +1976,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2041,7 +2041,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2101,7 +2101,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5> preRequest(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2163,7 +2163,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5> preRequestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2219,7 +2219,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2281,7 +2281,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2338,7 +2338,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2407,7 +2407,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2471,7 +2471,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> preRequest(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2537,7 +2537,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> preRequestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2597,7 +2597,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2663,7 +2663,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2724,7 +2724,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2797,7 +2797,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2865,7 +2865,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> preRequest(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2935,7 +2935,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> preRequestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -2999,7 +2999,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -3069,7 +3069,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -3134,7 +3134,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> request(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -3211,7 +3211,7 @@ object ConiumEventContextBuilder {
      */
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>, P1, P2, P3, P4, P5, P6, P7> requestNr(
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -3273,7 +3273,7 @@ object ConiumEventContextBuilder {
     fun <I : Any, M : ConiumEventMetadata<I>, R : Any> export(
         name: String,
         defaultResult: R,
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arising: ParameterSelective1<R, I>
     ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
         return forever(
@@ -3331,7 +3331,7 @@ object ConiumEventContextBuilder {
     fun <I : Any, M : ConiumEventMetadata<I>, R : Any, P1> export(
         name: String,
         defaultResult: R,
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arising: ParameterSelective2<R, I, P1>
     ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
@@ -3392,7 +3392,7 @@ object ConiumEventContextBuilder {
     fun <I : Any, M : ConiumEventMetadata<I>, R : Any, P1, P2> export(
         name: String,
         defaultResult: R,
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arising: ParameterSelective3<R, I, P1, P2>
@@ -3456,7 +3456,7 @@ object ConiumEventContextBuilder {
     fun <I : Any, M : ConiumEventMetadata<I>, R : Any, P1, P2, P3> export(
         name: String,
         defaultResult: R,
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -3523,7 +3523,7 @@ object ConiumEventContextBuilder {
     fun <I : Any, M : ConiumEventMetadata<I>, R : Any, P1, P2, P3, P4> export(
         name: String,
         defaultResult: R,
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -3593,7 +3593,7 @@ object ConiumEventContextBuilder {
     fun <I : Any, M : ConiumEventMetadata<I>, R : Any, P1, P2, P3, P4, P5> export(
         name: String,
         defaultResult: R,
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -3666,7 +3666,7 @@ object ConiumEventContextBuilder {
     fun <I : Any, M : ConiumEventMetadata<I>, R : Any, P1, P2, P3, P4, P5, P6> export(
         name: String,
         defaultResult: R,
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,
@@ -3743,7 +3743,7 @@ object ConiumEventContextBuilder {
     fun <I : Any, M : ConiumEventMetadata<I>, R : Any, P1, P2, P3, P4, P5, P6, P7> export(
         name: String,
         defaultResult: R,
-        eventType: ConiumEventType<I, M>,
+        eventType: ConiumEventType<I, M, *, *>,
         arg1: DynamicArgType<P1>,
         arg2: DynamicArgType<P2>,
         arg3: DynamicArgType<P3>,

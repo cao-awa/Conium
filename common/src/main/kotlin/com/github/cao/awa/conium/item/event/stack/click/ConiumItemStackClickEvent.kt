@@ -16,7 +16,8 @@ import net.minecraft.screen.slot.Slot
 import net.minecraft.util.ClickType
 
 class ConiumItemStackClickEvent : ConiumItemEvent<ConiumItemStackClickEventMetadata, ParameterSelective5<Boolean, PlayerEntity, ItemStack, ItemStack, ClickType, Slot>>(
-    ConiumEventType.ITEM_STACK_CLICK
+    ConiumEventType.ITEM_STACK_CLICK,
+    { ConiumEventType.ITEM_STACK_CLICKED }
 ) {
     override fun requirement(): ConiumArisingEventContext<Item, out ParameterSelective> {
         return requires(

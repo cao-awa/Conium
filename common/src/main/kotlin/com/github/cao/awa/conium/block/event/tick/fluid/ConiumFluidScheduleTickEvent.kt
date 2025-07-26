@@ -18,7 +18,8 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.tick.ScheduledTickView
 
 class ConiumFluidScheduleTickEvent : ConiumEvent<Fluid, ConiumFluidScheduleTickEventMetadata, ParameterSelective5<Boolean, ServerWorld, BlockPos, AbstractBlockState, FluidState, ScheduledTickView>>(
-    ConiumEventType.FLUID_SCHEDULE_TICK
+    ConiumEventType.FLUID_SCHEDULE_TICK,
+    { ConiumEventType.FLUID_SCHEDULE_TICKED }
 ) {
     override fun requirement(): ConiumArisingEventContext<Fluid, out ParameterSelective> {
         return requires(

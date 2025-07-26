@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.item.event.use.block
 
+import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requiresAny
@@ -14,7 +15,8 @@ import net.minecraft.item.ItemUsageContext
 import net.minecraft.world.World
 
 class ConiumItemUseOnBlockEvent : ConiumItemEvent<ConiumItemUseOnBlockEventMetadata, ParameterSelective2<Boolean, World, ItemUsageContext>>(
-    ConiumEventType.ITEM_USE_ON_BLOCK
+    ConiumEventType.ITEM_USE_ON_BLOCK,
+    { ConiumEventType.ITEM_USED_ON_BLOCK }
 ) {
     override fun requirement(): ConiumArisingEventContext<Item, out ParameterSelective> {
         return requires(
