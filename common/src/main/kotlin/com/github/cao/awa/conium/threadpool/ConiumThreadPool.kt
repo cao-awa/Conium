@@ -10,6 +10,7 @@ class ConiumThreadPool {
     companion object {
         val INSTANCE: ConiumThreadPool = ConiumThreadPool()
 
+        @JvmStatic
         fun execute(task: Runnable) {
             this.INSTANCE.execute(task)
         }

@@ -32,6 +32,8 @@
 |           force_mining_speed |               No impl                |  Force override the mining speed of item, ignored material mining speed   |            float            |
 |                       ignite |               No impl                |       Setting the item can ignite the entity when it used on entity       |             int             |
 |                 clear_ignite |               No impl                |      Setting the item can clear entity fires when it used on entity       |           boolean           |
+|     used_on_block_convert_to |               No impl                |       Setting the item can convert to other item when used on block       |       convert object        |
+|              consume_on_used |               No impl                |                  Setting the item can consumes when used                  |  boolean or convert object  |
 
 ## Blocks
 

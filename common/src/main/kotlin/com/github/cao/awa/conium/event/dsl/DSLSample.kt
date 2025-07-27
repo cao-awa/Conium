@@ -16,7 +16,7 @@ object DSLSample {
 
             action {
                 println(this.itemUsageContext.stack)
-                println("dsl style triggered")
+                println("item use triggered")
                 true
             }
 
@@ -34,8 +34,8 @@ object DSLSample {
             }
         }.then {
             action {
-                println(this.itemUsageContext.stack)
-                println("dsl style 2 triggered")
+                println(this.itemUsageContext.player)
+                println("item used event triggered")
                 true
             }
         }

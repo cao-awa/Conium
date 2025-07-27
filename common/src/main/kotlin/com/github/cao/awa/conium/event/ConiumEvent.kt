@@ -87,6 +87,9 @@ abstract class ConiumEvent<
         private val events: MutableMap<ConiumEventType<*, *, *, *>, ConiumEvent<*, *, *>> = CollectionFactor.hashMap()
         private val foreverContext: MutableMap<ConiumEventType<*, *, *, *>, MutableList<ConiumArisingEventContext<*, *>>> = CollectionFactor.hashMap()
 
+        @JvmStatic
+        val inactive: ConiumInactiveEvent = ConiumInactiveEvent()
+
         @JvmField
         val random: ConiumRandomEvent = ConiumRandomEvent()
 

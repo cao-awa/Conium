@@ -16,7 +16,7 @@ import net.minecraft.world.World
 class ConiumBreakBlockEvent : ConiumEvent<
         Block,
         ConiumBreakBlockEventMetadata,
-        ParameterSelective3<Boolean, World, PlayerEntity, BlockPos>,
+        ParameterSelective3<Boolean, World, PlayerEntity, BlockPos>
 >(
     ConiumEventType.BREAK_BLOCK,
     { ConiumEventType.BREAKING_BLOCK }

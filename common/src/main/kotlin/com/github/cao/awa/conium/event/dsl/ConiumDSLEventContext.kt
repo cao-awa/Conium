@@ -47,11 +47,6 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
             }
         }
     private var target: T? = null
-        set(value) {
-            if (warningNoRepeats(field, "event target")) {
-                field = value
-            }
-        }
 
     constructor(eventType: T, event: ConiumEvent<I, M, *>) : this(event) {
         this.target = eventType
@@ -114,7 +109,7 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
         this.finalizer = handler
     }
 
-    fun then(next: ConiumDSLEventContext<I, N, *, *>.() -> Unit) {
+    fun then(next: ConiumDSLEventContext<I, N, N, *>.() -> Unit) {
         onEvent(this.event.nextEvent().doCast(), next)
     }
 }
