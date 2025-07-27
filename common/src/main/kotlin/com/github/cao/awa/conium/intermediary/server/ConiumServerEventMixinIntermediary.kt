@@ -95,6 +95,7 @@ class ConiumServerEventMixinIntermediary {
          *
          * @see MinecraftServer
          * @see ConiumEventType.SERVER_CONFIGURATION_CONNECTION
+         * @see ConiumEventType.SERVER_CONFIGURED_CONNECTION
          *
          * @param server the minecraft server
          *
@@ -106,6 +107,29 @@ class ConiumServerEventMixinIntermediary {
         fun fireServerConfigurationEvent(server: MinecraftServer, handler: ServerConfigurationNetworkHandler) {
             fireEvent(
                 ConiumEventType.SERVER_CONFIGURATION_CONNECTION,
+                handler
+            ) { context ->
+                context[ConiumEventArgTypes.SERVER] = server
+            }
+        }
+
+        /**
+         * Trigger the enter server configuration connection.
+         *
+         * @see MinecraftServer
+         * @see ConiumEventType.SERVER_CONFIGURATION_CONNECTION
+         * @see ConiumEventType.SERVER_CONFIGURED_CONNECTION
+         *
+         * @param server the minecraft server
+         *
+         * @author cao_awa
+         *
+         * @since 1.0.0
+         */
+        @JvmStatic
+        fun fireServerConfiguredEvent(server: MinecraftServer, handler: ServerConfigurationNetworkHandler) {
+            fireEvent(
+                ConiumEventType.SERVER_CONFIGURED_CONNECTION,
                 handler
             ) { context ->
                 context[ConiumEventArgTypes.SERVER] = server

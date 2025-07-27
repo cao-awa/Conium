@@ -21,7 +21,7 @@ class ConiumPacketRegistry {
             registerConfigurationToClient(SynchronizeRegistryPayload.IDENTIFIER, SynchronizeRegistryPayload.CODEC)
         }
 
-        fun <P: ConiumClientConfigurationPacket>registerConfigurationToClient(id: Id<P>, codec: PacketCodec<PacketByteBuf, P>) {
+        fun <P: ConiumClientConfigurationPacket> registerConfigurationToClient(id: Id<P>, codec: PacketCodec<PacketByteBuf, P>) {
             ConiumPacketRegister.registerConfigurationToClient(id, codec)
             packets[id] = codec
         }

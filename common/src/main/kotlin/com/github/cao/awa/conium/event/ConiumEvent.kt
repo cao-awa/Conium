@@ -308,9 +308,16 @@ abstract class ConiumEvent<
 
         @JvmStatic
         fun init() {
-
+            // Do clinit only, nothing others here
         }
 
+        /**
+         * Remove all event subscribers.
+         *
+         * @since 1.0.0
+         *
+         * @author cao_awa
+         */
         @JvmStatic
         fun clearAll() {
             clearEntitySubscribes()

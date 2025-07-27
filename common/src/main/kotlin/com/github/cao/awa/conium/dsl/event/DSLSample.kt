@@ -1,17 +1,10 @@
-package com.github.cao.awa.conium.event.dsl
+package com.github.cao.awa.conium.dsl.event
 
-import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
-import com.github.cao.awa.conium.script.index.common.ConiumEventContextBuilder
-import com.github.cao.awa.conium.script.index.common.request
-import kotlin.comparisons.then
-import kotlin.printStackTrace
 
 object DSLSample {
     fun doDslTest() {
-        ConiumDSLEventContext.onEvent(ConiumEventType.ITEM_USE_ON_BLOCK) {
+        ConiumDSLEventContext.onEvent(ConiumEventType.Companion.ITEM_USE_ON_BLOCK) {
             this.async = true
 
             action {
@@ -29,10 +22,10 @@ object DSLSample {
                 exception.printStackTrace()
             }
 
-            finalize {
+            complete {
                 println("DSL Event completed execute!")
             }
-        }.then {
+        }.next {
             action {
                 println(this.itemUsageContext.player)
                 println("item used event triggered")

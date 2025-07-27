@@ -9,7 +9,7 @@ import net.minecraft.server.network.ServerPlayNetworkHandler
 import net.minecraft.server.network.ServerPlayerEntity
 
 abstract class ConiumServerPlayPacket(identifier: Id<out ConiumServerPlayPacket>) : ConiumServerPacket(identifier) {
-    override fun arising(side: MinecraftServer, player: ServerPlayerEntity?, sender: PacketSender, networkHandler: PacketListener) = arisingPlay(side, player!!, sender, networkHandler as ServerPlayNetworkHandler)
+    override fun arising(side: MinecraftServer, player: ServerPlayerEntity?, sender: PacketSender, networkHandler: PacketListener) = arising(side, player!!, sender, networkHandler as ServerPlayNetworkHandler)
 
-    abstract fun arisingPlay(client: MinecraftServer, player: ServerPlayerEntity, sender: PacketSender, networkHandler: ServerPlayNetworkHandler)
+    abstract fun arising(client: MinecraftServer, player: ServerPlayerEntity, sender: PacketSender, networkHandler: ServerPlayNetworkHandler)
 }

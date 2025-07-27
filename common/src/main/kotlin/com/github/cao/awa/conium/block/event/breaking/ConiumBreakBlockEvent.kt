@@ -19,7 +19,7 @@ class ConiumBreakBlockEvent : ConiumEvent<
         ParameterSelective3<Boolean, World, PlayerEntity, BlockPos>
 >(
     ConiumEventType.BREAK_BLOCK,
-    { ConiumEventType.BREAKING_BLOCK }
+    { ConiumEventType.BROKEN_BLOCK }
 ) {
     override fun requirement(): ConiumArisingEventContext<Block, out ParameterSelective> {
         return requires(

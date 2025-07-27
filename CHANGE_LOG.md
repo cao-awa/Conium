@@ -1,4 +1,7 @@
 > 1.0.0-alpha13
 
-# Depends
-Remove fabric-api dependency
+# Events
+Add event 'ServerConfiguredEvent'.
+
+# DSL
+Change 'break block' cascaded event from 'breaking block' to 'broken block'.

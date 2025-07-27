@@ -26,6 +26,14 @@ abstract public class ServerConfigurationNetworkHandlerMixin extends ServerCommo
         ConiumServerEventMixinIntermediary.fireServerConfigurationEvent(this.server, asConfigurationHandler());
     }
 
+    @Inject(
+            method = "sendConfigurations",
+            at = @At("RETURN")
+    )
+    public void completeConfig(CallbackInfo ci) {
+        ConiumServerEventMixinIntermediary.fireServerConfiguredEvent(this.server, asConfigurationHandler());
+    }
+
     private ServerConfigurationNetworkHandler asConfigurationHandler() {
         return Manipulate.cast(this);
     }

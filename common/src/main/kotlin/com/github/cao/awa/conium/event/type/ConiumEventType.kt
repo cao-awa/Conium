@@ -59,6 +59,8 @@ import com.github.cao.awa.conium.mixin.block.BlockStateMixin
 import com.github.cao.awa.conium.mixin.client.interaction.ClientPlayerInteractionManagerMixin
 import com.github.cao.awa.conium.mixin.server.interaction.ServerPlayerInteractionManagerMixin
 import com.github.cao.awa.conium.network.event.ConiumServerConfigurationConnectionEventMetadata
+import com.github.cao.awa.conium.network.event.ConiumServerConfiguredConnectionEvent
+import com.github.cao.awa.conium.network.event.ConiumServerConfiguredConnectionEventMetadata
 import com.github.cao.awa.conium.random.event.ConiumRandomEventMetadata
 import com.github.cao.awa.conium.script.index.common.ConiumEventContext
 import com.github.cao.awa.conium.server.event.random.ConiumServerRandomEventMetadata
@@ -325,7 +327,10 @@ class ConiumEventType<I : Any, M: ConiumEventMetadata<I>, C: Any, N: ConiumEvent
         val RECEIVED_CHUNK: ConiumEventType<WorldChunk, ConiumReceivedChunkEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumEventType("received_chunk", "WorldChunk")
 
         @JvmField
-        val SERVER_CONFIGURATION_CONNECTION: ConiumEventType<ServerConfigurationNetworkHandler, ConiumServerConfigurationConnectionEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumEventType("server_configuration_connection", "ServerConfigurationNetworkHandler")
+        val SERVER_CONFIGURATION_CONNECTION: ConiumEventType<ServerConfigurationNetworkHandler, ConiumServerConfigurationConnectionEventMetadata, ServerConfigurationNetworkHandler, ConiumServerConfiguredConnectionEventMetadata> = ConiumEventType("server_configuration_connection", "ServerConfigurationNetworkHandler")
+
+        @JvmField
+        val SERVER_CONFIGURED_CONNECTION: ConiumEventType<ServerConfigurationNetworkHandler, ConiumServerConfiguredConnectionEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumEventType("server_configuration_connection", "ServerConfigurationNetworkHandler")
     }
 
     override fun toString(): String = StringBuilder().also { builder ->

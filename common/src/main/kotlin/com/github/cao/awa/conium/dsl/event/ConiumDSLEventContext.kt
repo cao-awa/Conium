@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.event.dsl
+package com.github.cao.awa.conium.dsl.event
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
@@ -6,7 +6,6 @@ import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.extend.ConiumExtends.ifException
 import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
-import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.threadpool.ConiumThreadPool
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import java.util.function.Consumer
@@ -17,8 +16,8 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
             eventType: T,
             block: ConiumDSLEventContext<I, M, N, T>.() -> Unit
         ): ConiumDSLEventContext<I, M, N, T> {
-            return ConiumDSLEventContext(eventType, ConiumEvent.findEvent(eventType)).also { dslEventMetadata: ConiumDSLEventContext<I, M, N, T> ->
-                ConiumEvent.findEvent(eventType).listen {
+            return ConiumDSLEventContext(eventType, ConiumEvent.Companion.findEvent(eventType)).also { dslEventMetadata: ConiumDSLEventContext<I, M, N, T> ->
+                ConiumEvent.Companion.findEvent(eventType).listen {
                     dslEventMetadata.doAction(it)
                 }
 
@@ -58,7 +57,7 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
 
     fun doAction(metadata: M): Boolean {
         if (this.async) {
-            ConiumThreadPool.execute {
+            ConiumThreadPool.Companion.execute {
                 execute(metadata)
             }
             return true
@@ -105,12 +104,11 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
         }.add(handler)
     }
 
-    fun finalize(handler: M.() -> Unit) {
+    fun complete(handler: M.() -> Unit) {
         this.finalizer = handler
     }
 
-    fun then(next: ConiumDSLEventContext<I, N, N, *>.() -> Unit) {
+    fun next(next: ConiumDSLEventContext<I, N, N, *>.() -> Unit) {
         onEvent(this.event.nextEvent().doCast(), next)
     }
 }
-
