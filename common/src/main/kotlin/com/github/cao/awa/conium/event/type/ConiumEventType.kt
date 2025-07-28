@@ -25,6 +25,9 @@ import com.github.cao.awa.conium.block.event.use.ConiumUseBlockEventMetadata
 import com.github.cao.awa.conium.block.event.use.ConiumUsedBlockEventMetadata
 import com.github.cao.awa.conium.chunk.event.receive.ConiumReceiveChunkEventMetadata
 import com.github.cao.awa.conium.chunk.event.receive.ConiumReceivedChunkEventMetadata
+import com.github.cao.awa.conium.craft.table.event.ConiumCraftingTableCraftedEvent
+import com.github.cao.awa.conium.craft.table.event.ConiumCraftingTableCraftedEventMetadata
+import com.github.cao.awa.conium.craft.table.event.ConiumCraftingTableCraftingEventMetadata
 import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamageEventMetadata
 import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamagedEventMetadata
 import com.github.cao.awa.conium.entity.event.die.ConiumEntityDeadEventMetadata
@@ -331,6 +334,12 @@ class ConiumEventType<I : Any, M: ConiumEventMetadata<I>, C: Any, N: ConiumEvent
 
         @JvmField
         val SERVER_CONFIGURED_CONNECTION: ConiumEventType<ServerConfigurationNetworkHandler, ConiumServerConfiguredConnectionEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumEventType("server_configuration_connection", "ServerConfigurationNetworkHandler")
+
+        @JvmField
+        val CRAFTING_TABLE_CRAFTING: ConiumEventType<Item, ConiumCraftingTableCraftingEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumEventType("crafting_table_crafting", "Item")
+
+        @JvmField
+        val CRAFTING_TABLE_CRAFTED: ConiumEventType<Item, ConiumCraftingTableCraftedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumEventType("crafting_table_crafted", "Item")
     }
 
     override fun toString(): String = StringBuilder().also { builder ->

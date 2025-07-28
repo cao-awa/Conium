@@ -16,6 +16,7 @@
     "collection.IdListMixin",
     "component.attribute.AttributeModifiersComponentBuilderMixin",
     "component.map.builder.ComponentMapBuilderAccessor",
+    "craft.table.CraftingResultSlotMixin",
     "datapack.DataPackContentsMixin",
     "entity.EntityAccessor",
     "entity.EntityMixin",
