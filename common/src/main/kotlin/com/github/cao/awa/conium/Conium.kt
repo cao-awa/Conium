@@ -247,9 +247,8 @@ class Conium {
             )
         }
 
-
         // Initialize script translator for generic typescript translates.
-        LOGGER.info("Loading structuring translator {} provider '{}' for [typescript]", StructuringTranslator.getVersion(), StructuringTranslator.DEFAULT_PROVIDER)
+        LOGGER.info("Loading structuring translator {} provider '{}' for [typescript]", STRUCTURING_TRANSLATOR_VERSION, StructuringTranslator.DEFAULT_PROVIDER)
         TypescriptKotlinScriptTranslator.postRegister()
 
         StructuringTranslator.getTranslators(StructuringTranslator.DEFAULT_PROVIDER).let { translators ->

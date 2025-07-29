@@ -4,12 +4,11 @@ import com.github.cao.awa.conium.event.type.ConiumEventType
 
 object DSLSample {
     fun doDslTest() {
-        ConiumDSLEventContext.onEvent(ConiumEventType.Companion.ITEM_USE_ON_BLOCK) {
+        ConiumDSLEventContext.onEvent(ConiumEventType.BREAKING_BLOCK) {
             this.async = true
 
             action {
-                println(this.itemUsageContext.stack)
-                println("item use triggered")
+                println(this)
                 true
             }
 
@@ -27,8 +26,7 @@ object DSLSample {
             }
         }.next {
             action {
-                println(this.itemUsageContext.player)
-                println("item used event triggered")
+                println(this)
                 true
             }
         }

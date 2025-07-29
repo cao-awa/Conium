@@ -16,8 +16,9 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
             eventType: T,
             block: ConiumDSLEventContext<I, M, N, T>.() -> Unit
         ): ConiumDSLEventContext<I, M, N, T> {
-            return ConiumDSLEventContext(eventType, ConiumEvent.Companion.findEvent(eventType)).also { dslEventMetadata: ConiumDSLEventContext<I, M, N, T> ->
-                ConiumEvent.Companion.findEvent(eventType).listen {
+            val event: ConiumEvent<I, M, *> = ConiumEvent.findEvent(eventType)
+            return ConiumDSLEventContext(eventType, event).also { dslEventMetadata: ConiumDSLEventContext<I, M, N, T> ->
+                event.listen {
                     dslEventMetadata.doAction(it)
                 }
 

@@ -19,7 +19,7 @@ class ConiumClient {
                     field = true
                     LOGGER.info("Conium client initialized")
 
-                    postedInitializer.forEach { it.accept(true) }
+                    this.postedInitializer.forEach { it.accept(true) }
                 } else {
                     throw IllegalStateException("The client already initialized, cannot set 'initialized' to true again!")
                 }
@@ -31,7 +31,7 @@ class ConiumClient {
                     field = true
                     LOGGER.info("Conium client now marked to never initialized")
 
-                    postedInitializer.forEach { it.accept(false) }
+                    this.postedInitializer.forEach { it.accept(false) }
                 } else {
                     throw IllegalStateException("The client already marked never initialized, cannot set 'neverInitialized' to true again!")
                 }
