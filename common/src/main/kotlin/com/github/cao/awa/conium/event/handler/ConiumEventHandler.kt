@@ -12,7 +12,7 @@ class ConiumEventHandler {
         fun <I: Any> execute(context: ConiumArisingEventContext<*, *>, input: I, action: () -> Unit): Boolean {
             if (context.presaging(input)) {
                 if (context.async) {
-                    ConiumThreadPool.execute {
+                    ConiumThreadPool.run {
                         action()
 
                         context.arising(input)
@@ -31,7 +31,7 @@ class ConiumEventHandler {
         fun <I: Any, R: Any> executeWithPresaging(context: ConiumArisingEventContext<*, *>, input: I, defaultValue: R, action: (I) -> R): R {
             if (context.presaging(input)) {
                 if (context.async) {
-                    ConiumThreadPool.execute {
+                    ConiumThreadPool.run {
                         context.arising(input)
                     }
                 } else {

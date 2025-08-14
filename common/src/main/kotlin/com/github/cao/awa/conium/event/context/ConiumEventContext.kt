@@ -47,6 +47,8 @@ abstract class ConiumEventContext<I: Any>() {
         return this
     }
 
+    fun isAsync(): Boolean = this.async
+
     operator fun <X: Any> set(argType: DynamicArgType<X>, value: X): ConiumEventContext<I> = put(argType, value)
 
     operator fun <X: Any> get(argType: DynamicArgType<X>): X = this.args[argType].doCast()

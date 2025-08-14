@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.dsl.event
 
+import com.github.cao.awa.conium.config.ConiumConfig
 import com.github.cao.awa.conium.event.type.ConiumEventType
 
 object DSLSample {
@@ -8,7 +9,10 @@ object DSLSample {
             this.async = true
 
             action {
-                println(this)
+                println(this.blockPos)
+                if (ConiumConfig.debugs) {
+                    throw IllegalStateException("Test")
+                }
                 true
             }
 

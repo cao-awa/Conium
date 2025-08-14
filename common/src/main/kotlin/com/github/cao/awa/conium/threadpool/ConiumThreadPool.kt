@@ -1,17 +1,13 @@
 package com.github.cao.awa.conium.threadpool
 
-import java.util.concurrent.ArrayBlockingQueue
-import java.util.concurrent.Executor
 import java.util.concurrent.ScheduledThreadPoolExecutor
-import java.util.concurrent.ThreadPoolExecutor
-import java.util.concurrent.TimeUnit
 
 class ConiumThreadPool {
     companion object {
         val INSTANCE: ConiumThreadPool = ConiumThreadPool()
 
         @JvmStatic
-        fun execute(task: Runnable) {
+        fun run(task: Runnable) {
             this.INSTANCE.execute(task)
         }
     }

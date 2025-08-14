@@ -7,7 +7,7 @@ import com.github.cao.awa.translator.structuring.builtin.typescript.tree.`object
 
 class ConiumTypescriptAnonymousObjectTranslator : ConiumScriptTranslator<TypescriptAnonymousObject>(), TypescriptAnonymousObjectTranslator {
     override fun translate(builder: StringBuilder, ast: TypescriptAnonymousObject) {
-        translateIdent()
+        translateIndent()
 
         val elements = ast.params().values()
 
@@ -20,13 +20,13 @@ class ConiumTypescriptAnonymousObjectTranslator : ConiumScriptTranslator<Typescr
 
         translateLineWrap(this)
 
-        pushIdent()
-        pushIdent()
+        pushIndent()
+        pushIndent()
         var count = 0
         for (entry in elements.entries) {
             val key = entry.key
             val value = entry.value
-            translateIdent()
+            translateIndent()
             builder.append("set(\"")
             builder.append(key)
             builder.append("\", ")
@@ -36,14 +36,14 @@ class ConiumTypescriptAnonymousObjectTranslator : ConiumScriptTranslator<Typescr
                 translateEnding(this)
             }
         }
-        popIdent()
+        popIndent()
 
-        translateIdent()
-        popIdent()
+        translateIndent()
+        popIndent()
 
         builder.append("}")
 
-        translateIdent()
-        popIdent()
+        translateIndent()
+        popIndent()
     }
 }

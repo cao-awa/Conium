@@ -58,7 +58,7 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
 
     fun doAction(metadata: M): Boolean {
         if (this.async) {
-            ConiumThreadPool.Companion.execute {
+            ConiumThreadPool.Companion.run {
                 execute(metadata)
             }
             return true

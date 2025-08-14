@@ -18,18 +18,17 @@ class ConiumTypescriptDefineVariableTranslator : ConiumScriptTranslator<Typescri
         }
         builder.append(ast.name())
 
-        ast.assigment().let { assigment ->
-            if (assigment is TypescriptInvoke) {
-                assigment.invokeTarget().accesses()[0].let { access ->
+        ast.assignment().let { assignment ->
+            if (assignment is TypescriptInvoke) {
+                assignment.invokeTarget().accesses()[0].let { access ->
                     if (access is TypescriptInvokeAccessElement) {
                         when (access.target()) {
                             "system.runInterval" -> {
-                                builder.append("=IntegerReceptacle(0)")
+                                builder.append(":Int? = 0")
                                 translateEnding(this)
                                 builder.append(ast.name())
-                                builder.append(".set(")
-                                postTranslate(TypescriptTranslateElement.STATEMENT, ast.assigment())
-                                builder.append(")")
+                                builder.append("=")
+                                postTranslate(TypescriptTranslateElement.STATEMENT, ast.assignment())
                                 translateEnding(this)
                                 return
                             }
@@ -39,9 +38,9 @@ class ConiumTypescriptDefineVariableTranslator : ConiumScriptTranslator<Typescri
             }
         }
 
-        if (ast.assigment() != null) {
+        if (ast.assignment() != null) {
             builder.append("=")
-            postTranslate(TypescriptTranslateElement.STATEMENT, ast.assigment())
+            postTranslate(TypescriptTranslateElement.STATEMENT, ast.assignment())
         }
 
         translateEnding(this)

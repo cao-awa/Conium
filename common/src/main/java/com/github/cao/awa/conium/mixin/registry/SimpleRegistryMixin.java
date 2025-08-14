@@ -435,13 +435,8 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     )
     public void createEntry(T value, CallbackInfoReturnable<RegistryEntry.Reference<T>> cir) {
         if (this.frozen) {
-            cir.setReturnValue(this.dynamicIntrusiveValueToEntry.computeIfAbsent(value, (valuex) -> RegistryEntry.Reference.intrusive(getThis(), valuex)));
+            cir.setReturnValue(this.dynamicIntrusiveValueToEntry.computeIfAbsent(value, (valuex) -> RegistryEntry.Reference.intrusive(conium$getThis(), valuex)));
         }
-    }
-
-    @Unique
-    public RegistryEntryList.Named<T> orTag(TagKey<T> value) {
-        return getTag(value);
     }
 
     @Inject(
@@ -489,31 +484,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             cancellable = true
     )
     public void getOptional(RegistryKey<T> key, CallbackInfoReturnable<Optional<RegistryEntry.Reference<T>>> cir) {
-        cir.setReturnValue(orRegistryOptional(key));
-    }
-
-    @Unique
-    private Optional<RegistryEntry.Reference<T>> orRegistryOptional(RegistryKey<T> key) {
-        return Optional.ofNullable(Optional.ofNullable(this.keyToEntry.get(key)).orElseGet(() -> this.dynamicKeyToEntry.get(key)));
-    }
-
-    @Unique
-    private RegistryEntry.Reference<T> getOrCreateDynamicEntry(RegistryKey<T> key) {
-        RegistryEntry.Reference<T> reference;
-        if (this.frozen) {
-            reference = this.keyToEntry.get(key);
-            if (reference == null) {
-                reference = this.dynamicKeyToEntry.get(key);
-                if (reference == null) {
-                    reference = this.dynamicKeyToEntry.computeIfAbsent(key, key2 -> RegistryEntry.Reference.standAlone(getThis(), key2));
-
-                    postChanged();
-                }
-            }
-        } else {
-            reference = getOrCreateEntry(key);
-        }
-        return reference;
+        cir.setReturnValue(conium$orRegistryOptional(key));
     }
 
     @Redirect(
@@ -538,7 +509,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
 
             @Override
             public RegistryEntry.Reference<T> getOrThrow(RegistryKey<T> key) {
-                return getOrCreateDynamicEntry(key);
+                return conium$getOrCreateDynamicEntry(key);
             }
 
             @Override
@@ -548,14 +519,43 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
 
             @Override
             public RegistryEntryList.Named<T> getOrThrow(TagKey<T> tag) {
-                return orTag(tag);
+                return conium$orTag(tag);
             }
         });
     }
 
     @Unique
+    public RegistryEntryList.Named<T> conium$orTag(TagKey<T> value) {
+        return getTag(value);
+    }
+
+    @Unique
+    private Optional<RegistryEntry.Reference<T>> conium$orRegistryOptional(RegistryKey<T> key) {
+        return Optional.ofNullable(Optional.ofNullable(this.keyToEntry.get(key)).orElseGet(() -> this.dynamicKeyToEntry.get(key)));
+    }
+
+    @Unique
+    private RegistryEntry.Reference<T> conium$getOrCreateDynamicEntry(RegistryKey<T> key) {
+        RegistryEntry.Reference<T> reference;
+        if (this.frozen) {
+            reference = this.keyToEntry.get(key);
+            if (reference == null) {
+                reference = this.dynamicKeyToEntry.get(key);
+                if (reference == null) {
+                    reference = this.dynamicKeyToEntry.computeIfAbsent(key, key2 -> RegistryEntry.Reference.standAlone(conium$getThis(), key2));
+
+                    postChanged();
+                }
+            }
+        } else {
+            reference = getOrCreateEntry(key);
+        }
+        return reference;
+    }
+
+    @Unique
     @SuppressWarnings("unchecked")
-    private SimpleRegistry<T> getThis() {
+    private SimpleRegistry<T> conium$getThis() {
         return (SimpleRegistry<T>) (Object) this;
     }
 
@@ -572,6 +572,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     }
 
     @Override
+    @Nullable
     public RegistryKey<?> conium$getKey(Identifier identifier) {
         AtomicReference<RegistryKey<?>> result = new AtomicReference<>();
 
