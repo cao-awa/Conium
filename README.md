@@ -56,7 +56,7 @@ Not completed bedrock script APIs supports now, only framework able to run the s
 
 ### Grammars
 
-About typescript grammar, supported by ```structring-translator``` or called ```fluxia```: [Typescript supports](https://github.com/cao-awa/structring-translator/tree/main/doc/typescript)
+About typescript grammar, supported by ```structuring-translator```: [Typescript supports](https://github.com/cao-awa/structuring-translator/tree/main/doc/typescript)
 
 ### APIs
 

@@ -97,6 +97,10 @@ subprojects {
         main.java.srcDirs += 'src/main/java'
         main.kotlin.srcDirs += 'src/main/kotlin'
     }
+
+    jar {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
 }
 
 tasks.register('idePostSync') {
