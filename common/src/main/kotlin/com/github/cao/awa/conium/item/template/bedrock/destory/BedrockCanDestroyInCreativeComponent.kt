@@ -4,20 +4,20 @@ import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativ
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrBoolean
 import com.google.gson.JsonElement
 
-class ConiumBedrockCanDestroyInCreativeTemplate(canDestroy: Boolean) : ConiumCanDestroyInCreativeTemplate(canDestroy) {
+class BedrockCanDestroyInCreativeComponent(canDestroy: Boolean) : ConiumCanDestroyInCreativeTemplate(canDestroy) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement): ConiumBedrockCanDestroyInCreativeTemplate = element.objectOrBoolean(
+        fun create(element: JsonElement): BedrockCanDestroyInCreativeComponent = element.objectOrBoolean(
             {
                 // Bedrock schema is:
                 // "minecraft:can_destroy_in_creative": {
                 //     "value": <bool>
                 // }
-                ConiumBedrockCanDestroyInCreativeTemplate(it["value"].asBoolean)
+                BedrockCanDestroyInCreativeComponent(it["value"].asBoolean)
             },
             // Conium additional supporting schema:
             // "minecraft:can_destroy_in_creative": <bool>
-            ::ConiumBedrockCanDestroyInCreativeTemplate
+            ::BedrockCanDestroyInCreativeComponent
         )!!
     }
 }

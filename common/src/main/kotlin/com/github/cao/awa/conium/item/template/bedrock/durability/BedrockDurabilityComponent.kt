@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.kotlin.extent.json.objectOrInt
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.DURABILITY
 import com.google.gson.JsonElement
 
-class ConiumBedrockDurabilityTemplate(
+class BedrockDurabilityComponent(
     durability: Int,
     damageChance: IntRange = defaultChance
 ) : ConiumDurabilityTemplate(
@@ -15,17 +15,17 @@ class ConiumBedrockDurabilityTemplate(
 ) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement): ConiumBedrockDurabilityTemplate = element.objectOrInt(
+        fun create(element: JsonElement): BedrockDurabilityComponent = element.objectOrInt(
             {
                 // Bedrock schema is:
                 // "minecraft:durability": {
                 //     "max_durability": <int>
                 // }
-                ConiumBedrockDurabilityTemplate(it["max_durability"].asInt, createChance(it))
+                BedrockDurabilityComponent(it["max_durability"].asInt, createChance(it))
             },
             // Conium additional supporting schema:
             // "minecraft:durability": <int>
-            ::ConiumBedrockDurabilityTemplate
+            ::BedrockDurabilityComponent
         )!!
     }
 }

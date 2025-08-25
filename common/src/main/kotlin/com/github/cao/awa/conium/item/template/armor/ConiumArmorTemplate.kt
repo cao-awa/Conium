@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.item.template.armor
 
-import com.github.cao.awa.conium.item.template.bedrock.wearable.ConiumBedrockWearableTemplate
+import com.github.cao.awa.conium.item.template.bedrock.wearable.BedrockWearableComponent
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.github.cao.awa.conium.template.ConiumTemplates.Item.ARMOR
 import com.google.gson.JsonElement
@@ -10,7 +10,6 @@ import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.item.Item
 import net.minecraft.item.equipment.EquipmentType
-import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 
 /**
@@ -20,7 +19,7 @@ import net.minecraft.util.Identifier
  *
  * @author cao_awa
  *
- * @see ConiumBedrockWearableTemplate
+ * @see BedrockWearableComponent
  * @see ConiumWearableTemplate
  *
  * @since 1.0.0

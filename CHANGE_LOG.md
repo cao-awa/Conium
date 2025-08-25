@@ -19,3 +19,4 @@ Fix "minecraft:glint" wrongly be "glint" in template name.
 
 # Others
 Shorter event metadata impl.
+Renamed conium bedrock templates to "Component"s.

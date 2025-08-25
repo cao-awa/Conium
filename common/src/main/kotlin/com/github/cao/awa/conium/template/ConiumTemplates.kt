@@ -31,15 +31,15 @@ import com.github.cao.awa.conium.entity.template.pushable.ConiumEntityPushableTe
 import com.github.cao.awa.conium.entity.template.renderer.model.ConiumEntityModelTemplate
 import com.github.cao.awa.conium.item.template.action.ConiumUseActionTemplate
 import com.github.cao.awa.conium.item.template.armor.ConiumArmorTemplate
-import com.github.cao.awa.conium.item.template.bedrock.animation.ConiumBedrockUseAnimationTemplate
-import com.github.cao.awa.conium.item.template.bedrock.damage.ConiumBedrockDamageTemplate
-import com.github.cao.awa.conium.item.template.bedrock.destory.ConiumBedrockCanDestroyInCreativeTemplate
-import com.github.cao.awa.conium.item.template.bedrock.durability.ConiumBedrockDurabilityTemplate
-import com.github.cao.awa.conium.item.template.bedrock.food.ConiumBedrockFoodTemplate
-import com.github.cao.awa.conium.item.template.bedrock.fuel.ConiumBedrockFuelTemplate
-import com.github.cao.awa.conium.item.template.bedrock.glint.ConiumBedrockGlintTemplate
-import com.github.cao.awa.conium.item.template.bedrock.stack.size.ConiumBedrockMaxStackSizeTemplate
-import com.github.cao.awa.conium.item.template.bedrock.wearable.ConiumBedrockWearableTemplate
+import com.github.cao.awa.conium.item.template.bedrock.animation.BedrockUseAnimationComponent
+import com.github.cao.awa.conium.item.template.bedrock.damage.BedrockDamageComponent
+import com.github.cao.awa.conium.item.template.bedrock.destory.BedrockCanDestroyInCreativeComponent
+import com.github.cao.awa.conium.item.template.bedrock.durability.BedrockDurabilityComponent
+import com.github.cao.awa.conium.item.template.bedrock.food.BedrockFoodComponent
+import com.github.cao.awa.conium.item.template.bedrock.fuel.BedrockFuelComponent
+import com.github.cao.awa.conium.item.template.bedrock.glint.BedrockGlintComponent
+import com.github.cao.awa.conium.item.template.bedrock.stack.size.BedrockMaxStackSizeComponent
+import com.github.cao.awa.conium.item.template.bedrock.wearable.BedrockWearableComponent
 import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
 import com.github.cao.awa.conium.item.template.consume.ConiumConsumeOnUsedTemplate
 import com.github.cao.awa.conium.item.template.convert.block.ConiumUsedOnBlockConvertToTemplate
@@ -338,26 +338,26 @@ object ConiumTemplates {
             // Bedrock tool.
             registerItem(
                 DAMAGE,
-                ConiumBedrockDamageTemplate::create,
+                BedrockDamageComponent::create,
                 true
             )
             registerItem(
                 DURABILITY,
-                ConiumBedrockDurabilityTemplate::create,
+                BedrockDurabilityComponent::create,
                 true
             )
 
             // Stack.
             registerItem(
                 MAX_STACK_SIZE,
-                ConiumBedrockMaxStackSizeTemplate::create,
+                BedrockMaxStackSizeComponent::create,
                 true
             )
 
             // Can destroy in creative.
             registerItem(
                 CAN_DESTROY_IN_CREATIVE,
-                ConiumBedrockCanDestroyInCreativeTemplate::create,
+                BedrockCanDestroyInCreativeComponent::create,
                 true
             )
 
@@ -371,35 +371,35 @@ object ConiumTemplates {
             // Food.
             registerItem(
                 FOOD,
-                ConiumBedrockFoodTemplate::create,
+                BedrockFoodComponent::create,
                 true
             )
 
             // Fuel.
             registerItem(
                 FUEL,
-                ConiumBedrockFuelTemplate::create,
+                BedrockFuelComponent::create,
                 true
             )
 
             // Glint.
             registerItem(
                 GLINT,
-                ConiumBedrockGlintTemplate::create,
+                BedrockGlintComponent::create,
                 true
             )
 
             // Wearable.
             registerItem(
                 WEARABLE,
-                ConiumBedrockWearableTemplate::create,
+                BedrockWearableComponent::create,
                 true
             )
 
             // Use animation.
             registerItem(
                 USE_ANIMATION,
-                ConiumBedrockUseAnimationTemplate::create,
+                BedrockUseAnimationComponent::create,
                 true
             )
         }

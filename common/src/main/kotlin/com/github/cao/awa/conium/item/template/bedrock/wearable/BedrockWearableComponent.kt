@@ -6,7 +6,6 @@ import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.WEARABLE
 import com.google.gson.JsonElement
 import net.minecraft.item.equipment.EquipmentType
-import net.minecraft.registry.RegistryWrapper
 
 /**
  * The template used to make an item can wear to slots and provides protections.
@@ -20,17 +19,17 @@ import net.minecraft.registry.RegistryWrapper
  *
  * @since 1.0.0
  */
-class ConiumBedrockWearableTemplate(equipment: EquipmentType, protection: Double = 0.0) : ConiumWearableTemplate(equipment, protection, WEARABLE) {
+class BedrockWearableComponent(equipment: EquipmentType, protection: Double = 0.0) : ConiumWearableTemplate(equipment, protection, WEARABLE) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement): ConiumBedrockWearableTemplate = element.objectOrString(
+        fun create(element: JsonElement): BedrockWearableComponent = element.objectOrString(
             {
                 // Bedrock schema is:
                 // "minecraft:wearable": {
                 //     "protection": <int>
                 //     "slot": <string>
                 // }
-                ConiumBedrockWearableTemplate(
+                BedrockWearableComponent(
                     createEquipment(it["slot"].asString),
                     // And conium additional supporting missing protection key.
                     // Then default is no protection value.
@@ -40,7 +39,7 @@ class ConiumBedrockWearableTemplate(equipment: EquipmentType, protection: Double
         ) {
             // Conium additional supporting schema:
             // "minecraft:wearable": <string>
-            ConiumBedrockWearableTemplate(createEquipment(it))
+            BedrockWearableComponent(createEquipment(it))
         }!!
     }
 }

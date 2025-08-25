@@ -12,18 +12,18 @@ import net.minecraft.component.type.UseRemainderComponent
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 
-class ConiumBedrockFoodTemplate() : ConiumItemTemplate(name = FOOD) {
+class BedrockFoodComponent() : ConiumItemTemplate(name = FOOD) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement): ConiumBedrockFoodTemplate = element.createIfJsonObject(
+        fun create(element: JsonElement): BedrockFoodComponent = element.createIfJsonObject(
             {
                 // Create food template.
-                ConiumBedrockFoodTemplate(element.asJsonObject)
+                BedrockFoodComponent(element.asJsonObject)
             },
             notSupported()
         )!!
 
-        private fun createFoodComponent(template: ConiumBedrockFoodTemplate, jsonObject: JsonObject): FoodComponent {
+        private fun createFoodComponent(template: BedrockFoodComponent, jsonObject: JsonObject): FoodComponent {
             FoodComponent.Builder().let {
                 if (jsonObject.has("nutrition")) {
                     it.nutrition(jsonObject["nutrition"].asInt)

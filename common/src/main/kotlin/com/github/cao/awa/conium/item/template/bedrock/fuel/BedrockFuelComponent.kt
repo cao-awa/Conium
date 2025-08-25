@@ -4,9 +4,8 @@ import com.github.cao.awa.conium.item.template.fuel.ConiumFuelTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrFloat
 import com.github.cao.awa.conium.template.ConiumTemplate.Companion.secondsToTicks
 import com.google.gson.JsonElement
-import net.minecraft.registry.RegistryWrapper
 
-object ConiumBedrockFuelTemplate {
+object BedrockFuelComponent {
     @JvmStatic
     fun create(element: JsonElement): ConiumFuelTemplate = element.objectOrFloat(
         {

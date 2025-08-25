@@ -7,20 +7,20 @@ import com.google.gson.JsonElement
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
 
-class ConiumBedrockGlintTemplate(private val glint: Boolean) : ConiumItemTemplate(name = GLINT) {
+class BedrockGlintComponent(private val glint: Boolean) : ConiumItemTemplate(name = GLINT) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement): ConiumBedrockGlintTemplate = element.objectOrBoolean(
+        fun create(element: JsonElement): BedrockGlintComponent = element.objectOrBoolean(
             {
                 // Bedrock schema is:
                 // "minecraft:glint": {
                 //     "value": <bool>
                 // }
-                ConiumBedrockGlintTemplate(it["value"].asBoolean)
+                BedrockGlintComponent(it["value"].asBoolean)
             },
             // Conium additional supporting schema:
             // "minecraft:glint": <bool>
-            ::ConiumBedrockGlintTemplate
+            ::BedrockGlintComponent
         )!!
     }
 

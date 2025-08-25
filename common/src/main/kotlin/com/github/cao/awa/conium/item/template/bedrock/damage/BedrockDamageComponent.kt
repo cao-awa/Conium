@@ -13,12 +13,11 @@ import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.item.Item
-import net.minecraft.registry.RegistryWrapper
 
-class ConiumBedrockDamageTemplate(private val damage: Double) : ConiumItemTemplate(name = DAMAGE) {
+class BedrockDamageComponent(private val damage: Double) : ConiumItemTemplate(name = DAMAGE) {
     companion object {
         @JvmStatic
-        fun create(element: JsonElement): ConiumBedrockDamageTemplate = ConiumBedrockDamageTemplate(element.asDouble)
+        fun create(element: JsonElement): BedrockDamageComponent = BedrockDamageComponent(element.asDouble)
     }
 
     override fun settings(settings: Item.Settings) {
