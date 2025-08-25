@@ -3,7 +3,6 @@ package com.github.cao.awa.coniumic.feature
 import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.feature.ConiumFeatureRegister
 import com.github.cao.awa.conium.kotlin.extend.equals
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.registry.RegistryKey
@@ -12,13 +11,14 @@ import net.minecraft.util.Identifier
 import net.minecraft.world.gen.GenerationStep
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+import java.util.Collections
 
 class ConiumFabricFeatureRegister : ConiumFeatureRegister() {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumFeatureRegister")
     }
 
-    private val modifiers: MutableSet<Identifier> = CollectionFactor.hashSet()
+    private val modifiers: MutableSet<Identifier> = HashSet()
 
     //  TODO Remove fabric api
     override fun placedFeature(id: Identifier?) {
