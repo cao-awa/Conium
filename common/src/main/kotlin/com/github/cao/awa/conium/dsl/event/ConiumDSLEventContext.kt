@@ -4,8 +4,7 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventType
-import com.github.cao.awa.conium.extend.ConiumExtends.ifException
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.kotlin.extend.manipulate.doCast
 import com.github.cao.awa.conium.threadpool.ConiumThreadPool
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import java.util.function.Consumer

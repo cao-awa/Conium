@@ -2,10 +2,10 @@ package com.github.cao.awa.conium.item.template.durability
 
 import com.github.cao.awa.conium.item.setting.ConiumItemSettings
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.kotlin.extent.component.withComponent
-import com.github.cao.awa.conium.kotlin.extent.component.withComputeTool
-import com.github.cao.awa.conium.kotlin.extent.component.withCreateTool
-import com.github.cao.awa.conium.kotlin.extent.item.components
+import com.github.cao.awa.conium.kotlin.extend.component.withComponent
+import com.github.cao.awa.conium.kotlin.extend.component.withComputeTool
+import com.github.cao.awa.conium.kotlin.extend.component.withCreateTool
+import com.github.cao.awa.conium.kotlin.extend.item.components
 import com.google.gson.JsonObject
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item

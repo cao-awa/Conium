@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.block.template.preset
 
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
-import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
+import com.github.cao.awa.conium.kotlin.extend.json.ifJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject

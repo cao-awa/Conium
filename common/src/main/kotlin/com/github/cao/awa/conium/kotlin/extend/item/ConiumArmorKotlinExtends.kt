@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.kotlin.extent.item
+package com.github.cao.awa.conium.kotlin.extend.item
 
 import net.minecraft.item.equipment.EquipmentType
 import net.minecraft.util.Identifier

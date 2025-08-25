@@ -4,12 +4,11 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.kotlin.extend.manipulate.doCast
 import com.github.cao.awa.conium.parameter.DynamicArgType
 import com.github.cao.awa.conium.parameter.DynamicArgs
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective1
-import com.github.cao.awa.conium.parameter.ParameterSelective2
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 

@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.setting
 
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.kotlin.extend.manipulate.doCast
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 abstract class ConiumSettings<T : ConiumSettings<T, M>, M : T> {

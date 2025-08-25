@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.item.template.bedrock.entity.placer
 
 import com.github.cao.awa.conium.item.template.entity.placer.ConiumEntityPlacerTemplate
-import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
+import com.github.cao.awa.conium.kotlin.extend.json.objectOrString
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.block.Block

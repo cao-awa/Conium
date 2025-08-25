@@ -6,8 +6,8 @@ import com.github.cao.awa.conium.datapack.item.fuel.ConiumFuelRegistry
 import com.github.cao.awa.conium.item.builder.ConiumItemBuilder
 import com.github.cao.awa.conium.item.builder.bedrock.BedrockSchemaItemBuilder
 import com.github.cao.awa.conium.item.builder.conium.ConiumSchemaItemBuilder
-import com.github.cao.awa.conium.kotlin.extent.item.register
-import com.github.cao.awa.conium.kotlin.extent.item.registerItem
+import com.github.cao.awa.conium.kotlin.extend.item.register
+import com.github.cao.awa.conium.kotlin.extend.item.registerItem
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry
 import com.github.cao.awa.conium.template.ConiumTemplate
@@ -17,7 +17,6 @@ import com.google.gson.JsonObject
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.DynamicRegistryManager
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryWrapper

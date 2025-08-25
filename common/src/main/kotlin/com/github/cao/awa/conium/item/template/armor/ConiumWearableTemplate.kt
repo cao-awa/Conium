@@ -2,11 +2,11 @@ package com.github.cao.awa.conium.item.template.armor
 
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.item.template.bedrock.wearable.BedrockWearableComponent
-import com.github.cao.awa.conium.kotlin.extent.component.withComponent
-import com.github.cao.awa.conium.kotlin.extent.component.withComputeAttributeModifiers
-import com.github.cao.awa.conium.kotlin.extent.component.withCreateAttributeModifiers
-import com.github.cao.awa.conium.kotlin.extent.item.components
-import com.github.cao.awa.conium.kotlin.extent.item.identifier
+import com.github.cao.awa.conium.kotlin.extend.component.withComponent
+import com.github.cao.awa.conium.kotlin.extend.component.withComputeAttributeModifiers
+import com.github.cao.awa.conium.kotlin.extend.component.withCreateAttributeModifiers
+import com.github.cao.awa.conium.kotlin.extend.item.components
+import com.github.cao.awa.conium.kotlin.extend.item.identifier
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent

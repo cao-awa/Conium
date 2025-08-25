@@ -1,6 +1,6 @@
-package com.github.cao.awa.conium.kotlin.extent.block
+package com.github.cao.awa.conium.kotlin.extend.block
 
-import com.github.cao.awa.conium.kotlin.extent.innate.int
+import com.github.cao.awa.conium.kotlin.extend.innate.int
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.block.MapColor
 

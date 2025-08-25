@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.item.template.tool
 import com.github.cao.awa.conium.item.setting.ConiumItemSettings
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.item.template.durability.ConiumDurabilityTemplate
-import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
+import com.github.cao.awa.conium.kotlin.extend.json.ifJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates.Item.TOOL
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject

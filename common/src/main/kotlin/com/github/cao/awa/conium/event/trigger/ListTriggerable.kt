@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.event.trigger
 
+import com.github.cao.awa.conium.kotlin.extend.predicate.test
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import java.util.function.Predicate
@@ -16,11 +17,11 @@ abstract class ListTriggerable<P : ParameterSelective> {
         var has = false
 
         for (trigger in this.constantTriggers) {
-            has = has or parameters.test(trigger)
+            has = has or (parameters test trigger)
         }
 
-        for (trigger in this.triggers.getOrDefault(identity, emptyList<P>())) {
-            has = has or parameters.test(trigger)
+        for (trigger in this.triggers.getOrDefault(identity, emptyList())) {
+            has = has or (parameters test trigger)
         }
 
         return has
@@ -30,11 +31,11 @@ abstract class ListTriggerable<P : ParameterSelective> {
         var has = true
 
         for (trigger in this.constantTriggers) {
-            has = has and parameters.test(trigger)
+            has = has and (parameters test trigger)
         }
 
-        for (trigger in this.triggers.getOrDefault(identity, emptyList<P>())) {
-            has = has and parameters.test(trigger)
+        for (trigger in this.triggers.getOrDefault(identity, emptyList())) {
+            has = has and (parameters test trigger)
         }
         return has
     }

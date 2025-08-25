@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.item.template.food
 
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
+import com.github.cao.awa.conium.kotlin.extend.json.objectOrString
 import com.github.cao.awa.conium.template.ConiumTemplates.Item.FOOD
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject

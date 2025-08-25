@@ -1,9 +1,8 @@
-package com.github.cao.awa.conium.kotlin.extent.item
+package com.github.cao.awa.conium.kotlin.extend.item
 
 import com.github.cao.awa.conium.block.ConiumBlock
 import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
 import com.github.cao.awa.conium.item.builder.ConiumItemBuilder
-import com.github.cao.awa.conium.item.builder.conium.ConiumSchemaItemBuilder
 import com.github.cao.awa.conium.item.setting.ConiumItemSettings
 import com.github.cao.awa.conium.mixin.item.setting.ItemSettingsAccessor
 import net.minecraft.block.Block

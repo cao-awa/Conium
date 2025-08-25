@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.kotlin.extent.world
+package com.github.cao.awa.conium.kotlin.extend.world
 
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity

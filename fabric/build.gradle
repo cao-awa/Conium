@@ -66,9 +66,6 @@ dependencies {
 
     shadowBundle 'com.alibaba.fastjson2:fastjson2:2.0.50'
 
-    shadowBundle 'com.github.cao.awa:catheter:1.0.43'
-    shadowBundle 'com.github.cao.awa:sinuatum:1.0.17'
-
     shadowBundle "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
 
     // Fabric Kotlin

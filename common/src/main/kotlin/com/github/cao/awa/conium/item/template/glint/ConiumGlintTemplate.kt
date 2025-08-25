@@ -5,15 +5,14 @@ import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.kotlin.extent.item.mergedComponents
-import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
+import com.github.cao.awa.conium.kotlin.extend.item.mergedComponents
+import com.github.cao.awa.conium.kotlin.extend.json.ifJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates.Item.GLINT
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.RegistryWrapper
 
 class ConiumGlintTemplate(private val glint: Boolean, private val scriptName: String? = null) : ConiumItemTemplate(name = GLINT) {
     companion object {

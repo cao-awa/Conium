@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.kotlin.extent.json
+package com.github.cao.awa.conium.kotlin.extend.json
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement

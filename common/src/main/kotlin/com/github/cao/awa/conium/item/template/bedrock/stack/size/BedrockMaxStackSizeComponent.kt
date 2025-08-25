@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.item.template.bedrock.stack.size
 
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.kotlin.extent.json.objectOrInt
+import com.github.cao.awa.conium.kotlin.extend.json.objectOrInt
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.MAX_STACK_SIZE
 import com.google.gson.JsonElement
 import net.minecraft.item.Item

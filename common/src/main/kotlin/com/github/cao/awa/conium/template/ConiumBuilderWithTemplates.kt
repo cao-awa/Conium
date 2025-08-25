@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.template
 
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.kotlin.extend.manipulate.doCast
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger

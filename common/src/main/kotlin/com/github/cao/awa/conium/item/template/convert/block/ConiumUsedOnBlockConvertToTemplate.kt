@@ -2,19 +2,16 @@ package com.github.cao.awa.conium.item.template.convert.block
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.item.ConiumItem
-import com.github.cao.awa.conium.item.event.use.block.ConiumItemUsedOnBlockEventMetadata
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
+import com.github.cao.awa.conium.kotlin.extend.json.ifJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates
 import com.google.gson.JsonElement
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.item.consume.UseAction
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.Identifier
 

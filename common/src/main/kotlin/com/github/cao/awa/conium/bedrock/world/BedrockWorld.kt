@@ -21,5 +21,4 @@ class DummyBedrockWorld : AbstractBedrockWorld() {
     override fun getPlayers(): BedrockPlayerDelegate = throw IllegalAccessException("The 'world' of current context are not initialized, cannot access methods and members")
 }
 
-val MinecraftServer.bedrockWorld: BedrockWorld
-    get() = BedrockWorld(this)
+val MinecraftServer.bedrockWorld: BedrockWorld get() = BedrockWorld(this)

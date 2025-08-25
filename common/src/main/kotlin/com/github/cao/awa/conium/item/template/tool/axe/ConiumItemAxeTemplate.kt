@@ -2,8 +2,8 @@ package com.github.cao.awa.conium.item.template.tool.axe
 
 import com.github.cao.awa.conium.item.template.durability.ConiumDurabilityTemplate
 import com.github.cao.awa.conium.item.template.tool.ConiumItemToolTemplate
-import com.github.cao.awa.conium.kotlin.extent.innate.changeIfIs
-import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
+import com.github.cao.awa.conium.kotlin.extend.innate.changeIfIs
+import com.github.cao.awa.conium.kotlin.extend.json.ifJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates.Item.TOOL
 import com.google.gson.JsonElement
 import net.minecraft.block.Block

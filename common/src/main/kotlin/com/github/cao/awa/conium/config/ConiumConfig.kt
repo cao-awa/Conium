@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.config
 
-import com.github.cao.awa.conium.kotlin.extent.json.ifBoolean
+import com.github.cao.awa.conium.kotlin.extend.json.ifBoolean
 import com.github.cao.awa.sinuatum.resource.loader.ResourceLoader
 import com.github.cao.awa.sinuatum.util.io.IOUtil
 import com.google.gson.JsonObject

@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.datapack.inject.item
 
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponent
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.kotlin.extend.manipulate.doCast
 import com.google.gson.JsonObject
 
 @JvmRecord

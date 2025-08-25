@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.datapack.recipe
 
-import com.github.cao.awa.conium.kotlin.extent.recipe.coniumName
+import com.github.cao.awa.conium.kotlin.extend.recipe.coniumName
 import com.github.cao.awa.conium.mixin.recipe.ServerRecipeManagerAccessor
 import com.github.cao.awa.conium.mixin.recipe.property.RecipePropertySetAccessor
 import com.github.cao.awa.conium.recipe.ConiumBedrockRecipeBuilder
@@ -10,7 +10,6 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.mojang.serialization.JsonOps
 import net.minecraft.recipe.*
-import net.minecraft.recipe.ServerRecipeManager.SoleIngredientGetter
 import net.minecraft.recipe.display.CuttingRecipeDisplay
 import net.minecraft.recipe.input.RecipeInput
 import net.minecraft.registry.*

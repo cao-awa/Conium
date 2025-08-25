@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.kotlin.extent.component
+package com.github.cao.awa.conium.kotlin.extend.component
 
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent

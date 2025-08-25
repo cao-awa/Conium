@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
 import com.github.cao.awa.conium.block.entity.setting.ConiumBlockEntitySettings
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
-import com.github.cao.awa.conium.kotlin.extent.json.jsonObject
+import com.github.cao.awa.conium.kotlin.extend.json.jsonObject
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.nbt.data.RegistrableNbt
 import com.github.cao.awa.conium.template.ConiumTemplates

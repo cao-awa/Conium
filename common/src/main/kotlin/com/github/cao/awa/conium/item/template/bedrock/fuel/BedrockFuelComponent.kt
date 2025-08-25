@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.item.template.bedrock.fuel
 
 import com.github.cao.awa.conium.item.template.fuel.ConiumFuelTemplate
-import com.github.cao.awa.conium.kotlin.extent.json.objectOrFloat
+import com.github.cao.awa.conium.kotlin.extend.json.objectOrFloat
 import com.github.cao.awa.conium.template.ConiumTemplate.Companion.secondsToTicks
 import com.google.gson.JsonElement
 

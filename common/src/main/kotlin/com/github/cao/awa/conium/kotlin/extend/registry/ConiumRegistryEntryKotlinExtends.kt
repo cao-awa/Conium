@@ -1,6 +1,6 @@
 @file:Suppress("UNCHECKED_CAST")
 
-package com.github.cao.awa.conium.kotlin.extent.registry
+package com.github.cao.awa.conium.kotlin.extend.registry
 
 import com.github.cao.awa.conium.mixin.registry.RegistryEntryReferenceAccessor
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor

@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.kotlin.extent.block
+package com.github.cao.awa.conium.kotlin.extend.block
 
 import com.github.cao.awa.conium.block.ConiumBlock
 import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder

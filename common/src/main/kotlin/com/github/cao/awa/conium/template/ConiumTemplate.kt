@@ -6,8 +6,8 @@ import com.github.cao.awa.conium.block.entity.template.ConiumBlockEntityTemplate
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.kotlin.extent.innate.int
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.kotlin.extend.innate.int
+import com.github.cao.awa.conium.kotlin.extend.manipulate.doCast
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
@@ -15,7 +15,6 @@ import com.google.gson.JsonObject
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Recipe
 import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger

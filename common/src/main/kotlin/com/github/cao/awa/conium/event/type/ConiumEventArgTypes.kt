@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.event.type
 
 import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
-import com.github.cao.awa.conium.kotlin.extent.innate.*
+import com.github.cao.awa.conium.kotlin.extend.innate.*
 import com.github.cao.awa.conium.parameter.DynamicArgType
 import com.github.cao.awa.conium.parameter.DynamicArgsBuilder.Companion.transform
 import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder.arg

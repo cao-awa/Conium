@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.item.template.bedrock.food
 
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
-import com.github.cao.awa.conium.kotlin.extent.json.createIfJsonObject
+import com.github.cao.awa.conium.kotlin.extend.json.createIfJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.FOOD
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject

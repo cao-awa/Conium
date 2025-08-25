@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.kotlin.extent.manipulate
+package com.github.cao.awa.conium.kotlin.extend.manipulate
 
 import com.github.cao.awa.sinuatum.function.exception.consumer.ExceptingConsumer
 import com.github.cao.awa.sinuatum.function.exception.function.ExceptingFunction

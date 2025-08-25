@@ -5,12 +5,11 @@ import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
 import com.github.cao.awa.conium.block.entity.setting.ConiumBlockEntitySettings
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
-import com.github.cao.awa.conium.kotlin.extent.json.ifBoolean
-import com.github.cao.awa.conium.kotlin.extent.json.ifInt
+import com.github.cao.awa.conium.kotlin.extend.json.ifBoolean
+import com.github.cao.awa.conium.kotlin.extend.json.ifInt
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.template.ConiumTemplates
 import com.google.gson.JsonElement
-import net.minecraft.registry.RegistryWrapper
 
 /**
  * Setting a block emits weak and strong redstone power to neighbor blocks.
