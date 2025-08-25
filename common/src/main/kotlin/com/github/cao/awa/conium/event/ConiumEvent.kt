@@ -63,9 +63,9 @@ import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickEvent
 import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickedEvent
 import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.network.event.ConiumServerConfigurationConnectionEvent
+import com.github.cao.awa.conium.network.event.ConiumServerConfiguredConnectionEvent
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.random.event.ConiumRandomEvent
-import com.github.cao.awa.conium.script.index.common.unnamed
 import com.github.cao.awa.conium.server.event.random.ConiumServerRandomEvent
 import com.github.cao.awa.conium.server.event.tick.ConiumServerTickEvent
 import com.github.cao.awa.conium.server.event.tick.ConiumServerTickTailEvent
@@ -87,6 +87,14 @@ abstract class ConiumEvent<
         private val events: MutableMap<ConiumEventType<*, *, *, *>, ConiumEvent<*, *, *>> = CollectionFactor.hashMap()
         private val foreverContext: MutableMap<ConiumEventType<*, *, *, *>, MutableList<ConiumArisingEventContext<*, *>>> = CollectionFactor.hashMap()
 
+        /**
+         * The 'inactive' event always don’t do actions.
+         *
+         * @see ConiumInactiveEvent
+         *
+         * @author cao_awa
+         * @since 1.0.0
+         */
         @JvmStatic
         val inactive: ConiumInactiveEvent = ConiumInactiveEvent()
 
@@ -264,6 +272,8 @@ abstract class ConiumEvent<
         @JvmField
         val enterConfigurationConnection: ConiumServerConfigurationConnectionEvent = ConiumServerConfigurationConnectionEvent()
 
+        val enterConfiguredConnection: ConiumServerConfiguredConnectionEvent = ConiumServerConfiguredConnectionEvent()
+
         /**
          * Before event fires, create event context by requirements.
          *
@@ -320,96 +330,9 @@ abstract class ConiumEvent<
          */
         @JvmStatic
         fun clearAll() {
-            clearEntitySubscribes()
-            clearChunkSubscribes()
-            clearRandomSubscribes()
-            clearNetworkSubscribes()
-            clearItemSubscribes()
-            clearBlockSubscribes()
-            clearServerTickSubscribes()
-        }
-
-        fun clearEntitySubscribes() {
-            this.entityTick.clearSubscribes()
-            this.entityTicked.clearSubscribes()
-            this.entityDamage.clearSubscribes()
-            this.entityDamaged.clearSubscribes()
-            this.entityDie.clearSubscribes()
-            this.entityDead.clearSubscribes()
-            this.entityTrySleep.clearSubscribes()
-            this.entitySleep.clearSubscribes()
-            this.entityWakeUp.clearSubscribes()
-            this.entityWakedUp.clearSubscribes()
-            this.entitySprint.clearSubscribes()
-            this.entitySprinting.clearSubscribes()
-            this.entityStopSprint.clearSubscribes()
-            this.entityOnFire.clearSubscribes()
-            this.entityExtinguishFire.clearSubscribes()
-            this.entityExtinguishedFire.clearSubscribes()
-        }
-
-        fun clearItemSubscribes() {
-            this.itemUse.clearSubscribes()
-            this.itemUsed.clearSubscribes()
-
-            this.itemUseOnBlock.clearSubscribes()
-            this.itemUsedOnBlock.clearSubscribes()
-            this.itemUseOnEntity.clearSubscribes()
-            this.itemUsedOnEntity.clearSubscribes()
-
-            this.itemUsageTick.clearSubscribes()
-            this.itemUsageTicked.clearSubscribes()
-            this.itemStackClick.clearSubscribes()
-            this.itemStackClicked.clearSubscribes()
-            this.itemInventoryTick.clearSubscribes()
-            this.itemInventoryTicked.clearSubscribes()
-        }
-
-        fun clearServerTickSubscribes() {
-            this.serverTick.clearSubscribes()
-            this.serverRandom.clearSubscribes()
-            this.serverTickTail.clearSubscribes()
-        }
-
-        fun clearBlockSubscribes() {
-            this.breakingBlock.clearSubscribes()
-            this.breakBlock.clearSubscribes()
-            this.brokenBlock.clearSubscribes()
-            this.placeBlock.clearSubscribes()
-            this.placedBlock.clearSubscribes()
-            this.useBlock.clearSubscribes()
-            this.usedBlock.clearSubscribes()
-
-            this.fluidScheduleTick.clearSubscribes()
-            this.fluidScheduleTicked.clearSubscribes()
-            this.blockScheduleTick.clearSubscribes()
-            this.blockScheduleTicked.clearSubscribes()
-
-            this.shulkerBoxOpening.clearSubscribes()
-            this.shulkerBoxOpened.clearSubscribes()
-            this.shulkerBoxClosing.clearSubscribes()
-            this.shulkerBoxClosed.clearSubscribes()
-            this.chestOpening.clearSubscribes()
-            this.chestOpened.clearSubscribes()
-            this.chestClosing.clearSubscribes()
-            this.chestClosed.clearSubscribes()
-            this.trappedChestOpening.clearSubscribes()
-            this.trappedChestOpened.clearSubscribes()
-            this.trappedChestClosing.clearSubscribes()
-            this.trappedChestClosed.clearSubscribes()
-        }
-
-        fun clearRandomSubscribes() {
-            this.random.clearSubscribes()
-        }
-
-        fun clearChunkSubscribes() {
-            this.receiveChunk.clearSubscribes()
-            this.receivedChunk.clearSubscribes()
-        }
-
-        fun clearNetworkSubscribes() {
-            this.enterConfigurationConnection.clearSubscribes()
+            for ((_, event) in this.events) {
+                event.clearSubscribes()
+            }
         }
     }
 
@@ -451,13 +374,13 @@ abstract class ConiumEvent<
         }
     }
 
-    fun listen(callback: (M) -> Unit) {
+    fun listen(callback: M.() -> Unit) {
         this.listeners.add(
             ConiumEventTrigger(callback, { true }, true)
         )
     }
 
-    fun listen(identity: Any?, callback: (M) -> Unit) {
+    fun listen(identity: Any?, callback: M.() -> Unit) {
         this.listeners.add(
             ConiumEventTrigger(
                 callback,

@@ -13,9 +13,7 @@ import com.github.cao.awa.conium.script.index.common.ConiumEventType
 class ConiumInactiveEvent: ConiumEvent<Unit, ConiumEmptyEventMetadata, ParameterSelective0<Boolean>>(
     ConiumEventType.INACTIVE
 ) {
-    override fun metadata(context: ConiumEventContext<Unit>): ConiumEmptyEventMetadata {
-        return ConiumEmptyEventMetadata()
-    }
+    override fun metadata(context: ConiumEventContext<Unit>): ConiumEmptyEventMetadata = ConiumEmptyEventMetadata()
 
     override fun requirement(): ConiumArisingEventContext<Unit, out ParameterSelective> {
         return ConiumEventContextBuilder.requires(

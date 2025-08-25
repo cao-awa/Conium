@@ -19,6 +19,8 @@ class ConiumBlockScheduleTickEvent : ConiumEvent<Block, ConiumBlockScheduleTickE
     ConiumEventType.BLOCK_SCHEDULE_TICK,
     { ConiumEventType.BLOCK_SCHEDULE_TICKED }
 ) {
+    override fun metadata(context: ConiumEventContext<Block>): ConiumBlockScheduleTickEventMetadata = ConiumBlockScheduleTickEventMetadata(context)
+
     override fun requirement(): ConiumArisingEventContext<Block, out ParameterSelective> {
         return requires(
             ConiumEventArgTypes.BLOCK,
@@ -32,9 +34,5 @@ class ConiumBlockScheduleTickEvent : ConiumEvent<Block, ConiumBlockScheduleTickE
                 parameterSelective(world, pos, blockState, scheduler, random)
             }
         }
-    }
-
-    override fun metadata(context: ConiumEventContext<Block>): ConiumBlockScheduleTickEventMetadata {
-        return ConiumBlockScheduleTickEventMetadata(context)
     }
 }

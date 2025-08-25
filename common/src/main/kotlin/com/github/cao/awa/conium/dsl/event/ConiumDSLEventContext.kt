@@ -19,7 +19,7 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
             val event: ConiumEvent<I, M, *> = ConiumEvent.findEvent(eventType)
             return ConiumDSLEventContext(eventType, event).also { dslEventMetadata: ConiumDSLEventContext<I, M, N, T> ->
                 event.listen {
-                    dslEventMetadata.doAction(it)
+                    dslEventMetadata.doAction(this)
                 }
 
                 block(dslEventMetadata)
@@ -58,7 +58,7 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
 
     fun doAction(metadata: M): Boolean {
         if (this.async) {
-            ConiumThreadPool.Companion.run {
+            ConiumThreadPool.submit {
                 execute(metadata)
             }
             return true

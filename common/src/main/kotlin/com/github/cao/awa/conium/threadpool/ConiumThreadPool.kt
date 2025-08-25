@@ -4,10 +4,11 @@ import java.util.concurrent.ScheduledThreadPoolExecutor
 
 class ConiumThreadPool {
     companion object {
+        @JvmStatic
         val INSTANCE: ConiumThreadPool = ConiumThreadPool()
 
         @JvmStatic
-        fun run(task: Runnable) {
+        fun submit(task: Runnable) {
             this.INSTANCE.execute(task)
         }
     }

@@ -9,7 +9,7 @@ import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.datapack.worldgen.ConiumPlacedFeatureManager
 import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.dsl.event.DSLSample
+import com.github.cao.awa.conium.dsl.DSLSample
 import com.github.cao.awa.conium.function.consumer.string.obj.*
 import com.github.cao.awa.conium.hitokoto.ConiumHitokoto
 import com.github.cao.awa.conium.script.manager.ConiumScriptManager
@@ -198,7 +198,7 @@ class Conium {
     fun onInitialize() {
         // Print big banner, let user know Conium is loaded.
         // Conium is a very large and complex framework, potential conflict may more than other mods.
-        // Need to prevent Conium unexpectedly loads in modpacks that don't use Conium feature.
+        // Need to prevent Conium unexpectedly loads in modpacks that don't use Conium features.
         printBanner()
 
         // Read config to toggle features.
@@ -206,83 +206,96 @@ class Conium {
 
         // Initialize for item injecting.
         ConiumComponentTypes.init()
-        ConiumComponentTypes.types().let { dataComponents ->
-            LOGGER.info("Loaded ${dataComponents.size} data components: $dataComponents")
-            debug(
-                "Loaded {} data components: {}",
-                { dataComponents.size },
-                { dataComponents },
-                LOGGER::info
-            )
+        // Debug only.
+        run {
+            ConiumComponentTypes.types().let { dataComponents ->
+                LOGGER.info("Loaded ${dataComponents.size} data components: $dataComponents")
+                debug(
+                    "Loaded {} data components: {}",
+                    { dataComponents.size },
+                    { dataComponents },
+                    LOGGER::info
+                )
+            }
         }
 
         // Initialize for events.
         ConiumEvent.init()
-        ConiumEvent.events().let { events ->
-            LOGGER.info("Loaded {} conium events", events.size)
-            debug(
-                "Loaded {} conium events: {}",
-                events::size,
-                { events },
-                LOGGER::info
-            )
+        // Debug only.
+        run {
+            ConiumEvent.events().let { events ->
+                LOGGER.info("Loaded {} conium events", events.size)
+                debug(
+                    "Loaded {} conium events: {}",
+                    events::size,
+                    { events },
+                    LOGGER::info
+                )
+            }
         }
 
         // Initialize for templates.
         ConiumTemplates.init()
-        ConiumTemplate.templates().let { templates ->
-            LOGGER.info(
-                "Loaded {} templates ({} conium templates, {} bedrock templates/components)",
-                templates.size,
-                ConiumTemplate.coniumCount(),
-                ConiumTemplate.bedrockCount()
-            )
-            debug(
-                "Loaded {} templates ({} conium templates, {} bedrock templates/components): {}",
-                templates::size,
-                { ConiumTemplate.coniumCount() },
-                { ConiumTemplate.bedrockCount() },
-                { templates },
-                LOGGER::info
-            )
+        // Debug only.
+        run {
+            ConiumTemplate.templates().let { templates ->
+                LOGGER.info(
+                    "Loaded {} templates ({} conium templates, {} bedrock templates/components)",
+                    templates.size,
+                    ConiumTemplate.coniumCount(),
+                    ConiumTemplate.bedrockCount()
+                )
+                debug(
+                    "Loaded {} templates ({} conium templates, {} bedrock templates/components): {}",
+                    templates::size,
+                    { ConiumTemplate.coniumCount() },
+                    { ConiumTemplate.bedrockCount() },
+                    { templates },
+                    LOGGER::info
+                )
+            }
         }
 
         // Initialize script translator for generic typescript translates.
         LOGGER.info("Loading structuring translator {} provider '{}' for [typescript]", STRUCTURING_TRANSLATOR_VERSION, StructuringTranslator.DEFAULT_PROVIDER)
         TypescriptKotlinScriptTranslator.postRegister()
-
-        StructuringTranslator.getTranslators(StructuringTranslator.DEFAULT_PROVIDER).let { translators ->
-            LOGGER.info(
-                "The structuring translator provider '{}' has loaded {} translators",
-                StructuringTranslator.DEFAULT_PROVIDER,
-                translators.size
-            )
-            debug(
-                "The structuring translator provider '{}' has loaded {} translators: {}",
-                { StructuringTranslator.DEFAULT_PROVIDER },
-                { translators.size },
-                { collectTranslators(translators) },
-                LOGGER::info
-            )
+        // Debug only.
+        run {
+            StructuringTranslator.getTranslators(StructuringTranslator.DEFAULT_PROVIDER).let { translators ->
+                LOGGER.info(
+                    "The structuring translator provider '{}' has loaded {} translators",
+                    StructuringTranslator.DEFAULT_PROVIDER,
+                    translators.size
+                )
+                debug(
+                    "The structuring translator provider '{}' has loaded {} translators: {}",
+                    { StructuringTranslator.DEFAULT_PROVIDER },
+                    { translators.size },
+                    { collectTranslators(translators) },
+                    LOGGER::info
+                )
+            }
         }
 
         // Initialize script translator for conium bedrock's typescript translates.
         LOGGER.info("Loading conium '{}' structuring translator providers for [typescript]", VERSION)
         ConiumScriptTranslator.postRegister()
-
-        StructuringTranslator.getTranslators("conium").let { translators ->
-            LOGGER.info(
-                "Loaded {} translators by conium structuring translator providers({})",
-                translators.size,
-                VERSION
-            )
-            debug(
-                "Loaded {} translators by conium structuring translator providers({}): {}",
-                translators::size,
-                { VERSION },
-                { collectTranslators(translators) },
-                LOGGER::info
-            )
+        // Debug only.
+        run {
+            StructuringTranslator.getTranslators("conium").let { translators ->
+                LOGGER.info(
+                    "Loaded {} translators by conium structuring translator providers({})",
+                    translators.size,
+                    VERSION
+                )
+                debug(
+                    "Loaded {} translators by conium structuring translator providers({}): {}",
+                    translators::size,
+                    { VERSION },
+                    { collectTranslators(translators) },
+                    LOGGER::info
+                )
+            }
         }
 
         if (ConiumConfig.debugs) {

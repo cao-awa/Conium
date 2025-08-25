@@ -49,22 +49,22 @@ class ConiumUsedOnBlockConvertToTemplate(
     } else null
 
     override fun attach(target: ConiumItem) {
-        ConiumEvent.itemUsedOnBlock.listen(target) { metadata: ConiumItemUsedOnBlockEventMetadata ->
-            val player: PlayerEntity? = metadata.player
+        ConiumEvent.itemUsedOnBlock.listen(target) {
+            val player: PlayerEntity? = this.player
             if (player != null) {
-                val itemStack: ItemStack = metadata.stack
-                val blockState: BlockState = metadata.blockState
+                val itemStack: ItemStack = this.stack
+                val blockState: BlockState = this.blockState
 
-                val isMatch: Boolean = if (this.tagKey != null) {
-                    blockState.isIn(this.tagKey)
-                } else if (this.targetBlock != null){
-                    blockState.block == this.targetBlock
+                val isMatch: Boolean = if (tagKey != null) {
+                    blockState.isIn(tagKey)
+                } else if (targetBlock != null){
+                    blockState.block == targetBlock
                 } else false
 
                 if (isMatch) {
                     itemStack.decrement(1)
 
-                    player.inventory.insertStack(this.resultStack())
+                    player.inventory.insertStack(resultStack())
                 }
             }
         }

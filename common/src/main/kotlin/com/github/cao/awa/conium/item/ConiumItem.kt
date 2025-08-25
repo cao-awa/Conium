@@ -22,7 +22,10 @@ import net.minecraft.item.ItemUsageContext
 import net.minecraft.item.consume.UseAction
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3d
+import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -52,12 +55,35 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
                 LOGGER.warn("Found template 'max_damage' in item, force overriding max stack to 1")
             }
         }
+
+        @JvmStatic
+        fun doRaycast(world: World, player: PlayerEntity, fluidHandling: RaycastContext.FluidHandling): BlockHitResult {
+            val eyePos: Vec3d = player.eyePos
+            val endPos: Vec3d = eyePos.add(
+                player.getRotationVector(
+                    player.pitch,
+                    player.yaw
+                ).multiply(player.blockInteractionRange)
+            )
+            return world.raycast(
+                RaycastContext(
+                    eyePos,
+                    endPos,
+                    RaycastContext.ShapeType.OUTLINE,
+                    fluidHandling,
+                    player
+                )
+            )
+        }
     }
 
     var useAction: UseAction = UseAction.NONE
     var consumeOnUsed: Boolean = false
     var consumeOnUsedOnBlock: (BlockState) -> Boolean = { false }
     var consumeOnUsedOnEntity: (LivingEntity) -> Boolean = { false }
+    val useOnBlockHandlers: MutableList<(context: ItemUsageContext) -> Boolean> = ArrayList()
+    val useHandlers: MutableList<(world: World, user: PlayerEntity, hand: Hand)  -> Boolean> = ArrayList()
+    val useOnEntityHandlers: MutableList<(stack: ItemStack, user: PlayerEntity, target: LivingEntity, hand: Hand) -> Boolean> = ArrayList()
 
     /**
      * Check the item is allowing to break blocks when player holding this item.
@@ -161,35 +187,58 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): ActionResult {
-        val actionResult: ActionResult = super.use(world, user, hand)
+        if (
+            !this.useHandlers.isEmpty() && this.useHandlers.any {
+                !it(world, user, hand)
+            }
+        ) {
+            return ActionResult.FAIL
+        }
 
         return if (this.consumeOnUsed) {
+            user.getStackInHand(hand).decrementUnlessCreative(1, user)
             ActionResult.CONSUME
         } else {
-            actionResult
+            ActionResult.SUCCESS
         }
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
-        val actionResult: ActionResult = super.useOnBlock(context)
+        if (
+            !this.useOnBlockHandlers.isEmpty() && this.useOnBlockHandlers.any {
+                !it(context)
+            }
+        ) {
+            return ActionResult.PASS
+        }
+
         val world: World = context.world
+        val stack: ItemStack = context.stack
         val blockPos: BlockPos = context.blockPos
         val blockState: BlockState = world.getBlockState(blockPos)
 
         return if (this.consumeOnUsedOnBlock(blockState)) {
+            stack.decrementUnlessCreative(1, context.player)
             ActionResult.CONSUME
         } else {
-            actionResult
+            ActionResult.SUCCESS
         }
     }
 
-    override fun useOnEntity(stack: ItemStack, user: PlayerEntity, entity: LivingEntity, hand: Hand): ActionResult {
-        val actionResult: ActionResult = super.useOnEntity(stack, user, entity, hand)
+    override fun useOnEntity(stack: ItemStack, user: PlayerEntity, target: LivingEntity, hand: Hand): ActionResult {
+        if (
+            !this.useOnEntityHandlers.isEmpty() && this.useOnEntityHandlers.any {
+                !it(stack, user, target, hand)
+            }
+        ) {
+            return ActionResult.PASS
+        }
 
-        return if (this.consumeOnUsedOnEntity(entity)) {
+        return if (this.consumeOnUsedOnEntity(target)) {
+            stack.decrementUnlessCreative(1, user)
             ActionResult.CONSUME
         } else {
-            actionResult
+            ActionResult.SUCCESS
         }
     }
 }

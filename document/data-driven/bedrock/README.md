@@ -1,23 +1,27 @@
 ## Items
 
-|            Bedrock schema impls            |             Conium schema key |                              Notes                               |         Value type          |
-|:------------------------------------------:|------------------------------:|:----------------------------------------------------------------:|:---------------------------:|
-|              minecraft:damage              |    attack_damage (```tool```) |              Setting tool damage amount to entities              |            float            |
-|            minecraft:durability            |       durability (```tool```) |                     Setting tool durability                      |             int             |
-| damage_chance (```minecraft:durability```) |    damage_chance (```tool```) |         Setting the probability of durability consuming          |            float            |
-|     minecraft:can_destroy_in_creative      |       can_destroy_in_creative | Setting block breakable in creative mode when holding this item  |           boolean           |
-|          minecraft:max_stack_size          |                     max_count |           Setting the max item stack count of the item           |             int             |
-|               minecraft:food               |                          food |                    Setting the item be a food                    |         Food object         |
-|   can_always_eat (```minecraft:food```)    |  can_always_eat  (```food```) |          Setting the food can always eats (no cooldown)          |           boolean           |
-|      nutrition (```minecraft:food```)      |      nutrition   (```food```) |                Setting the nutrition of the food                 |             int             |
-| saturation_modifier (```minecraft:food```) |     saturation   (```food```) |                Setting the saturation of the food                |            float            |
-|     using_converts_to (minecraft:food)     | convert_to (```consumable```) |      Setting the item will convert to other item when used       | string or Item stack object |
-|              minecraft:rarity              |                        rarity |                  Setting the rarity of the item                  |           string            |
-|          minecraft:use_animation           |                    use_action |     Setting the using action of the item (client animation)      |           string            |
-|               minecraft:fuel               |                          fuel | Setting the item can be put into furnaces and provides fuel time |     int or Fuel object      |
-|              minecraft:glint               |                         glint |       Setting the item will glint showing (client display)       |           boolean           |
-|      protection (minecraft:wearable)       |         defense (```armor```) |    Setting the armor providing how much protection (defense)     |            float            |
-|         slot (minecraft:wearable)          |            slot (```armor```) |            Setting the armor can wearing to what slot            |           string            |
+|            Bedrock schema impls             |             Conium schema key |                              Notes                               |         Value type          |
+|:-------------------------------------------:|------------------------------:|:----------------------------------------------------------------:|:---------------------------:|
+|              minecraft:damage               |    attack_damage (```tool```) |              Setting tool damage amount to entities              |            float            |
+|            minecraft:durability             |       durability (```tool```) |                     Setting tool durability                      |             int             |
+| damage_chance (```minecraft:durability```)  |    damage_chance (```tool```) |         Setting the probability of durability consuming          |            float            |
+|      minecraft:can_destroy_in_creative      |       can_destroy_in_creative | Setting block breakable in creative mode when holding this item  |           boolean           |
+|          minecraft:max_stack_size           |                     max_count |           Setting the max item stack count of the item           |             int             |
+|               minecraft:food                |                          food |                    Setting the item be a food                    |         Food object         |
+|    can_always_eat (```minecraft:food```)    |  can_always_eat  (```food```) |          Setting the food can always eats (no cooldown)          |           boolean           |
+|      nutrition (```minecraft:food```)       |      nutrition   (```food```) |                Setting the nutrition of the food                 |             int             |
+| saturation_modifier (```minecraft:food```)  |     saturation   (```food```) |                Setting the saturation of the food                |            float            |
+|  using_converts_to (```minecraft:food```)   | convert_to (```consumable```) |      Setting the item will convert to other item when used       | string or Item stack object |
+|              minecraft:rarity               |                        rarity |                  Setting the rarity of the item                  |           string            |
+|           minecraft:use_animation           |                    use_action |     Setting the using action of the item (client animation)      |           string            |
+|               minecraft:fuel                |                          fuel | Setting the item can be put into furnaces and provides fuel time |     int or Fuel object      |
+|               minecraft:glint               |                         glint |       Setting the item will glint showing (client display)       |           boolean           |
+|    protection (```minecraft:wearable```)    |         defense (```armor```) |    Setting the armor providing how much protection (defense)     |            float            |
+|       slot (```minecraft:wearable```)       |            slot (```armor```) |            Setting the armor can wearing to what slot            |           string            |
+|           minecraft:entity_placer           |                 entity_placer |       Setting the item to place the entities in the world        |           object            |
+|   entity (```minecraft:entity_placer```)    |                        entity |                     Setting the entity type                      |           string            |
+| dispense_on (```minecraft:entity_placer```) |                   dispense_on |   Setting the blocks that can place the entities by dispenser    |       list of string        |
+|   used_on (```minecraft:entity_placer```)   |                      place_on | Setting the blocks that can place the entities by placer entity  |       list of string        |
 
 ## Blocks
 

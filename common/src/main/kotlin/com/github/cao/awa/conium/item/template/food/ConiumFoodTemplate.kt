@@ -8,7 +8,6 @@ import com.google.gson.JsonObject
 import net.minecraft.component.type.FoodComponent
 import net.minecraft.component.type.FoodComponents.*
 import net.minecraft.item.Item
-import net.minecraft.registry.RegistryWrapper
 
 class ConiumFoodTemplate(private val foodComponent: FoodComponent) : ConiumItemTemplate(name = FOOD) {
     companion object {

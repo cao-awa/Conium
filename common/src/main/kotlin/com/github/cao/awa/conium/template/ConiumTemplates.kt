@@ -45,6 +45,7 @@ import com.github.cao.awa.conium.item.template.consume.ConiumConsumeOnUsedTempla
 import com.github.cao.awa.conium.item.template.convert.block.ConiumUsedOnBlockConvertToTemplate
 import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
 import com.github.cao.awa.conium.item.template.egg.ConiumSpawnEggTemplate
+import com.github.cao.awa.conium.item.template.entity.placer.ConiumEntityPlacerTemplate
 import com.github.cao.awa.conium.item.template.food.ConiumFoodTemplate
 import com.github.cao.awa.conium.item.template.fuel.ConiumFuelTemplate
 import com.github.cao.awa.conium.item.template.glint.ConiumGlintTemplate
@@ -127,6 +128,10 @@ object ConiumTemplates {
         // Ignite entity.
         const val IGNITE: String = "ignite"
         const val CLEAR_IGNITE: String = "clear_ignite"
+
+        // Entity placer.
+        const val ENTITY_PLACER: String = "entity_placer"
+
 
         // Convert.
         const val USED_ON_BLOCK_CONVERT_TO: String = "used_on_block_convert_to"
@@ -291,6 +296,12 @@ object ConiumTemplates {
                 USED_ON_BLOCK_CONVERT_TO,
                 ConiumUsedOnBlockConvertToTemplate::create
             )
+
+            // Entity placer.
+            registerItem(
+                ENTITY_PLACER,
+                ConiumEntityPlacerTemplate::create
+            )
         }
     }
 
@@ -315,7 +326,7 @@ object ConiumTemplates {
         const val FUEL: String = "minecraft:fuel"
 
         // Bedrock glint.
-        const val BEDROCK_GLINT: String = "minecraft:glint"
+        const val GLINT: String = "minecraft:glint"
 
         // The food component in bedrock.
         const val WEARABLE: String = "minecraft:wearable"
@@ -373,7 +384,7 @@ object ConiumTemplates {
 
             // Glint.
             registerItem(
-                BEDROCK_GLINT,
+                GLINT,
                 ConiumBedrockGlintTemplate::create,
                 true
             )
