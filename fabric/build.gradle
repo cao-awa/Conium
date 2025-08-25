@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.johnrengelman.shadow'
+    id 'com.gradleup.shadow'
 }
 
 architectury {
@@ -89,7 +89,9 @@ processResources {
 }
 
 shadowJar {
-    configurations = [project.configurations.shadowBundle]
+    configurations = [
+            project.configurations.shadowBundle
+    ]
     archiveClassifier = 'dev-shadow'
 }
 
