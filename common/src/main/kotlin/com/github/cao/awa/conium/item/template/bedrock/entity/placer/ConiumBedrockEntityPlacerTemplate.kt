@@ -29,8 +29,8 @@ class ConiumBedrockEntityPlacerTemplate(
                 // }
                 ConiumBedrockEntityPlacerTemplate(
                     getEntityType(obj["entity"].asString),
-                    obj["allowed_blocks"]?.let(ConiumEntityPlacerTemplate::getAllowedBlocks) ?: Collections.emptyList(),
-                    obj["allowed_dispenser_blocks"]?.let(ConiumEntityPlacerTemplate::getAllowedBlocks) ?: Collections.emptyList()
+                    obj["use_on"]?.let(ConiumEntityPlacerTemplate::getAllowedBlocks) ?: Collections.emptyList(),
+                    obj["dispense_on"]?.let(ConiumEntityPlacerTemplate::getAllowedBlocks) ?: Collections.emptyList()
                 )
             }
         ) { identifier: String ->
