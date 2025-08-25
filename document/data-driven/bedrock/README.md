@@ -18,10 +18,10 @@
 |               minecraft:glint               |                         glint |       Setting the item will glint showing (client display)       |           boolean           |
 |    protection (```minecraft:wearable```)    |         defense (```armor```) |    Setting the armor providing how much protection (defense)     |            float            |
 |       slot (```minecraft:wearable```)       |            slot (```armor```) |            Setting the armor can wearing to what slot            |           string            |
-|           minecraft:entity_placer           |                 entity_placer |       Setting the item to place the entities in the world        |           object            |
+|           minecraft:entity_placer           |                 entity_placer |        Setting the item to place the entity in the world         |           object            |
 |   entity (```minecraft:entity_placer```)    |                        entity |                     Setting the entity type                      |           string            |
-| dispense_on (```minecraft:entity_placer```) |                   dispense_on |   Setting the blocks that can place the entities by dispenser    |       list of string        |
-|   used_on (```minecraft:entity_placer```)   |                      place_on | Setting the blocks that can place the entities by placer entity  |       list of string        |
+| dispense_on (```minecraft:entity_placer```) |      allowed_dispenser_blocks |    Setting the blocks that can place the entity by dispenser     |         string list         |
+|   used_on (```minecraft:entity_placer```)   |                allowed_blocks |  Setting the blocks that can place the entity by placer entity   |         string list         |
 
 ## Blocks
 

@@ -1,39 +1,43 @@
 ## Items
 
-|            Conium schema key |         Bedrock schema impls         |                                   Notes                                   |         Value type          |
-|-----------------------------:|:------------------------------------:|:-------------------------------------------------------------------------:|:---------------------------:|
-|                         tool |                  *                   |                          Make the item be a tool                          |         Tool object         |
-|         attack_damage (tool) |           minecraft:damage           |                  Setting tool damage amount to entities                   |            float            |
-|          attack_speed (tool) |               No impl                |                 Setting tool attack speed (the cooldown)                  |            float            |
-|            durability (tool) |         minecraft:durability         |                          Setting tool durability                          |             int             |
-|      effective_blocks (tool) |               No impl                |                Setting what blocks can mined by this tool                 |           string            |
-|              material (tool) |               No impl                |                   Setting the base data using material                    |           string            |
-|             is_weapon (tool) |               No impl                | Make different durability consume when used to hit entity or break blocks |           boolean           |
-|         damage_chance (tool) | damage_chance (minecraft:durability) |              Setting the probability of durability consuming              |    Damage chance object     |
-|      can_destroy_in_creative |  minecraft:can_destroy_in_creative   |      Setting block breakable in creative mode when holding this item      |           boolean           |
-|                    max_count |       minecraft:max_stack_size       |               Setting the max item stack count of the item                |             int             |
-|                         food |            minecraft:food            |                        Setting the item be a food                         |         Food object         |
-|       can_always_eat  (food) |   can_always_eat (minecraft:food)    |              Setting the food can always eats (no cooldown)               |           boolean           |
-|           nutrition   (food) |      nutrition (minecraft:food)      |                     Setting the nutrition of the food                     |             int             |
-|          saturation   (food) | saturation_modifier (minecraft:food) |                    Setting the saturation of the food                     |            float            |
-|                   consumable |                  *                   |                 Setting the item has consumable behaviors                 |      Consumable object      |
-|      convert_to (consumable) |  using_converts_to (minecraft:food)  |           Setting the item will convert to other item when used           | string or Item stack object |
-| apply_effects   (consumable) |               No impl                |          Setting the item will give effects to entity when used           |     Apply effects list      |
-|                       rarity |           minecraft:rarity           |                      Setting the rarity of the item                       |           string            |
-|                   use_action |       minecraft:use_animation        |          Setting the using action of the item (client animation)          |           string            |
-|                         fuel |            minecraft:fuel            |     Setting the item can be put into furnaces and provides fuel time      |     int or Fuel object      |
-|                        glint |           minecraft:glint            |           Setting the item will glint showing (client display)            |           boolean           |
-|                        armor |                  *                   |          Setting the item be a armor and can be wear to the slot          |        Armor object         |
-|              defense (armor) |   protection (minecraft:wearable)    |         Setting the armor providing how much protection (defense)         |           double            |
-|                 slot (armor) |      slot (minecraft:wearable)       |                Setting the armor can wearing to what slot                 |           string            |
-| knockback_resistance (armor) |               No impl                |        Setting the armor providing how much knock back resistance         |           double            |
-|            toughness (armor) |               No impl                |                          Setting armor toughness                          |           double            |
-|          enchantable (armor) |               No impl                |                 Setting armor enchantable (Not completed)                 |             int             |
-|           force_mining_speed |               No impl                |  Force override the mining speed of item, ignored material mining speed   |            float            |
-|                       ignite |               No impl                |       Setting the item can ignite the entity when it used on entity       |             int             |
-|                 clear_ignite |               No impl                |      Setting the item can clear entity fires when it used on entity       |           boolean           |
-|     used_on_block_convert_to |               No impl                |       Setting the item can convert to other item when used on block       |       convert object        |
-|              consume_on_used |               No impl                |                  Setting the item can consumes when used                  |  boolean or convert object  |
+|                        Conium schema key |         Bedrock schema impls         |                                   Notes                                   |         Value type          |
+|-----------------------------------------:|:------------------------------------:|:-------------------------------------------------------------------------:|:---------------------------:|
+|                                     tool |                  *                   |                          Make the item be a tool                          |         Tool object         |
+|                     attack_damage (tool) |           minecraft:damage           |                  Setting tool damage amount to entities                   |            float            |
+|                      attack_speed (tool) |               No impl                |                 Setting tool attack speed (the cooldown)                  |            float            |
+|                        durability (tool) |         minecraft:durability         |                          Setting tool durability                          |             int             |
+|                  effective_blocks (tool) |               No impl                |                Setting what blocks can mined by this tool                 |           string            |
+|                          material (tool) |               No impl                |                   Setting the base data using material                    |           string            |
+|                         is_weapon (tool) |               No impl                | Make different durability consume when used to hit entity or break blocks |           boolean           |
+|                     damage_chance (tool) | damage_chance (minecraft:durability) |              Setting the probability of durability consuming              |    Damage chance object     |
+|                  can_destroy_in_creative |  minecraft:can_destroy_in_creative   |      Setting block breakable in creative mode when holding this item      |           boolean           |
+|                                max_count |       minecraft:max_stack_size       |               Setting the max item stack count of the item                |             int             |
+|                                     food |            minecraft:food            |                        Setting the item be a food                         |         Food object         |
+|                   can_always_eat  (food) |   can_always_eat (minecraft:food)    |              Setting the food can always eats (no cooldown)               |           boolean           |
+|                       nutrition   (food) |      nutrition (minecraft:food)      |                     Setting the nutrition of the food                     |             int             |
+|                      saturation   (food) | saturation_modifier (minecraft:food) |                    Setting the saturation of the food                     |            float            |
+|                               consumable |                  *                   |                 Setting the item has consumable behaviors                 |      Consumable object      |
+|                  convert_to (consumable) |  using_converts_to (minecraft:food)  |           Setting the item will convert to other item when used           | string or Item stack object |
+|             apply_effects   (consumable) |               No impl                |          Setting the item will give effects to entity when used           |     Apply effects list      |
+|                                   rarity |           minecraft:rarity           |                      Setting the rarity of the item                       |           string            |
+|                               use_action |       minecraft:use_animation        |          Setting the using action of the item (client animation)          |           string            |
+|                                     fuel |            minecraft:fuel            |     Setting the item can be put into furnaces and provides fuel time      |     int or Fuel object      |
+|                                    glint |           minecraft:glint            |           Setting the item will glint showing (client display)            |           boolean           |
+|                                    armor |                  *                   |          Setting the item be a armor and can be wear to the slot          |        Armor object         |
+|                          defense (armor) |   protection (minecraft:wearable)    |         Setting the armor providing how much protection (defense)         |           double            |
+|                             slot (armor) |      slot (minecraft:wearable)       |                Setting the armor can wearing to what slot                 |           string            |
+|             knockback_resistance (armor) |               No impl                |        Setting the armor providing how much knock back resistance         |           double            |
+|                        toughness (armor) |               No impl                |                          Setting armor toughness                          |           double            |
+|                      enchantable (armor) |               No impl                |                 Setting armor enchantable (Not completed)                 |             int             |
+|                       force_mining_speed |               No impl                |  Force override the mining speed of item, ignored material mining speed   |            float            |
+|                                   ignite |               No impl                |       Setting the item can ignite the entity when it used on entity       |             int             |
+|                             clear_ignite |               No impl                |      Setting the item can clear entity fires when it used on entity       |           boolean           |
+|                 used_on_block_convert_to |               No impl                |       Setting the item can convert to other item when used on block       |       convert object        |
+|                          consume_on_used |               No impl                |                  Setting the item can consumes when used                  |           boolean           |
+|                            entity_placer |       minecraft:entity_placer        |             Setting the item to place the entity in the world             |      string or object       |
+|                   entity (entity_placer) |   entity (minecraft:entity_placer)   |                          Setting the entity type                          |           string            |
+|           allowed_blocks (entity_placer) |   use_on (minecraft:entity_place)    |       Setting the blocks that can place the entity by placer entity       |         string list         |
+| allowed_dispenser_blocks (entity_placer) | dispense_on (minecraft:entity_place) |        Setting the blocks that can place the entities by dispenser        |         string list         |
 
 ## Blocks
 
