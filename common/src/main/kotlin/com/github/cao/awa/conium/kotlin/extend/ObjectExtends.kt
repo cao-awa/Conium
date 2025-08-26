@@ -11,7 +11,3 @@ infix fun Any?.equals(target: Any?): Boolean {
 inline fun <reified T> T?.whenNotNull(action: (T) -> Unit) {
     this?.let(action)
 }
-
-inline fun <reified T, reified R> T?.whenNotNull(defaultResult: R, action: (T) -> R): R {
-    return this?.let(action) ?: defaultResult
-}

@@ -4,9 +4,8 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventType
-import com.github.cao.awa.conium.extend.ifException
-import com.github.cao.awa.conium.kotlin.extend.manipulate.doCast
-import com.github.cao.awa.conium.kotlin.extend.whenNotNull
+import com.github.cao.awa.conium.extend.ConiumExtends.ifException
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.threadpool.ConiumThreadPool
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import java.util.function.Consumer
@@ -69,7 +68,11 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
     }
 
     private fun execute(metadata: M): Boolean {
-        val result = this.handler.whenNotNull(true) { handler ->
+        if (this.handler == null) {
+            return true
+        }
+
+        val result = this.handler.let { handler ->
             runCatching {
                 this.handler!!(metadata)
             }.ifException(true) { exception: Throwable ->
@@ -85,7 +88,7 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
             }
         }
 
-        this.finalizer.whenNotNull { finalizer ->
+        this.finalizer?.let { finalizer ->
             finalizer(metadata)
         }
 
