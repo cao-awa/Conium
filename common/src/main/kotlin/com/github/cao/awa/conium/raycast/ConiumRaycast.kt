@@ -7,11 +7,10 @@ import net.minecraft.world.RaycastContext
 
 class ConiumRaycast {
     companion object {
-        @JvmStatic
         fun raycast(entity: Entity, maxDistance: Double, tickDelta: Float, includeFluids: Boolean, includePassableBlocks: Boolean): HitResult {
             val start: Vec3d = entity.getCameraPosVec(tickDelta)
             val delta: Vec3d = entity.getRotationVec(tickDelta)
-            val end: Vec3d = start.add(delta.x * maxDistance, delta.y * maxDistance, delta.z * maxDistance)
+            val end = start.add(delta.x * maxDistance, delta.y * maxDistance, delta.z * maxDistance)
 
             val blockShapeType: RaycastContext.ShapeType = if (includePassableBlocks) {
                 RaycastContext.ShapeType.COLLIDER

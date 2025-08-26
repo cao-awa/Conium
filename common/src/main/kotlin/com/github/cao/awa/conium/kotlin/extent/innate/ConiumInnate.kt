@@ -1,6 +1,6 @@
 @file:Suppress("unchecked_cast")
 
-package com.github.cao.awa.conium.kotlin.extend.innate
+package com.github.cao.awa.conium.kotlin.extent.innate
 
 inline fun <reified T> T.asIt(): T = this
 

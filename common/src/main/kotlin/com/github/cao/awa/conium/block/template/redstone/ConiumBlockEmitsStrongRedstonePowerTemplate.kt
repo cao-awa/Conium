@@ -3,9 +3,10 @@ package com.github.cao.awa.conium.block.template.redstone
 import com.github.cao.awa.conium.block.ConiumBlock
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
-import com.github.cao.awa.conium.kotlin.extend.json.ifInt
+import com.github.cao.awa.conium.kotlin.extent.json.ifInt
 import com.github.cao.awa.conium.template.ConiumTemplates
 import com.google.gson.JsonElement
+import net.minecraft.registry.RegistryWrapper
 
 /**
  * Setting a block emits strong redstone power to neighbor blocks.

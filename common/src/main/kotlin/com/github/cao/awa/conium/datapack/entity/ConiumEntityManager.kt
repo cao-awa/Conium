@@ -9,11 +9,12 @@ import com.github.cao.awa.conium.entity.builder.bedrock.BedrockSchemaEntityBuild
 import com.github.cao.awa.conium.entity.builder.conium.ConiumSchemaEntityBuilder
 import com.github.cao.awa.conium.entity.metadata.ConiumEntityMetadata
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry
-import com.github.cao.awa.conium.kotlin.extend.entity.register
+import com.github.cao.awa.conium.kotlin.extent.entity.register
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import net.minecraft.registry.DynamicRegistryManager
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.Registries
 import net.minecraft.resource.ResourceManager

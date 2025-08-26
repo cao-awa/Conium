@@ -1,6 +1,6 @@
 @file:Suppress("UNCHECKED_CAST")
 
-package com.github.cao.awa.conium.kotlin.extend.component
+package com.github.cao.awa.conium.kotlin.extent.component
 
 import com.github.cao.awa.conium.mixin.component.map.builder.ComponentMapBuilderAccessor
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor

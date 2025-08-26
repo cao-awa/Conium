@@ -8,4 +8,5 @@ import net.minecraft.block.BlockState
 @BedrockScriptApiFacade("Block")
 class BedrockBlockState(private val delegate: BlockState)
 
-val BlockState.bedrock: BedrockBlockState get() = BedrockBlockState(this)
+val BlockState.bedrock: BedrockBlockState
+    get() = BedrockBlockState(this)

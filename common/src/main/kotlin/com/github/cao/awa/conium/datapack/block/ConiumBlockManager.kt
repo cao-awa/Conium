@@ -8,10 +8,10 @@ import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
 import com.github.cao.awa.conium.block.builder.bedrock.BedrockSchemaBlockBuilder
 import com.github.cao.awa.conium.block.builder.conium.ConiumSchemaBlockBuilder
 import com.github.cao.awa.conium.datapack.ConiumJsonDataLoader
-import com.github.cao.awa.conium.kotlin.extend.block.register
-import com.github.cao.awa.conium.kotlin.extend.block.registerBlock
-import com.github.cao.awa.conium.kotlin.extend.item.registerBlockItem
-import com.github.cao.awa.conium.kotlin.extend.manipulate.doCast
+import com.github.cao.awa.conium.kotlin.extent.block.register
+import com.github.cao.awa.conium.kotlin.extent.block.registerBlock
+import com.github.cao.awa.conium.kotlin.extent.item.registerBlockItem
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicIdList
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry
@@ -23,6 +23,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
+import net.minecraft.registry.DynamicRegistryManager
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.Registries
 import net.minecraft.resource.ResourceManager

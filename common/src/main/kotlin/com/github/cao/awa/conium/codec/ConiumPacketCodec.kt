@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.codec
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponent
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue
-import com.github.cao.awa.conium.kotlin.extend.innate.int
+import com.github.cao.awa.conium.kotlin.extent.innate.int
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import io.netty.handler.codec.DecoderException
 import net.minecraft.network.RegistryByteBuf

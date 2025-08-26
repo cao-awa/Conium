@@ -8,12 +8,10 @@ import com.github.cao.awa.conium.bedrock.raycast.hit.BlockRaycastHit
 import com.github.cao.awa.conium.bedrock.script.BedrockScriptAnonymousObjectMap
 import com.github.cao.awa.conium.bedrock.world.dimension.BedrockDimension
 import com.github.cao.awa.conium.bedrock.world.dimension.bedrockDimension
-import com.github.cao.awa.conium.kotlin.extend.innate.int
-import com.github.cao.awa.conium.kotlin.extend.innate.orGetAuto
-import com.github.cao.awa.conium.kotlin.extend.world.executeCommand
+import com.github.cao.awa.conium.kotlin.extent.innate.int
+import com.github.cao.awa.conium.kotlin.extent.innate.orGetAuto
+import com.github.cao.awa.conium.kotlin.extent.world.executeCommand
 import com.github.cao.awa.conium.raycast.ConiumRaycast
-import com.github.cao.awa.conium.script.generic.anonymous.getDouble
-import com.github.cao.awa.conium.threadpool.ConiumThreadPool
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.entity.Entity
 import net.minecraft.server.network.ServerPlayerEntity
@@ -29,7 +27,7 @@ import org.apache.logging.log4j.Logger
 @BedrockScriptApiFacade("Entity")
 open class BedrockEntity(private val delegate: Entity) {
     companion object {
-        private val LOGGER: Logger = LogManager.getLogger("Bedrock#Entity")
+        private val LOGGER: Logger = LogManager.getLogger("BedrockEntity")
     }
 
     @ScriptReadonly
@@ -38,15 +36,15 @@ open class BedrockEntity(private val delegate: Entity) {
 
     @BedrockScriptApiFacade("Entity", "teleport")
     fun teleport(location: BedrockScriptAnonymousObjectMap, teleportOption: BedrockScriptAnonymousObjectMap) {
-        ifServerEntity {
-            delegate.teleport(
-                this,
-                location.getDouble("x"),
-                location.getDouble("y"),
-                location.getDouble("z"),
+        ifServerEntity { serverWorld: ServerWorld ->
+            this.delegate.teleport(
+                serverWorld,
+                location.getAs<Number>("x").toDouble(),
+                location.getAs<Number>("y").toDouble(),
+                location.getAs<Number>("z").toDouble(),
                 CollectionFactor.hashSet(),
-                delegate.yaw,
-                delegate.pitch,
+                this.delegate.yaw,
+                this.delegate.pitch,
                 false
             )
         }
@@ -54,10 +52,10 @@ open class BedrockEntity(private val delegate: Entity) {
 
     @BedrockScriptApiFacade("Entity", "runCommand")
     fun runCommand(command: String) {
-        ifServerEntity {
-            if (delegate is ServerPlayerEntity) {
-                executeCommand(
-                    delegate,
+        ifServerEntity { serverWorld: ServerWorld ->
+            if (this.delegate is ServerPlayerEntity) {
+                serverWorld.executeCommand(
+                    this.delegate,
                     command
                 )
             } else {
@@ -67,7 +65,7 @@ open class BedrockEntity(private val delegate: Entity) {
     }
 
     @BedrockScriptApiFacade("Entity", "runCommandAsync")
-    fun runCommandAsync(command: String) = ConiumThreadPool.submit { runCommand(command) }
+    fun runCommandAsync(command: String) = runCommand(command)
 
     @BedrockScriptApiFacade("Entity", "getBlockFromViewDirection")
     fun getBlockFromViewDirection(options: BedrockScriptAnonymousObjectMap? = BedrockScriptAnonymousObjectMap.EMPTY): BlockRaycastHit? {
@@ -104,7 +102,7 @@ open class BedrockEntity(private val delegate: Entity) {
         }
     }
 
-    private fun ifServerEntity(action: ServerWorld.()-> Unit) {
+    private fun ifServerEntity(action: (ServerWorld) -> Unit) {
         (this.delegate.world as? ServerWorld)?.let(action)
     }
 }

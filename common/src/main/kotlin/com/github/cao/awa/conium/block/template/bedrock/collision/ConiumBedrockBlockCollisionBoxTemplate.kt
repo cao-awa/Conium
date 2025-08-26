@@ -2,10 +2,11 @@ package com.github.cao.awa.conium.block.template.bedrock.collision
 
 import com.github.cao.awa.conium.block.template.collision.ConiumBlockCollisionTemplate
 import com.github.cao.awa.conium.block.template.collision.ConiumBlockCollisionTemplate.Companion.createWithCubed
-import com.github.cao.awa.conium.kotlin.extend.json.eachInt
-import com.github.cao.awa.conium.kotlin.extend.json.objectOrBoolean
+import com.github.cao.awa.conium.kotlin.extent.json.eachInt
+import com.github.cao.awa.conium.kotlin.extent.json.objectOrBoolean
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockBlock.COLLISION_BOX
 import com.google.gson.JsonElement
+import net.minecraft.registry.RegistryWrapper
 
 /**
  * The block collision box template for bedrock schema.

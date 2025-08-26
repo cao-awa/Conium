@@ -9,7 +9,7 @@ import com.github.cao.awa.conium.block.event.use.ConiumUsedBlockEvent
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary
-import com.github.cao.awa.conium.kotlin.extend.block.invokeOnUse
+import com.github.cao.awa.conium.kotlin.extent.block.invokeOnUse
 import com.github.cao.awa.conium.mixin.block.BlockItemMixin
 import com.github.cao.awa.conium.mixin.block.BlockStateMixin
 import net.minecraft.block.Block

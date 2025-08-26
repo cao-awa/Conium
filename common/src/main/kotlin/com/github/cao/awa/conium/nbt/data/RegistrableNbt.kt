@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.nbt.data
 
 import com.github.cao.awa.conium.Conium
-import com.github.cao.awa.conium.kotlin.extend.manipulate.doCast
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.sinuatum.manipulate.Manipulate
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.nbt.NbtCompound

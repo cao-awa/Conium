@@ -308,4 +308,5 @@ class Conium {
         translators.forEach { (target: LanguageTranslateTarget, targetTranslators: MutableMap<TranslateElementData<*>, StructuringTranslator<*>>) -> result.put(target, mutableListOf(targetTranslators.keys.stream().map { obj: TranslateElementData<*> -> obj.clazz() }.toList())) }
         return result
     }
+
 }

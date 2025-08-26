@@ -3,10 +3,11 @@ package com.github.cao.awa.conium.item.template.ignite
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.kotlin.extend.json.ifInt
-import com.github.cao.awa.conium.kotlin.extend.json.ifJsonObject
+import com.github.cao.awa.conium.kotlin.extent.json.ifInt
+import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates
 import com.google.gson.JsonElement
+import net.minecraft.registry.RegistryWrapper
 
 class ConiumIgniteEntityTemplate(private val duration: Int) : ConiumItemTemplate(name = ConiumTemplates.Item.IGNITE) {
     companion object {

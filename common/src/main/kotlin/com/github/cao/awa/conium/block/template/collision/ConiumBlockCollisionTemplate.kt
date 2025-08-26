@@ -3,13 +3,15 @@ package com.github.cao.awa.conium.block.template.collision
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.block.template.bedrock.collision.ConiumBedrockBlockCollisionBoxTemplate
-import com.github.cao.awa.conium.kotlin.extend.json.eachInt
-import com.github.cao.awa.conium.kotlin.extend.json.objectOrBoolean
+import com.github.cao.awa.conium.kotlin.extent.json.eachInt
+import com.github.cao.awa.conium.kotlin.extent.json.objectOrBoolean
 import com.github.cao.awa.conium.template.ConiumTemplates.Block.COLLISION
 import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
+import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
+import net.minecraft.block.Block
 
 /**
  * The base block collision box template.

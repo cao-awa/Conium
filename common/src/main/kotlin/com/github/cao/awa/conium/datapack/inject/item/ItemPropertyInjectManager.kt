@@ -6,7 +6,7 @@ import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectA
 import com.github.cao.awa.conium.datapack.inject.item.action.handler.ItemPropertyInjectHandler
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponent
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue
-import com.github.cao.awa.conium.kotlin.extend.manipulate.doCast
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
@@ -14,6 +14,7 @@ import com.google.gson.JsonObject
 import net.minecraft.component.ComponentType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.DynamicRegistryManager
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.Registries
 import net.minecraft.resource.ResourceManager

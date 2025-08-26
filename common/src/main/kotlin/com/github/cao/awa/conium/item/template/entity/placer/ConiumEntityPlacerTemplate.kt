@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.item.template.entity.placer
 
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.kotlin.extend.json.objectOrString
+import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.github.cao.awa.conium.template.ConiumTemplates.Item.ENTITY_PLACER
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -17,6 +17,7 @@ import net.minecraft.entity.SpawnReason
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
+import net.minecraft.item.SpawnEggItem
 import net.minecraft.registry.Registries
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.stat.Stats

@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.kotlin.extend.entity
+package com.github.cao.awa.conium.kotlin.extent.entity
 
 import com.github.cao.awa.conium.entity.ConiumEntity
 import com.github.cao.awa.conium.entity.attribute.ConiumEntityAttributeRegistry

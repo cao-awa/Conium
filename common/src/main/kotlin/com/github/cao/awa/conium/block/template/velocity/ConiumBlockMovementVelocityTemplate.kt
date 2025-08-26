@@ -1,11 +1,12 @@
 package com.github.cao.awa.conium.block.template.velocity
 
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
-import com.github.cao.awa.conium.kotlin.extend.json.ifFloat
-import com.github.cao.awa.conium.kotlin.extend.json.ifJsonObject
+import com.github.cao.awa.conium.kotlin.extent.json.ifFloat
+import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.template.ConiumTemplates.Block.MOVEMENT_VELOCITY
 import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
+import net.minecraft.registry.RegistryWrapper
 
 open class ConiumBlockMovementVelocityTemplate(private val walkVelocity: Float, private val jumpVelocity: Float, name: String = MOVEMENT_VELOCITY) : ConiumBlockTemplate(name = name) {
     companion object {

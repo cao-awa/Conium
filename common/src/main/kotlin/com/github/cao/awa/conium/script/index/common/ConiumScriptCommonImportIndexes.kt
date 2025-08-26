@@ -56,8 +56,8 @@ import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.raycast.ConiumRaycast
 
 // Entity.
-import com.github.cao.awa.conium.kotlin.extend.entity.registerEntity
-import com.github.cao.awa.conium.kotlin.extend.manipulate.doCast
+import com.github.cao.awa.conium.kotlin.extent.entity.registerEntity
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 
 // Event.
 typealias ConiumEvent<I, P, M> = ConiumEvent<I, P, M>

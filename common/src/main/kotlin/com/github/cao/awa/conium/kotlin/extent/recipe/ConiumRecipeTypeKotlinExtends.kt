@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.kotlin.extend.recipe
+package com.github.cao.awa.conium.kotlin.extent.recipe
 
 import net.minecraft.recipe.RecipeType
 

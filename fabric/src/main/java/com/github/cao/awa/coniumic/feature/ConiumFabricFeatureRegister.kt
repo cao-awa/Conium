@@ -2,7 +2,7 @@ package com.github.cao.awa.coniumic.feature
 
 import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.feature.ConiumFeatureRegister
-import com.github.cao.awa.conium.kotlin.extend.equals
+import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.registry.RegistryKey
@@ -11,14 +11,13 @@ import net.minecraft.util.Identifier
 import net.minecraft.world.gen.GenerationStep
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
-import java.util.Collections
 
 class ConiumFabricFeatureRegister : ConiumFeatureRegister() {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumFeatureRegister")
     }
 
-    private val modifiers: MutableSet<Identifier> = HashSet()
+    private val modifiers: MutableSet<Identifier> = CollectionFactor.hashSet()
 
     //  TODO Remove fabric api
     override fun placedFeature(id: Identifier?) {
@@ -27,7 +26,7 @@ class ConiumFabricFeatureRegister : ConiumFeatureRegister() {
             return
         }
 
-        if (id.namespace equals "minecraft") {
+        if (id.namespace.equals("minecraft")) {
             LOGGER.warn("Cannot register null identifier to the feature registry", NullPointerException("Null identifier"))
         }
 

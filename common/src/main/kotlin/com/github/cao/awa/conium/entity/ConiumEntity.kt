@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.entity.builder.ConiumEntityBuilder
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettingsWithTypeBuilder
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
-import com.github.cao.awa.conium.kotlin.extend.entity.dimensions
+import com.github.cao.awa.conium.kotlin.extent.entity.dimensions
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -13,6 +13,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.text.Text
 import net.minecraft.util.Arm
 import net.minecraft.world.World
+import java.util.*
 
 class ConiumEntity(entityType: EntityType<ConiumEntity>, world: World, private val settings: ConiumEntitySettings) : LivingEntity(entityType, world) {
     companion object {

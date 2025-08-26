@@ -1,11 +1,11 @@
 package com.github.cao.awa.conium.item.template.bedrock.animation
 
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.kotlin.extend.component.withComponentProvides
-import com.github.cao.awa.conium.kotlin.extend.component.withComputeUseAction
-import com.github.cao.awa.conium.kotlin.extend.component.withCreateConsumable
-import com.github.cao.awa.conium.kotlin.extend.item.components
-import com.github.cao.awa.conium.kotlin.extend.json.objectOrString
+import com.github.cao.awa.conium.kotlin.extent.component.withComponentProvides
+import com.github.cao.awa.conium.kotlin.extent.component.withComputeUseAction
+import com.github.cao.awa.conium.kotlin.extent.component.withCreateConsumable
+import com.github.cao.awa.conium.kotlin.extent.item.components
+import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.USE_ANIMATION
 import com.google.gson.JsonElement
 import net.minecraft.component.DataComponentTypes

@@ -61,8 +61,7 @@ import com.github.cao.awa.conium.item.event.use.entity.ConiumItemUseOnEntityEven
 import com.github.cao.awa.conium.item.event.use.entity.ConiumItemUsedOnEntityEvent
 import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickEvent
 import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickedEvent
-import com.github.cao.awa.conium.kotlin.extend.whenNotNull
-import com.github.cao.awa.conium.kotlin.extend.manipulate.doCast
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.network.event.ConiumServerConfigurationConnectionEvent
 import com.github.cao.awa.conium.network.event.ConiumServerConfiguredConnectionEvent
 import com.github.cao.awa.conium.parameter.ParameterSelective
@@ -344,7 +343,7 @@ abstract class ConiumEvent<
     }
 
     private fun register() {
-        events[this.eventType].whenNotNull { event: ConiumEvent<*, *, *> ->
+        events[this.eventType]?.let { event: ConiumEvent<*, *, *> ->
             if (!shouldForceOverride()) {
                 throw IllegalStateException("The event type '${this.eventType.name}' already registered as '${event.javaClass.name}', '${this.javaClass.name}' cannot override it")
             } else {

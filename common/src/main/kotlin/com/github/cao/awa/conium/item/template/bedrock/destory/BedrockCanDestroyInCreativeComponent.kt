@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.item.template.bedrock.destory
 
 import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
-import com.github.cao.awa.conium.kotlin.extend.json.objectOrBoolean
+import com.github.cao.awa.conium.kotlin.extent.json.objectOrBoolean
 import com.google.gson.JsonElement
 
 class BedrockCanDestroyInCreativeComponent(canDestroy: Boolean) : ConiumCanDestroyInCreativeTemplate(canDestroy) {

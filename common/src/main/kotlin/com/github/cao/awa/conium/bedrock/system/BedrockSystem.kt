@@ -3,7 +3,6 @@ package com.github.cao.awa.conium.bedrock.system
 import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.bedrock.system.task.ConiumTask
-import com.github.cao.awa.conium.kotlin.extend.map.remove
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.server.MinecraftServer
 import org.apache.logging.log4j.LogManager
@@ -12,7 +11,7 @@ import org.apache.logging.log4j.Logger
 @BedrockScriptApi
 class BedrockSystem : AbstractBedrockSystem() {
     companion object {
-        private val LOGGER: Logger = LogManager.getLogger("Bedrock#System")
+        private val LOGGER: Logger = LogManager.getLogger("BedrockSystem")
     }
     private val tasks: MutableMap<Int, ConiumTask> = CollectionFactor.hashMap()
     private val onceTasks: MutableMap<Int, ConiumTask> = CollectionFactor.hashMap()
@@ -28,9 +27,12 @@ class BedrockSystem : AbstractBedrockSystem() {
         this.onceTasks[this.onceTasks.size] = ConiumTask(action = action)
     }
 
-    override fun clearRun(runId: Int) {
+    override fun clearRun(runId: Int?) {
+        if (runId == null) {
+            return
+        }
         runOnce {
-            this.tasks remove runId
+            this.tasks.remove(runId)
         }
     }
 

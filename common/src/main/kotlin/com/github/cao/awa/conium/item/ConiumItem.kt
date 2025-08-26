@@ -6,8 +6,8 @@ import com.github.cao.awa.conium.item.template.bedrock.destory.BedrockCanDestroy
 import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
 import com.github.cao.awa.conium.item.template.tool.ConiumItemToolTemplate
 import com.github.cao.awa.conium.item.template.tool.mining.ConiumForceMiningSpeedTemplate
-import com.github.cao.awa.conium.kotlin.extend.component.acquire
-import com.github.cao.awa.conium.kotlin.extend.item.components
+import com.github.cao.awa.conium.kotlin.extent.component.acquire
+import com.github.cao.awa.conium.kotlin.extent.item.components
 import com.github.cao.awa.conium.random.ConiumRandom
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.BlockState
@@ -116,11 +116,11 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
      * @param pos the position of mined block
      * @param miner the miner that mined the block
      *
+     * @author cao_awa
+     *
      * @see Item.postMine
      * @see ItemStack.damage
      * @see AbstractBlock.AbstractBlockState.getHardness
-     *
-     * @author cao_awa
      *
      * @since 1.0.0
      *
@@ -128,7 +128,7 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
      */
     override fun postMine(stack: ItemStack, world: World, state: BlockState, pos: BlockPos, miner: LivingEntity): Boolean {
         // Rolling chance using world random.
-        // If damage chance is present, then try to roll a chance, or else directly allow to damage the item.
+        // If damage chance is present, then try to roll a chance, or else direct allow to damage the item.
         val canDamage: Boolean = ConiumRandom.tryChance(this.settings.durabilityDamageChance, world.random)
 
         // If can damage, then post mine to super.

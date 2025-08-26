@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.script
 
-import com.github.cao.awa.conium.kotlin.extend.manipulate.doCast
+import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 import com.github.cao.awa.conium.script.field.SharedField
 import com.github.cao.awa.conium.script.field.SharedFieldByJvm

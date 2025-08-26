@@ -3,11 +3,11 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'idea'
-    id 'dev.architectury.loom' version '1.11-SNAPSHOT' apply false
+    id 'dev.architectury.loom' version '1.10-SNAPSHOT' apply false
     id 'architectury-plugin' version '3.4-SNAPSHOT'
-    id 'com.gradleup.shadow' version '9.0.2' apply false
-    id 'fabric-loom' version '1.11-SNAPSHOT' apply false
-    id 'org.jetbrains.kotlin.jvm' version '2.2.10'
+    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
+    id 'fabric-loom' version '1.10-SNAPSHOT' apply false
+    id 'org.jetbrains.kotlin.jvm' version '2.2.0'
 }
 
 architectury {
@@ -33,9 +33,22 @@ subprojects {
     }
 
     repositories {
+        // Add repositories to retrieve artifacts from in here.
+        // You should only use this when depending on other mods because
+        // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+        // See https://docs.gradle.org/current/userguide/declaring_repositories.html
+        // for more information about repositories.
         maven {
             name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/cao-awa/structuring-translator"
+            url = "https://maven.pkg.github.com/cao-awa/Catheter"
+            credentials {
+                username = "cao-awa"
+                password = "ghp_UgALm1Ta2ONYeNh" + "S2m0XoWSc27BcE22v4Umn"
+            }
+        }
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/cao-awa/Sinuatum"
             credentials {
                 username = "cao-awa"
                 password = "ghp_UgALm1Ta2ONYeNh" + "S2m0XoWSc27BcE22v4Umn"
@@ -59,6 +72,9 @@ subprojects {
         implementation "org.jetbrains.kotlin:kotlin-scripting-jvm-host:${project.kotlin_version}"
 
         implementation 'com.alibaba.fastjson2:fastjson2:2.0.50'
+
+        implementation 'com.github.cao.awa:catheter:1.0.43'
+        implementation 'com.github.cao.awa:sinuatum:1.0.17'
 
         implementation "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
     }
