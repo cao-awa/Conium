@@ -9,6 +9,8 @@ import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.innate.int
 import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
+import com.github.cao.awa.conium.template.builder.factor.ConiumTemplateCreator
+import com.github.cao.awa.conium.template.builder.factor.ConiumTemplateFactor
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject

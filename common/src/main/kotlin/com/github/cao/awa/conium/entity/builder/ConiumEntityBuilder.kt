@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.entity.ConiumEntity
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettingsWithTypeBuilder
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
-import com.github.cao.awa.conium.template.ConiumBuilderWithTemplates
+import com.github.cao.awa.conium.template.builder.ConiumBuilderWithTemplates
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup

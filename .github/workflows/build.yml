@@ -30,10 +30,10 @@ jobs:
           cache: 'gradle'
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
-      - name: build
+      - name: build with fabric
         run: ./gradlew remapJar
       - name: capture build artifacts
-        # Upload all artifacts
+        # Upload fabric artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts-fabric

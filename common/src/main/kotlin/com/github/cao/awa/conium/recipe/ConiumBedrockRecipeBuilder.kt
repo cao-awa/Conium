@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.recipe
 
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
-import com.github.cao.awa.conium.template.ConiumBuilderWithTemplates
+import com.github.cao.awa.conium.template.builder.ConiumBuilderWithTemplates
 import com.github.cao.awa.conium.template.ConiumTemplate
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_FURNACE
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_SHAPED

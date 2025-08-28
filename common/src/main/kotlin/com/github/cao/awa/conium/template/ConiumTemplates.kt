@@ -1,10 +1,10 @@
 package com.github.cao.awa.conium.template
 
 import com.github.cao.awa.conium.block.entity.template.preset.redstone.ConiumBlockEntityOutputRedstonePowerTemplate
-import com.github.cao.awa.conium.block.template.bedrock.collision.ConiumBedrockBlockCollisionBoxTemplate
-import com.github.cao.awa.conium.block.template.bedrock.destructible.ConiumBedrockDestructibleByMiningTemplate
-import com.github.cao.awa.conium.block.template.bedrock.destructible.explosion.ConiumBedrockDestructibleByExplosionTemplate
-import com.github.cao.awa.conium.block.template.bedrock.light.ConiumBedrockLightEmissionTemplate
+import com.github.cao.awa.conium.block.template.bedrock.collision.BedrockBlockCollisionBoxComponent
+import com.github.cao.awa.conium.block.template.bedrock.destructible.BedrockDestructibleByMiningComponent
+import com.github.cao.awa.conium.block.template.bedrock.destructible.explosion.BedrockDestructibleByExplosionComponent
+import com.github.cao.awa.conium.block.template.bedrock.light.BedrockLightEmissionComponent
 import com.github.cao.awa.conium.block.template.collision.ConiumBlockCollisionTemplate
 import com.github.cao.awa.conium.block.template.data.ConiumBlockDataTemplate
 import com.github.cao.awa.conium.block.template.entity.ConiumEnableBlockEntityTemplate
@@ -24,8 +24,8 @@ import com.github.cao.awa.conium.block.template.replaceable.ConiumBlockReplaceab
 import com.github.cao.awa.conium.block.template.velocity.ConiumBlockMovementVelocityTemplate
 import com.github.cao.awa.conium.block.template.velocity.jump.ConiumBlockJumpVelocityTemplate
 import com.github.cao.awa.conium.block.template.velocity.walk.ConiumBlockWalkVelocityTemplate
-import com.github.cao.awa.conium.entity.template.bedrock.collision.ConiumBedrockEntityCollisionBoxTemplate
-import com.github.cao.awa.conium.entity.template.bedrock.pushable.ConiumBedrockEntityPushableTemplate
+import com.github.cao.awa.conium.entity.template.bedrock.collision.BedrockEntityCollisionBoxComponent
+import com.github.cao.awa.conium.entity.template.bedrock.pushable.BedrockEntityPushableComponent
 import com.github.cao.awa.conium.entity.template.dimension.ConiumEntityDimensionTemplate
 import com.github.cao.awa.conium.entity.template.pushable.ConiumEntityPushableTemplate
 import com.github.cao.awa.conium.entity.template.renderer.model.ConiumEntityModelTemplate
@@ -61,9 +61,9 @@ import com.github.cao.awa.conium.item.template.tool.ConiumItemToolTemplate
 import com.github.cao.awa.conium.item.template.tool.axe.*
 import com.github.cao.awa.conium.item.template.tool.mining.ConiumForceMiningSpeedTemplate
 import com.github.cao.awa.conium.item.template.tool.pickaxe.*
-import com.github.cao.awa.conium.recipe.template.bedrock.furnace.ConiumBedrockRecipeFurnaceTemplate
-import com.github.cao.awa.conium.recipe.template.bedrock.shape.ConiumBedrockRecipeShapedTemplate
-import com.github.cao.awa.conium.recipe.template.bedrock.shape.ConiumBedrockRecipeShapelessTemplate
+import com.github.cao.awa.conium.recipe.template.bedrock.furnace.BedrockRecipeFurnaceComponent
+import com.github.cao.awa.conium.recipe.template.bedrock.shape.BedrockRecipeShapedComponent
+import com.github.cao.awa.conium.recipe.template.bedrock.shape.BedrockRecipeShapelessComponent
 import com.github.cao.awa.conium.template.ConiumTemplate.Companion.registerBlock
 import com.github.cao.awa.conium.template.ConiumTemplate.Companion.registerBlockEntity
 import com.github.cao.awa.conium.template.ConiumTemplate.Companion.registerEntity
@@ -415,17 +415,17 @@ object ConiumTemplates {
             // Bedrock recipes.
             registerRecipe(
                 RECIPE_SHAPED,
-                ConiumBedrockRecipeShapedTemplate::create,
+                BedrockRecipeShapedComponent::create,
                 true
             )
             registerRecipe(
                 RECIPE_SHAPELESS,
-                ConiumBedrockRecipeShapelessTemplate::create,
+                BedrockRecipeShapelessComponent::create,
                 true
             )
             registerRecipe(
                 RECIPE_FURNACE,
-                ConiumBedrockRecipeFurnaceTemplate::create,
+                BedrockRecipeFurnaceComponent::create,
                 true
             )
         }
@@ -607,12 +607,12 @@ object ConiumTemplates {
             // Destructible by explosion.
             registerBlock(
                 DESTRUCTIBLE_BY_EXPLOSION,
-                ConiumBedrockDestructibleByExplosionTemplate::create,
+                BedrockDestructibleByExplosionComponent::create,
                 true
             )
             registerBlock(
                 DESTRUCTIBLE_BY_MINING,
-                ConiumBedrockDestructibleByMiningTemplate::create,
+                BedrockDestructibleByMiningComponent::create,
                 true
             )
 
@@ -626,14 +626,14 @@ object ConiumTemplates {
             // Light emission.
             registerBlock(
                 LIGHT_EMISSION,
-                ConiumBedrockLightEmissionTemplate::create,
+                BedrockLightEmissionComponent::create,
                 true
             )
 
             // Collision.
             registerBlock(
                 COLLISION_BOX,
-                ConiumBedrockBlockCollisionBoxTemplate::create,
+                BedrockBlockCollisionBoxComponent::create,
                 true
             )
         }
@@ -681,14 +681,14 @@ object ConiumTemplates {
             // Collision box.
             registerEntity(
                 COLLISION_BOX,
-                ConiumBedrockEntityCollisionBoxTemplate::create,
+                BedrockEntityCollisionBoxComponent::create,
                 true
             )
 
             // Pushable.
             registerEntity(
                 PUSHABLE,
-                ConiumBedrockEntityPushableTemplate::create,
+                BedrockEntityPushableComponent::create,
                 true
             )
         }
