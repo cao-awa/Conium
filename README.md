@@ -13,12 +13,12 @@ Conium is currently as 'on client' mode, the server needs to synchronize the dat
 
 ## Requirements
 
-|            Requirement |        Version        |   Installs   |            Notes             |
-|-----------------------:|:---------------------:|:------------:|:----------------------------:|
-|                   Java |          21+          | 21 Or higher |      21 Or higher is ok      |
-|              Minecraft |       >=1.21.6        |     Need     | 1.21.6 or higher can be use  |
-| Fabric language kotlin | 1.13.4+kotlin.2.2.0!! |     Need     | Only kotlin 2.2.0 can be use |
-|             Fabric API |           ?           |     Need     |      Any version is ok       |
+|            Requirement |        Version         |   Installs   |             Notes             |
+|-----------------------:|:----------------------:|:------------:|:-----------------------------:|
+|                   Java |          21+           | 21 Or higher |      21 Or higher is ok       |
+|              Minecraft |        >=1.21.6        |     Need     |  1.21.6 or higher can be use  |
+| Fabric language kotlin | 1.13.5+kotlin.2.2.10!! |     Need     | Only kotlin 2.2.10 can be use |
+|             Fabric API |           ?            |     Need     |       Any version is ok       |
 
 ### Build requirements
 
@@ -28,7 +28,7 @@ Conium has configured whole project, just clone the repository, and reload proje
 |------------:|:-------------:|:-----------------------------------:|
 |        Java |      21+      |            21 Or higher             |
 |      Gradle |    8.14.2     |    8.14.2 or higher could be use    |
-|      Kotlin |    2.2.0!!    |        Only 2.2.0 can be use        |
+|      Kotlin |   2.2.10!!    |       Only 2.2.10 can be use        |
 | Fabric loom | 1.10-SNAPSHOT | 1.10-SNAPSHOT or other could be use |
 |   Minecraft |   \>=1.21.6   |  Only 1.21.6 or higher can be use   |
 
