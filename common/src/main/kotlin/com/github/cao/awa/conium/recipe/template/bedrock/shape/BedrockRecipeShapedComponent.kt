@@ -1,5 +1,7 @@
 package com.github.cao.awa.conium.recipe.template.bedrock.shape
 
+import com.github.cao.awa.conium.kotlin.extent.json.asObject
+import com.github.cao.awa.conium.kotlin.extent.json.mapArray
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_SHAPED
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
@@ -13,25 +15,26 @@ import net.minecraft.recipe.book.CraftingRecipeCategory
 class BedrockRecipeShapedComponent : ConiumRecipeTemplate<ShapedRecipe>(RECIPE_SHAPED) {
     companion object {
         @JvmStatic
-        fun create(jsonObject: JsonElement): BedrockRecipeShapedComponent {
-            jsonObject as JsonObject
+        fun create(element: JsonElement): BedrockRecipeShapedComponent {
+            return asObject(element) {
+                BedrockRecipeShapedComponent().also { component -> BedrockRecipeShapedComponent
+                    createBasic(this, component)
 
-            return BedrockRecipeShapedComponent().also {
-                createBasic(jsonObject, it)
-            }.also {
-                it.keys = jsonObject["key"]!!.let { keys: JsonElement ->
-                    val ingredients: MutableMap<Char, Ingredient> = CollectionFactor.hashMap()
+                    component.keys = asObject(this["key"]) {
+                        val ingredients: MutableMap<Char, Ingredient> = CollectionFactor.hashMap()
 
-                    keys as JsonObject
+                        for ((key: String, ingredient: JsonElement) in entrySet()) {
+                            ingredients[key.toCharArray()[0]] = ingredient.let(::createIngredient)
+                        }
 
-                    for ((key: String, ingredient: JsonElement) in keys.entrySet()) {
-                        ingredients[key.toCharArray()[0]] = ingredient.let(::createIngredient)
+                        ingredients
                     }
 
-                    ingredients
+                    component.pattern = mapArray(
+                        "pattern",
+                        JsonElement::getAsString
+                    )
                 }
-
-                it.pattern = jsonObject["pattern"].asJsonArray.toList().map(JsonElement::getAsString)
             }
         }
     }

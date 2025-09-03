@@ -169,3 +169,11 @@ fun JsonArray.eachInt(action: (Int) -> Unit) {
         action(i.asInt)
     }
 }
+
+fun <R> JsonObject.mapArray(key: String, mapper: (JsonElement) -> R): List<R> {
+    return (this[key] as JsonArray).map(mapper)
+}
+
+inline fun <reified R> asObject(element: JsonElement, action: JsonObject.() -> R): R{
+    return action(element as JsonObject)
+}

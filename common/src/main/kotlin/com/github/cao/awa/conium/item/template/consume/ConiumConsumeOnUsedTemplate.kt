@@ -32,7 +32,7 @@ class ConiumConsumeOnUsedTemplate(
         ) {
             if (it is JsonObject) {
                 var alwaysConsumeOnUsedOnBlock: Boolean = false
-                var alwaysConsumeOnUsedOnEntity: Boolean = it["used_on_entity"]?.asBoolean ?: false
+                val alwaysConsumeOnUsedOnEntity: Boolean = it["used_on_entity"]?.asBoolean ?: false
                 val targetBlockName: String? = runCatching {
                     it["used_on_block"].asString
                 }.getOrElse { ex: Throwable ->
@@ -49,7 +49,7 @@ class ConiumConsumeOnUsedTemplate(
                     tagKey = if (targetBlockName.startsWith("#")) {
                         TagKey.of(
                             RegistryKeys.BLOCK,
-                            Identifier.ofVanilla(targetBlockName.substring(1))
+                            Identifier.of(targetBlockName.substring(1))
                         )
                     } else null
 

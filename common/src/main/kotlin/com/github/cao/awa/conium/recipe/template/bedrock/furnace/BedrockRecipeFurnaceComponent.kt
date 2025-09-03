@@ -1,5 +1,7 @@
 package com.github.cao.awa.conium.recipe.template.bedrock.furnace
 
+import com.github.cao.awa.conium.kotlin.extent.json.asObject
+import com.github.cao.awa.conium.kotlin.extent.json.mapArray
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
 import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_FURNACE
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
@@ -20,15 +22,15 @@ class BedrockRecipeFurnaceComponent : ConiumRecipeTemplate<Recipe<*>>(RECIPE_FUR
         )
 
         @JvmStatic
-        fun create(jsonObject: JsonElement): BedrockRecipeFurnaceComponent {
-            jsonObject as JsonObject
+        fun create(element: JsonElement): BedrockRecipeFurnaceComponent {
+            return asObject(element) {
+                BedrockRecipeFurnaceComponent().also { component -> BedrockRecipeFurnaceComponent
+                    createBasic(this, component, "output")
 
-            return BedrockRecipeFurnaceComponent().also {
-                createBasic(jsonObject, it, "output")
-            }.also {
-                it.input = createIngredient(jsonObject["input"])
+                    component.input = createIngredient(this["input"])
 
-                it.tags = jsonObject["tags"].asJsonArray.toList().map(JsonElement::getAsString)
+                    component.tags = mapArray("tags", JsonElement::getAsString)
+                }
             }
         }
     }

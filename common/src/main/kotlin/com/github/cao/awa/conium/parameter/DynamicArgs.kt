@@ -30,6 +30,13 @@ class DynamicArgs<P : ParameterSelective?, R> {
     private val args: MutableList<DynamicArgType<*>>
     private val queryArgs: MutableList<DynamicArgType<*>>
     private var lifecycle: DynamicArgsLifecycle = DynamicArgsLifecycle.ONCE
+    private val triggeredOnce: Boolean = false
+    val isValid: Boolean get() {
+        if (this.lifecycle != DynamicArgsLifecycle.ONCE) {
+            return true
+        }
+        return !this.triggeredOnce
+    }
 
     constructor(trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>, vararg args: DynamicArgType<*>) {
         this.trigger = trigger
@@ -50,13 +57,21 @@ class DynamicArgs<P : ParameterSelective?, R> {
         this.queryArgs = Collections.emptyList()
     }
 
+    /**
+     * Sets the lifecycle for this DynamicArgs instance.
+     *
+     * @param lifecycle the lifecycle to set
+     * @return this DynamicArgs instance
+     * @author cao-awa
+     * @since 1.0.0
+     */
     fun lifecycle(lifecycle: DynamicArgsLifecycle): DynamicArgs<P, R> {
         this.lifecycle = lifecycle
         return this
     }
 
     /**
-     * Collect not-real values and vary to the real value to arguments map.
+     * Collects and transforms non-real values to real argument values, returning a filled argument map.
      *
      * @param identity a unique identity instance
      * @param sources source context arguments
@@ -110,7 +125,7 @@ class DynamicArgs<P : ParameterSelective?, R> {
     }
 
     /**
-     * Collect and varying arguments when the context arising.
+     * Collects and varies arguments when the context arises, then triggers the action.
      *
      * @param identity a unique identity instance
      * @param args context arguments
@@ -127,6 +142,10 @@ class DynamicArgs<P : ParameterSelective?, R> {
      * @since 1.0.0
      */
     fun transform(identity: Any, args: MutableMap<DynamicArgType<*>, Any?>, p: P?, depth: Int): R {
+        if (this.lifecycle == DynamicArgsLifecycle.ONCE && this.triggeredOnce) {
+            throw IllegalStateException("This dynamic args instance can only trigger once, but got another trigger")
+        }
+
         // Vary args to got more completed arguments.
         // Put 'queryArg' to source arguments map, it will vary to other value in the next step varying.
         for (queryArg: DynamicArgType<*> in this.queryArgs) {
@@ -142,6 +161,19 @@ class DynamicArgs<P : ParameterSelective?, R> {
         return this.trigger.apply(identity, varyArgs(identity, args, depth), p)
     }
 
+    /**
+     * Overload of transform with default depth 0.
+     *
+     * @param identity a unique identity instance
+     * @param args context arguments
+     * @param p the ParameterSelective instance
+     *
+     * @return the expected return value instance
+     *
+     * @author cao-awa
+     *
+     * @since 1.0.0
+     */
     fun transform(identity: Any, args: MutableMap<DynamicArgType<*>, Any?>, p: P?): R {
         return transform(identity, args, p, 0)
     }
