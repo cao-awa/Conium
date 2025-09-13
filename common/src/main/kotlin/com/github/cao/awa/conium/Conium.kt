@@ -12,6 +12,7 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.dsl.DSLSample
 import com.github.cao.awa.conium.function.consumer.string.obj.*
 import com.github.cao.awa.conium.hitokoto.ConiumHitokoto
+import com.github.cao.awa.conium.molang.MolangSupport
 import com.github.cao.awa.conium.script.manager.ConiumScriptManager
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
@@ -38,7 +39,7 @@ class Conium {
         val isClient: Boolean get() = ConiumClient.initialized
 
         @JvmField
-        var VERSION = "1.0.0-alpha13"
+        var VERSION = "1.0.0-alpha14"
 
         @JvmField
         var STRUCTURING_TRANSLATOR_VERSION: String = StructuringTranslator.getVersion()
@@ -301,6 +302,8 @@ class Conium {
         if (ConiumConfig.debugs) {
             DSLSample.doDslTest()
         }
+
+        MolangSupport.test()
     }
 
     private fun collectTranslators(translators: MutableMap<LanguageTranslateTarget, MutableMap<TranslateElementData<*>, StructuringTranslator<*>>>): MutableMap<LanguageTranslateTarget, MutableList<Any>> {

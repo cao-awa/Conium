@@ -4,11 +4,10 @@ import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.entity.renderer.model.ConiumEntityModel
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
+import com.github.cao.awa.conium.kotlin.extent.json.asObject
 import com.github.cao.awa.conium.template.ConiumTemplates.Entity.MODEL
 import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import net.minecraft.client.render.entity.EntityRendererFactory
-import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 
 class ConiumEntityModelTemplate(
@@ -20,14 +19,16 @@ class ConiumEntityModelTemplate(
         fun create(element: JsonElement): ConiumEntityModelTemplate {
             check(Conium.isClient) { "The template 'model'(ConiumEntityModelTemplate) can only loads in client" }
 
-            return ConiumEntityModelTemplate(element.asJsonObject["texture"].let {
-                it as JsonObject
-
-                // Create the texture path.
-                Identifier.of(it["path"].asString)
-            }) { context ->
-                // Create the entity model on the renderer context.
-                ConiumEntityModel.create(context, element.asJsonObject)
+            return asObject(element) {
+                return ConiumEntityModelTemplate(
+                    asObject(this["texture"]) {
+                        // Create the texture path.
+                        Identifier.of(this["path"].asString)
+                    }
+                ) { context: EntityRendererFactory.Context ->
+                    // Create the entity model on the renderer context.
+                    ConiumEntityModel.create(context, this)
+                }
             }
         }
     }
