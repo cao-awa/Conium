@@ -39,9 +39,12 @@ import kotlin.collections.iterator
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultValue
 import kotlin.script.experimental.api.ResultWithDiagnostics
-import kotlin.script.experimental.host.StringScriptSource
+import kotlin.script.experimental.api.ScriptCompilationConfiguration
+import kotlin.script.experimental.jvm.BasicJvmScriptEvaluator
 import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
 import kotlin.script.experimental.jvm.jvm
+import kotlin.script.experimental.host.StringScriptSource
+import kotlin.script.experimental.jvmhost.JvmScriptCompiler
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromTemplate
 
@@ -71,14 +74,20 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
          *
          * Don't use JSR223 API to evaluate scripts, it will cause unexpected produce env problems!
          *
-         * @see kotlin.script.experimental.jvmhost.JvmScriptCompiler
-         * @see kotlin.script.experimental.jvm.BasicJvmScriptEvaluator
+         * @see JvmScriptCompiler
+         * @see BasicJvmScriptEvaluator
          *
          * @author cao_awa
          *
          * @since 1.0.0
          */
-        private val host: BasicJvmScriptingHost = BasicJvmScriptingHost()
+        private val scriptingHost: BasicJvmScriptingHost = BasicJvmScriptingHost()
+    }
+
+    private val compilationConfiguration: ScriptCompilationConfiguration = createJvmCompilationConfigurationFromTemplate<ConiumScript> {
+        jvm {
+            dependenciesFromCurrentContext(wholeClasspath = true)
+        }
     }
 
     /**
@@ -364,28 +373,24 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
         val content: String = ScriptExport.import(this.exportedScript, scriptEval.codes, *scriptEval.defaultImports)
 
         LOGGER.info(
-            "Evaluating script '{}'",
+            "Compiling script '{}'",
             scriptEval.source
         )
 
         Conium.debug(
-            "Evaluating script '{}': {}",
+            "Compiling script '{}': {}",
             scriptEval::source,
             { content },
             LOGGER::info
         )
 
         // The 'eval' in host will compile and evaluate the script.
-        val result: ResultWithDiagnostics<EvaluationResult> = host.eval(
+        val result: ResultWithDiagnostics<EvaluationResult> = scriptingHost.eval(
             StringScriptSource(content),
             // Create compilation configuration that dependencies whole java classpath.
             // Dependencies whole classpath is necessary, otherwise the kotlin script may not be executing anything,
             // like unable to load class 'java.lang.Object' or ETC.
-            createJvmCompilationConfigurationFromTemplate<ConiumScript> {
-                jvm {
-                    dependenciesFromCurrentContext(wholeClasspath = true)
-                }
-            },
+            this.compilationConfiguration,
             // No evaluation configuration, script contexts have maintained by conium.
             null
         )

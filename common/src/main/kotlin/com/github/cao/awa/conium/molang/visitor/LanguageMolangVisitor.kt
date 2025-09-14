@@ -2,22 +2,22 @@ package com.github.cao.awa.conium.molang.visitor
 
 import com.github.cao.awa.conium.molang.antlr.MolangBaseVisitor
 import com.github.cao.awa.conium.molang.antlr.MolangParser
-import com.github.cao.awa.conium.molang.tree.MolangProgram
-import com.github.cao.awa.conium.molang.tree.constant.MolangConstant
-import com.github.cao.awa.conium.molang.tree.constant.bool.MolangBoolean
-import com.github.cao.awa.conium.molang.tree.constant.nulls.MolangNull
-import com.github.cao.awa.conium.molang.tree.constant.number.MolangNumber
-import com.github.cao.awa.conium.molang.tree.constant.string.MolangString
-import com.github.cao.awa.conium.molang.tree.statement.MolangStatement
-import com.github.cao.awa.conium.molang.tree.statement.assigment.MolangAssignmentStatement
-import com.github.cao.awa.conium.molang.tree.statement.calculate.MolangCalculateStatement
-import com.github.cao.awa.conium.molang.tree.statement.calculate.sign.MolangCalculateSymbol
-import com.github.cao.awa.conium.molang.tree.statement.invoke.MolangInvokeStatement
-import com.github.cao.awa.conium.molang.tree.statement.invoke.param.MolangInvokeParam
-import com.github.cao.awa.conium.molang.tree.statement.invoke.param.MolangInvokeParams
-import com.github.cao.awa.conium.molang.tree.statement.ref.MolangReferenceStatement
-import com.github.cao.awa.conium.molang.tree.statement.ret.MolangReturnStatement
-import com.github.cao.awa.conium.molang.tree.statement.returnable.MolangReturnableStatement
+import com.github.cao.awa.conium.molang.tree.program.MolangProgram
+import com.github.cao.awa.conium.molang.tree.program.constant.MolangConstant
+import com.github.cao.awa.conium.molang.tree.program.constant.bool.MolangBoolean
+import com.github.cao.awa.conium.molang.tree.program.constant.nulls.MolangNull
+import com.github.cao.awa.conium.molang.tree.program.constant.number.MolangNumber
+import com.github.cao.awa.conium.molang.tree.program.constant.string.MolangString
+import com.github.cao.awa.conium.molang.tree.program.statement.MolangStatement
+import com.github.cao.awa.conium.molang.tree.program.statement.assignment.MolangAssignmentStatement
+import com.github.cao.awa.conium.molang.tree.program.statement.calculate.MolangCalculateStatement
+import com.github.cao.awa.conium.molang.tree.program.statement.calculate.sign.MolangCalculateSymbol
+import com.github.cao.awa.conium.molang.tree.program.statement.invoke.MolangInvokeStatement
+import com.github.cao.awa.conium.molang.tree.program.statement.invoke.param.MolangInvokeParam
+import com.github.cao.awa.conium.molang.tree.program.statement.invoke.param.MolangInvokeParams
+import com.github.cao.awa.conium.molang.tree.program.statement.reference.MolangReference
+import com.github.cao.awa.conium.molang.tree.program.statement.ret.MolangReturnStatement
+import com.github.cao.awa.conium.molang.tree.program.statement.returnable.MolangReturnableStatement
 import com.github.cao.awa.translator.structuring.translate.tree.StructuringAst
 import java.math.BigDecimal
 
@@ -48,9 +48,9 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
 
     override fun visitAssignmentStatement(ctx: MolangParser.AssignmentStatementContext): MolangAssignmentStatement {
         return MolangAssignmentStatement(this.current!!).also { assignment ->
-            assignment.target(visitFullNameOrIdentifier(ctx.fullNameOrIdentifier()))
+            assignment.target = visitFullNameOrIdentifier(ctx.fullNameOrIdentifier())
 
-            assignment.value(visitDefineReturnableStatement(ctx.defineReturnableStatement()))
+            assignment.value = visitDefineReturnableStatement(ctx.defineReturnableStatement())
         }
     }
 
@@ -85,36 +85,45 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
         if (ctx.fullNameOrIdentifier() != null) {
             return visitFullNameOrIdentifier(ctx.fullNameOrIdentifier())
         }
+        if (ctx.bool() != null) {
+            return visitBool(ctx.bool())
+        }
         return ast!!
     }
 
-    override fun visitFullNameOrIdentifier(ctx: MolangParser.FullNameOrIdentifierContext): MolangReferenceStatement {
-        val ast = MolangReferenceStatement(this.current!!)
-        ast.name(ctx.text)
+    override fun visitFullNameOrIdentifier(ctx: MolangParser.FullNameOrIdentifierContext): MolangReference {
+        val ast = MolangReference(this.current!!)
+        ast.name = ctx.text
         return ast
     }
 
-    override fun visitIdentifier(ctx: MolangParser.IdentifierContext): MolangReferenceStatement {
-        return MolangReferenceStatement(this.current!!).also { reference ->
-            reference.name(ctx.text)
+    override fun visitIdentifier(ctx: MolangParser.IdentifierContext): MolangReference {
+        return MolangReference(this.current!!).also { reference ->
+            reference.name = ctx.text
         }
     }
 
-    override fun visitFullName(ctx: MolangParser.FullNameContext): MolangReferenceStatement {
-        return MolangReferenceStatement(this.current!!).also { reference ->
-            reference.name(ctx.text)
+    override fun visitFullName(ctx: MolangParser.FullNameContext): MolangReference {
+        return MolangReference(this.current!!).also { reference ->
+            reference.name = ctx.text
         }
     }
 
     override fun visitString(ctx: MolangParser.StringContext): MolangString {
         return MolangString(this.current!!).also { string ->
-            string.value(ctx.text)
+            string.value = ctx.text
         }
     }
 
     override fun visitNumber(ctx: MolangParser.NumberContext): MolangNumber {
         val ast = MolangNumber(this.current!!)
-        ast.value(BigDecimal(ctx.text))
+        ast.value = BigDecimal(ctx.text)
+        return ast
+    }
+
+    override fun visitBool(ctx: MolangParser.BoolContext): MolangBoolean {
+        val ast = MolangBoolean(this.current!!)
+        ast.value = "true".equals(ctx.text)
         return ast
     }
 
@@ -200,9 +209,13 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
         } else if (ctx.calculateStatementWithParen() != null) {
             return visitCalculateStatementWithParen(ctx.calculateStatementWithParen())
         } else if (ctx.identifier() != null) {
-            return MolangReferenceStatement(this.current!!).name(ctx.identifier().getText())
+            return MolangReference(this.current!!).also { reference ->
+                reference.name = ctx.identifier().text
+            }
         } else if (ctx.fullName() != null) {
-            return MolangReferenceStatement(this.current!!).name(ctx.fullName().getText())
+            return MolangReference(this.current!!).also { reference ->
+                reference.name = ctx.fullName().text
+            }
         }
         return null
     }
@@ -234,8 +247,11 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
 
     override fun visitInvokeStatement(ctx: MolangParser.InvokeStatementContext): MolangInvokeStatement {
         val ast = MolangInvokeStatement(this.current!!)
+        if (ctx.identifier() != null) {
+            ast.reference = visitIdentifier(ctx.identifier())
+        }
         if (ctx.invokeParam() != null) {
-            ast.addParam(visitInvokeParam(ctx.invokeParam()))
+            ast.params.addParam(visitInvokeParam(ctx.invokeParam()))
         }
         if (ctx.multiInvokeParam() != null) {
             ast.addParams(visitMultiInvokeParam(ctx.multiInvokeParam()))
@@ -245,16 +261,8 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
 
     override fun visitInvokeParam(ctx: MolangParser.InvokeParamContext): MolangInvokeParam {
         return MolangInvokeParam(this.current!!).also { param ->
-            if (ctx.bool() != null) {
-                param.value = ctx.bool().text
-            }
-
-            if (ctx.Identifier() != null) {
-                param.value = ctx.Identifier().text
-            }
-
-            if (ctx.Number() != null) {
-                param.value = ctx.Number().text
+            if (ctx.defineReturnableStatement() != null) {
+                param.param = visitDefineReturnableStatement(ctx.defineReturnableStatement())
             }
         }
     }
@@ -399,21 +407,21 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
     }
 
     override fun visitConstant(ctx: MolangParser.ConstantContext): MolangConstant<*> {
-        if (ctx.String() != null) {
+        if (ctx.string() != null) {
             val string = MolangString(this.current!!)
-            string.value(ctx.String().text.replace("'", "").replace("\"", ""))
+            string.value = ctx.string().text.replace("'", "").replace("\"", "")
             return string
         }
 
         if (ctx.bool() != null) {
             val bool = MolangBoolean(this.current!!)
-            bool.value(ctx.bool().True() != null)
+            bool.value = ctx.bool().True() != null
             return bool
         }
 
         if (ctx.number() != null) {
             val number = MolangNumber(this.current!!)
-            number.value(BigDecimal(ctx.number().text))
+            number.value = BigDecimal(ctx.number().text)
             return number
         }
 

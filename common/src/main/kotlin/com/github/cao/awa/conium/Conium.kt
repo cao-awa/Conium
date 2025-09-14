@@ -13,6 +13,7 @@ import com.github.cao.awa.conium.dsl.DSLSample
 import com.github.cao.awa.conium.function.consumer.string.obj.*
 import com.github.cao.awa.conium.hitokoto.ConiumHitokoto
 import com.github.cao.awa.conium.molang.MolangSupport
+import com.github.cao.awa.conium.molang.translator.MolangKotlinScriptTranslator
 import com.github.cao.awa.conium.script.manager.ConiumScriptManager
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
@@ -279,8 +280,9 @@ class Conium {
         }
 
         // Initialize script translator for conium bedrock's typescript translates.
-        LOGGER.info("Loading conium '{}' structuring translator providers for [typescript]", VERSION)
+        LOGGER.info("Loading conium '{}' structuring translator providers for [typescript, molang]", VERSION)
         ConiumScriptTranslator.postRegister()
+        MolangKotlinScriptTranslator.postRegister()
         // Debug only.
         run {
             StructuringTranslator.getTranslators("conium").let { translators ->

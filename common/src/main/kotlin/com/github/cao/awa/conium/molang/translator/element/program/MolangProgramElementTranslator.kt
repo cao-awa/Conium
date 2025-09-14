@@ -1,8 +1,8 @@
 package com.github.cao.awa.conium.molang.translator.element.program
 
 import com.github.cao.awa.conium.molang.translator.element.MolangTranslateElement
-import com.github.cao.awa.conium.molang.tree.MolangProgram
-import com.github.cao.awa.conium.molang.tree.statement.MolangStatement
+import com.github.cao.awa.conium.molang.tree.program.MolangProgram
+import com.github.cao.awa.conium.molang.tree.program.statement.MolangStatement
 import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
 import com.github.cao.awa.translator.structuring.translate.base.StructuringElementTranslator
 

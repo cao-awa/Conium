@@ -4,7 +4,7 @@ import MolangRules;
 
 program : defineStatement+ ;
 
-invokeStatement : Identifier leftParen (invokeParam? multiInvokeParam?) rightParen ;
+invokeStatement : identifier leftParen (invokeParam? multiInvokeParam?) rightParen ;
 
 assignmentStatement : fullNameOrIdentifier equals defineReturnableStatement ;
 
@@ -12,7 +12,7 @@ returnStatement : return (defineReturnableStatement | fullNameOrIdentifier | Num
 
 defineStatement : (invokeStatement | assignmentStatement | returnStatement) Semicolon?;
 
-defineReturnableStatement : invokeStatement | fullNameOrIdentifier | number | string | calculateStatement;
+defineReturnableStatement : invokeStatement | fullNameOrIdentifier  | number | string | bool | calculateStatement ;
 
 calculatableResultPresenting: calculateStatementWithParen | invokeStatement | constant | identifier | fullName ;
 
@@ -30,8 +30,8 @@ extraCalculateStatement: operator calculatableResultPresenting ;
 
 calculateStatementRight : (invokeStatement | fullNameOrIdentifier | number | string) ;
 
-invokeParam : Identifier | Number | bool ;
+invokeParam : defineReturnableStatement ;
 
 multiInvokeParam : (Comma invokeParam) * ;
 
-constant: ( String | number | bool | Null);
+constant : ( string | number | bool | Null);
