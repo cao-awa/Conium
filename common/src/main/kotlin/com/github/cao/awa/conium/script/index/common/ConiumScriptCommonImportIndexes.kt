@@ -15,9 +15,9 @@ import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 
 // Event arg types.
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
-import com.github.cao.awa.conium.parameter.DynamicArgType
-import com.github.cao.awa.conium.parameter.DynamicArgsBuilder
-import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder
+import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
+import com.github.cao.awa.conium.parameter.dynamic.builder.DynamicArgsBuilder
+import com.github.cao.awa.conium.parameter.dynamic.type.builder.DynamicArgTypeBuilder
 
 // Receptacles.
 import com.github.cao.awa.catheter.receptacle.Receptacle

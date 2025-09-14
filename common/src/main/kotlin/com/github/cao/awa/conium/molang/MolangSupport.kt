@@ -50,7 +50,7 @@ private fun readMolang(content: String): MolangProgram {
             line: Int,
             charPositionInLine: Int,
             msg: String,
-            e: RecognitionException?
+            e: RecognitionException
         ) {
             throw RuntimeException(
                 "Expected symbol '$offendingSymbol' but error in line $line chars $charPositionInLine: $msg",

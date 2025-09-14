@@ -4,8 +4,8 @@ import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
 import com.github.cao.awa.conium.bedrock.index.BedrockScriptAnonymousObjectMap
 import com.github.cao.awa.conium.script.generic.anonymous.AnonymousObject
-import com.github.cao.awa.conium.parameter.DynamicArgType
-import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder.argThrowaway
+import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
+import com.github.cao.awa.conium.parameter.dynamic.type.builder.DynamicArgTypeBuilder.argThrowaway
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 @BedrockScriptApi

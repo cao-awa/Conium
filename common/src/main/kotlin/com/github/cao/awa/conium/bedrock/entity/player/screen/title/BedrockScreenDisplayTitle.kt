@@ -2,8 +2,8 @@ package com.github.cao.awa.conium.bedrock.entity.player.screen.title
 
 import com.github.cao.awa.conium.bedrock.script.BedrockScriptAnonymousObjectMap
 import com.github.cao.awa.conium.bedrock.script.toDynamicArgs
-import com.github.cao.awa.conium.parameter.DynamicArgsBuilder
-import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder.arg
+import com.github.cao.awa.conium.parameter.dynamic.builder.DynamicArgsBuilder
+import com.github.cao.awa.conium.parameter.dynamic.type.builder.DynamicArgTypeBuilder.arg
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.text.Text

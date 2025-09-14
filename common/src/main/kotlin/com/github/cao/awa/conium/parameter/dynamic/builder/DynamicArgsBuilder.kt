@@ -1,6 +1,17 @@
 @file:Suppress("unchecked_cast", "unused")
+package com.github.cao.awa.conium.parameter.dynamic.builder
 
-package com.github.cao.awa.conium.parameter
+import com.github.cao.awa.conium.parameter.ParameterSelective1
+import com.github.cao.awa.conium.parameter.ParameterSelective2
+import com.github.cao.awa.conium.parameter.ParameterSelective3
+import com.github.cao.awa.conium.parameter.ParameterSelective4
+import com.github.cao.awa.conium.parameter.ParameterSelective5
+import com.github.cao.awa.conium.parameter.ParameterSelective6
+import com.github.cao.awa.conium.parameter.ParameterSelective7
+import com.github.cao.awa.conium.parameter.ParameterSelective8
+import com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
+import com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle
+import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
 
 class DynamicArgsBuilder {
     companion object {
@@ -465,11 +476,11 @@ class DynamicArgsBuilder {
             identityArg: DynamicArgType<I>,
             resultWhenFailure: Boolean
         ): DynamicArgs<ParameterSelective1<Boolean, I>, Boolean> {
-            return DynamicArgs({ identity, args, p ->
+            return DynamicArgs { identity, args, p ->
                 p.arise(
                     identity as I,
                 )
-            })
+            }
         }
 
         @JvmStatic

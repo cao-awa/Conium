@@ -1,9 +1,14 @@
-package com.github.cao.awa.conium.parameter
+package com.github.cao.awa.conium.parameter.dynamic
 
+import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
+import com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle
+import com.github.cao.awa.conium.parameter.dynamic.builder.DynamicArgsBuilder
+import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.mojang.datafixers.util.Function3
-import java.util.*
+import java.util.Collections
 import java.util.function.Supplier
+import kotlin.collections.iterator
 
 /**
  * Dynamic args is a data collecting and varying solution, it required arguments by dynamic arg types, and collect the real arguments to trigger.
@@ -91,7 +96,8 @@ class DynamicArgs<P : ParameterSelective?, R> {
         val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
 
         // Find required arguments from context arguments (manually putted to map).
-        // Copy the map data to prevent ConcurrentModificationException.
+        // Copy the map data to prevent ConcurrentModificationException,
+        // NOTE: copy map is lower const than synchronization because the map is usually smaller than 10 elements.
         for ((key: DynamicArgType<*>, value: Any?) in CollectionFactor.hashMap(sources)) {
             // Only varying argument type to real argument instance.
             if (value is DynamicArgType<*> && depth < 10) {
@@ -174,7 +180,5 @@ class DynamicArgs<P : ParameterSelective?, R> {
      *
      * @since 1.0.0
      */
-    fun transform(identity: Any, args: MutableMap<DynamicArgType<*>, Any?>, p: P?): R {
-        return transform(identity, args, p, 0)
-    }
+    fun transform(identity: Any, args: MutableMap<DynamicArgType<*>, Any?>, p: P?): R = transform(identity, args, p, 0)
 }

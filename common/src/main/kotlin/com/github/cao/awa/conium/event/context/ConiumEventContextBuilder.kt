@@ -11,6 +11,10 @@ import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.*
+import com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
+import com.github.cao.awa.conium.parameter.dynamic.builder.DynamicArgsBuilder
+import com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle
+import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
 import com.github.cao.awa.conium.script.interaction.NamedInteractionScript
 
 /**
@@ -18,11 +22,11 @@ import com.github.cao.awa.conium.script.interaction.NamedInteractionScript
  *
  * @see ConiumEvent
  * @see ConiumArisingEventContext
- * @see DynamicArgs
- * @see DynamicArgType
- * @see DynamicArgsBuilder
+ * @see com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
+ * @see com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
+ * @see com.github.cao.awa.conium.parameter.dynamic.builder.DynamicArgsBuilder
  * @see ParameterSelective
- * @see DynamicArgsLifecycle
+ * @see com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle
  * @see NamedInteractionScript
  * @see ConiumScriptManager
  *
@@ -39,11 +43,11 @@ object ConiumEventContextBuilder {
      *
      * @see ConiumEvent
      * @see ConiumArisingEventContext
-     * @see DynamicArgs
+     * @see com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
      * @see ParameterSelective
-     * @see DynamicArgsLifecycle
+     * @see com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle
      *
-     * @return The context instance with [ONCE][DynamicArgsLifecycle.ONCE] lifecycle.
+     * @return The context instance with [ONCE][com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle.ONCE] lifecycle.
      *
      * @author cao_awa
      *
@@ -63,12 +67,12 @@ object ConiumEventContextBuilder {
      *
      * @see ConiumEvent
      * @see ConiumArisingEventContext
-     * @see DynamicArgs
-     * @see DynamicArgType
+     * @see com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
+     * @see com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
      * @see ParameterSelective
-     * @see DynamicArgsLifecycle
+     * @see com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle
      *
-     * @return The context instance with [ONCE][DynamicArgsLifecycle.ONCE] lifecycle.
+     * @return The context instance with [ONCE][com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle.ONCE] lifecycle.
      *
      * @author cao_awa
      * @author 草二号机
@@ -93,12 +97,12 @@ object ConiumEventContextBuilder {
      *
      * @see ConiumEvent
      * @see ConiumArisingEventContext
-     * @see DynamicArgs
+     * @see com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
      * @see DynamicArgType
      * @see ParameterSelective
-     * @see DynamicArgsLifecycle
+     * @see com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle
      *
-     * @return The context instance with [ONCE][DynamicArgsLifecycle.ONCE] lifecycle.
+     * @return The context instance with [ONCE][com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle.ONCE] lifecycle.
      *
      * @author cao_awa
      * @author 草二号机
@@ -387,12 +391,12 @@ object ConiumEventContextBuilder {
      *
      * @see ConiumEvent
      * @see ConiumArisingEventContext
-     * @see DynamicArgs
+     * @see com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
      * @see DynamicArgType
      * @see ParameterSelective
-     * @see DynamicArgsLifecycle
+     * @see com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle
      *
-     * @return The context instance with [ONCE][DynamicArgsLifecycle.ONCE] lifecycle.
+     * @return The context instance with [ONCE][com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle.ONCE] lifecycle.
      *
      * @author cao_awa
      * @author 草二号机
@@ -423,12 +427,12 @@ object ConiumEventContextBuilder {
      *
      * @see ConiumEvent
      * @see ConiumArisingEventContext
-     * @see DynamicArgs
+     * @see com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
      * @see DynamicArgType
      * @see ParameterSelective
-     * @see DynamicArgsLifecycle
+     * @see com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle
      *
-     * @return The context instance with [ONCE][DynamicArgsLifecycle.ONCE] lifecycle.
+     * @return The context instance with [ONCE][com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle.ONCE] lifecycle.
      *
      * @author cao_awa
      * @author 草二号机
@@ -462,12 +466,12 @@ object ConiumEventContextBuilder {
      *
      * @see ConiumEvent
      * @see ConiumArisingEventContext
-     * @see DynamicArgs
+     * @see com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
      * @see DynamicArgType
      * @see ParameterSelective
-     * @see DynamicArgsLifecycle
+     * @see com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle
      *
-     * @return The context instance with [ONCE][DynamicArgsLifecycle.ONCE] lifecycle.
+     * @return The context instance with [ONCE][com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle.ONCE] lifecycle.
      *
      * @author cao_awa
      * @author 草二号机
@@ -504,12 +508,12 @@ object ConiumEventContextBuilder {
      *
      * @see ConiumEvent
      * @see ConiumArisingEventContext
-     * @see DynamicArgs
+     * @see com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
      * @see DynamicArgType
      * @see ParameterSelective
-     * @see DynamicArgsLifecycle
+     * @see com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle
      *
-     * @return The context instance with [ONCE][DynamicArgsLifecycle.ONCE] lifecycle.
+     * @return The context instance with [ONCE][com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle.ONCE] lifecycle.
      *
      * @author cao_awa
      * @author 草二号机
@@ -549,12 +553,12 @@ object ConiumEventContextBuilder {
      *
      * @see ConiumEvent
      * @see ConiumArisingEventContext
-     * @see DynamicArgs
+     * @see com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
      * @see DynamicArgType
      * @see ParameterSelective
-     * @see DynamicArgsLifecycle
+     * @see com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle
      *
-     * @return The context instance with [ONCE][DynamicArgsLifecycle.ONCE] lifecycle.
+     * @return The context instance with [ONCE][com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle.ONCE] lifecycle.
      *
      * @author cao_awa
      * @author 草二号机
@@ -597,9 +601,9 @@ object ConiumEventContextBuilder {
      * @see DynamicArgs
      * @see DynamicArgType
      * @see ParameterSelective
-     * @see DynamicArgsLifecycle
+     * @see com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle
      *
-     * @return The context instance with [FOREVER][DynamicArgsLifecycle.FOREVER] lifecycle.
+     * @return The context instance with [FOREVER][com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle.FOREVER] lifecycle.
      *
      * @author cao_awa
      *

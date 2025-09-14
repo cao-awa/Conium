@@ -5,9 +5,9 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.ITEM_PLACEMENT_C
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.PLAYER
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.WORLD
 import com.github.cao.awa.conium.kotlin.extent.innate.asIt
-import com.github.cao.awa.conium.parameter.DynamicArgType
-import com.github.cao.awa.conium.parameter.DynamicArgsBuilder.Companion.transform
-import com.github.cao.awa.conium.parameter.type.DynamicArgTypeBuilder.arg
+import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
+import com.github.cao.awa.conium.parameter.dynamic.builder.DynamicArgsBuilder.Companion.transform
+import com.github.cao.awa.conium.parameter.dynamic.type.builder.DynamicArgTypeBuilder.arg
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.network.ClientPlayerEntity

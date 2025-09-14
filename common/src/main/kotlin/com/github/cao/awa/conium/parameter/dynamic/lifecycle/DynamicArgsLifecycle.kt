@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.parameter
+package com.github.cao.awa.conium.parameter.dynamic.lifecycle
 
 enum class DynamicArgsLifecycle {
     /**
