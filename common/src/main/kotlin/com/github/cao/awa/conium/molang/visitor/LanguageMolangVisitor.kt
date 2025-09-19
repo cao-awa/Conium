@@ -26,7 +26,13 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
 
     /**
      * Visits the root program node and builds the AST
+     *
      * @param ctx The parse tree context for the program
+     *
+     * @since 1.0.0
+     *
+     * @author cao_awa
+     *
      * @return MolangProgram representing the entire program structure
      */
     override fun visitProgram(ctx: MolangParser.ProgramContext): MolangProgram {
@@ -47,7 +53,13 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
 
     /**
      * Visits an assignment statement and creates corresponding AST node
+     *
      * @param ctx The assignment statement context
+     *
+     * @since 1.0.0
+     *
+     * @author cao_awa
+     *
      * @return MolangAssignmentStatement with target and value
      */
     override fun visitAssignmentStatement(ctx: MolangParser.AssignmentStatementContext): MolangAssignmentStatement {
@@ -59,7 +71,13 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
 
     /**
      * Visits a return statement and creates corresponding AST node
+     *
      * @param ctx The return statement context
+     *
+     * @since 1.0.0
+     *
+     * @author cao_awa
+     *
      * @return MolangReturnStatement with return value
      */
     override fun visitReturnStatement(ctx: MolangParser.ReturnStatementContext): MolangReturnStatement {
@@ -71,7 +89,13 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
 
     /**
      * Visits a returnable statement (expression that can be returned)
+     *
      * @param ctx The returnable statement context
+     *
+     * @since 1.0.0
+     *
+     * @author cao_awa
+     *
      * @return MolangReturnableStatement representing the expression
      */
     override fun visitDefineReturnableStatement(ctx: MolangParser.DefineReturnableStatementContext): MolangReturnableStatement {
@@ -88,7 +112,13 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
 
     /**
      * Visits a reference (variable/function name)
+     *
      * @param ctx The reference context
+     *
+     * @since 1.0.0
+     *
+     * @author cao_awa
+     *
      * @return MolangReference with the name
      */
     override fun visitFullNameOrIdentifier(ctx: MolangParser.FullNameOrIdentifierContext): MolangReference {
@@ -106,6 +136,11 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
     /**
      * Visits a string literal
      * @param ctx The string context
+     *
+     * @since 1.0.0
+     *
+     * @author cao_awa
+     *
      * @return MolangString with the string value
      */
     override fun visitString(ctx: MolangParser.StringContext): MolangString {
@@ -114,7 +149,13 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
 
     /**
      * Visits a numeric literal
+     *
      * @param ctx The number context
+     *
+     * @since 1.0.0
+     *
+     * @author cao_awa
+     *
      * @return MolangNumber with the numeric value
      */
     override fun visitNumber(ctx: MolangParser.NumberContext): MolangNumber {
@@ -123,7 +164,13 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
 
     /**
      * Visits a boolean literal
+     *
      * @param ctx The boolean context
+     *
+     * @since 1.0.0
+     *
+     * @author cao_awa
+     *
      * @return MolangBoolean with the boolean value
      */
     override fun visitBool(ctx: MolangParser.BoolContext): MolangBoolean {
