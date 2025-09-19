@@ -16,7 +16,9 @@ class MolangAssignmentStatement(parent: StructuringAst): MolangReturnableStateme
 
         json["statement_type"] = "assignment"
 
-        json["target"] = this.target!!.name
+        val theTarget = JSONObject()
+        this.target!!.generateStructure(theTarget)
+        json["target"] = theTarget
 
         val theValue = JSONObject()
         this.value!!.generateStructure(theValue)

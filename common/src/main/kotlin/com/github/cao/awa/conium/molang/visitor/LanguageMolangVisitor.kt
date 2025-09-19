@@ -144,29 +144,23 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
             if (ctx.calculateStatementWithParen() != null) {
                 ast = visitCalculateStatementWithParen(ctx.calculateStatementWithParen())
                 ast.totalWithParen(true)
-            } else {
-                ast.left(visitCalculateLeft(ctx.calculateLeft()))
             }
         }
 
         if (ctx.extraCalculateStatement() != null) {
-            for (extraCalculateStatementContext in ctx.extraCalculateStatement()) {
-                val symbol: MolangCalculateSymbol = visitOperator(extraCalculateStatementContext.operator())!!
+            val extras: List<MolangParser.ExtraCalculateStatementContext> = ctx.extraCalculateStatement()
+            ast = visitExtraCalculateStatement(extras[0])
 
-                val theRight: MolangReturnableStatement = visitCalculatableResultPresenting(extraCalculateStatementContext.calculatableResultPresenting())!!
-
-                if (ast.right() == null) {
-                    ast.symbol(symbol)
-                    ast.right(theRight)
-                } else {
-                    val extraAst = MolangCalculateStatement(this.current!!)
-                    extraAst.symbol(symbol)
-                    extraAst.right(theRight)
-
-                    ast.rights().add(extraAst)
+            if (extras.size > 1) {
+                var index = 1
+                while (index < extras.size) {
+                    ast.extraRights().add(visitExtraCalculateStatement(extras[index]))
+                    index++
                 }
             }
         }
+
+        ast.left(visitCalculateLeft(ctx.calculateLeft()))
 
         return ast
     }
@@ -174,7 +168,10 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
     override fun visitCalculateStatementWithTotalParen(ctx: MolangParser.CalculateStatementWithTotalParenContext): MolangCalculateStatement {
         val ast = MolangCalculateStatement(this.current!!)
 
+        ast.totalWithParen(true)
+
         ast.left(visitCalculateLeft(ctx.calculateLeft()))
+
         if (ctx.extraCalculateStatement() != null) {
             for (extraCalculateStatementContext in ctx.extraCalculateStatement()) {
                 val symbol: MolangCalculateSymbol = visitOperator(extraCalculateStatementContext.operator())!!
@@ -189,9 +186,25 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
                     extraAst.symbol(symbol)
                     extraAst.right(theRight)
 
-                    ast.rights().add(extraAst)
+                    ast.extraRights().add(extraAst)
                 }
             }
+        }
+
+        return ast
+    }
+
+    override fun visitExtraCalculateStatement(ctx: MolangParser.ExtraCalculateStatementContext): MolangCalculateStatement {
+        val ast = MolangCalculateStatement(this.current!!)
+
+        ast.symbol(visitOperator(ctx.operator()))
+
+        val right: MolangReturnableStatement = visitCalculatableResultPresenting(ctx.calculatableResultPresenting())!!
+
+        if (ast.right() == null) {
+            ast.right(right)
+        } else {
+            ast.extraRights().add(right)
         }
 
         return ast
@@ -222,8 +235,11 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
 
     override fun visitCalculateStatementWithParen(ctx: MolangParser.CalculateStatementWithParenContext): MolangCalculateStatement {
         val ast = MolangCalculateStatement(this.current!!)
+
         ast.leftWithParen(true)
+
         ast.left(visitCalculateLeftStatementWithParen(ctx.calculateLeftStatementWithParen()))
+
         if (ctx.extraCalculateStatement() != null) {
             for (extraCalculateStatementContext in ctx.extraCalculateStatement()) {
                 val symbol = visitOperator(extraCalculateStatementContext.operator())
@@ -238,7 +254,7 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
                     extraAst.symbol(symbol)
                     extraAst.right(theRight!!)
 
-                    ast.rights().add(extraAst)
+                    ast.extraRights().add(extraAst)
                 }
             }
         }
@@ -280,41 +296,41 @@ class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
     }
 
     override fun visitOperator(ctx: MolangParser.OperatorContext): MolangCalculateSymbol? {
-//        if (ctx.arithmetic() != null) {
-//            return visitArithmetic(ctx.arithmetic())
-//        }
-//
-//        if (ctx.comparing() != null) {
-//            return visitComparing(ctx.comparing())
-//        }
-//
-//        if (ctx.not() != null) {
-//            return MolangCalculateSymbol.NOT
-//        }
+        if (ctx.arithmetic() != null) {
+            return visitArithmetic(ctx.arithmetic())
+        }
+
+        if (ctx.comparing() != null) {
+            return visitComparing(ctx.comparing())
+        }
+
+        if (ctx.not() != null) {
+            return MolangCalculateSymbol.NOT
+        }
 
         return null
     }
 
     override fun visitComparing(ctx: MolangParser.ComparingContext): MolangCalculateSymbol? {
-//        if (ctx.comparingOr() != null) {
-//            return visitComparingOr(ctx.comparingOr())
-//        }
-//
-//        if (ctx.comparingAnd() != null) {
-//            return visitComparingAnd(ctx.comparingAnd())
-//        }
+        if (ctx.comparingOr() != null) {
+            return visitComparingOr(ctx.comparingOr())
+        }
 
-//        if (ctx.moreThan() != null) {
-//            return MolangCalculateSymbol.MORE_THAN
-//        }
-//
-//        if (ctx.lessThan() != null) {
-//            return MolangCalculateSymbol.LESS_THAN
-//        }
-//
-//        if (ctx.Equals() != null) {
-//            return MolangCalculateSymbol.EQUALS
-//        }
+        if (ctx.comparingAnd() != null) {
+            return visitComparingAnd(ctx.comparingAnd())
+        }
+
+        if (ctx.moreThan() != null) {
+            return MolangCalculateSymbol.MORE_THAN
+        }
+
+        if (ctx.lessThan() != null) {
+            return MolangCalculateSymbol.LESS_THAN
+        }
+
+        if (ctx.Equals() != null) {
+            return MolangCalculateSymbol.EQUALS
+        }
 
         return null
     }

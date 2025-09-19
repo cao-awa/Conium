@@ -22,7 +22,7 @@ class MolangSupport {
             readMolang(
                 """
         fun(1,2,3,4,5,6);
-        var.xxx = 123;
+        var.xxx = 123 * (789 - 456 * (789 - 321) / 123 + (123 - 456)) + 123;
         return var.xxx;
     """.trimIndent()
             ).also { molangProgram: MolangProgram ->

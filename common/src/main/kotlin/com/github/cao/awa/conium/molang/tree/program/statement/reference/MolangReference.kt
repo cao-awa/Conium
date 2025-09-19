@@ -11,13 +11,4 @@ class MolangReference(parent: StructuringAst) : MolangReturnableStatement(parent
         json["statement_type"] = "reference"
         json["reference"] = this.name
     }
-
-    override fun preprocess() {
-    }
-
-    override fun postprocess() {
-    }
-
-    override fun consequence() {
-    }
 }

@@ -9,6 +9,8 @@ class MolangProgram(parent: StructuringAst?): StructuringAst(parent) {
     val statements = mutableListOf<MolangStatement>()
 
     override fun generateStructure(json: JSONObject) {
+        json["statement_type"] = "molang_program"
+
         val statements = JSONArray()
 
         for (statement in this.statements) {

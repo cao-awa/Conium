@@ -17,7 +17,7 @@ class MolangInvokeParams(parent: StructuringAst): StructuringAst(parent) {
     }
 
     override fun generateStructure(json: JSONObject) {
-        json["statement_type"] = "invoke_param"
+        json["statement_type"] = "invoke_params"
 
         json["params"] = JSONArray().also { params ->
             for (param in this.params) {

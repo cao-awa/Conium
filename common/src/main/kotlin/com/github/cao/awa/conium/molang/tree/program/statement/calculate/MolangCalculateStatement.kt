@@ -12,7 +12,7 @@ class MolangCalculateStatement(parent: StructuringAst) : MolangReturnableStateme
     private var left: MolangReturnableStatement? = null
     private var symbol: MolangCalculateSymbol? = null
     private var right: MolangReturnableStatement? = null
-    private var rights: LinkedList<MolangCalculateStatement> = CollectionFactor.linkedList()
+    private var extraRights: LinkedList<MolangReturnableStatement> = CollectionFactor.linkedList()
     private var leftWithParen = false
     private var rightWithParen = false
     private var totalWithParen = false
@@ -37,7 +37,7 @@ class MolangCalculateStatement(parent: StructuringAst) : MolangReturnableStateme
     }
 
     fun right(): MolangReturnableStatement? {
-        return right
+        return this.right
     }
 
     fun right(right: MolangReturnableStatement): MolangCalculateStatement {
@@ -45,12 +45,12 @@ class MolangCalculateStatement(parent: StructuringAst) : MolangReturnableStateme
         return this
     }
 
-    fun rights(): LinkedList<MolangCalculateStatement> {
-        return rights
+    fun extraRights(): LinkedList<MolangReturnableStatement> {
+        return this.extraRights
     }
 
-    fun rights(rights: LinkedList<MolangCalculateStatement>): MolangCalculateStatement {
-        this.rights = rights
+    fun extraRights(rights: LinkedList<MolangReturnableStatement>): MolangReturnableStatement {
+        this.extraRights = rights
         return this
     }
 
@@ -64,7 +64,7 @@ class MolangCalculateStatement(parent: StructuringAst) : MolangReturnableStateme
     }
 
     fun rightWithParen(): Boolean {
-        return rightWithParen
+        return this.rightWithParen
     }
 
     fun rightWithParen(rightWithParen: Boolean): MolangCalculateStatement {
@@ -73,7 +73,7 @@ class MolangCalculateStatement(parent: StructuringAst) : MolangReturnableStateme
     }
 
     fun totalWithParen(): Boolean {
-        return totalWithParen
+        return this.totalWithParen
     }
 
     fun totalWithParen(totalWithParen: Boolean): MolangCalculateStatement {
@@ -82,7 +82,7 @@ class MolangCalculateStatement(parent: StructuringAst) : MolangReturnableStateme
     }
 
     fun doNotGroup(): Boolean {
-        return doNotGroup
+        return this.doNotGroup
     }
 
     fun doNotGroup(doNotGroup: Boolean): MolangCalculateStatement {
@@ -90,50 +90,71 @@ class MolangCalculateStatement(parent: StructuringAst) : MolangReturnableStateme
         return this
     }
 
+    fun noticeOperator(): String {
+        return if (this.symbol == null) "missing" else this.symbol!!.sign
+    }
+
     override fun generateStructure(json: JSONObject) {
-        if (this.left == null || this.right == null || this.symbol == null) {
-            throw IllegalStateException("Calculate statement is not complete")
-        }
+//        if (this.right == null && this.extraRights.isEmpty()) {
+//            throw IllegalStateException("Calculate statement is not complete: 'right', operator: '${noticeOperator()}'")
+//        }
+//
+//        if (this.symbol == null) {
+//            throw IllegalStateException("Calculate missing the operator")
+//        }
 
         json["statement_type"] = "calculate"
 
-        val left = JSONObject()
-        this.left!!.generateStructure(left)
-        json.put("left", left)
+        json["left_with_paren"] = this.leftWithParen
+        json["right_with_paren"] = this.rightWithParen
+        json["total_with_paren"] = this.totalWithParen
+        json["do_not_group"] = this.doNotGroup
 
-        json.put("symbol", this.symbol!!.symbol)
-
-        val rights = JSONArray()
-        rights.add(this.right)
-
-        for (right in this.rights) {
-            val theRight = JSONObject()
-            right.generateStructure(theRight)
-            rights.add(theRight)
+        if (this.left != null) {
+            val theLeft = JSONObject()
+            this.left!!.generateStructure(theLeft)
+            json.put("left", theLeft)
         }
-        json.put("rights", rights)
-    }
 
-    override fun print(indent: String?) {
+        if (this.symbol != null) {
+            val theSymbol = JSONObject()
+            this.symbol!!.generateStructure(theSymbol)
+            json.put("symbol", theSymbol)
+        }
+
+        if (this.right != null) {
+            val theRight = JSONObject()
+            this.right!!.generateStructure(theRight)
+            json["right"] = theRight
+        }
+
+        if (this.extraRights.isNotEmpty()) {
+            val rights = JSONArray()
+
+            for (right in this.extraRights) {
+                val theExtraRight = JSONObject()
+                right.generateStructure(theExtraRight)
+                rights.add(theExtraRight)
+            }
+            json.put("extra_rights", rights)
+        }
     }
 
     override fun preprocess() {
-        if (this.left == null || this.right == null || this.symbol == null) {
-            throw IllegalStateException("Calculate statement is not complete")
+        if (this.right == null) {
+            throw IllegalStateException("Calculate statement is not complete: 'right', operator: '${noticeOperator()}'")
         }
 
-        this.left!!.preprocess()
+        if (this.symbol == null) {
+            throw IllegalStateException("Calculate missing the operator")
+        }
+
+        this.left?.preprocess()
 
         this.right!!.preprocess()
 
-        for (typescriptCalculate in this.rights) {
+        for (typescriptCalculate in this.extraRights) {
             typescriptCalculate.preprocess()
         }
-    }
-
-    override fun postprocess() {
-    }
-
-    override fun consequence() {
     }
 }

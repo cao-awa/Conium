@@ -15,16 +15,4 @@ abstract class MolangConstant<T>(parent: StructuringAst): MolangReturnableStatem
         json["statement_type"] = "constant"
         json["value"] = this.value
     }
-
-    override fun preprocess() {
-
-    }
-
-    override fun postprocess() {
-
-    }
-
-    override fun consequence() {
-
-    }
 }
