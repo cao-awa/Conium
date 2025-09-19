@@ -19,7 +19,7 @@ abstract class ListTriggerable<P : ParameterSelective> {
             has = has or parameters.test(trigger)
         }
 
-        for (trigger in this.triggers.getOrDefault(identity, emptyList<P>())) {
+        for (trigger in this.triggers.getOrDefault(identity, emptyList())) {
             has = has or parameters.test(trigger)
         }
 
@@ -33,7 +33,7 @@ abstract class ListTriggerable<P : ParameterSelective> {
             has = has and parameters.test(trigger)
         }
 
-        for (trigger in this.triggers.getOrDefault(identity, emptyList<P>())) {
+        for (trigger in this.triggers.getOrDefault(identity, emptyList())) {
             has = has and parameters.test(trigger)
         }
         return has

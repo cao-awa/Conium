@@ -1,7 +1,6 @@
 package com.github.cao.awa.conium.molang
 
 import com.alibaba.fastjson2.JSONObject
-import com.alibaba.fastjson2.JSONWriter
 import com.github.cao.awa.conium.molang.antlr.MolangLexer
 import com.github.cao.awa.conium.molang.antlr.MolangParser
 import com.github.cao.awa.conium.molang.query.MolangQuery

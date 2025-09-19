@@ -2,7 +2,7 @@
 
 ## Event types
 
-## Generic random task
+### Generic random task
 
 |    Key |                                                      Notes                                                      | Environment | Cancelable |    Cascade events | Input instance |
 |-------:|:---------------------------------------------------------------------------------------------------------------:|------------:|-----------:|------------------:|:--------------:|
@@ -83,13 +83,17 @@
 
 Cascade events are one or more events that only can happen when the preceding event is successful.
 
-For example, the ``BREAKING_BLOCK`` event occur when a player starting mining a block, it normally takes time for the player to destroy the block, and only then can ``BREAK_BLOCK`` event occur, followed by the ``BROKEN_BLOCK`` event.\
+For example, the ``BREAKING_BLOCK`` event occur when a player starting mining a block, it normally takes time for the player to destroy the block, and only then can ``BREAK_BLOCK`` event happens until block be breaks, followed by the ``BROKEN_BLOCK`` event.\
 The ``BREAK_BLOCK`` and ``BROKEN_BLOCK`` events cannot happen if ``BREAKING_BLOCK`` event is canceled or failed.
 
-In summary, cascade events are one or more events that depends on the certain preceding events.
+In summary, cascade events are one or more events that depend on the certain preceding events.
 
 Remember, all cascade events of the event cannot happen when you are canceling an event!\
 Includes all ``arising`` and ``presaging`` context of cascaded events and ``arising`` context of this event.
+
+An instance to explains this:\
+When ``BREAKING_BLOCK`` be canceled, then ``BREAK_BLOCK`` and ``BROKEN_BLOCK`` cannot happen, block breaking instantly stop, then if you canceled ``BREAK_BLOCK``, the block breaking won't instantly stop\
+player can break block until "break", but block won't destroy, then ``BROKEN_BLOCK`` also won't be happens.
 
 ## Context args
 
@@ -98,32 +102,26 @@ Context args is the parameters starting from the second parameter in ``request``
 For example:
 
 ``` kts
-request(
-    // This is the event type.
-    PLACE_BLOCK,
-    // This is the context args.
-    SERVER_WORLD,
-    // This also.
-    BLOCK_POS,
-    // This also.
-    ITEM_STACK
-) { _, world, pos, stack ->
-    // When you defines how many context args in 'request',
-    // then you must define them in arising context as consistent order and quantity.
-    true
+// Disallow obsidian placement in the overworld
+request(ConiumEventType.PLACE_BLOCK, SERVER_WORLD, BLOCK_POS, ITEM_STACK) { event, world, pos, stack ->
+    if (world.registryKey == World.OVERWORLD && stack.item == Items.OBSIDIAN) {
+        // 取消放置事件
+        false
+    } else {
+        // 允许放置
+        true
+    }
 }
 
-request(
-    // This is the event type.
-    PLACE_BLOCK,
-    // This is the context args.
-    SERVER_WORLD,
-    // This also.
-    ITEM_STACK
-) { _, world, stack ->
-    // Here missing 'BLOCK_POS', so arising context also must miss it to match requiring args.
-    // Arising context should match the required arguments for 'request'.
-    true
+// Listen random event，1/100 pervcent give players glowing effect for 5 seconds
+request(ConiumEventType.RANDOM) {
+    val server = MinecraftServer.getInstance()
+    if (server != null && Random.nextInt(100) == 0) {
+        server.playerManager.playerList.forEach { player ->
+            player.addStatusEffect(StatusEffectInstance(StatusEffects.GLOWING, 100, 0))
+        }
+    }
+    true // 'RANDOM' event cannot be cancel, but a boolean result is required
 }
 ```
 

@@ -106,7 +106,7 @@ object ConiumEventMixinIntermediary {
 
             subArgProducer.accept(result, subContext)
 
-            return@executeWithPresaging ConiumEventHandler.executeWithPresaging(subContext, input, defaultResult) {
+            ConiumEventHandler.executeWithPresaging(subContext, input, defaultResult) {
                 result
             }
         }

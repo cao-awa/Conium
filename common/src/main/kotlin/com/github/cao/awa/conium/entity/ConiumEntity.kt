@@ -13,7 +13,6 @@ import net.minecraft.registry.Registries
 import net.minecraft.text.Text
 import net.minecraft.util.Arm
 import net.minecraft.world.World
-import java.util.*
 
 class ConiumEntity(entityType: EntityType<ConiumEntity>, world: World, private val settings: ConiumEntitySettings) : LivingEntity(entityType, world) {
     companion object {
@@ -28,7 +27,8 @@ class ConiumEntity(entityType: EntityType<ConiumEntity>, world: World, private v
     }
 
     init {
-        // Do not use dimensions in entity type.
+        // Do not use dimensions in entity type (entityType.dimensions),
+        // use dimensions in conium settings.
         this.dimensions = this.settings.dimensions
     }
 

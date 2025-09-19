@@ -92,7 +92,7 @@ class RegistrableNbt(
      * @see NbtCompound
      * @see ConiumNbtDataSerializer
      *
-     * @param nbt the NBT compound that will be writing to
+     * @param writeView the 'write view' that will be writing to
      *
      * @author cao_awa
      * @author 草二号机

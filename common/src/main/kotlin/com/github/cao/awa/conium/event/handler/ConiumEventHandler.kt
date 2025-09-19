@@ -1,4 +1,4 @@
-package com.github.cao.awa.conium.event.handler;
+package com.github.cao.awa.conium.event.handler
 
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.threadpool.ConiumThreadPool
