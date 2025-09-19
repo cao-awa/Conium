@@ -1,3 +1,6 @@
+// Molang grammar v1.0.0
+// Design by cao_awa
+
 grammar Molang;
 
 import MolangRules;

@@ -10,6 +10,7 @@ import com.github.cao.awa.conium.molang.tree.program.constant.string.MolangStrin
 import com.github.cao.awa.conium.molang.tree.program.statement.assignment.MolangAssignmentStatement
 import com.github.cao.awa.conium.molang.tree.program.statement.calculate.MolangCalculateStatement
 import com.github.cao.awa.conium.molang.tree.program.statement.invoke.MolangInvokeStatement
+import com.github.cao.awa.conium.molang.tree.program.statement.reference.MolangReference
 import com.github.cao.awa.conium.molang.tree.program.statement.returnable.MolangReturnableStatement
 import java.lang.StringBuilder
 
@@ -23,6 +24,8 @@ class MolangKotlinScriptReturnableStatementTranslator: MolangKotlinScriptTransla
             is MolangString -> postTranslate(MolangTranslateElement.STRING, ast)
             is MolangNull -> postTranslate(MolangTranslateElement.NULL, ast)
             is MolangBoolean -> postTranslate(MolangTranslateElement.BOOLEAN, ast)
+            is MolangReference -> postTranslate(MolangTranslateElement.REFERENCE, ast)
+            else -> throw IllegalStateException("Unknown returnable statement type: ${ast::class.java.name}")
         }
     }
 }

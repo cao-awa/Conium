@@ -1,3 +1,6 @@
+// Molang grammar v1.0.0
+// Design by cao_awa
+
 grammar MolangRules;
 
 LINE_COMMENT : '//' .*? '\r'? [\n] -> skip ;

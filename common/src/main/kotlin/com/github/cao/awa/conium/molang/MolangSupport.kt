@@ -1,6 +1,7 @@
 package com.github.cao.awa.conium.molang
 
 import com.alibaba.fastjson2.JSONObject
+import com.alibaba.fastjson2.JSONWriter
 import com.github.cao.awa.conium.molang.antlr.MolangLexer
 import com.github.cao.awa.conium.molang.antlr.MolangParser
 import com.github.cao.awa.conium.molang.query.MolangQuery
@@ -10,12 +11,7 @@ import com.github.cao.awa.conium.molang.tree.program.MolangProgram
 import com.github.cao.awa.conium.molang.visitor.LanguageMolangVisitor
 import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
 import com.github.cao.awa.translator.structuring.translate.language.LanguageTranslateTarget
-import org.antlr.v4.runtime.BaseErrorListener
-import org.antlr.v4.runtime.CharStreams
-import org.antlr.v4.runtime.CommonTokenStream
-import org.antlr.v4.runtime.RecognitionException
-import org.antlr.v4.runtime.Recognizer
-import org.antlr.v4.runtime.TokenStream
+import org.antlr.v4.runtime.*
 
 val query: MolangQuery = MolangQuery()
 
@@ -27,13 +23,15 @@ class MolangSupport {
                 """
         fun(1,2,3,4,5,6);
         var.xxx = 123;
+        return var.xxx;
     """.trimIndent()
             ).also { molangProgram: MolangProgram ->
                 println(molangProgram.statements)
 
                 val structure = JSONObject()
                 molangProgram.generateStructure(structure)
-                println(structure)
+                println("== Structured: Molang")
+                println(structure.toString())
 
                 molangProgram.prepares()
 
@@ -48,6 +46,7 @@ class MolangSupport {
                     molangProgram
                 )
 
+                println("== Translated: Molang to Kotlin ")
                 println(translated)
             }
         }
@@ -58,7 +57,7 @@ fun main() {
     MolangSupport.test()
 }
 
-private fun readMolang(content: String): MolangProgram {
+fun readMolang(content: String): MolangProgram {
     // Build lexer, parser and prepare tokens.
     val lexer = MolangLexer(CharStreams.fromString(content))
     val tokens: TokenStream = CommonTokenStream(lexer)
