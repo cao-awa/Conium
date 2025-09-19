@@ -24,428 +24,339 @@ import java.math.BigDecimal
 class LanguageMolangVisitor : MolangBaseVisitor<StructuringAst>() {
     private var current: StructuringAst? = null
 
+    /**
+     * Visits the root program node and builds the AST
+     * @param ctx The parse tree context for the program
+     * @return MolangProgram representing the entire program structure
+     */
     override fun visitProgram(ctx: MolangParser.ProgramContext): MolangProgram {
-        val molang = MolangProgram(null)
-        this.current = molang
-        if (ctx.defineStatement() != null) {
-            val defineStatement: List<MolangParser.DefineStatementContext> = ctx.defineStatement()
-            for (statementContext in defineStatement) {
-                if (statementContext.invokeStatement() != null) {
-                    molang.statements.add(visitInvokeStatement(statementContext.invokeStatement()))
-                }
-
-                if (statementContext.returnStatement() != null) {
-                    molang.statements.add(visitReturnStatement(statementContext.returnStatement()))
-                }
-
-                if (statementContext.assignmentStatement() != null) {
-                    molang.statements.add(visitAssignmentStatement(statementContext.assignmentStatement()))
+        return MolangProgram(null).also { program ->
+            this.current = program
+            ctx.defineStatement()?.forEach { statementContext ->
+                when {
+                    statementContext.invokeStatement() != null ->
+                        program.statements.add(visitInvokeStatement(statementContext.invokeStatement()))
+                    statementContext.returnStatement() != null ->
+                        program.statements.add(visitReturnStatement(statementContext.returnStatement()))
+                    statementContext.assignmentStatement() != null ->
+                        program.statements.add(visitAssignmentStatement(statementContext.assignmentStatement()))
                 }
             }
         }
-        return molang
     }
 
+    /**
+     * Visits an assignment statement and creates corresponding AST node
+     * @param ctx The assignment statement context
+     * @return MolangAssignmentStatement with target and value
+     */
     override fun visitAssignmentStatement(ctx: MolangParser.AssignmentStatementContext): MolangAssignmentStatement {
-        return MolangAssignmentStatement(this.current!!).also { assignment ->
-            assignment.target = visitFullNameOrIdentifier(ctx.fullNameOrIdentifier())
-
-            assignment.value = visitDefineReturnableStatement(ctx.defineReturnableStatement())
+        return MolangAssignmentStatement(this.current!!).apply {
+            this.target = visitFullNameOrIdentifier(ctx.fullNameOrIdentifier())
+            this.value = visitDefineReturnableStatement(ctx.defineReturnableStatement())
         }
     }
 
+    /**
+     * Visits a return statement and creates corresponding AST node
+     * @param ctx The return statement context
+     * @return MolangReturnStatement with return value
+     */
     override fun visitReturnStatement(ctx: MolangParser.ReturnStatementContext): MolangReturnStatement {
-        val ast = MolangReturnStatement(this.current!!)
-        if (ctx.Number() != null) {
-            ast.statement(visitDefineReturnableStatement(ctx.defineReturnableStatement()))
+        return MolangReturnStatement(this.current!!).apply {
+            ctx.defineReturnableStatement()?.let { statement(visitDefineReturnableStatement(it)) }
+            ctx.fullNameOrIdentifier()?.let { statement(visitFullNameOrIdentifier(it)) }
         }
-        if (ctx.defineReturnableStatement() != null) {
-            ast.statement(visitDefineReturnableStatement(ctx.defineReturnableStatement()))
-        }
-        if (ctx.fullNameOrIdentifier() != null) {
-            ast.statement(visitFullNameOrIdentifier(ctx.fullNameOrIdentifier()))
-        }
-        return ast
     }
 
+    /**
+     * Visits a returnable statement (expression that can be returned)
+     * @param ctx The returnable statement context
+     * @return MolangReturnableStatement representing the expression
+     */
     override fun visitDefineReturnableStatement(ctx: MolangParser.DefineReturnableStatementContext): MolangReturnableStatement {
-        var ast: MolangReturnableStatement? = null
-        if (ctx.calculateStatement() != null) {
-            ast = visitCalculateStatement(ctx.calculateStatement())
+        return when {
+            ctx.calculateStatement() != null -> visitCalculateStatement(ctx.calculateStatement())
+            ctx.invokeStatement() != null -> visitInvokeStatement(ctx.invokeStatement())
+            ctx.string() != null -> visitString(ctx.string())
+            ctx.number() != null -> visitNumber(ctx.number())
+            ctx.fullNameOrIdentifier() != null -> visitFullNameOrIdentifier(ctx.fullNameOrIdentifier())
+            ctx.bool() != null -> visitBool(ctx.bool())
+            else -> throw IllegalArgumentException("Unknown returnable statement type")
         }
-        if (ctx.invokeStatement() != null) {
-            ast = visitInvokeStatement(ctx.invokeStatement())
-        }
-        if (ctx.string() != null) {
-            return visitString(ctx.string())
-        }
-        if (ctx.number() != null) {
-            return visitNumber(ctx.number())
-        }
-        if (ctx.fullNameOrIdentifier() != null) {
-            return visitFullNameOrIdentifier(ctx.fullNameOrIdentifier())
-        }
-        if (ctx.bool() != null) {
-            return visitBool(ctx.bool())
-        }
-        return ast!!
     }
 
+    /**
+     * Visits a reference (variable/function name)
+     * @param ctx The reference context
+     * @return MolangReference with the name
+     */
     override fun visitFullNameOrIdentifier(ctx: MolangParser.FullNameOrIdentifierContext): MolangReference {
-        val ast = MolangReference(this.current!!)
-        ast.name = ctx.text
-        return ast
+        return MolangReference(this.current!!).also { it.name = ctx.text }
     }
 
     override fun visitIdentifier(ctx: MolangParser.IdentifierContext): MolangReference {
-        return MolangReference(this.current!!).also { reference ->
-            reference.name = ctx.text
-        }
+        return MolangReference(this.current!!).also { it.name = ctx.text }
     }
 
     override fun visitFullName(ctx: MolangParser.FullNameContext): MolangReference {
-        return MolangReference(this.current!!).also { reference ->
-            reference.name = ctx.text
-        }
+        return MolangReference(this.current!!).also { it.name = ctx.text }
     }
 
+    /**
+     * Visits a string literal
+     * @param ctx The string context
+     * @return MolangString with the string value
+     */
     override fun visitString(ctx: MolangParser.StringContext): MolangString {
-        return MolangString(this.current!!).also { string ->
-            string.value = ctx.text
-        }
+        return MolangString(current!!).also { it.value = ctx.text }
     }
 
+    /**
+     * Visits a numeric literal
+     * @param ctx The number context
+     * @return MolangNumber with the numeric value
+     */
     override fun visitNumber(ctx: MolangParser.NumberContext): MolangNumber {
-        val ast = MolangNumber(this.current!!)
-        ast.value = BigDecimal(ctx.text)
-        return ast
+        return MolangNumber(this.current!!).also { it.value = BigDecimal(ctx.text) }
     }
 
+    /**
+     * Visits a boolean literal
+     * @param ctx The boolean context
+     * @return MolangBoolean with the boolean value
+     */
     override fun visitBool(ctx: MolangParser.BoolContext): MolangBoolean {
-        val ast = MolangBoolean(this.current!!)
-        ast.value = "true".equals(ctx.text)
-        return ast
+        return MolangBoolean(this.current!!).also { it.value = ctx.text == "true" }
     }
 
     override fun visitDefineStatement(ctx: MolangParser.DefineStatementContext): MolangStatement? {
-        if (ctx.invokeStatement() != null) {
-            return visitInvokeStatement(ctx.invokeStatement())
-        }
-        return null
+        return ctx.invokeStatement()?.let { visitInvokeStatement(it) }
     }
 
+    /**
+     * Visits a calculation statement and builds the expression tree
+     *
+     * @param ctx The calculation statement context
+     *
+     * @since 1.0.0
+     *
+     * @author cao_awa
+     *
+     * @return MolangCalculateStatement representing the calculation
+     */
     override fun visitCalculateStatement(ctx: MolangParser.CalculateStatementContext): MolangCalculateStatement {
-        var ast = MolangCalculateStatement(this.current!!)
-
-        if (ctx.calculateStatementWithTotalParen() != null) {
-            ast = visitCalculateStatementWithTotalParen(ctx.calculateStatementWithTotalParen())
-            ast.totalWithParen(true)
-        } else {
-            if (ctx.calculateStatementWithParen() != null) {
-                ast = visitCalculateStatementWithParen(ctx.calculateStatementWithParen())
-                ast.totalWithParen(true)
-            }
+        val baseStatement = when {
+            ctx.calculateStatementWithTotalParen() != null ->
+                visitCalculateStatementWithTotalParen(ctx.calculateStatementWithTotalParen()).apply { totalWithParen(true) }
+            ctx.calculateStatementWithParen() != null ->
+                visitCalculateStatementWithParen(ctx.calculateStatementWithParen()).apply { totalWithParen(true) }
+            else -> MolangCalculateStatement(this.current!!)
         }
 
-        if (ctx.extraCalculateStatement() != null) {
-            val extras: List<MolangParser.ExtraCalculateStatementContext> = ctx.extraCalculateStatement()
-            ast = visitExtraCalculateStatement(extras[0])
-
-            if (extras.size > 1) {
-                var index = 1
-                while (index < extras.size) {
-                    ast.extraRights().add(visitExtraCalculateStatement(extras[index]))
-                    index++
+        return baseStatement.apply {
+            left(visitCalculateLeft(ctx.calculateLeft()))
+            ctx.extraCalculateStatement()?.let { extras ->
+                extras.firstOrNull()?.let { firstExtra ->
+                    visitExtraCalculateStatement(firstExtra).also { first ->
+                        symbol(first.symbol())
+                        right(first.right()!!)
+                    }
+                }
+                extras.drop(1).forEach { extra ->
+                    extraRights().add(visitExtraCalculateStatement(extra))
                 }
             }
         }
-
-        ast.left(visitCalculateLeft(ctx.calculateLeft()))
-
-        return ast
     }
 
     override fun visitCalculateStatementWithTotalParen(ctx: MolangParser.CalculateStatementWithTotalParenContext): MolangCalculateStatement {
-        val ast = MolangCalculateStatement(this.current!!)
+        return MolangCalculateStatement(this.current!!).apply {
+            totalWithParen(true)
+            left(visitCalculateLeft(ctx.calculateLeft()))
+            ctx.extraCalculateStatement()?.forEach { extraCtx ->
+                val symbol = visitOperator(extraCtx.operator())
+                val rightValue = visitCalculatableResultPresenting(extraCtx.calculatableResultPresenting())!!
 
-        ast.totalWithParen(true)
-
-        ast.left(visitCalculateLeft(ctx.calculateLeft()))
-
-        if (ctx.extraCalculateStatement() != null) {
-            for (extraCalculateStatementContext in ctx.extraCalculateStatement()) {
-                val symbol: MolangCalculateSymbol = visitOperator(extraCalculateStatementContext.operator())!!
-
-                val theRight: MolangReturnableStatement = visitCalculatableResultPresenting(extraCalculateStatementContext.calculatableResultPresenting())!!
-
-                if (ast.right() == null) {
-                    ast.symbol(symbol)
-                    ast.right(theRight)
+                if (right() == null) {
+                    symbol(symbol)
+                    right(rightValue)
                 } else {
-                    val extraAst = MolangCalculateStatement(this.current!!)
-                    extraAst.symbol(symbol)
-                    extraAst.right(theRight)
-
-                    ast.extraRights().add(extraAst)
+                    MolangCalculateStatement(this@LanguageMolangVisitor.current!!).apply {
+                        symbol(symbol)
+                        right(rightValue)
+                    }.also { extraRights().add(it) }
                 }
             }
         }
-
-        return ast
     }
 
     override fun visitExtraCalculateStatement(ctx: MolangParser.ExtraCalculateStatementContext): MolangCalculateStatement {
-        val ast = MolangCalculateStatement(this.current!!)
-
-        ast.symbol(visitOperator(ctx.operator()))
-
-        val right: MolangReturnableStatement = visitCalculatableResultPresenting(ctx.calculatableResultPresenting())!!
-
-        if (ast.right() == null) {
-            ast.right(right)
-        } else {
-            ast.extraRights().add(right)
+        return MolangCalculateStatement(this.current!!).apply {
+            symbol(visitOperator(ctx.operator()))
+            right(visitCalculatableResultPresenting(ctx.calculatableResultPresenting())!!)
         }
-
-        return ast
     }
 
     override fun visitCalculateLeft(ctx: MolangParser.CalculateLeftContext): MolangReturnableStatement? {
         return visitCalculatableResultPresenting(ctx.calculatableResultPresenting())
     }
 
+    /**
+     * Visits a calculatable expression (operands in calculations)
+     *
+     * @param ctx The calculatable expression context
+     *
+     * @since 1.0.0
+     *
+     * @author cao_awa
+     *
+     * @return MolangReturnableStatement representing the operand
+     */
     override fun visitCalculatableResultPresenting(ctx: MolangParser.CalculatableResultPresentingContext): MolangReturnableStatement? {
-        if (ctx.invokeStatement() != null) {
-            return visitInvokeStatement(ctx.invokeStatement())
-        } else if (ctx.constant() != null) {
-            return visitConstant(ctx.constant())
-        } else if (ctx.calculateStatementWithParen() != null) {
-            return visitCalculateStatementWithParen(ctx.calculateStatementWithParen())
-        } else if (ctx.identifier() != null) {
-            return MolangReference(this.current!!).also { reference ->
-                reference.name = ctx.identifier().text
-            }
-        } else if (ctx.fullName() != null) {
-            return MolangReference(this.current!!).also { reference ->
-                reference.name = ctx.fullName().text
-            }
+        return when {
+            ctx.invokeStatement() != null -> visitInvokeStatement(ctx.invokeStatement())
+            ctx.constant() != null -> visitConstant(ctx.constant())
+            ctx.calculateStatementWithParen() != null -> visitCalculateStatementWithParen(ctx.calculateStatementWithParen())
+            ctx.identifier() != null -> MolangReference(this.current!!).also { it.name = ctx.identifier().text }
+            ctx.fullName() != null -> MolangReference(this.current!!).also { it.name = ctx.fullName().text }
+            else -> null
         }
-        return null
     }
 
     override fun visitCalculateStatementWithParen(ctx: MolangParser.CalculateStatementWithParenContext): MolangCalculateStatement {
-        val ast = MolangCalculateStatement(this.current!!)
+        return MolangCalculateStatement(this.current!!).apply {
+            leftWithParen(true)
+            left(visitCalculateLeftStatementWithParen(ctx.calculateLeftStatementWithParen()))
+            ctx.extraCalculateStatement()?.forEach { extraCtx ->
+                val symbol = visitOperator(extraCtx.operator())
+                val rightValue = visitCalculatableResultPresenting(extraCtx.calculatableResultPresenting())!!
 
-        ast.leftWithParen(true)
-
-        ast.left(visitCalculateLeftStatementWithParen(ctx.calculateLeftStatementWithParen()))
-
-        if (ctx.extraCalculateStatement() != null) {
-            for (extraCalculateStatementContext in ctx.extraCalculateStatement()) {
-                val symbol = visitOperator(extraCalculateStatementContext.operator())
-
-                val theRight = visitCalculatableResultPresenting(extraCalculateStatementContext.calculatableResultPresenting())
-
-                if (ast.right() == null) {
-                    ast.symbol(symbol)
-                    ast.right(theRight!!)
+                if (right() == null) {
+                    symbol(symbol)
+                    right(rightValue)
                 } else {
-                    val extraAst = MolangCalculateStatement(this.current!!)
-                    extraAst.symbol(symbol)
-                    extraAst.right(theRight!!)
-
-                    ast.extraRights().add(extraAst)
+                    MolangCalculateStatement(this@LanguageMolangVisitor.current!!).apply {
+                        symbol(symbol)
+                        right(rightValue)
+                    }.also { extraRights().add(it) }
                 }
             }
         }
-        return ast
     }
 
+    /**
+     * Visits a function invocation statement
+     *
+     * @param ctx The invocation context
+     *
+     * @since 1.0.0
+     *
+     * @author cao_awa
+     *
+     * @return MolangInvokeStatement with function reference and parameters
+     */
     override fun visitInvokeStatement(ctx: MolangParser.InvokeStatementContext): MolangInvokeStatement {
-        val ast = MolangInvokeStatement(this.current!!)
-        if (ctx.identifier() != null) {
-            ast.reference = visitIdentifier(ctx.identifier())
+        return MolangInvokeStatement(this.current!!).apply {
+            ctx.identifier()?.let { this.reference = visitIdentifier(it) }
+            ctx.invokeParam()?.let { this.params.addParam(visitInvokeParam(it)) }
+            ctx.multiInvokeParam()?.let { addParams(visitMultiInvokeParam(it)) }
         }
-        if (ctx.invokeParam() != null) {
-            ast.params.addParam(visitInvokeParam(ctx.invokeParam()))
-        }
-        if (ctx.multiInvokeParam() != null) {
-            ast.addParams(visitMultiInvokeParam(ctx.multiInvokeParam()))
-        }
-        return ast
     }
 
     override fun visitInvokeParam(ctx: MolangParser.InvokeParamContext): MolangInvokeParam {
-        return MolangInvokeParam(this.current!!).also { param ->
-            if (ctx.defineReturnableStatement() != null) {
-                param.param = visitDefineReturnableStatement(ctx.defineReturnableStatement())
-            }
+        return MolangInvokeParam(this.current!!).apply {
+            ctx.defineReturnableStatement()?.let { param = visitDefineReturnableStatement(it) }
         }
     }
 
     override fun visitMultiInvokeParam(ctx: MolangParser.MultiInvokeParamContext): MolangInvokeParams {
-        return ctx.invokeParam().let { invokeParams ->
-            val params = MolangInvokeParams(this.current!!)
-
-            for (invokeParamContext in invokeParams) {
-                params.addParam(visitInvokeParam(invokeParamContext))
-            }
-
-            params
+        return MolangInvokeParams(this.current!!).apply {
+            ctx.invokeParam().forEach { addParam(visitInvokeParam(it)) }
         }
     }
 
+    /**
+     * Visits an operator and returns the corresponding symbol
+     *
+     * @param ctx The operator context
+     *
+     * @since 1.0.0
+     *
+     * @author cao_awa
+     *
+     * @return MolangCalculateSymbol representing the operator
+     */
     override fun visitOperator(ctx: MolangParser.OperatorContext): MolangCalculateSymbol? {
-        if (ctx.arithmetic() != null) {
-            return visitArithmetic(ctx.arithmetic())
+        return when {
+            ctx.arithmetic() != null -> visitArithmetic(ctx.arithmetic())
+            ctx.comparing() != null -> visitComparing(ctx.comparing())
+            ctx.not() != null -> MolangCalculateSymbol.NOT
+            else -> null
         }
-
-        if (ctx.comparing() != null) {
-            return visitComparing(ctx.comparing())
-        }
-
-        if (ctx.not() != null) {
-            return MolangCalculateSymbol.NOT
-        }
-
-        return null
     }
 
     override fun visitComparing(ctx: MolangParser.ComparingContext): MolangCalculateSymbol? {
-        if (ctx.comparingOr() != null) {
-            return visitComparingOr(ctx.comparingOr())
+        return when {
+            ctx.comparingOr() != null -> visitComparingOr(ctx.comparingOr())
+            ctx.comparingAnd() != null -> visitComparingAnd(ctx.comparingAnd())
+            ctx.moreThan() != null -> MolangCalculateSymbol.MORE_THAN
+            ctx.lessThan() != null -> MolangCalculateSymbol.LESS_THAN
+            ctx.Equals() != null -> MolangCalculateSymbol.EQUALS
+            else -> null
         }
-
-        if (ctx.comparingAnd() != null) {
-            return visitComparingAnd(ctx.comparingAnd())
-        }
-
-        if (ctx.moreThan() != null) {
-            return MolangCalculateSymbol.MORE_THAN
-        }
-
-        if (ctx.lessThan() != null) {
-            return MolangCalculateSymbol.LESS_THAN
-        }
-
-        if (ctx.Equals() != null) {
-            return MolangCalculateSymbol.EQUALS
-        }
-
-        return null
     }
 
     override fun visitComparingAnd(ctx: MolangParser.ComparingAndContext): MolangCalculateSymbol? {
-//        if (ctx.and() != null) {
-//            return MolangCalculateSymbol.AND
-//        }
-//
-//        if (ctx.breakingAnd() != null) {
-//            return MolangCalculateSymbol.BREAKING_AND
-//        }
-
+        // Implementation for AND operators would go here
         return null
     }
 
     override fun visitComparingOr(ctx: MolangParser.ComparingOrContext): MolangCalculateSymbol? {
-//        if (ctx.or() != null) {
-//            return MolangCalculateSymbol.OR
-//        }
-//
-//        if (ctx.breakingOr() != null) {
-//            return MolangCalculateSymbol.BREAKING_OR
-//        }
-
+        // Implementation for OR operators would go here
         return null
     }
 
-//    override fun visitComparingOr(ctx: MolangParser.ComparingOrContext): MolangCalculateSymbol? {
-//        if (ctx.or() != null) {
-//            return MolangCalculateSymbol.OR
-//        }
-//
-//        if (ctx.breakingOr() != null) {
-//            return MolangCalculateSymbol.BREAKING_OR
-//        }
-//
-//        return null
-//    }
-
     override fun visitArithmetic(ctx: MolangParser.ArithmeticContext): MolangCalculateSymbol? {
-        if (ctx.Plus() != null) {
-            return MolangCalculateSymbol.PLUS
+        return when {
+            ctx.Plus() != null -> MolangCalculateSymbol.PLUS
+            ctx.Minus() != null -> MolangCalculateSymbol.MINUS
+            ctx.Multiply() != null -> MolangCalculateSymbol.MULTIPLY
+            ctx.Divide() != null -> MolangCalculateSymbol.DIVIDE
+            else -> null
         }
-
-        if (ctx.Minus() != null) {
-            return MolangCalculateSymbol.MINUS
-        }
-
-        if (ctx.Multiply() != null) {
-            return MolangCalculateSymbol.MULTIPLY
-        }
-
-        if (ctx.Divide() != null) {
-            return MolangCalculateSymbol.DIVIDE
-        }
-
-//        if (ctx.Pow() != null) {
-//            return MolangCalculateSymbol.POW
-//        }
-//
-//        if (ctx.AdditionAssignment() != null) {
-//            return MolangCalculateSymbol.ADDITION_ASSIGNMENT
-//        }
-//
-//        if (ctx.SubtractionAssignment() != null) {
-//            return MolangCalculateSymbol.SUBTRACTION_ASSIGNMENT
-//        }
-//
-//        if (ctx.MultiplicationAssignment() != null) {
-//            return MolangCalculateSymbol.MULTIPLICATION_ASSIGNMENT
-//        }
-//
-//        if (ctx.DivisionAssignment() != null) {
-//            return MolangCalculateSymbol.DIVISION_ASSIGNMENT
-//        }
-//
-//        if (ctx.PowAssignment() != null) {
-//            return MolangCalculateSymbol.POW_ASSIGNMENT
-//        }
-
-        return null
     }
 
     override fun visitCalculateLeftStatementWithParen(ctx: MolangParser.CalculateLeftStatementWithParenContext): MolangReturnableStatement? {
-        if (ctx.calculateStatement() != null) {
-            return visitCalculateStatement(ctx.calculateStatement())
-        }
-        return visitCalculatableResultPresenting(ctx.calculatableResultPresenting())
+        return ctx.calculateStatement()?.let { visitCalculateStatement(it) }
+            ?: visitCalculatableResultPresenting(ctx.calculatableResultPresenting())
     }
 
+    /**
+     * Visits a constant value (string, number, boolean, null)
+     *
+     * @param ctx The constant context
+     *
+     * @since 1.0.0
+     *
+     * @author cao_awa
+     * @author 草二号机
+     *
+     * @return MolangConstant with the appropriate value type
+     */
     override fun visitConstant(ctx: MolangParser.ConstantContext): MolangConstant<*> {
-        if (ctx.string() != null) {
-            val string = MolangString(this.current!!)
-            string.value = ctx.string().text.replace("'", "").replace("\"", "")
-            return string
+        return when {
+            ctx.string() != null -> MolangString(this.current!!).also {
+                it.value = ctx.string().text.removeSurrounding("\"").removeSurrounding("'")
+            }
+            ctx.bool() != null -> MolangBoolean(this.current!!).also {
+                it.value = ctx.bool().True() != null
+            }
+            ctx.number() != null -> MolangNumber(this.current!!).also {
+                it.value = BigDecimal(ctx.number().text)
+            }
+            ctx.Null() != null -> MolangNull(this.current!!)
+            else -> visitChildren(ctx) as MolangConstant<*>
         }
-
-        if (ctx.bool() != null) {
-            val bool = MolangBoolean(this.current!!)
-            bool.value = ctx.bool().True() != null
-            return bool
-        }
-
-        if (ctx.number() != null) {
-            val number = MolangNumber(this.current!!)
-            number.value = BigDecimal(ctx.number().text)
-            return number
-        }
-
-        if (ctx.Null() != null) {
-            return MolangNull(this.current!!)
-        }
-
-        return visitChildren(ctx) as MolangConstant<*>
     }
-
 }
