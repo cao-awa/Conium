@@ -36,12 +36,13 @@ class DynamicArgs<P : ParameterSelective?, R> {
     private val queryArgs: MutableList<DynamicArgType<*>>
     private var lifecycle: DynamicArgsLifecycle = DynamicArgsLifecycle.ONCE
     private val triggeredOnce: Boolean = false
-    val isValid: Boolean get() {
-        if (this.lifecycle != DynamicArgsLifecycle.ONCE) {
-            return true
+    val isValid: Boolean
+        get() {
+            if (this.lifecycle != DynamicArgsLifecycle.ONCE) {
+                return true
+            }
+            return !this.triggeredOnce
         }
-        return !this.triggeredOnce
-    }
 
     constructor(trigger: Function3<Any, Map<DynamicArgType<*>, Any?>, P, R>, vararg args: DynamicArgType<*>) {
         this.trigger = trigger
@@ -110,8 +111,8 @@ class DynamicArgs<P : ParameterSelective?, R> {
 
                     // Run the dynamic vary, usually, not all args must got a result, when exception, it means the args cannot transform from any other args.
                     val result: Any? = dynamicVarying.runCatching {
-                            // Arise the dynamic args, it will continue to vary args or got a value.
-                            transform(identity, sources, null, depth + 1)
+                        // Arise the dynamic args, it will continue to vary args or got a value.
+                        transform(identity, sources, null, depth + 1)
                     }.getOrNull()
 
                     // When a result found, stop dynamic args varying.

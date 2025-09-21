@@ -25,6 +25,8 @@ import com.github.cao.awa.conium.block.event.use.ConiumUseBlockEvent
 import com.github.cao.awa.conium.block.event.use.ConiumUsedBlockEvent
 import com.github.cao.awa.conium.chunk.event.receive.ConiumReceiveChunkEvent
 import com.github.cao.awa.conium.chunk.event.receive.ConiumReceivedChunkEvent
+import com.github.cao.awa.conium.craft.table.event.ConiumCraftingTableCraftedEvent
+import com.github.cao.awa.conium.craft.table.event.ConiumCraftingTableCraftingEvent
 import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamageEvent
 import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamagedEvent
 import com.github.cao.awa.conium.entity.event.die.ConiumEntityDeadEvent
@@ -272,7 +274,14 @@ abstract class ConiumEvent<
         @JvmField
         val enterConfigurationConnection: ConiumServerConfigurationConnectionEvent = ConiumServerConfigurationConnectionEvent()
 
+        @JvmField
         val enterConfiguredConnection: ConiumServerConfiguredConnectionEvent = ConiumServerConfiguredConnectionEvent()
+
+        @JvmField
+        val craftingTableCrafting: ConiumCraftingTableCraftingEvent = ConiumCraftingTableCraftingEvent()
+
+        @JvmField
+        val craftingTableCrafted: ConiumCraftingTableCraftedEvent = ConiumCraftingTableCraftedEvent()
 
         /**
          * Before event fires, create event context by requirements.
@@ -365,7 +374,7 @@ abstract class ConiumEvent<
             context.attach(unnamed {
                 val metadata: M = metadata(context)
                 this.listeners.forEach { listener: ConiumEventTrigger<I, M> ->
-                    if (listener.alwaysCallback || listener.targetIdentity(context.identity.doCast())) {
+                    if (listener.shouldAlwaysCallback() || listener.identity(context)) {
                         listener.callback(metadata)
                     }
                 }
@@ -389,6 +398,8 @@ abstract class ConiumEvent<
             )
         )
     }
+
+    fun hasListeners(): Boolean = !this.listeners.isEmpty()
 
     abstract fun metadata(context: ConiumEventContext<I>): M
 

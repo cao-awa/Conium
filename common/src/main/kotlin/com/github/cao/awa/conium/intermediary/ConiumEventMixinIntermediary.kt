@@ -12,29 +12,41 @@ import java.util.function.Supplier
 object ConiumEventMixinIntermediary {
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>> fireEvent(eventType: ConiumEventType<I, M, *, *>, input: I, argProducer: Consumer<ConiumArisingEventContext<*, *>>) {
-        val context: ConiumArisingEventContext<*, *> = ConiumEvent.request(eventType)
+        if (eventType.instance().hasListeners()) {
+            val context: ConiumArisingEventContext<*, *> = ConiumEvent.request(eventType)
 
-        argProducer.accept(context)
+            argProducer.accept(context)
 
-        ConiumEventHandler.execute(context, input)
+            ConiumEventHandler.execute(context, input)
+        } else {
+            return
+        }
     }
 
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>> fireEventIntermediary(eventType: ConiumEventType<I, M, *, *>, input: I, argProducer: Consumer<ConiumArisingEventContext<*, *>>, action: () -> Unit) {
-        val context: ConiumArisingEventContext<*, *> = ConiumEvent.request(eventType)
+        if (eventType.instance().hasListeners()) {
+            val context: ConiumArisingEventContext<*, *> = ConiumEvent.request(eventType)
 
-        argProducer.accept(context)
+            argProducer.accept(context)
 
-        ConiumEventHandler.execute(context, input, action)
+            ConiumEventHandler.execute(context, input, action)
+        } else {
+            return
+        }
     }
 
     @JvmStatic
     fun <I : Any, M : ConiumEventMetadata<I>> fireEventCancelable(eventType: ConiumEventType<I, M, *, *>, input: I, argProducer: Consumer<ConiumArisingEventContext<*, *>>): Boolean {
-        val context: ConiumArisingEventContext<*, *> = ConiumEvent.request(eventType)
+        if (eventType.instance().hasListeners()) {
+            val context: ConiumArisingEventContext<*, *> = ConiumEvent.request(eventType)
 
-        argProducer.accept(context)
+            argProducer.accept(context)
 
-        return ConiumEventHandler.execute(context, input)
+            return ConiumEventHandler.execute(context, input)
+        } else {
+            return false
+        }
     }
 
     @JvmStatic
@@ -45,12 +57,13 @@ object ConiumEventMixinIntermediary {
         argProducer: Consumer<ConiumArisingEventContext<*, *>>,
         subArgProducer: Consumer<ConiumArisingEventContext<*, *>>
     ): Boolean {
-        if (fireEventCancelable(eventType, input, argProducer)) {
-            return true
+        if (eventType.instance().hasListeners()) {
+            if (fireEventCancelable(eventType, input, argProducer)) {
+                return true
+            }
+
+            fireEvent(subEventType, input, subArgProducer)
         }
-
-        fireEvent(subEventType, input, subArgProducer)
-
         return false
     }
 
@@ -62,24 +75,25 @@ object ConiumEventMixinIntermediary {
         argProducer: Consumer<ConiumArisingEventContext<*, *>>,
         subArgProducer: Consumer<ConiumArisingEventContext<*, *>>
     ): Boolean {
-        val context: ConiumArisingEventContext<*, *> = ConiumEvent.request(eventType)
+        if (eventType.instance().hasListeners()) {
+            val context: ConiumArisingEventContext<*, *> = ConiumEvent.request(eventType)
 
-        argProducer.accept(context)
+            argProducer.accept(context)
 
-        if (context.presaging(input)) {
-            context.arising(input)
+            if (context.presaging(input)) {
+                context.arising(input)
 
-            val subContext: ConiumArisingEventContext<*, *> = ConiumEvent.request(subEventType)
+                val subContext: ConiumArisingEventContext<*, *> = ConiumEvent.request(subEventType)
 
-            subContext.inherit(context)
+                subContext.inherit(context)
 
-            subArgProducer.accept(subContext)
+                subArgProducer.accept(subContext)
 
-            ConiumEventHandler.execute(subContext, input)
+                ConiumEventHandler.execute(subContext, input)
 
-            return false
+                return false
+            }
         }
-
         return false
     }
 
@@ -93,22 +107,27 @@ object ConiumEventMixinIntermediary {
         resultProducer: Supplier<R>,
         defaultResult: R
     ): R {
-        val context: ConiumArisingEventContext<*, *> = ConiumEvent.request(eventType)
+        if (!eventType.instance().hasListeners()) {
 
-        argProducer.accept(context)
+            val context: ConiumArisingEventContext<*, *> = ConiumEvent.request(eventType)
 
-        return ConiumEventHandler.executeWithPresaging(context, input, defaultResult) {
-            val result: R = resultProducer.get()
+            argProducer.accept(context)
 
-            val subContext: ConiumArisingEventContext<*, *> = ConiumEvent.request(subEventType)
+            return ConiumEventHandler.executeWithPresaging(context, input, defaultResult) {
+                val result: R = resultProducer.get()
 
-            subContext.inherit(context)
+                val subContext: ConiumArisingEventContext<*, *> = ConiumEvent.request(subEventType)
 
-            subArgProducer.accept(result, subContext)
+                subContext.inherit(context)
 
-            ConiumEventHandler.executeWithPresaging(subContext, input, defaultResult) {
-                result
+                subArgProducer.accept(result, subContext)
+
+                ConiumEventHandler.executeWithPresaging(subContext, input, defaultResult) {
+                    result
+                }
             }
+        } else {
+            return defaultResult
         }
     }
 }
