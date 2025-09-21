@@ -10,10 +10,12 @@ import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.datapack.worldgen.ConiumPlacedFeatureManager
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.dsl.DSLSample
+import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.function.consumer.string.obj.*
 import com.github.cao.awa.conium.hitokoto.ConiumHitokoto
 import com.github.cao.awa.conium.molang.MolangSupport
 import com.github.cao.awa.conium.molang.translator.MolangKotlinScriptTranslator
+import com.github.cao.awa.conium.script.index.common.request
 import com.github.cao.awa.conium.script.manager.ConiumScriptManager
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
@@ -303,9 +305,16 @@ class Conium {
 
         if (ConiumConfig.debugs) {
             DSLSample.doDslTest()
-        }
+            MolangSupport.test()
 
-        MolangSupport.test()
+            request(ConiumEventType.PLACE_BLOCK) {
+                true
+            }
+
+            request(ConiumEventType.PLACED_BLOCK) {
+
+            }
+        }
     }
 
     private fun collectTranslators(translators: MutableMap<LanguageTranslateTarget, MutableMap<TranslateElementData<*>, StructuringTranslator<*>>>): MutableMap<LanguageTranslateTarget, MutableList<Any>> {

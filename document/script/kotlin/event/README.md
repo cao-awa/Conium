@@ -105,10 +105,10 @@ For example:
 // Disallow obsidian placement in the overworld
 request(ConiumEventType.PLACE_BLOCK, SERVER_WORLD, BLOCK_POS, ITEM_STACK) { event, world, pos, stack ->
     if (world.registryKey == World.OVERWORLD && stack.item == Items.OBSIDIAN) {
-        // 取消放置事件
+        // Cancel the placement.
         false
     } else {
-        // 允许放置
+        // Allow to placement.
         true
     }
 }
@@ -140,6 +140,8 @@ then this ``request`` of this event will not be arising, because the parameters 
 Avoid the trouble of guessing yourself, all args possible to uses for every event is here, \
 if you are requesting rarely used parameters, then you need to read the ``ConiumEventArgTypes``.
 
+## Event environment parameters
+
 ### SERVER_TICK
 
 ### SERVER_TICK_TAIL
@@ -164,7 +166,7 @@ if you are requesting rarely used parameters, then you need to read the ``Conium
 
 ### PLACE_BLOCK
 
-|                    Key |     Transform from     | Environment |
+|  Environment parameter |     Transform from     | Environment |
 |-----------------------:|:----------------------:|------------:|
 | ITEM_PLACEMENT_CONTEXT |           *            |         ALL |
 |                  WORLD | ITEM_PLACEMENT_CONTEXT |         ALL |
