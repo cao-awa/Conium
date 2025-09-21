@@ -281,7 +281,7 @@ class Conium {
             }
         }
 
-        // Initialize script translator for conium bedrock's typescript translates.
+        // Initialize script translator for conium bedrock's TypeScript translates.
         LOGGER.info("Loading conium '{}' structuring translator providers for [typescript, molang]", VERSION)
         ConiumScriptTranslator.postRegister()
         MolangKotlinScriptTranslator.postRegister()
@@ -322,5 +322,4 @@ class Conium {
         translators.forEach { (target: LanguageTranslateTarget, targetTranslators: MutableMap<TranslateElementData<*>, StructuringTranslator<*>>) -> result.put(target, mutableListOf(targetTranslators.keys.stream().map { obj: TranslateElementData<*> -> obj.clazz() }.toList())) }
         return result
     }
-
 }

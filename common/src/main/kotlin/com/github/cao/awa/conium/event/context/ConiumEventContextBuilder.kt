@@ -898,12 +898,21 @@ object ConiumEventContextBuilder {
         arg1: DynamicArgType<P1>,
         presaging: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
-        return preRequest(
+        return forever(
             eventType,
-            arg1
-        ) { i: I, p1: P1 ->
-            presaging(i, p1)
-            true
+            // Require a one-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                true
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage { i: Any, p1: P1 ->
+                (i as? I)?.let {
+                    presaging(it, p1)
+                }
+                true
+            }
         }
     }
 
@@ -1003,12 +1012,19 @@ object ConiumEventContextBuilder {
         arg1: DynamicArgType<P1>,
         arising: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
-        return request(
+        return forever(
             eventType,
-            arg1
-        ) { i: I, p1: P1 ->
-            arising(i, p1)
-            true
+            // Require a one-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                true
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any, p1: P1 ->
+                (i as? I)?.let { arising(it, p1) }
+                true
+            }
         }
     }
 
@@ -1098,18 +1114,26 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> },
         presaging: ParameterSelective2<Unit, I, P1> = ParameterSelective2 { _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective2<Boolean, Any, P1>> {
-        return request(
+        return forever(
             eventType,
-            arg1,
-            { i: I, p1: P1 ->
-                arising(i, p1)
+            // Require a one-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
                 true
-            },
-            { i: I, p1: P1 ->
-                presaging(i, p1)
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage { i: Any, p1: P1 ->
+                (i as? I)?.let { presaging(it, p1) }
                 true
             }
-        )
+
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any, p1: P1 ->
+                (i as? I)?.let { arising(it, p1) }
+                true
+            }
+        }
     }
 
     /**
@@ -1196,13 +1220,20 @@ object ConiumEventContextBuilder {
         arg2: DynamicArgType<P2>,
         presaging: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective3<Boolean, Any, P1, P2>> {
-        return preRequest(
+        return forever(
             eventType,
-            arg1,
-            arg2
-        ) { i: I, p1: P1, p2: P2 ->
-            presaging(i, p1, p2)
-            true
+            // Require a two-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                true
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage { i: Any, p1: P1, p2: P2 ->
+                (i as? I)?.let { presaging(it, p1, p2) }
+                true
+            }
         }
     }
 
@@ -1290,13 +1321,20 @@ object ConiumEventContextBuilder {
         arg2: DynamicArgType<P2>,
         arising: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective3<Boolean, Any, P1, P2>> {
-        return request(
+        return forever(
             eventType,
-            arg1,
-            arg2
-        ) { i: I, p1: P1, p2: P2 ->
-            arising(i, p1, p2)
-            true
+            // Require a two-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                true
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any, p1: P1, p2: P2 ->
+                (i as? I)?.let { arising(it, p1, p2) }
+                true
+            }
         }
     }
 
@@ -1393,19 +1431,27 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> },
         presaging: ParameterSelective3<Unit, I, P1, P2> = ParameterSelective3 { _, _, _ -> },
     ): ConiumArisingEventContext<I, ParameterSelective3<Boolean, Any, P1, P2>> {
-        return request(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            { i: I, p1: P1, p2: P2 ->
-                arising(i, p1, p2)
+            // Require a two-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
                 true
-            },
-            { i: I, p1: P1, p2: P2 ->
-                presaging(i, p1, p2)
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage { i: Any, p1: P1, p2: P2 ->
+                (i as? I)?.let { presaging(it, p1, p2) }
                 true
             }
-        )
+
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any, p1: P1, p2: P2 ->
+                (i as? I)?.let { arising(it, p1, p2) }
+                true
+            }
+        }
     }
 
     /**
@@ -1499,14 +1545,21 @@ object ConiumEventContextBuilder {
         arg3: DynamicArgType<P3>,
         presaging: ParameterSelective4<Unit, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective4<Boolean, Any, P1, P2, P3>> {
-        return preRequest(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3
-        ) { i: I, p1: P1, p2: P2, p3: P3 ->
-            presaging(i, p1, p2, p3)
-            true
+            // Require a three-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
+                true
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage { i: Any, p1: P1, p2: P2, p3: P3 ->
+                (i as? I)?.let { presaging(it, p1, p2, p3) }
+                true
+            }
         }
     }
 
@@ -1601,14 +1654,21 @@ object ConiumEventContextBuilder {
         arg3: DynamicArgType<P3>,
         arising: ParameterSelective4<Unit, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective4<Boolean, Any, P1, P2, P3>> {
-        return request(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3
-        ) { i: I, p1: P1, p2: P2, p3: P3 ->
-            arising(i, p1, p2, p3)
-            true
+            // Require a three-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
+                true
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach arise trigger, not event cancelable.
+            arise { i, p1, p2, p3 ->
+                (i as? I)?.let { arising(it, p1, p2, p3) }
+                true
+            }
         }
     }
 
@@ -1712,20 +1772,28 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective4<Unit, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> },
         presaging: ParameterSelective4<Unit, I, P1, P2, P3> = ParameterSelective4 { _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective4<Boolean, Any, P1, P2, P3>> {
-        return request(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3,
-            { i: I, p1: P1, p2: P2, p3: P3 ->
-                arising(i, p1, p2, p3)
+            // Require a three-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
                 true
-            },
-            { i: I, p1: P1, p2: P2, p3: P3 ->
-                presaging(i, p1, p2, p3)
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage { i: Any, p1: P1, p2: P2, p3: P3 ->
+                (i as? I)?.let { presaging(it, p1, p2, p3) }
                 true
             }
-        )
+
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any, p1: P1, p2: P2, p3: P3 ->
+                (i as? I)?.let { arising(it, p1, p2, p3) }
+                true
+            }
+        }
     }
 
     /**
@@ -1826,15 +1894,22 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         presaging: ParameterSelective5<Unit, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
-        return preRequest(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3,
-            arg4
-        ) { i: I, p1: P1, p2: P2, p3: P3, p4: P4 ->
-            presaging(i, p1, p2, p3, p4)
-            true
+            // Require a four-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                true
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4 ->
+                (i as? I)?.let { presaging(it, p1, p2, p3, p4) }
+                true
+            }
         }
     }
 
@@ -1936,15 +2011,22 @@ object ConiumEventContextBuilder {
         arg4: DynamicArgType<P4>,
         arising: ParameterSelective5<Unit, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
-        return request(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3,
-            arg4
-        ) { i: I, p1: P1, p2: P2, p3: P3, p4: P4 ->
-            arising(i, p1, p2, p3, p4)
-            true
+            // Require a four-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                true
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any, p1: P1, p2: P2, p3: P3, p4: P4 ->
+                (i as? I)?.let { arising(it, p1, p2, p3, p4) }
+                true
+            }
         }
     }
 
@@ -2055,21 +2137,29 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective5<Unit, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> },
         presaging: ParameterSelective5<Unit, I, P1, P2, P3, P4> = ParameterSelective5 { _, _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective5<Boolean, Any, P1, P2, P3, P4>> {
-        return request(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3,
-            arg4,
-            { i: I, p1: P1, p2: P2, p3: P3, p4: P4 ->
-                arising(i, p1, p2, p3, p4)
+            // Require a four-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
                 true
-            },
-            { i: I, p1: P1, p2: P2, p3: P3, p4: P4 ->
-                presaging(i, p1, p2, p3, p4)
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4 ->
+                (i as? I)?.let { presaging(it, p1, p2, p3, p4) }
                 true
             }
-        )
+
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any, p1: P1, p2: P2, p3: P3, p4: P4 ->
+                (i as? I)?.let { arising(it, p1, p2, p3, p4) }
+                true
+            }
+        }
     }
 
     /**
@@ -2177,16 +2267,23 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         presaging: ParameterSelective6<Unit, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
-        return preRequest(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3,
-            arg4,
-            arg5
-        ) { i: I, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5 ->
-            presaging(i, p1, p2, p3, p4, p5)
-            true
+            // Require a five-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                true
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5 ->
+                (i as? I)?.let { presaging(it, p1, p2, p3, p4, p5) }
+                true
+            }
         }
     }
 
@@ -2295,16 +2392,23 @@ object ConiumEventContextBuilder {
         arg5: DynamicArgType<P5>,
         arising: ParameterSelective6<Unit, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
-        return request(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3,
-            arg4,
-            arg5
-        ) { i: I, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5 ->
-            arising(i, p1, p2, p3, p4, p5)
-            true
+            // Require a five-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                true
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5 ->
+                (i as? I)?.let { arising(it, p1, p2, p3, p4, p5) }
+                true
+            }
         }
     }
 
@@ -2422,22 +2526,30 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective6<Unit, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> },
         presaging: ParameterSelective6<Unit, I, P1, P2, P3, P4, P5> = ParameterSelective6 { _, _, _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> {
-        return request(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3,
-            arg4,
-            arg5,
-            { i: I, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5 ->
-                arising(i, p1, p2, p3, p4, p5)
+            // Require a five-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
                 true
-            },
-            { i: I, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5 ->
-                presaging(i, p1, p2, p3, p4, p5)
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5 ->
+                (i as? I)?.let { presaging(it, p1, p2, p3, p4, p5) }
                 true
             }
-        )
+
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5 ->
+                (i as? I)?.let { arising(it, p1, p2, p3, p4, p5) }
+                true
+            }
+        }
     }
 
     /**
@@ -2552,17 +2664,24 @@ object ConiumEventContextBuilder {
         arg6: DynamicArgType<P6>,
         presaging: ParameterSelective7<Unit, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
-        return preRequest(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3,
-            arg4,
-            arg5,
-            arg6
-        ) { i: I, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6 ->
-            presaging(i, p1, p2, p3, p4, p5, p6)
-            true
+            // Require a six-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                true
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6 ->
+                (i as? I)?.let { presaging(it, p1, p2, p3, p4, p5, p6) }
+                true
+            }
         }
     }
 
@@ -2678,17 +2797,24 @@ object ConiumEventContextBuilder {
         arg6: DynamicArgType<P6>,
         arising: ParameterSelective7<Unit, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
-        return request(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3,
-            arg4,
-            arg5,
-            arg6
-        ) { i: I, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6 ->
-            arising(i, p1, p2, p3, p4, p5, p6)
-            true
+            // Require a six-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                true
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6 ->
+                (i as? I)?.let { arising(it, p1, p2, p3, p4, p5, p6) }
+                true
+            }
         }
     }
 
@@ -2813,23 +2939,31 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective7<Unit, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> },
         presaging: ParameterSelective7<Unit, I, P1, P2, P3, P4, P5, P6> = ParameterSelective7 { _, _, _, _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> {
-        return request(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3,
-            arg4,
-            arg5,
-            arg6,
-            { i: I, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6 ->
-                arising(i, p1, p2, p3, p4, p5, p6)
+            // Require a six-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
                 true
-            },
-            { i: I, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6 ->
-                presaging(i, p1, p2, p3, p4, p5, p6)
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6 ->
+                (i as? I)?.let { presaging(it, p1, p2, p3, p4, p5, p6) }
                 true
             }
-        )
+
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6 ->
+                (i as? I)?.let { arising(it, p1, p2, p3, p4, p5, p6) }
+                true
+            }
+        }
     }
 
     /**
@@ -2951,18 +3085,25 @@ object ConiumEventContextBuilder {
         arg7: DynamicArgType<P7>,
         presaging: ParameterSelective8<Unit, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
-        return preRequest(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3,
-            arg4,
-            arg5,
-            arg6,
-            arg7
-        ) { i: I, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7 ->
-            presaging(i, p1, p2, p3, p4, p5, p6, p7)
-            true
+            // Require a seven-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7,
+                true
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7 ->
+                (i as? I)?.let { presaging(it, p1, p2, p3, p4, p5, p6, p7) }
+                true
+            }
         }
     }
 
@@ -3085,18 +3226,25 @@ object ConiumEventContextBuilder {
         arg7: DynamicArgType<P7>,
         arising: ParameterSelective8<Unit, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
-        return request(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3,
-            arg4,
-            arg5,
-            arg6,
-            arg7
-        ) { i: I, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7 ->
-            arising(i, p1, p2, p3, p4, p5, p6, p7)
-            true
+            // Require a seven-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7,
+                true
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7 ->
+                (i as? I)?.let { arising(it, p1, p2, p3, p4, p5, p6, p7) }
+                true
+            }
         }
     }
 
@@ -3228,24 +3376,32 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective8<Unit, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> },
         presaging: ParameterSelective8<Unit, I, P1, P2, P3, P4, P5, P6, P7> = ParameterSelective8 { _, _, _, _, _, _, _, _ -> }
     ): ConiumArisingEventContext<I, ParameterSelective8<Boolean, Any, P1, P2, P3, P4, P5, P6, P7>> {
-        return request(
+        return forever(
             eventType,
-            arg1,
-            arg2,
-            arg3,
-            arg4,
-            arg5,
-            arg6,
-            arg7,
-            { i: I, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7 ->
-                arising(i, p1, p2, p3, p4, p5, p6, p7)
+            // Require a seven-argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(
+                arg1,
+                arg2,
+                arg3,
+                arg4,
+                arg5,
+                arg6,
+                arg7,
                 true
-            },
-            { i: I, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7 ->
-                presaging(i, p1, p2, p3, p4, p5, p6, p7)
+            ).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7 ->
+                (i as? I)?.let { presaging(it, p1, p2, p3, p4, p5, p6, p7) }
                 true
             }
-        )
+
+            // Attach arise trigger, not event cancelable.
+            arise { i: Any, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7 ->
+                (i as? I)?.let { arising(it, p1, p2, p3, p4, p5, p6, p7) }
+                true
+            }
+        }
     }
 
     /**
