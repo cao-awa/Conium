@@ -1,4 +1,4 @@
-> 1.0.0-alpha13
+> 1.0.0-alpha14
 
 # Events
 Add event 'SERVER_CONFIGURED_CONNECTION'.
@@ -17,6 +17,15 @@ Add new template "entity_placer" and bedrock component "minecraft:entity_placer"
 Fix bug of null pointer exception when requesting server configured connection event.
 Fix "minecraft:glint" wrongly be "glint" in template name.
 
+# Performance improves
+Let events won't be triggered when no listeners requested the event.
+
+# Scripting
+Use 'Cancelable' and 'NoCancelable' to prevent calling the request methods with the suffix 'Nr'.
+
+# Molang
+Basic molang parsing and translating.
+
 # Others
 Shorter event metadata impl.
-Renamed conium bedrock templates to "Component"s.
+Renamed conium bedrock 'Template's to "Component"s.
