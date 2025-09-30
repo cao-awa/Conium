@@ -121,7 +121,7 @@ request(ConiumEventType.RANDOM) {
             player.addStatusEffect(StatusEffectInstance(StatusEffects.GLOWING, 100, 0))
         }
     }
-    true // 'RANDOM' event cannot be cancel, but a boolean result is required
+    // Dosen't need a boolean value since 1.0.0-alpha14 version.
 }
 ```
 
@@ -132,7 +132,7 @@ but the required args still able to get in scripts.
 
 This is the ``DynamicArgs`` transform(or adapter) mechanism, dynamic args use other presenting args try to found required arg.
 
-For details, see [ConiumEventArgTypes](/common/src/main/java/com/github/cao/awa/conium/event/type/ConiumEventArgTypes.kt) and [DynamicArgsBuilder#transform](/common/src/main/java/com/github/cao/awa/conium/parameter/DynamicArgsBuilder.kt).
+For details, see [ConiumEventArgTypes](/common/src/main/kotlin/com/github/cao/awa/conium/event/type/ConiumEventArgTypes.kt) and [DynamicArgsBuilder#transform](/common/src/main/kotlin/com/github/cao/awa/conium/parameter/dynamic/builder/DynamicArgsBuilder.kt).
 
 If required arg is still unable to found when the dynamic args for-each to all other args and runs all transform presets,\
 then this ``request`` of this event will not be arising, because the parameters of ``arising`` and ``presaging`` don't receive null value.
@@ -170,13 +170,13 @@ if you are requesting rarely used parameters, then you need to read the ``Conium
 |-----------------------:|:----------------------:|------------:|
 | ITEM_PLACEMENT_CONTEXT |           *            |         ALL |
 |                  WORLD | ITEM_PLACEMENT_CONTEXT |         ALL |
-|           SERVER_WORLD | ITEM_PLACEMENT_CONTEXT |      SERVER |
-|           CLIENT_WORLD | ITEM_PLACEMENT_CONTEXT |      CLIENT |
 |             ITEM_STACK | ITEM_PLACEMENT_CONTEXT |         ALL |
 |                 PLAYER | ITEM_PLACEMENT_CONTEXT |         ALL |
-|          SERVER_PLAYER | ITEM_PLACEMENT_CONTEXT |      SERVER |
-|          CLIENT_PLAYER | ITEM_PLACEMENT_CONTEXT |      CLIENT |
 |              BLOCK_POS | ITEM_PLACEMENT_CONTEXT |         ALL |
+|           SERVER_WORLD |         WORLD          |      SERVER |
+|           CLIENT_WORLD |         WORLD          |      CLIENT |
+|          SERVER_PLAYER |         PLAYER         |      SERVER |
+|          CLIENT_PLAYER |         PLAYER         |      CLIENT |
 
 ### PLACED_BLOCK
 

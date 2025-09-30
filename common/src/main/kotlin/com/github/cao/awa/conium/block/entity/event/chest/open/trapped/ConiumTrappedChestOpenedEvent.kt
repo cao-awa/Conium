@@ -87,10 +87,8 @@ class ConiumTrappedChestOpenedEvent : ConiumEvent<Block, ConiumTrappedChestOpene
             if (trappedContext.presaging(block)) {
                 trappedContext.arising(block)
 
-                return@preRequest true
+                return@preRequest
             }
-
-            false
         }.targetTo(TrappedChestBlock::isIt)
     }
 }

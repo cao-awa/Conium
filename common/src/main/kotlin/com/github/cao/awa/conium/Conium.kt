@@ -10,6 +10,7 @@ import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.datapack.worldgen.ConiumPlacedFeatureManager
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.dsl.DSLSample
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.function.consumer.string.obj.*
 import com.github.cao.awa.conium.hitokoto.ConiumHitokoto
@@ -20,6 +21,7 @@ import com.github.cao.awa.conium.script.manager.ConiumScriptManager
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
 import com.github.cao.awa.conium.server.datapack.ConiumServerLoadDatapacks
+import com.github.cao.awa.conium.tag.inject.ConiumTagInjector
 import com.github.cao.awa.conium.template.ConiumTemplate
 import com.github.cao.awa.conium.template.ConiumTemplates
 import com.github.cao.awa.sinuatum.resource.loader.ResourceLoader
@@ -307,13 +309,15 @@ class Conium {
             DSLSample.doDslTest()
             MolangSupport.test()
 
-            request(ConiumEventType.PLACE_BLOCK) {
+            request(ConiumEventType.PLACE_BLOCK, ConiumEventArgTypes.BLOCK) { identity, metadata ->
                 true
             }
 
             request(ConiumEventType.PLACED_BLOCK) {
 
             }
+
+            ConiumTagInjector.test()
         }
     }
 

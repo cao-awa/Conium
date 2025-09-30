@@ -727,9 +727,17 @@ object ConiumEventContextBuilder {
         eventType: ConiumNoCancelableEventType<I, M, *, *>,
         arising: ParameterSelective1<Unit, I> = ParameterSelective1 { }
     ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
-        return request(eventType) { i: I ->
-            arising(i)
-            true
+        return forever(
+            eventType,
+            // Require a no argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(true).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach arise trigger, not event cancelable.
+            arise {
+                (it as? I)?.let(arising::arise)
+
+                true
+            }
         }
     }
 
@@ -808,17 +816,23 @@ object ConiumEventContextBuilder {
         arising: ParameterSelective1<Unit, I> = ParameterSelective1 { },
         presaging: ParameterSelective1<Unit, I> = ParameterSelective1 { },
     ): ConiumArisingEventContext<I, ParameterSelective1<Boolean, Any>> {
-        return request(
+        return forever(
             eventType,
-            { i: I ->
-                arising(i)
-                true
-            },
-            { i: I ->
-                presaging(i)
+            // Require a no argument dynamic args and contract to forever lifecycle.
+            DynamicArgsBuilder.requires(true).lifecycle(DynamicArgsLifecycle.FOREVER)
+        ).apply {
+            // Attach presage trigger, this is event be cancelable when parameter selective returns false.
+            presage {
+                (it as? I)?.let(presaging::arise)
                 true
             }
-        )
+
+            // Attach arise trigger, not event cancelable.
+            arise {
+                (it as? I)?.let(arising::arise)
+                true
+            }
+        }
     }
 
     /**
