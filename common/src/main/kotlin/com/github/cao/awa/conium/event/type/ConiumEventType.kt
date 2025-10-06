@@ -60,7 +60,7 @@ import com.github.cao.awa.conium.item.event.use.entity.ConiumItemUseOnEntityEven
 import com.github.cao.awa.conium.item.event.use.entity.ConiumItemUsedOnEntityEventMetadata
 import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickEventMetadata
 import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickedEventMetadata
-import com.github.cao.awa.conium.mixin.block.BlockStateMixin
+import com.github.cao.awa.conium.mixin.block.AbstractBlockStateMixin
 import com.github.cao.awa.conium.mixin.client.interaction.ClientPlayerInteractionManagerMixin
 import com.github.cao.awa.conium.mixin.server.interaction.ServerPlayerInteractionManagerMixin
 import com.github.cao.awa.conium.network.event.ConiumServerConfigurationConnectionEventMetadata
@@ -142,7 +142,7 @@ abstract class ConiumEventType<I : Any, M: ConiumEventMetadata<I>, C: Any, N: Co
          *
          * This event is cancelable.
          *
-         * @see BlockStateMixin.breakingBlock
+         * @see AbstractBlockStateMixin.breakingBlock
          *
          * @author cao_awa
          *

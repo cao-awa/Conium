@@ -35,10 +35,8 @@ public abstract class EntityMixin implements SprintMovementEntity {
     protected abstract void setFlag(int index, boolean value);
 
     @Shadow
-    public abstract World getWorld();
-
-    @Shadow
     private int fireTicks;
+
     @Unique
     public boolean conium$canStartSprint = true;
 

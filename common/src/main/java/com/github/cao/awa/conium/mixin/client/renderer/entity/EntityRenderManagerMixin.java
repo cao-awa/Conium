@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.mixin.client.renderer.entity;
 
 import net.minecraft.client.render.Frustum;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRenderManager;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(EntityRenderDispatcher.class)
-public abstract class EntityRenderDispatcherMixin {
+@Mixin(EntityRenderManager.class)
+public abstract class EntityRenderManagerMixin {
     @Shadow
     public abstract <T extends Entity> EntityRenderer<? super T, ?> getRenderer(T entity);
 

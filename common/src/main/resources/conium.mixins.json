@@ -10,7 +10,7 @@
     "block.AbstractBlockMixin",
     "block.BlockItemMixin",
     "block.BlockMixin",
-    "block.BlockStateMixin",
+    "block.AbstractBlockStateMixin",
     "block.entity.shulker.ChestBlockEntityMixin",
     "block.entity.shulker.ShulkerBoxBlockEntityMixin",
     "collection.IdListMixin",
@@ -44,8 +44,8 @@
     "client.MinecraftClientAccessor",
     "client.interaction.ClientPlayerInteractionManagerMixin",
     "client.play.ClientPlayNetworkHandlerMixin",
-    "client.renderer.entity.EntityRenderDispatcherMixin",
-    "client.renderer.entity.EntityRenderersMixin",
+    "client.renderer.entity.EntityRenderManagerMixin",
+    "client.renderer.entity.EntityRendererFactoriesMixin",
     "client.screen.ScreenHandlerMixin",
     "client.world.renderer.WorldRendererMixin"
   ]

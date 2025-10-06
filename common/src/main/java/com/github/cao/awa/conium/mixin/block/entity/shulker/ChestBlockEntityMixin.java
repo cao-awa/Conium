@@ -11,6 +11,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.block.entity.ViewerCountManager;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.util.math.BlockPos;
@@ -31,15 +32,15 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
             method = "onOpen",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/block/entity/ViewerCountManager;openContainer(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V"
+                    target = "Lnet/minecraft/block/entity/ViewerCountManager;openContainer(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;D)V"
             )
     )
-    public void onOpenChest(ViewerCountManager instance, PlayerEntity player, World world, BlockPos pos, BlockState state) {
+    public void onOpenChest(ViewerCountManager instance, LivingEntity user, World world, BlockPos pos, BlockState state, double userInteractionRange) {
         // Request the opening chest context.
         ConiumArisingEventContext<?, ?> openingContext = buildContext(
                 ConiumEventType.CHEST_OPENING,
                 instance,
-                player,
+                user,
                 world,
                 pos,
                 state
@@ -66,15 +67,15 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
             method = "onClose",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/block/entity/ViewerCountManager;closeContainer(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V"
+                    target = "Lnet/minecraft/block/entity/ViewerCountManager;closeContainer(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V"
             )
     )
-    public void onCloseChest(ViewerCountManager instance, PlayerEntity player, World world, BlockPos pos, BlockState state) {
+    public void onCloseChest(ViewerCountManager instance, LivingEntity user, World world, BlockPos pos, BlockState state) {
         // Request the closing shulker box context.
         ConiumArisingEventContext<?, ?> closingContext = buildContext(
                 ConiumEventType.CHEST_CLOSING,
                 instance,
-                player,
+                user,
                 world,
                 pos,
                 state
@@ -85,7 +86,7 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
         if (closingContext.presaging(block)) {
             closingContext.arising(block);
 
-            instance.closeContainer(player, world, pos, state);
+            instance.closeContainer(user, world, pos, state);
 
             // Request the closed chest context.
             ConiumArisingEventContext<?, ?> closedContext = ConiumEvent.request(ConiumEventType.CHEST_CLOSED);
@@ -104,7 +105,7 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
     private ConiumArisingEventContext<?, ?> buildContext(
             @NotNull ConiumEventType<?, ?, ?, ?> eventType,
             @NotNull ViewerCountManager viewerManager,
-            @NotNull PlayerEntity player,
+            @NotNull LivingEntity user,
             @NotNull World world,
             @NotNull BlockPos pos,
             @NotNull BlockState state
@@ -117,7 +118,7 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
                 .put(ConiumEventArgTypes.BLOCK_ENTITY, this)
                 .put(ConiumEventArgTypes.BLOCK_STATE, state)
                 .put(ConiumEventArgTypes.WORLD, world)
-                .put(ConiumEventArgTypes.PLAYER, player)
+                .put(ConiumEventArgTypes.LIVING_ENTITY, user)
                 .put(ConiumEventArgTypes.VIEWER_COUNT_MANAGER, viewerManager);
 
         return eventContext;

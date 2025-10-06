@@ -4,6 +4,8 @@ import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamagesEventMet
 import com.github.cao.awa.conium.entity.event.die.ConiumEntityDeathsEventMetadata
 import com.github.cao.awa.conium.entity.event.rest.ConiumEntityRestEventMetadata
 import com.github.cao.awa.conium.entity.event.sprint.ConiumEntitySprintsEventMetadata
+import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickEvent
+import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickedEvent
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
@@ -14,12 +16,16 @@ import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.fireE
 import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.fireEventCancelable
 import com.github.cao.awa.conium.mixin.entity.EntityMixin
 import com.github.cao.awa.conium.mixin.entity.living.LivingEntityMixin
+import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
+import net.minecraft.fluid.Fluid
+import net.minecraft.fluid.FluidState
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 
 /**
  * Conium entity event intermediary triggers.
@@ -68,7 +74,7 @@ object ConiumEntityEventMixinIntermediary {
             entity.type
         ) { context: ConiumArisingEventContext<*, *> ->
             // Fill the context args.
-            context[ConiumEventArgTypes.WORLD] = entity.world
+            context[ConiumEventArgTypes.WORLD] = entity.entityWorld
             context[ConiumEventArgTypes.DAMAGE_SOURCE] = damageSource
             context[ConiumEventArgTypes.LIVING_ENTITY] = entity
             context[ConiumEventArgTypes.DAMAGE_AMOUNT] = amount
@@ -144,7 +150,7 @@ object ConiumEntityEventMixinIntermediary {
             // Fill the context args.
             context[ConiumEventArgTypes.LIVING_ENTITY] = entity
             context[ConiumEventArgTypes.BLOCK_POS] = sleepPos
-            context[ConiumEventArgTypes.WORLD] = entity.world
+            context[ConiumEventArgTypes.WORLD] = entity.entityWorld
         }
     }
 
@@ -208,7 +214,7 @@ object ConiumEntityEventMixinIntermediary {
         // Only trigger event when fire ticks left at least 1.
         if (entity.fireTicks > 0) {
             // Only trigger event on server.
-            return entity.world is ServerWorld && fireCascadedEvent(
+            return entity.entityWorld is ServerWorld && fireCascadedEvent(
                 ConiumEventType.ENTITY_EXTINGUISH_FIRE,
                 ConiumEventType.ENTITY_EXTINGUISHED_FIRE,
                 entity.type,
@@ -280,6 +286,62 @@ object ConiumEntityEventMixinIntermediary {
         ) { context: ConiumArisingEventContext<*, *> ->
             // Fill the context args.
             context[ConiumEventArgTypes.ENTITY] = entity
+        }
+    }
+
+    /**
+     * Trigger the entity tick event.
+     *
+     * @see Fluid.onScheduledTick
+     * @see ConiumEventType.ENTITY_TICK
+     * @see ConiumEventType.ENTITY_TICKED
+     * @see ConiumEntityTickEvent
+     *
+     * @param entity the entity that is ticking
+     *
+     * @return flag that noted should do mixin cancel
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    fun fireEntityTickEvent(entity: Entity): Boolean {
+        return fireEventCancelable(
+            ConiumEventType.ENTITY_TICK,
+            entity.type
+        ) { blockScheduledTickContext ->
+            // Fill the context args.
+            blockScheduledTickContext[ConiumEventArgTypes.ENTITY] = entity
+            blockScheduledTickContext[ConiumEventArgTypes.WORLD] = entity.entityWorld
+        }
+    }
+
+    /**
+     * Trigger the entity tick event.
+     *
+     * @see Fluid.onScheduledTick
+     * @see ConiumEventType.ENTITY_TICK
+     * @see ConiumEventType.ENTITY_TICKED
+     * @see ConiumEntityTickedEvent
+     *
+     * @param entity the entity that is ticked
+     *
+     * @return flag that noted should do mixin cancel
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    fun fireEntityTickedEvent(entity: Entity): Boolean {
+        return fireEventCancelable(
+            ConiumEventType.ENTITY_TICKED,
+            entity.type
+        ) { blockScheduledTickContext ->
+            // Fill the context args.
+            blockScheduledTickContext[ConiumEventArgTypes.ENTITY] = entity
+            blockScheduledTickContext[ConiumEventArgTypes.WORLD] = entity.entityWorld
         }
     }
 }

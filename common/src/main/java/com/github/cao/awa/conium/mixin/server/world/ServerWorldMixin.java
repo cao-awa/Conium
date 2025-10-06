@@ -5,6 +5,9 @@ import com.github.cao.awa.conium.event.context.ConiumEventContext;
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext;
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
+import com.github.cao.awa.conium.intermediary.block.ConiumBlockEventMixinIntermediary;
+import com.github.cao.awa.conium.intermediary.entity.ConiumEntityEventMixinIntermediary;
+import com.github.cao.awa.conium.intermediary.fluid.ConiumFluidEventMixinIntermediary;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -37,20 +40,11 @@ public class ServerWorldMixin {
             cancellable = true
     )
     public void tickEntity(@NotNull Entity entity, CallbackInfo ci) {
-        // Request the entity ticking context.
-        ConiumArisingEventContext<?, ?> tickingContext = ConiumEvent.request(ConiumEventType.ENTITY_TICK);
-
-        EntityType<?> type = entity.getType();
-
-        // Fill the context args.
-        tickingContext.put(ConiumEventArgTypes.WORLD, asWorld())
-                .put(ConiumEventArgTypes.ENTITY, entity);
-
-        if (tickingContext.presaging(type)) {
-            // Only presaging state is true can be continued.
-            tickingContext.arising(type);
-        } else {
-            // Cancel this event when presaging was rejected the event.
+        // Trigger the entity tick start event.
+        if (ConiumEntityEventMixinIntermediary.fireEntityTickEvent(
+                entity
+        )) {
+            // Cancel entity tick processing.
             ci.cancel();
         }
     }
@@ -63,19 +57,10 @@ public class ServerWorldMixin {
             )
     )
     public void tickedEntity(@NotNull Entity entity, CallbackInfo ci) {
-        // Request the entity ticked context.
-        ConiumArisingEventContext<?, ?> tickedContext = ConiumEvent.request(ConiumEventType.ENTITY_TICKED);
-
-        EntityType<?> type = entity.getType();
-
-        // Fill the context args.
-        tickedContext.put(ConiumEventArgTypes.WORLD, asWorld())
-                .put(ConiumEventArgTypes.ENTITY, entity);
-
-        if (tickedContext.presaging(type)) {
-            // Only presaging state is true can be continued.
-            tickedContext.arising(type);
-        }
+        // Trigger the entity tick start event.
+        ConiumEntityEventMixinIntermediary.fireEntityTickedEvent(
+                entity
+        );
     }
 
     @Redirect(
@@ -86,33 +71,15 @@ public class ServerWorldMixin {
             )
     )
     private void scheduledFluidTick(@NotNull FluidState instance, ServerWorld world, BlockPos pos, BlockState blockState) {
-        // Request the fluid ticking context.
-        ConiumArisingEventContext<?, ?> tickingContext = ConiumEvent.request(ConiumEventType.FLUID_SCHEDULE_TICK);
-
-        Fluid fluid = instance.getFluid();
-
-        // Fill the context args.
-        tickingContext.put(ConiumEventArgTypes.WORLD, world)
-                .put(ConiumEventArgTypes.SCHEDULED_TICK_VIEW, world)
-                .put(ConiumEventArgTypes.BLOCK_POS, pos)
-                .put(ConiumEventArgTypes.BLOCK_STATE, blockState)
-                .put(ConiumEventArgTypes.FLUID_STATE, instance);
-
-        if (tickingContext.presaging(fluid)) {
-            // Only presaging state is true can be continued.
-            tickingContext.arising(fluid);
-
+        // Trigger the fluid scheduled ticking event.
+        if (!ConiumFluidEventMixinIntermediary.fireFluidScheduleTickEvent(
+                instance,
+                world,
+                pos,
+                blockState
+        )) {
+            // Trigger scheduled tick normally.
             instance.onScheduledTick(world, pos, blockState);
-
-            // Request the fluid ticked context.
-            ConiumArisingEventContext<?, ?> tickedContext = ConiumEvent.request(ConiumEventType.FLUID_SCHEDULE_TICKED);
-
-            tickedContext.inherit(tickingContext);
-
-            // The ticked context cannot to cancels.
-            if (tickedContext.presaging(fluid)) {
-                tickedContext.arising(fluid);
-            }
         }
     }
 
@@ -124,33 +91,15 @@ public class ServerWorldMixin {
             )
     )
     private void tickBlock(@NotNull BlockState instance, ServerWorld world, BlockPos pos, Random random) {
-        // Request the block ticking context.
-        ConiumArisingEventContext<?, ?> tickingContext = ConiumEvent.request(ConiumEventType.BLOCK_SCHEDULE_TICK);
-
-        Block block = instance.getBlock();
-
-        // Fill the context args.
-        tickingContext.put(ConiumEventArgTypes.WORLD, world)
-                .put(ConiumEventArgTypes.SCHEDULED_TICK_VIEW, world)
-                .put(ConiumEventArgTypes.BLOCK_POS, pos)
-                .put(ConiumEventArgTypes.BLOCK_STATE, instance)
-                .put(ConiumEventArgTypes.RANDOM, random);
-
-        if (tickingContext.presaging(block)) {
-            // Only presaging state is true can be continued.
-            tickingContext.arising(block);
-
+        // Trigger the block scheduled ticking event.
+        if (!ConiumBlockEventMixinIntermediary.fireBlockScheduleTickEvent(
+                instance,
+                world,
+                pos,
+                random
+        )) {
+            // Trigger scheduled tick normally.
             instance.scheduledTick(world, pos, random);
-
-            // Request the block ticked context.
-            ConiumArisingEventContext<?, ?> tickedContext = ConiumEvent.request(ConiumEventType.BLOCK_SCHEDULE_TICKED);
-
-            tickedContext.inherit(tickingContext);
-
-            // The ticked context cannot to cancels.
-            if (tickedContext.presaging(block)) {
-                tickedContext.arising(block);
-            }
         }
     }
 }

@@ -18,8 +18,6 @@ object ConiumEventMixinIntermediary {
             argProducer.accept(context)
 
             ConiumEventHandler.execute(context, input)
-        } else {
-            return
         }
     }
 
@@ -31,8 +29,6 @@ object ConiumEventMixinIntermediary {
             argProducer.accept(context)
 
             ConiumEventHandler.execute(context, input, action)
-        } else {
-            return
         }
     }
 
@@ -68,9 +64,9 @@ object ConiumEventMixinIntermediary {
     }
 
     @JvmStatic
-    fun <I : Any, M : ConiumEventMetadata<I>> fireInheritedCascadedEvent(
+    fun <I : Any, M : ConiumEventMetadata<I>, M2 : ConiumEventMetadata<I>> fireInheritedCascadedEvent(
         eventType: ConiumEventType<I, M, *, *>,
-        subEventType: ConiumEventType<I, M, *, *>,
+        subEventType: ConiumEventType<I, M2, *, *>,
         input: I,
         argProducer: Consumer<ConiumArisingEventContext<*, *>>,
         subArgProducer: Consumer<ConiumArisingEventContext<*, *>>
@@ -108,7 +104,6 @@ object ConiumEventMixinIntermediary {
         defaultResult: R
     ): R {
         if (!eventType.instance().hasListeners()) {
-
             val context: ConiumArisingEventContext<*, *> = ConiumEvent.request(eventType)
 
             argProducer.accept(context)

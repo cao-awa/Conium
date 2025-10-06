@@ -130,7 +130,7 @@ open class ConiumEntityPlacerTemplate(
                 return@add false
             }
             user.incrementStat(Stats.USED.getOrCreateStat(target))
-            world.emitGameEvent(user, GameEvent.ENTITY_PLACE, entity.pos)
+            world.emitGameEvent(user, GameEvent.ENTITY_PLACE, entity.entityPos)
             return@add true
         }
     }

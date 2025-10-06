@@ -7,6 +7,7 @@ package com.github.cao.awa.conium.mapping.yarn.reference
 import com.github.cao.awa.conium.annotation.mapping.Remap
 import com.github.cao.awa.conium.annotation.mapping.StaticOnly
 import net.minecraft.block.Block
+import net.minecraft.item.CopperBlockItemSet
 import net.minecraft.item.Item
 import net.minecraft.item.Items
 import net.minecraft.registry.RegistryKey
@@ -393,7 +394,8 @@ object YarnItems {
     val RED_MUSHROOM_BLOCK: Item by Items::RED_MUSHROOM_BLOCK
     val MUSHROOM_STEM: Item by Items::MUSHROOM_STEM
     val IRON_BARS: Item by Items::IRON_BARS
-    val CHAIN: Item by Items::CHAIN
+    val COPPER_CHAINS: CopperBlockItemSet by Items::COPPER_CHAINS
+    val IRON_CHAIN: Item by Items::IRON_CHAIN
     val GLASS_PANE: Item by Items::GLASS_PANE
     val MELON: Item by Items::MELON
     val VINE: Item by Items::VINE

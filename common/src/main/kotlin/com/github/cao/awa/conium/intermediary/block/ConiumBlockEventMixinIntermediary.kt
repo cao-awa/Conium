@@ -1,26 +1,28 @@
 package com.github.cao.awa.conium.intermediary.block
 
 import com.github.cao.awa.conium.block.event.breaking.ConiumBreakBlockEvent
-import com.github.cao.awa.conium.block.event.breaking.ConiumBreakingBlockEventMetadata
 import com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent
 import com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEvent
 import com.github.cao.awa.conium.block.event.use.ConiumUseBlockEvent
 import com.github.cao.awa.conium.block.event.use.ConiumUsedBlockEvent
+import com.github.cao.awa.conium.block.event.tick.ConiumBlockScheduleTickEvent
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary
 import com.github.cao.awa.conium.kotlin.extent.block.invokeOnUse
 import com.github.cao.awa.conium.mixin.block.BlockItemMixin
-import com.github.cao.awa.conium.mixin.block.BlockStateMixin
+import com.github.cao.awa.conium.mixin.block.AbstractBlockStateMixin
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.fluid.FluidState
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ActionResult
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 
 object ConiumBlockEventMixinIntermediary {
@@ -30,7 +32,7 @@ object ConiumBlockEventMixinIntermediary {
      * @see Block.onBlockBreakStart
      * @see ConiumEventType.BREAK_BLOCK
      * @see ConiumBreakBlockEvent
-     * @see BlockStateMixin.breakingBlock
+     * @see AbstractBlockStateMixin.breakingBlock
      *
      * @param eventType the dye event type
      * @param state the breaking block state
@@ -45,9 +47,9 @@ object ConiumBlockEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireBlockBreakingEvent(eventType: ConiumEventType<Block, ConiumBreakingBlockEventMetadata, *, *>, state: BlockState, world: World, player: PlayerEntity, pos: BlockPos): Boolean {
+    fun fireBlockBreakingEvent(state: BlockState, world: World, player: PlayerEntity, pos: BlockPos): Boolean {
         return ConiumEventMixinIntermediary.fireEventCancelable(
-            eventType,
+            ConiumEventType.BREAKING_BLOCK,
             state.block
         ) { breakingContext ->
             // Fill the context args.
@@ -67,7 +69,7 @@ object ConiumBlockEventMixinIntermediary {
      * @see ConiumEventType#USED_BLOCK
      * @see ConiumUseBlockEvent
      * @see ConiumUsedBlockEvent
-     * @see BlockStateMixin.useBlock
+     * @see AbstractBlockStateMixin.useBlock
      *
      * @param state the usage block state
      * @param world the world where the block is
@@ -222,6 +224,44 @@ object ConiumBlockEventMixinIntermediary {
             }
         ) {
             block.onBroken(world, pos, state)
+        }
+    }
+
+    /**
+     * Trigger the block schedule tick event.
+     *
+     * @see Block.scheduledTick
+     * @see ConiumEventType.BLOCK_SCHEDULE_TICK
+     * @see ConiumEventType.BLOCK_SCHEDULE_TICKED
+     * @see ConiumBlockScheduleTickEvent
+     *
+     * @param state the breaking block state
+     * @param world the world where the block is
+     * @param pos the position where the block is
+     *
+     * @return flag that noted should do mixin cancel
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    fun fireBlockScheduleTickEvent(state: BlockState, world: World, pos: BlockPos, random: Random): Boolean {
+        return ConiumEventMixinIntermediary.fireInheritedCascadedEvent(
+            ConiumEventType.BLOCK_SCHEDULE_TICK,
+            ConiumEventType.BLOCK_SCHEDULE_TICKED,
+            state.block,
+            {
+                blockScheduledTickContext ->
+                // Fill the context args.
+                blockScheduledTickContext[ConiumEventArgTypes.WORLD] = world
+                blockScheduledTickContext[ConiumEventArgTypes.SCHEDULED_TICK_VIEW] = world
+                blockScheduledTickContext[ConiumEventArgTypes.RANDOM] = random
+                blockScheduledTickContext[ConiumEventArgTypes.BLOCK_POS] = pos
+                blockScheduledTickContext[ConiumEventArgTypes.BLOCK_STATE] = state
+            }
+        ) { blockScheduledTickContext ->
+            // Inherited from event 'BLOCK_SCHEDULE_TICKED' context has a metadata to acquire the metadata,
         }
     }
 }

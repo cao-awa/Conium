@@ -140,6 +140,18 @@ then this ``request`` of this event will not be arising, because the parameters 
 Avoid the trouble of guessing yourself, all args possible to uses for every event is here, \
 if you are requesting rarely used parameters, then you need to read the ``ConiumEventArgTypes``.
 
+## 'targetTo' filter
+
+```kotlin
+request(ConiumEventType.ENTITY_TICK, ConiumEventArgTypes.ENTITY) { _, entity ->
+    // 'targetTo' helper will help cast entity to CowEntity.
+    // This entity will not get other type, so it's safe to cast.
+    val cow: CowEntity = entity as CowEntity
+    // Your logics.
+    true
+}.targetTo(CowEntity::isIt)
+```
+
 ## Event environment parameters
 
 ### SERVER_TICK

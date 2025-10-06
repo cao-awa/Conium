@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @SuppressWarnings("all")
 @Mixin(AbstractBlock.AbstractBlockState.class)
-public abstract class BlockStateMixin {
+public abstract class AbstractBlockStateMixin {
     @Shadow protected abstract BlockState asBlockState();
 
     /**
@@ -55,7 +55,6 @@ public abstract class BlockStateMixin {
     public void breakingBlock(World world, BlockPos blockPos, PlayerEntity playerEntity, CallbackInfo ci) {
         // Trigger block breaking event.
         if (ConiumBlockEventMixinIntermediary.fireBlockBreakingEvent(
-                ConiumEventType.BREAKING_BLOCK,
                 asBlockState(),
                 world,
                 playerEntity,

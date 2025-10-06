@@ -29,3 +29,6 @@ Basic molang parsing and translating.
 # Others
 Shorter event metadata impl.
 Renamed conium bedrock 'Template's to "Component"s.
+
+# Minecraft
+Update to '1.21.9' version.

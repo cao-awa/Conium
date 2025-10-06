@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.event.type
 
 import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
 import com.github.cao.awa.conium.kotlin.extent.innate.*
+import com.github.cao.awa.conium.mapping.yarn.reference.server
 import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
 import com.github.cao.awa.conium.parameter.dynamic.builder.DynamicArgsBuilder.Companion.transform
 import com.github.cao.awa.conium.parameter.dynamic.type.builder.DynamicArgTypeBuilder.arg
@@ -10,6 +11,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.ViewerCountManager
+import net.minecraft.entity.ContainerUser
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
@@ -155,6 +157,9 @@ object ConiumEventArgTypes {
     val LIVING_ENTITY: DynamicArgType<LivingEntity>
 
     @JvmField
+    val CONTAINER_USER: DynamicArgType<ContainerUser>
+
+    @JvmField
     val PLAYER: DynamicArgType<PlayerEntity>
 
     @JvmField
@@ -229,6 +234,10 @@ object ConiumEventArgTypes {
             "view_count_manager"
         )
 
+        CONTAINER_USER = arg(
+            "container_user"
+        )
+
         RANDOM = arg(
             "random",
             transform(::WORLD, World::getRandom)
@@ -236,7 +245,9 @@ object ConiumEventArgTypes {
 
         SERVER = arg(
             "server",
-            transform(::SERVER_PLAYER, ServerPlayerEntity::getServer),
+            transform(::SERVER_PLAYER) { player: ServerPlayerEntity ->
+                player.server
+            },
             transform(::SERVER_WORLD, ServerWorld::getServer)
         )
 
@@ -247,7 +258,7 @@ object ConiumEventArgTypes {
 
         WORLD = arg(
             "world",
-            transform(::PLAYER, PlayerEntity::getWorld),
+            transform(::PLAYER, PlayerEntity::getEntityWorld),
             transform(::SERVER_WORLD, ServerWorld::asIt),
         )
 

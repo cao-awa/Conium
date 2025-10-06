@@ -32,7 +32,7 @@ open class BedrockEntity(private val delegate: Entity) {
 
     @ScriptReadonly
     @BedrockScriptApiFacade("Entity", "#dimension")
-    val dimension: BedrockDimension = this.delegate.world.bedrockDimension
+    val dimension: BedrockDimension = this.delegate.entityWorld.bedrockDimension
 
     @BedrockScriptApiFacade("Entity", "teleport")
     fun teleport(location: BedrockScriptAnonymousObjectMap, teleportOption: BedrockScriptAnonymousObjectMap) {
@@ -82,7 +82,7 @@ open class BedrockEntity(private val delegate: Entity) {
         ).let { hitResult: HitResult ->
             val hitType: HitResult.Type = hitResult.type
             val pos: Vec3d = hitResult.pos
-            val world: World = this.delegate.world
+            val world: World = this.delegate.entityWorld
 
             if (hitType == HitResult.Type.MISS || hitType == HitResult.Type.ENTITY) {
                 return null
@@ -103,7 +103,7 @@ open class BedrockEntity(private val delegate: Entity) {
     }
 
     private fun ifServerEntity(action: (ServerWorld) -> Unit) {
-        (this.delegate.world as? ServerWorld)?.let(action)
+        (this.delegate.entityWorld as? ServerWorld)?.let(action)
     }
 }
 

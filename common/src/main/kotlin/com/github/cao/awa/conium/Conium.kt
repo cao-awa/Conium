@@ -21,7 +21,6 @@ import com.github.cao.awa.conium.script.manager.ConiumScriptManager
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
 import com.github.cao.awa.conium.server.datapack.ConiumServerLoadDatapacks
-import com.github.cao.awa.conium.tag.inject.ConiumTagInjector
 import com.github.cao.awa.conium.template.ConiumTemplate
 import com.github.cao.awa.conium.template.ConiumTemplates
 import com.github.cao.awa.sinuatum.resource.loader.ResourceLoader
@@ -316,8 +315,6 @@ class Conium {
             request(ConiumEventType.PLACED_BLOCK) {
 
             }
-
-            ConiumTagInjector.test()
         }
     }
 

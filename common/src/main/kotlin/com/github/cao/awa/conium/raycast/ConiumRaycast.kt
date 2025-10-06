@@ -20,7 +20,7 @@ class ConiumRaycast {
 
             val fluidHandling: RaycastContext.FluidHandling = if (includeFluids) RaycastContext.FluidHandling.ANY else RaycastContext.FluidHandling.NONE
 
-            return entity.world.raycast(
+            return entity.entityWorld.raycast(
                 RaycastContext(
                     start,
                     end,

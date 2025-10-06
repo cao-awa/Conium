@@ -10,6 +10,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
+import net.minecraft.entity.ContainerUser;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.util.math.BlockPos;
@@ -31,7 +33,7 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
             at = @At("RETURN"),
             cancellable = true
     )
-    public void onOpenedShulkerBox(PlayerEntity player, CallbackInfo ci) {
+    public void onOpenedShulkerBox(ContainerUser user, CallbackInfo ci) {
         // Do not arise the event when it removed or not in world.
         if (this.world == null || this.removed) {
             ci.cancel();
@@ -39,7 +41,7 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
         }
 
         // Request the opened shulker box context.
-        ConiumArisingEventContext<?, ?> openingContext = buildContext(ConiumEventType.SHULKER_BOX_OPENED, player);
+        ConiumArisingEventContext<?, ?> openingContext = buildContext(ConiumEventType.SHULKER_BOX_OPENED, user);
 
         Block block = getCachedState().getBlock();
 
@@ -54,7 +56,7 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
             at = @At("HEAD"),
             cancellable = true
     )
-    public void onClosing(PlayerEntity player, CallbackInfo ci) {
+    public void onClosing(ContainerUser user, CallbackInfo ci) {
         // Do not arise the event when it removed or not in world.
         if (this.world == null || this.removed) {
             ci.cancel();
@@ -62,7 +64,7 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
         }
 
         // Request the closing shulker box context.
-        ConiumArisingEventContext<?, ?> closingContext = buildContext(ConiumEventType.SHULKER_BOX_CLOSING, player);
+        ConiumArisingEventContext<?, ?> closingContext = buildContext(ConiumEventType.SHULKER_BOX_CLOSING, user);
 
         Block block = getCachedState().getBlock();
 
@@ -79,7 +81,7 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
             at = @At("RETURN"),
             cancellable = true
     )
-    public void onClosed(PlayerEntity player, CallbackInfo ci) {
+    public void onClosed(ContainerUser user, CallbackInfo ci) {
         // Do not arise the event when it removed or not in world.
         if (this.world == null || this.removed) {
             ci.cancel();
@@ -87,7 +89,7 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
         }
 
         // Request the closed shulker box context.
-        ConiumArisingEventContext<?, ?> closedContext = buildContext(ConiumEventType.SHULKER_BOX_CLOSED, player);
+        ConiumArisingEventContext<?, ?> closedContext = buildContext(ConiumEventType.SHULKER_BOX_CLOSED, user);
 
         Block block = getCachedState().getBlock();
 
@@ -99,16 +101,17 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
 
     @Unique
     @NotNull
-    private ConiumArisingEventContext<?, ?> buildContext(@NotNull ConiumEventType<?, ?, ?, ?> eventType, @NotNull PlayerEntity player) {
+    private ConiumArisingEventContext<?, ?> buildContext(@NotNull ConiumEventType<?, ?, ?, ?> eventType, @NotNull ContainerUser user) {
         // Request the event context.
         ConiumArisingEventContext<?, ?> eventContext = ConiumEvent.request(eventType);
 
         // Fill context args.
+        assert this.world != null;
         eventContext.put(ConiumEventArgTypes.BLOCK_POS, this.pos)
                 .put(ConiumEventArgTypes.BLOCK_ENTITY, this)
                 .put(ConiumEventArgTypes.BLOCK_STATE, getCachedState())
                 .put(ConiumEventArgTypes.WORLD, this.world)
-                .put(ConiumEventArgTypes.PLAYER, player);
+                .put(ConiumEventArgTypes.CONTAINER_USER, user);
 
         return eventContext;
     }

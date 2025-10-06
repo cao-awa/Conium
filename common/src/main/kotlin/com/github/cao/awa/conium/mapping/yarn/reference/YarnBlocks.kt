@@ -4,6 +4,7 @@ package com.github.cao.awa.conium.mapping.yarn.reference
 
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
+import net.minecraft.block.CopperBlockSet
 
 object YarnBlocks {
     val STONE: Block = Blocks.STONE
@@ -332,7 +333,8 @@ object YarnBlocks {
     val RED_MUSHROOM_BLOCK: Block = Blocks.RED_MUSHROOM_BLOCK
     val MUSHROOM_STEM: Block = Blocks.MUSHROOM_STEM
     val IRON_BARS: Block = Blocks.IRON_BARS
-    val CHAIN: Block = Blocks.CHAIN
+    val COPPER_CHAINS: CopperBlockSet = Blocks.COPPER_CHAINS
+    val IRON_CHAIN: Block = Blocks.IRON_CHAIN
     val GLASS_PANE: Block = Blocks.GLASS_PANE
     val PUMPKIN: Block = Blocks.PUMPKIN
     val MELON: Block = Blocks.MELON
