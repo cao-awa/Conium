@@ -1,14 +1,14 @@
 package com.github.cao.awa.conium.block.template.data
 
 import com.github.cao.awa.conium.block.ConiumBlock
-import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
-import com.github.cao.awa.conium.block.entity.setting.ConiumBlockEntitySettings
+import com.github.cao.awa.conium.blockentity.ConiumBlockEntity
+import com.github.cao.awa.conium.blockentity.setting.ConiumBlockEntitySettings
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.jsonObject
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.nbt.data.RegistrableNbt
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 
@@ -31,7 +31,7 @@ import com.google.gson.JsonElement
 class ConiumBlockDataTemplate(
     private val registered: Map<String, ConiumNbtDataSerializer<*>>,
     private val defaultValues: Map<String, Any>
-): ConiumBlockTemplate(name = ConiumTemplates.Block.DATA) {
+): ConiumBlockTemplate(name = ConiumBlockTemplates.DATA) {
     companion object {
         /**
          * Create the template with registered data and default values.

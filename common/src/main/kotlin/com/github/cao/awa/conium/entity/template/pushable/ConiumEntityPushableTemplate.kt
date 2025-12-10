@@ -4,9 +4,8 @@ import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettingsValue
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrBoolean
-import com.github.cao.awa.conium.template.ConiumTemplates.Entity.PUSHABLE
+import com.github.cao.awa.conium.template.entity.conium.ConiumEntityTemplates.PUSHABLE
 import com.google.gson.JsonElement
-import net.minecraft.registry.RegistryWrapper
 
 class ConiumEntityPushableTemplate(
     private val pushableByEntity: Boolean,

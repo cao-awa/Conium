@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.entity.renderer.model.ConiumEntityModel
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.asObject
-import com.github.cao.awa.conium.template.ConiumTemplates.Entity.MODEL
+import com.github.cao.awa.conium.template.entity.conium.ConiumEntityTemplates.MODEL
 import com.google.gson.JsonElement
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.util.Identifier

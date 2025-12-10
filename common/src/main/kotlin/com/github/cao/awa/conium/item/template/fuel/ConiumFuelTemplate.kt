@@ -3,9 +3,8 @@ package com.github.cao.awa.conium.item.template.fuel
 import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates.Item.FUEL
+import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.FUEL
 import com.google.gson.JsonElement
-import net.minecraft.registry.RegistryWrapper
 
 class ConiumFuelTemplate(private val duration: Int, name: String = FUEL) : ConiumItemTemplate(name = name) {
     companion object {

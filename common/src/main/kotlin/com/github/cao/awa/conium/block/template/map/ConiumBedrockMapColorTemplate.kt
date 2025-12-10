@@ -1,9 +1,8 @@
 package com.github.cao.awa.conium.block.template.map
 
 import com.github.cao.awa.conium.kotlin.extent.block.parseAndFindColor
-import com.github.cao.awa.conium.template.ConiumTemplates.BedrockBlock.MAP_COLOR
+import com.github.cao.awa.conium.template.block.bedrock.BedrockBlockComponents.MAP_COLOR
 import com.google.gson.JsonElement
-import net.minecraft.registry.RegistryWrapper
 
 object ConiumBedrockMapColorTemplate {
     @JvmStatic

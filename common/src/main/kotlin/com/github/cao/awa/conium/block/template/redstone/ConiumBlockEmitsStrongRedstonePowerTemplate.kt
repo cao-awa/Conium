@@ -4,9 +4,8 @@ import com.github.cao.awa.conium.block.ConiumBlock
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.ifInt
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates
 import com.google.gson.JsonElement
-import net.minecraft.registry.RegistryWrapper
 
 /**
  * Setting a block emits strong redstone power to neighbor blocks.
@@ -22,7 +21,7 @@ import net.minecraft.registry.RegistryWrapper
  *
  * @since 1.0.0
  */
-class ConiumBlockEmitsStrongRedstonePowerTemplate(private val emitsRedstonePower: Int): ConiumBlockTemplate(name = ConiumTemplates.Block.EMITS_REDSTONE_POWER) {
+class ConiumBlockEmitsStrongRedstonePowerTemplate(private val emitsRedstonePower: Int): ConiumBlockTemplate(name = ConiumBlockTemplates.EMITS_REDSTONE_POWER) {
     companion object {
         /**
          * Create the template with the emitting power level.

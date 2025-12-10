@@ -1,16 +1,15 @@
 package com.github.cao.awa.conium.block.template.entity
 
 import com.github.cao.awa.conium.block.ConiumBlock
-import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
+import com.github.cao.awa.conium.blockentity.ConiumBlockEntity
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.block.template.data.ConiumBlockDataTemplate
 import com.github.cao.awa.conium.block.template.preset.ConiumBlockEntityPresetsTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates
 import com.google.gson.JsonElement
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.registry.RegistryWrapper
 
 /**
  * Setting a block flag make it could construct the block entity, this template is necessary where others block entity templates defined.
@@ -30,7 +29,7 @@ import net.minecraft.registry.RegistryWrapper
  *
  * @since 1.0.0
  */
-class ConiumEnableBlockEntityTemplate(private val identifier: String): ConiumBlockTemplate(name = ConiumTemplates.Block.ENABLE_BLOCK_ENTITY) {
+class ConiumEnableBlockEntityTemplate(private val identifier: String): ConiumBlockTemplate(name = ConiumBlockTemplates.ENABLE_BLOCK_ENTITY) {
     companion object {
         /**
          * Create the template with identifier to setting the block entity type.

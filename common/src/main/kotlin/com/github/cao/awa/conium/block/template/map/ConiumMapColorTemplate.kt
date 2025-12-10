@@ -2,11 +2,10 @@ package com.github.cao.awa.conium.block.template.map
 
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.kotlin.extent.block.parseAndFindColor
-import com.github.cao.awa.conium.template.ConiumTemplates.Block.MAP_COLOR
+import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates.MAP_COLOR
 import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.MapColor
-import net.minecraft.registry.RegistryWrapper
 
 class ConiumMapColorTemplate(private val color: MapColor, name: String = MAP_COLOR) : ConiumBlockTemplate(name = name) {
     companion object {

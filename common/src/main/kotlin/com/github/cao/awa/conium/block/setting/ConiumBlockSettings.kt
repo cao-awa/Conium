@@ -1,8 +1,8 @@
 package com.github.cao.awa.conium.block.setting
 
 import com.github.cao.awa.conium.block.ConiumBlock
-import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
-import com.github.cao.awa.conium.block.entity.setting.ConiumBlockEntitySettings
+import com.github.cao.awa.conium.blockentity.ConiumBlockEntity
+import com.github.cao.awa.conium.blockentity.setting.ConiumBlockEntitySettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.setting.ConiumSettings
 import net.minecraft.block.AbstractBlock

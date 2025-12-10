@@ -6,7 +6,7 @@ import com.github.cao.awa.conium.kotlin.extent.component.withComponentProvides
 import com.github.cao.awa.conium.kotlin.extent.component.withComputeUseAction
 import com.github.cao.awa.conium.kotlin.extent.component.withCreateConsumable
 import com.github.cao.awa.conium.kotlin.extent.item.components
-import com.github.cao.awa.conium.template.ConiumTemplates.Item.USE_ACTION
+import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.USE_ACTION
 import com.google.gson.JsonElement
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item

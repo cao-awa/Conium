@@ -47,7 +47,7 @@ import com.github.cao.awa.conium.parameter.ParameterSelective7
 import com.github.cao.awa.conium.parameter.ParameterSelective8
 
 // Conium block entity.
-import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
+import com.github.cao.awa.conium.blockentity.ConiumBlockEntity
 import com.github.cao.awa.conium.event.context.ConiumArgOnlyEventContext
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata

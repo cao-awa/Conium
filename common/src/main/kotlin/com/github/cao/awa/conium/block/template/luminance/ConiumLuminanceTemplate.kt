@@ -1,10 +1,9 @@
 package com.github.cao.awa.conium.block.template.luminance
 
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates.Block.LUMINANCE
+import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates.LUMINANCE
 import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
-import net.minecraft.registry.RegistryWrapper
 
 class ConiumLuminanceTemplate(private val level: Int, name: String = LUMINANCE) : ConiumBlockTemplate(name = name) {
     companion object {

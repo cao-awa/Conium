@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.item.template.bedrock.glint
 
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrBoolean
-import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.GLINT
+import com.github.cao.awa.conium.template.item.bedrock.BedrockItemComponents.GLINT
 import com.google.gson.JsonElement
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item

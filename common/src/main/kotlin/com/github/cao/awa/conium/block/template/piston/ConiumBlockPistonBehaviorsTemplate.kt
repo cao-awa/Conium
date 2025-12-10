@@ -1,11 +1,10 @@
 package com.github.cao.awa.conium.block.template.piston
 
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates.Block.PISTON_BEHAVIOR
+import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates.PISTON_BEHAVIOR
 import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.piston.PistonBehavior
-import net.minecraft.registry.RegistryWrapper
 
 open class ConiumBlockPistonBehaviorsTemplate(private val behavior: PistonBehavior, name: String = PISTON_BEHAVIOR) : ConiumBlockTemplate(name = name) {
     companion object {

@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.item.template.armor
 
 import com.github.cao.awa.conium.item.template.bedrock.wearable.BedrockWearableComponent
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
-import com.github.cao.awa.conium.template.ConiumTemplates.Item.ARMOR
+import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.ARMOR
 import com.google.gson.JsonElement
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.AttributeModifiersComponent

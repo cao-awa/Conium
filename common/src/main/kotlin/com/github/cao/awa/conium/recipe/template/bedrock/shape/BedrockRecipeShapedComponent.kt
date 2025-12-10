@@ -3,10 +3,9 @@ package com.github.cao.awa.conium.recipe.template.bedrock.shape
 import com.github.cao.awa.conium.kotlin.extent.json.asObject
 import com.github.cao.awa.conium.kotlin.extent.json.mapArray
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_SHAPED
+import com.github.cao.awa.conium.template.recipe.bedrock.BedrockRecipeComponents.RECIPE_SHAPED
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RawShapedRecipe
 import net.minecraft.recipe.ShapedRecipe

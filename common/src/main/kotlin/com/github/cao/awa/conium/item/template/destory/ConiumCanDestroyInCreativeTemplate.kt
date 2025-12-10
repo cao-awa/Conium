@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.item.template.destory
 
 import com.github.cao.awa.conium.item.setting.ConiumItemSettings
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates.Item.CAN_DESTROY_IN_CREATIVE
+import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.CAN_DESTROY_IN_CREATIVE
 import com.google.gson.JsonElement
 import net.minecraft.block.BlockState
 import net.minecraft.entity.LivingEntity

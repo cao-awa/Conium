@@ -3,12 +3,11 @@ package com.github.cao.awa.conium.recipe
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
 import com.github.cao.awa.conium.template.builder.ConiumBuilderWithTemplates
 import com.github.cao.awa.conium.template.ConiumTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_FURNACE
-import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_SHAPED
-import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_SHAPELESS
+import com.github.cao.awa.conium.template.recipe.bedrock.BedrockRecipeComponents.RECIPE_FURNACE
+import com.github.cao.awa.conium.template.recipe.bedrock.BedrockRecipeComponents.RECIPE_SHAPED
+import com.github.cao.awa.conium.template.recipe.bedrock.BedrockRecipeComponents.RECIPE_SHAPELESS
 import com.google.gson.JsonObject
 import net.minecraft.recipe.Recipe
-import net.minecraft.registry.RegistryWrapper
 
 class ConiumBedrockRecipeBuilder : ConiumBuilderWithTemplates<
         ConiumBedrockRecipeBuilder,

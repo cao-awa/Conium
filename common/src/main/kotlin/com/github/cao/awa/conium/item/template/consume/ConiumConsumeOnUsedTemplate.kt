@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.item.template.consume
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.ifBoolean
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.block.Block
@@ -18,7 +18,7 @@ class ConiumConsumeOnUsedTemplate(
     private val consumeOnUsed: Boolean,
     private val consumeOnUsedOnBlock: (BlockState) -> Boolean,
     private val consumeOnUsedOnEntity: (LivingEntity) -> Boolean
-) : ConiumItemTemplate(name = ConiumTemplates.Item.CONSUME_ON_USED) {
+) : ConiumItemTemplate(name = ConiumItemTemplates.CONSUME_ON_USED) {
     companion object {
         @JvmStatic
         fun create(

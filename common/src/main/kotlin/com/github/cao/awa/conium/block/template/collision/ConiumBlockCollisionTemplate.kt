@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.block.template.bedrock.collision.BedrockBlockCollisionBoxComponent
 import com.github.cao.awa.conium.kotlin.extent.json.eachInt
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrBoolean
-import com.github.cao.awa.conium.template.ConiumTemplates.Block.COLLISION
+import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates.COLLISION
 import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
 import net.minecraft.util.shape.VoxelShape

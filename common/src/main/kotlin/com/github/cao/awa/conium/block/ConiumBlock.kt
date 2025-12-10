@@ -1,8 +1,8 @@
 package com.github.cao.awa.conium.block
 
 import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
-import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
-import com.github.cao.awa.conium.block.entity.setting.ConiumBlockEntitySettings
+import com.github.cao.awa.conium.blockentity.ConiumBlockEntity
+import com.github.cao.awa.conium.blockentity.setting.ConiumBlockEntitySettings
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.path.through.ConiumBlockPathFindThroughTemplate
 import net.minecraft.block.*

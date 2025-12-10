@@ -5,11 +5,10 @@ import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.ifInt
 import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates
 import com.google.gson.JsonElement
-import net.minecraft.registry.RegistryWrapper
 
-class ConiumIgniteEntityTemplate(private val duration: Int) : ConiumItemTemplate(name = ConiumTemplates.Item.IGNITE) {
+class ConiumIgniteEntityTemplate(private val duration: Int) : ConiumItemTemplate(name = ConiumItemTemplates.IGNITE) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement): ConiumIgniteEntityTemplate = element.ifInt(::ConiumIgniteEntityTemplate) {

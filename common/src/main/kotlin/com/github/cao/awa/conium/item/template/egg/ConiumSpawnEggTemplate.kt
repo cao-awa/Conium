@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.item.template.egg
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates.Item.SPAWN_EGG
+import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.SPAWN_EGG
 import com.google.gson.JsonElement
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnReason

@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.item.template.bedrock.durability
 
 import com.github.cao.awa.conium.item.template.durability.ConiumDurabilityTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrInt
-import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.DURABILITY
+import com.github.cao.awa.conium.template.item.bedrock.BedrockItemComponents.DURABILITY
 import com.google.gson.JsonElement
 
 class BedrockDurabilityComponent(

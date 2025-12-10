@@ -4,13 +4,12 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.template.ConiumTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates
+import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
-import net.minecraft.registry.RegistryWrapper
 
 class ConiumClearEntityIgniteTemplate(private val isClear: Boolean) : ConiumItemTemplate(
-    name = ConiumTemplates.Item.IGNITE,
+    name = ConiumItemTemplates.IGNITE,
     conflicts = CONFLICTS
 ) {
     companion object {

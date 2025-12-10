@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.item.setting.ConiumItemSettings
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.item.template.durability.ConiumDurabilityTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
-import com.github.cao.awa.conium.template.ConiumTemplates.Item.TOOL
+import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.TOOL
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.block.Block

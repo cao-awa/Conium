@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.block.template.collision.ConiumBlockCollisionTe
 import com.github.cao.awa.conium.block.template.collision.ConiumBlockCollisionTemplate.Companion.createWithCubed
 import com.github.cao.awa.conium.kotlin.extent.json.eachInt
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrBoolean
-import com.github.cao.awa.conium.template.ConiumTemplates.BedrockBlock.COLLISION_BOX
+import com.github.cao.awa.conium.template.block.bedrock.BedrockBlockComponents.COLLISION_BOX
 import com.google.gson.JsonElement
 
 /**

@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.block.template.bedrock.destructible
 
 import com.github.cao.awa.conium.block.template.mining.ConiumHardnessTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrFloat
-import com.github.cao.awa.conium.template.ConiumTemplates.BedrockBlock.DESTRUCTIBLE_BY_MINING
+import com.github.cao.awa.conium.template.block.bedrock.BedrockBlockComponents.DESTRUCTIBLE_BY_MINING
 import com.google.gson.JsonElement
 
 object BedrockDestructibleByMiningComponent {

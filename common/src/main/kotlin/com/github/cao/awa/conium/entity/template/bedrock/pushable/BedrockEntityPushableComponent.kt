@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.entity.template.bedrock.pushable
 
 import com.github.cao.awa.conium.entity.template.pushable.ConiumEntityPushableTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates.BedrockEntity.PUSHABLE
+import com.github.cao.awa.conium.template.entity.bedrock.BedrockEntityComponents.PUSHABLE
 import com.google.gson.JsonElement
 
 object BedrockEntityPushableComponent {

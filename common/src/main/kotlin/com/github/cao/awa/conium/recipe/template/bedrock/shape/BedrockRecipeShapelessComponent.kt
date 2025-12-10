@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.recipe.template.bedrock.shape
 
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates.BedrockRecipe.RECIPE_SHAPELESS
+import com.github.cao.awa.conium.template.recipe.bedrock.BedrockRecipeComponents.RECIPE_SHAPELESS
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement

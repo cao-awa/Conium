@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.event.type
 
-import com.github.cao.awa.conium.block.entity.ConiumBlockEntity
+import com.github.cao.awa.conium.blockentity.ConiumBlockEntity
 import com.github.cao.awa.conium.kotlin.extent.innate.*
 import com.github.cao.awa.conium.mapping.yarn.reference.server
 import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType

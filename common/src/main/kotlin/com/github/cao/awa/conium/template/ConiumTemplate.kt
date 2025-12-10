@@ -2,7 +2,7 @@
 
 package com.github.cao.awa.conium.template
 
-import com.github.cao.awa.conium.block.entity.template.ConiumBlockEntityTemplate
+import com.github.cao.awa.conium.blockentity.template.ConiumBlockEntityTemplate
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
@@ -17,14 +17,17 @@ import com.google.gson.JsonObject
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Recipe
 import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryWrapper
 import net.minecraft.util.Identifier
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.util.*
 import kotlin.reflect.KClass
 
-abstract class ConiumTemplate<R, P>(val isClient: Boolean = false, private val name: String, val conflicts: Map<Class<out ConiumTemplate<*, *>>, String> = CollectionFactor.hashMap()) {
+abstract class ConiumTemplate<R, P>(
+    val isClient: Boolean = false,
+    private val name: String,
+    val conflicts: Map<Class<out ConiumTemplate<*, *>>, String> = CollectionFactor.hashMap()
+) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumTemplate")
         private val templates: MutableMap<String, ConiumTemplateCreator> = CollectionFactor.hashMap()
@@ -132,7 +135,7 @@ abstract class ConiumTemplate<R, P>(val isClient: Boolean = false, private val n
         fun notSupported(jsonElement: JsonElement): IllegalArgumentException = IllegalArgumentException("Not supported syntax: $jsonElement")
 
         @Throws(IllegalArgumentException::class)
-        fun throwNotSupported(jsonElement: JsonElement): IllegalArgumentException = throw IllegalArgumentException("Not supported syntax: $jsonElement")
+        fun throwNotSupported(jsonElement: JsonElement): IllegalArgumentException = throw notSupported(jsonElement)
 
         fun createItemStack(jsonObject: JsonObject, name: String): ItemStack {
             return jsonObject[name]!!.let { result: JsonElement ->
@@ -186,5 +189,5 @@ abstract class ConiumTemplate<R, P>(val isClient: Boolean = false, private val n
 
     open fun results(): List<R> = listOf(result())
 
-    open fun result(): R = throw IllegalStateException("The template ${this.javaClass.simpleName} has no result")
+    open fun result(): R = throw IllegalStateException("The template '${this.javaClass.simpleName}' has no result")
 }

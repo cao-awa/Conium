@@ -1,11 +1,10 @@
 package com.github.cao.awa.conium.block.template.instrument
 
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
-import com.github.cao.awa.conium.template.ConiumTemplates.Block.INSTRUMENT
+import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates.INSTRUMENT
 import com.google.gson.JsonElement
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.enums.NoteBlockInstrument
-import net.minecraft.registry.RegistryWrapper
 
 open class ConiumBlockInstrumentTemplate(private val instrument: NoteBlockInstrument, name: String = INSTRUMENT) : ConiumBlockTemplate(name = name) {
     companion object {

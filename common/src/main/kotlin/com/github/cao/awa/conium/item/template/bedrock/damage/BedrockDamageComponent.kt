@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.kotlin.extent.component.withComponent
 import com.github.cao.awa.conium.kotlin.extent.component.withComputeAttributeModifiers
 import com.github.cao.awa.conium.kotlin.extent.component.withCreateAttributeModifiers
 import com.github.cao.awa.conium.kotlin.extent.item.components
-import com.github.cao.awa.conium.template.ConiumTemplates.BedrockItem.DAMAGE
+import com.github.cao.awa.conium.template.item.bedrock.BedrockItemComponents.DAMAGE
 import com.google.gson.JsonElement
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.AttributeModifierSlot
