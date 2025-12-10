@@ -16,7 +16,7 @@ Conium is currently as 'on client' mode, the server needs to synchronize the dat
 |            Requirement |        Version         |   Installs   |             Notes             |
 |-----------------------:|:----------------------:|:------------:|:-----------------------------:|
 |                   Java |          21+           | 21 Or higher |      21 Or higher is ok       |
-|              Minecraft |        >=1.21.6        |     Need     |  1.21.6 or higher can be use  |
+|              Minecraft |        >=1.21.11       |     Need     |  1.21.11 or higher can be use |
 | Fabric language kotlin | 1.13.5+kotlin.2.2.10!! |     Need     | Only kotlin 2.2.10 can be use |
 |             Fabric API |           ?            |     Need     |       Any version is ok       |
 
@@ -29,8 +29,8 @@ Conium has configured whole project, just clone the repository, and reload proje
 |        Java |      21+      |            21 Or higher             |
 |      Gradle |    8.14.2     |    8.14.2 or higher could be use    |
 |      Kotlin |   2.2.10!!    |       Only 2.2.10 can be use        |
-| Fabric loom | 1.10-SNAPSHOT | 1.10-SNAPSHOT or other could be use |
-|   Minecraft |   \>=1.21.6   |  Only 1.21.6 or higher can be use   |
+| Fabric loom | 1.13-SNAPSHOT | 1.13-SNAPSHOT or other could be use |
+|   Minecraft |   \>=1.21.11  |  Only 1.21.11 or higher can be use  |
 
 ### NeoForge
 
@@ -130,7 +130,3 @@ If it is not necessary, avoid directly reading source codes.
 Conium will randomly roll a [Hitokoto](https://en.wiktionary.org/wiki/%E4%B8%80%E8%A8%80#Japanese) in console every time launching, the list of Hitokotos receives pull requests, only allow in English and Japanese, don't take other languages, don't accept nonsense sentences.
 
 For the list, see [ConiumHitokoto.kt](/common/src/main/kotlin/com/github/cao/awa/conium/hitokoto/ConiumHitokoto.kt).
-
-# Chinese wiki
-
-The [Hyacinth wiki](https://www.hyacinthwiki.com/index.php?title=Conium_(模组)).
