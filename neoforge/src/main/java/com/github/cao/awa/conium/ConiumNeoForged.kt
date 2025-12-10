@@ -1,6 +1,5 @@
-package com.github.cao.awa.neoconium
+package com.github.cao.awa.conium
 
-import com.github.cao.awa.conium.Conium
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.bus.api.IEventBus
 import net.neoforged.bus.api.SubscribeEvent
@@ -12,7 +11,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
  * Not supported yet now.
  */
 @Mod("conium", dist = [Dist.CLIENT, Dist.DEDICATED_SERVER])
-class Neoconium(bus: IEventBus) {
+class ConiumNeoForged(bus: IEventBus) {
     init {
         Conium().onInitialize()
 

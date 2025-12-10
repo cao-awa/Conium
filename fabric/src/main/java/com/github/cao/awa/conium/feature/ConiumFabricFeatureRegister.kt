@@ -1,7 +1,6 @@
-package com.github.cao.awa.coniumic.feature
+package com.github.cao.awa.conium.feature
 
 import com.github.cao.awa.conium.Conium
-import com.github.cao.awa.conium.feature.ConiumFeatureRegister
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors

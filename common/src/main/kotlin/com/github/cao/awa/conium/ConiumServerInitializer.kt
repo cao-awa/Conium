@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger
 
 class ConiumServerInitializer {
     companion object {
-        private val LOGGER: Logger = LogManager.getLogger("ConiumCServerInitializer")
+        private val LOGGER: Logger = LogManager.getLogger("ConiumServerInitializer")
     }
 
     fun onInitializeServer() {
@@ -26,7 +26,7 @@ class ConiumServerInitializer {
         ConiumPacketRegistry.packets.let { packets: MutableMap<CustomPayload.Id<*>, PacketCodec<PacketByteBuf, *>> ->
             LOGGER.info("Loaded ${packets.size} network packets")
             Conium.debug(
-                "Loaded {} client network packets: {}",
+                "Loaded {} network packets: {}",
                 { packets.size },
                 { packets },
                 LOGGER::info

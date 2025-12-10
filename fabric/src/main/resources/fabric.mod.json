@@ -32,29 +32,30 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.github.cao.awa.coniumic.Coniumic"
+      "com.github.cao.awa.conium.ConiumFabric"
     ],
     "client": [
-      "com.github.cao.awa.coniumic.ConiumicClient"
+      "com.github.cao.awa.conium.ConiumicClient"
     ],
     "server": [
-      "com.github.cao.awa.coniumic.ConiumicServer"
+      "com.github.cao.awa.conium.ConiumicServer"
     ]
   },
   "mixins": [
-    "conium.mixins.json"
+    "conium.mixins.json",
+    "conium-fabric.mixins.json"
   ],
   "depends": {
     "fabricloader": "*",
     "fabric-language-kotlin": "1.13.4+kotlin.2.2.0",
-    "minecraft": ">=1.21.6",
+    "minecraft": "1.21.11",
     "java": ">=21",
     "fabric": "*"
   },
   "recommends": {
     "lithium": "*",
-    "sepals": ">=1.0.21-FIX2",
-    "annuus": ">=1.0.11-SNAPSHOT"
+    "sepals": ">=1.0.30",
+    "annuus": ">=1.0.15-fix2"
   },
   "breaks": {
     "optifabric": "*"

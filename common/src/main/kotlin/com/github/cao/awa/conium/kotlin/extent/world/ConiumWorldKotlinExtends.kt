@@ -7,7 +7,7 @@ import net.minecraft.server.world.ServerWorld
 fun ServerWorld.executeCommand(player: ServerPlayerEntity, command: String) {
     val commandSource: ServerCommandSource = player.commandSource
 
-    this.server.commandManager.executeWithPrefix(
+    this.server!!.commandManager.parseAndExecute(
         commandSource,
         command
     )

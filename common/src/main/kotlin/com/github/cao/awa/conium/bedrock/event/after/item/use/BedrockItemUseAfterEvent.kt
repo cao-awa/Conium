@@ -32,7 +32,7 @@ class BedrockItemUseAfterEvent : BedrockEvent<Item, BedrockItemUseEventContext>(
         ) { _: Any, world: ServerWorld, source: ServerPlayerEntity, itemStack: ItemStack ->
             BedrockItemUseEventContext(
                 scriptSource,
-                world.server.bedrockWorld,
+                world.server!!.bedrockWorld,
                 itemStack.bedrockItemStack,
                 source.bedrockPlayer
             ).also { context ->

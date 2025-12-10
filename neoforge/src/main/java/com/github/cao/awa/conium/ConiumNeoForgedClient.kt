@@ -1,6 +1,5 @@
-package com.github.cao.awa.neoconium
+package com.github.cao.awa.conium
 
-import com.github.cao.awa.conium.ConiumClientInitializer
 import com.github.cao.awa.conium.network.packet.client.configuration.ConiumClientConfigurationPacket
 import com.github.cao.awa.conium.network.packet.client.play.ConiumClientPlayPacket
 import com.github.cao.awa.conium.network.packet.sender.PacketSender
@@ -15,7 +14,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar
  * Not supported yet now.
  */
 @Mod("conium", dist = [Dist.CLIENT])
-class NeoconiumClient(eventBus: IEventBus) {
+class ConiumNeoForgedClient(eventBus: IEventBus) {
     init {
         // Sets the current network version
         val registrar = PayloadRegistrar("1")

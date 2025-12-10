@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.component.ConiumComponentTypes
 import com.github.cao.awa.conium.config.ConiumConfig
 import com.github.cao.awa.conium.datapack.block.ConiumBlockManager
 import com.github.cao.awa.conium.datapack.entity.ConiumEntityManager
-import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager
+import com.github.cao.awa.conium.datapack.inject.item.ConiumItemPropertyInjectManager
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.datapack.worldgen.ConiumPlacedFeatureManager
 import com.github.cao.awa.conium.event.ConiumEvent
@@ -49,7 +49,7 @@ class Conium {
         var STRUCTURING_TRANSLATOR_VERSION: String = StructuringTranslator.getVersion()
 
         @JvmField
-        var itemInjectManager: ItemPropertyInjectManager? = null
+        var itemInjectManager: ConiumItemPropertyInjectManager? = null
 
         @JvmField
         var coniumItemManager: ConiumItemManager? = null

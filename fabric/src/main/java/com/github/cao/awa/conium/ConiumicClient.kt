@@ -1,6 +1,5 @@
-package com.github.cao.awa.coniumic
+package com.github.cao.awa.conium
 
-import com.github.cao.awa.conium.ConiumClientInitializer
 import com.github.cao.awa.conium.network.packet.client.configuration.ConiumClientConfigurationPacket
 import com.github.cao.awa.conium.network.packet.client.play.ConiumClientPlayPacket
 import com.github.cao.awa.conium.network.packet.sender.PacketSender

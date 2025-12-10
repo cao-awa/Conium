@@ -5,6 +5,7 @@ import com.github.cao.awa.conium.datapack.recipe.ConiumRecipeManager;
 import com.github.cao.awa.conium.event.ConiumEvent;
 import com.github.cao.awa.conium.server.ConiumDedicatedServer;
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
+import net.minecraft.command.permission.PermissionPredicate;
 import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.registry.*;
 import net.minecraft.resource.ResourceManager;
@@ -39,7 +40,7 @@ public abstract class DataPackContentsMixin {
             List<Registry.PendingTagLoad<?>> pendingTagLoads,
             FeatureSet enabledFeatures,
             CommandManager.RegistrationEnvironment environment,
-            int functionPermissionLevel,
+            PermissionPredicate permissions,
             Executor prepareExecutor,
             Executor applyExecutor,
             CallbackInfoReturnable<CompletableFuture<DataPackContents>> cir
@@ -64,7 +65,15 @@ public abstract class DataPackContentsMixin {
             method = "<init>",
             at = @At("RETURN")
     )
-    public void init(CombinedDynamicRegistries<ServerDynamicRegistryType> dynamicRegistries, RegistryWrapper.WrapperLookup registries, FeatureSet enabledFeatures, CommandManager.RegistrationEnvironment environment, List<Registry.PendingTagLoad<?>> pendingTagLoads, int functionPermissionLevel, CallbackInfo ci) {
+    public void init(
+            CombinedDynamicRegistries<ServerDynamicRegistryType> dynamicRegistries,
+            RegistryWrapper.WrapperLookup registries,
+            FeatureSet enabledFeatures,
+            CommandManager.RegistrationEnvironment environment,
+            List<Registry.PendingTagLoad<?>> pendingTagLoads,
+            PermissionPredicate permissions,
+            CallbackInfo ci
+    ) {
         assert Conium.coniumItemManager != null;
         Conium.coniumItemManager.setPendingTagLoad(pendingTagLoads);
     }

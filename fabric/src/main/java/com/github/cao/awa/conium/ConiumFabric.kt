@@ -1,14 +1,13 @@
-package com.github.cao.awa.coniumic
+package com.github.cao.awa.conium
 
-import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.feature.ConiumFeatureRegister
-import com.github.cao.awa.coniumic.feature.ConiumFabricFeatureRegister
+import com.github.cao.awa.conium.feature.ConiumFabricFeatureRegister
 import net.fabricmc.api.ModInitializer
 import org.apache.logging.log4j.LogManager
 
-class Coniumic : ModInitializer {
+class ConiumFabric : ModInitializer {
     companion object {
-        private val LOGGER = LogManager.getLogger("Coniumic")
+        private val LOGGER = LogManager.getLogger("ConiumFabric")
     }
 
     override fun onInitialize() {

@@ -13,11 +13,14 @@ data class ConiumComponentType<T>(
     val xCodec: Codec<T>?,
     val packetCodec: PacketCodec<in RegistryByteBuf, T>?,
     val valueCreator: ConiumValueCreator<T>,
-    val type: String
+    val type: String,
+    val isSkipsHandAnimation: Boolean
 ) : ComponentType<T> {
     override fun toString(): String = Util.registryValueToString(Registries.DATA_COMPONENT_TYPE, this)
 
     override fun getCodec(): Codec<T>? = this.xCodec
+
+    override fun skipsHandAnimation(): Boolean = this.isSkipsHandAnimation
 
     override fun getPacketCodec(): PacketCodec<in RegistryByteBuf, T>? = this.packetCodec
 }

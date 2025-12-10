@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.cao.awa.conium.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "datapack.block.ConiumBlockManagerMixin",
+    "datapack.entity.ConiumEntityManagerMixin",
+    "datapack.inject.item.ConiumItemPropertyInjectManagerMixin",
+    "datapack.item.ConiumItemManagerMixin",
+    "datapack.script.ConiumScriptManagerMixin",
+    "datapack.worldgen.ConiumPlacedFeatureManagerMixin"
+  ],
+  "client": [
+  ]
+}

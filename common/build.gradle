@@ -11,9 +11,6 @@ dependencies {
     // Do NOT use other classes from Fabric Loader.
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 
-    // Architectury API. This is optional, and you can comment it out if you don't need it.
-    modImplementation "dev.architectury:architectury:${rootProject.architectury_api_version}"
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
     implementation "org.jetbrains.kotlin:kotlin-reflect:${project.kotlin_version}"
 

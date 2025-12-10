@@ -1,16 +1,10 @@
-package com.github.cao.awa.coniumic
+package com.github.cao.awa.conium
 
-import com.github.cao.awa.conium.ConiumServerInitializer
-import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.network.packet.client.configuration.ConiumClientConfigurationPacket
 import com.github.cao.awa.conium.network.packet.client.play.ConiumClientPlayPacket
 import com.github.cao.awa.conium.network.registry.ConiumPacketRegister
 import net.fabricmc.api.DedicatedServerModInitializer
-import net.fabricmc.fabric.api.networking.v1.ServerConfigurationConnectionEvents
 import net.fabricmc.fabric.impl.networking.PayloadTypeRegistryImpl
-import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerConfigurationNetworkHandler
 import org.apache.logging.log4j.LogManager
 
 class ConiumicServer : DedicatedServerModInitializer {

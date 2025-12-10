@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.mixin.server.save;
 import com.github.cao.awa.conium.Conium;
 import com.github.cao.awa.conium.datapack.block.ConiumBlockManager;
 import com.github.cao.awa.conium.datapack.entity.ConiumEntityManager;
-import com.github.cao.awa.conium.datapack.inject.item.ItemPropertyInjectManager;
+import com.github.cao.awa.conium.datapack.inject.item.ConiumItemPropertyInjectManager;
 import com.github.cao.awa.conium.datapack.item.ConiumItemManager;
 import com.github.cao.awa.conium.script.manager.ConiumScriptManager;
 import com.github.cao.awa.conium.datapack.worldgen.ConiumPlacedFeatureManager;
@@ -34,7 +34,7 @@ public class SaveLoadingMixin {
         CombinedDynamicRegistries<ServerDynamicRegistryType> registries = original.call();
         DynamicRegistryManager registryManager = registries.getPrecedingRegistryManagers(ServerDynamicRegistryType.STATIC);
 
-        Conium.itemInjectManager = new ItemPropertyInjectManager(registryManager);
+        Conium.itemInjectManager = new ConiumItemPropertyInjectManager(registryManager);
         Conium.coniumItemManager = new ConiumItemManager(registryManager);
         Conium.coniumBlockManager = new ConiumBlockManager(registryManager);
         Conium.coniumEntityManager = new ConiumEntityManager(registryManager);

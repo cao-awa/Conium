@@ -7,7 +7,7 @@ license = "GPLv3"
 modId = "conium"
 version = "${version}"
 displayName = "Conium"
-authors = "cao_awa"
+authors = "cao_awa, 草二号机"
 description = '''
 Conium is a datapack and script framework for modern Minecraft, it provides very diverse features without Java coding, Conium lets you complete your mods only using datapacks.
 '''
@@ -23,7 +23,7 @@ side = "BOTH"
 [[dependencies.conium]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.6]"
+versionRange = "[1.21.9]"
 ordering = "NONE"
 side = "BOTH"
 

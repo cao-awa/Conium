@@ -9,11 +9,12 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.model.*
 import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.entity.EntityRendererFactory.Context
 import net.minecraft.client.render.entity.model.EntityModel
 
 @Environment(EnvType.CLIENT)
-class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(root, RenderLayer::getEntityCutout) {
+class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(root, RenderLayers::entityCutout) {
     companion object {
         val emptyModel = ConiumEntityModel(
             ModelPart(

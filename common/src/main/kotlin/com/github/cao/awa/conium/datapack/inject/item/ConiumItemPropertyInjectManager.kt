@@ -14,7 +14,6 @@ import com.google.gson.JsonObject
 import net.minecraft.component.ComponentType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.DynamicRegistryManager
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.registry.Registries
 import net.minecraft.resource.ResourceManager
@@ -23,7 +22,7 @@ import net.minecraft.util.profiler.Profiler
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-class ItemPropertyInjectManager(var registryLookup: RegistryWrapper.WrapperLookup) : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM_PROPERTY_INJECT.value) {
+class ConiumItemPropertyInjectManager(var registryLookup: RegistryWrapper.WrapperLookup) : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM_PROPERTY_INJECT.value) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ItemPropertyInjectManager")
     }
