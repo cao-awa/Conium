@@ -35,41 +35,21 @@ import com.github.cao.awa.conium.item.template.tool.pickaxe.ConiumItemStonePicka
 import com.github.cao.awa.conium.item.template.tool.pickaxe.ConiumItemWoodenPickaxeTemplate
 import com.github.cao.awa.conium.template.ConiumTemplate
 
+/**
+ * Conium item templates register.
+ *
+ * Ordering with alphabet order or group.
+ *
+ * @author cao_awa
+ * @author 草二号机
+ *
+ * @since 1.0.0
+ */
 object ConiumItemTemplates {
-    const val SPAWN_EGG: String = "spawn_egg"
-
-    const val FOOD: String = "food"
-
-    // Consumable.
-    const val CONSUMABLE: String = "consumable"
-    const val CONSUME_ON_USED: String = "consume_on_used"
-
-    // Use action.
-    const val USE_ACTION: String = "use_action"
-
-    // Stack max count.
-    const val STACK_MAX_COUNT: String = "max_count"
-
-    // Rarity.
-    const val RARITY: String = "rarity"
-    const val EPIC_RARITY: String = "epic_rarity"
-    const val RARE_RARITY: String = "rare_rarity"
-    const val UNCOMMON_RARITY: String = "uncommon_rarity"
-    const val COMMON_RARITY: String = "common_rarity"
-
-    // Fuel.
-    const val FUEL: String = "fuel"
-
-    // Glint.
-    const val GLINT: String = "glint"
-
-    // Armor.
+    // Armor (.A) .
     const val ARMOR: String = "armor"
 
-    // Tool.
-    const val TOOL: String = "tool"
-    const val CAN_DESTROY_IN_CREATIVE: String = "can_destroy_in_creative"
-
+    // (.A) .
     // Axes.
     const val WOODEN_AXE: String = "wooden_axe"
     const val STONE_AXE: String = "stone_axe"
@@ -78,6 +58,27 @@ object ConiumItemTemplates {
     const val DIAMOND_AXE: String = "diamond_axe"
     const val NETHERITE_AXE: String = "netherite_axe"
 
+    // (.C) .
+    const val CAN_DESTROY_IN_CREATIVE: String = "can_destroy_in_creative"
+    const val CLEAR_IGNITE: String = "clear_ignite"
+    const val CONSUMABLE: String = "consumable"
+    const val CONSUME_ON_USED: String = "consume_on_used"
+
+    // (.E) .
+    const val ENTITY_PLACER: String = "entity_placer"
+
+    // (.F) .
+    const val FOOD: String = "food"
+    const val FORCE_MINING_SPEED: String = "force_mining_speed"
+    const val FUEL: String = "fuel"
+
+    // (.G) .
+    const val GLINT: String = "glint"
+
+    // (.I) .
+    const val IGNITE: String = "ignite"
+
+    // (.P) .
     // Pickaxes.
     const val WOODEN_PICKAXE: String = "wooden_pickaxe"
     const val STONE_PICKAXE: String = "stone_pickaxe"
@@ -86,67 +87,33 @@ object ConiumItemTemplates {
     const val DIAMOND_PICKAXE: String = "diamond_pickaxe"
     const val NETHERITE_PICKAXE: String = "netherite_pickaxe"
 
-    // Mining speed
-    const val FORCE_MINING_SPEED: String = "force_mining_speed"
+    // (.R) .
+    // Rarity.
+    const val RARITY: String = "rarity"
+    const val EPIC_RARITY: String = "epic_rarity"
+    const val RARE_RARITY: String = "rare_rarity"
+    const val UNCOMMON_RARITY: String = "uncommon_rarity"
+    const val COMMON_RARITY: String = "common_rarity"
 
-    // Ignite entity.
-    const val IGNITE: String = "ignite"
-    const val CLEAR_IGNITE: String = "clear_ignite"
+    // (.S) .
+    const val SPAWN_EGG: String = "spawn_egg"
+    const val STACK_MAX_COUNT: String = "max_count"
 
-    // Entity placer.
-    const val ENTITY_PLACER: String = "entity_placer"
+    // (.T) .
+    const val TOOL: String = "tool"
 
-    // Convert.
+    // (.U) .
+    const val USE_ACTION: String = "use_action"
     const val USED_ON_BLOCK_CONVERT_TO: String = "used_on_block_convert_to"
 
     fun initItemTemplates() {
-        // Spawn egg.
+        // Armor (.A) .
         ConiumTemplate.registerItem(
-            SPAWN_EGG,
-            ConiumSpawnEggTemplate::create
+            ARMOR,
+            ConiumArmorTemplate::create
         )
 
-        // Food.
-        ConiumTemplate.registerItem(
-            FOOD,
-            ConiumFoodTemplate::create
-        )
-
-        // Stack max count
-        ConiumTemplate.registerItem(
-            STACK_MAX_COUNT,
-            ConiumStackMaxCountTemplate::create
-        )
-
-        // Consumable.
-        ConiumTemplate.registerItem(
-            CONSUMABLE,
-            ConiumConsumableTemplate::create
-        )
-
-        ConiumTemplate.registerItem(
-            CONSUME_ON_USED,
-            ConiumConsumeOnUsedTemplate::create
-        )
-
-        // Use action.
-        ConiumTemplate.registerItem(
-            USE_ACTION,
-            ConiumUseActionTemplate::create
-        )
-
-        // Tool.
-        ConiumTemplate.registerItem(
-            TOOL,
-            ConiumItemToolTemplate::create
-        )
-        // Can destroy in creative.
-        ConiumTemplate.registerItem(
-            CAN_DESTROY_IN_CREATIVE,
-            ConiumCanDestroyInCreativeTemplate::create
-        )
-
-        // Axes.
+        // Axes (.A) .
         ConiumTemplate.registerItem(
             WOODEN_AXE,
             ConiumItemWoodenAxeTemplate::create
@@ -172,6 +139,60 @@ object ConiumItemTemplates {
             ConiumItemNetheriteAxeTemplate::create
         )
 
+        // (.C) .
+        ConiumTemplate.registerItem(
+            CAN_DESTROY_IN_CREATIVE,
+            ConiumCanDestroyInCreativeTemplate::create
+        )
+
+        ConiumTemplate.registerItem(
+            CLEAR_IGNITE,
+            ConiumClearEntityIgniteTemplate::create
+        )
+
+        ConiumTemplate.registerItem(
+            CONSUMABLE,
+            ConiumConsumableTemplate::create
+        )
+
+        ConiumTemplate.registerItem(
+            CONSUME_ON_USED,
+            ConiumConsumeOnUsedTemplate::create
+        )
+
+        // (.E) .
+        ConiumTemplate.registerItem(
+            ENTITY_PLACER,
+            ConiumEntityPlacerTemplate::create
+        )
+
+        // (.F) .
+        ConiumTemplate.registerItem(
+            FOOD,
+            ConiumFoodTemplate::create
+        )
+        ConiumTemplate.registerItem(
+            FORCE_MINING_SPEED,
+            ConiumForceMiningSpeedTemplate::create
+        )
+        ConiumTemplate.registerItem(
+            FUEL,
+            ConiumFuelTemplate::create
+        )
+
+        // (.G) .
+        ConiumTemplate.registerItem(
+            GLINT,
+            ConiumGlintTemplate::create
+        )
+
+        // (.I) .
+        ConiumTemplate.registerItem(
+            IGNITE,
+            ConiumIgniteEntityTemplate::create
+        )
+
+        // (.P) .
         // Pickaxes.
         ConiumTemplate.registerItem(
             WOODEN_PICKAXE,
@@ -198,12 +219,7 @@ object ConiumItemTemplates {
             ConiumItemNetheritePickaxeTemplate::create
         )
 
-        // Mining speed.
-        ConiumTemplate.registerItem(
-            FORCE_MINING_SPEED,
-            ConiumForceMiningSpeedTemplate::create
-        )
-
+        // (.R) .
         // Rarity.
         ConiumTemplate.registerItem(
             RARITY,
@@ -226,44 +242,32 @@ object ConiumItemTemplates {
             ConiumCommonRarityTemplate::create
         )
 
-        // Fuel.
+        // (.S) .
         ConiumTemplate.registerItem(
-            FUEL,
-            ConiumFuelTemplate::create
+            SPAWN_EGG,
+            ConiumSpawnEggTemplate::create
+        )
+        ConiumTemplate.registerItem(
+            STACK_MAX_COUNT,
+            ConiumStackMaxCountTemplate::create
         )
 
-        // Glint.
+        // (.T) .
         ConiumTemplate.registerItem(
-            GLINT,
-            ConiumGlintTemplate::create
+            TOOL,
+            ConiumItemToolTemplate::create
         )
 
-        // Armor.
+        // (.U) .
         ConiumTemplate.registerItem(
-            ARMOR,
-            ConiumArmorTemplate::create
+            USE_ACTION,
+            ConiumUseActionTemplate::create
         )
 
-        // Ignite entity
-        ConiumTemplate.registerItem(
-            IGNITE,
-            ConiumIgniteEntityTemplate::create
-        )
-        ConiumTemplate.registerItem(
-            CLEAR_IGNITE,
-            ConiumClearEntityIgniteTemplate::create
-        )
-
-        // Convert.
         ConiumTemplate.registerItem(
             USED_ON_BLOCK_CONVERT_TO,
             ConiumUsedOnBlockConvertToTemplate::create
         )
 
-        // Entity placer.
-        ConiumTemplate.registerItem(
-            ENTITY_PLACER,
-            ConiumEntityPlacerTemplate::create
-        )
     }
 }

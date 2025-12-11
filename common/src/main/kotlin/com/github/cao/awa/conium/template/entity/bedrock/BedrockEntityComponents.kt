@@ -4,22 +4,28 @@ import com.github.cao.awa.conium.entity.template.bedrock.collision.BedrockEntity
 import com.github.cao.awa.conium.entity.template.bedrock.pushable.BedrockEntityPushableComponent
 import com.github.cao.awa.conium.template.ConiumTemplate
 
+/**
+ * Bedrock entity components register.
+ *
+ * Ordering with bedrock.dev:
+ * https://bedrock.dev/docs/stable/Entities
+ *
+ * @author cao_awa
+ * @author 草二号机
+ *
+ * @since 1.0.0
+ */
 object BedrockEntityComponents {
-    // Collision box.
     const val COLLISION_BOX: String = "minecraft:collision_box"
-
-    // Pushable.
     const val PUSHABLE: String = "minecraft:pushable"
 
     fun initBedrockEntityComponents() {
-        // Collision box.
         ConiumTemplate.registerEntity(
             COLLISION_BOX,
             BedrockEntityCollisionBoxComponent::create,
             true
         )
 
-        // Pushable.
         ConiumTemplate.registerEntity(
             PUSHABLE,
             BedrockEntityPushableComponent::create,

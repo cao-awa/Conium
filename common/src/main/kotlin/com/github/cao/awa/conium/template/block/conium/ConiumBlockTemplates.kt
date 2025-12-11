@@ -20,148 +20,125 @@ import com.github.cao.awa.conium.block.template.velocity.jump.ConiumBlockJumpVel
 import com.github.cao.awa.conium.block.template.velocity.walk.ConiumBlockWalkVelocityTemplate
 import com.github.cao.awa.conium.template.ConiumTemplate
 
+/**
+ * Conium block templates register.
+ *
+ * Ordering with alphabet order.
+ *
+ * @author cao_awa
+ * @author 草二号机
+ *
+ * @since 1.0.0
+ */
 object ConiumBlockTemplates {
-    // Destructible.
+    const val BLOCK_ENTITY_PRESETS: String = "block_entity_presets"
+    const val COLLISION: String = "collision"
+    const val DATA: String = "data"
+    const val ENABLE_BLOCK_ENTITY: String = "enable_block_entity"
+    const val EMITS_REDSTONE_POWER: String = "emits_redstone_power"
+    const val EMITS_STRONG_REDSTONE_POWER: String = "emits_strong_redstone_power"
+    const val EMITS_WEAK_REDSTONE_POWER: String = "emits_weak_redstone_power"
     const val EXPLOSION_RESISTANCE: String = "explosion_resistance"
     const val HARDNESS: String = "hardness"
-
-    // Map color.
-    const val MAP_COLOR: String = "map_color"
-
-    // Luminance.
-    const val LUMINANCE: String = "luminance"
-
-    // Collision.
-    const val COLLISION: String = "collision"
-
-    // Replaceable.
-    const val REPLACEABLE: String = "replaceable"
-
-    // Velocities.
-    const val MOVEMENT_VELOCITY: String = "movement_velocity"
-    const val WALK_VELOCITY: String = "walk_velocity"
-    const val JUMP_VELOCITY: String = "jump_velocity"
-
-    // Piston behavior.
-    const val PISTON_BEHAVIOR: String = "piston_behavior"
-
-    // Note block instrument.
     const val INSTRUMENT: String = "instrument"
-
-    // Path find.
+    const val JUMP_VELOCITY: String = "jump_velocity"
+    const val LUMINANCE: String = "luminance"
+    const val MAP_COLOR: String = "map_color"
+    const val MOVEMENT_VELOCITY: String = "movement_velocity"
     const val PATH_FIND_THROUGH: String = "path_find_through"
-
-    // Block entity.
-    const val ENABLE_BLOCK_ENTITY: String = "enable_block_entity"
-
-    // Block data.
-    const val DATA: String = "data"
-
-    // Block entity presets.
-    const val BLOCK_ENTITY_PRESETS: String = "block_entity_presets"
-
-    // Emits redstone power.
-    const val EMITS_REDSTONE_POWER: String = "emits_redstone_power"
-    const val EMITS_WEAK_REDSTONE_POWER: String = "emits_weak_redstone_power"
-    const val EMITS_STRONG_REDSTONE_POWER: String = "emits_strong_redstone_power"
+    const val PISTON_BEHAVIOR: String = "piston_behavior"
+    const val REPLACEABLE: String = "replaceable"
+    const val WALK_VELOCITY: String = "walk_velocity"
 
     fun initBlockTemplates() {
-        // Destructible.
-        ConiumTemplate.registerBlock(
-            EXPLOSION_RESISTANCE,
-            ConiumExplosionResistanceTemplate::create
-        )
-        ConiumTemplate.registerBlock(
-            HARDNESS,
-            ConiumHardnessTemplate::create
-        )
-
-        // Map color.
-        ConiumTemplate.registerBlock(
-            MAP_COLOR,
-            ConiumMapColorTemplate::create
-        )
-
-        // Luminance.
-        ConiumTemplate.registerBlock(
-            LUMINANCE,
-            ConiumLuminanceTemplate::create
-        )
-
-        // Collision.
-        ConiumTemplate.registerBlock(
-            COLLISION,
-            ConiumBlockCollisionTemplate::create
-        )
-
-        // Replaceable.
-        ConiumTemplate.registerBlock(
-            REPLACEABLE,
-            ConiumBlockReplaceableTemplate::create
-        )
-
-        // Movement velocity multiplier.
-        ConiumTemplate.registerBlock(
-            MOVEMENT_VELOCITY,
-            ConiumBlockMovementVelocityTemplate::create
-        )
-        ConiumTemplate.registerBlock(
-            WALK_VELOCITY,
-            ConiumBlockWalkVelocityTemplate::create
-        )
-        ConiumTemplate.registerBlock(
-            JUMP_VELOCITY,
-            ConiumBlockJumpVelocityTemplate::create
-        )
-
-        // Piston behavior.
-        ConiumTemplate.registerBlock(
-            PISTON_BEHAVIOR,
-            ConiumBlockPistonBehaviorsTemplate::create
-        )
-
-        // Note block instrument.
-        ConiumTemplate.registerBlock(
-            INSTRUMENT,
-            ConiumBlockInstrumentTemplate::create
-        )
-
-        // Path through.
-        ConiumTemplate.registerBlock(
-            PATH_FIND_THROUGH,
-            ConiumBlockPathFindThroughTemplate::create
-        )
-
-        // Block entity.
-        ConiumTemplate.registerBlock(
-            ENABLE_BLOCK_ENTITY,
-            ConiumEnableBlockEntityTemplate::create
-        )
-
-        // Block data.
-        ConiumTemplate.registerBlock(
-            DATA,
-            ConiumBlockDataTemplate::create
-        )
-
-        // Block entity presets.
         ConiumTemplate.registerBlock(
             BLOCK_ENTITY_PRESETS,
             ConiumBlockEntityPresetsTemplate::create
         )
 
-        // Emits redstone power.
+        ConiumTemplate.registerBlock(
+            COLLISION,
+            ConiumBlockCollisionTemplate::create
+        )
+
+        ConiumTemplate.registerBlock(
+            DATA,
+            ConiumBlockDataTemplate::create
+        )
+
+        ConiumTemplate.registerBlock(
+            ENABLE_BLOCK_ENTITY,
+            ConiumEnableBlockEntityTemplate::create
+        )
+
         ConiumTemplate.registerBlock(
             EMITS_REDSTONE_POWER,
             ConiumBlockEmitsRedstonePowerTemplate::create
         )
+
+        ConiumTemplate.registerBlock(
+            EMITS_STRONG_REDSTONE_POWER,
+            ConiumBlockEmitsStrongRedstonePowerTemplate::create
+        )
+
         ConiumTemplate.registerBlock(
             EMITS_WEAK_REDSTONE_POWER,
             ConiumBlockEmitsWeakRedstonePowerTemplate::create
         )
+
         ConiumTemplate.registerBlock(
-            EMITS_STRONG_REDSTONE_POWER,
-            ConiumBlockEmitsStrongRedstonePowerTemplate::create
+            EXPLOSION_RESISTANCE,
+            ConiumExplosionResistanceTemplate::create
+        )
+
+        ConiumTemplate.registerBlock(
+            HARDNESS,
+            ConiumHardnessTemplate::create
+        )
+
+        ConiumTemplate.registerBlock(
+            INSTRUMENT,
+            ConiumBlockInstrumentTemplate::create
+        )
+
+        ConiumTemplate.registerBlock(
+            JUMP_VELOCITY,
+            ConiumBlockJumpVelocityTemplate::create
+        )
+
+        ConiumTemplate.registerBlock(
+            LUMINANCE,
+            ConiumLuminanceTemplate::create
+        )
+
+        ConiumTemplate.registerBlock(
+            MAP_COLOR,
+            ConiumMapColorTemplate::create
+        )
+
+        ConiumTemplate.registerBlock(
+            MOVEMENT_VELOCITY,
+            ConiumBlockMovementVelocityTemplate::create
+        )
+
+        ConiumTemplate.registerBlock(
+            PATH_FIND_THROUGH,
+            ConiumBlockPathFindThroughTemplate::create
+        )
+
+        ConiumTemplate.registerBlock(
+            PISTON_BEHAVIOR,
+            ConiumBlockPistonBehaviorsTemplate::create
+        )
+
+        ConiumTemplate.registerBlock(
+            REPLACEABLE,
+            ConiumBlockReplaceableTemplate::create
+        )
+
+        ConiumTemplate.registerBlock(
+            WALK_VELOCITY,
+            ConiumBlockWalkVelocityTemplate::create
         )
     }
 }
