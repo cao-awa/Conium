@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.item.template.armor
 
+import com.github.cao.awa.conium.exception.Exceptions.illegalArgument
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.item.template.bedrock.wearable.BedrockWearableComponent
 import com.github.cao.awa.conium.kotlin.extent.component.withComponent
@@ -40,7 +41,7 @@ abstract class ConiumWearableTemplate(
                 "slot.armor.chest" -> EquipmentType.CHESTPLATE
                 "slot.armor.legs" -> EquipmentType.LEGGINGS
                 "slot.armor.feet" -> EquipmentType.BOOTS
-                "slot.weapon.offhand" -> throw IllegalArgumentException("Not supporting equipment slot '$name' now")
+                "slot.weapon.offhand" -> illegalArgument("Not supporting equipment slot '$name' now")
                 // By java keys.
                 "helmet" -> EquipmentType.HELMET
                 "chestplate" -> EquipmentType.CHESTPLATE
@@ -48,12 +49,12 @@ abstract class ConiumWearableTemplate(
                 "leggings" -> EquipmentType.LEGGINGS
                 "boots" -> EquipmentType.BOOTS
                 "body" -> EquipmentType.BODY
-                // By shortname of bedrock keys..
+                // By shortname of bedrock keys.
                 "head" -> EquipmentType.HELMET
                 "chest" -> EquipmentType.CHESTPLATE
                 "legs" -> EquipmentType.LEGGINGS
                 "feet" -> EquipmentType.BOOTS
-                else -> throw IllegalArgumentException("Unknown equipment: '$name'")
+                else -> illegalArgument("Unknown equipment: '$name'")
             }
         }
     }

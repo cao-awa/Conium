@@ -1,6 +1,9 @@
 package com.github.cao.awa.conium.item.template.consumable
 
+import com.github.cao.awa.conium.exception.Exceptions.illegalArgument
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
+import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
+import com.github.cao.awa.conium.kotlin.extent.json.ifString
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.CONSUMABLE
 import com.google.gson.JsonElement
@@ -43,43 +46,59 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
                     "milk_bucket" -> MILK_BUCKET
                     "chorus_fruit" -> CHORUS_FRUIT
                     else -> {
-                        throw IllegalArgumentException("No preset consumable component that named by '$it'")
+                        illegalArgument(
+                            "No preset consumable component that named by '$it'"
+                        )
                     }
                 }
             )
         }!!
 
+        @JvmStatic
         fun createConvert(jsonObject: JsonObject, customKey: String, callback: (ItemStack) -> Unit) {
             jsonObject[customKey]?.let { convert ->
+                // If got a JSON object, mean this convertible is a custom data item.
                 if (convert.isJsonObject) {
                     ItemStack.CODEC.parse(JsonOps.INSTANCE, convert.asJsonObject).orThrow
                 } else {
-                    ItemStack(Registries.ITEM.get(Identifier.of(convert.asString)), 1)
+                    // Or else got a string mean this convertible is a item that refer to registered item as default data.
+                    convert.ifString(
+                        { identifier ->
+                            ItemStack(
+                                Registries.ITEM.get(Identifier.of(identifier)),
+                                1
+                            )
+                        },
+                        // Cannot be other type of value because is no meaning.
+                        notSupported()
+                    )
                 }
             }?.apply {
                 callback(this)
             }
         }
 
+        @JvmStatic
         private fun createFoodComponent(
             template: ConiumConsumableTemplate,
             jsonObject: JsonObject
         ): ConsumableComponent {
-            return ConsumableComponent.builder().also {
+            return ConsumableComponent.builder().also { builder ->
                 createConvert(jsonObject, "convert_to") { remainder ->
                     template.useRemainder = remainder
                 }
 
                 jsonObject["apply_effects"]?.let { effects ->
-                    if (effects.isJsonObject) {
-                        val ops: JsonOps = JsonOps.INSTANCE
-                        ApplyEffectsConsumeEffect.CODEC.decoder()
-                            .decode(ops, effects).orThrow.first.let { theEffects ->
-                                it.consumeEffect(theEffects)
-                            }
-                    } else {
-                        throwNotSupported(effects)
-                    }
+                    effects.ifJsonObject(
+                        {
+                            val ops: JsonOps = JsonOps.INSTANCE
+                            ApplyEffectsConsumeEffect.CODEC.decoder()
+                                .decode(ops, effects).orThrow.first.let { theEffects ->
+                                    builder.consumeEffect(theEffects)
+                                }
+                        },
+                        notSupported()
+                    )
                 }
             }.build()
         }

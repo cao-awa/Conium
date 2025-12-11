@@ -13,6 +13,18 @@ fun <R> JsonElement.ifJsonObject(action: (JsonObject) -> R): R? {
     }
 }
 
+fun <R> JsonElement.jsonObjectOrThrow(action: (JsonObject) -> R, throwable: Throwable): R? {
+    return ifJsonObject(action) {
+        throw throwable
+    }
+}
+
+fun <R> JsonElement.jsonObjectOrThrow(action: (JsonObject) -> R, throwable: () -> Throwable): R? {
+    return ifJsonObject(action) {
+        throw throwable()
+    }
+}
+
 fun <R> JsonElement.ifJsonObject(action: (JsonObject) -> R, elseAction: (JsonElement) -> R): R? {
     return this.jsonObject?.let {
         action(it)
@@ -31,6 +43,18 @@ fun <R> JsonElement.ifJsonArray(action: (JsonArray) -> R): R? {
     return ifJsonArray(action) {
         // Do nothing.
         null
+    }
+}
+
+fun <R> JsonElement.jsonArrayOrThrow(action: (JsonArray) -> R, throwable: Throwable): R? {
+    return ifJsonArray(action) {
+        throw throwable
+    }
+}
+
+fun <R> JsonElement.jsonArrayOrThrow(action: (JsonArray) -> R, throwable: () -> Throwable): R? {
+    return ifJsonArray(action) {
+        throw throwable()
     }
 }
 
@@ -55,6 +79,18 @@ fun <R> JsonElement.ifFloat(action: (Float) -> R): R? {
     }
 }
 
+fun <R> JsonElement.floatOrThrow(action: (Float) -> R, throwable: Throwable): R? {
+    return ifFloat(action) {
+        throw throwable
+    }
+}
+
+fun <R> JsonElement.floatOrThrow(action: (Float) -> R, throwable: () -> Throwable): R? {
+    return ifFloat(action) {
+        throw throwable()
+    }
+}
+
 fun <R> JsonElement.ifFloat(action: (Float) -> R, elseAction: (JsonElement) -> R): R? {
     return this.float?.let {
         action(it)
@@ -73,6 +109,18 @@ fun <R> JsonElement.ifString(action: (String) -> R): R? {
     return ifString(action) {
         // Do nothing.
         null
+    }
+}
+
+fun <R> JsonElement.stringOrThrow(action: (String) -> R, throwable: Throwable): R? {
+    return ifString(action) {
+        throw throwable
+    }
+}
+
+fun <R> JsonElement.stringOrThrow(action: (String) -> R, throwable: () -> Throwable): R? {
+    return ifString(action) {
+        throw throwable()
     }
 }
 
@@ -97,6 +145,18 @@ fun <R> JsonElement.ifBoolean(action: (Boolean) -> R): R? {
     }
 }
 
+fun <R> JsonElement.booleanOrThrow(action: (Boolean) -> R, throwable: Throwable): R? {
+    return ifBoolean(action) {
+        throw throwable
+    }
+}
+
+fun <R> JsonElement.booleanOrThrow(action: (Boolean) -> R, throwable: () -> Throwable): R? {
+    return ifBoolean(action) {
+        throw throwable()
+    }
+}
+
 fun <R> JsonElement.ifBoolean(action: (Boolean) -> R, elseAction: (JsonElement) -> R): R? {
     return this.boolean?.let {
         action(it)
@@ -115,6 +175,18 @@ fun <R> JsonElement.ifInt(action: (Int) -> R): R? {
     return ifInt(action) {
         // Do nothing.
         null
+    }
+}
+
+fun <R> JsonElement.intOrThrow(action: (Int) -> R, throwable: Throwable): R? {
+    return ifInt(action) {
+        throw throwable
+    }
+}
+
+fun <R> JsonElement.intOrThrow(action: (Int) -> R, throwable: () -> Throwable): R? {
+    return ifInt(action) {
+        throw throwable()
     }
 }
 

@@ -28,10 +28,9 @@ class ConiumUsedOnBlockConvertToTemplate(
                 ) {
                     createItemStack(it, "result")
                 }
-            }
-        ) {
-            throw notSupported(it)
-        }!!
+            },
+            notSupported()
+        )!!
     }
 
     private val tagKey: TagKey<Block>? = if (this.target.startsWith("#")) {

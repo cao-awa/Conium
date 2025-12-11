@@ -218,7 +218,8 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
         val blockState: BlockState = world.getBlockState(blockPos)
 
         return if (this.consumeOnUsedOnBlock(blockState)) {
-            stack.decrementUnlessCreative(1, context.player)
+            val user: PlayerEntity? = context.player
+            stack.decrementUnlessCreative(1, user)
             ActionResult.CONSUME
         } else {
             ActionResult.SUCCESS

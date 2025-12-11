@@ -96,7 +96,6 @@ object ConiumItemTemplates {
     // Entity placer.
     const val ENTITY_PLACER: String = "entity_placer"
 
-
     // Convert.
     const val USED_ON_BLOCK_CONVERT_TO: String = "used_on_block_convert_to"
 

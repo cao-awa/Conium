@@ -1,0 +1,31 @@
+{
+    "format_version": "1.21.120",
+    "minecraft:item": {
+        "description": {
+            "identifier": "conium:sample",
+            "menu_category": {
+                "category": "items"
+            }
+        },
+        "components": {
+            "minecraft:food": {
+                "nutrition": 2,
+                "saturation_modifier": 2,
+                "can_always_eat": true,
+                "using_converts_to": "minecraft:apple"
+            },
+            "minecraft:damage": 6,
+            "minecraft:durability": 1234,
+            "minecraft:can_destroy_in_creative": true,
+            "minecraft:rarity": "epic",
+            "minecraft:fuel": 100,
+            "minecraft:glint": true,
+            "minecraft:wearable": {
+                "slot": "slot.armor.head",
+                "protection": 5
+            },
+            "use_animation": "eat",
+            "minecraft:max_stack_size": 64
+        }
+    }
+}

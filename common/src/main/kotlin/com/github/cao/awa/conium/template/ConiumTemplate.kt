@@ -5,6 +5,7 @@ package com.github.cao.awa.conium.template
 import com.github.cao.awa.conium.blockentity.template.ConiumBlockEntityTemplate
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
+import com.github.cao.awa.conium.exception.syntax.SyntaxNotSupportedException
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.innate.int
 import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
@@ -21,6 +22,7 @@ import net.minecraft.util.Identifier
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.util.*
+import kotlin.jvm.Throws
 import kotlin.reflect.KClass
 
 abstract class ConiumTemplate<R, P>(
@@ -130,12 +132,15 @@ abstract class ConiumTemplate<R, P>(
         // Attention to duration, this duration value in bedrock is seconds instead of ticks in bedrock.
         fun secondsToTicks(duration: Float): Int = (duration * 20).int
 
-        fun <R> notSupported(): (JsonElement) -> R = { throw notSupported(it) }
-
-        fun notSupported(jsonElement: JsonElement): IllegalArgumentException = IllegalArgumentException("Not supported syntax: $jsonElement")
-
-        @Throws(IllegalArgumentException::class)
-        fun throwNotSupported(jsonElement: JsonElement): IllegalArgumentException = throw notSupported(jsonElement)
+        /**
+         * Supply a thrower to throws a syntax not supported exception with the unsupported JSON element.
+         *
+         * @param R placeholder type, never got a result actually
+         */
+        @Throws(SyntaxNotSupportedException::class)
+        fun <R> notSupported(): (JsonElement) -> R = {
+            throw SyntaxNotSupportedException("Not supported syntax: $it")
+        }
 
         fun createItemStack(jsonObject: JsonObject, name: String): ItemStack {
             return jsonObject[name]!!.let { result: JsonElement ->

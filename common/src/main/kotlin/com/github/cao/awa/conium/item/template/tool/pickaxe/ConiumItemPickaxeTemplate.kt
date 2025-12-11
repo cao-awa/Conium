@@ -13,7 +13,7 @@ import net.minecraft.registry.tag.TagKey
 
 open class ConiumItemPickaxeTemplate(
     material: ToolMaterial,
-    effectiveBlocks: TagKey<Block> = BlockTags.AXE_MINEABLE,
+    effectiveBlocks: TagKey<Block> = BlockTags.PICKAXE_MINEABLE,
     attackDamage: Float = 1.0F,
     attackSpeed: Float = -2.8F,
     disableBlockingForSeconds: Float = 0F,
