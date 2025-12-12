@@ -1,140 +1,142 @@
 package com.github.cao.awa.conium.event.type
 
-import com.github.cao.awa.conium.blockentity.event.chest.close.ConiumChestClosedEventMetadata
-import com.github.cao.awa.conium.blockentity.event.chest.close.ConiumChestClosingEventMetadata
-import com.github.cao.awa.conium.blockentity.event.chest.close.trapped.ConiumTrappedChestClosedEventMetadata
-import com.github.cao.awa.conium.blockentity.event.chest.close.trapped.ConiumTrappedChestClosingEventMetadata
-import com.github.cao.awa.conium.blockentity.event.chest.open.ConiumChestOpenedEventMetadata
-import com.github.cao.awa.conium.blockentity.event.chest.open.ConiumChestOpeningEventMetadata
-import com.github.cao.awa.conium.blockentity.event.chest.open.trapped.ConiumTrappedChestOpenedEventMetadata
-import com.github.cao.awa.conium.blockentity.event.chest.open.trapped.ConiumTrappedChestOpeningEventMetadata
-import com.github.cao.awa.conium.blockentity.event.shulker.close.ConiumShulkerBoxClosingEventMetadata
-import com.github.cao.awa.conium.blockentity.event.shulker.close.ConiumShulkerBoxClosedEventMetadata
-import com.github.cao.awa.conium.blockentity.event.shulker.open.ConiumShulkerBoxOpenedEventMetadata
-import com.github.cao.awa.conium.blockentity.event.shulker.open.ConiumShulkerBoxOpeningEventMetadata
-import com.github.cao.awa.conium.block.event.breaking.ConiumBreakBlockEventMetadata
-import com.github.cao.awa.conium.block.event.breaking.ConiumBreakingBlockEventMetadata
-import com.github.cao.awa.conium.block.event.breaking.ConiumBrokenBlockEventMetadata
-import com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEventMetadata
-import com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEventMetadata
-import com.github.cao.awa.conium.block.event.tick.ConiumBlockScheduleTickEventMetadata
-import com.github.cao.awa.conium.block.event.tick.ConiumBlockScheduleTickedEventMetadata
-import com.github.cao.awa.conium.block.event.tick.fluid.ConiumFluidScheduleTickEventMetadata
-import com.github.cao.awa.conium.block.event.tick.fluid.ConiumFluidScheduleTickedEventMetadata
-import com.github.cao.awa.conium.block.event.use.ConiumUseBlockEventMetadata
-import com.github.cao.awa.conium.block.event.use.ConiumUsedBlockEventMetadata
-import com.github.cao.awa.conium.chunk.event.receive.ConiumReceiveChunkEventMetadata
-import com.github.cao.awa.conium.chunk.event.receive.ConiumReceivedChunkEventMetadata
-import com.github.cao.awa.conium.craft.table.event.ConiumCraftingTableCraftedEventMetadata
-import com.github.cao.awa.conium.craft.table.event.ConiumCraftingTableCraftingEventMetadata
-import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamageEventMetadata
-import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamagedEventMetadata
-import com.github.cao.awa.conium.entity.event.die.ConiumEntityDeadEventMetadata
-import com.github.cao.awa.conium.entity.event.die.ConiumEntityDieEventMetadata
-import com.github.cao.awa.conium.entity.event.fire.ConiumEntityOnFireEventMetadata
-import com.github.cao.awa.conium.entity.event.fire.extinguish.ConiumEntityExtinguishFireEventMetadata
-import com.github.cao.awa.conium.entity.event.fire.extinguish.ConiumEntityExtinguishedFireEventMetadata
-import com.github.cao.awa.conium.entity.event.rest.sleep.ConiumEntitySleepEventMetadata
-import com.github.cao.awa.conium.entity.event.rest.sleep.ConiumEntityTrySleepEventMetadata
-import com.github.cao.awa.conium.entity.event.rest.wake.ConiumEntityWakeUpEventMetadata
-import com.github.cao.awa.conium.entity.event.rest.wake.ConiumEntityWakedUpEventMetadata
-import com.github.cao.awa.conium.entity.event.sprint.ConiumEntitySprintEventMetadata
-import com.github.cao.awa.conium.entity.event.sprint.ConiumEntitySprintingEventMetadata
-import com.github.cao.awa.conium.entity.event.sprint.ConiumEntityStopSprintEventMetadata
-import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickEventMetadata
-import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickedEventMetadata
+import com.github.cao.awa.conium.block.event.breaking.type.ConiumBreakingBlockEventType
+import com.github.cao.awa.conium.block.event.breaks.type.ConiumBreakBlockEventType
+import com.github.cao.awa.conium.block.event.broken.type.ConiumBrokenBlockEventType
+import com.github.cao.awa.conium.block.event.fluid.schedule.tick.type.ConiumFluidScheduleTickEventType
+import com.github.cao.awa.conium.block.event.fluid.schedule.ticked.type.ConiumFluidScheduleTickedEventType
+import com.github.cao.awa.conium.block.event.place.type.ConiumPlaceBlockEventType
+import com.github.cao.awa.conium.block.event.placed.type.ConiumPlacedBlockEventType
+import com.github.cao.awa.conium.block.event.schedule.tick.type.ConiumBlockScheduleTickEventType
+import com.github.cao.awa.conium.block.event.schedule.ticked.type.ConiumBlockScheduleTickedEventType
+import com.github.cao.awa.conium.block.event.use.type.ConiumUseBlockEventType
+import com.github.cao.awa.conium.block.event.used.type.ConiumUsedBlockEventType
+import com.github.cao.awa.conium.blockentity.event.chest.closed.type.ConiumChestClosedEventType
+import com.github.cao.awa.conium.blockentity.event.chest.closing.type.ConiumChestClosingEventType
+import com.github.cao.awa.conium.blockentity.event.chest.opened.type.ConiumChestOpenedEventType
+import com.github.cao.awa.conium.blockentity.event.chest.opening.type.ConiumChestOpeningEventType
+import com.github.cao.awa.conium.blockentity.event.chest.trapped.closed.type.ConiumTrappedChestClosedEventType
+import com.github.cao.awa.conium.blockentity.event.chest.trapped.closing.type.ConiumTrappedChestClosingEventType
+import com.github.cao.awa.conium.blockentity.event.chest.trapped.opened.type.ConiumTrappedChestOpenedEventType
+import com.github.cao.awa.conium.blockentity.event.chest.trapped.opening.type.ConiumTrappedChestOpeningEventType
+import com.github.cao.awa.conium.blockentity.event.shulker.closed.type.ConiumShulkerBoxClosedEventType
+import com.github.cao.awa.conium.blockentity.event.shulker.closing.type.ConiumShulkerBoxClosingEventType
+import com.github.cao.awa.conium.blockentity.event.shulker.opened.type.ConiumShulkerBoxOpenedEventType
+import com.github.cao.awa.conium.blockentity.event.shulker.opening.type.ConiumShulkerBoxOpeningEventType
+import com.github.cao.awa.conium.chunk.event.receive.metadata.ConiumReceiveChunkEventMetadata
+import com.github.cao.awa.conium.chunk.event.receive.type.ConiumReceiveChunkEventType
+import com.github.cao.awa.conium.chunk.event.received.metadata.ConiumReceivedChunkEventMetadata
+import com.github.cao.awa.conium.chunk.event.received.type.ConiumReceivedChunkEventType
+import com.github.cao.awa.conium.craft.table.event.crafted.metadata.ConiumCraftingTableCraftedEventMetadata
+import com.github.cao.awa.conium.craft.table.event.crafted.type.ConiumCraftingTableCraftedEventType
+import com.github.cao.awa.conium.craft.table.event.crafting.metadata.ConiumCraftingTableCraftingEventMetadata
+import com.github.cao.awa.conium.craft.table.event.crafting.type.ConiumCraftingTableCraftingEventType
+import com.github.cao.awa.conium.entity.event.damage.type.ConiumEntityDamageEventType
+import com.github.cao.awa.conium.entity.event.damaged.type.ConiumEntityDamagedEventType
+import com.github.cao.awa.conium.entity.event.dead.type.ConiumEntityDeadEventType
+import com.github.cao.awa.conium.entity.event.die.type.ConiumEntityDieEventType
+import com.github.cao.awa.conium.entity.event.extinguish.type.ConiumEntityExtinguishFireEventType
+import com.github.cao.awa.conium.entity.event.extinguished.type.ConiumEntityExtinguishedFireEventType
+import com.github.cao.awa.conium.entity.event.fire.type.ConiumEntityOnFireEventType
+import com.github.cao.awa.conium.entity.event.rest.sleep.type.ConiumEntitySleepEventType
+import com.github.cao.awa.conium.entity.event.rest.sleep.type.ConiumEntityTrySleepEventType
+import com.github.cao.awa.conium.entity.event.rest.wake.type.ConiumEntityWakeUpEventType
+import com.github.cao.awa.conium.entity.event.rest.waked.type.ConiumEntityWakedUpEventType
+import com.github.cao.awa.conium.entity.event.sprint.type.ConiumEntitySprintEventType
+import com.github.cao.awa.conium.entity.event.sprinting.stop.type.ConiumEntityStopSprintEventType
+import com.github.cao.awa.conium.entity.event.sprinting.type.ConiumEntitySprintingEventType
+import com.github.cao.awa.conium.entity.event.tick.type.ConiumEntityTickEventType
+import com.github.cao.awa.conium.entity.event.ticked.type.ConiumEntityTickedEventType
 import com.github.cao.awa.conium.event.ConiumEvent
-import com.github.cao.awa.conium.event.metadata.ConiumEmptyEventMetadata
+import com.github.cao.awa.conium.event.empty.ConiumEmptyEventMetadata
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.cancelable.ConiumCancelableEventType
 import com.github.cao.awa.conium.event.type.cancelable.ConiumNoCancelableEventType
-import com.github.cao.awa.conium.item.event.stack.click.ConiumItemStackClickEventMetadata
-import com.github.cao.awa.conium.item.event.stack.click.ConiumItemStackClickedEventMetadata
-import com.github.cao.awa.conium.item.event.tick.inventory.ConiumItemInventoryTickEventMetadata
-import com.github.cao.awa.conium.item.event.tick.inventory.ConiumItemInventoryTickedEventMetadata
-import com.github.cao.awa.conium.item.event.use.ConiumItemUseEventMetadata
-import com.github.cao.awa.conium.item.event.use.ConiumItemUsedEventMetadata
-import com.github.cao.awa.conium.item.event.use.block.ConiumItemUseOnBlockEventMetadata
-import com.github.cao.awa.conium.item.event.use.block.ConiumItemUsedOnBlockEventMetadata
-import com.github.cao.awa.conium.item.event.use.entity.ConiumItemUseOnEntityEventMetadata
-import com.github.cao.awa.conium.item.event.use.entity.ConiumItemUsedOnEntityEventMetadata
-import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickEventMetadata
-import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickedEventMetadata
+import com.github.cao.awa.conium.inactive.event.type.ConiumInactiveEventType
+import com.github.cao.awa.conium.item.event.inventory.tick.type.ConiumItemInventoryTickEventType
+import com.github.cao.awa.conium.item.event.inventory.ticked.type.ConiumItemInventoryTickedEventType
+import com.github.cao.awa.conium.item.event.stack.click.type.ConiumItemStackClickEventType
+import com.github.cao.awa.conium.item.event.stack.clicked.type.ConiumItemStackClickedEventType
+import com.github.cao.awa.conium.item.event.use.block.on.use.type.ConiumItemUseOnBlockEventType
+import com.github.cao.awa.conium.item.event.use.block.on.used.type.ConiumItemUsedOnBlockEventType
+import com.github.cao.awa.conium.item.event.use.entity.on.use.type.ConiumItemUseOnEntityEventType
+import com.github.cao.awa.conium.item.event.use.entity.on.used.type.ConiumItemUsedOnEntityEventType
+import com.github.cao.awa.conium.item.event.use.type.ConiumItemUseEventType
+import com.github.cao.awa.conium.item.event.use.usage.tick.type.ConiumItemUsageTickEventType
+import com.github.cao.awa.conium.item.event.use.usage.ticked.type.ConiumItemUsageTickedEventType
+import com.github.cao.awa.conium.item.event.used.type.ConiumItemUsedEventType
 import com.github.cao.awa.conium.mixin.block.AbstractBlockStateMixin
 import com.github.cao.awa.conium.mixin.client.interaction.ClientPlayerInteractionManagerMixin
 import com.github.cao.awa.conium.mixin.server.interaction.ServerPlayerInteractionManagerMixin
-import com.github.cao.awa.conium.network.event.ConiumServerConfigurationConnectionEventMetadata
-import com.github.cao.awa.conium.network.event.ConiumServerConfiguredConnectionEventMetadata
-import com.github.cao.awa.conium.random.event.ConiumRandomEventMetadata
-import com.github.cao.awa.conium.server.event.random.ConiumServerRandomEventMetadata
-import com.github.cao.awa.conium.server.event.tick.ConiumServerTickEventMetadata
-import com.github.cao.awa.conium.server.event.tick.ConiumServerTickTailEventMetadata
-import net.minecraft.block.Block
-import net.minecraft.entity.EntityType
-import net.minecraft.fluid.Fluid
+import com.github.cao.awa.conium.network.event.server.connection.configuration.metadata.ConiumServerConfigurationConnectionEventMetadata
+import com.github.cao.awa.conium.network.event.server.connection.configuration.type.ConiumServerConfigurationConnectionEventType
+import com.github.cao.awa.conium.network.event.server.connection.configured.metadata.ConiumServerConfiguredConnectionEventMetadata
+import com.github.cao.awa.conium.network.event.server.connection.configured.type.ConiumServerConfiguredConnectionEventType
+import com.github.cao.awa.conium.random.event.type.ConiumRandomEventType
+import com.github.cao.awa.conium.server.event.random.type.ConiumServerRandomEventType
+import com.github.cao.awa.conium.server.event.tick.start.type.ConiumServerTickEventType
+import com.github.cao.awa.conium.server.event.tick.tail.type.ConiumServerTickTailEventType
 import net.minecraft.item.Item
 import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket
-import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerConfigurationNetworkHandler
 import net.minecraft.world.chunk.WorldChunk
-import net.minecraft.util.Unit as MinecraftUnit
 
-abstract class ConiumEventType<I : Any, M: ConiumEventMetadata<I>, C: Any, N: ConiumEventMetadata<C>>(val name: String, val identityDescription: String, val instance: () -> ConiumEvent<I, M, *>) {
+abstract class ConiumEventType<I : Any, M: ConiumEventMetadata<I, M>, C: Any, N: ConiumEventMetadata<C, N>>(val name: String, val identityDescription: String, val instance: () -> ConiumEvent<I, M, *, *>) {
     companion object {
         @JvmField
-        val INACTIVE: ConiumNoCancelableEventType<Unit, ConiumEmptyEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("inactive", "Unit", ConiumEvent.Companion::inactive)
+        val INACTIVE: ConiumInactiveEventType = ConiumInactiveEventType()
 
         @JvmField
-        val RANDOM: ConiumNoCancelableEventType<MinecraftUnit, ConiumRandomEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("random", "Unit", ConiumEvent.Companion::random)
+        val RANDOM: ConiumRandomEventType = ConiumRandomEventType()
 
         @JvmField
-        val SERVER_RANDOM: ConiumNoCancelableEventType<MinecraftServer, ConiumServerRandomEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("server_random", "MinecraftServer", ConiumEvent.Companion::serverRandom)
+        val SERVER_RANDOM: ConiumServerRandomEventType = ConiumServerRandomEventType()
 
 //        @JvmField
 //        // Unsupported now.
 //        val CLIENT_RANDOM: ConiumEventType<MinecraftClient> = ConiumEventType("client_random", MinecraftClient::class)
 
         @JvmField
-        val SERVER_TICK: ConiumNoCancelableEventType<MinecraftServer, ConiumServerTickEventMetadata, MinecraftServer, ConiumServerTickTailEventMetadata> = ConiumNoCancelableEventType("server_tick", "MinecraftServer", ConiumEvent.Companion::serverTick)
+        val SERVER_TICK: ConiumServerTickEventType = ConiumServerTickEventType()
 
         @JvmField
-        val SERVER_TICK_TAIL: ConiumNoCancelableEventType<MinecraftServer, ConiumServerTickTailEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("server_tick_tail", "MinecraftServer",ConiumEvent.Companion::serverTickTail)
+        val SERVER_TICK_TAIL: ConiumServerTickTailEventType = ConiumServerTickTailEventType()
 
         @JvmField
-        val ITEM_USAGE_TICK: ConiumCancelableEventType<Item, ConiumItemUsageTickEventMetadata, Item, ConiumItemUsageTickedEventMetadata> = ConiumCancelableEventType("item_pre_usage_tick", "Item",ConiumEvent.Companion::itemUsageTick)
+        val ITEM_USAGE_TICK: ConiumItemUsageTickEventType = ConiumItemUsageTickEventType()
 
         @JvmField
-        val ITEM_USAGE_TICKED: ConiumNoCancelableEventType<Item, ConiumItemUsageTickedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("item_usage_tick", "Item",ConiumEvent.Companion::itemUsageTicked)
+        val ITEM_USAGE_TICKED: ConiumItemUsageTickedEventType = ConiumItemUsageTickedEventType()
 
         @JvmField
-        val ITEM_INVENTORY_TICK: ConiumCancelableEventType<Item, ConiumItemInventoryTickEventMetadata, Item, ConiumItemInventoryTickedEventMetadata> = ConiumCancelableEventType("item_inventory_tick", "Item",ConiumEvent.Companion::itemInventoryTick)
+        val ITEM_INVENTORY_TICK: ConiumItemInventoryTickEventType = ConiumItemInventoryTickEventType()
 
         @JvmField
-        val ITEM_INVENTORY_TICKED: ConiumNoCancelableEventType<Item, ConiumItemInventoryTickedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("item_inventory_ticked", "Item",ConiumEvent.Companion::itemInventoryTicked)
+        val ITEM_INVENTORY_TICKED: ConiumItemInventoryTickedEventType = ConiumItemInventoryTickedEventType()
 
         @JvmField
-        val ITEM_STACK_CLICK: ConiumCancelableEventType<Item, ConiumItemStackClickEventMetadata, Item, ConiumItemStackClickedEventMetadata> = ConiumCancelableEventType("item_stack_click", "Item",ConiumEvent.Companion::itemStackClick)
+        val ITEM_STACK_CLICK: ConiumItemStackClickEventType = ConiumItemStackClickEventType()
 
         @JvmField
-        val ITEM_STACK_CLICKED: ConiumNoCancelableEventType<Item, ConiumItemStackClickedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("item_stack_clicked", "Item",ConiumEvent.Companion::itemStackClicked)
+        val ITEM_STACK_CLICKED: ConiumItemStackClickedEventType = ConiumItemStackClickedEventType()
 
         @JvmField
-        val ITEM_USE: ConiumCancelableEventType<Item, ConiumItemUseEventMetadata, Item, ConiumItemUsedEventMetadata> = ConiumCancelableEventType("item_use", "Item",ConiumEvent.Companion::itemUse)
+        val ITEM_USE: ConiumItemUseEventType = ConiumItemUseEventType()
 
         @JvmField
-        val ITEM_USED: ConiumNoCancelableEventType<Item, ConiumItemUsedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("item_used", "Item",ConiumEvent.Companion::itemUsed)
+        val ITEM_USED: ConiumItemUsedEventType = ConiumItemUsedEventType()
 
         @JvmField
-        val ITEM_USE_ON_BLOCK: ConiumCancelableEventType<Item, ConiumItemUseOnBlockEventMetadata, Item, ConiumItemUsedOnBlockEventMetadata> = ConiumCancelableEventType("item_use_on_block", "Item",ConiumEvent.Companion::itemUseOnBlock)
+        val ITEM_USE_ON_BLOCK: ConiumItemUseOnBlockEventType = ConiumItemUseOnBlockEventType()
 
         @JvmField
-        val ITEM_USED_ON_BLOCK: ConiumNoCancelableEventType<Item, ConiumItemUsedOnBlockEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("item_used_on_block", "Item",ConiumEvent.Companion::itemUsedOnBlock)
+        val ITEM_USED_ON_BLOCK: ConiumItemUsedOnBlockEventType = ConiumItemUsedOnBlockEventType()
 
         @JvmField
-        val ITEM_USE_ON_ENTITY: ConiumCancelableEventType<Item, ConiumItemUseOnEntityEventMetadata, Item, ConiumItemUsedOnEntityEventMetadata> = ConiumCancelableEventType("item_use_on_entity", "Item",ConiumEvent.Companion::itemUseOnEntity)
+        val ITEM_USE_ON_ENTITY: ConiumItemUseOnEntityEventType = ConiumItemUseOnEntityEventType()
 
         @JvmField
-        val ITEM_USED_ON_ENTITY: ConiumNoCancelableEventType<Item, ConiumItemUsedOnEntityEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("item_used_on_entity", "Item",ConiumEvent.Companion::itemUsedOnEntity)
+        val ITEM_USED_ON_ENTITY: ConiumItemUsedOnEntityEventType = ConiumItemUsedOnEntityEventType()
 
         // Block.
         /**
@@ -149,7 +151,7 @@ abstract class ConiumEventType<I : Any, M: ConiumEventMetadata<I>, C: Any, N: Co
          * @since 1.0.0
          */
         @JvmField
-        val BREAKING_BLOCK: ConiumCancelableEventType<Block, ConiumBreakingBlockEventMetadata, Block, ConiumBreakBlockEventMetadata> = ConiumCancelableEventType("breaking_block", "Block",ConiumEvent.Companion::breakingBlock)
+        val BREAKING_BLOCK: ConiumBreakingBlockEventType = ConiumBreakingBlockEventType()
 
         /**
          * The event where that block is be breaking.
@@ -165,7 +167,7 @@ abstract class ConiumEventType<I : Any, M: ConiumEventMetadata<I>, C: Any, N: Co
          * @since 1.0.0
          */
         @JvmField
-        val BREAK_BLOCK: ConiumCancelableEventType<Block, ConiumBreakBlockEventMetadata, Block, ConiumBrokenBlockEventMetadata> = ConiumCancelableEventType("break_block", "Block",ConiumEvent.Companion::breakBlock)
+        val BREAK_BLOCK: ConiumBreakBlockEventType = ConiumBreakBlockEventType()
 
         /**
          * The event where that block is be mined.
@@ -180,68 +182,68 @@ abstract class ConiumEventType<I : Any, M: ConiumEventMetadata<I>, C: Any, N: Co
          * @since 1.0.0
          */
         @JvmField
-        val BROKEN_BLOCK: ConiumNoCancelableEventType<Block, ConiumBrokenBlockEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("broken_block", "Block",ConiumEvent.Companion::brokenBlock)
+        val BROKEN_BLOCK: ConiumBrokenBlockEventType = ConiumBrokenBlockEventType()
 
         @JvmField
-        val PLACE_BLOCK: ConiumCancelableEventType<Block, ConiumPlaceBlockEventMetadata, Block, ConiumPlacedBlockEventMetadata> = ConiumCancelableEventType("place_block", "Block",ConiumEvent.Companion::placeBlock)
+        val PLACE_BLOCK: ConiumPlaceBlockEventType = ConiumPlaceBlockEventType()
 
         @JvmField
-        val PLACED_BLOCK: ConiumNoCancelableEventType<Block, ConiumPlacedBlockEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("placed_block", "Block",ConiumEvent.Companion::placedBlock)
+        val PLACED_BLOCK: ConiumPlacedBlockEventType = ConiumPlacedBlockEventType()
 
         @JvmField
-        val USE_BLOCK: ConiumCancelableEventType<Block, ConiumUseBlockEventMetadata, Block, ConiumUsedBlockEventMetadata> = ConiumCancelableEventType("use_block", "Block",ConiumEvent.Companion::useBlock)
+        val USE_BLOCK: ConiumUseBlockEventType = ConiumUseBlockEventType()
 
         @JvmField
-        val USED_BLOCK: ConiumNoCancelableEventType<Block, ConiumUsedBlockEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("used_block", "Block",ConiumEvent.Companion::usedBlock)
+        val USED_BLOCK: ConiumUsedBlockEventType = ConiumUsedBlockEventType()
 
         @JvmField
-        val SHULKER_BOX_OPENING: ConiumCancelableEventType<Block, ConiumShulkerBoxOpeningEventMetadata, Block, ConiumShulkerBoxOpenedEventMetadata> = ConiumCancelableEventType("shulker_box_opening", "Block",ConiumEvent.Companion::shulkerBoxOpening)
+        val SHULKER_BOX_OPENING: ConiumShulkerBoxOpeningEventType = ConiumShulkerBoxOpeningEventType()
 
         @JvmField
-        val SHULKER_BOX_OPENED: ConiumNoCancelableEventType<Block, ConiumShulkerBoxOpenedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("shulker_box_opened", "Block",ConiumEvent.Companion::shulkerBoxOpened)
+        val SHULKER_BOX_OPENED: ConiumShulkerBoxOpenedEventType = ConiumShulkerBoxOpenedEventType()
 
         @JvmField
-        val SHULKER_BOX_CLOSING: ConiumCancelableEventType<Block, ConiumShulkerBoxClosingEventMetadata, Block, ConiumShulkerBoxClosedEventMetadata> = ConiumCancelableEventType("shulker_box_closing", "Block",ConiumEvent.Companion::shulkerBoxClosing)
+        val SHULKER_BOX_CLOSING: ConiumShulkerBoxClosingEventType = ConiumShulkerBoxClosingEventType()
 
         @JvmField
-        val SHULKER_BOX_CLOSED: ConiumNoCancelableEventType<Block, ConiumShulkerBoxClosedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("shulker_box_closed", "Block",ConiumEvent.Companion::shulkerBoxClosed)
+        val SHULKER_BOX_CLOSED: ConiumShulkerBoxClosedEventType = ConiumShulkerBoxClosedEventType()
 
         @JvmField
-        val CHEST_OPENING: ConiumCancelableEventType<Block, ConiumChestOpeningEventMetadata, Block, ConiumChestOpenedEventMetadata> = ConiumCancelableEventType("chest_opening", "Block",ConiumEvent.Companion::chestOpening)
+        val CHEST_OPENING: ConiumChestOpeningEventType = ConiumChestOpeningEventType()
 
         @JvmField
-        val CHEST_OPENED: ConiumNoCancelableEventType<Block, ConiumChestOpenedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("chest_opened", "Block",ConiumEvent.Companion::chestOpened)
+        val CHEST_OPENED: ConiumChestOpenedEventType = ConiumChestOpenedEventType()
 
         @JvmField
-        val CHEST_CLOSING: ConiumCancelableEventType<Block, ConiumChestClosingEventMetadata, Block, ConiumChestClosedEventMetadata> = ConiumCancelableEventType("chest_closing", "Block",ConiumEvent.Companion::chestClosing)
+        val CHEST_CLOSING: ConiumChestClosingEventType = ConiumChestClosingEventType()
 
         @JvmField
-        val CHEST_CLOSED: ConiumNoCancelableEventType<Block, ConiumChestClosedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("chest_closed", "Block",ConiumEvent.Companion::chestClosed)
+        val CHEST_CLOSED: ConiumChestClosedEventType = ConiumChestClosedEventType()
 
         @JvmField
-        val TRAPPED_CHEST_OPENING: ConiumCancelableEventType<Block, ConiumTrappedChestOpeningEventMetadata, Block, ConiumTrappedChestOpenedEventMetadata> = ConiumCancelableEventType("trapped_chest_opening", "Block",ConiumEvent.Companion::trappedChestOpening)
+        val TRAPPED_CHEST_OPENING: ConiumTrappedChestOpeningEventType = ConiumTrappedChestOpeningEventType()
 
         @JvmField
-        val TRAPPED_CHEST_OPENED: ConiumNoCancelableEventType<Block, ConiumTrappedChestOpenedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("trapped_chest_opened", "Block",ConiumEvent.Companion::trappedChestOpened)
+        val TRAPPED_CHEST_OPENED: ConiumTrappedChestOpenedEventType = ConiumTrappedChestOpenedEventType()
 
         @JvmField
-        val TRAPPED_CHEST_CLOSING: ConiumCancelableEventType<Block, ConiumTrappedChestClosingEventMetadata, Block, ConiumTrappedChestClosedEventMetadata> = ConiumCancelableEventType("trapped_chest_closing", "Block",ConiumEvent.Companion::trappedChestClosing)
+        val TRAPPED_CHEST_CLOSING: ConiumTrappedChestClosingEventType = ConiumTrappedChestClosingEventType()
 
         @JvmField
-        val TRAPPED_CHEST_CLOSED: ConiumNoCancelableEventType<Block, ConiumTrappedChestClosedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("trapped_chest_closed", "Block",ConiumEvent.Companion::trappedChestClosed)
+        val TRAPPED_CHEST_CLOSED: ConiumTrappedChestClosedEventType = ConiumTrappedChestClosedEventType()
 
         @JvmField
-        val ENTITY_TICK: ConiumCancelableEventType<EntityType<*>, ConiumEntityTickEventMetadata, EntityType<*>, ConiumEntityTickedEventMetadata> = ConiumCancelableEventType("entity_tick", "EntityType",ConiumEvent.Companion::entityTick)
+        val ENTITY_TICK: ConiumEntityTickEventType = ConiumEntityTickEventType()
 
         @JvmField
-        val ENTITY_TICKED: ConiumNoCancelableEventType<EntityType<*>, ConiumEntityTickedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("entity_tick_ticked", "EntityType",ConiumEvent.Companion::entityTicked)
+        val ENTITY_TICKED: ConiumEntityTickedEventType = ConiumEntityTickedEventType()
 
         // Entity.
         @JvmField
-        val ENTITY_DAMAGE: ConiumCancelableEventType<EntityType<*>, ConiumEntityDamageEventMetadata, EntityType<*>, ConiumEntityDamagedEventMetadata> = ConiumCancelableEventType("entity_damage", "EntityType",ConiumEvent.Companion::entityDamage)
+        val ENTITY_DAMAGE: ConiumEntityDamageEventType = ConiumEntityDamageEventType()
 
         @JvmField
-        val ENTITY_DAMAGED: ConiumNoCancelableEventType<EntityType<*>, ConiumEntityDamagedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("entity_damaged", "EntityType",ConiumEvent.Companion::entityDamaged)
+        val ENTITY_DAMAGED: ConiumEntityDamagedEventType = ConiumEntityDamagedEventType()
 
         /**
          * The event where that entity was dying.
@@ -249,7 +251,7 @@ abstract class ConiumEventType<I : Any, M: ConiumEventMetadata<I>, C: Any, N: Co
          * @since 1.0.0
          */
         @JvmField
-        val ENTITY_DIE: ConiumCancelableEventType<EntityType<*>, ConiumEntityDieEventMetadata, EntityType<*>, ConiumEntityDeadEventMetadata> = ConiumCancelableEventType("entity_die", "EntityType",ConiumEvent.Companion::entityDie)
+        val ENTITY_DIE: ConiumEntityDieEventType = ConiumEntityDieEventType()
 
         /**
          * The event where that entity was died.
@@ -257,7 +259,7 @@ abstract class ConiumEventType<I : Any, M: ConiumEventMetadata<I>, C: Any, N: Co
          * @since 1.0.0
          */
         @JvmField
-        val ENTITY_DEAD: ConiumNoCancelableEventType<EntityType<*>, ConiumEntityDeadEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("entity_dead", "EntityType",ConiumEvent.Companion::entityDead)
+        val ENTITY_DEAD: ConiumEntityDeadEventType = ConiumEntityDeadEventType()
 
         /**
          * The event where that entity trying to sleep.
@@ -265,7 +267,7 @@ abstract class ConiumEventType<I : Any, M: ConiumEventMetadata<I>, C: Any, N: Co
          * @since 1.0.0
          */
         @JvmField
-        val ENTITY_TRY_SLEEP: ConiumCancelableEventType<EntityType<*>, ConiumEntityTrySleepEventMetadata, EntityType<*>, ConiumEntitySleepEventMetadata> = ConiumCancelableEventType("entity_try_sleep", "EntityType",ConiumEvent.Companion::entityTrySleep)
+        val ENTITY_TRY_SLEEP: ConiumEntityTrySleepEventType = ConiumEntityTrySleepEventType()
 
         /**
          * The event where that entity sleeps.
@@ -273,7 +275,7 @@ abstract class ConiumEventType<I : Any, M: ConiumEventMetadata<I>, C: Any, N: Co
          * @since 1.0.0
          */
         @JvmField
-        val ENTITY_SLEEP: ConiumNoCancelableEventType<EntityType<*>, ConiumEntitySleepEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("entity_sleep", "EntityType",ConiumEvent.Companion::entitySleep)
+        val ENTITY_SLEEP: ConiumEntitySleepEventType = ConiumEntitySleepEventType()
 
         /**
          * The event where that entity trying to wake up.
@@ -281,7 +283,7 @@ abstract class ConiumEventType<I : Any, M: ConiumEventMetadata<I>, C: Any, N: Co
          * @since 1.0.0
          */
         @JvmField
-        val ENTITY_WAKE_UP: ConiumCancelableEventType<EntityType<*>, ConiumEntityWakeUpEventMetadata, EntityType<*>, ConiumEntityWakedUpEventMetadata> = ConiumCancelableEventType("entity_wake_up", "EntityType",ConiumEvent.Companion::entityWakeUp)
+        val ENTITY_WAKE_UP: ConiumEntityWakeUpEventType = ConiumEntityWakeUpEventType()
 
         /**
          * The event where that entity waked up.
@@ -289,55 +291,55 @@ abstract class ConiumEventType<I : Any, M: ConiumEventMetadata<I>, C: Any, N: Co
          * @since 1.0.0
          */
         @JvmField
-        val ENTITY_WAKED_UP: ConiumNoCancelableEventType<EntityType<*>, ConiumEntityWakedUpEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("entity_waked_up", "EntityType",ConiumEvent.Companion::entityWakedUp)
+        val ENTITY_WAKED_UP: ConiumEntityWakedUpEventType = ConiumEntityWakedUpEventType()
 
         @JvmField
-        val ENTITY_SPRINT: ConiumCancelableEventType<EntityType<*>, ConiumEntitySprintEventMetadata, EntityType<*>, ConiumEntitySprintingEventMetadata> = ConiumCancelableEventType("entity_sprint", "EntityType",ConiumEvent.Companion::entitySprint)
+        val ENTITY_SPRINT: ConiumEntitySprintEventType = ConiumEntitySprintEventType()
 
         @JvmField
-        val ENTITY_SPRINTING: ConiumNoCancelableEventType<EntityType<*>, ConiumEntitySprintingEventMetadata, EntityType<*>, ConiumEntityStopSprintEventMetadata> = ConiumNoCancelableEventType("entity_sprinting", "EntityType",ConiumEvent.Companion::entitySprinting)
+        val ENTITY_SPRINTING: ConiumEntitySprintingEventType = ConiumEntitySprintingEventType()
 
         @JvmField
-        val ENTITY_STOP_SPRINT: ConiumCancelableEventType<EntityType<*>, ConiumEntityStopSprintEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumCancelableEventType("entity_stop_sprint", "EntityType",ConiumEvent.Companion::entityStopSprint)
+        val ENTITY_STOP_SPRINT: ConiumEntityStopSprintEventType = ConiumEntityStopSprintEventType()
 
         @JvmField
-        val ENTITY_ON_FIRE: ConiumCancelableEventType<EntityType<*>, ConiumEntityOnFireEventMetadata, EntityType<*>, ConiumEntityExtinguishFireEventMetadata> = ConiumCancelableEventType("entity_on_fire", "EntityType",ConiumEvent.Companion::entityOnFire)
+        val ENTITY_ON_FIRE: ConiumEntityOnFireEventType = ConiumEntityOnFireEventType()
 
         @JvmField
-        val ENTITY_EXTINGUISH_FIRE: ConiumCancelableEventType<EntityType<*>, ConiumEntityExtinguishFireEventMetadata, EntityType<*>, ConiumEntityExtinguishedFireEventMetadata> = ConiumCancelableEventType("entity_extinguish_fire", "EntityType",ConiumEvent.Companion::entityExtinguishFire)
+        val ENTITY_EXTINGUISH_FIRE: ConiumEntityExtinguishFireEventType = ConiumEntityExtinguishFireEventType()
 
         @JvmField
-        val ENTITY_EXTINGUISHED_FIRE: ConiumNoCancelableEventType<EntityType<*>, ConiumEntityExtinguishedFireEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("entity_extinguished_fire", "EntityType",ConiumEvent.Companion::entityExtinguishedFire)
+        val ENTITY_EXTINGUISHED_FIRE: ConiumEntityExtinguishedFireEventType = ConiumEntityExtinguishedFireEventType()
 
         @JvmField
-        val BLOCK_SCHEDULE_TICK: ConiumCancelableEventType<Block, ConiumBlockScheduleTickEventMetadata, Block, ConiumBlockScheduleTickedEventMetadata> = ConiumCancelableEventType("block_schedule_tick", "Block",ConiumEvent.Companion::blockScheduleTick)
+        val BLOCK_SCHEDULE_TICK: ConiumBlockScheduleTickEventType = ConiumBlockScheduleTickEventType()
 
         @JvmField
-        val BLOCK_SCHEDULE_TICKED: ConiumNoCancelableEventType<Block, ConiumBlockScheduleTickedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("block_schedule_ticked", "Block",ConiumEvent.Companion::blockScheduleTicked)
+        val BLOCK_SCHEDULE_TICKED: ConiumBlockScheduleTickedEventType = ConiumBlockScheduleTickedEventType()
 
         @JvmField
-        val FLUID_SCHEDULE_TICK: ConiumCancelableEventType<Fluid, ConiumFluidScheduleTickEventMetadata, Fluid, ConiumFluidScheduleTickedEventMetadata> = ConiumCancelableEventType("fluid_schedule_tick", "Fluid",ConiumEvent.Companion::fluidScheduleTick)
+        val FLUID_SCHEDULE_TICK: ConiumFluidScheduleTickEventType = ConiumFluidScheduleTickEventType()
 
         @JvmField
-        val FLUID_SCHEDULE_TICKED: ConiumNoCancelableEventType<Fluid, ConiumFluidScheduleTickedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("fluid_schedule_ticked", "Fluid",ConiumEvent.Companion::fluidScheduleTicked)
+        val FLUID_SCHEDULE_TICKED: ConiumFluidScheduleTickedEventType = ConiumFluidScheduleTickedEventType()
 
         @JvmField
-        val RECEIVE_CHUNK: ConiumCancelableEventType<ChunkDataS2CPacket, ConiumReceiveChunkEventMetadata, WorldChunk, ConiumReceivedChunkEventMetadata> = ConiumCancelableEventType("receive_chunk", "ChunkDataS2CPacket",ConiumEvent.Companion::receiveChunk)
+        val RECEIVE_CHUNK: ConiumReceiveChunkEventType = ConiumReceiveChunkEventType()
 
         @JvmField
-        val RECEIVED_CHUNK: ConiumNoCancelableEventType<WorldChunk, ConiumReceivedChunkEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("received_chunk", "WorldChunk",ConiumEvent.Companion::receivedChunk)
+        val RECEIVED_CHUNK: ConiumReceivedChunkEventType = ConiumReceivedChunkEventType()
 
         @JvmField
-        val SERVER_CONFIGURATION_CONNECTION: ConiumCancelableEventType<ServerConfigurationNetworkHandler, ConiumServerConfigurationConnectionEventMetadata, ServerConfigurationNetworkHandler, ConiumServerConfiguredConnectionEventMetadata> = ConiumCancelableEventType("server_configuration_connection", "ServerConfigurationNetworkHandler",ConiumEvent.Companion::enterConfigurationConnection)
+        val SERVER_CONFIGURATION_CONNECTION: ConiumServerConfigurationConnectionEventType = ConiumServerConfigurationConnectionEventType()
 
         @JvmField
-        val SERVER_CONFIGURED_CONNECTION: ConiumNoCancelableEventType<ServerConfigurationNetworkHandler, ConiumServerConfiguredConnectionEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("server_configuration_connection", "ServerConfigurationNetworkHandler",ConiumEvent.Companion::enterConfiguredConnection)
+        val SERVER_CONFIGURED_CONNECTION: ConiumServerConfiguredConnectionEventType = ConiumServerConfiguredConnectionEventType()
 
         @JvmField
-        val CRAFTING_TABLE_CRAFTING: ConiumCancelableEventType<Item, ConiumCraftingTableCraftingEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumCancelableEventType("crafting_table_crafting", "Item",ConiumEvent.Companion::craftingTableCrafting)
+        val CRAFTING_TABLE_CRAFTING: ConiumCraftingTableCraftingEventType = ConiumCraftingTableCraftingEventType()
 
         @JvmField
-        val CRAFTING_TABLE_CRAFTED: ConiumNoCancelableEventType<Item, ConiumCraftingTableCraftedEventMetadata, Unit, ConiumEmptyEventMetadata> = ConiumNoCancelableEventType("crafting_table_crafted", "Item",ConiumEvent.Companion::craftingTableCrafted)
+        val CRAFTING_TABLE_CRAFTED: ConiumCraftingTableCraftedEventType = ConiumCraftingTableCraftedEventType()
     }
 
     override fun toString(): String = StringBuilder().also { builder ->

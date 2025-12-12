@@ -97,7 +97,7 @@ object ConiumItemTemplates {
 
     // (.S) .
     const val SPAWN_EGG: String = "spawn_egg"
-    const val STACK_MAX_COUNT: String = "max_count"
+    const val MAX_COUNT: String = "max_count"
 
     // (.T) .
     const val TOOL: String = "tool"
@@ -248,7 +248,7 @@ object ConiumItemTemplates {
             ConiumSpawnEggTemplate::create
         )
         ConiumTemplate.registerItem(
-            STACK_MAX_COUNT,
+            MAX_COUNT,
             ConiumStackMaxCountTemplate::create
         )
 

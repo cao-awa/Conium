@@ -6,15 +6,15 @@ import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
 import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
 import com.github.cao.awa.conium.event.ConiumEvent
+import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
-import net.minecraft.block.Block
 
-abstract class BedrockEvent<I: Any, E : BedrockEventContext<I>>(private val targetEvent: ConiumEventType<I, out ConiumEventMetadata<I>, *, *>) {
+abstract class BedrockEvent<I: Any, E : BedrockEventContext<I, *>, M: ConiumEventMetadata<I, M>>(private val targetEvent: ConiumEventType<I, out ConiumEventMetadata<I, M>, *, *>) {
     private val subscribers: MutableList<ConiumArisingEventContext<*, *>> = CollectionFactor.arrayList()
 
     /**

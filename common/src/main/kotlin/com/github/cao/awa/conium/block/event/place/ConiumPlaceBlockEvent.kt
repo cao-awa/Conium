@@ -1,5 +1,7 @@
 package com.github.cao.awa.conium.block.event.place
 
+import com.github.cao.awa.conium.block.event.place.metadata.ConiumPlaceBlockEventMetadata
+import com.github.cao.awa.conium.block.event.placed.type.ConiumPlacedBlockEventType
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
@@ -12,7 +14,7 @@ import com.github.cao.awa.conium.parameter.ParameterSelective1
 import net.minecraft.block.Block
 import net.minecraft.item.ItemPlacementContext
 
-class ConiumPlaceBlockEvent : ConiumEvent<Block, ConiumPlaceBlockEventMetadata, ParameterSelective1<Boolean, ItemPlacementContext>>(
+class ConiumPlaceBlockEvent : ConiumEvent<Block, ConiumPlaceBlockEventMetadata, ParameterSelective1<Boolean, ItemPlacementContext>, ConiumPlacedBlockEventType>(
     ConiumEventType.PLACE_BLOCK,
     { ConiumEventType.PLACED_BLOCK }
 ) {

@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.mixin.block;
 
 import com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent;
-import com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEvent;
+import com.github.cao.awa.conium.block.event.placed.ConiumPlacedBlockEvent;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
 import com.github.cao.awa.conium.intermediary.block.ConiumBlockEventMixinIntermediary;
 import net.minecraft.block.Block;

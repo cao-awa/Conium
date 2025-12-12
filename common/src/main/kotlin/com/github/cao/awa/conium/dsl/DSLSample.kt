@@ -1,41 +1,55 @@
 package com.github.cao.awa.conium.dsl
 
+import com.github.cao.awa.conium.block.event.breaks.metadata.ConiumBreakBlockEventMetadata
+import com.github.cao.awa.conium.block.event.broken.metadata.ConiumBrokenBlockEventMetadata
 import com.github.cao.awa.conium.config.ConiumConfig
 import com.github.cao.awa.conium.dsl.event.ConiumDSLEventContext
+import com.github.cao.awa.conium.dsl.event.ConiumDSLEventContext.Companion.onEvent
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.type.ConiumEventType
+import com.github.cao.awa.conium.event.type.cancelable.ConiumCancelableEventType
+import com.github.cao.awa.conium.exception.Exceptions.illegalArgument
+import com.github.cao.awa.conium.exception.Exceptions.throwIllegalArgument
+import net.minecraft.block.Block
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 
 object DSLSample {
-    fun doDslTest() {
-        ConiumEvent.breakingBlock.listen {
+    private val LOGGER: Logger = LogManager.getLogger("DSLSample")
 
-        }
-        ConiumDSLEventContext.onEvent(ConiumEventType.BREAKING_BLOCK) {
+    fun doDslTest() {
+        // DSL style event handler.
+        onEvent(ConiumEventType.BROKEN_BLOCK) {
             this.async = true
 
+            // Event processing logic.
             action {
-                println(this.blockPos)
+                LOGGER.info(this.blockPos)
                 if (ConiumConfig.debugs) {
-                    throw IllegalStateException("Test")
+                    throwIllegalArgument("test")
                 }
+
                 true
             }
 
-            catching { exception ->
-                exception.printStackTrace()
+            // Catching all exception to handle.
+            catching {
+                LOGGER.warn("Destroying block on {}", this.blockPos, this.exception)
             }
 
-            catching(NullPointerException::class.java) { exception ->
-                println("NullPointerException happening!")
-                exception.printStackTrace()
+            // Catching only NPE to handle,
+            catching(NullPointerException::class.java) {
+                LOGGER.warn("NullPointerException happening!", this.exception)
             }
 
+            // Finalization action.
             complete {
-                println("DSL Event completed execute!")
+                LOGGER.info("DSL Event completed execute!")
             }
         }.next {
             action {
-                println(this)
+                // This next event print '$this' will be
+                LOGGER.info("Next context '$this' was triggered after last event '${this.lastContext}'")
                 true
             }
         }

@@ -1,5 +1,7 @@
 package com.github.cao.awa.conium.entity.event.rest.sleep
 
+import com.github.cao.awa.conium.entity.event.rest.sleep.metadata.ConiumEntityTrySleepEventMetadata
+import com.github.cao.awa.conium.entity.event.rest.sleep.type.ConiumEntitySleepEventType
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
@@ -14,7 +16,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class ConiumEntityTrySleepEvent : ConiumEvent<EntityType<*>, ConiumEntityTrySleepEventMetadata, ParameterSelective3<Boolean, World, LivingEntity, BlockPos>>(
+class ConiumEntityTrySleepEvent : ConiumEvent<EntityType<*>, ConiumEntityTrySleepEventMetadata, ParameterSelective3<Boolean, World, LivingEntity, BlockPos>, ConiumEntitySleepEventType>(
     ConiumEventType.ENTITY_TRY_SLEEP,
     { ConiumEventType.ENTITY_SLEEP }
 ) {

@@ -4,10 +4,12 @@ import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.ifBoolean
 import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
+import com.github.cao.awa.conium.kotlin.extent.json.ifString
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates
 import com.google.gson.JsonElement
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
@@ -33,9 +35,22 @@ class ConiumConsumeOnUsedTemplate(
             it.ifJsonObject(
                 { consume ->
                     var alwaysConsumeOnUsedOnBlock = false
-                    val alwaysConsumeOnUsedOnEntity: Boolean = consume["used_on_entity"]?.asBoolean ?: false
+                    var alwaysConsumeOnUsedOnEntity = false
+                    val targetEntity: EntityType<*>? = consume["used_on_entity"].ifString({ targetEntity ->
+                        Registries.ENTITY_TYPE.get(Identifier.of(targetEntity)).also {
+                            alwaysConsumeOnUsedOnEntity = true
+                        }
+                    }) { entityConsume ->
+                        entityConsume.ifBoolean { alwaysConsume: Boolean ->
+                            alwaysConsumeOnUsedOnEntity = alwaysConsume
+                        }
+                        null
+                    }
+
                     val targetBlockName: String? = runCatching {
-                        consume["used_on_block"].asString
+                        consume["used_on_block"].asString.also {
+                            alwaysConsumeOnUsedOnBlock = true
+                        }
                     }.getOrElse { ex: Throwable ->
                         consume["used_on_block"]?.ifBoolean { alwaysConsume: Boolean ->
                             alwaysConsumeOnUsedOnBlock = alwaysConsume
@@ -46,7 +61,7 @@ class ConiumConsumeOnUsedTemplate(
                     val tagKey: TagKey<Block>?
                     val targetBlock: Block?
 
-                    if (!alwaysConsumeOnUsedOnBlock && targetBlockName != null) {
+                    if (alwaysConsumeOnUsedOnBlock && targetBlockName != null) {
                         tagKey = if (targetBlockName.startsWith("#")) {
                             TagKey.of(
                                 RegistryKeys.BLOCK,
@@ -65,20 +80,21 @@ class ConiumConsumeOnUsedTemplate(
                     ConiumConsumeOnUsedTemplate(
                         consume["used"]?.asBoolean ?: false,
                         { blockState: BlockState ->
+                            if (alwaysConsumeOnUsedOnBlock) {
+                                true
+                            }
                             if (targetBlockName != null) {
-                                val isMatch: Boolean = if (tagKey != null) {
+                                if (tagKey != null) {
                                     blockState.isIn(tagKey)
                                 } else {
                                     blockState.block == targetBlock
                                 }
-
-                                isMatch
                             } else {
-                                alwaysConsumeOnUsedOnBlock
+                                false
                             }
                         },
                         { entity: LivingEntity ->
-                            alwaysConsumeOnUsedOnEntity
+                            alwaysConsumeOnUsedOnEntity || entity.type == entity.type
                         }
                     )
                 },

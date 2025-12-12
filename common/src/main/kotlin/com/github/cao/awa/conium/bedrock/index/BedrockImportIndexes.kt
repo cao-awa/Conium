@@ -20,7 +20,7 @@ import com.github.cao.awa.conium.bedrock.entity.player.screen.BedrockOnScreenDis
 
 // Event.
 import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
-import com.github.cao.awa.conium.bedrock.event.context.item.use.BedrockItemUseOnEventContext
+import com.github.cao.awa.conium.bedrock.event.before.item.use.on.context.BedrockItemUseOnEventMetadata
 import com.github.cao.awa.conium.bedrock.event.before.item.use.on.BedrockItemUseOnBeforeEvent
 import com.github.cao.awa.conium.bedrock.event.after.item.use.on.BedrockItemUseOnAfterEvent
 
@@ -47,11 +47,11 @@ typealias BedrockPlayerDelegate = BedrockPlayerDelegate
 typealias BedrockOnScreenDisplay = BedrockOnScreenDisplay
 
 // Event typealias.
-typealias BedrockEventContext<I> = BedrockEventContext<I>
+typealias BedrockEventContext<I, M> = BedrockEventContext<I, M>
 typealias ItemUseOnBeforeEventSignal = BedrockItemUseOnBeforeEvent
 typealias ItemUseOnAfterEventSignal = BedrockItemUseOnAfterEvent
-typealias ItemUseOnBeforeEvent = BedrockItemUseOnEventContext
-typealias ItemUseOnAfterEvent = BedrockItemUseOnEventContext
+typealias ItemUseOnBeforeEvent = BedrockItemUseOnEventMetadata
+typealias ItemUseOnAfterEvent = BedrockItemUseOnEventMetadata
 
 // Event context typealias.
 

@@ -305,16 +305,8 @@ class Conium {
         }
 
         if (ConiumConfig.debugs) {
-            DSLSample.doDslTest()
             MolangSupport.test()
-
-            request(ConiumEventType.PLACE_BLOCK, ConiumEventArgTypes.BLOCK) { identity, metadata ->
-                true
-            }
-
-            request(ConiumEventType.PLACED_BLOCK) {
-
-            }
+            DSLSample.doDslTest()
         }
     }
 

@@ -1,5 +1,7 @@
 package com.github.cao.awa.conium.entity.event.tick
 
+import com.github.cao.awa.conium.entity.event.tick.metadata.ConiumEntityTickEventMetadata
+import com.github.cao.awa.conium.entity.event.ticked.type.ConiumEntityTickedEventType
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
@@ -12,7 +14,7 @@ import com.github.cao.awa.conium.parameter.ParameterSelective1
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 
-class ConiumEntityTickEvent : ConiumEvent<EntityType<*>, ConiumEntityTickEventMetadata, ParameterSelective1<Boolean, Entity>, >(
+class ConiumEntityTickEvent : ConiumEvent<EntityType<*>, ConiumEntityTickEventMetadata, ParameterSelective1<Boolean, Entity>, ConiumEntityTickedEventType>(
     ConiumEventType.ENTITY_TICK,
     { ConiumEventType.ENTITY_TICKED }
 ) {

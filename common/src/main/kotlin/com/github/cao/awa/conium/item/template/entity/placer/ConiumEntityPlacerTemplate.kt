@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.item.template.entity.placer
 
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
+import com.github.cao.awa.conium.kotlin.extent.json.arrayOrString
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.ENTITY_PLACER
 import com.google.gson.JsonElement
@@ -57,15 +58,20 @@ open class ConiumEntityPlacerTemplate(
         @JvmStatic
         fun getAllowedBlocks(allowedBlocks: JsonElement): MutableList<Block> {
             val result: MutableList<Block> = ArrayList()
-            for (element in allowedBlocks.asJsonArray) {
-                val identifier: String = element.asString
-                if (identifier.split(":").size != 2) {
-                    LOGGER.warn("The value {} in allowed blocks is not full identifier, will use \"minecraft\" be the namespace path", identifier)
-                    result.add(Registries.BLOCK.get(Identifier.of("minecraft", identifier)))
-                } else {
-                    result.add(Registries.BLOCK.get(Identifier.of(identifier)))
+            allowedBlocks.arrayOrString({ blocks ->
+                for (element in blocks) {
+                    val identifier: String = element.asString
+                    if (identifier.split(":").size != 2) {
+                        LOGGER.warn("The value {} in allowed blocks is not full identifier, will use \"minecraft\" be the namespace path", identifier)
+                        result.add(Registries.BLOCK.get(Identifier.of("minecraft", identifier)))
+                    } else {
+                        result.add(Registries.BLOCK.get(Identifier.of(identifier)))
+                    }
                 }
+            }) { identifier ->
+                result.add(Registries.BLOCK.get(Identifier.of(identifier)))
             }
+
             return result
         }
 

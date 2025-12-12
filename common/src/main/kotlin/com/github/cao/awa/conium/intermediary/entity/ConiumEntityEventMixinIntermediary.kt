@@ -1,11 +1,18 @@
 package com.github.cao.awa.conium.intermediary.entity
 
-import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamagesEventMetadata
-import com.github.cao.awa.conium.entity.event.die.ConiumEntityDeathsEventMetadata
-import com.github.cao.awa.conium.entity.event.rest.ConiumEntityRestEventMetadata
-import com.github.cao.awa.conium.entity.event.sprint.ConiumEntitySprintsEventMetadata
+import com.github.cao.awa.conium.entity.event.damage.metadata.ConiumEntityDamageEventMetadata
+import com.github.cao.awa.conium.entity.event.damaged.metadata.ConiumEntityDamagedEventMetadata
+import com.github.cao.awa.conium.entity.event.dead.metadata.ConiumEntityDeadEventMetadata
+import com.github.cao.awa.conium.entity.event.die.metadata.ConiumEntityDieEventMetadata
+import com.github.cao.awa.conium.entity.event.rest.sleep.metadata.ConiumEntitySleepEventMetadata
+import com.github.cao.awa.conium.entity.event.rest.sleep.metadata.ConiumEntityTrySleepEventMetadata
+import com.github.cao.awa.conium.entity.event.rest.wake.metadata.ConiumEntityWakeUpEventMetadata
+import com.github.cao.awa.conium.entity.event.rest.waked.metadata.ConiumEntityWakedUpEventMetadata
+import com.github.cao.awa.conium.entity.event.sprint.metadata.ConiumEntitySprintEventMetadata
+import com.github.cao.awa.conium.entity.event.sprinting.metadata.ConiumEntitySprintingEventMetadata
+import com.github.cao.awa.conium.entity.event.sprinting.stop.metadata.ConiumEntityStopSprintEventMetadata
 import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickEvent
-import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickedEvent
+import com.github.cao.awa.conium.entity.event.ticked.ConiumEntityTickedEvent
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
@@ -16,16 +23,13 @@ import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.fireE
 import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.fireEventCancelable
 import com.github.cao.awa.conium.mixin.entity.EntityMixin
 import com.github.cao.awa.conium.mixin.entity.living.LivingEntityMixin
-import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.fluid.Fluid
-import net.minecraft.fluid.FluidState
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
 
 /**
  * Conium entity event intermediary triggers.
@@ -68,7 +72,7 @@ object ConiumEntityEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <M : ConiumEntityDamagesEventMetadata> fireEntityDamageEvent(eventType: ConiumEventType<EntityType<*>, M, *, *>, entity: LivingEntity, damageSource: DamageSource, amount: Float): Boolean {
+    fun fireEntityDamageEvent(eventType: ConiumEventType<EntityType<*>, ConiumEntityDamageEventMetadata, *, *>, entity: LivingEntity, damageSource: DamageSource, amount: Float): Boolean {
         return fireEventCancelable(
             eventType,
             entity.type
@@ -82,7 +86,42 @@ object ConiumEntityEventMixinIntermediary {
     }
 
     /**
-     * Trigger the entity dying events when entity dying or dead.
+     * Trigger the entity damage events when entity damaging or damaged.
+     *
+     * @see LivingEntity
+     * @see LivingEntityMixin
+     * @see LivingEntity.onDamaged
+     * @see DamageSource
+     * @see ConiumEventType.ENTITY_DAMAGE
+     * @see ConiumEventType.ENTITY_DAMAGED
+     *
+     * @param eventType the damage event type
+     * @param entity the entity that damaging or damaged
+     * @param damageSource the damage source
+     * @param amount the damage amount
+     *
+     * @return flag that noted should do mixin cancel
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    fun fireEntityDamagedEvent(eventType: ConiumEventType<EntityType<*>, ConiumEntityDamagedEventMetadata, *, *>, entity: LivingEntity, damageSource: DamageSource, amount: Float): Boolean {
+        return fireEventCancelable(
+            eventType,
+            entity.type
+        ) { context: ConiumArisingEventContext<*, *> ->
+            // Fill the context args.
+            context[ConiumEventArgTypes.WORLD] = entity.entityWorld
+            context[ConiumEventArgTypes.DAMAGE_SOURCE] = damageSource
+            context[ConiumEventArgTypes.LIVING_ENTITY] = entity
+            context[ConiumEventArgTypes.DAMAGE_AMOUNT] = amount
+        }
+    }
+
+    /**
+     * Trigger the entity dying.
      *
      * @see LivingEntity
      * @see LivingEntityMixin
@@ -102,7 +141,7 @@ object ConiumEntityEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <M : ConiumEntityDeathsEventMetadata> fireEntityDieEvent(eventType: ConiumEventType<EntityType<*>, M, *, *>, entity: LivingEntity, damageSource: DamageSource): Boolean {
+    fun fireEntityDieEvent(eventType: ConiumEventType<EntityType<*>, ConiumEntityDieEventMetadata, *, *>, entity: LivingEntity, damageSource: DamageSource): Boolean {
         return fireEventCancelable(
             eventType,
             entity.type
@@ -114,7 +153,39 @@ object ConiumEntityEventMixinIntermediary {
     }
 
     /**
-     * Trigger the entity dying events when entity dying or dead.
+     * Trigger the entity dead.
+     *
+     * @see LivingEntity
+     * @see LivingEntityMixin
+     * @see LivingEntity.onDeath
+     * @see DamageSource
+     * @see ConiumEventType.ENTITY_DIE
+     * @see ConiumEventType.ENTITY_DEAD
+     *
+     * @param eventType the dye event type
+     * @param entity the entity that dying or dead
+     * @param damageSource the damage source
+     *
+     * @return flag that noted should do mixin cancel
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    fun fireEntityDeadEvent(eventType: ConiumEventType<EntityType<*>, ConiumEntityDeadEventMetadata, *, *>, entity: LivingEntity, damageSource: DamageSource): Boolean {
+        return fireEventCancelable(
+            eventType,
+            entity.type
+        ) { context: ConiumArisingEventContext<*, *> ->
+            // Fill the context args.
+            context[ConiumEventArgTypes.DAMAGE_SOURCE] = damageSource
+            context[ConiumEventArgTypes.LIVING_ENTITY] = entity
+        }
+    }
+
+    /**
+     * Trigger the entity try to sleep.
      *
      * @see LivingEntity
      * @see LivingEntityMixin
@@ -134,7 +205,130 @@ object ConiumEntityEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <M : ConiumEntityRestEventMetadata> fireEntityRestEvent(eventType: ConiumEventType<EntityType<*>, M, *, *>, entity: LivingEntity, sleepPos: BlockPos?): Boolean {
+    fun fireEntityTrySleepEvent(eventType: ConiumEventType<EntityType<*>, ConiumEntityTrySleepEventMetadata, *, *>, entity: LivingEntity, sleepPos: BlockPos?): Boolean {
+        // Let this event failure directly when sleeping pos is null,
+        // because the 'sleep' call will input a position to try sleep,
+        // and 'wakeUp' call input a null when mean this entity are not sleeping currently.
+        if (sleepPos == null) {
+            return true
+        }
+
+        // If position present, trigger the event.
+        return fireEventCancelable(
+            eventType,
+            entity.type
+        ) { context: ConiumArisingEventContext<*, *> ->
+            // Fill the context args.
+            context[ConiumEventArgTypes.LIVING_ENTITY] = entity
+            context[ConiumEventArgTypes.BLOCK_POS] = sleepPos
+            context[ConiumEventArgTypes.WORLD] = entity.entityWorld
+        }
+    }
+
+    /**
+     * Trigger the entity to sleep.
+     *
+     * @see LivingEntity
+     * @see LivingEntityMixin
+     * @see LivingEntity.onDeath
+     * @see DamageSource
+     * @see ConiumEventType.ENTITY_DIE
+     * @see ConiumEventType.ENTITY_DEAD
+     *
+     * @param eventType the dye event type
+     * @param entity the entity that dying or dead
+     * @param sleepPos the position that entity sleeping at
+     *
+     * @return flag that noted should do mixin cancel
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    fun fireEntitySleepEvent(eventType: ConiumEventType<EntityType<*>, ConiumEntitySleepEventMetadata, *, *>, entity: LivingEntity, sleepPos: BlockPos?): Boolean {
+        // Let this event failure directly when sleeping pos is null,
+        // because the 'sleep' call will input a position to try sleep,
+        // and 'wakeUp' call input a null when mean this entity are not sleeping currently.
+        if (sleepPos == null) {
+            return true
+        }
+
+        // If position present, trigger the event.
+        return fireEventCancelable(
+            eventType,
+            entity.type
+        ) { context: ConiumArisingEventContext<*, *> ->
+            // Fill the context args.
+            context[ConiumEventArgTypes.LIVING_ENTITY] = entity
+            context[ConiumEventArgTypes.BLOCK_POS] = sleepPos
+            context[ConiumEventArgTypes.WORLD] = entity.entityWorld
+        }
+    }
+
+    /**
+     * Trigger the entity try to wakeup.
+     *
+     * @see LivingEntity
+     * @see LivingEntityMixin
+     * @see LivingEntity.onDeath
+     * @see DamageSource
+     * @see ConiumEventType.ENTITY_DIE
+     * @see ConiumEventType.ENTITY_DEAD
+     *
+     * @param eventType the dye event type
+     * @param entity the entity that dying or dead
+     * @param sleepPos the position that entity sleeping at
+     *
+     * @return flag that noted should do mixin cancel
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    fun fireEntityWakeupEvent(eventType: ConiumEventType<EntityType<*>, ConiumEntityWakeUpEventMetadata, *, *>, entity: LivingEntity, sleepPos: BlockPos?): Boolean {
+        // Let this event failure directly when sleeping pos is null,
+        // because the 'sleep' call will input a position to try sleep,
+        // and 'wakeUp' call input a null when mean this entity are not sleeping currently.
+        if (sleepPos == null) {
+            return true
+        }
+
+        // If position present, trigger the event.
+        return fireEventCancelable(
+            eventType,
+            entity.type
+        ) { context: ConiumArisingEventContext<*, *> ->
+            // Fill the context args.
+            context[ConiumEventArgTypes.LIVING_ENTITY] = entity
+            context[ConiumEventArgTypes.BLOCK_POS] = sleepPos
+            context[ConiumEventArgTypes.WORLD] = entity.entityWorld
+        }
+    }
+
+    /**
+     * Trigger the entity waked up.
+     *
+     * @see LivingEntity
+     * @see LivingEntityMixin
+     * @see LivingEntity.onDeath
+     * @see DamageSource
+     * @see ConiumEventType.ENTITY_DIE
+     * @see ConiumEventType.ENTITY_DEAD
+     *
+     * @param eventType the dye event type
+     * @param entity the entity that dying or dead
+     * @param sleepPos the position that entity sleeping at
+     *
+     * @return flag that noted should do mixin cancel
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    fun fireEntityWakedupEvent(eventType: ConiumEventType<EntityType<*>, ConiumEntityWakedUpEventMetadata, *, *>, entity: LivingEntity, sleepPos: BlockPos?): Boolean {
         // Let this event failure directly when sleeping pos is null,
         // because the 'sleep' call will input a position to try sleep,
         // and 'wakeUp' call input a null when mean this entity are not sleeping currently.
@@ -233,7 +427,7 @@ object ConiumEntityEventMixinIntermediary {
     }
 
     /**
-     * Trigger the entity sprint state change events when entity start sprint or stop sprinting.
+     * Trigger the entity start sprint.
      *
      * @see EntityMixin
      * @see EntityMixin.onSetSprint
@@ -251,7 +445,65 @@ object ConiumEntityEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun <M : ConiumEntitySprintsEventMetadata> fireEntitySprintsEvent(targetEvent: ConiumEventType<EntityType<*>, M, *, *>, entity: Entity): Boolean {
+    fun fireEntitySprintEvent(targetEvent: ConiumEventType<EntityType<*>, ConiumEntitySprintEventMetadata, *, *>, entity: Entity): Boolean {
+        return fireEventCancelable(
+            targetEvent,
+            entity.type
+        ) { context: ConiumArisingEventContext<*, *> ->
+            // Fill the context args.
+            context[ConiumEventArgTypes.ENTITY] = entity
+        }
+    }
+
+    /**
+     * Trigger the entity start sprinting.
+     *
+     * @see EntityMixin
+     * @see EntityMixin.onSetSprint
+     * @see Entity.baseTick
+     * @see Entity.isSprinting
+     * @see ConiumEventType.ENTITY_SPRINT
+     * @see ConiumEventType.ENTITY_STOP_SPRINT
+     *
+     * @param entity the entity that extinguishing
+     *
+     * @return flag that noted should do mixin cancel
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    fun fireEntitySprintingEvent(targetEvent: ConiumEventType<EntityType<*>, ConiumEntitySprintingEventMetadata, *, *>, entity: Entity): Boolean {
+        return fireEventCancelable(
+            targetEvent,
+            entity.type
+        ) { context: ConiumArisingEventContext<*, *> ->
+            // Fill the context args.
+            context[ConiumEventArgTypes.ENTITY] = entity
+        }
+    }
+
+    /**
+     * Trigger the entity stop sprint.
+     *
+     * @see EntityMixin
+     * @see EntityMixin.onSetSprint
+     * @see Entity.baseTick
+     * @see Entity.isSprinting
+     * @see ConiumEventType.ENTITY_SPRINT
+     * @see ConiumEventType.ENTITY_STOP_SPRINT
+     *
+     * @param entity the entity that extinguishing
+     *
+     * @return flag that noted should do mixin cancel
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    fun fireEntityStopSprintEvent(targetEvent: ConiumEventType<EntityType<*>, ConiumEntityStopSprintEventMetadata, *, *>, entity: Entity): Boolean {
         return fireEventCancelable(
             targetEvent,
             entity.type

@@ -1,6 +1,5 @@
 package com.github.cao.awa.conium.intermediary.fluid
 
-import com.github.cao.awa.conium.block.event.tick.ConiumBlockScheduleTickEvent
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import net.minecraft.fluid.Fluid

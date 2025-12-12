@@ -1,76 +1,76 @@
 package com.github.cao.awa.conium.event
 
-import com.github.cao.awa.conium.blockentity.event.chest.close.ConiumChestClosedEvent
-import com.github.cao.awa.conium.blockentity.event.chest.close.ConiumChestClosingEvent
-import com.github.cao.awa.conium.blockentity.event.chest.close.trapped.ConiumTrappedChestClosedEvent
-import com.github.cao.awa.conium.blockentity.event.chest.close.trapped.ConiumTrappedChestClosingEvent
-import com.github.cao.awa.conium.blockentity.event.chest.open.ConiumChestOpenedEvent
-import com.github.cao.awa.conium.blockentity.event.chest.open.ConiumChestOpeningEvent
-import com.github.cao.awa.conium.blockentity.event.chest.open.trapped.ConiumTrappedChestOpenedEvent
-import com.github.cao.awa.conium.blockentity.event.chest.open.trapped.ConiumTrappedChestOpeningEvent
-import com.github.cao.awa.conium.blockentity.event.shulker.close.ConiumShulkerBoxClosedEvent
-import com.github.cao.awa.conium.blockentity.event.shulker.close.ConiumShulkerBoxClosingEvent
-import com.github.cao.awa.conium.blockentity.event.shulker.open.ConiumShulkerBoxOpenedEvent
-import com.github.cao.awa.conium.blockentity.event.shulker.open.ConiumShulkerBoxOpeningEvent
-import com.github.cao.awa.conium.block.event.breaking.ConiumBreakBlockEvent
+import com.github.cao.awa.conium.blockentity.event.chest.closed.ConiumChestClosedEvent
+import com.github.cao.awa.conium.blockentity.event.chest.closing.ConiumChestClosingEvent
+import com.github.cao.awa.conium.blockentity.event.chest.opened.ConiumChestOpenedEvent
+import com.github.cao.awa.conium.blockentity.event.chest.opening.ConiumChestOpeningEvent
+import com.github.cao.awa.conium.blockentity.event.chest.trapped.opened.ConiumTrappedChestOpenedEvent
+import com.github.cao.awa.conium.blockentity.event.chest.trapped.opening.ConiumTrappedChestOpeningEvent
+import com.github.cao.awa.conium.blockentity.event.shulker.closed.ConiumShulkerBoxClosedEvent
+import com.github.cao.awa.conium.blockentity.event.shulker.closing.ConiumShulkerBoxClosingEvent
+import com.github.cao.awa.conium.blockentity.event.shulker.opened.ConiumShulkerBoxOpenedEvent
+import com.github.cao.awa.conium.blockentity.event.shulker.opening.ConiumShulkerBoxOpeningEvent
+import com.github.cao.awa.conium.block.event.breaks.ConiumBreakBlockEvent
 import com.github.cao.awa.conium.block.event.breaking.ConiumBreakingBlockEvent
-import com.github.cao.awa.conium.block.event.breaking.ConiumBrokenBlockEvent
+import com.github.cao.awa.conium.block.event.broken.ConiumBrokenBlockEvent
+import com.github.cao.awa.conium.block.event.fluid.schedule.tick.ConiumFluidScheduleTickEvent
+import com.github.cao.awa.conium.block.event.fluid.schedule.ticked.ConiumFluidScheduleTickedEvent
 import com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent
-import com.github.cao.awa.conium.block.event.place.ConiumPlacedBlockEvent
-import com.github.cao.awa.conium.block.event.tick.ConiumBlockScheduleTickEvent
-import com.github.cao.awa.conium.block.event.tick.ConiumBlockScheduleTickedEvent
-import com.github.cao.awa.conium.block.event.tick.fluid.ConiumFluidScheduleTickEvent
-import com.github.cao.awa.conium.block.event.tick.fluid.ConiumFluidScheduleTickedEvent
+import com.github.cao.awa.conium.block.event.placed.ConiumPlacedBlockEvent
+import com.github.cao.awa.conium.block.event.schedule.tick.ConiumBlockScheduleTickEvent
+import com.github.cao.awa.conium.block.event.schedule.ticked.ConiumBlockScheduleTickedEvent
 import com.github.cao.awa.conium.block.event.use.ConiumUseBlockEvent
-import com.github.cao.awa.conium.block.event.use.ConiumUsedBlockEvent
+import com.github.cao.awa.conium.block.event.used.ConiumUsedBlockEvent
+import com.github.cao.awa.conium.blockentity.event.chest.trapped.closed.ConiumTrappedChestClosedEvent
+import com.github.cao.awa.conium.blockentity.event.chest.trapped.closing.ConiumTrappedChestClosingEvent
 import com.github.cao.awa.conium.chunk.event.receive.ConiumReceiveChunkEvent
-import com.github.cao.awa.conium.chunk.event.receive.ConiumReceivedChunkEvent
-import com.github.cao.awa.conium.craft.table.event.ConiumCraftingTableCraftedEvent
-import com.github.cao.awa.conium.craft.table.event.ConiumCraftingTableCraftingEvent
+import com.github.cao.awa.conium.chunk.event.received.ConiumReceivedChunkEvent
+import com.github.cao.awa.conium.craft.table.event.crafted.ConiumCraftingTableCraftedEvent
+import com.github.cao.awa.conium.craft.table.event.crafting.ConiumCraftingTableCraftingEvent
 import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamageEvent
-import com.github.cao.awa.conium.entity.event.damage.ConiumEntityDamagedEvent
-import com.github.cao.awa.conium.entity.event.die.ConiumEntityDeadEvent
+import com.github.cao.awa.conium.entity.event.damaged.ConiumEntityDamagedEvent
+import com.github.cao.awa.conium.entity.event.dead.ConiumEntityDeadEvent
 import com.github.cao.awa.conium.entity.event.die.ConiumEntityDieEvent
 import com.github.cao.awa.conium.entity.event.fire.ConiumEntityOnFireEvent
-import com.github.cao.awa.conium.entity.event.fire.extinguish.ConiumEntityExtinguishFireEvent
-import com.github.cao.awa.conium.entity.event.fire.extinguish.ConiumEntityExtinguishedFireEvent
+import com.github.cao.awa.conium.entity.event.extinguish.ConiumEntityExtinguishFireEvent
+import com.github.cao.awa.conium.entity.event.extinguished.ConiumEntityExtinguishedFireEvent
 import com.github.cao.awa.conium.entity.event.rest.sleep.ConiumEntitySleepEvent
 import com.github.cao.awa.conium.entity.event.rest.sleep.ConiumEntityTrySleepEvent
 import com.github.cao.awa.conium.entity.event.rest.wake.ConiumEntityWakeUpEvent
-import com.github.cao.awa.conium.entity.event.rest.wake.ConiumEntityWakedUpEvent
+import com.github.cao.awa.conium.entity.event.rest.waked.ConiumEntityWakedUpEvent
 import com.github.cao.awa.conium.entity.event.sprint.ConiumEntitySprintEvent
-import com.github.cao.awa.conium.entity.event.sprint.ConiumEntitySprintingEvent
-import com.github.cao.awa.conium.entity.event.sprint.ConiumEntityStopSprintEvent
+import com.github.cao.awa.conium.entity.event.sprinting.ConiumEntitySprintingEvent
+import com.github.cao.awa.conium.entity.event.sprinting.stop.ConiumEntityStopSprintEvent
 import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickEvent
-import com.github.cao.awa.conium.entity.event.tick.ConiumEntityTickedEvent
+import com.github.cao.awa.conium.entity.event.ticked.ConiumEntityTickedEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.unnamed
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
-import com.github.cao.awa.conium.event.inactive.ConiumInactiveEvent
+import com.github.cao.awa.conium.inactive.event.ConiumInactiveEvent
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.trigger.ConiumEventTrigger
 import com.github.cao.awa.conium.event.trigger.ListTriggerable
 import com.github.cao.awa.conium.event.type.ConiumEventType
+import com.github.cao.awa.conium.item.event.inventory.tick.ConiumItemInventoryTickEvent
+import com.github.cao.awa.conium.item.event.inventory.ticked.ConiumItemInventoryTickedEvent
 import com.github.cao.awa.conium.item.event.stack.click.ConiumItemStackClickEvent
-import com.github.cao.awa.conium.item.event.stack.click.ConiumItemStackClickedEvent
-import com.github.cao.awa.conium.item.event.tick.inventory.ConiumItemInventoryTickEvent
-import com.github.cao.awa.conium.item.event.tick.inventory.ConiumItemInventoryTickedEvent
+import com.github.cao.awa.conium.item.event.stack.clicked.ConiumItemStackClickedEvent
 import com.github.cao.awa.conium.item.event.use.ConiumItemUseEvent
-import com.github.cao.awa.conium.item.event.use.ConiumItemUsedEvent
-import com.github.cao.awa.conium.item.event.use.block.ConiumItemUseOnBlockEvent
-import com.github.cao.awa.conium.item.event.use.block.ConiumItemUsedOnBlockEvent
-import com.github.cao.awa.conium.item.event.use.entity.ConiumItemUseOnEntityEvent
-import com.github.cao.awa.conium.item.event.use.entity.ConiumItemUsedOnEntityEvent
-import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickEvent
-import com.github.cao.awa.conium.item.event.use.usage.ConiumItemUsageTickedEvent
+import com.github.cao.awa.conium.item.event.used.ConiumItemUsedEvent
+import com.github.cao.awa.conium.item.event.use.block.on.use.ConiumItemUseOnBlockEvent
+import com.github.cao.awa.conium.item.event.use.block.on.used.ConiumItemUsedOnBlockEvent
+import com.github.cao.awa.conium.item.event.use.entity.on.use.ConiumItemUseOnEntityEvent
+import com.github.cao.awa.conium.item.event.use.entity.on.used.ConiumItemUsedOnEntityEvent
+import com.github.cao.awa.conium.item.event.use.usage.tick.ConiumItemUsageTickEvent
+import com.github.cao.awa.conium.item.event.use.usage.ticked.ConiumItemUsageTickedEvent
 import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
-import com.github.cao.awa.conium.network.event.ConiumServerConfigurationConnectionEvent
-import com.github.cao.awa.conium.network.event.ConiumServerConfiguredConnectionEvent
+import com.github.cao.awa.conium.network.event.server.connection.configuration.ConiumServerConfigurationConnectionEvent
+import com.github.cao.awa.conium.network.event.server.connection.configured.ConiumServerConfiguredConnectionEvent
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.random.event.ConiumRandomEvent
 import com.github.cao.awa.conium.server.event.random.ConiumServerRandomEvent
-import com.github.cao.awa.conium.server.event.tick.ConiumServerTickEvent
-import com.github.cao.awa.conium.server.event.tick.ConiumServerTickTailEvent
+import com.github.cao.awa.conium.server.event.tick.start.ConiumServerTickEvent
+import com.github.cao.awa.conium.server.event.tick.tail.ConiumServerTickTailEvent
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -78,15 +78,16 @@ import java.util.*
 
 abstract class ConiumEvent<
         I: Any,
-        M: ConiumEventMetadata<I>,
-        P: ParameterSelective
->(
+        M: ConiumEventMetadata<I, M>,
+        P: ParameterSelective,
+        N: ConiumEventType<*, *, *, *>
+        >(
     val eventType: ConiumEventType<I, M, *, *>,
-    val nextEvent: () -> ConiumEventType<*, *, *, *> = { ConiumEventType.INACTIVE }
+    val nextEvent: () -> N
 ) : ListTriggerable<P>() {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumEvent")
-        private val events: MutableMap<ConiumEventType<*, *, *, *>, ConiumEvent<*, *, *>> = CollectionFactor.hashMap()
+        private val events: MutableMap<ConiumEventType<*, *, *, *>, ConiumEvent<*, *, *, *>> = CollectionFactor.hashMap()
         private val foreverContext: MutableMap<ConiumEventType<*, *, *, *>, MutableList<ConiumArisingEventContext<*, *>>> = CollectionFactor.hashMap()
 
         /**
@@ -272,10 +273,10 @@ abstract class ConiumEvent<
         val receivedChunk: ConiumReceivedChunkEvent = ConiumReceivedChunkEvent()
 
         @JvmField
-        val enterConfigurationConnection: ConiumServerConfigurationConnectionEvent = ConiumServerConfigurationConnectionEvent()
+        val serverConfigurationConnection: ConiumServerConfigurationConnectionEvent = ConiumServerConfigurationConnectionEvent()
 
         @JvmField
-        val enterConfiguredConnection: ConiumServerConfiguredConnectionEvent = ConiumServerConfiguredConnectionEvent()
+        val serverConfiguredConnection: ConiumServerConfiguredConnectionEvent = ConiumServerConfiguredConnectionEvent()
 
         @JvmField
         val craftingTableCrafting: ConiumCraftingTableCraftingEvent = ConiumCraftingTableCraftingEvent()
@@ -289,25 +290,31 @@ abstract class ConiumEvent<
          * @param type the type of event
          */
         @JvmStatic
-        fun <I: Any> request(type: ConiumEventType<I, out ConiumEventMetadata<I>, *, *>): ConiumArisingEventContext<*, out ParameterSelective> {
+        fun <I: Any,  C : ConiumEventContext<I>, M: ConiumEventMetadata<I, M>> request(
+            type: ConiumEventType<I, M, *, *>
+        ): ConiumArisingEventContext<*, out ParameterSelective> {
             return findEvent(type).request()
         }
 
         @JvmStatic
-        fun <I: Any, M: ConiumEventMetadata<I>> findEvent(type: ConiumEventType<I, M, *, *>): ConiumEvent<I, M, *> {
+        fun <I: Any,  C : ConiumEventContext<I>, M: ConiumEventMetadata<I, M>> findEvent(
+            type: ConiumEventType<I, M, *, *>
+        ): ConiumEvent<I, M, *, *> {
             return this.events[type].doCast()
         }
 
         @JvmStatic
-        fun unsafeFindEvent(type: ConiumEventType<*, *, *, *>): ConiumEvent<*, *, *> {
-            return this.events[type] as ConiumEvent<*, *, *>
+        fun unsafeFindEvent(type: ConiumEventType<*, *, *, *>): ConiumEvent<*, *, *, *> {
+            return this.events[type] as ConiumEvent<*, *, *, *>
         }
 
         fun count(): Int = this.events.size
 
-        fun events(): Map<ConiumEventType<*, *, *, *>, ConiumEvent<*, *, *>> = Collections.unmodifiableMap(this.events)
+        fun events(): Map<ConiumEventType<*, *, *, *>, ConiumEvent<*, *, *, *>> = Collections.unmodifiableMap(this.events)
 
-        fun <I: Any> forever(eventType: ConiumEventType<I, out ConiumEventMetadata<I>, *, *>, context: ConiumArisingEventContext<*, *>) {
+        fun <I: Any,  C : ConiumEventContext<I>, M: ConiumEventMetadata<I, M>> forever(
+            eventType: ConiumEventType<I, out ConiumEventMetadata<I, M>, *, *>, context: ConiumArisingEventContext<*, *>
+        ) {
             this.foreverContext.computeIfAbsent(eventType) { CollectionFactor.arrayList() }.add(context)
         }
 
@@ -320,7 +327,7 @@ abstract class ConiumEvent<
         }
 
         fun attach() {
-            for ((_: ConiumEventType<*, *, *, *>, event: ConiumEvent<*, *, *>) in this.events) {
+            for ((_: ConiumEventType<*, *, *, *>, event: ConiumEvent<*, *, *, *>) in this.events) {
                 event.attach()
             }
         }
@@ -352,7 +359,7 @@ abstract class ConiumEvent<
     }
 
     private fun register() {
-        events[this.eventType]?.let { event: ConiumEvent<*, *, *> ->
+        events[this.eventType]?.let { event: ConiumEvent<*, *, *, *> ->
             if (!shouldForceOverride()) {
                 throw IllegalStateException("The event type '${this.eventType.name}' already registered as '${event.javaClass.name}', '${this.javaClass.name}' cannot override it")
             } else {

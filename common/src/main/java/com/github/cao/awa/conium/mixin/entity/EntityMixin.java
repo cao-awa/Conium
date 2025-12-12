@@ -112,7 +112,7 @@ public abstract class EntityMixin implements SprintMovementEntity {
     public void onSetSprint(boolean sprinting, CallbackInfo ci) {
         if (sprinting) {
             // Trigger entity sprint event.
-            if (ConiumEntityEventMixinIntermediary.fireEntitySprintsEvent(ConiumEventType.ENTITY_SPRINT, asEntity())) {
+            if (ConiumEntityEventMixinIntermediary.fireEntitySprintEvent(ConiumEventType.ENTITY_SPRINT, asEntity())) {
                 setFlag(3, false);
 
                 setCanStartSprint(false);
@@ -121,7 +121,7 @@ public abstract class EntityMixin implements SprintMovementEntity {
             }
         } else {
             // Trigger entity stop sprint event.
-            if (ConiumEntityEventMixinIntermediary.fireEntitySprintsEvent(ConiumEventType.ENTITY_STOP_SPRINT, asEntity())) {
+            if (ConiumEntityEventMixinIntermediary.fireEntityStopSprintEvent(ConiumEventType.ENTITY_STOP_SPRINT, asEntity())) {
                 setFlag(3, true);
                 ci.cancel();
             }

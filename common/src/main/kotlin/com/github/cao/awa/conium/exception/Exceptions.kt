@@ -18,4 +18,19 @@ object Exceptions {
             throw IllegalArgumentException(message, cause)
         }
     }
+
+    /**
+     * Throw an illegal argument exception with message or additional with causing exception.
+     *
+     * @param message the exception message
+     * @param cause the causing exception
+     */
+    @Throws(IllegalArgumentException::class)
+    fun throwIllegalArgument(message: String, cause: Throwable? = null) {
+        if (cause == null) {
+            throw IllegalArgumentException(message)
+        } else {
+            throw IllegalArgumentException(message, cause)
+        }
+    }
 }

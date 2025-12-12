@@ -44,7 +44,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
     )
     public void damaged(ServerWorld world, DamageSource damageSource, float amount, CallbackInfo ci) {
         // Trigger entity damaged event.
-        ConiumEntityEventMixinIntermediary.fireEntityDamageEvent(
+        ConiumEntityEventMixinIntermediary.fireEntityDamagedEvent(
                 ConiumEventType.ENTITY_DAMAGED,
                 Manipulate.cast(this),
                 damageSource,
@@ -75,7 +75,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
     )
     public void dead(DamageSource damageSource, CallbackInfo ci) {
         // Trigger entity dead event.
-        ConiumEntityEventMixinIntermediary.fireEntityDieEvent(
+        ConiumEntityEventMixinIntermediary.fireEntityDeadEvent(
                 ConiumEventType.ENTITY_DEAD,
                 Manipulate.cast(this),
                 damageSource
@@ -89,7 +89,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
     )
     public void trySleep(BlockPos pos, CallbackInfo ci) {
         // Trigger entity wake-up event.
-        if (ConiumEntityEventMixinIntermediary.fireEntityRestEvent(
+        if (ConiumEntityEventMixinIntermediary.fireEntityTrySleepEvent(
                 ConiumEventType.ENTITY_TRY_SLEEP,
                 Manipulate.cast(this),
                 pos
@@ -105,7 +105,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
     )
     public void sleep(BlockPos pos, CallbackInfo ci) {
         // Trigger entity wake-up event.
-        ConiumEntityEventMixinIntermediary.fireEntityRestEvent(
+        ConiumEntityEventMixinIntermediary.fireEntitySleepEvent(
                 ConiumEventType.ENTITY_SLEEP,
                 Manipulate.cast(this),
                 pos
@@ -119,7 +119,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
     )
     public void wakeUp(CallbackInfo ci) {
         // Trigger entity wake-up event.
-        if (ConiumEntityEventMixinIntermediary.fireEntityRestEvent(
+        if (ConiumEntityEventMixinIntermediary.fireEntityWakeupEvent(
                 ConiumEventType.ENTITY_WAKE_UP,
                 Manipulate.cast(this),
                 getSleepingPosition().orElse(null)
@@ -135,7 +135,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
     )
     public void wakedUp(CallbackInfo ci) {
         // Trigger entity waked up event.
-        ConiumEntityEventMixinIntermediary.fireEntityRestEvent(
+        ConiumEntityEventMixinIntermediary.fireEntityWakedupEvent(
                 ConiumEventType.ENTITY_WAKED_UP,
                 Manipulate.cast(this),
                 getSleepingPosition().orElse(null)
