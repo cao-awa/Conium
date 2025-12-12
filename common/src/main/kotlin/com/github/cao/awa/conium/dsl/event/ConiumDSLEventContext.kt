@@ -19,18 +19,26 @@ open class ConiumDSLEventContext<
     companion object {
         fun <I : Any, M : ConiumEventMetadata<I, M>, N : ConiumEventMetadata<*, N>, T : ConiumEventType<I, M, *, N>> onEvent(
             eventType: T,
-            builder: ConiumDSLEventContext<I, M, N, T>.() -> Unit
+            builder: ConiumDSLEventContext<I, M, N, T>.() -> Unit,
+            lastDSLContext: ConiumDSLEventContext<I, M, N, *>? = null
         ): ConiumDSLEventContext<I, M, N, T> {
             val event: ConiumEvent<I, M, *, *> = ConiumEvent.findEvent(eventType)
             return ConiumDSLEventContext(eventType, event).also { context: ConiumDSLEventContext<I, M, N, T> ->
                 builder(context)
 
                 event.listen {
+                    if (lastDSLContext != null) {
+                        this.lastContext = lastDSLContext.currentContext!!
+                    }
                     context.trigger(this)
                 }
             }
         }
     }
+
+    private lateinit var innerCurrentContext: M
+    private val currentContext: M?
+        get() = this.innerCurrentContext
 
     private var catcher: (M.() -> Unit)? = null
         set(value) {
@@ -77,6 +85,8 @@ open class ConiumDSLEventContext<
             return true
         }
 
+        this.innerCurrentContext = metadata
+
         val result = this.handler.let { handler ->
             runCatching {
                 this.handler!!(metadata)
@@ -117,6 +127,6 @@ open class ConiumDSLEventContext<
     }
 
     fun next(next: ConiumDSLEventContext<I, M, N, *>.() -> Unit) {
-        onEvent(this.event.nextEvent().doCast(), next)
+        onEvent(this.event.nextEvent().doCast(), next, this)
     }
 }
