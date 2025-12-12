@@ -1,5 +1,7 @@
 package com.github.cao.awa.conium.entity.event.damage
 
+import com.github.cao.awa.conium.entity.event.damage.metadata.ConiumEntityDamageEventMetadata
+import com.github.cao.awa.conium.entity.event.damaged.type.ConiumEntityDamagedEventType
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
@@ -15,7 +17,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.world.World
 
-class ConiumEntityDamageEvent : ConiumEvent<EntityType<*>, ConiumEntityDamageEventMetadata, ParameterSelective4<Boolean, World, LivingEntity, DamageSource, Float>>(
+class ConiumEntityDamageEvent : ConiumEvent<EntityType<*>, ConiumEntityDamageEventMetadata, ParameterSelective4<Boolean, World, LivingEntity, DamageSource, Float>, ConiumEntityDamagedEventType>(
     ConiumEventType.ENTITY_DAMAGE,
     { ConiumEventType.ENTITY_DAMAGED }
 ) {

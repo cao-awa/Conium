@@ -1,10 +1,10 @@
 package com.github.cao.awa.conium.mixin.block;
 
 import com.github.cao.awa.conium.block.event.use.ConiumUseBlockEvent;
-import com.github.cao.awa.conium.block.event.use.ConiumUsedBlockEvent;
-import com.github.cao.awa.conium.block.event.breaking.ConiumBreakBlockEvent;
+import com.github.cao.awa.conium.block.event.used.ConiumUsedBlockEvent;
+import com.github.cao.awa.conium.block.event.breaks.ConiumBreakBlockEvent;
 import com.github.cao.awa.conium.block.event.breaking.ConiumBreakingBlockEvent;
-import com.github.cao.awa.conium.block.event.breaking.ConiumBrokenBlockEvent;
+import com.github.cao.awa.conium.block.event.broken.ConiumBrokenBlockEvent;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
 import com.github.cao.awa.conium.intermediary.block.ConiumBlockEventMixinIntermediary;
 import net.minecraft.block.AbstractBlock;

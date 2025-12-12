@@ -1,5 +1,7 @@
 package com.github.cao.awa.conium.entity.event.die
 
+import com.github.cao.awa.conium.entity.event.dead.type.ConiumEntityDeadEventType
+import com.github.cao.awa.conium.entity.event.die.metadata.ConiumEntityDieEventMetadata
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
@@ -14,7 +16,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.world.World
 
-class ConiumEntityDieEvent : ConiumEvent<EntityType<*>, ConiumEntityDieEventMetadata, ParameterSelective3<Boolean, World, LivingEntity, DamageSource>>(
+class ConiumEntityDieEvent : ConiumEvent<EntityType<*>, ConiumEntityDieEventMetadata, ParameterSelective3<Boolean, World, LivingEntity, DamageSource>, ConiumEntityDeadEventType>(
     ConiumEventType.ENTITY_DIE,
     { ConiumEventType.ENTITY_DEAD }
 ) {

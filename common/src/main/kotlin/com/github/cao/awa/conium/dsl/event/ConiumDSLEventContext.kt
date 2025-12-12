@@ -10,13 +10,18 @@ import com.github.cao.awa.conium.threadpool.ConiumThreadPool
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import java.util.function.Consumer
 
-open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumEventMetadata<I>, T : ConiumEventType<I, M, *, N>>(val event: ConiumEvent<I, M, *>): ConiumEventContext<I>() {
+open class ConiumDSLEventContext<
+        I : Any,
+        M : ConiumEventMetadata<I, M>,
+        N : ConiumEventMetadata<*, N>,
+        T : ConiumEventType<I, M, *, N>
+        >(val event: ConiumEvent<I, M, *, *>) : ConiumEventContext<I>() {
     companion object {
-        fun <I: Any, M: ConiumEventMetadata<I>, N: ConiumEventMetadata<I>, T: ConiumEventType<I, M, *, N>> onEvent(
+        fun <I : Any, M : ConiumEventMetadata<I, M>, N : ConiumEventMetadata<*, N>, T : ConiumEventType<I, M, *, N>> onEvent(
             eventType: T,
             block: ConiumDSLEventContext<I, M, N, T>.() -> Unit
         ): ConiumDSLEventContext<I, M, N, T> {
-            val event: ConiumEvent<I, M, *> = ConiumEvent.findEvent(eventType)
+            val event: ConiumEvent<I, M, *, *> = ConiumEvent.findEvent(eventType)
             return ConiumDSLEventContext(eventType, event).also { dslEventMetadata: ConiumDSLEventContext<I, M, N, T> ->
                 event.listen {
                     dslEventMetadata.doAction(this)
@@ -27,7 +32,7 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
         }
     }
 
-    private var catcher: Consumer<Throwable>? = null
+    private var catcher: (M.() -> Unit)? = null
         set(value) {
             if (warningNoRepeats(field, "event exception catcher")) {
                 field = value
@@ -48,7 +53,7 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
         }
     private var target: T? = null
 
-    constructor(eventType: T, event: ConiumEvent<I, M, *>) : this(event) {
+    constructor(eventType: T, event: ConiumEvent<I, M, *, *>) : this(event) {
         this.target = eventType
     }
 
@@ -76,7 +81,9 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
             runCatching {
                 this.handler!!(metadata)
             }.ifException(true) { exception: Throwable ->
-                this.catcher?.accept(exception)
+                metadata.exception = exception
+
+                this.catcher?.invoke(metadata)
 
                 this.specifyCatchers[exception::class.java]?.let { handlers ->
                     for (handler in handlers) {
@@ -95,7 +102,7 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
         return result
     }
 
-    fun catching(handler: Consumer<Throwable>) {
+    fun catching(handler: M.() -> Unit) {
         this.catcher = handler
     }
 
@@ -109,7 +116,7 @@ open class ConiumDSLEventContext<I : Any, M : ConiumEventMetadata<I>, N: ConiumE
         this.finalizer = handler
     }
 
-    fun next(next: ConiumDSLEventContext<I, N, N, *>.() -> Unit) {
+    fun next(next: ConiumDSLEventContext<I, M, N, *>.() -> Unit) {
         onEvent(this.event.nextEvent().doCast(), next)
     }
 }

@@ -4,7 +4,12 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
-val JsonElement.jsonObject: JsonObject? get() = this as? JsonObject
+val JsonElement.jsonObject: JsonObject? get() = runCatching { this as JsonObject }.getOrNull()
+val JsonElement.jsonArray: JsonArray? get() = runCatching { this as JsonArray }.getOrNull()
+val JsonElement.string: String? get() = runCatching { this.asString }.getOrNull()
+val JsonElement.int: Int? get() = runCatching { this.asInt }.getOrNull()
+val JsonElement.float: Float? get() = runCatching { this.asFloat }.getOrNull()
+val JsonElement.boolean: Boolean? get() = runCatching { this.asBoolean }.getOrNull()
 
 fun <R> JsonElement.ifJsonObject(action: (JsonObject) -> R): R? {
     return ifJsonObject(action) {
@@ -37,8 +42,6 @@ fun <R> JsonElement.createIfJsonObject(action: () -> R, elseAction: (JsonElement
     } ?: elseAction(this)
 }
 
-val JsonElement.jsonArray: JsonArray? get() = this as? JsonArray
-
 fun <R> JsonElement.ifJsonArray(action: (JsonArray) -> R): R? {
     return ifJsonArray(action) {
         // Do nothing.
@@ -69,8 +72,6 @@ fun <R> JsonElement.ifJsonArray(action: () -> R, elseAction: (JsonElement) -> R)
         action()
     } ?: elseAction(this)
 }
-
-val JsonElement.float: Float? get() = if (this.isJsonPrimitive) this.asFloat else null
 
 fun <R> JsonElement.ifFloat(action: (Float) -> R): R? {
     return ifFloat(action) {
@@ -103,8 +104,6 @@ fun <R> JsonElement.ifFloat(action: () -> R, elseAction: (JsonElement) -> R): R?
     } ?: elseAction(this)
 }
 
-val JsonElement.string: String? get() = if (this.isJsonPrimitive) this.asString else null
-
 fun <R> JsonElement.ifString(action: (String) -> R): R? {
     return ifString(action) {
         // Do nothing.
@@ -135,8 +134,6 @@ fun <R> JsonElement.ifString(action: () -> R, elseAction: (JsonElement) -> R): R
         action()
     } ?: elseAction(this)
 }
-
-val JsonElement.boolean: Boolean? get() = if (this.isJsonPrimitive) this.asBoolean else null
 
 fun <R> JsonElement.ifBoolean(action: (Boolean) -> R): R? {
     return ifBoolean(action) {
@@ -169,8 +166,6 @@ fun <R> JsonElement.ifBoolean(action: () -> R, elseAction: (JsonElement) -> R): 
     } ?: elseAction(this)
 }
 
-val JsonElement.int: Int? get() = if (this.isJsonPrimitive) this.asInt else null
-
 fun <R> JsonElement.ifInt(action: (Int) -> R): R? {
     return ifInt(action) {
         // Do nothing.
@@ -202,11 +197,11 @@ fun <R> JsonElement.ifInt(action: () -> R, elseAction: (JsonElement) -> R): R? {
     } ?: elseAction(this)
 }
 
-// Or.
+// JSON object or other.
 fun <R> JsonElement.objectOrFloat(action: (JsonObject) -> R, elseAction: (Float) -> R): R? {
     return ifJsonObject(action) {
         it.ifFloat(elseAction) {
-            throw IllegalStateException("This json element need be object or float but got: $this ")
+            throw IllegalStateException("This json element need be JSOn object or float but got: $this ")
         }
     }
 }
@@ -214,7 +209,7 @@ fun <R> JsonElement.objectOrFloat(action: (JsonObject) -> R, elseAction: (Float)
 fun <R> JsonElement.objectOrString(action: (JsonObject) -> R, elseAction: (String) -> R): R? {
     return ifJsonObject(action) {
         it.ifString(elseAction) {
-            throw IllegalStateException("This json element need be object or string but got: $this ")
+            throw IllegalStateException("This json element need be JSON object or string but got: $this ")
         }
     }
 }
@@ -222,7 +217,7 @@ fun <R> JsonElement.objectOrString(action: (JsonObject) -> R, elseAction: (Strin
 fun <R> JsonElement.objectOrBoolean(action: (JsonObject) -> R, elseAction: (Boolean) -> R): R? {
     return ifJsonObject(action) {
         it.ifBoolean(elseAction) {
-            throw IllegalStateException("This json element need be object or boolean but got: $this ")
+            throw IllegalStateException("This json element need be JSON object or boolean but got: $this ")
         }
     }
 }
@@ -230,7 +225,40 @@ fun <R> JsonElement.objectOrBoolean(action: (JsonObject) -> R, elseAction: (Bool
 fun <R> JsonElement.objectOrInt(action: (JsonObject) -> R, elseAction: (Int) -> R): R? {
     return ifJsonObject(action) {
         it.ifInt(elseAction) {
-            throw IllegalStateException("This json element need be object or boolean but got: $this ")
+            throw IllegalStateException("This json element need be JSON object or boolean but got: $this ")
+        }
+    }
+}
+
+// JSON array or other.
+fun <R> JsonElement.arrayOrFloat(action: (JsonArray) -> R, elseAction: (Float) -> R): R? {
+    return ifJsonArray(action) {
+        it.ifFloat(elseAction) {
+            throw IllegalStateException("This json element need be JSON array or float but got: $this ")
+        }
+    }
+}
+
+fun <R> JsonElement.arrayOrString(action: (JsonArray) -> R, elseAction: (String) -> R): R? {
+    return ifJsonArray(action) {
+        it.ifString(elseAction) {
+            throw IllegalStateException("This json element need be JSON array or string but got: $this ")
+        }
+    }
+}
+
+fun <R> JsonElement.arrayOrBoolean(action: (JsonArray) -> R, elseAction: (Boolean) -> R): R? {
+    return ifJsonArray(action) {
+        it.ifBoolean(elseAction) {
+            throw IllegalStateException("This json element need be JSON array ar or boolean but got: $this ")
+        }
+    }
+}
+
+fun <R> JsonElement.arrayOrInt(action: (JsonArray) -> R, elseAction: (Int) -> R): R? {
+    return ifJsonArray(action) {
+        it.ifInt(elseAction) {
+            throw IllegalStateException("This json element need be JSON array or int but got: $this ")
         }
     }
 }

@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
 import com.github.cao.awa.conium.parameter.ParameterSelective
 
-data class ConiumEventTrigger<I: Any, M: ConiumEventMetadata<I>>(
+data class ConiumEventTrigger<I: Any, M: ConiumEventMetadata<I, M>>(
     val metadataCallback: M.()-> Unit,
     val targetIdentity: (I?) -> Boolean,
     val alwaysCallback: Boolean = false

@@ -33,7 +33,7 @@ class ConiumServerInitializer {
             )
         }
 
-        ConiumEvent.enterConfigurationConnection.subscribe { networkHandler: ServerConfigurationNetworkHandler, _ ->
+        ConiumEvent.serverConfigurationConnection.subscribe { networkHandler: ServerConfigurationNetworkHandler, _ ->
             networkHandler.sendPacket(
                 SynchronizeRegistryPayload().packet
             )

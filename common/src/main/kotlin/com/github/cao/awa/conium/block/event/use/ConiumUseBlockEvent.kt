@@ -1,5 +1,7 @@
 package com.github.cao.awa.conium.block.event.use
 
+import com.github.cao.awa.conium.block.event.use.metadata.ConiumUseBlockEventMetadata
+import com.github.cao.awa.conium.block.event.used.type.ConiumUsedBlockEventType
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
@@ -16,7 +18,7 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class ConiumUseBlockEvent : ConiumEvent<Block, ConiumUseBlockEventMetadata, ParameterSelective5<Boolean, World, PlayerEntity, BlockPos, AbstractBlockState, BlockHitResult>>(
+class ConiumUseBlockEvent : ConiumEvent<Block, ConiumUseBlockEventMetadata, ParameterSelective5<Boolean, World, PlayerEntity, BlockPos, AbstractBlockState, BlockHitResult>, ConiumUsedBlockEventType>(
     ConiumEventType.USE_BLOCK,
     { ConiumEventType.USED_BLOCK }
 ) {

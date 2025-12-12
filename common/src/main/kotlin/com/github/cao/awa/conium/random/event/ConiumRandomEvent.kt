@@ -6,20 +6,25 @@ import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
+import com.github.cao.awa.conium.inactive.event.type.ConiumInactiveEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective0
-import net.minecraft.util.Unit as MinecraftUnit
+import com.github.cao.awa.conium.random.event.metadata.ConiumRandomEventMetadata
+import net.minecraft.util.Unit
 
-class ConiumRandomEvent : ConiumEvent<MinecraftUnit, ConiumRandomEventMetadata, ParameterSelective0<Boolean>>(ConiumEventType.RANDOM) {
-    override fun requirement(): ConiumArisingEventContext<MinecraftUnit, out ParameterSelective> {
+class ConiumRandomEvent : ConiumEvent<Unit, ConiumRandomEventMetadata, ParameterSelective0<Boolean>, ConiumInactiveEventType>(
+    ConiumEventType.RANDOM,
+    { ConiumEventType.INACTIVE }
+) {
+    override fun requirement(): ConiumArisingEventContext<Unit, out ParameterSelective> {
         return ConiumEventContextBuilder.requires(
             ConiumEventArgTypes.MINECRAFT_UNIT
-        ) { identity: MinecraftUnit ->
+        ) { identity: Unit ->
             noFailure(identity, ParameterSelective0<Boolean>::arise)
         }
     }
 
-    override fun metadata(context: ConiumEventContext<MinecraftUnit>): ConiumRandomEventMetadata {
+    override fun metadata(context: ConiumEventContext<Unit>): ConiumRandomEventMetadata {
         return ConiumRandomEventMetadata(context)
     }
 }

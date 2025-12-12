@@ -93,7 +93,7 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
                         {
                             val ops: JsonOps = JsonOps.INSTANCE
                             ApplyEffectsConsumeEffect.CODEC.decoder()
-                                .decode(ops, effects).orThrow.first.let { theEffects ->
+                                .decode(ops, it).orThrow.first.let { theEffects ->
                                     builder.consumeEffect(theEffects)
                                 }
                         },

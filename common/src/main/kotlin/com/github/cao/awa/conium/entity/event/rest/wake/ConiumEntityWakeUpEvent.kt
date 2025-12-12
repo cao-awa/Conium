@@ -1,5 +1,7 @@
 package com.github.cao.awa.conium.entity.event.rest.wake
 
+import com.github.cao.awa.conium.entity.event.rest.wake.metadata.ConiumEntityWakeUpEventMetadata
+import com.github.cao.awa.conium.entity.event.rest.waked.type.ConiumEntityWakedUpEventType
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.requires
@@ -14,7 +16,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class ConiumEntityWakeUpEvent : ConiumEvent<EntityType<*>, ConiumEntityWakeUpEventMetadata, ParameterSelective3<Boolean, World, LivingEntity, BlockPos>>(
+class ConiumEntityWakeUpEvent : ConiumEvent<EntityType<*>, ConiumEntityWakeUpEventMetadata, ParameterSelective3<Boolean, World, LivingEntity, BlockPos>, ConiumEntityWakedUpEventType>(
     ConiumEventType.ENTITY_WAKE_UP,
     { ConiumEventType.ENTITY_WAKED_UP }
 ) {

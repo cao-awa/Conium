@@ -1,8 +1,10 @@
 package com.github.cao.awa.conium.item.template.egg
 
 import com.github.cao.awa.conium.event.ConiumEvent
+import com.github.cao.awa.conium.exception.Exceptions.illegalArgument
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
+import com.github.cao.awa.conium.kotlin.extent.json.ifString
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.SPAWN_EGG
 import com.google.gson.JsonElement
 import net.minecraft.entity.EntityType
@@ -15,15 +17,21 @@ class ConiumSpawnEggTemplate(private val entityType: EntityType<*>) : ConiumItem
     companion object {
         @JvmStatic
         fun create(element: JsonElement): ConiumSpawnEggTemplate {
-            if (element.isJsonObject) {
-                throw IllegalArgumentException("Not supported: $element")
-            }
-            EntityType.get(element.asString).let {
-                if (it.isPresent) {
-                    return ConiumSpawnEggTemplate(it.get())
+            var result: ConiumSpawnEggTemplate? = null
+            element.ifString({ entity ->
+                EntityType.get(entity).let {
+                    if (it.isPresent) {
+                        result = ConiumSpawnEggTemplate(it.get())
+                    }
                 }
+            },
+                notSupported()
+            )
+
+            if (result != null) {
+                return result
             }
-            throw IllegalArgumentException("Entity type ${element.asString} not found")
+            return illegalArgument("Entity type ${element.asString} not found")
         }
     }
 

@@ -10,6 +10,7 @@ import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 abstract class ConiumEventContext<I: Any>() {
     open var async: Boolean = false
+    open lateinit var exception: Throwable
     private val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
 
     var enabled: Boolean = true
