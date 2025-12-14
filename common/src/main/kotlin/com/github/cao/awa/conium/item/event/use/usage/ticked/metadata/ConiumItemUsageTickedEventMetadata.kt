@@ -13,5 +13,5 @@ class ConiumItemUsageTickedEventMetadata(val context: ConiumEventContext<Item>) 
     val world: World = this.context[ConiumEventArgTypes.WORLD]
     val livingEntity: LivingEntity = this.context[ConiumEventArgTypes.LIVING_ENTITY]
     val itemStack: ItemStack = this.context[ConiumEventArgTypes.ITEM_STACK]
-    val remainingUseTicks: Int = this.context[REMAINING_USE_TICKS]
+    val remainingUseTicks: Int = this.context[ConiumEventArgTypes.REMAINING_USE_TICKS]
 }

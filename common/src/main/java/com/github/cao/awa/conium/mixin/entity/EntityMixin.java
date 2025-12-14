@@ -5,7 +5,6 @@ import com.github.cao.awa.conium.intermediary.entity.ConiumEntityEventMixinInter
 import com.github.cao.awa.conium.sprint.SprintMovementEntity;
 import com.github.cao.awa.sinuatum.manipulate.Manipulate;
 import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -112,7 +111,7 @@ public abstract class EntityMixin implements SprintMovementEntity {
     public void onSetSprint(boolean sprinting, CallbackInfo ci) {
         if (sprinting) {
             // Trigger entity sprint event.
-            if (ConiumEntityEventMixinIntermediary.fireEntitySprintEvent(ConiumEventType.ENTITY_SPRINT, asEntity())) {
+            if (ConiumEntityEventMixinIntermediary.fireEntitySprintEvent(asEntity())) {
                 setFlag(3, false);
 
                 setCanStartSprint(false);
@@ -121,7 +120,7 @@ public abstract class EntityMixin implements SprintMovementEntity {
             }
         } else {
             // Trigger entity stop sprint event.
-            if (ConiumEntityEventMixinIntermediary.fireEntityStopSprintEvent(ConiumEventType.ENTITY_STOP_SPRINT, asEntity())) {
+            if (ConiumEntityEventMixinIntermediary.fireEntityStopSprintEvent(asEntity())) {
                 setFlag(3, true);
                 ci.cancel();
             }

@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.bedrock.index.d.server
 
 import com.github.cao.awa.conium.bedrock.index.d.IndexD
-import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
+import com.github.cao.awa.conium.bedrock.impl.event.context.BedrockEventContext
 import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger

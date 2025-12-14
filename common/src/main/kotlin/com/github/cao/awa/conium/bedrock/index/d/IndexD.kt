@@ -15,7 +15,7 @@ abstract class IndexD {
 
         @JvmStatic
         fun tryImport(packageName: String, refs: Collection<String>, action: Consumer<String>) {
-            val indexD: IndexD? = packages[packageName]
+            val indexD: IndexD? = this.packages[packageName]
             if (indexD != null) {
                 refs.distinct().forEach { ref: String ->
                     indexD.forName(ref, action)

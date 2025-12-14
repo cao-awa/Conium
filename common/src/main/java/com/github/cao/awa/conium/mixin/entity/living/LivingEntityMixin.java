@@ -135,7 +135,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
     )
     public void wakedUp(CallbackInfo ci) {
         // Trigger entity waked up event.
-        ConiumEntityEventMixinIntermediary.fireEntityWakedupEvent(
+        ConiumEntityEventMixinIntermediary.fireEntityWakedUpEvent(
                 ConiumEventType.ENTITY_WAKED_UP,
                 Manipulate.cast(this),
                 getSleepingPosition().orElse(null)

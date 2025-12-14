@@ -3,32 +3,32 @@
 package com.github.cao.awa.conium.bedrock.index
 
 // System
-import com.github.cao.awa.conium.bedrock.system.AbstractBedrockSystem
-import com.github.cao.awa.conium.bedrock.system.BedrockSystem
+import com.github.cao.awa.conium.bedrock.impl.system.AbstractBedrockSystem
+import com.github.cao.awa.conium.bedrock.impl.system.BedrockSystem
 
 // Script APIs.
-import com.github.cao.awa.conium.bedrock.script.BedrockScriptAnonymousObjectMap
+import com.github.cao.awa.conium.bedrock.impl.script.BedrockScriptAnonymousObjectMap
 
 // World.
-import com.github.cao.awa.conium.bedrock.world.AbstractBedrockWorld
+import com.github.cao.awa.conium.bedrock.impl.world.AbstractBedrockWorld
 
 // Entity.
-import com.github.cao.awa.conium.bedrock.entity.BedrockEntity
-import com.github.cao.awa.conium.bedrock.entity.player.BedrockPlayer
-import com.github.cao.awa.conium.bedrock.entity.player.delegate.BedrockPlayerDelegate
-import com.github.cao.awa.conium.bedrock.entity.player.screen.BedrockOnScreenDisplay
+import com.github.cao.awa.conium.bedrock.impl.entity.BedrockEntity
+import com.github.cao.awa.conium.bedrock.impl.entity.player.BedrockPlayer
+import com.github.cao.awa.conium.bedrock.impl.entity.player.delegate.BedrockPlayerDelegate
+import com.github.cao.awa.conium.bedrock.impl.entity.player.screen.BedrockOnScreenDisplay
 
 // Event.
-import com.github.cao.awa.conium.bedrock.event.context.BedrockEventContext
-import com.github.cao.awa.conium.bedrock.event.before.item.use.on.context.BedrockItemUseOnEventMetadata
-import com.github.cao.awa.conium.bedrock.event.before.item.use.on.BedrockItemUseOnBeforeEvent
-import com.github.cao.awa.conium.bedrock.event.after.item.use.on.BedrockItemUseOnAfterEvent
+import com.github.cao.awa.conium.bedrock.impl.event.context.BedrockEventContext
+import com.github.cao.awa.conium.bedrock.impl.event.before.item.use.on.context.BedrockItemUseOnEventMetadata
+import com.github.cao.awa.conium.bedrock.impl.event.before.item.use.on.BedrockItemUseOnBeforeEvent
+import com.github.cao.awa.conium.bedrock.impl.event.after.item.use.on.BedrockItemUseOnAfterEvent
 
 // Item.
-import com.github.cao.awa.conium.bedrock.item.stack.BedrockItemStack
+import com.github.cao.awa.conium.bedrock.impl.item.stack.BedrockItemStack
 
 // DimensionLocation
-import com.github.cao.awa.conium.bedrock.world.dimension.BedrockDimensionLocation
+import com.github.cao.awa.conium.bedrock.impl.world.dimension.BedrockDimensionLocation
 
 // System typealias.
 typealias AbstractBedrockSystem = AbstractBedrockSystem

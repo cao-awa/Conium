@@ -9,14 +9,16 @@ Conium is a datapack and script framework for modern Minecraft, it provides very
 
 ## Warning
 
-Conium is currently as 'on client' mode, the server needs to synchronize the datapacks and scripts to client but are not completed this feature now.
+The full Conium feature is currently as 'on client' mode, the server needs to synchronize the datapacks and scripts to client but are not completed this feature now.
+
+But the Conium scripting system can run on the server side completely, only the bedrock scripting APIs are not available on the server side now.
 
 ## Requirements
 
 |            Requirement |        Version         |   Installs   |             Notes             |
 |-----------------------:|:----------------------:|:------------:|:-----------------------------:|
 |                   Java |          21+           | 21 Or higher |      21 Or higher is ok       |
-|              Minecraft |        >=1.21.11       |     Need     |  1.21.11 or higher can be use |
+|              Minecraft |       >=1.21.11        |     Need     | 1.21.11 or higher can be use  |
 | Fabric language kotlin | 1.13.5+kotlin.2.2.10!! |     Need     | Only kotlin 2.2.10 can be use |
 |             Fabric API |           ?            |     Need     |       Any version is ok       |
 
@@ -30,7 +32,7 @@ Conium has configured whole project, just clone the repository, and reload proje
 |      Gradle |    8.14.2     |    8.14.2 or higher could be use    |
 |      Kotlin |   2.2.10!!    |       Only 2.2.10 can be use        |
 | Fabric loom | 1.13-SNAPSHOT | 1.13-SNAPSHOT or other could be use |
-|   Minecraft |   \>=1.21.11  |  Only 1.21.11 or higher can be use  |
+|   Minecraft |  \>=1.21.11   |  Only 1.21.11 or higher can be use  |
 
 ### NeoForge
 
@@ -56,7 +58,9 @@ Not completed bedrock script APIs supports now, only framework able to run the s
 
 ### Grammars
 
-About typescript grammar, supported by ```structuring-translator```: [Typescript supports](https://github.com/cao-awa/structuring-translator/tree/main/doc/typescript)
+About TypeScript grammar, supported by ```structuring-translator```: [TypeScript supports](https://github.com/cao-awa/structuring-translator/tree/main/doc/typescript)
+
+The MoLang support also based on ```structuring-translator``` but implemented by Conium team: [MoLang supports](https://github.com/cao-awa/Conium/tree/main/common/src/main/kotlin/com/github/cao/awa/conium/molang)
 
 ### APIs
 

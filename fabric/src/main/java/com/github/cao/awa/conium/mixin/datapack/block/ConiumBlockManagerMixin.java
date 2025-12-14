@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class ConiumBlockManagerMixin implements FabricResourceReloader {
     @Override
     public @NotNull Identifier fabric$getId() {
+        // Use identifiable resource loader system to reload block in data packs.
+        // Make more compatible with other mods.
         return Identifier.of("conium", "block_manager");
     }
 }

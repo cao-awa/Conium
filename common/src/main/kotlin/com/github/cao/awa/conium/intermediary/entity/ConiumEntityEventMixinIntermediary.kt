@@ -328,7 +328,7 @@ object ConiumEntityEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireEntityWakedupEvent(eventType: ConiumEventType<EntityType<*>, ConiumEntityWakedUpEventMetadata, *, *>, entity: LivingEntity, sleepPos: BlockPos?): Boolean {
+    fun fireEntityWakedUpEvent(eventType: ConiumEventType<EntityType<*>, ConiumEntityWakedUpEventMetadata, *, *>, entity: LivingEntity, sleepPos: BlockPos?): Boolean {
         // Let this event failure directly when sleeping pos is null,
         // because the 'sleep' call will input a position to try sleep,
         // and 'wakeUp' call input a null when mean this entity are not sleeping currently.
@@ -445,38 +445,9 @@ object ConiumEntityEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireEntitySprintEvent(targetEvent: ConiumEventType<EntityType<*>, ConiumEntitySprintEventMetadata, *, *>, entity: Entity): Boolean {
+    fun fireEntitySprintEvent(entity: Entity): Boolean {
         return fireEventCancelable(
-            targetEvent,
-            entity.type
-        ) { context: ConiumArisingEventContext<*, *> ->
-            // Fill the context args.
-            context[ConiumEventArgTypes.ENTITY] = entity
-        }
-    }
-
-    /**
-     * Trigger the entity start sprinting.
-     *
-     * @see EntityMixin
-     * @see EntityMixin.onSetSprint
-     * @see Entity.baseTick
-     * @see Entity.isSprinting
-     * @see ConiumEventType.ENTITY_SPRINT
-     * @see ConiumEventType.ENTITY_STOP_SPRINT
-     *
-     * @param entity the entity that extinguishing
-     *
-     * @return flag that noted should do mixin cancel
-     *
-     * @author cao_awa
-     *
-     * @since 1.0.0
-     */
-    @JvmStatic
-    fun fireEntitySprintingEvent(targetEvent: ConiumEventType<EntityType<*>, ConiumEntitySprintingEventMetadata, *, *>, entity: Entity): Boolean {
-        return fireEventCancelable(
-            targetEvent,
+            ConiumEventType.ENTITY_SPRINT,
             entity.type
         ) { context: ConiumArisingEventContext<*, *> ->
             // Fill the context args.
@@ -503,9 +474,9 @@ object ConiumEntityEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireEntityStopSprintEvent(targetEvent: ConiumEventType<EntityType<*>, ConiumEntityStopSprintEventMetadata, *, *>, entity: Entity): Boolean {
+    fun fireEntityStopSprintEvent(entity: Entity): Boolean {
         return fireEventCancelable(
-            targetEvent,
+            ConiumEventType.ENTITY_STOP_SPRINT,
             entity.type
         ) { context: ConiumArisingEventContext<*, *> ->
             // Fill the context args.

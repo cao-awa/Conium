@@ -1,14 +1,15 @@
 package com.github.cao.awa.conium.template.item.bedrock
 
-import com.github.cao.awa.conium.item.template.bedrock.animation.BedrockUseAnimationComponent
-import com.github.cao.awa.conium.item.template.bedrock.damage.BedrockDamageComponent
-import com.github.cao.awa.conium.item.template.bedrock.destory.BedrockCanDestroyInCreativeComponent
-import com.github.cao.awa.conium.item.template.bedrock.durability.BedrockDurabilityComponent
-import com.github.cao.awa.conium.item.template.bedrock.food.BedrockFoodComponent
-import com.github.cao.awa.conium.item.template.bedrock.fuel.BedrockFuelComponent
-import com.github.cao.awa.conium.item.template.bedrock.glint.BedrockGlintComponent
-import com.github.cao.awa.conium.item.template.bedrock.stack.size.BedrockMaxStackSizeComponent
-import com.github.cao.awa.conium.item.template.bedrock.wearable.BedrockWearableComponent
+import com.github.cao.awa.conium.item.component.animation.BedrockUseAnimationComponent
+import com.github.cao.awa.conium.item.component.damage.BedrockDamageComponent
+import com.github.cao.awa.conium.item.component.destory.BedrockCanDestroyInCreativeComponent
+import com.github.cao.awa.conium.item.component.durability.BedrockDurabilityComponent
+import com.github.cao.awa.conium.item.component.entity.placer.BedrockEntityPlacerComponent
+import com.github.cao.awa.conium.item.component.food.BedrockFoodComponent
+import com.github.cao.awa.conium.item.component.fuel.BedrockFuelComponent
+import com.github.cao.awa.conium.item.component.glint.BedrockGlintComponent
+import com.github.cao.awa.conium.item.component.stack.size.BedrockMaxStackSizeComponent
+import com.github.cao.awa.conium.item.component.wearable.BedrockWearableComponent
 import com.github.cao.awa.conium.item.template.rarity.ConiumRarityTemplate
 import com.github.cao.awa.conium.template.ConiumTemplate
 
@@ -85,6 +86,12 @@ object BedrockItemComponents {
         ConiumTemplate.registerItem(
             DURABILITY,
             BedrockDurabilityComponent::create,
+            true
+        )
+
+        ConiumTemplate.registerItem(
+            ENTITY_PLACER,
+            BedrockEntityPlacerComponent::create,
             true
         )
 
