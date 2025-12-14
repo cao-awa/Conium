@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.item
 
 import com.github.cao.awa.conium.item.builder.ConiumItemBuilder
 import com.github.cao.awa.conium.item.setting.ConiumItemSettings
-import com.github.cao.awa.conium.item.template.bedrock.destory.BedrockCanDestroyInCreativeComponent
+import com.github.cao.awa.conium.item.component.destory.BedrockCanDestroyInCreativeComponent
 import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
 import com.github.cao.awa.conium.item.template.tool.ConiumItemToolTemplate
 import com.github.cao.awa.conium.item.template.tool.mining.ConiumForceMiningSpeedTemplate

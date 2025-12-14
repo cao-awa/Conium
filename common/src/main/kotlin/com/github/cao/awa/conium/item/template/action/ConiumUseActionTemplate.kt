@@ -11,10 +11,10 @@ import com.google.gson.JsonElement
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.Item
 import net.minecraft.item.consume.UseAction
-import com.github.cao.awa.conium.item.template.bedrock.animation.BedrockUseAnimationComponent
+import com.github.cao.awa.conium.item.component.animation.BedrockUseAnimationComponent
 
 /**
- * This template used to setting a animation action when the item using.
+ * This template used to setting an animation action when the item using.
  *
  * @see BedrockUseAnimationComponent
  *

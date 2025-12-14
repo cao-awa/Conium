@@ -19,8 +19,8 @@ open class ConiumDSLEventContext<
     companion object {
         fun <I : Any, M : ConiumEventMetadata<I, M>, N : ConiumEventMetadata<*, N>, T : ConiumEventType<I, M, *, N>> onEvent(
             eventType: T,
-            builder: ConiumDSLEventContext<I, M, N, T>.() -> Unit,
-            lastDSLContext: ConiumDSLEventContext<I, M, N, *>? = null
+            lastDSLContext: ConiumDSLEventContext<I, M, *, *>? = null,
+            builder: ConiumDSLEventContext<I, M, N, T>.() -> Unit
         ): ConiumDSLEventContext<I, M, N, T> {
             val event: ConiumEvent<I, M, *, *> = ConiumEvent.findEvent(eventType)
             return ConiumDSLEventContext(eventType, event).also { context: ConiumDSLEventContext<I, M, N, T> ->
@@ -127,6 +127,6 @@ open class ConiumDSLEventContext<
     }
 
     fun next(next: ConiumDSLEventContext<I, M, N, *>.() -> Unit) {
-        onEvent(this.event.nextEvent().doCast(), next, this)
+        onEvent(this.event.nextEvent().doCast(), this, next)
     }
 }

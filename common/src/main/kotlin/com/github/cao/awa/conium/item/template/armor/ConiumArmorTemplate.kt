@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.item.template.armor
 
-import com.github.cao.awa.conium.item.template.bedrock.wearable.BedrockWearableComponent
+import com.github.cao.awa.conium.item.component.wearable.BedrockWearableComponent
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.ARMOR
 import com.google.gson.JsonElement

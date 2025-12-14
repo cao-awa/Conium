@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.item.template.armor
 
 import com.github.cao.awa.conium.exception.Exceptions.illegalArgument
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.item.template.bedrock.wearable.BedrockWearableComponent
+import com.github.cao.awa.conium.item.component.wearable.BedrockWearableComponent
 import com.github.cao.awa.conium.kotlin.extent.component.withComponent
 import com.github.cao.awa.conium.kotlin.extent.component.withComputeAttributeModifiers
 import com.github.cao.awa.conium.kotlin.extent.component.withCreateAttributeModifiers
