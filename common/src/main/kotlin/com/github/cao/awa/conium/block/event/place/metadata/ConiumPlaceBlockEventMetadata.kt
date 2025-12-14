@@ -7,5 +7,6 @@ import net.minecraft.block.Block
 import net.minecraft.item.ItemPlacementContext
 
 class ConiumPlaceBlockEventMetadata(val context: ConiumEventContext<Block>) : ConiumEventMetadata<Block, ConiumPlaceBlockEventMetadata>() {
+    val block: Block = this.context.identity as Block
     val itemPlacementContext: ItemPlacementContext = this.context[ConiumEventArgTypes.ITEM_PLACEMENT_CONTEXT]
 }

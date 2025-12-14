@@ -17,7 +17,7 @@ object DSLSample {
 
             // Event processing logic.
             action {
-                LOGGER.info(this.blockPos)
+                LOGGER.info("${this.blockPos}: ${this.block}")
                 if (ConiumConfig.debugs) {
                     throwIllegalArgument("test")
                 }

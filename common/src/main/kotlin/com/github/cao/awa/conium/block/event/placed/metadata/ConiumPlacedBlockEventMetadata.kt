@@ -13,6 +13,7 @@ import net.minecraft.world.World
 class ConiumPlacedBlockEventMetadata(val context: ConiumEventContext<Block>) : ConiumEventMetadata<Block, ConiumPlacedBlockEventMetadata>() {
     val world: World = this.context[ConiumEventArgTypes.WORLD]
     val placer: LivingEntity = this.context[ConiumEventArgTypes.LIVING_ENTITY]
+    val block: Block = this.context.identity as Block
     val blockPos: BlockPos = this.context[ConiumEventArgTypes.BLOCK_POS]
     val blockState: BlockState = this.context[ConiumEventArgTypes.BLOCK_STATE]
     val itemStack: ItemStack = this.context[ConiumEventArgTypes.ITEM_STACK]

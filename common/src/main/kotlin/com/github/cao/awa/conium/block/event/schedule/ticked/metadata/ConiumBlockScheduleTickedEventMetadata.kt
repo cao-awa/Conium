@@ -13,6 +13,7 @@ import net.minecraft.util.math.random.Random
 class ConiumBlockScheduleTickedEventMetadata(val context: ConiumEventContext<Block>) : ConiumEventMetadata<Block, ConiumBlockScheduleTickedEventMetadata>() {
     val serverWorld: ServerWorld = this.context[ConiumEventArgTypes.SERVER_WORLD]
     val scheduledTickView: ScheduledTickView = this.context[ConiumEventArgTypes.SCHEDULED_TICK_VIEW]
+    val block: Block = this.context.identity as Block
     val blockPos: BlockPos = this.context[ConiumEventArgTypes.BLOCK_POS]
     val blockState: BlockState = this.context[ConiumEventArgTypes.BLOCK_STATE]
     val random: Random = this.context[ConiumEventArgTypes.RANDOM]
