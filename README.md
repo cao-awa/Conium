@@ -60,17 +60,16 @@ Not completed bedrock script APIs supports now, only framework able to run the s
 
 About TypeScript grammar, supported by ```structuring-translator```: [TypeScript supports](https://github.com/cao-awa/structuring-translator/tree/main/doc/typescript)
 
-The MoLang support also based on ```structuring-translator``` but implemented by Conium team: [MoLang supports](https://github.com/cao-awa/Conium/tree/main/common/src/main/kotlin/com/github/cao/awa/conium/molang)
+The MoLang support also based on ```structuring-translator``` but implemented by Conium: [MoLang supports](https://github.com/cao-awa/Conium/tree/main/common/src/main/kotlin/com/github/cao/awa/conium/molang)
 
-# Source code and commit
+# Source Code and Contributions
+Conium is built on an event-driven, context-oriented architecture with strong aspect-like capabilities, though it does not use event-sourced state semantics.
 
-Conium has large and complex source codes and architectures.\
-Read source codes still very challenging even though we are completing documents and comments try we best.
+The codebase is architecturally complex and extensive. While we continuously improve documentation, navigating the source may still be challenging.
 
-So if you are willing to contribute to Conium, please do conversations with Conium developers to learn the details and specifications.\
-We will reject all pull requests that not after discussion.
+Therefore, we strongly recommend discussing your ideas with the core team before contributing. This ensures alignment with the project’s design and specifications.
 
-If it is not necessary, avoid directly reading source codes. Instead, submit issues tagged with 'question'.
+Please note that pull requests submitted without prior discussion may be declined. For general inquiries, we encourage you to submit an issue tagged “question.”
 
 ## Hitokoto
 
