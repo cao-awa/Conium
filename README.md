@@ -62,63 +62,6 @@ About TypeScript grammar, supported by ```structuring-translator```: [TypeScript
 
 The MoLang support also based on ```structuring-translator``` but implemented by Conium team: [MoLang supports](https://github.com/cao-awa/Conium/tree/main/common/src/main/kotlin/com/github/cao/awa/conium/molang)
 
-### APIs
-
-Currently, there APIs are available:
-
-In context:
-
-|   Name |                                                   Conium API type                                                   | Gametest API type |      Status      |
-|-------:|:-------------------------------------------------------------------------------------------------------------------:|:-----------------:|:----------------:|
-| system | [AbstractBedrockSystem](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt) |      System       | Alpha (Unstable) |
-|  world |  [AbstractBedrockWorld](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt)   |       World       | Alpha (Unstable) |
-
-In APIs:
-
-+ world
-    + [AbstractBedrockWorld](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt) impl by [BedrockWorld](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/BedrockWorld.kt) as known as 'World' in SAPI
-        + player
-            + [BedrockPlayer](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/player/BedrockPlayer.kt) as known as 'Player' in SAPI
-                + delegate
-                    + [BedrockPlayerDelegate](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/player/delegate/BedrockPlayerDelegate.kt) as known as 'Player[]' in SAPI
-                + screen
-                    + [BedrockOnScreenDisplay](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/player/screen/BedrockOnScreenDisplay.kt) as known as 'ScreenDisplay' in SAPI
-    + dimension
-        + [BedrockDimensionLocation](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/dimension/BedrockDimensionLocation.kt) as known as 'DimensionLocation' in SAPI
-+ system
-    + [AbstractBedrockSystem](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt) impl by [BedrockSystem](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/system/BedrockSystem.kt) as known as 'System' in SAPI
-+ item
-    + stack
-        + [BedrockItemStack](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/item/stack/BedrockItemStack.kt) as known as 'ItemStack' in SAPI
-+ script
-    + [BedrockScriptAnonymousObjectMap](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/item/stack/BedrockItemStack.kt) as known as 'anonymous object' in Javascript
-+ event
-    + [BedrockBeforeEvents](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/event/BedrockBeforeEvents.kt) as known as 'WorldBeforeEvents' in SAPI
-        + context
-            + [BedrockEventContext](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/event/context/BedrockEventContext.kt)
-            + item
-                + use
-                    + [BedrockItemUseOnEventContext](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/event/context/item/use/BedrockItemUseOnEventContext.kt) as known as 'ItemUseOnBeforeEvent' and 'ItemUseOnAfterEvent' in SAPI
-    + item
-        + use
-            + [BedrockItemUseOnBeforeEvent](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/event/before/item/use/on/BedrockItemUseOnBeforeEvent.kt) as known as 'ItemUseOnBeforeEventSignal' in SAPI
-
-By bedrock script APIs:
-
-+ [world](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt)
-    + ```fun``` [getPlayers()](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt): [BedrockPlayerDelegate](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/player/delegate/BedrockPlayerDelegate.kt)
-        + ```operator fun``` [get](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/player/delegate/BedrockPlayerDelegate.kt): [BedrockPlayer](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/player/BedrockPlayer.kt)(index: Int)
-    + ```val``` [onScreenDisplay](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/player/delegate/BedrockPlayerDelegate.kt): [BedrockOnScreenDisplay](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/player/screen/BedrockOnScreenDisplay.kt)
-        + ```fun``` [setTitle](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/player/screen/BedrockOnScreenDisplay.kt)(title: String, properties: [BedrockScriptAnonymousObjectMap](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/script/BedrockScriptAnonymousObjectMap.kt))
-        + ```fun``` [updateSubtitle](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/player/screen/BedrockOnScreenDisplay.kt)(title: String)
-    + ```val``` [eventsBefore](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/world/AbstractBedrockWorld.kt) = ```get()```: [BedrockBeforeEvents](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/event/BedrockBeforeEvents.kt)
-        + ```val``` [itemUseOn](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/event/BedrockBeforeEvents.kt): [BedrockItemUseOnEvent](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/event/item/use/BedrockItemUseOnBeforeEvent.kt)
-            + ```fun``` [subscribe](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/event/item/use/BedrockItemUseOnBeforeEvent.kt)(action: ([BedrockItemUseOnEventContext](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/event/context/item/use/BedrockItemUseOnEventContext.kt)) ->
-              Unit)
-+ [system](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt)
-    + ```fun``` [runInterval](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt)(callback: () -> Unit, tickInterval: Int): IntegerReceptacle
-    + ```fun``` [clearRun](./common/src/main/kotlin/com/github/cao/awa/conium/bedrock/system/AbstractBedrockSystem.kt)(runId: IntegerReceptacle)
-
 # Source code and commit
 
 Conium has large and complex source codes and architectures.\
@@ -127,7 +70,7 @@ Read source codes still very challenging even though we are completing documents
 So if you are willing to contribute to Conium, please do conversations with Conium developers to learn the details and specifications.\
 We will reject all pull requests that not after discussion.
 
-If it is not necessary, avoid directly reading source codes.
+If it is not necessary, avoid directly reading source codes. Instead, submit issues tagged with 'question'.
 
 ## Hitokoto
 
