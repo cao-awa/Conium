@@ -5,6 +5,8 @@
 
 Conium is a datapack and script framework for modern Minecraft, it provides very diverse features without Java coding, Conium lets you complete your mods only using the datapacks.
 
+Conium is an event-driven, context-oriented architecture with strong aspect-like characteristics, but without event-sourced state semantics.
+
 ![](https://count.getloli.com/@@cao-awa.conium?name=%40cao-awa.conium&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=auto)
 
 ## Warning
