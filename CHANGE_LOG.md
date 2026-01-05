@@ -1,21 +1,7 @@
 > 1.0.0-alpha14
 
 # Events
-Add event 'SERVER_CONFIGURED_CONNECTION'.
-Add event 'CRAFTING_TABLE_CRAFTING'.
-Add event 'CRAFTING_TABLE_CRAFTED'.
-Clear event subscribers clearly.
-
-# DSL
-Make (M) to M.() .
-Change 'break block' cascaded event from 'breaking block' to 'broken block'.
-
-# Templates
-Add new template "entity_placer" and bedrock component "minecraft:entity_placer".
-
-# Bug fixes
-Fix bug of null pointer exception when requesting server configured connection event.
-Fix "minecraft:glint" wrongly be "glint" in template name.
+Add event 
 
 # Performance improves
 Let events won't be triggered when no listeners requested the event.
@@ -26,9 +12,14 @@ Use 'Cancelable' and 'NoCancelable' to prevent calling the request methods with 
 # Molang
 Basic molang parsing and translating.
 
-# Others
-Shorter event metadata impl.
-Renamed conium bedrock 'Template's to "Component"s.
-
 # Minecraft
-Update to '1.21.9' version.
+Update to '1.21.11' version.
+
+# Tech details
+Add specified type of identity in metadata.\
+Make more generic type to the event type system for more clearing specify the next event type.\
+More DSL supporting.\
+Ordering templates orders and components orders to make more readable and maintainable.\
+
+# Bug fixes
+Fix wrong effective blocks group in ConiumItemPickaxeTemplate.\
