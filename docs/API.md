@@ -27,17 +27,15 @@ Contributions require core team discussion due to complex architecture.
 
 Not applicable. Conium operates within the Minecraft game environment (client/server). No external auth mechanisms exist. Access is controlled via Minecraft datapack loading and mod installation.
 
-## Base URL
+## Interfaces
 
-Not applicable. Conium is not a networked web service. It exposes **in-game interfaces** via:
+Conium exposes **in-game interfaces** via:
 - Datapack functions/commands.
 - Kotlin script evaluation.
 - Data-driven JSON configs.
 - Minecraft events/ticks.
 
-## Interfaces
-
-Conium provides no HTTP/REST endpoints. Instead, it offers **scripting and data-driven interfaces** for Minecraft modding. Below are the primary developer interfaces based on the codebase.
+It offers **scripting and data-driven interfaces** for Minecraft modding. Below are the primary developer interfaces based on the codebase.
 
 ### 1. Build and Development CLI (Gradle Tasks)
 Conium uses Gradle (8.14.2+) for building across Fabric/NeoForge. Run via `./gradlew` (Unix) or `gradlew.bat` (Windows). Key tasks (inferred from standard Fabric Loom/NeoForge setup and README):
@@ -75,9 +73,15 @@ git clone <repo>
 **Example Script Loading** (hypothetical based on docs; see `./document/script/kotlin/README.md`):
 ```kotlin
 // In a datapack script file
-import com.github.cao.awa.conium.* // Core Conium APIs
-event.onTick { world ->
-    // Context-oriented logic
+onEvent(ConiumEventType.BREAK_BLOCK) {
+    this.async = true
+
+    // Event processing logic.
+    action {
+        LOGGER.info("${this.blockPos}: ${this.block}")
+
+        true
+    }
 }
 ```
 
@@ -93,31 +97,22 @@ event.onTick { world ->
 
 **Example Structure** (from file layout):
 ```
-data/
+datapacks/
 ├── mypack/
-│   ├── functions/
-│   │   └── conium_script.kts  # Kotlin script
 │   └── data/
 │       └── conium/
-│           └── events.json    # Event configs
+│           ├── item/    # Datapack data (items)
+│           ├── block/   # Datapack data (blocks)
+│           ├── script/  # Scripts
+│           └── other...
 ```
 
 ### 4. MoLang Expression Interface
-- **Parser**: ANTLR-based (`grammar/molang/*.g4`).
-- **Usage**: Embed in datapacks/scripts for dynamic expressions (e.g., `math.random(1, 10)`).
-- **Tests**: `molang/test/test_molang.txt`.
-
-## Rate Limiting
-
-Not applicable. No networked requests. Minecraft tick rates and script execution are governed by game loops (20 ticks/second).
-
-## Webhooks
-
-Not applicable. No external event emission. Use Minecraft's event system for in-game notifications.
+- Not done yet.
 
 ## Error Handling
 
-- **Console Logs**: Hitokoto + errors on launch/load.
+- **Console Logs**: Errors on launch/load.
 - **Runtime**: Script failures logged to Minecraft logs (`latest.log`).
 - **Common Issues**:
   | Error | Cause | Fix |
