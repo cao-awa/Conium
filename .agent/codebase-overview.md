@@ -1,4 +1,3 @@
-```markdown
 # Conium Codebase Overview
 
 Quick-reference for AI assistants. Multi-module Gradle project for Minecraft mod ("Conium") supporting Fabric/NeoForge loaders, Molang parsing, and Bedrock-style data-driven content.
@@ -45,4 +44,3 @@ Quick-reference for AI assistants. Multi-module Gradle project for Minecraft mod
 - **Minecraft**: Fabric Loader/API, NeoForge, Minecraft (1.20+ mappings).
 - **Lang**: Kotlin (scripts/docs), Java (core).
 - **Other**: Bedrock data formats (JSON schemas in docs/samples).
-```
