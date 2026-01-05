@@ -1,4 +1,3 @@
-```markdown
 # Conium Documentation Index
 
 Welcome to the **Conium** documentation. Conium is a datapack and script framework for modern Minecraft, enabling modding via datapacks and scripts without Java coding. It includes a common library, Fabric and NeoForge mod modules, Molang grammar parser, data-driven features, and Kotlin/Bedrock scripting APIs.
@@ -44,4 +43,3 @@ Experienced users: Jump to [Quick Links](#quick-links) or search.
 - Keep concise, accurate, and code-backed – no speculation.
 
 See [CONTRIBUTING.md](../CONTRIBUTING.md) in repo root for full guidelines.
-```
