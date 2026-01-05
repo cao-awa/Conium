@@ -1,0 +1,59 @@
+{
+  "generator": "codesummary",
+  "version": "1.0.0",
+  "model": "grok-4-1-fast-reasoning",
+  "timestamp": "2026-01-05T12:15:34.411Z",
+  "analysis": {
+    "projectName": "Conium",
+    "description": "Datapack and script framework for modern Minecraft enabling modding using datapacks and scripts without Java coding.",
+    "techStack": [
+      "Kotlin 2.2.10",
+      "Gradle 8.14.2",
+      "Fabric Loader 1.13.5",
+      "NeoForge (partial)",
+      "Minecraft 1.21.11+"
+    ],
+    "mainComponents": [
+      "Common library",
+      "Fabric mod module",
+      "NeoForge mod module",
+      "Molang grammar parser",
+      "Data-driven features",
+      "Kotlin/Bedrock scripting APIs"
+    ],
+    "hasDatabase": false,
+    "hasApi": false,
+    "keyFiles": [
+      "README.md",
+      "build.gradle",
+      "settings.gradle",
+      "gradle.properties",
+      "common/build.gradle",
+      "fabric/build.gradle",
+      "neoforge/build.gradle"
+    ],
+    "entryPoints": [
+      "fabric/src/main/kotlin/... (Fabric mod initializer)",
+      "neoforge/src/main/kotlin/... (NeoForge mod initializer)",
+      "common/src/main/kotlin/... (core library)"
+    ],
+    "buildSystem": "Gradle"
+  },
+  "files": {
+    "docs": [
+      "ARCHITECTURE.md",
+      "API.md",
+      "DATABASE.md",
+      "SETUP.md",
+      "README.md"
+    ],
+    "agent": [
+      "context.md",
+      "codebase-overview.md"
+    ]
+  },
+  "usage": {
+    "inputTokens": 10025,
+    "outputTokens": 7731
+  }
+}
