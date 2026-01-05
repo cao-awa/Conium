@@ -35,10 +35,10 @@ Experienced users: Jump to [Quick Links](#quick-links) or search.
 
 ## Contributing to Docs
 
-- Edit `.md` files directly in `docs/`.
+- Edit `.md` files directly in `document/`.
 - Use standard Markdown (headings, tables, code blocks).
 - Preview locally with VS Code, Typora, or `mdbook serve`.
-- Reference code with `[source](https://github.com/.../blob/main/path/to/file.kt#L42)`.
+- Reference code.
 - Submit PRs to `main` branch with clear changelogs.
 - Keep concise, accurate, and code-backed – no speculation.
 
