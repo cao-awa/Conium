@@ -52,11 +52,7 @@ Key dependencies (auto-resolved):
 
 ### Environment Setup
 
-No `.env` file or environment variables are required. The project uses standard Gradle configurations in `build.gradle.kts` and `gradle.properties`.
-
-### Database Setup
-
-Not applicable. Conium is a Minecraft datapack/script framework with no database dependencies.
+No `.env` file or environment variables are required. The project uses standard Gradle configurations in `build.gradle` and `gradle.properties`.
 
 ## Running the Application
 
@@ -67,7 +63,8 @@ Conium is a Minecraft mod. Build the JAR and install in a Fabric Loader instance
 1. Build with `./gradlew remapJar`.
 2. For IDE development:
    - Use Fabric Loom tasks: `./gradlew runClient` (client) or `./gradlew runServer` (server, scripting only).
-3. Place `build/libs/conium-*.jar` in `run/mods/` for IDE-run instances.
+3. For out of IDE development:
+   - Place `build/libs/conium-*.jar` in `<minecraft-instance>/mods/` for IDE-run instances.
 
 **Warning**: Full features are client-side; servers require datapack/script sync (incomplete).
 
@@ -75,23 +72,8 @@ Conium is a Minecraft mod. Build the JAR and install in a Fabric Loader instance
 
 1. Build the JAR: `./gradlew remapJar`.
 2. Copy `build/libs/conium-*.jar` to `<minecraft-instance>/mods/`.
-3. Ensure datapacks/scripts are in `datapacks/` or world folders.
+3. Ensure datapacks/scripts are in `datapacks/` in world folders.
 4. Launch Minecraft (Fabric Loader 1.13.5+, Minecraft 1.21.11+).
-
-### With Docker
-
-Not applicable. Conium does not provide Docker support.
-
-## Running Tests
-
-No dedicated test suite is configured in the provided codebase. Run standard Gradle checks:
-
-```bash
-./gradlew check
-./gradlew test  # If unit tests are present in modules
-```
-
-Contributions adding tests are welcome after discussion with the core team.
 
 ## Troubleshooting
 
@@ -101,8 +83,7 @@ Contributions adding tests are welcome after discussion with the core team.
 | `Java version too low`                     | Install Java 21+ and set `JAVA_HOME`. Verify with `java -version`.       |
 | `Gradle build fails on remapJar`           | Reload Gradle in IDE; ensure Fabric Loom 1.13-SNAPSHOT. Run `./gradlew clean`. |
 | `NeoForge incompatibility`                 | Use Fabric Loader only; NeoForge conflicts with Kotlin native (unresolved). |
-| `Scripts/datapacks not loading`            | Client-side only for full features. Verify Minecraft >=1.21.11, Fabric API installed. |
-| `Hitokoto not showing`                     | Console-only on launch; normal if suppressed.                            |
+| `Scripts/datapacks not loading`            | Client-side only for full features. Verify Minecraft >=1.21.11, Fabric API installed. 
 | `Bedrock APIs unavailable on server`       | Expected; server supports Conium scripting only.                         |
 
 For further help, join the [Discord server](https://discord.com/invite/BUY2xQr37N) or file an issue tagged "question".
