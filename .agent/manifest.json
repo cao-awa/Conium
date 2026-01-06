@@ -40,7 +40,7 @@
     "buildSystem": "Gradle"
   },
   "files": {
-    "docs": [
+    "documet": [
       "ARCHITECTURE.md",
       "API.md",
       "DATABASE.md",
