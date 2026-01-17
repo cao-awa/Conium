@@ -11,6 +11,7 @@
 |                         is_weapon (tool) |               No impl                | Make different durability consume when used to hit entity or break blocks |           boolean           |
 |                     damage_chance (tool) | damage_chance (minecraft:durability) |              Setting the probability of durability consuming              |    Damage chance object     |
 |                  can_destroy_in_creative |  minecraft:can_destroy_in_creative   |      Setting block breakable in creative mode when holding this item      |           boolean           |
+|                              compostable |        minecraft:compostable         |               Setting an item can put into composter block                |            float            |
 |                                max_count |       minecraft:max_stack_size       |               Setting the max item stack count of the item                |             int             |
 |                                     food |            minecraft:food            |                        Setting the item be a food                         |         Food object         |
 |                   can_always_eat  (food) |   can_always_eat (minecraft:food)    |              Setting the food can always eats (no cooldown)               |           boolean           |

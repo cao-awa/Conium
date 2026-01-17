@@ -2,6 +2,7 @@
 
 |            Bedrock schema impls             |             Conium schema key |                              Notes                               |         Value type          |
 |:-------------------------------------------:|------------------------------:|:----------------------------------------------------------------:|:---------------------------:|
+|            minecraft:compostable            |                   compostable |           Setting an item can put into composter block           | float or compostable object |
 |              minecraft:damage               |    attack_damage (```tool```) |              Setting tool damage amount to entities              |            float            |
 |            minecraft:durability             |       durability (```tool```) |                     Setting tool durability                      |             int             |
 | damage_chance (```minecraft:durability```)  |    damage_chance (```tool```) |         Setting the probability of durability consuming          |            float            |
@@ -33,6 +34,7 @@
 |     minecraft:collision_box      |         collision |               Setting the collision box of the block               | Collision object |
 
 ## Entities
+
 Entities supported to defines 'component_groups' in bedrock schema, but unable to switching now.
 
 |  Bedrock schema impls   | Conium schema key |                                    Notes                                    |         Value type         |

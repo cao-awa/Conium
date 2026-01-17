@@ -28,7 +28,7 @@ For bedrock components, see [Bedrock data driven](/document/data-driven/bedrock/
 
 ## Conium schema
 
-```json5
+```json
 {
   // If using conium schema, 'schema' is required.
   "schema_style": "conium",
@@ -42,7 +42,7 @@ For bedrock components, see [Bedrock data driven](/document/data-driven/bedrock/
 
 Example:
 
-```json5
+```json
 {
   "schema_style": "conium",
   "identifier": "awa:conium",
@@ -58,10 +58,10 @@ Example:
       // This value is a tag key.
       "effective_blocks": "minecraft:mineable/pickaxe",
       // This tool is what material.
-      "material": "netherite",
+      "is_weapon": false,
       // This tool is the weapon or not.
       // The durability will decrement 2 after this tool damage to entity when it not weapon.
-      "is_weapon": false
+      "material": "netherite"
     },
     // Setting this tool item can destroy blocks in creative mode.
     "can_destroy_in_creative": true,
@@ -74,7 +74,7 @@ Example:
 
 ## bedrock schema
 
-```json5
+```json
 {
   // If using bedrock schema, 'schema' can be missing.
   "schema_style": "bedrock",
@@ -94,7 +94,7 @@ Example:
 
 Example:
 
-```json5
+```json
 {
   "minecraft:item": {
     // Description and identifier must present.
