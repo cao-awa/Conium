@@ -117,8 +117,7 @@ open class ConiumEntityPlacerTemplate(
                 return@add false
             }
             val serverWorld: ServerWorld = world
-            val blockHitResult2 = blockHitResult
-            val blockPos = blockHitResult2.blockPos
+            val blockPos = blockHitResult.blockPos
             val blockState: BlockState = world.getBlockState(blockPos)
             val block: Block = blockState.block
             if (block !is FluidBlock) {
@@ -127,13 +126,18 @@ open class ConiumEntityPlacerTemplate(
             if (!this.allowedDispenserBlocks.isEmpty() && !this.allowedDispenserBlocks.contains(block)) {
                 return@add false
             }
-            if (!world.canEntityModifyAt(user, blockPos) || !user.canPlaceOn(blockPos, blockHitResult2.side, itemStack)) {
+            if (!world.canEntityModifyAt(user, blockPos) || !user.canPlaceOn(blockPos, blockHitResult.side, itemStack)) {
                 return@add false
             }
-            val entity: Entity? = this.entityType.spawnFromItemStack(serverWorld, itemStack, user, blockPos, SpawnReason.SPAWN_ITEM_USE, false, false)
-            if (entity == null) {
-                return@add false
-            }
+            val entity: Entity = this.entityType.spawnFromItemStack(
+                serverWorld,
+                itemStack,
+                user,
+                blockPos,
+                SpawnReason.SPAWN_ITEM_USE,
+                false,
+                false
+            ) ?: return@add false
             user.incrementStat(Stats.USED.getOrCreateStat(target))
             world.emitGameEvent(user, GameEvent.ENTITY_PLACE, entity.entityPos)
             return@add true

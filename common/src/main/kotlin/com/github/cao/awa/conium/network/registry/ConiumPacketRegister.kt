@@ -15,7 +15,7 @@ fun interface ConiumPacketRegister<P : ConiumPacket<*, *, *>> {
         }
 
         private var toClientPlayRegister: ConiumPacketRegister<ConiumClientPlayPacket> = ConiumPacketRegister { _, _ ->
-            throw IllegalStateException("No network packet impl now!")
+            throw IllegalStateException("No play network packet impl now!")
         }
 
         fun <P : ConiumClientConfigurationPacket> implementConfigurationToClient(impl: ConiumPacketRegister<P>) {

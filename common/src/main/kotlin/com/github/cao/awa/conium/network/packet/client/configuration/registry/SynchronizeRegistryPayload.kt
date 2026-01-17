@@ -65,7 +65,7 @@ class SynchronizeRegistryPayload : ConiumClientConfigurationPacket(IDENTIFIER) {
         for ((identifier, datapack) in Conium.pendingDatapack.datapacks) {
             LOGGER.info("-- $identifier")
             for ((resourceIdentifier, content) in datapack.contents) {
-                LOGGER.info("$resourceIdentifier >  $content")
+                LOGGER.info("$resourceIdentifier > $content")
             }
         }
 

@@ -7,10 +7,11 @@
     "defaultRequire": 1
   },
   "mixins": [
-    "block.AbstractBlockMixin",
+    "block.AbstractBlockAccessor",
+    "block.AbstractBlockStateMixin",
     "block.BlockItemMixin",
     "block.BlockMixin",
-    "block.AbstractBlockStateMixin",
+    "block.compostable.ComposterBlockAccessor",
     "block.entity.shulker.ChestBlockEntityMixin",
     "block.entity.shulker.ShulkerBoxBlockEntityMixin",
     "collection.IdListMixin",
@@ -44,8 +45,8 @@
     "client.MinecraftClientAccessor",
     "client.interaction.ClientPlayerInteractionManagerMixin",
     "client.play.ClientPlayNetworkHandlerMixin",
-    "client.renderer.entity.EntityRenderManagerMixin",
     "client.renderer.entity.EntityRendererFactoriesMixin",
+    "client.renderer.entity.EntityRenderManagerMixin",
     "client.screen.ScreenHandlerMixin",
     "client.world.renderer.WorldRendererMixin"
   ]

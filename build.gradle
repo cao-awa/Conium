@@ -65,13 +65,13 @@ subprojects {
         }
 
         implementation "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
-        implementation "org.jetbrains.kotlin:kotlin-reflect:2.1.0"
+        implementation "org.jetbrains.kotlin:kotlin-reflect:${project.kotlin_version}"
 
 //        implementation "org.jetbrains.kotlin:kotlin-scripting-common:${project.kotlin_version}"
         implementation "org.jetbrains.kotlin:kotlin-scripting-jvm:${project.kotlin_version}"
         implementation "org.jetbrains.kotlin:kotlin-scripting-jvm-host:${project.kotlin_version}"
 
-        implementation 'com.alibaba.fastjson2:fastjson2:2.0.50'
+        implementation 'com.github.cao.awa:cason:1.0.10'
 
         implementation 'com.github.cao.awa:catheter:1.0.43'
         implementation 'com.github.cao.awa:sinuatum:1.0.17'

@@ -2,6 +2,7 @@ package com.github.cao.awa.conium.template.item.conium
 
 import com.github.cao.awa.conium.item.template.action.ConiumUseActionTemplate
 import com.github.cao.awa.conium.item.template.armor.ConiumArmorTemplate
+import com.github.cao.awa.conium.item.template.compostable.ConiumCompostableTemplate
 import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
 import com.github.cao.awa.conium.item.template.consume.ConiumConsumeOnUsedTemplate
 import com.github.cao.awa.conium.item.template.convert.block.ConiumUsedOnBlockConvertToTemplate
@@ -63,6 +64,7 @@ object ConiumItemTemplates {
     const val CLEAR_IGNITE: String = "clear_ignite"
     const val CONSUMABLE: String = "consumable"
     const val CONSUME_ON_USED: String = "consume_on_used"
+    const val COMPOSTABLE: String = "compostable"
 
     // (.E) .
     const val ENTITY_PLACER: String = "entity_placer"
@@ -158,6 +160,11 @@ object ConiumItemTemplates {
         ConiumTemplate.registerItem(
             CONSUME_ON_USED,
             ConiumConsumeOnUsedTemplate::create
+        )
+
+        ConiumTemplate.registerItem(
+            COMPOSTABLE,
+            ConiumCompostableTemplate::create
         )
 
         // (.E) .

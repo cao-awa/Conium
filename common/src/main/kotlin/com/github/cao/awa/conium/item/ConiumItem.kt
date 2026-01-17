@@ -82,7 +82,7 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
     var consumeOnUsedOnBlock: (BlockState) -> Boolean = { false }
     var consumeOnUsedOnEntity: (LivingEntity) -> Boolean = { false }
     val useOnBlockHandlers: MutableList<(context: ItemUsageContext) -> Boolean> = ArrayList()
-    val useHandlers: MutableList<(world: World, user: PlayerEntity, hand: Hand)  -> Boolean> = ArrayList()
+    val useHandlers: MutableList<(world: World, user: PlayerEntity, hand: Hand) -> Boolean> = ArrayList()
     val useOnEntityHandlers: MutableList<(stack: ItemStack, user: PlayerEntity, target: LivingEntity, hand: Hand) -> Boolean> = ArrayList()
 
     /**
