@@ -7,6 +7,7 @@ import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTempla
 import com.github.cao.awa.conium.item.template.consume.ConiumConsumeOnUsedTemplate
 import com.github.cao.awa.conium.item.template.convert.block.ConiumUsedOnBlockConvertToTemplate
 import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
+import com.github.cao.awa.conium.item.template.display.name.ConiumDisplayNameTemplate
 import com.github.cao.awa.conium.item.template.egg.ConiumSpawnEggTemplate
 import com.github.cao.awa.conium.item.template.entity.placer.ConiumEntityPlacerTemplate
 import com.github.cao.awa.conium.item.template.food.ConiumFoodTemplate
@@ -65,6 +66,9 @@ object ConiumItemTemplates {
     const val CONSUMABLE: String = "consumable"
     const val CONSUME_ON_USED: String = "consume_on_used"
     const val COMPOSTABLE: String = "compostable"
+
+    // (.D) .
+    const val DISPLAY_NAME: String = "display_name"
 
     // (.E) .
     const val ENTITY_PLACER: String = "entity_placer"
@@ -165,6 +169,12 @@ object ConiumItemTemplates {
         ConiumTemplate.registerItem(
             COMPOSTABLE,
             ConiumCompostableTemplate::create
+        )
+
+        // (.D) .
+        ConiumTemplate.registerItem(
+            DISPLAY_NAME,
+            ConiumDisplayNameTemplate::create
         )
 
         // (.E) .

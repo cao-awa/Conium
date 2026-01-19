@@ -6,19 +6,20 @@ For sample, see [samples](/sample).
 + \<path-to-save\>/datapacks
     + \<pack-name\>
         + data
-            + item
-                + This directory is items, data type is '.json'
-            + block
-                + This directory is blocks, data type is '.json'
-            + entity
-                + This directory is entities, data type is '.json'
-            + property
-                + item
-                    + This directory is item properties injectors, data type is '.json'
-                + block
-                    + This directory is block properties injectors, data type is '.json'
-            + script
-                + This directory is scripts, data type is 'kts', '.ts' and '.js' (js is not usable yet)
+          + \<pack-name\> 
+              + item
+                  + This directory is items, data type is '.json'
+              + block
+                  + This directory is blocks, data type is '.json'
+              + entity
+                  + This directory is entities, data type is '.json'
+              + property
+                  + item
+                      + This directory is item properties injectors, data type is '.json'
+                  + block
+                      + This directory is block properties injectors, data type is '.json'
+              + script
+                  + This directory is scripts, data type is 'kts', '.ts' and '.js' (js is not usable yet)
 
 ## Templates or components
 
@@ -28,7 +29,7 @@ For bedrock components, see [Bedrock data driven](/document/data-driven/bedrock/
 
 ## Conium schema
 
-```json
+```json5
 {
   // If using conium schema, 'schema' is required.
   "schema_style": "conium",
@@ -42,7 +43,7 @@ For bedrock components, see [Bedrock data driven](/document/data-driven/bedrock/
 
 Example:
 
-```json
+```json5
 {
   "schema_style": "conium",
   "identifier": "awa:conium",
@@ -74,7 +75,7 @@ Example:
 
 ## bedrock schema
 
-```json
+```json5
 {
   // If using bedrock schema, 'schema' can be missing.
   "schema_style": "bedrock",
@@ -94,7 +95,7 @@ Example:
 
 Example:
 
-```json
+```json5
 {
   "minecraft:item": {
     // Description and identifier must present.

@@ -58,16 +58,20 @@ import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromT
  *
  * @since 1.0.0
  */
-class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : SinglePreparationResourceReloader<MutableMap<Identifier, Resource>>() {
+class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) :
+    SinglePreparationResourceReloader<MutableMap<Identifier, Resource>>() {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumScriptManager")
         private val DATA_TYPE: String = ConiumRegistryKeys.SCRIPT.value.path
 
         // Commons script here, all scripts use these scripts.
         private val defaultCommons: String = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.commons.kts"))
-        private val defaultClientCommons: String = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.client.kts"))
-        private val defaultBedrockScriptInit: String = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.bedrock.script.init.kts"))
-        private val defaultBedrockCommons: String = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.bedrock.commons.kts"))
+        private val defaultClientCommons: String =
+            IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.client.kts"))
+        private val defaultBedrockScriptInit: String =
+            IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.bedrock.script.init.kts"))
+        private val defaultBedrockCommons: String =
+            IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.bedrock.commons.kts"))
 
         /**
          * The 'host' is kotlin scripting host that used to compile and evaluate the kotlin scripts.
@@ -84,11 +88,12 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
         private val scriptingHost: BasicJvmScriptingHost = BasicJvmScriptingHost()
     }
 
-    private val compilationConfiguration: ScriptCompilationConfiguration = createJvmCompilationConfigurationFromTemplate<ConiumScript> {
-        jvm {
-            dependenciesFromCurrentContext(wholeClasspath = true)
+    private val compilationConfiguration: ScriptCompilationConfiguration =
+        createJvmCompilationConfigurationFromTemplate<ConiumScript> {
+            jvm {
+                dependenciesFromCurrentContext(wholeClasspath = true)
+            }
         }
-    }
 
     /**
      * The 'exportedScript' is shared script context when the script return a '[com.github.cao.awa.conium.script.ScriptExport]'
@@ -120,9 +125,10 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
      *
      * @since 1.0.0
      */
-    override fun prepare(manager: ResourceManager, profiler: Profiler): MutableMap<Identifier, Resource> = CollectionFactor.hashMap<Identifier, Resource>().also {
-        load(manager, it)
-    }
+    override fun prepare(manager: ResourceManager, profiler: Profiler): MutableMap<Identifier, Resource> =
+        CollectionFactor.hashMap<Identifier, Resource>().also {
+            load(manager, it)
+        }
 
     fun export(name: String, context: ConiumArisingEventContext<*, *>, result: (Any) -> Any) {
         this.exportedInteraction[name] = NamedInteractionScript(
@@ -191,9 +197,9 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
      */
     override fun apply(prepared: MutableMap<Identifier, Resource>, manager: ResourceManager, profiler: Profiler) {
         // Clear conium event attaches.
-        ConiumEvent.Companion.resetForever()
+        ConiumEvent.resetForever()
 
-        ConiumEvent.Companion.attach()
+        ConiumEvent.attach()
 
         // Clear old exported script, scripts will export to here again in next step loading
         this.exportedScript.clear()
@@ -203,14 +209,21 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
             // Load commons.
             scripts.add(ScriptEval(defaultCommons, "ConiumCommons"))
 
-            if (Conium.Companion.isClient) {
+            if (Conium.isClient) {
                 scripts.add(ScriptEval(defaultClientCommons, "ConiumClientCommons"))
             }
 
             // Bedrock common is only load when conium allows bedrock.
-            if (ConiumConfig.Companion.enableBedrockScript) {
+            if (ConiumConfig.enableBedrockScript) {
                 scripts.add(ScriptEval(defaultBedrockCommons, "ConiumBedrockCommons", "ConiumCommons"))
-                scripts.add(ScriptEval(defaultBedrockScriptInit, "ConiumBedrockScriptInit", "ConiumCommons", "ConiumBedrockCommons"))
+                scripts.add(
+                    ScriptEval(
+                        defaultBedrockScriptInit,
+                        "ConiumBedrockScriptInit",
+                        "ConiumCommons",
+                        "ConiumBedrockCommons"
+                    )
+                )
             }
 
             for ((identifier: Identifier, resource: Resource) in prepared) {
@@ -221,7 +234,7 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) : S
                     if (path.endsWith(".kts")) {
                         // Load script data after.
                         scripts.add(ScriptEval(content, path, "ConiumCommons"))
-                    } else if (!ConiumConfig.Companion.enableBedrockScript) {
+                    } else if (!ConiumConfig.enableBedrockScript) {
                         // If not TypeScript or JavaScript file, then not bedrock script, do not notice bedrock script support status.
                         if (path.endsWith(".ts") || path.endsWith(".js")) {
                             // When bedrock scripting allows is disabled, then the script won't be load.

@@ -32,7 +32,7 @@ public class SaveLoadingMixin {
             @Local LifecycledResourceManager closeableResourceManager
     ) {
         CombinedDynamicRegistries<ServerDynamicRegistryType> registries = original.call();
-        DynamicRegistryManager registryManager = registries.getPrecedingRegistryManagers(ServerDynamicRegistryType.STATIC);
+        DynamicRegistryManager registryManager = registries.getPrecedingRegistryManagers(ServerDynamicRegistryType.RELOADABLE);
 
         Conium.itemInjectManager = new ConiumItemPropertyInjectManager(registryManager);
         Conium.coniumItemManager = new ConiumItemManager(registryManager);

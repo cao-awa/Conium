@@ -20,6 +20,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.item.consume.UseAction
+import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
@@ -77,6 +78,7 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
         }
     }
 
+    var displayName: Text? = this.settings.displayName
     var useAction: UseAction = UseAction.NONE
     var consumeOnUsed: Boolean = false
     var consumeOnUsedOnBlock: (BlockState) -> Boolean = { false }
@@ -241,5 +243,9 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
         } else {
             ActionResult.SUCCESS
         }
+    }
+
+    override fun getName(stack: ItemStack): Text {
+        return this.displayName ?: super.getName(stack)
     }
 }

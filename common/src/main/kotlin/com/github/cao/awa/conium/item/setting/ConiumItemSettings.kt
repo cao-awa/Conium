@@ -5,9 +5,9 @@ import com.github.cao.awa.conium.item.template.durability.ConiumDurabilityTempla
 import com.github.cao.awa.conium.setting.ConiumSettings
 import net.minecraft.block.BlockState
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
@@ -88,6 +88,8 @@ abstract class ConiumAbstractItemSettings<B : ConiumAbstractItemSettings<B>>(val
     // The delegate.
     private var _forceMiningSpeed: Float? = null
 
+    var displayName: Text? = null
+
     override fun migrateTo(settings: B): B {
         return settings.also {
             // Apply settings(only configured, no default).
@@ -96,6 +98,7 @@ abstract class ConiumAbstractItemSettings<B : ConiumAbstractItemSettings<B>>(val
             this._shouldPostHit?.apply { it.shouldPostHit = this }
             this._durabilityDamageChance?.apply { it.durabilityDamageChance = this }
             this._forceMiningSpeed?.apply { it.forceMiningSpeed = this }
+            this.displayName?.apply { it.displayName = this }
         }
     }
 }
