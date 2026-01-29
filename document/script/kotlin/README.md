@@ -1,7 +1,7 @@
 # Kotlin script
 Conium supported to run the kotlin script in game running, called as 'Conium script.'
 
-Directly write and put the '.kts' file to ```/saves/<world>/datapacks/<pack-name>/data/script```.
+Directly write and put the '.kts' file to ```/saves/<world>/datapacks/<pack-name>/data/<pack-name>/script```.
 
 ## Events
 Conium script can handle game events used to complete what you need.
