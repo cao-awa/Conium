@@ -39,20 +39,11 @@ subprojects {
         // See https://docs.gradle.org/current/userguide/declaring_repositories.html
         // for more information about repositories.
         maven {
-            name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/cao-awa/Catheter"
-            credentials {
-                username = "cao-awa"
-                password = "ghp_UgALm1Ta2ONYeNh" + "S2m0XoWSc27BcE22v4Umn"
-            }
+            name = "Modrinth"
+            url = "https://api.modrinth.com/maven"
         }
         maven {
-            name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/cao-awa/Sinuatum"
-            credentials {
-                username = "cao-awa"
-                password = "ghp_UgALm1Ta2ONYeNh" + "S2m0XoWSc27BcE22v4Umn"
-            }
+            url 'https://jitpack.io'
         }
         mavenCentral()
     }
@@ -71,12 +62,12 @@ subprojects {
         implementation "org.jetbrains.kotlin:kotlin-scripting-jvm:${project.kotlin_version}"
         implementation "org.jetbrains.kotlin:kotlin-scripting-jvm-host:${project.kotlin_version}"
 
-        implementation 'com.github.cao.awa:cason:1.0.10'
+        implementation 'com.github.cao-awa:Cason:1.0.25'
 
-        implementation 'com.github.cao.awa:catheter:1.0.43'
-        implementation 'com.github.cao.awa:sinuatum:1.0.17'
+        implementation 'com.github.cao-awa:catheter:1.0.43'
+        implementation 'com.github.cao-awa:sinuatum:1.0.17'
 
-        implementation "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
+        implementation "com.github.cao-awa:structuring-translator:${project.structuring_translator_version}"
     }
 
     java {
