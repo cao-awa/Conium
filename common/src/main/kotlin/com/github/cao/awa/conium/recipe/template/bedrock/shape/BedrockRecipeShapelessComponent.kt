@@ -2,7 +2,6 @@ package com.github.cao.awa.conium.recipe.template.bedrock.shape
 
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
 import com.github.cao.awa.conium.template.recipe.bedrock.BedrockRecipeComponents.RECIPE_SHAPELESS
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -20,7 +19,7 @@ class BedrockRecipeShapelessComponent : ConiumRecipeTemplate<ShapelessRecipe>(RE
                 createBasic(jsonObject, it)
             }.also {
                 it.ingredients = jsonObject["ingredients"]!!.let { ingredients ->
-                    val list = CollectionFactor.arrayList<Ingredient>()
+                    val list = ArrayList<Ingredient>()
 
                     ingredients as JsonArray
 

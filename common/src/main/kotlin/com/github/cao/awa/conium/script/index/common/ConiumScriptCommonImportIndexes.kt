@@ -31,9 +31,6 @@ import com.github.cao.awa.catheter.receptacle.BooleanReceptacle
 import com.github.cao.awa.conium.script.ScriptExport
 import com.github.cao.awa.conium.script.ScriptExport.Companion.accessExportedField
 
-// Manipulate.
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
-
 // ParameterSelective interfaces.
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective0
@@ -59,7 +56,7 @@ import com.github.cao.awa.conium.raycast.ConiumRaycast
 
 // Entity.
 import com.github.cao.awa.conium.kotlin.extent.entity.registerEntity
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.extent.manipulate.cast
 
 // Event.
 typealias ConiumEvent<I, P, M, N> = ConiumEvent<I, P, M, N>
@@ -542,7 +539,7 @@ fun <I: Any, P1, P2, P3, P4, P5> unnamed(
     arg4: DynamicArgType<P4>,
     arg5: DynamicArgType<P5>,
     arising: ParameterSelective6<Unit, Any, P1, P2, P3, P4, P5>
-): ConiumArisingEventContext<I, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> = ConiumEventContextBuilder.unnamed(arg1, arg2, arg3, arg4, arg5, arising).doCast()
+): ConiumArisingEventContext<I, ParameterSelective6<Boolean, Any, P1, P2, P3, P4, P5>> = ConiumEventContextBuilder.unnamed(arg1, arg2, arg3, arg4, arg5, arising).cast()
 
 fun <I: Any, P1, P2, P3, P4, P5, P6> unnamed(
     arg1: DynamicArgType<P1>,
@@ -552,7 +549,7 @@ fun <I: Any, P1, P2, P3, P4, P5, P6> unnamed(
     arg5: DynamicArgType<P5>,
     arg6: DynamicArgType<P6>,
     arising: ParameterSelective7<Unit, Any, P1, P2, P3, P4, P5, P6>
-): ConiumArisingEventContext<I, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> = ConiumEventContextBuilder.unnamed(arg1, arg2, arg3, arg4, arg5, arg6, arising).doCast()
+): ConiumArisingEventContext<I, ParameterSelective7<Boolean, Any, P1, P2, P3, P4, P5, P6>> = ConiumEventContextBuilder.unnamed(arg1, arg2, arg3, arg4, arg5, arg6, arising).cast()
 
 fun <P1, P2, P3, P4, P5, P6, P7> unnamed(
     arg1: DynamicArgType<P1>,
@@ -669,9 +666,6 @@ typealias BooleanReceptacle = BooleanReceptacle
 typealias ScriptExport = ScriptExport
 
 fun <T> accessExportedField(instance: Any, name: String, fieldName: String): T? = accessExportedField(instance, name, fieldName)
-
-// Manipulate.
-typealias Manipulate<M> = Manipulate<M>
 
 // ParameterSelective interfaces typealias.
 typealias ParameterSelective = ParameterSelective

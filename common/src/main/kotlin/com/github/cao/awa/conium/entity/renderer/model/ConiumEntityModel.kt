@@ -1,25 +1,24 @@
 package com.github.cao.awa.conium.entity.renderer.model
 
 import com.github.cao.awa.conium.entity.renderer.state.ConiumEntityRenderState
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.model.*
-import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.entity.EntityRendererFactory.Context
 import net.minecraft.client.render.entity.model.EntityModel
+import java.util.HashMap
 
 @Environment(EnvType.CLIENT)
 class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(root, RenderLayers::entityCutout) {
     companion object {
         val emptyModel = ConiumEntityModel(
             ModelPart(
-                CollectionFactor.arrayList(),
-                CollectionFactor.hashMap()
+                ArrayList(),
+                HashMap()
             )
         )
 
@@ -28,7 +27,7 @@ class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(
             val modelData = ModelData()
 
             // A map used to storage parts, a part can be the parent of other parts.
-            val modelParts: HashMap<String, ModelPartData> = CollectionFactor.hashMap<String, ModelPartData>().also {
+            val modelParts: HashMap<String, ModelPartData> =  HashMap<String, ModelPartData>().also {
                 it["root"] = modelData.root
             }
 

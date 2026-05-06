@@ -11,7 +11,6 @@ import com.github.cao.awa.conium.entity.metadata.ConiumEntityMetadata
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry
 import com.github.cao.awa.conium.kotlin.extent.entity.register
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.registry.DynamicRegistryManager
@@ -28,7 +27,7 @@ class ConiumEntityManager(var registryLookup: RegistryWrapper.WrapperLookup): Co
         private val LOGGER: Logger = LogManager.getLogger("ConiumEntityManager")
     }
 
-    val metadata: MutableList<ConiumEntityMetadata> = CollectionFactor.arrayList()
+    val metadata: MutableList<ConiumEntityMetadata> = ArrayList()
 
     override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
         resetRegistries()

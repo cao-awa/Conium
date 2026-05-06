@@ -1,8 +1,8 @@
 package com.github.cao.awa.conium.config
 
 import com.github.cao.awa.conium.kotlin.extent.json.ifBoolean
-import com.github.cao.awa.sinuatum.resource.loader.ResourceLoader
-import com.github.cao.awa.sinuatum.util.io.IOUtil
+import com.github.cao.awa.conium.resource.ResourceLoader
+import com.github.cao.awa.translator.structuring.io.IOUtil
 import com.google.gson.JsonObject
 import net.minecraft.util.JsonHelper
 import org.apache.logging.log4j.LogManager

@@ -1,7 +1,6 @@
 package com.github.cao.awa.conium.kotlin.extent.block
 
 import com.github.cao.awa.conium.kotlin.extent.innate.int
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.block.MapColor
 
 fun parseAndFindColor(code: String): MapColor = findColor(parseColor(code))
@@ -9,7 +8,7 @@ fun parseAndFindColor(code: String): MapColor = findColor(parseColor(code))
 // TODO Not completed because map color are not argb style.
 fun findColor(code: Int): MapColor {
     var last: MapColor = MapColor.CLEAR
-    val colors = CollectionFactor.arrayList<MapColor>()
+    val colors =ArrayList<MapColor>()
     // Collect all colors.
     for (i in 0..61) {
         colors.add(MapColor.get(i))

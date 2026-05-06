@@ -10,29 +10,26 @@ import com.github.cao.awa.conium.datapack.item.ConiumItemManager
 import com.github.cao.awa.conium.datapack.worldgen.ConiumPlacedFeatureManager
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.dsl.DSLSample
-import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
-import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.function.consumer.string.obj.*
 import com.github.cao.awa.conium.hitokoto.ConiumHitokoto
 import com.github.cao.awa.conium.molang.MolangSupport
 import com.github.cao.awa.conium.molang.translator.MolangKotlinScriptTranslator
-import com.github.cao.awa.conium.script.index.common.request
+import com.github.cao.awa.conium.resource.ResourceLoader
 import com.github.cao.awa.conium.script.manager.ConiumScriptManager
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
 import com.github.cao.awa.conium.server.datapack.ConiumServerLoadDatapacks
 import com.github.cao.awa.conium.template.ConiumTemplate
 import com.github.cao.awa.conium.template.ConiumTemplates
-import com.github.cao.awa.sinuatum.resource.loader.ResourceLoader
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
-import com.github.cao.awa.sinuatum.util.io.IOUtil
-import com.github.cao.awa.translator.structuring.builtin.typescript.translate.kts.TypescriptKotlinScriptTranslator
+import com.github.cao.awa.translator.structuring.builtin.typescript.translator.kts.TypescriptKotlinScriptTranslator
+import com.github.cao.awa.translator.structuring.io.IOUtil
 import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
 import com.github.cao.awa.translator.structuring.translate.element.TranslateElementData
 import com.github.cao.awa.translator.structuring.translate.language.LanguageTranslateTarget
 import net.minecraft.util.Identifier
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+
 import java.util.function.Consumer
 import java.util.function.Supplier
 
@@ -67,7 +64,7 @@ class Conium {
         var scriptManager: ConiumScriptManager? = null
 
         @JvmField
-        val reloadCallbacks: MutableList<Runnable> = CollectionFactor.arrayList()
+        val reloadCallbacks: MutableList<Runnable> = ArrayList()
 
         @JvmField
         var pendingDatapack: ConiumServerLoadDatapacks = ConiumServerLoadDatapacks()
@@ -262,7 +259,7 @@ class Conium {
         }
 
         // Initialize script translator for generic typescript translates.
-        LOGGER.info("Loading structuring translator {} provider '{}' for [typescript]", STRUCTURING_TRANSLATOR_VERSION, StructuringTranslator.DEFAULT_PROVIDER)
+        LOGGER.info("Loading structuring translator '{}' provider '{}' for [typescript]", STRUCTURING_TRANSLATOR_VERSION, StructuringTranslator.DEFAULT_PROVIDER)
         TypescriptKotlinScriptTranslator.postRegister()
         // Debug only.
         run {

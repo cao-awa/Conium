@@ -8,11 +8,10 @@ import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.exception.syntax.SyntaxNotSupportedException
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.innate.int
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.extent.manipulate.cast
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
 import com.github.cao.awa.conium.template.builder.factor.ConiumTemplateCreator
 import com.github.cao.awa.conium.template.builder.factor.ConiumTemplateFactor
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.item.ItemStack
@@ -28,11 +27,11 @@ import kotlin.reflect.KClass
 abstract class ConiumTemplate<R, P>(
     val isClient: Boolean = false,
     private val name: String,
-    val conflicts: Map<Class<out ConiumTemplate<*, *>>, String> = CollectionFactor.hashMap()
+    val conflicts: Map<Class<out ConiumTemplate<*, *>>, String> = HashMap()
 ) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumTemplate")
-        private val templates: MutableMap<String, ConiumTemplateCreator> = CollectionFactor.hashMap()
+        private val templates: MutableMap<String, ConiumTemplateCreator> = HashMap()
 
         /**
          * Return count of registered templates.
@@ -269,10 +268,10 @@ abstract class ConiumTemplate<R, P>(
 
         fun deserializeTemplates(subtype: String, json: JsonObject): MutableList<ConiumTemplate<*, *>> {
             // Templates list.
-            val templates: MutableList<ConiumTemplate<*, *>> = CollectionFactor.arrayList()
+            val templates: MutableList<ConiumTemplate<*, *>> = ArrayList()
 
             // Make sharing context used to share data.
-            val sharingContext: HashMap<Class<*>, Any> = CollectionFactor.hashMap()
+            val sharingContext: HashMap<Class<*>, Any> = HashMap()
 
             // Create all templates (also known as 'components' in bedrock).
             for ((name: String, value: JsonElement) in json.entrySet()) {
@@ -354,7 +353,7 @@ abstract class ConiumTemplate<R, P>(
 
     fun <T : Any> getContext(clazz: KClass<T>): T? = getContext(clazz.java)
 
-    fun <T> getContext(clazz: Class<T>): T? = this.sharedContext[clazz].doCast()
+    fun <T> getContext(clazz: Class<T>): T? = this.sharedContext[clazz].cast()
 
     fun name(): String = this.name
 

@@ -2,16 +2,15 @@
 
 package com.github.cao.awa.conium.event.context
 
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
-import com.github.cao.awa.conium.parameter.*
+import com.github.cao.awa.conium.extent.manipulate.cast
 import com.github.cao.awa.conium.parameter.dynamic.builder.DynamicArgsBuilder
 import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
+import java.util.HashMap
 
 abstract class ConiumEventContext<I: Any>() {
     open var async: Boolean = false
     open lateinit var exception: Throwable
-    private val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
+    private val args: MutableMap<DynamicArgType<*>, Any?> =  HashMap()
 
     var enabled: Boolean = true
 
@@ -54,9 +53,9 @@ abstract class ConiumEventContext<I: Any>() {
 
     operator fun <X: Any> set(argType: DynamicArgType<X>, value: X): ConiumEventContext<I> = put(argType, value)
 
-    operator fun <X: Any> get(argType: DynamicArgType<X>): X = this.args[argType].doCast()
+    operator fun <X: Any> get(argType: DynamicArgType<X>): X = this.args[argType].cast()
 
-    operator fun <X: Any> get(argType: DynamicArgType<X>, default: X): X = this.args[argType]?.doCast() ?: default
+    operator fun <X: Any> get(argType: DynamicArgType<X>, default: X): X = this.args[argType]?.cast() ?: default
 
     fun <X: Any> put(arg: DynamicArgType<X>, value: X): ConiumEventContext<I> {
         this.args[arg] = value
@@ -81,6 +80,6 @@ abstract class ConiumEventContext<I: Any>() {
     }
 
     fun copyArgs(): MutableMap<DynamicArgType<*>, Any?> {
-        return CollectionFactor.hashMap(this.args)
+        return HashMap(this.args)
     }
 }

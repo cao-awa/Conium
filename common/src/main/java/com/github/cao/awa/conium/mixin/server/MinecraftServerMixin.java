@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.mixin.server;
 
 import com.github.cao.awa.conium.intermediary.server.ConiumServerEventMixinIntermediary;
 import com.github.cao.awa.conium.random.ConiumRandom;
-import com.github.cao.awa.sinuatum.manipulate.Manipulate;
+import com.github.cao.awa.translator.structuring.cast.Caster;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,7 +14,7 @@ import java.util.function.BooleanSupplier;
 @Mixin(MinecraftServer.class)
 public class MinecraftServerMixin {
     private MinecraftServer asServer() {
-        return Manipulate.cast(this);
+        return Caster.cast(this);
     }
 
     @Inject(

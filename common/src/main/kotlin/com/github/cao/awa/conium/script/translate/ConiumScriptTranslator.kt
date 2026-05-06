@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.script.translate.kts.file.ConiumTypescriptFileT
 import com.github.cao.awa.conium.script.translate.kts.file.obj.anonymous.ConiumTypescriptAnonymousObjectTranslator
 import com.github.cao.awa.conium.script.translate.kts.file.statement.importing.ConiumTypescriptImportTranslator
 import com.github.cao.awa.conium.script.translate.kts.file.statement.variable.ConiumTypescriptDefineVariableTranslator
-import com.github.cao.awa.translator.structuring.builtin.typescript.translate.element.TypescriptTranslateElement
+import com.github.cao.awa.translator.structuring.builtin.typescript.translator.element.TypescriptTranslateElement
 import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
 import com.github.cao.awa.translator.structuring.translate.language.LanguageTranslateTarget
 import com.github.cao.awa.translator.structuring.translate.tree.StructuringAst

@@ -4,7 +4,6 @@ import com.github.cao.awa.conium.kotlin.extent.recipe.coniumName
 import com.github.cao.awa.conium.mixin.recipe.ServerRecipeManagerAccessor
 import com.github.cao.awa.conium.mixin.recipe.property.RecipePropertySetAccessor
 import com.github.cao.awa.conium.recipe.ConiumBedrockRecipeBuilder
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -80,7 +79,7 @@ class ConiumRecipeManager(private val registries: RegistryWrapper.WrapperLookup)
         }
 
         open class PropertySetBuilder(val propertySetKey: RegistryKey<RecipePropertySet>, private val ingredientGetter: SoleIngredientGetter) : Consumer<Recipe<*>> {
-            private val ingredients: MutableList<Ingredient> = CollectionFactor.arrayList()
+            private val ingredients: MutableList<Ingredient> = ArrayList()
 
             override fun accept(recipe: Recipe<*>) = this.ingredientGetter.apply(recipe).ifPresent(this.ingredients::add)
 
@@ -89,10 +88,10 @@ class ConiumRecipeManager(private val registries: RegistryWrapper.WrapperLookup)
     }
 
     private var preparedConiumRecipes: PreparedRecipes = PreparedRecipes.EMPTY
-    private var coniumPropertySets: MutableMap<RegistryKey<RecipePropertySet>, RecipePropertySet> = CollectionFactor.hashMap()
+    private var coniumPropertySets: MutableMap<RegistryKey<RecipePropertySet>, RecipePropertySet> = HashMap()
     private var coniumStonecutterRecipes: CuttingRecipeDisplay.Grouping<StonecuttingRecipe> = CuttingRecipeDisplay.Grouping.empty()
-    private var coniumRecipes: MutableList<ServerRecipe> = CollectionFactor.arrayList()
-    private var coniumRecipesByKey: MutableMap<RegistryKey<Recipe<*>>, List<ServerRecipe>> = CollectionFactor.hashMap()
+    private var coniumRecipes: MutableList<ServerRecipe> = ArrayList()
+    private var coniumRecipesByKey: MutableMap<RegistryKey<Recipe<*>>, List<ServerRecipe>> =  HashMap()
 
     override fun prepare(resourceManager: ResourceManager, profiler: Profiler): PreparedRecipes {
         val sortedMap: SortedMap<Identifier, Recipe<*>> = TreeMap()

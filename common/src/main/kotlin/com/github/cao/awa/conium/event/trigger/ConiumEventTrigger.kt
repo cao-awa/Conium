@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.event.trigger
 
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.extent.manipulate.cast
 import com.github.cao.awa.conium.parameter.ParameterSelective
 
 data class ConiumEventTrigger<I: Any, M: ConiumEventMetadata<I, M>>(
@@ -11,7 +11,7 @@ data class ConiumEventTrigger<I: Any, M: ConiumEventMetadata<I, M>>(
     val alwaysCallback: Boolean = false
 ) {
     fun identity(context: ConiumArisingEventContext<I, out ParameterSelective>): Boolean {
-        return this.targetIdentity(context.identity.doCast())
+        return this.targetIdentity(context.identity.cast())
     }
 
     fun callback(metadata: M) {

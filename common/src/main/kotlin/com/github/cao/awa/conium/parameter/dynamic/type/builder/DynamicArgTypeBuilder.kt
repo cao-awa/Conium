@@ -2,10 +2,9 @@ package com.github.cao.awa.conium.parameter.dynamic.type.builder
 
 import com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
 import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 object DynamicArgTypeBuilder {
-    val args: MutableMap<String, DynamicArgType<*>> = CollectionFactor.hashMap()
+    val args: MutableMap<String, DynamicArgType<*>> = HashMap()
 
     fun <T> argThrowaway(name: String) = DynamicArgType<T>(name)
 

@@ -1,8 +1,7 @@
 package com.github.cao.awa.conium.template.builder
 
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.extent.manipulate.cast
 import com.github.cao.awa.conium.template.ConiumTemplate
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import kotlin.collections.iterator
@@ -13,7 +12,7 @@ abstract class ConiumBuilderWithTemplates<B : ConiumBuilderWithTemplates<B, I, X
     }
 
     private val builder: (B, I?) -> X
-    val templates: MutableMap<Class<out T>, T> = CollectionFactor.hashMap()
+    val templates: MutableMap<Class<out T>, T> = HashMap()
 
     constructor(xBuilder: (B, I) -> X) {
         this.builder = { builder: B, input: I? -> xBuilder(builder, input!!) }
@@ -34,7 +33,7 @@ abstract class ConiumBuilderWithTemplates<B : ConiumBuilderWithTemplates<B, I, X
     }
 
     fun distinct() {
-        for ((_, template) in CollectionFactor.hashMap(this.templates)) {
+        for ((_, template) in HashMap(this.templates)) {
             for ((conflictType, notice) in template.conflicts) {
                 if (this.templates.containsKey(conflictType)) {
                     this.templates.remove(conflictType)
@@ -50,7 +49,7 @@ abstract class ConiumBuilderWithTemplates<B : ConiumBuilderWithTemplates<B, I, X
 
     fun templates(): MutableList<T> = this.templates.values.toMutableList()
 
-    fun build(input: I): X = this.builder(doCast(), input)
+    fun build(input: I): X = this.builder(cast(), input)
 
-    fun build(): X = this.builder(doCast(), null)
+    fun build(): X = this.builder(cast(), null)
 }

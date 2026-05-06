@@ -4,7 +4,6 @@ import com.github.cao.awa.conium.Conium;
 import com.github.cao.awa.conium.datapack.recipe.ConiumRecipeManager;
 import com.github.cao.awa.conium.event.ConiumEvent;
 import com.github.cao.awa.conium.server.ConiumDedicatedServer;
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import net.minecraft.command.permission.PermissionPredicate;
 import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.registry.*;
@@ -13,9 +12,6 @@ import net.minecraft.resource.ResourceReloader;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.server.DataPackContents;
 import net.minecraft.server.command.CommandManager;
-import net.minecraft.util.Unit;
-import org.slf4j.Logger;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -95,7 +92,7 @@ public abstract class DataPackContentsMixin {
             cancellable = true
     )
     public void contents(CallbackInfoReturnable<List<ResourceReloader>> cir) {
-        List<ResourceReloader> reloaderList = CollectionFactor.arrayList(cir.getReturnValue());
+        List<ResourceReloader> reloaderList = new ArrayList<>(cir.getReturnValue());
         reloaderList.add(Conium.itemInjectManager);
         reloaderList.add(Conium.coniumItemManager);
         reloaderList.add(Conium.coniumBlockManager);

@@ -8,8 +8,6 @@ import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
 import com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective1
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 /**
  *
@@ -31,8 +29,8 @@ import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 open class ConiumTypedArisingEventContext<I: Any, P : ParameterSelective?>(
     private val dynamicArgs: DynamicArgs<P, Boolean>
 ) : ConiumArisingEventContext<I, P>(dynamicArgs) {
-    private val attachesPreparation: MutableList<(ConiumTypedArisingEventContext<I, P>) -> Unit> = CollectionFactor.arrayList()
-    private val attaches: MutableList<ConiumTypedArisingEventContext<*, *>> = CollectionFactor.arrayList()
+    private val attachesPreparation: MutableList<(ConiumTypedArisingEventContext<I, P>) -> Unit> = ArrayList()
+    private val attaches: MutableList<ConiumTypedArisingEventContext<*, *>> = ArrayList()
 
     fun attach(context: ConiumTypedArisingEventContext<*, *>): ConiumTypedArisingEventContext<I, P> {
         this.attaches.add(context)

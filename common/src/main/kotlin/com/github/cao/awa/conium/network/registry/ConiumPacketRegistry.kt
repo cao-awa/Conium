@@ -4,7 +4,6 @@ import com.github.cao.awa.conium.network.ConiumPacket
 import com.github.cao.awa.conium.network.packet.client.configuration.ConiumClientConfigurationPacket
 import com.github.cao.awa.conium.network.packet.client.configuration.registry.SynchronizeRegistryPayload
 import com.github.cao.awa.conium.network.packet.client.play.ConiumClientPlayPacket
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.packet.CustomPayload.Id
@@ -13,8 +12,8 @@ import org.jetbrains.annotations.ApiStatus
 @ApiStatus.Experimental
 class ConiumPacketRegistry {
     companion object {
-        val packets: MutableMap<Id<*>, PacketCodec<PacketByteBuf, *>> = CollectionFactor.hashMap()
-        val registries: MutableMap<Id<*>, ConiumPacket<*, *, *>> = CollectionFactor.hashMap()
+        val packets: MutableMap<Id<*>, PacketCodec<PacketByteBuf, *>> = HashMap()
+        val registries: MutableMap<Id<*>, ConiumPacket<*, *, *>> = HashMap()
 
         @JvmStatic
         fun registerAll() {

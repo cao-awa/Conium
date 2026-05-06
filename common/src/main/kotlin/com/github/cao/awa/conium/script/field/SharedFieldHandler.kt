@@ -2,11 +2,10 @@ package com.github.cao.awa.conium.script.field
 
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 import com.github.cao.awa.conium.script.ScriptExport
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import kotlin.reflect.KClass
 
 class SharedFieldHandler {
-    private val fields: HashMap<String, SharedField> = CollectionFactor.hashMap()
+    private val fields: HashMap<String, SharedField> = HashMap()
 
     operator fun <T : Any> invoke(name: String, type: KClass<T>, value: ParameterSelective1<T, Any>) {
         this.fields[name] = SharedFieldByJvm(type, name, value)

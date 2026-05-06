@@ -1,8 +1,6 @@
 package com.github.cao.awa.conium.mixin.registry;
 
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry;
-import com.github.cao.awa.sinuatum.manipulate.Manipulate;
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Lifecycle;
@@ -33,6 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 @Mixin(SimpleRegistry.class)
@@ -41,17 +40,19 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     @Unique
     private final Map<T, RegistryEntry.Reference<T>> dynamicIntrusiveValueToEntry = new IdentityHashMap<>();
     @Unique
-    private final Map<Identifier, RegistryEntry.Reference<T>> dynamicIdToEntry = CollectionFactor.hashMap();
+    private final Map<Identifier, RegistryEntry.Reference<T>> dynamicIdToEntry = new HashMap<>();
     @Unique
-    private final Map<RegistryKey<T>, RegistryEntry.Reference<T>> dynamicKeyToEntry = CollectionFactor.hashMap();
+    private final Map<RegistryKey<T>, RegistryEntry.Reference<T>> dynamicKeyToEntry = new HashMap<>();
     @Unique
-    private final Reference2IntMap<T> dynamicEntryToRawId = Manipulate.make(new Reference2IntOpenHashMap<>(), map -> {
-        map.defaultReturnValue(-1);
-    });
+    private final Reference2IntMap<T> dynamicEntryToRawId = ((Function<Reference2IntOpenHashMap<T>, Reference2IntOpenHashMap<T>>) map -> {
+        map.defaultReturnValue(- 1);
+        return map;
+    }).apply(new Reference2IntOpenHashMap<>());
+
     @Unique
     private final Map<T, RegistryEntry.Reference<T>> dynamicValueToEntry = new IdentityHashMap<>();
     @Unique
-    private final List<RegistryEntry.Reference<T>> dynamicRawIdToEntry = CollectionFactor.arrayList();
+    private final List<RegistryEntry.Reference<T>> dynamicRawIdToEntry = new ArrayList<>();
     @Unique
     private final Map<RegistryKey<T>, RegistryEntryInfo> dynamicKeyToEntryInfo = new IdentityHashMap<>();
     @Unique
@@ -94,13 +95,18 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     @Shadow
     public abstract void resetTagEntries();
 
-    @Shadow @Nullable public abstract T get(@Nullable Identifier id);
+    @Shadow
+    @Nullable
+    public abstract T get(@Nullable Identifier id);
 
-    @Shadow public abstract Optional<RegistryEntry.Reference<T>> getEntry(Identifier id);
+    @Shadow
+    public abstract Optional<RegistryEntry.Reference<T>> getEntry(Identifier id);
 
-    @Shadow public abstract RegistryEntry<T> getEntry(T value);
+    @Shadow
+    public abstract RegistryEntry<T> getEntry(T value);
 
-    @Shadow public abstract Optional<RegistryKey<T>> getKey(T entry);
+    @Shadow
+    public abstract Optional<RegistryKey<T>> getKey(T entry);
 
     @Inject(
             method = "add",
@@ -129,13 +135,23 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
 
             ((RegistryEntryReferenceAccessor<T>) reference).registryKey(key);
 
-            this.dynamicKeyToEntry.put(key, reference);
-            this.dynamicIdToEntry.put(key.getValue(), reference);
-            this.dynamicValueToEntry.put(value, reference);
+            this.dynamicKeyToEntry.put(key,
+                                       reference
+            );
+            this.dynamicIdToEntry.put(key.getValue(),
+                                      reference
+            );
+            this.dynamicValueToEntry.put(value,
+                                         reference
+            );
             int i = this.rawIdToEntry.size() + this.dynamicRawIdToEntry.size();
             this.dynamicRawIdToEntry.add(reference);
-            this.dynamicEntryToRawId.put(value, i);
-            this.dynamicKeyToEntryInfo.put(key, info);
+            this.dynamicEntryToRawId.put(value,
+                                         i
+            );
+            this.dynamicKeyToEntryInfo.put(key,
+                                           info
+            );
             this.lifecycle = this.lifecycle.add(info.lifecycle());
 
             postChanged();
@@ -223,7 +239,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     )
     public void getRawId(@Nullable T value, CallbackInfoReturnable<Integer> cir) {
         int rawId = cir.getReturnValue();
-        if (rawId == -1) {
+        if (rawId == - 1) {
             cir.setReturnValue(this.dynamicEntryToRawId.getInt(value));
         }
     }
@@ -261,7 +277,8 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
                 return;
             }
             int realIndex = index - this.rawIdToEntry.size();
-            cir.setReturnValue(this.dynamicRawIdToEntry.get(realIndex).value());
+            cir.setReturnValue(this.dynamicRawIdToEntry.get(realIndex)
+                                                       .value());
         }
     }
 
@@ -300,7 +317,9 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     public void iterator(CallbackInfoReturnable<Iterator<T>> cir) {
         cir.setReturnValue(Iterators.concat(
                 cir.getReturnValue(),
-                Iterators.transform(this.dynamicRawIdToEntry.iterator(), RegistryEntry::value)
+                Iterators.transform(this.dynamicRawIdToEntry.iterator(),
+                                    RegistryEntry :: value
+                )
         ));
     }
 
@@ -330,7 +349,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             cancellable = true
     )
     public void getIds(CallbackInfoReturnable<Set<Identifier>> cir) {
-        Set<Identifier> result = CollectionFactor.hashSet();
+        Set<Identifier> result = new HashSet<>();
         result.addAll(cir.getReturnValue());
         result.addAll(this.dynamicIdToEntry.keySet());
         cir.setReturnValue(Collections.unmodifiableSet(result));
@@ -344,7 +363,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             )
     )
     public Set<RegistryKey<T>> getKeys(Set<RegistryKey<T>> s) {
-        Set<RegistryKey<T>> keys = CollectionFactor.hashSet();
+        Set<RegistryKey<T>> keys = new HashSet<>();
         keys.addAll(s);
         keys.addAll(this.dynamicKeyToEntry.keySet());
         return Collections.unmodifiableSet(keys);
@@ -358,9 +377,12 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             )
     )
     public Set<Map.Entry<RegistryKey<T>, T>> getEntrySet(Set<Map.Entry<RegistryKey<T>, T>> s) {
-        Set<Map.Entry<RegistryKey<T>, T>> keys = CollectionFactor.hashSet();
+        Set<Map.Entry<RegistryKey<T>, T>> keys = new HashSet<>();
         keys.addAll(s);
-        keys.addAll(Maps.transformValues(this.dynamicKeyToEntry, RegistryEntry::value).entrySet());
+        keys.addAll(Maps.transformValues(this.dynamicKeyToEntry,
+                                         RegistryEntry :: value
+                        )
+                        .entrySet());
         return Collections.unmodifiableSet(keys);
     }
 
@@ -384,7 +406,8 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     public void streamTags(CallbackInfoReturnable<Stream<RegistryEntryList.Named<T>>> cir) {
         cir.setReturnValue(Stream.concat(
                 cir.getReturnValue(),
-                this.dynamicTags.values().stream()
+                this.dynamicTags.values()
+                                .stream()
         ));
     }
 
@@ -414,7 +437,9 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     public void getRandom(Random random, CallbackInfoReturnable<Optional<RegistryEntry.Reference<T>>> cir) {
         Optional<RegistryEntry.Reference<T>> result = cir.getReturnValue();
         if (result.isEmpty()) {
-            cir.setReturnValue(Util.getRandomOrEmpty(this.dynamicRawIdToEntry, random));
+            cir.setReturnValue(Util.getRandomOrEmpty(this.dynamicRawIdToEntry,
+                                                     random
+            ));
         }
     }
 
@@ -435,7 +460,11 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     )
     public void createEntry(T value, CallbackInfoReturnable<RegistryEntry.Reference<T>> cir) {
         if (this.frozen) {
-            cir.setReturnValue(this.dynamicIntrusiveValueToEntry.computeIfAbsent(value, (valuex) -> RegistryEntry.Reference.intrusive(conium$getThis(), valuex)));
+            cir.setReturnValue(this.dynamicIntrusiveValueToEntry.computeIfAbsent(value,
+                                                                                 (valuex) -> RegistryEntry.Reference.intrusive(conium$getThis(),
+                                                                                                                               valuex
+                                                                                 )
+            ));
         }
     }
 
@@ -446,7 +475,9 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     )
     private void getTag(TagKey<T> key, CallbackInfoReturnable<RegistryEntryList.Named<T>> cir) {
         if (this.frozen) {
-            cir.setReturnValue(this.dynamicTags.computeIfAbsent(key, this::createNamedEntryList));
+            cir.setReturnValue(this.dynamicTags.computeIfAbsent(key,
+                                                                this :: createNamedEntryList
+            ));
             resetTagEntries();
         }
     }
@@ -459,7 +490,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             )
     )
     private Collection<RegistryEntry.Reference<T>> refreshTags(Map<RegistryKey<T>, RegistryEntry.Reference<T>> instance) {
-        Set<RegistryEntry.Reference<T>> allRefs = CollectionFactor.hashSet();
+        Set<RegistryEntry.Reference<T>> allRefs = new HashSet<>();
         allRefs.addAll(instance.values());
         allRefs.addAll(this.dynamicKeyToEntry.values());
         return Collections.unmodifiableCollection(allRefs);
@@ -473,7 +504,8 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     @SuppressWarnings("unchecked")
     public void resetTagEntries(CallbackInfo ci) {
         if (this.frozen) {
-            this.dynamicTags.values().forEach(tag -> ((NamedRegistryEntryListMixin<T>) tag).invokeSetEntries(List.of()));
+            this.dynamicTags.values()
+                            .forEach(tag -> ((NamedRegistryEntryListMixin<T>) tag).invokeSetEntries(List.of()));
             ci.cancel();
         }
     }
@@ -531,7 +563,8 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
 
     @Unique
     private Optional<RegistryEntry.Reference<T>> conium$orRegistryOptional(RegistryKey<T> key) {
-        return Optional.ofNullable(Optional.ofNullable(this.keyToEntry.get(key)).orElseGet(() -> this.dynamicKeyToEntry.get(key)));
+        return Optional.ofNullable(Optional.ofNullable(this.keyToEntry.get(key))
+                                           .orElseGet(() -> this.dynamicKeyToEntry.get(key)));
     }
 
     @Unique
@@ -542,7 +575,11 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             if (reference == null) {
                 reference = this.dynamicKeyToEntry.get(key);
                 if (reference == null) {
-                    reference = this.dynamicKeyToEntry.computeIfAbsent(key, key2 -> RegistryEntry.Reference.standAlone(conium$getThis(), key2));
+                    reference = this.dynamicKeyToEntry.computeIfAbsent(key,
+                                                                       key2 -> RegistryEntry.Reference.standAlone(conium$getThis(),
+                                                                                                                  key2
+                                                                       )
+                    );
 
                     postChanged();
                 }
@@ -576,7 +613,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     public RegistryKey<?> conium$getKey(Identifier identifier) {
         AtomicReference<RegistryKey<?>> result = new AtomicReference<>();
 
-        getKey(get(identifier)).ifPresent(result::set);
+        getKey(get(identifier)).ifPresent(result :: set);
 
         return result.get();
     }

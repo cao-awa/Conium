@@ -5,11 +5,11 @@ import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettingsWithTypeBuilder
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.template.builder.ConiumBuilderWithTemplates
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
+import java.util.HashMap
 
 abstract class ConiumEntityBuilder(val identifier: Identifier) : ConiumBuilderWithTemplates<
         ConiumEntityBuilder,
@@ -42,11 +42,11 @@ abstract class ConiumEntityBuilder(val identifier: Identifier) : ConiumBuilderWi
         }
     }
 
-    val groupTemplates: MutableMap<String, MutableList<ConiumEntityTemplate>> = CollectionFactor.hashMap()
+    val groupTemplates: MutableMap<String, MutableList<ConiumEntityTemplate>> = HashMap()
     val entitySettings: ConiumEntitySettings = ConiumEntitySettings()
 
     fun addTemplates(group: String, templates: MutableList<ConiumEntityTemplate>): ConiumEntityBuilder {
-        this.groupTemplates.computeIfAbsent(group) { CollectionFactor.arrayList() }.addAll(templates)
+        this.groupTemplates.computeIfAbsent(group) { ArrayList() }.addAll(templates)
         return this
     }
 }

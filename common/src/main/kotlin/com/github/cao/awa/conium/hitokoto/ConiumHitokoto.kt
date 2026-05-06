@@ -1,7 +1,5 @@
 package com.github.cao.awa.conium.hitokoto
 
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
-
 /**
  * Provide a list of sentences, can randomly pick once or take all strings.
  *
@@ -36,6 +34,6 @@ class ConiumHitokoto {
          *
          * @since 1.0.0
          */
-        fun hitokotos(): MutableList<String> = CollectionFactor.arrayList(this.hitokotos)
+        fun hitokotos(): MutableList<String> = ArrayList(this.hitokotos)
     }
 }

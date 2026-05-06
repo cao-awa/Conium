@@ -14,11 +14,11 @@ class ConiumicServer : DedicatedServerModInitializer {
 
     override fun onInitializeServer() {
         // Network packets.
-        ConiumPacketRegister.implementConfigurationToClient<ConiumClientConfigurationPacket> { id, codec ->
+        ConiumPacketRegister.implementConfigurationToClient { id, codec ->
             PayloadTypeRegistryImpl.CONFIGURATION_S2C.register(id, codec)
         }
 
-        ConiumPacketRegister.implementPlayToClient<ConiumClientPlayPacket> { id, codec ->
+        ConiumPacketRegister.implementPlayToClient { id, codec ->
             PayloadTypeRegistryImpl.PLAY_C2S.register(id, codec)
         }
 

@@ -3,7 +3,6 @@
 package com.github.cao.awa.conium.kotlin.extent.component
 
 import com.github.cao.awa.conium.mixin.component.map.builder.ComponentMapBuilderAccessor
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMap
 import net.minecraft.component.ComponentMap
 import net.minecraft.component.ComponentType
@@ -125,16 +124,16 @@ fun <T : Any> ComponentMap.Builder.acquire(type: ComponentType<T>, creator: (T) 
 }
 
 // Create value of 'AttributeModifiersComponent'.
-fun withCreateAttributeModifiers(): () -> AttributeModifiersComponent = { AttributeModifiersComponent(CollectionFactor.arrayList()) }
+fun withCreateAttributeModifiers(): () -> AttributeModifiersComponent = { AttributeModifiersComponent(ArrayList()) }
 
 // Acquires attribute modifiers list, make new attribute modifiers component after operated entries.
 fun withComputeAttributeModifiers(): Pair<(AttributeModifiersComponent) -> MutableList<AttributeModifiersComponent.Entry>, (MutableList<AttributeModifiersComponent.Entry>) -> AttributeModifiersComponent> = Pair(
-    { CollectionFactor.arrayList(it.modifiers) },
+    { ArrayList(it.modifiers) },
     { AttributeModifiersComponent(it) }
 )
 
 // Create value of 'ToolComponent'.
-fun withCreateTool(): () -> ToolComponent = { ToolComponent(CollectionFactor.arrayList(), 1.0F, 1, true) }
+fun withCreateTool(): () -> ToolComponent = { ToolComponent(ArrayList(), 1.0F, 1, true) }
 
 // Acquires the tool rule list, to make a new tool component after operated rules.
 fun withComputeTool(): Pair<(ToolComponent) -> MutableList<ToolComponent.Rule>, (MutableList<ToolComponent.Rule>) -> ToolComponent> = Pair(

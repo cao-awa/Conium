@@ -6,7 +6,6 @@ import com.github.cao.awa.conium.kotlin.extent.json.ifInt
 import com.github.cao.awa.conium.kotlin.extent.json.ifString
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.nbt.data.RegistrableNbt
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonObject
 import net.minecraft.storage.ReadView
 import net.minecraft.storage.WriteView
@@ -30,13 +29,13 @@ import java.util.function.Supplier
  */
 class ConiumNbtDyeColorSerializer : ConiumNbtDataSerializer<DyeColor>() {
     companion object {
-        private val COLORS: Map<Int, DyeColor> = CollectionFactor.hashMap<Int, DyeColor>().also {
+        private val COLORS: Map<Int, DyeColor> = HashMap<Int, DyeColor>().also {
             // Create all dye colors.
             for (dyeColor in DyeColor.entries) {
                 it[dyeColor.index] = dyeColor
             }
         }
-        private val COLORS_BY_NAME: Map<String, DyeColor> = CollectionFactor.hashMap<String, DyeColor>().also {
+        private val COLORS_BY_NAME: Map<String, DyeColor> = HashMap<String, DyeColor>().also {
             // Create all dye colors.
             for (dyeColor in DyeColor.entries) {
                 it[dyeColor.name] = dyeColor

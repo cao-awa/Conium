@@ -1,13 +1,14 @@
 package com.github.cao.awa.conium.script.translate.kts.file.statement.variable
 
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
-import com.github.cao.awa.translator.structuring.builtin.typescript.translate.base.file.statement.variable.TypescriptDefineVariableTranslator
-import com.github.cao.awa.translator.structuring.builtin.typescript.translate.element.TypescriptTranslateElement
+import com.github.cao.awa.translator.structuring.builtin.typescript.translator.element.TypescriptTranslateElement
+import com.github.cao.awa.translator.structuring.builtin.typescript.translator.element.file.statement.variable.TypescriptDefineVariableTranslator
 import com.github.cao.awa.translator.structuring.builtin.typescript.tree.statement.invoke.TypescriptInvoke
 import com.github.cao.awa.translator.structuring.builtin.typescript.tree.statement.invoke.access.TypescriptInvokeAccessElement
 import com.github.cao.awa.translator.structuring.builtin.typescript.tree.statement.variable.TypescriptDefineVariable
 
-class ConiumTypescriptDefineVariableTranslator : ConiumScriptTranslator<TypescriptDefineVariable>(), TypescriptDefineVariableTranslator {
+class ConiumTypescriptDefineVariableTranslator : ConiumScriptTranslator<TypescriptDefineVariable>(),
+    TypescriptDefineVariableTranslator {
     override fun translate(builder: StringBuilder, ast: TypescriptDefineVariable) {
         if (ast.isDefine) {
             if (ast.isFinal) {

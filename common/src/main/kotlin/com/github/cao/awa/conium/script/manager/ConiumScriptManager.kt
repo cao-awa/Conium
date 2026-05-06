@@ -5,18 +5,17 @@ import com.github.cao.awa.conium.config.ConiumConfig
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
+import com.github.cao.awa.conium.resource.ResourceLoader
 import com.github.cao.awa.conium.script.ScriptExport
 import com.github.cao.awa.conium.script.eval.ScriptEval
 import com.github.cao.awa.conium.script.interaction.NamedInteractionScript
 import com.github.cao.awa.conium.script.kts.ConiumScript
-import com.github.cao.awa.sinuatum.resource.loader.ResourceLoader
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
-import com.github.cao.awa.sinuatum.util.io.IOUtil
 import com.github.cao.awa.translator.structuring.builtin.typescript.antlr.TypescriptLexer
 import com.github.cao.awa.translator.structuring.builtin.typescript.antlr.TypescriptParser
-import com.github.cao.awa.translator.structuring.builtin.typescript.translate.element.TypescriptTranslateElement
+import com.github.cao.awa.translator.structuring.builtin.typescript.translator.element.TypescriptTranslateElement
 import com.github.cao.awa.translator.structuring.builtin.typescript.tree.TypescriptFile
 import com.github.cao.awa.translator.structuring.builtin.typescript.visitor.LanguageTypescriptVisitor
+import com.github.cao.awa.translator.structuring.io.IOUtil
 import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
 import com.github.cao.awa.translator.structuring.translate.language.LanguageTranslateTarget
 import net.minecraft.registry.RegistryWrapper
@@ -35,6 +34,7 @@ import org.antlr.v4.runtime.TokenStream
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.io.File
+import java.util.LinkedList
 import kotlin.collections.iterator
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultValue
@@ -102,14 +102,14 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) :
      *
      * '// IMPORT: ExportName' or '// IMPORT: ExportName, OtherExportName'
      */
-    private val exportedScript: MutableMap<String, ScriptExport> = CollectionFactor.hashMap()
+    private val exportedScript: MutableMap<String, ScriptExport> = HashMap()
 
     /**
      * The 'exportedInteraction' is conditions or actions that referenced in data-driven.
      *
      * The data-driven framework will acquire and invoke the ParameterSelective to dynamically produce runtime variables.
      */
-    private val exportedInteraction: MutableMap<String, NamedInteractionScript<*>> = CollectionFactor.hashMap()
+    private val exportedInteraction: MutableMap<String, NamedInteractionScript<*>> = HashMap()
 
     /**
      * Prepares the intermediate object.
@@ -126,7 +126,7 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) :
      * @since 1.0.0
      */
     override fun prepare(manager: ResourceManager, profiler: Profiler): MutableMap<Identifier, Resource> =
-        CollectionFactor.hashMap<Identifier, Resource>().also {
+        HashMap<Identifier, Resource>().also {
             load(manager, it)
         }
 
@@ -205,7 +205,7 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) :
         this.exportedScript.clear()
 
         // Add the script for next step ordered loading.
-        CollectionFactor.linkedList<ScriptEval>().let { scripts ->
+        LinkedList<ScriptEval>().let { scripts ->
             // Load commons.
             scripts.add(ScriptEval(defaultCommons, "ConiumCommons"))
 

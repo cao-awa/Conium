@@ -4,7 +4,6 @@ import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
 import com.github.cao.awa.conium.parameter.dynamic.lifecycle.DynamicArgsLifecycle
 import com.github.cao.awa.conium.parameter.dynamic.builder.DynamicArgsBuilder
 import com.github.cao.awa.conium.parameter.ParameterSelective
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.mojang.datafixers.util.Function3
 import java.util.Collections
 import java.util.function.Supplier
@@ -94,12 +93,12 @@ class DynamicArgs<P : ParameterSelective?, R> {
      * @since 1.0.0
      */
     private fun varyArgs(identity: Any, sources: MutableMap<DynamicArgType<*>, Any?>, depth: Int): Map<DynamicArgType<*>, Any?> {
-        val args: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
+        val args: MutableMap<DynamicArgType<*>, Any?> = HashMap()
 
         // Find required arguments from context arguments (manually putted to map).
         // Copy the map data to prevent ConcurrentModificationException,
         // NOTE: copy map is lower const than synchronization because the map is usually smaller than 10 elements.
-        for ((key: DynamicArgType<*>, value: Any?) in CollectionFactor.hashMap(sources)) {
+        for ((key: DynamicArgType<*>, value: Any?) in HashMap(sources)) {
             // Only varying argument type to real argument instance.
             if (value is DynamicArgType<*> && depth < 10) {
                 // Dynamic args has multiple varying methods, find until found or no more method can try.

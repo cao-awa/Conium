@@ -6,7 +6,6 @@ import com.github.cao.awa.conium.bedrock.index.BedrockScriptAnonymousObjectMap
 import com.github.cao.awa.conium.script.generic.anonymous.AnonymousObject
 import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
 import com.github.cao.awa.conium.parameter.dynamic.type.builder.DynamicArgTypeBuilder.argThrowaway
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("anonymous object")
@@ -22,7 +21,7 @@ open class BedrockScriptAnonymousObjectMap(size: Int) : AnonymousObject(size) {
 }
 
 fun BedrockScriptAnonymousObjectMap.toDynamicArgs(): MutableMap<DynamicArgType<*>, Any?> {
-    val map: MutableMap<DynamicArgType<*>, Any?> = CollectionFactor.hashMap()
+    val map: MutableMap<DynamicArgType<*>, Any?> = HashMap()
     for ((key: String, value: Any?) in this) {
         map[argThrowaway(key, key.javaClass)] = value
     }

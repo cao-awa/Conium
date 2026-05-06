@@ -6,14 +6,13 @@ import com.github.cao.awa.conium.bedrock.impl.world.AbstractBedrockWorld
 import com.github.cao.awa.conium.bedrock.impl.world.BedrockWorld
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 abstract class BedrockEventContext<I: Any, M: ConiumEventContext<I>>(val scriptSource: Any): ConiumEventMetadata<I, M>() {
     companion object {
         val system: BedrockSystem get() = _system
         var _system: BedrockSystem = BedrockSystem()
         var currentPosting: Any? = null
-        val contexts: MutableMap<Any, BedrockEventContext<*, *>?> = CollectionFactor.hashMap()
+        val contexts: MutableMap<Any, BedrockEventContext<*, *>?> = HashMap()
 
         fun newSystem() {
             this._system = BedrockSystem()

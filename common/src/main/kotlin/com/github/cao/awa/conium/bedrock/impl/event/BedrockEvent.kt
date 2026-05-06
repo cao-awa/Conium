@@ -11,10 +11,9 @@ import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective1
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 abstract class BedrockEvent<I: Any, E : BedrockEventContext<I, *>, M: ConiumEventMetadata<I, M>>(private val targetEvent: ConiumEventType<I, out ConiumEventMetadata<I, M>, *, *>) {
-    private val subscribers: MutableList<ConiumArisingEventContext<*, *>> = CollectionFactor.arrayList()
+    private val subscribers: MutableList<ConiumArisingEventContext<*, *>> = ArrayList()
 
     /**
      * Init the bedrock event instance, attaching to target conium event and trigger the subscribers.

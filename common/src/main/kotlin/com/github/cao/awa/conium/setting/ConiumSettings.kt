@@ -1,10 +1,9 @@
 package com.github.cao.awa.conium.setting
 
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
+import com.github.cao.awa.conium.extent.manipulate.cast
 
 abstract class ConiumSettings<T : ConiumSettings<T, M>, M : T> {
-    private val migrates: MutableMap<String, M> = CollectionFactor.hashMap()
+    private val migrates: MutableMap<String, M> = HashMap()
 
     /**
      * Migrate settings to new settings instance.
@@ -45,7 +44,7 @@ abstract class ConiumSettings<T : ConiumSettings<T, M>, M : T> {
     }
 
     open fun compute(vararg names: String): T {
-        var result: T = doCast()
+        var result: T = cast()
         for (name in names) {
             // Migrates the settings.
             result = result.migrate(name)

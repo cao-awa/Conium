@@ -1,11 +1,12 @@
 package com.github.cao.awa.conium.script.translate.kts.file.obj.anonymous
 
 import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
-import com.github.cao.awa.translator.structuring.builtin.typescript.translate.base.file.`object`.anonymous.TypescriptAnonymousObjectTranslator
-import com.github.cao.awa.translator.structuring.builtin.typescript.translate.element.TypescriptTranslateElement
+import com.github.cao.awa.translator.structuring.builtin.typescript.translator.element.TypescriptTranslateElement
+import com.github.cao.awa.translator.structuring.builtin.typescript.translator.element.file.`object`.anonymous.TypescriptAnonymousObjectTranslator
 import com.github.cao.awa.translator.structuring.builtin.typescript.tree.`object`.anonymous.TypescriptAnonymousObject
 
-class ConiumTypescriptAnonymousObjectTranslator : ConiumScriptTranslator<TypescriptAnonymousObject>(), TypescriptAnonymousObjectTranslator {
+class ConiumTypescriptAnonymousObjectTranslator : ConiumScriptTranslator<TypescriptAnonymousObject>(),
+    TypescriptAnonymousObjectTranslator {
     override fun translate(builder: StringBuilder, ast: TypescriptAnonymousObject) {
         translateIndent()
 

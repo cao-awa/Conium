@@ -5,9 +5,9 @@ import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.extend.ConiumExtends.ifException
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.extent.manipulate.cast
 import com.github.cao.awa.conium.threadpool.ConiumThreadPool
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
+import java.util.HashMap
 import java.util.function.Consumer
 
 open class ConiumDSLEventContext<
@@ -52,7 +52,7 @@ open class ConiumDSLEventContext<
                 field = value
             }
         }
-    private var specifyCatchers: MutableMap<Class<out Throwable>, MutableList<Consumer<out Throwable>>> = CollectionFactor.hashMap()
+    private var specifyCatchers: MutableMap<Class<out Throwable>, MutableList<Consumer<out Throwable>>> =  HashMap()
     private var finalizer: (M.() -> Unit)? = null
         set(value) {
             if (warningNoRepeats(field, "event finalizer")) {
@@ -97,7 +97,7 @@ open class ConiumDSLEventContext<
 
                 this.specifyCatchers[exception::class.java]?.let { handlers ->
                     for (handler in handlers) {
-                        handler.accept(exception.doCast())
+                        handler.accept(exception.cast())
                     }
                 }
 
@@ -118,7 +118,7 @@ open class ConiumDSLEventContext<
 
     fun catching(targetException: Class<out Throwable>, handler: Consumer<out Throwable>) {
         this.specifyCatchers.computeIfAbsent(targetException) {
-            return@computeIfAbsent CollectionFactor.arrayList()
+            return@computeIfAbsent ArrayList()
         }.add(handler)
     }
 
@@ -127,6 +127,6 @@ open class ConiumDSLEventContext<
     }
 
     fun next(next: ConiumDSLEventContext<I, M, N, *>.() -> Unit) {
-        onEvent(this.event.nextEvent().doCast(), this, next)
+        onEvent(this.event.nextEvent().cast(), this, next)
     }
 }

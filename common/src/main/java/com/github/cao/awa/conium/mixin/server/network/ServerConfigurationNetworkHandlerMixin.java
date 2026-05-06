@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.mixin.server.network;
 
 import com.github.cao.awa.conium.intermediary.server.ConiumServerEventMixinIntermediary;
-import com.github.cao.awa.sinuatum.manipulate.Manipulate;
+import com.github.cao.awa.translator.structuring.cast.Caster;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ConnectedClientData;
@@ -35,6 +35,6 @@ abstract public class ServerConfigurationNetworkHandlerMixin extends ServerCommo
     }
 
     private ServerConfigurationNetworkHandler asConfigurationHandler() {
-        return Manipulate.cast(this);
+        return Caster.cast(this);
     }
 }

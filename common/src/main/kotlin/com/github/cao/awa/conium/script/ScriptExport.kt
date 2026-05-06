@@ -1,18 +1,17 @@
 package com.github.cao.awa.conium.script
 
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.extent.manipulate.cast
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 import com.github.cao.awa.conium.script.field.SharedField
 import com.github.cao.awa.conium.script.field.SharedFieldByJvm
 import com.github.cao.awa.conium.script.field.SharedFieldHandler
 import com.github.cao.awa.conium.script.kts.clearDuplicateImports
 import com.github.cao.awa.conium.script.kts.filterImports
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 class ScriptExport(
     val name: String,
     private val sharedFields: (fieldHandler: SharedFieldHandler) -> Unit = { },
-    private val imports: Set<String> = CollectionFactor.hashSet()
+    private val imports: Set<String> = HashSet()
 ) {
     companion object {
         var exported: Map<String, ScriptExport>? = null
@@ -22,7 +21,7 @@ class ScriptExport(
 
             val builder: StringBuilder = StringBuilder()
 
-            val importing: MutableSet<String> = CollectionFactor.hashSet()
+            val importing: MutableSet<String> = HashSet()
 
             importing.addAll(defaultImports)
 
@@ -63,14 +62,14 @@ class ScriptExport(
             result ?: return null
 
             if (result is SharedFieldByJvm<*>) {
-                return (result.value as ParameterSelective1<*, Any>).arise(instance).doCast()
+                return (result.value as ParameterSelective1<*, Any>).arise(instance).cast()
             }
 
             return null
         }
     }
 
-    var fields: Map<String, SharedField> = CollectionFactor.hashMap()
+    var fields: Map<String, SharedField> = HashMap()
 
     fun ofCode(code: String): ScriptExport = ScriptExport(
         this.name,

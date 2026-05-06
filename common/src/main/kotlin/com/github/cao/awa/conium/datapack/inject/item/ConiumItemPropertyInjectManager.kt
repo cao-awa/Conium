@@ -6,9 +6,8 @@ import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectA
 import com.github.cao.awa.conium.datapack.inject.item.action.handler.ItemPropertyInjectHandler
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponent
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.extent.manipulate.cast
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.component.ComponentType
@@ -27,7 +26,7 @@ class ConiumItemPropertyInjectManager(var registryLookup: RegistryWrapper.Wrappe
         private val LOGGER: Logger = LogManager.getLogger("ItemPropertyInjectManager")
     }
 
-    private val injects: HashMap<Item, MutableList<ItemPropertyInject<*>>> = CollectionFactor.hashMap()
+    private val injects: HashMap<Item, MutableList<ItemPropertyInject<*>>> = HashMap()
 
     override fun earlyLoad(manager: ResourceManager, dataType: Identifier, result: MutableMap<Identifier, JsonElement>) {
         // Nothing here.
@@ -54,7 +53,7 @@ class ConiumItemPropertyInjectManager(var registryLookup: RegistryWrapper.Wrappe
 
         val item: Item = Registries.ITEM[Identifier.of(itemTarget)]
 
-        this.injects.computeIfAbsent(item) { CollectionFactor.arrayList() }
+        this.injects.computeIfAbsent(item) { ArrayList() }
 
         this.injects[item]!!.add(injecting)
     }
@@ -103,7 +102,7 @@ class ConiumItemPropertyInjectManager(var registryLookup: RegistryWrapper.Wrappe
             )
 
             // Modifies present value.
-            stack.set(type, calculatedValue.doCast())
+            stack.set(type, calculatedValue.cast())
         }
     }
 
@@ -119,6 +118,6 @@ class ConiumItemPropertyInjectManager(var registryLookup: RegistryWrapper.Wrappe
         )
 
         // Append preset value to item.
-        stack.set(type, value.value.doCast())
+        stack.set(type, value.value.cast())
     }
 }

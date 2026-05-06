@@ -1,6 +1,5 @@
 package com.github.cao.awa.conium.client
 
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.util.function.Consumer
@@ -8,7 +7,7 @@ import java.util.function.Consumer
 class ConiumClient {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumClient")
-        private val postedInitializer: MutableList<Consumer<Boolean>> = CollectionFactor.arrayList()
+        private val postedInitializer: MutableList<Consumer<Boolean>> = ArrayList()
         val initialized: Boolean get() = _initialized
         private var _initialized: Boolean = false
             set(value) {

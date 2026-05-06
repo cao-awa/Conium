@@ -3,8 +3,7 @@ package com.github.cao.awa.conium.datapack.inject.item.component
 import com.github.cao.awa.conium.codec.ConiumPacketCodec
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue.Companion.unverified
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
+import com.github.cao.awa.conium.extent.manipulate.cast
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -54,12 +53,12 @@ data class ItemPropertyInjectComponent<T>(
 
             val value: ItemPropertyInjectComponentValue<*> = unverified(json["value"])
 
-            return verified(type.doCast(), action, value)
+            return verified(type.cast(), action, value)
         }
 
         @JvmStatic
         fun <X> unverified(json: JsonArray): List<ItemPropertyInjectComponent<Any>> {
-            val components: MutableList<ItemPropertyInjectComponent<Any>> = CollectionFactor.arrayList()
+            val components: MutableList<ItemPropertyInjectComponent<Any>> = ArrayList()
             for (element: JsonElement in json) {
                 components.add(unverified(element.asJsonObject))
             }

@@ -4,7 +4,6 @@ import com.alibaba.fastjson2.JSONArray
 import com.alibaba.fastjson2.JSONObject
 import com.github.cao.awa.conium.molang.tree.program.statement.calculate.sign.MolangCalculateSymbol
 import com.github.cao.awa.conium.molang.tree.program.statement.returnable.MolangReturnableStatement
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.github.cao.awa.translator.structuring.translate.tree.StructuringAst
 import java.util.*
 
@@ -12,7 +11,7 @@ class MolangCalculateStatement(parent: StructuringAst) : MolangReturnableStateme
     private var left: MolangReturnableStatement? = null
     private var symbol: MolangCalculateSymbol? = null
     private var right: MolangReturnableStatement? = null
-    private var extraRights: LinkedList<MolangReturnableStatement> = CollectionFactor.linkedList()
+    private var extraRights: LinkedList<MolangReturnableStatement> = LinkedList()
     private var leftWithParen = false
     private var rightWithParen = false
     private var totalWithParen = false

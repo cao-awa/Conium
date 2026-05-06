@@ -11,7 +11,6 @@ import com.github.cao.awa.conium.kotlin.extent.item.registerItem
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry
 import com.github.cao.awa.conium.template.ConiumTemplate
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.minecraft.item.BlockItem
@@ -32,7 +31,7 @@ class ConiumItemManager(var registryLookup: RegistryWrapper.WrapperLookup): Coni
         private val LOGGER: Logger = LogManager.getLogger("ConiumItemManager")
     }
 
-    private val blockItems: MutableMap<Identifier, (Item.Settings) -> BlockItem> = CollectionFactor.hashMap()
+    private val blockItems: MutableMap<Identifier, (Item.Settings) -> BlockItem> = HashMap()
     private val fuelRegistry: ConiumFuelRegistry = ConiumFuelRegistry()
     var pendingTagLoad: List<Registry.PendingTagLoad<*>>? = null
     val fuels: Set<Item> get() = this.fuelRegistry.fuelItems

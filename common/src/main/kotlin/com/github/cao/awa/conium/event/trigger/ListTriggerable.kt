@@ -1,12 +1,11 @@
 package com.github.cao.awa.conium.event.trigger
 
 import com.github.cao.awa.conium.parameter.ParameterSelective
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import java.util.function.Predicate
 
 abstract class ListTriggerable<P : ParameterSelective> {
-    private val triggers: MutableMap<Any, MutableList<P>> = CollectionFactor.hashMap()
-    private val constantTriggers: MutableList<P> = CollectionFactor.arrayList()
+    private val triggers: MutableMap<Any, MutableList<P>> = HashMap()
+    private val constantTriggers: MutableList<P> = ArrayList()
 
     fun triggers(): Map<Any, MutableList<P>> = this.triggers
 
@@ -41,7 +40,7 @@ abstract class ListTriggerable<P : ParameterSelective> {
 
     fun subscribe(identity: Any, trigger: P): ListTriggerable<P> {
         this.triggers.computeIfAbsent(identity) {
-            CollectionFactor.arrayList()
+            ArrayList()
         }.add(trigger)
         return this
     }

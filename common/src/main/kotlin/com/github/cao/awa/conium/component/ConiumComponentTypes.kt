@@ -3,7 +3,6 @@
 package com.github.cao.awa.conium.component
 
 import com.github.cao.awa.conium.component.value.ConiumValueCreator
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.mojang.serialization.Codec
 import net.minecraft.network.codec.PacketCodecs
@@ -14,7 +13,7 @@ import java.util.*
 import java.util.function.UnaryOperator
 
 object ConiumComponentTypes {
-    private val types: MutableMap<Identifier, ConiumComponentType<*>> = CollectionFactor.hashMap()
+    private val types: MutableMap<Identifier, ConiumComponentType<*>> = HashMap()
 
     val TEST: ConiumComponentType<Int> = register(
         "test",

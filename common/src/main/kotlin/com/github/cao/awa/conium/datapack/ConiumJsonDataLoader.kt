@@ -1,7 +1,6 @@
 package com.github.cao.awa.conium.datapack
 
 import com.github.cao.awa.conium.server.ConiumDedicatedServer
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import net.minecraft.resource.Resource
@@ -20,7 +19,7 @@ abstract class ConiumJsonDataLoader(private val dataType: Identifier) : SinglePr
     }
 
     fun earlyPrepare(resourceManager: ResourceManager) {
-        val results: MutableMap<Identifier, JsonElement> = CollectionFactor.hashMap()
+        val results: MutableMap<Identifier, JsonElement> = HashMap()
         load(resourceManager, this.dataType, results)
         earlyLoad(resourceManager, this.dataType, results)
     }
@@ -33,7 +32,7 @@ abstract class ConiumJsonDataLoader(private val dataType: Identifier) : SinglePr
         // Default do nothing.
     }
 
-    override fun prepare(resourceManager: ResourceManager, profiler: Profiler?): MutableMap<Identifier, JsonElement> = CollectionFactor.hashMap<Identifier, JsonElement>().also {
+    override fun prepare(resourceManager: ResourceManager, profiler: Profiler?): MutableMap<Identifier, JsonElement> = HashMap<Identifier, JsonElement>().also {
         load(resourceManager, this.dataType, it)
     }
 

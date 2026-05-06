@@ -12,7 +12,6 @@ import com.github.cao.awa.conium.kotlin.extent.innate.int
 import com.github.cao.awa.conium.kotlin.extent.innate.orGetAuto
 import com.github.cao.awa.conium.kotlin.extent.world.executeCommand
 import com.github.cao.awa.conium.raycast.ConiumRaycast
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.entity.Entity
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -42,7 +41,7 @@ open class BedrockEntity(private val delegate: Entity) {
                 location.getAs<Number>("x").toDouble(),
                 location.getAs<Number>("y").toDouble(),
                 location.getAs<Number>("z").toDouble(),
-                CollectionFactor.hashSet(),
+                HashSet(),
                 this.delegate.yaw,
                 this.delegate.pitch,
                 false

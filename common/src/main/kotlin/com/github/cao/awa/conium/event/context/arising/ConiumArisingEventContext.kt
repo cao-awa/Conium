@@ -4,14 +4,11 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.extent.manipulate.cast
 import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
 import com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective1
-import com.github.cao.awa.conium.parameter.ParameterSelective2
-import com.github.cao.awa.sinuatum.manipulate.Manipulate
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 
 /**
  *
@@ -30,22 +27,22 @@ import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
  *
  * @since 1.0.0
  */
-open class ConiumArisingEventContext<I: Any, P : ParameterSelective?>(
+open class ConiumArisingEventContext<I : Any, P : ParameterSelective?>(
     private val dynamicArgs: DynamicArgs<P, Boolean>
 ) : ConiumEventContext<I>() {
     companion object {
         @JvmStatic
-        fun <P: ParameterSelective> of(dynamic: DynamicArgs<*, Boolean>): ConiumArisingEventContext<Any, P> {
-            return ConiumArisingEventContext(dynamic.doCast())
+        fun <P : ParameterSelective> of(dynamic: DynamicArgs<*, Boolean>): ConiumArisingEventContext<Any, P> {
+            return ConiumArisingEventContext(dynamic.cast())
         }
     }
 
     private var ariseTrigger: P? = null
     private var presageTrigger: P? = null
 
-    private val attachesPreparation: MutableList<(ConiumArisingEventContext<I, P>) -> Unit> = CollectionFactor.arrayList()
-    private val attaches: MutableList<ConiumArisingEventContext<*, *>> = CollectionFactor.arrayList()
-    private val attachesDynamic: MutableList<P> = CollectionFactor.arrayList()
+    private val attachesPreparation: MutableList<(ConiumArisingEventContext<I, P>) -> Unit> = ArrayList()
+    private val attaches: MutableList<ConiumArisingEventContext<*, *>> = ArrayList()
+    private val attachesDynamic: MutableList<P> = ArrayList()
 
     var targetedIdentity: ParameterSelective1<Boolean, Any> = ParameterSelective1 { true }
 
@@ -57,9 +54,7 @@ open class ConiumArisingEventContext<I: Any, P : ParameterSelective?>(
     @Suppress("unchecked_cast")
     fun <X : Any> targetTo(predicate: (X) -> Boolean): ConiumEventContext<I> {
         this.targetedIdentity = ParameterSelective1 {
-            Manipulate.supplyLater {
-                predicate(it as X)
-            }.getOr(false)
+            predicate(it as X)
         }
 
         return this
@@ -121,7 +116,8 @@ open class ConiumArisingEventContext<I: Any, P : ParameterSelective?>(
             preparation(this)
         }
 
-        var success: Boolean = this.presageTrigger == null || this.dynamicArgs.transform(identity, copyArgs(), this.presageTrigger!!)
+        var success: Boolean =
+            this.presageTrigger == null || this.dynamicArgs.transform(identity, copyArgs(), this.presageTrigger!!)
         for (attach: ConiumArisingEventContext<*, *> in this.attaches) {
             if (attach.presageTrigger != null) {
                 attach.inherit(this)
@@ -143,7 +139,8 @@ open class ConiumArisingEventContext<I: Any, P : ParameterSelective?>(
 
         this.identity = identity
 
-        var success: Boolean = this.ariseTrigger == null || this.dynamicArgs.transform(identity, copyArgs(), this.ariseTrigger!!)
+        var success: Boolean =
+            this.ariseTrigger == null || this.dynamicArgs.transform(identity, copyArgs(), this.ariseTrigger!!)
         for (attach: ConiumArisingEventContext<*, *> in this.attaches) {
             if (attach.ariseTrigger != null) {
                 attach.inherit(this)

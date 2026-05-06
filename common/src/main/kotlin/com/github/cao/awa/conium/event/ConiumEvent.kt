@@ -63,7 +63,7 @@ import com.github.cao.awa.conium.item.event.use.entity.on.use.ConiumItemUseOnEnt
 import com.github.cao.awa.conium.item.event.use.entity.on.used.ConiumItemUsedOnEntityEvent
 import com.github.cao.awa.conium.item.event.use.usage.tick.ConiumItemUsageTickEvent
 import com.github.cao.awa.conium.item.event.use.usage.ticked.ConiumItemUsageTickedEvent
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.extent.manipulate.cast
 import com.github.cao.awa.conium.network.event.server.connection.configuration.ConiumServerConfigurationConnectionEvent
 import com.github.cao.awa.conium.network.event.server.connection.configured.ConiumServerConfiguredConnectionEvent
 import com.github.cao.awa.conium.parameter.ParameterSelective
@@ -71,7 +71,6 @@ import com.github.cao.awa.conium.random.event.ConiumRandomEvent
 import com.github.cao.awa.conium.server.event.random.ConiumServerRandomEvent
 import com.github.cao.awa.conium.server.event.tick.start.ConiumServerTickEvent
 import com.github.cao.awa.conium.server.event.tick.tail.ConiumServerTickTailEvent
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.util.*
@@ -87,8 +86,8 @@ abstract class ConiumEvent<
 ) : ListTriggerable<P>() {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumEvent")
-        private val events: MutableMap<ConiumEventType<*, *, *, *>, ConiumEvent<*, *, *, *>> = CollectionFactor.hashMap()
-        private val foreverContext: MutableMap<ConiumEventType<*, *, *, *>, MutableList<ConiumArisingEventContext<*, *>>> = CollectionFactor.hashMap()
+        private val events: MutableMap<ConiumEventType<*, *, *, *>, ConiumEvent<*, *, *, *>> =  HashMap()
+        private val foreverContext: MutableMap<ConiumEventType<*, *, *, *>, MutableList<ConiumArisingEventContext<*, *>>> =  HashMap()
 
         /**
          * The 'inactive' event always don’t do actions.
@@ -300,7 +299,7 @@ abstract class ConiumEvent<
         fun <I: Any,  C : ConiumEventContext<I>, M: ConiumEventMetadata<I, M>> findEvent(
             type: ConiumEventType<I, M, *, *>
         ): ConiumEvent<I, M, *, *> {
-            return this.events[type].doCast()
+            return this.events[type].cast()
         }
 
         @JvmStatic
@@ -315,7 +314,7 @@ abstract class ConiumEvent<
         fun <I: Any,  C : ConiumEventContext<I>, M: ConiumEventMetadata<I, M>> forever(
             eventType: ConiumEventType<I, out ConiumEventMetadata<I, M>, *, *>, context: ConiumArisingEventContext<*, *>
         ) {
-            this.foreverContext.computeIfAbsent(eventType) { CollectionFactor.arrayList() }.add(context)
+            this.foreverContext.computeIfAbsent(eventType) { ArrayList() }.add(context)
         }
 
         fun forever(eventType: ConiumEventType<*, *, *, *>): MutableList<ConiumArisingEventContext<*, *>> {
@@ -352,7 +351,7 @@ abstract class ConiumEvent<
         }
     }
 
-    private val listeners: MutableList<ConiumEventTrigger<I, M>> = CollectionFactor.arrayList()
+    private val listeners: MutableList<ConiumEventTrigger<I, M>> = ArrayList()
 
     init {
         register()

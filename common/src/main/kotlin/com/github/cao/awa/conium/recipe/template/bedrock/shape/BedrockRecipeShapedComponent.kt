@@ -4,7 +4,6 @@ import com.github.cao.awa.conium.kotlin.extent.json.asObject
 import com.github.cao.awa.conium.kotlin.extent.json.mapArray
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
 import com.github.cao.awa.conium.template.recipe.bedrock.BedrockRecipeComponents.RECIPE_SHAPED
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RawShapedRecipe
@@ -20,7 +19,7 @@ class BedrockRecipeShapedComponent : ConiumRecipeTemplate<ShapedRecipe>(RECIPE_S
                     createBasic(this, component)
 
                     component.keys = asObject(this["key"]) {
-                        val ingredients: MutableMap<Char, Ingredient> = CollectionFactor.hashMap()
+                        val ingredients: MutableMap<Char, Ingredient> = HashMap()
 
                         for ((key: String, ingredient: JsonElement) in entrySet()) {
                             ingredients[key.toCharArray()[0]] = ingredient.let(::createIngredient)

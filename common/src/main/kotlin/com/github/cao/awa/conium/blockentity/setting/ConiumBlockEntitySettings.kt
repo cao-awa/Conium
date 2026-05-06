@@ -6,7 +6,6 @@ import com.github.cao.awa.conium.block.setting.ConiumAbstractBlockSettings
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.setting.ConiumSettings
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 
@@ -35,7 +34,7 @@ class ConiumBlockEntitySettings(val blockSettings: ConiumAbstractBlockSettings<*
     var registeredData: Map<String, ConiumNbtDataSerializer<*>>
         get() {
             if (this._registeredData == null) {
-                this._registeredData = CollectionFactor.hashMap()
+                this._registeredData = HashMap()
             }
             return this._registeredData!!
         }
@@ -49,7 +48,7 @@ class ConiumBlockEntitySettings(val blockSettings: ConiumAbstractBlockSettings<*
     var defaultData: Map<String, Any>
         get() {
             if (this._defaultData == null) {
-                this._defaultData = CollectionFactor.hashMap()
+                this._defaultData = HashMap()
             }
             return this._defaultData!!
         }
@@ -76,7 +75,7 @@ class ConiumBlockEntitySettings(val blockSettings: ConiumAbstractBlockSettings<*
     var blockEntityTemplates: MutableSet<ConiumBlockEntityTemplate>
         get() {
             if (this._blockEntityTemplates == null) {
-                this._blockEntityTemplates = CollectionFactor.hashSet()
+                this._blockEntityTemplates = HashSet()
             }
             return this._blockEntityTemplates!!
         }

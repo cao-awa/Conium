@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.datapack.inject.item.component
 
 import com.github.cao.awa.conium.component.ConiumComponentType
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.extent.manipulate.cast
 import net.minecraft.component.ComponentType
 import net.minecraft.network.RegistryByteBuf
 
@@ -14,14 +14,14 @@ data class ItemPropertyInjectComponentValue<X>(val value: X?, val componentType:
 
             return ItemPropertyInjectComponentValue(
                 componentType.packetCodec.decode(buf),
-                componentType.doCast()
+                componentType.cast()
             )
         }
 
         @JvmStatic
         fun encode(buf: RegistryByteBuf, value: ItemPropertyInjectComponentValue<*>) {
             ComponentType.PACKET_CODEC.encode(buf, value.componentType)
-            value.componentType!!.packetCodec.encode(buf, value.value.doCast())
+            value.componentType!!.packetCodec.encode(buf, value.value.cast())
         }
 
         @JvmStatic
@@ -34,8 +34,8 @@ data class ItemPropertyInjectComponentValue<X>(val value: X?, val componentType:
         if (type is ConiumComponentType<*>) {
             type.let {
                 return ItemPropertyInjectComponentValue(
-                    it.valueCreator.castValue(this.value).doCast(),
-                    type.doCast()
+                    it.valueCreator.castValue(this.value).cast(),
+                    type.cast()
                 )
             }
         }

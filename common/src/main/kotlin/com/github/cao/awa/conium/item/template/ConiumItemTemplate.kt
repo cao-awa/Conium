@@ -3,7 +3,6 @@ package com.github.cao.awa.conium.item.template
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.setting.ConiumItemSettings
 import com.github.cao.awa.conium.template.ConiumTemplate
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import net.minecraft.item.Item
 import net.minecraft.item.consume.UseAction
 import net.minecraft.util.Rarity
@@ -11,7 +10,7 @@ import net.minecraft.util.Rarity
 abstract class ConiumItemTemplate(
     isClient: Boolean = false,
     name: String,
-    conflicts: Map<Class<out ConiumTemplate<*, *>>, String> = CollectionFactor.hashMap()
+    conflicts: Map<Class<out ConiumTemplate<*, *>>, String> = HashMap()
 ) : ConiumTemplate<ConiumItem, ConiumItemSettings>(isClient, name, conflicts) {
     companion object {
         fun createRarity(name: String): Rarity {

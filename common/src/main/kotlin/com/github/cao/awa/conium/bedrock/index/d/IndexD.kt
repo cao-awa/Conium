@@ -1,7 +1,6 @@
 package com.github.cao.awa.conium.bedrock.index.d
 
 import com.github.cao.awa.conium.bedrock.index.d.server.ServerIndexD
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.util.function.Consumer
@@ -9,7 +8,7 @@ import java.util.function.Consumer
 abstract class IndexD {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("IndexD")
-        private val packages: Map<String, IndexD> = CollectionFactor.hashMap<String, IndexD>().also { packages: MutableMap<String, IndexD> ->
+        private val packages: Map<String, IndexD> = HashMap<String, IndexD>().also { packages: MutableMap<String, IndexD> ->
             packages["@minecraft/server"] = ServerIndexD()
         }
 

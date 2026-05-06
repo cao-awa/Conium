@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.molang.translator.element
 
-import com.github.cao.awa.conium.kotlin.extent.manipulate.doCast
+import com.github.cao.awa.conium.extent.manipulate.cast
 import com.github.cao.awa.conium.molang.tree.program.MolangProgram
 import com.github.cao.awa.conium.molang.tree.program.constant.bool.MolangBoolean
 import com.github.cao.awa.conium.molang.tree.program.constant.nulls.MolangNull
@@ -15,13 +15,12 @@ import com.github.cao.awa.conium.molang.tree.program.statement.invoke.param.Mola
 import com.github.cao.awa.conium.molang.tree.program.statement.reference.MolangReference
 import com.github.cao.awa.conium.molang.tree.program.statement.ret.MolangReturnStatement
 import com.github.cao.awa.conium.molang.tree.program.statement.returnable.MolangReturnableStatement
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.github.cao.awa.translator.structuring.translate.element.TranslateElementData
 import com.github.cao.awa.translator.structuring.translate.tree.StructuringAst
 
 class MolangTranslateElement {
     companion object {
-        val elements: MutableMap<Class<*>, TranslateElementData<*>> = CollectionFactor.hashMap()
+        val elements: MutableMap<Class<*>, TranslateElementData<*>> = HashMap()
 
         val PROGRAM = create(MolangProgram::class.java)
         val STATEMENT = create(MolangStatement::class.java)
@@ -45,6 +44,6 @@ class MolangTranslateElement {
             }
         }
 
-        fun <X : StructuringAst> byType(type: Class<X>): TranslateElementData<X> = this.elements[type].doCast()
+        fun <X : StructuringAst> byType(type: Class<X>): TranslateElementData<X> = this.elements[type].cast()
     }
 }

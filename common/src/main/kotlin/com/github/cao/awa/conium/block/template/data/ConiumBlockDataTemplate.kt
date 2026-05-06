@@ -9,7 +9,6 @@ import com.github.cao.awa.conium.kotlin.extent.json.jsonObject
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.nbt.data.RegistrableNbt
 import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates
-import com.github.cao.awa.sinuatum.util.collection.CollectionFactor
 import com.google.gson.JsonElement
 
 /**
@@ -50,8 +49,8 @@ class ConiumBlockDataTemplate(
         fun create(element: JsonElement): ConiumBlockDataTemplate {
             return element.jsonObject!!.let { data ->
                 // Create data delegates.
-                val registered = CollectionFactor.hashMap<String, ConiumNbtDataSerializer<*>>()
-                val defaultValues = CollectionFactor.hashMap<String, Any>()
+                val registered = HashMap<String, ConiumNbtDataSerializer<*>>()
+                val defaultValues =HashMap<String, Any>()
 
                 // Build all data.
                 data.keySet().forEach { key ->
@@ -60,7 +59,7 @@ class ConiumBlockDataTemplate(
                     val serializer = ConiumNbtDataSerializer.getSerializer(value["type"].asString)
                     // Register serializer and default value.
                     registered[key] = serializer
-                    defaultValues[key] = serializer.readFromJson(value, "value")
+                    defaultValues[key] = serializer.readFromJson(value, "value") as Any
                 }
 
                 // Create the block data template.

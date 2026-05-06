@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.mixin.entity.living;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
 import com.github.cao.awa.conium.intermediary.entity.ConiumEntityEventMixinIntermediary;
 import com.github.cao.awa.conium.mixin.entity.EntityMixin;
-import com.github.cao.awa.sinuatum.manipulate.Manipulate;
+import com.github.cao.awa.translator.structuring.cast.Caster;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.world.ServerWorld;
@@ -30,7 +30,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
         // Trigger entity damaged event.
         if (ConiumEntityEventMixinIntermediary.fireEntityDamageEvent(
                 ConiumEventType.ENTITY_DAMAGE,
-                Manipulate.cast(this),
+                Caster.cast(this),
                 damageSource,
                 amount
         )) {
@@ -46,7 +46,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
         // Trigger entity damaged event.
         ConiumEntityEventMixinIntermediary.fireEntityDamagedEvent(
                 ConiumEventType.ENTITY_DAMAGED,
-                Manipulate.cast(this),
+                Caster.cast(this),
                 damageSource,
                 amount
         );
@@ -61,7 +61,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
         // Trigger entity dying event.
         if (ConiumEntityEventMixinIntermediary.fireEntityDieEvent(
                 ConiumEventType.ENTITY_DIE,
-                Manipulate.cast(this),
+                Caster.cast(this),
                 damageSource
         )) {
             // Cancel this event when presaging was rejected the event.
@@ -77,7 +77,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
         // Trigger entity dead event.
         ConiumEntityEventMixinIntermediary.fireEntityDeadEvent(
                 ConiumEventType.ENTITY_DEAD,
-                Manipulate.cast(this),
+                Caster.cast(this),
                 damageSource
         );
     }
@@ -91,7 +91,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
         // Trigger entity wake-up event.
         if (ConiumEntityEventMixinIntermediary.fireEntityTrySleepEvent(
                 ConiumEventType.ENTITY_TRY_SLEEP,
-                Manipulate.cast(this),
+                Caster.cast(this),
                 pos
         )) {
             // Cancel this event when presaging was rejected the event.
@@ -107,7 +107,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
         // Trigger entity wake-up event.
         ConiumEntityEventMixinIntermediary.fireEntitySleepEvent(
                 ConiumEventType.ENTITY_SLEEP,
-                Manipulate.cast(this),
+                Caster.cast(this),
                 pos
         );
     }
@@ -121,7 +121,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
         // Trigger entity wake-up event.
         if (ConiumEntityEventMixinIntermediary.fireEntityWakeupEvent(
                 ConiumEventType.ENTITY_WAKE_UP,
-                Manipulate.cast(this),
+                Caster.cast(this),
                 getSleepingPosition().orElse(null)
         )) {
             // Cancel this event when presaging was rejected the event.
@@ -137,7 +137,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
         // Trigger entity waked up event.
         ConiumEntityEventMixinIntermediary.fireEntityWakedUpEvent(
                 ConiumEventType.ENTITY_WAKED_UP,
-                Manipulate.cast(this),
+                Caster.cast(this),
                 getSleepingPosition().orElse(null)
         );
     }
