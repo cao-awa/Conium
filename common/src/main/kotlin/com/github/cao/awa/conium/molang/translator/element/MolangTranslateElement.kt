@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.molang.translator.element
 
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 import com.github.cao.awa.conium.molang.tree.program.MolangProgram
 import com.github.cao.awa.conium.molang.tree.program.constant.bool.MolangBoolean
 import com.github.cao.awa.conium.molang.tree.program.constant.nulls.MolangNull

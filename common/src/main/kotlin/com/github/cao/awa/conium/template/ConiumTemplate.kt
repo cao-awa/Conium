@@ -8,7 +8,7 @@ import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.exception.syntax.SyntaxNotSupportedException
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.innate.int
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
 import com.github.cao.awa.conium.template.builder.factor.ConiumTemplateCreator
 import com.github.cao.awa.conium.template.builder.factor.ConiumTemplateFactor

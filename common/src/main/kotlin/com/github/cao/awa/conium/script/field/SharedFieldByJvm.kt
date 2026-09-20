@@ -12,7 +12,7 @@ class SharedFieldByJvm<T>(val type: KClass<*>, val name: String, val value: Para
         builder.append(":")
         builder.append(this.type.simpleName)
         builder.append(" get()=")
-        builder.append("Manipulate.cast(accessExportedField(this,")
+        builder.append("Caster.cast(accessExportedField(this,")
         builder.append("\"${exportName}\"")
         builder.append(",")
         builder.append("\"${this.name}\"")

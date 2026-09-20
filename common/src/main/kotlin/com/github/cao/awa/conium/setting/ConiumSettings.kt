@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.setting
 
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 
 abstract class ConiumSettings<T : ConiumSettings<T, M>, M : T> {
     private val migrates: MutableMap<String, M> = HashMap()

@@ -6,7 +6,7 @@ import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectA
 import com.github.cao.awa.conium.datapack.inject.item.action.handler.ItemPropertyInjectHandler
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponent
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject

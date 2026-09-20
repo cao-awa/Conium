@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.template.builder
 
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 import com.github.cao.awa.conium.template.ConiumTemplate
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger

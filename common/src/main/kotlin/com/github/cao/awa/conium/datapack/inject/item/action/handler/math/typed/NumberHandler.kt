@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.datapack.inject.item.action.handler.math.typed
 
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 import com.github.cao.awa.translator.structuring.cast.Caster
 import java.math.BigInteger
 

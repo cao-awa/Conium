@@ -63,7 +63,7 @@ import com.github.cao.awa.conium.item.event.use.entity.on.use.ConiumItemUseOnEnt
 import com.github.cao.awa.conium.item.event.use.entity.on.used.ConiumItemUsedOnEntityEvent
 import com.github.cao.awa.conium.item.event.use.usage.tick.ConiumItemUsageTickEvent
 import com.github.cao.awa.conium.item.event.use.usage.ticked.ConiumItemUsageTickedEvent
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 import com.github.cao.awa.conium.network.event.server.connection.configuration.ConiumServerConfigurationConnectionEvent
 import com.github.cao.awa.conium.network.event.server.connection.configured.ConiumServerConfiguredConnectionEvent
 import com.github.cao.awa.conium.parameter.ParameterSelective

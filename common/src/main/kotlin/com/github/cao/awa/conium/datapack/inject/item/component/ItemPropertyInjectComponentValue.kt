@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.datapack.inject.item.component
 
 import com.github.cao.awa.conium.component.ConiumComponentType
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 import net.minecraft.component.ComponentType
 import net.minecraft.network.RegistryByteBuf
 

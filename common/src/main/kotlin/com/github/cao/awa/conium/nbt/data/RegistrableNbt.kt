@@ -1,8 +1,7 @@
 package com.github.cao.awa.conium.nbt.data
 
 import com.github.cao.awa.conium.Conium
-import com.github.cao.awa.conium.extent.manipulate.cast
-import com.github.cao.awa.translator.structuring.cast.Caster
+import com.github.cao.awa.conium.extent.caster.cast
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.storage.ReadView
 import net.minecraft.storage.WriteView

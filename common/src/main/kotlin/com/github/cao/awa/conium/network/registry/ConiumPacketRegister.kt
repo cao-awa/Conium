@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.network.registry
 
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 import com.github.cao.awa.conium.network.ConiumPacket
 import com.github.cao.awa.conium.network.packet.client.configuration.ConiumClientConfigurationPacket
 import com.github.cao.awa.conium.network.packet.client.play.ConiumClientPlayPacket

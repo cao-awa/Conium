@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.datapack.inject.item.component
 import com.github.cao.awa.conium.codec.ConiumPacketCodec
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue.Companion.unverified
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject

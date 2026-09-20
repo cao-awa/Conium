@@ -11,7 +11,7 @@ import com.github.cao.awa.conium.datapack.ConiumJsonDataLoader
 import com.github.cao.awa.conium.kotlin.extent.block.register
 import com.github.cao.awa.conium.kotlin.extent.block.registerBlock
 import com.github.cao.awa.conium.kotlin.extent.item.registerBlockItem
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicIdList
 import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry

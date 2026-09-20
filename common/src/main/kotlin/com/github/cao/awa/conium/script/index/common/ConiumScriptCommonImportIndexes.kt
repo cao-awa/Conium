@@ -56,7 +56,13 @@ import com.github.cao.awa.conium.raycast.ConiumRaycast
 
 // Entity.
 import com.github.cao.awa.conium.kotlin.extent.entity.registerEntity
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
+
+// Caster.
+import com.github.cao.awa.translator.structuring.cast.Caster
+
+// Caster.
+typealias Caster = Caster
 
 // Event.
 typealias ConiumEvent<I, P, M, N> = ConiumEvent<I, P, M, N>

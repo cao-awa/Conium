@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.event.trigger
 
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 import com.github.cao.awa.conium.parameter.ParameterSelective
 
 data class ConiumEventTrigger<I: Any, M: ConiumEventMetadata<I, M>>(

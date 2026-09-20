@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
 import com.github.cao.awa.conium.parameter.dynamic.DynamicArgs
 import com.github.cao.awa.conium.parameter.ParameterSelective

@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.script
 
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 import com.github.cao.awa.conium.script.field.SharedField
 import com.github.cao.awa.conium.script.field.SharedFieldByJvm
@@ -62,7 +62,7 @@ class ScriptExport(
             result ?: return null
 
             if (result is SharedFieldByJvm<*>) {
-                return (result.value as ParameterSelective1<*, Any>).arise(instance).cast()
+                return result.value.arise(instance).cast()
             }
 
             return null

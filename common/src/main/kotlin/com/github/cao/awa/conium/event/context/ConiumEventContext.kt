@@ -2,7 +2,7 @@
 
 package com.github.cao.awa.conium.event.context
 
-import com.github.cao.awa.conium.extent.manipulate.cast
+import com.github.cao.awa.conium.extent.caster.cast
 import com.github.cao.awa.conium.parameter.dynamic.builder.DynamicArgsBuilder
 import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
 import java.util.HashMap
