@@ -11,9 +11,9 @@ import com.github.cao.awa.conium.bedrock.impl.world.BedrockWorld
 import com.github.cao.awa.conium.bedrock.impl.world.dimension.BedrockDimension
 import com.github.cao.awa.conium.bedrock.impl.world.dimension.bedrockDimension
 import com.github.cao.awa.conium.bedrock.impl.world.bedrockWorld
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemUsageContext
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.context.UseOnContext
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemUseOnBeforeEvent", "ItemUseOnAfterEvent")
@@ -29,10 +29,10 @@ class BedrockItemUseOnEventMetadata(
     override fun world(): BedrockWorld = this.world
 }
 
-fun ItemUsageContext.bedrockEventContext(scriptSource: Any, source: PlayerEntity?): BedrockItemUseOnEventMetadata = BedrockItemUseOnEventMetadata(
+fun UseOnContext.bedrockEventContext(scriptSource: Any, source: Player?): BedrockItemUseOnEventMetadata = BedrockItemUseOnEventMetadata(
     scriptSource,
-    this.world.bedrockDimension,
-    this.world.server!!.bedrockWorld,
-    this.stack.bedrockItemStack,
+    this.level.bedrockDimension,
+    this.level.server!!.bedrockWorld,
+    this.itemInHand.bedrockItemStack,
     source?.bedrockPlayer
 )

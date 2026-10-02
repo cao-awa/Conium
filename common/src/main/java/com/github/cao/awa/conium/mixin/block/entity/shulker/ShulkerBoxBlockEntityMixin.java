@@ -5,16 +5,14 @@ import com.github.cao.awa.conium.event.context.ConiumEventContext;
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext;
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.LootableContainerBlockEntity;
-import net.minecraft.block.entity.ShulkerBoxBlockEntity;
-import net.minecraft.entity.ContainerUser;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.SidedInventory;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.ContainerUser;
+import net.minecraft.core.BlockPos;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -23,19 +21,19 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ShulkerBoxBlockEntity.class)
-public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockEntity implements SidedInventory {
+public abstract class ShulkerBoxBlockEntityMixin extends RandomizableContainerBlockEntity implements WorldlyContainer {
     protected ShulkerBoxBlockEntityMixin(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
         super(blockEntityType, blockPos, blockState);
     }
 
     @Inject(
-            method = "onOpen",
+            method = "startOpen",
             at = @At("RETURN"),
             cancellable = true
     )
     public void onOpenedShulkerBox(ContainerUser user, CallbackInfo ci) {
         // Do not arise the event when it removed or not in world.
-        if (this.world == null || this.removed) {
+        if (this.level == null || this.isRemoved()) {
             ci.cancel();
             return;
         }
@@ -43,7 +41,7 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
         // Request the opened shulker box context.
         ConiumArisingEventContext<?, ?> openingContext = buildContext(ConiumEventType.SHULKER_BOX_OPENED, user);
 
-        Block block = getCachedState().getBlock();
+        Block block = getBlockState().getBlock();
 
         // Opened event cannot cancel because it already completed.
         if (openingContext.presaging(block)) {
@@ -52,13 +50,13 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
     }
 
     @Inject(
-            method = "onClose",
+            method = "stopOpen",
             at = @At("HEAD"),
             cancellable = true
     )
     public void onClosing(ContainerUser user, CallbackInfo ci) {
         // Do not arise the event when it removed or not in world.
-        if (this.world == null || this.removed) {
+        if (this.level == null || this.isRemoved()) {
             ci.cancel();
             return;
         }
@@ -66,7 +64,7 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
         // Request the closing shulker box context.
         ConiumArisingEventContext<?, ?> closingContext = buildContext(ConiumEventType.SHULKER_BOX_CLOSING, user);
 
-        Block block = getCachedState().getBlock();
+        Block block = getBlockState().getBlock();
 
         if (closingContext.presaging(block)) {
             closingContext.arising(block);
@@ -77,13 +75,13 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
     }
 
     @Inject(
-            method = "onClose",
+            method = "stopOpen",
             at = @At("RETURN"),
             cancellable = true
     )
     public void onClosed(ContainerUser user, CallbackInfo ci) {
         // Do not arise the event when it removed or not in world.
-        if (this.world == null || this.removed) {
+        if (this.level == null || this.isRemoved()) {
             ci.cancel();
             return;
         }
@@ -91,7 +89,7 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
         // Request the closed shulker box context.
         ConiumArisingEventContext<?, ?> closedContext = buildContext(ConiumEventType.SHULKER_BOX_CLOSED, user);
 
-        Block block = getCachedState().getBlock();
+        Block block = getBlockState().getBlock();
 
         // Closed event cannot cancel because it already completed.
         if (closedContext.presaging(block)) {
@@ -106,11 +104,11 @@ public abstract class ShulkerBoxBlockEntityMixin extends LootableContainerBlockE
         ConiumArisingEventContext<?, ?> eventContext = ConiumEvent.request(eventType);
 
         // Fill context args.
-        assert this.world != null;
-        eventContext.put(ConiumEventArgTypes.BLOCK_POS, this.pos)
+        assert this.level != null;
+        eventContext.put(ConiumEventArgTypes.BLOCK_POS, this.worldPosition)
                 .put(ConiumEventArgTypes.BLOCK_ENTITY, this)
-                .put(ConiumEventArgTypes.BLOCK_STATE, getCachedState())
-                .put(ConiumEventArgTypes.WORLD, this.world)
+                .put(ConiumEventArgTypes.BLOCK_STATE, getBlockState())
+                .put(ConiumEventArgTypes.WORLD, this.level)
                 .put(ConiumEventArgTypes.CONTAINER_USER, user);
 
         return eventContext;

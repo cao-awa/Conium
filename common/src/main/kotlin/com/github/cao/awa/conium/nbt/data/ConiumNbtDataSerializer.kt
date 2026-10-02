@@ -4,10 +4,10 @@ import com.github.cao.awa.conium.nbt.data.color.ConiumNbtDyeColorSerializer
 import com.github.cao.awa.conium.nbt.data.primary.*
 import com.github.cao.awa.conium.nbt.data.string.ConiumNbtStringSerializer
 import com.google.gson.JsonObject
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.storage.ReadView
-import net.minecraft.storage.WriteView
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.core.HolderLookup
+import net.minecraft.world.level.storage.ValueInput
+import net.minecraft.world.level.storage.ValueOutput
 import java.util.function.Supplier
 
 /**
@@ -16,7 +16,7 @@ import java.util.function.Supplier
  * @param X the type of data
  *
  * @see JsonObject
- * @see NbtCompound
+ * @see CompoundTag
  * @see RegistrableNbt
  *
  * @author cao_awa
@@ -70,17 +70,17 @@ abstract class ConiumNbtDataSerializer<X> {
      *
      * @return the data read
      *
-     * @see ReadView
+     * @see ValueInput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    abstract fun read(readView: ReadView, key: String, fallback: Supplier<X>): X
+    abstract fun read(readView: ValueInput, key: String, fallback: Supplier<X>): X
 
-    fun read(readView: ReadView, key: String): X = readNotNull(readView, key)
+    fun read(readView: ValueInput, key: String): X = readNotNull(readView, key)
 
-    fun readNotNull(readView: ReadView, key: String): X = read(readView, key) { throw UnsupportedOperationException("The data of '$key doesn't have a fallback, it means the value requires not be null'") }
+    fun readNotNull(readView: ValueInput, key: String): X = read(readView, key) { throw UnsupportedOperationException("The data of '$key doesn't have a fallback, it means the value requires not be null'") }
 
     /**
      * Write data to a data view.
@@ -89,13 +89,13 @@ abstract class ConiumNbtDataSerializer<X> {
      * @param key key of the data
      * @param value data to write
      *
-     * @see WriteView
+     * @see ValueOutput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    abstract fun write(writeView: WriteView, key: String, value: X)
+    abstract fun write(writeView: ValueOutput, key: String, value: X)
 
     /**
      * Read data from JSON object.

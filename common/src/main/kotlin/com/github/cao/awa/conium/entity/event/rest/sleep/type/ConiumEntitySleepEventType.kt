@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.entity.event.rest.sleep.type
+﻿package com.github.cao.awa.conium.entity.event.rest.sleep.type
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.blockentity.event.shulker.opened.metadata.ConiumShulkerBoxOpenedEventMetadata
 import com.github.cao.awa.conium.blockentity.event.shulker.opening.metadata.ConiumShulkerBoxOpeningEventMetadata
@@ -13,8 +14,8 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.type.cancelable.ConiumCancelableEventType
 import com.github.cao.awa.conium.event.type.cancelable.ConiumNoCancelableEventType
 import com.github.cao.awa.conium.inactive.event.metadata.ConiumInactiveEventMetadata
-import net.minecraft.block.Block
-import net.minecraft.entity.EntityType
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.entity.EntityType
 
 class ConiumEntitySleepEventType: ConiumNoCancelableEventType<EntityType<*>, ConiumEntitySleepEventMetadata, Unit, ConiumInactiveEventMetadata>(
     "entity_sleep",

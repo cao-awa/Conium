@@ -14,10 +14,10 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.item.event.used.metadata.ConiumItemUsedEventMetadata
 import com.github.cao.awa.conium.parameter.ParameterSelective1
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerLevel
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemUseAfterEventSignal")
@@ -30,7 +30,7 @@ class BedrockItemUseAfterEvent : BedrockEvent<Item, BedrockItemUseEventContext, 
             ConiumEventArgTypes.SERVER_WORLD,
             ConiumEventArgTypes.SERVER_PLAYER,
             ConiumEventArgTypes.ITEM_STACK
-        ) { _: Any, world: ServerWorld, source: ServerPlayerEntity, itemStack: ItemStack ->
+        ) { _: Any, world: ServerLevel, source: ServerPlayer, itemStack: ItemStack ->
             BedrockItemUseEventContext(
                 scriptSource,
                 world.server!!.bedrockWorld,

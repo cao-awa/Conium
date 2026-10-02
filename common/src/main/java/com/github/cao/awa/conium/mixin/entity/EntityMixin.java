@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.event.type.ConiumEventType;
 import com.github.cao.awa.conium.intermediary.entity.ConiumEntityEventMixinIntermediary;
 import com.github.cao.awa.conium.sprint.SprintMovementEntity;
 import com.github.cao.awa.translator.structuring.cast.Caster;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -12,29 +12,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
- * @author cao_awa
- * @see Entity
- * @see Entity#baseTick()
- * @see Entity#setFireTicks(int)
- * @see Entity#extinguish
- * @see ConiumEntityEventMixinIntermediary#fireOnFireEvent(Entity)
- * @see ConiumEntityEventMixinIntermediary#fireExtinguishEvent(Entity)
- * @see ConiumEventType#ENTITY_ON_FIRE
- * @see ConiumEventType#ENTITY_EXTINGUISH_FIRE
- * @see ConiumEventType#ENTITY_EXTINGUISHED_FIRE
- * @since 1.0.0
- */
 @Mixin(Entity.class)
 public abstract class EntityMixin implements SprintMovementEntity {
     @Shadow
     public abstract boolean isSprinting();
 
     @Shadow
-    protected abstract void setFlag(int index, boolean value);
+    protected abstract void setSharedFlag(int index, boolean value);
 
     @Shadow
-    private int fireTicks;
+    private int remainingFireTicks;
 
     @Unique
     public boolean conium$canStartSprint = true;
@@ -53,23 +40,11 @@ public abstract class EntityMixin implements SprintMovementEntity {
         return Caster.cast(this);
     }
 
-    /**
-     * Trigger entity the on fire event when entity ticking during fire ticks has at least 1.
-     *
-     * @param ci the callback info
-     * @author cao_awa
-     * @see Entity#baseTick()
-     * @see Entity#setFireTicks(int)
-     * @see Entity#extinguish
-     * @see ConiumEntityEventMixinIntermediary#fireOnFireEvent(Entity)
-     * @see ConiumEventType#ENTITY_ON_FIRE
-     * @since 1.0.0
-     */
     @Inject(
             method = "baseTick",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/entity/Entity;isFireImmune()Z"
+                    target = "Lnet/minecraft/world/entity/Entity;fireImmune()Z"
             )
     )
     public void onFireTick(CallbackInfo ci) {
@@ -77,24 +52,13 @@ public abstract class EntityMixin implements SprintMovementEntity {
         ConiumEntityEventMixinIntermediary.fireOnFireEvent(asEntity());
     }
 
-    /**
-     * Trigger entity the fire extinguishes events when extinguishing.
-     *
-     * @param ci the callback info
-     * @author cao_awa
-     * @see Entity#extinguish
-     * @see ConiumEntityEventMixinIntermediary#fireExtinguishEvent(Entity)
-     * @see ConiumEventType#ENTITY_EXTINGUISH_FIRE
-     * @see ConiumEventType#ENTITY_EXTINGUISHED_FIRE
-     * @since 1.0.0
-     */
     @Inject(
-            method = "setFireTicks",
+            method = "setRemainingFireTicks",
             at = @At("HEAD"),
             cancellable = true
     )
     public void onExtinguish(int newFireTicks, CallbackInfo ci) {
-        if (this.fireTicks > 0 && newFireTicks <= 0) {
+        if (this.remainingFireTicks > 0 && newFireTicks <= 0) {
             // Trigger entity fire extinguish event.
             if (ConiumEntityEventMixinIntermediary.fireExtinguishEvent(asEntity())) {
                 // Cancel this event when presaging was rejected the event.
@@ -112,16 +76,16 @@ public abstract class EntityMixin implements SprintMovementEntity {
         if (sprinting) {
             // Trigger entity sprint event.
             if (ConiumEntityEventMixinIntermediary.fireEntitySprintEvent(asEntity())) {
-                setFlag(3, false);
+                setSharedFlag(3, false);
 
-                setCanStartSprint(false);
+                conium$setCanStartSprint(false);
 
                 ci.cancel();
             }
         } else {
             // Trigger entity stop sprint event.
             if (ConiumEntityEventMixinIntermediary.fireEntityStopSprintEvent(asEntity())) {
-                setFlag(3, true);
+                setSharedFlag(3, true);
                 ci.cancel();
             }
         }

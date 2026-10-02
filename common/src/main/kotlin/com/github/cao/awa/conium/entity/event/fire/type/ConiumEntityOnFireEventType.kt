@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.entity.event.fire.type
+﻿package com.github.cao.awa.conium.entity.event.fire.type
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.blockentity.event.shulker.opened.metadata.ConiumShulkerBoxOpenedEventMetadata
 import com.github.cao.awa.conium.blockentity.event.shulker.opening.metadata.ConiumShulkerBoxOpeningEventMetadata
@@ -16,8 +17,8 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.type.cancelable.ConiumCancelableEventType
 import com.github.cao.awa.conium.event.type.cancelable.ConiumNoCancelableEventType
 import com.github.cao.awa.conium.inactive.event.metadata.ConiumInactiveEventMetadata
-import net.minecraft.block.Block
-import net.minecraft.entity.EntityType
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.entity.EntityType
 
 class ConiumEntityOnFireEventType: ConiumCancelableEventType<EntityType<*>, ConiumEntityOnFireEventMetadata, EntityType<*>, ConiumEntityDeadEventMetadata>(
     "entity_on_fire",

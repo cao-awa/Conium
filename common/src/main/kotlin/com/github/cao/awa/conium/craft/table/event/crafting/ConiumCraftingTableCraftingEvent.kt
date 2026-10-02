@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.craft.table.event.crafting
+﻿package com.github.cao.awa.conium.craft.table.event.crafting
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.craft.table.event.crafted.type.ConiumCraftingTableCraftedEventType
 import com.github.cao.awa.conium.craft.table.event.crafting.metadata.ConiumCraftingTableCraftingEventMetadata
@@ -10,11 +11,11 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective2
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
 
-class ConiumCraftingTableCraftingEvent : ConiumEvent<Item, ConiumCraftingTableCraftingEventMetadata, ParameterSelective2<Boolean, PlayerEntity, ItemStack>, ConiumCraftingTableCraftedEventType>(
+class ConiumCraftingTableCraftingEvent : ConiumEvent<Item, ConiumCraftingTableCraftingEventMetadata, ParameterSelective2<Boolean, Player, ItemStack>, ConiumCraftingTableCraftedEventType>(
     ConiumEventType.CRAFTING_TABLE_CRAFTING,
     { ConiumEventType.CRAFTING_TABLE_CRAFTED }
 ) {
@@ -23,7 +24,7 @@ class ConiumCraftingTableCraftingEvent : ConiumEvent<Item, ConiumCraftingTableCr
             ConiumEventArgTypes.ITEM,
             ConiumEventArgTypes.ITEM_STACK,
             ConiumEventArgTypes.PLAYER
-        ) { identity: Item, stack: ItemStack, player: PlayerEntity ->
+        ) { identity: Item, stack: ItemStack, player: Player ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(player, stack)
             }

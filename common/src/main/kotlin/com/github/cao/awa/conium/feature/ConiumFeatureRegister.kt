@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.feature
 
-import net.minecraft.util.Identifier
+import net.minecraft.resources.Identifier
 
 abstract class ConiumFeatureRegister {
     companion object {

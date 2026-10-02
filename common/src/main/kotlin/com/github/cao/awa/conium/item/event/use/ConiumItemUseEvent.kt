@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.item.event.use
+﻿package com.github.cao.awa.conium.item.event.use
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
@@ -13,13 +14,13 @@ import com.github.cao.awa.conium.item.event.use.type.ConiumItemUseEventType
 import com.github.cao.awa.conium.item.event.used.type.ConiumItemUsedEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective4
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.util.Hand
-import net.minecraft.world.World
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.level.Level
 
-class ConiumItemUseEvent : ConiumEvent<Item, ConiumItemUseEventMetadata, ParameterSelective4<Boolean, World, PlayerEntity, Hand, ItemStack>, ConiumItemUsedEventType>(
+class ConiumItemUseEvent : ConiumEvent<Item, ConiumItemUseEventMetadata, ParameterSelective4<Boolean, World, Player, InteractionHand, ItemStack>, ConiumItemUsedEventType>(
     ConiumEventType.ITEM_USE,
     { ConiumEventType.ITEM_USED }
 ) {
@@ -30,7 +31,7 @@ class ConiumItemUseEvent : ConiumEvent<Item, ConiumItemUseEventMetadata, Paramet
             ConiumEventArgTypes.PLAYER,
             ConiumEventArgTypes.HAND,
             ConiumEventArgTypes.ITEM_STACK
-        ) { identity: Item, world: World, user: PlayerEntity, hand: Hand, itemStack: ItemStack ->
+        ) { identity: Item, world: World, user: Player, hand: InteractionHand, itemStack: ItemStack ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, user, hand, itemStack)
             }

@@ -3,10 +3,10 @@ package com.github.cao.awa.conium.feature
 import com.github.cao.awa.conium.Conium
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.util.Identifier
-import net.minecraft.world.gen.GenerationStep
+import net.minecraft.core.registries.Registries
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.Identifier
+import net.minecraft.world.level.levelgen.GenerationStep
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
@@ -29,8 +29,8 @@ class ConiumFabricFeatureRegister : ConiumFeatureRegister() {
         }
 
         if (!this.modifiers.contains(id)) {
-            val registryKey = RegistryKey.of(RegistryKeys.PLACED_FEATURE, id)
-            BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, registryKey)
+            val registryKey = ResourceKey.create(Registries.PLACED_FEATURE, id)
+            BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES, registryKey)
 
             this.modifiers.add(id)
         }

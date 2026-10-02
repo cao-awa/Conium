@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.entity.event.extinguish
+﻿package com.github.cao.awa.conium.entity.event.extinguish
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.entity.event.extinguish.metadata.ConiumEntityExtinguishFireEventMetadata
 import com.github.cao.awa.conium.entity.event.extinguished.type.ConiumEntityExtinguishedFireEventType
@@ -10,8 +11,8 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective2
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
 
 class ConiumEntityExtinguishFireEvent : ConiumEvent<EntityType<*>, ConiumEntityExtinguishFireEventMetadata, ParameterSelective2<Boolean, Entity, Int>, ConiumEntityExtinguishedFireEventType>(
     ConiumEventType.ENTITY_EXTINGUISH_FIRE,

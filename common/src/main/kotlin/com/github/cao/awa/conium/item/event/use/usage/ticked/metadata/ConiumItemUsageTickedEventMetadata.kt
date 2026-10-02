@@ -1,13 +1,14 @@
-package com.github.cao.awa.conium.item.event.use.usage.ticked.metadata
+﻿package com.github.cao.awa.conium.item.event.use.usage.ticked.metadata
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.script.index.common.REMAINING_USE_TICKS
-import net.minecraft.entity.LivingEntity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.world.World
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
 
 class ConiumItemUsageTickedEventMetadata(val context: ConiumEventContext<Item>) : ConiumEventMetadata<Item, ConiumItemUsageTickedEventMetadata>() {
     val world: World = this.context[ConiumEventArgTypes.WORLD]

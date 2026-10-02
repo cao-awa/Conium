@@ -1,13 +1,14 @@
 package com.github.cao.awa.conium.intermediary.fluid
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
-import net.minecraft.fluid.Fluid
+import net.minecraft.world.level.material.Fluid
 import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary
-import net.minecraft.block.BlockState
-import net.minecraft.fluid.FluidState
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.material.FluidState
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.Level
 
 object ConiumFluidEventMixinIntermediary {
     /**
@@ -33,14 +34,14 @@ object ConiumFluidEventMixinIntermediary {
         return ConiumEventMixinIntermediary.fireInheritedCascadedEvent(
             ConiumEventType.FLUID_SCHEDULE_TICK,
             ConiumEventType.FLUID_SCHEDULE_TICKED,
-            state.fluid,
+            state.type,
             { blockScheduledTickContext ->
                 // Fill the context args.
                 blockScheduledTickContext[ConiumEventArgTypes.WORLD] = world
                 blockScheduledTickContext[ConiumEventArgTypes.SCHEDULED_TICK_VIEW] = world
                 blockScheduledTickContext[ConiumEventArgTypes.BLOCK_POS] = pos
                 blockScheduledTickContext[ConiumEventArgTypes.BLOCK_STATE] = blockState
-                blockScheduledTickContext[ConiumEventArgTypes.FLUID] = state.fluid
+                blockScheduledTickContext[ConiumEventArgTypes.FLUID] = state.type
                 blockScheduledTickContext[ConiumEventArgTypes.FLUID_STATE] = state
             }
         ) { blockScheduledTickContext ->

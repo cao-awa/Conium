@@ -7,7 +7,7 @@ import com.github.cao.awa.conium.network.registry.ConiumPacketRegister
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
-import net.fabricmc.fabric.impl.networking.PayloadTypeRegistryImpl
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import org.apache.logging.log4j.LogManager
 
 class ConiumicClient : ClientModInitializer {
@@ -17,21 +17,21 @@ class ConiumicClient : ClientModInitializer {
 
     // TODO remove fabric APIs.
     override fun onInitializeClient() {
-        ConiumPacketRegister.implementConfigurationToClient { id, codec ->
-            PayloadTypeRegistryImpl.CONFIGURATION_S2C.register(id, codec)
+        ConiumPacketRegister.implementConfigurationToClient<ConiumClientConfigurationPacket> { id, codec ->
+            PayloadTypeRegistry.clientboundConfiguration().register(id, codec)
 
             ClientConfigurationNetworking.registerGlobalReceiver(id) { packet: ConiumClientConfigurationPacket, context: ClientConfigurationNetworking.Context ->
                 val sender = context.responseSender()
-                packet.arising(context.client(), null, PacketSender(sender::sendPacket), context.networkHandler())
+                packet.arising(context.client(), null, PacketSender(sender::sendPacket), context.packetListener())
             }
         }
 
-        ConiumPacketRegister.implementPlayToClient { id, codec ->
-            PayloadTypeRegistryImpl.PLAY_C2S.register(id, codec)
+        ConiumPacketRegister.implementPlayToClient<ConiumClientPlayPacket> { id, codec ->
+            PayloadTypeRegistry.clientboundPlay().register(id, codec)
 
             ClientPlayNetworking.registerGlobalReceiver(id) { packet: ConiumClientPlayPacket, context: ClientPlayNetworking.Context ->
                 val sender = context.responseSender()
-                packet.arising(context.client(), context.player(), PacketSender(sender::sendPacket), context.player().networkHandler)
+                packet.arising(context.client(), context.player(), PacketSender(sender::sendPacket), context.player().connection)
             }
         }
 

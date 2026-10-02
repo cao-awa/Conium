@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.blockentity.event.shulker.opened
+﻿package com.github.cao.awa.conium.blockentity.event.shulker.opened
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.blockentity.event.shulker.opened.metadata.ConiumShulkerBoxOpenedEventMetadata
 import com.github.cao.awa.conium.event.ConiumEvent
@@ -10,13 +11,13 @@ import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.inactive.event.type.ConiumInactiveEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective5
-import net.minecraft.block.AbstractBlock
-import net.minecraft.block.Block
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.ShulkerBoxBlockEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.Level
 
 /**
  *
@@ -27,7 +28,7 @@ import net.minecraft.world.World
  *
  * @since 1.0.0
  */
-class ConiumShulkerBoxOpenedEvent : ConiumEvent<Block, ConiumShulkerBoxOpenedEventMetadata, ParameterSelective5<Boolean, World, PlayerEntity, ShulkerBoxBlockEntity, AbstractBlock.AbstractBlockState, BlockPos>, ConiumInactiveEventType>(
+class ConiumShulkerBoxOpenedEvent : ConiumEvent<Block, ConiumShulkerBoxOpenedEventMetadata, ParameterSelective5<Boolean, World, Player, ShulkerBoxBlockEntity, BlockBehaviour.BlockStateBase, BlockPos>, ConiumInactiveEventType>(
     ConiumEventType.SHULKER_BOX_OPENED,
     { ConiumEventType.INACTIVE }
 ) {
@@ -39,7 +40,7 @@ class ConiumShulkerBoxOpenedEvent : ConiumEvent<Block, ConiumShulkerBoxOpenedEve
             ConiumEventArgTypes.BLOCK_ENTITY,
             ConiumEventArgTypes.BLOCK_STATE,
             ConiumEventArgTypes.BLOCK_POS
-        ) { identity: Block, world: World, pos: PlayerEntity, blockEntity: BlockEntity, blockState: AbstractBlock.AbstractBlockState, blockPos: BlockPos ->
+        ) { identity: Block, world: World, pos: Player, blockEntity: BlockEntity, blockState: BlockBehaviour.BlockStateBase, blockPos: BlockPos ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, pos, blockEntity as ShulkerBoxBlockEntity, blockState, blockPos)
             }

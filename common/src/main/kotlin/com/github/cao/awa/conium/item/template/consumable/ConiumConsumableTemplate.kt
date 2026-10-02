@@ -1,6 +1,7 @@
 package com.github.cao.awa.conium.item.template.consumable
 
 import com.github.cao.awa.conium.exception.Exceptions.illegalArgument
+import com.github.cao.awa.conium.exception.Exceptions.notSupported
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.kotlin.extent.json.ifString
@@ -9,17 +10,18 @@ import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.CONSUM
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.mojang.serialization.JsonOps
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.component.type.ConsumableComponent
-import net.minecraft.component.type.ConsumableComponents.*
-import net.minecraft.component.type.UseRemainderComponent
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.item.consume.ApplyEffectsConsumeEffect
-import net.minecraft.registry.Registries
-import net.minecraft.util.Identifier
+import net.minecraft.core.component.DataComponents
+import net.minecraft.world.item.component.Consumable
+import net.minecraft.world.item.component.Consumables.*
+import net.minecraft.world.item.component.UseRemainder
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.ItemStackTemplate
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.resources.Identifier
 
-class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) : ConiumItemTemplate(name = CONSUMABLE) {
+class ConiumConsumableTemplate(presetConsumableComponent: Consumable?) : ConiumItemTemplate(name = CONSUMABLE) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement): ConiumConsumableTemplate = element.objectOrString(
@@ -31,12 +33,12 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
             // Use template create.
             ConiumConsumableTemplate(
                 when (it) {
-                    "food" -> FOOD
-                    "drink" -> DRINK
+                    "food" -> DEFAULT_FOOD
+                    "drink" -> DEFAULT_DRINK
                     "honey_bottle" -> HONEY_BOTTLE
                     "ominous_bottle" -> OMINOUS_BOTTLE
                     "dried_kelp" -> DRIED_KELP
-                    "raw_chicken" -> RAW_CHICKEN
+                    "raw_chicken", "chicken" -> CHICKEN
                     "enchanted_golden_apple" -> ENCHANTED_GOLDEN_APPLE
                     "golden_apple" -> GOLDEN_APPLE
                     "poisonous_potato" -> POISONOUS_POTATO
@@ -65,9 +67,7 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
                     convert.ifString(
                         { identifier ->
                             ItemStack(
-                                Registries.ITEM.get(Identifier.of(identifier)),
-                                1
-                            )
+                                BuiltInRegistries.ITEM.getValue(Identifier.parse(identifier)), 1)
                         },
                         // Cannot be other type of value because is no meaning.
                         notSupported()
@@ -82,8 +82,8 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
         private fun createFoodComponent(
             template: ConiumConsumableTemplate,
             jsonObject: JsonObject
-        ): ConsumableComponent {
-            return ConsumableComponent.builder().also { builder ->
+        ): Consumable {
+            return Consumable.builder().also { builder ->
                 createConvert(jsonObject, "convert_to") { remainder ->
                     template.useRemainder = remainder
                 }
@@ -92,10 +92,9 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
                     effects.ifJsonObject(
                         {
                             val ops: JsonOps = JsonOps.INSTANCE
-                            ApplyEffectsConsumeEffect.CODEC.decoder()
-                                .decode(ops, it).orThrow.first.let { theEffects ->
-                                    builder.consumeEffect(theEffects)
-                                }
+                            ApplyStatusEffectsConsumeEffect.CODEC.codec().decode(ops, it).orThrow.first.let { theEffects ->
+                                builder.onConsume(theEffects)
+                            }
                         },
                         notSupported()
                     )
@@ -104,7 +103,7 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
         }
     }
 
-    private lateinit var consumableComponent: ConsumableComponent
+    private lateinit var consumableComponent: Consumable
     private var useRemainder: ItemStack = ItemStack.EMPTY
 
     init {
@@ -117,11 +116,11 @@ class ConiumConsumableTemplate(presetConsumableComponent: ConsumableComponent?) 
         this.consumableComponent = createFoodComponent(this, jsonObject)
     }
 
-    override fun settings(settings: Item.Settings) {
-        settings.component(DataComponentTypes.CONSUMABLE, this.consumableComponent)
+    override fun settings(settings: Item.Properties) {
+        settings.component(DataComponents.CONSUMABLE, this.consumableComponent)
 
-        this.useRemainder.let {
-            settings.component(DataComponentTypes.USE_REMAINDER, UseRemainderComponent(it))
+        if (!this.useRemainder.isEmpty) {
+            settings.component(DataComponents.USE_REMAINDER, UseRemainder(ItemStackTemplate.fromNonEmptyStack(this.useRemainder)))
         }
     }
 }

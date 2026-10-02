@@ -10,31 +10,31 @@ import com.github.cao.awa.conium.parameter.dynamic.builder.DynamicArgsBuilder.Co
 import com.github.cao.awa.conium.parameter.dynamic.type.builder.DynamicArgTypeBuilder.arg
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.network.ClientPlayerEntity
-import net.minecraft.client.world.ClientWorld
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.world.World
+import net.minecraft.client.player.LocalPlayer
+import net.minecraft.client.multiplayer.ClientLevel
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.level.Level
 
 @Environment(EnvType.CLIENT)
 object ConiumClientEventArgTypes {
     @JvmField
-    val CLIENT_WORLD: DynamicArgType<ClientWorld>
+    val CLIENT_WORLD: DynamicArgType<ClientLevel>
 
     @JvmField
-    val CLIENT_PLAYER: DynamicArgType<ClientPlayerEntity>
+    val CLIENT_PLAYER: DynamicArgType<LocalPlayer>
 
     init {
         CLIENT_WORLD = arg(
             "client_world",
-            transform(::WORLD) { world: World -> world as? ClientWorld },
-            transform(::ITEM_PLACEMENT_CONTEXT) { placement: ItemPlacementContext -> placement.world as? ClientWorld }
+            transform(::WORLD) { world: Level -> world as? ClientLevel },
+            transform(::ITEM_PLACEMENT_CONTEXT) { placement: BlockPlaceContext -> placement.level as? ClientLevel }
         )
 
         CLIENT_PLAYER = arg(
             "client_player",
-            transform(::PLAYER) { player: PlayerEntity -> player as? ClientPlayerEntity },
-            transform(::ITEM_PLACEMENT_CONTEXT) { placement: ItemPlacementContext -> placement.player as? ClientPlayerEntity }
+            transform(::PLAYER) { player: Player -> player as? LocalPlayer },
+            transform(::ITEM_PLACEMENT_CONTEXT) { placement: BlockPlaceContext -> placement.player as? LocalPlayer }
         )
     }
 
@@ -43,7 +43,7 @@ object ConiumClientEventArgTypes {
             throw IllegalStateException("Client event types cannot load on not client environment")
         }
 
-        PLAYER.appendArgs(transform(ConiumClientEventArgTypes::CLIENT_PLAYER, ClientPlayerEntity::asIt))
-        WORLD.appendArgs(transform( ConiumClientEventArgTypes::CLIENT_WORLD, ClientWorld::asIt))
+        PLAYER.appendArgs(transform(ConiumClientEventArgTypes::CLIENT_PLAYER, LocalPlayer::asIt))
+        WORLD.appendArgs(transform( ConiumClientEventArgTypes::CLIENT_WORLD, ClientLevel::asIt))
     }
 }

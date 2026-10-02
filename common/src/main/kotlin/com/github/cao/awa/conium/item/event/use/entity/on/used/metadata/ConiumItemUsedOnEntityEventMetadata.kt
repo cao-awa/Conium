@@ -1,19 +1,20 @@
-package com.github.cao.awa.conium.item.event.use.entity.on.used.metadata
+﻿package com.github.cao.awa.conium.item.event.use.entity.on.used.metadata
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.world.World
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.level.Level
 
 class ConiumItemUsedOnEntityEventMetadata(val context: ConiumEventContext<Item>) : ConiumEventMetadata<Item, ConiumItemUsedOnEntityEventMetadata>() {
     val world: World = this.context[ConiumEventArgTypes.WORLD]
-    val user: PlayerEntity = this.context[ConiumEventArgTypes.PLAYER]
-    val hand: Hand = this.context[ConiumEventArgTypes.HAND]
+    val user: Player = this.context[ConiumEventArgTypes.PLAYER]
+    val hand: InteractionHand = this.context[ConiumEventArgTypes.HAND]
     val itemStack: ItemStack = this.context[ConiumEventArgTypes.ITEM_STACK]
-    val actionResult: ActionResult = this.context[ConiumEventArgTypes.ACTION_RESULT]
+    val actionResult: InteractionResult = this.context[ConiumEventArgTypes.ACTION_RESULT]
 }

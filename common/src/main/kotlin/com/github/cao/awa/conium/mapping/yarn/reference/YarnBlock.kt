@@ -4,21 +4,15 @@
 package com.github.cao.awa.conium.mapping.yarn.reference
 
 import com.github.cao.awa.conium.annotation.mapping.Remap
-import com.github.cao.awa.conium.mapping.yarn.*
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.network.chat.Component
 
-/**
- * See the mapping [Block](https://mappings.dev/1.21.4/net/minecraft/world/level/block/Block.html).
- *
- * @author cao_awa
- *
- * @since 1.0.0
- */
-
-val Block.name: Text by Block::name
-val Block.blastResistance: Float by Block::blastResistance
-val Block.defaultState: BlockState by Block::defaultState
-val Block.jumpVelocityMultiplier: Float by Block::jumpVelocityMultiplier
-val Block.slipperiness: Float by Block::slipperiness
-val Block.stateManager: StateManager<Block, BlockState> by Block::stateManager
-val Block.velocityMultiplier: Float by Block::velocityMultiplier
-
+val Block.name: Component get() = this.name
+val Block.blastResistance: Float get() = this.explosionResistance
+val Block.defaultState: BlockState get() = this.defaultBlockState()
+val Block.jumpVelocityMultiplier: Float get() = this.jumpFactor
+val Block.slipperiness: Float get() = this.friction
+val Block.stateManager: StateDefinition<Block, BlockState> get() = this.stateDefinition
+val Block.velocityMultiplier: Float get() = this.speedFactor

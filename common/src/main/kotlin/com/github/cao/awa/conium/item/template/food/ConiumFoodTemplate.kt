@@ -5,11 +5,11 @@ import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.FOOD
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.component.type.FoodComponent
-import net.minecraft.component.type.FoodComponents.*
-import net.minecraft.item.Item
+import net.minecraft.world.food.FoodProperties
+import net.minecraft.world.food.Foods.*
+import net.minecraft.world.item.Item
 
-class ConiumFoodTemplate(private val foodComponent: FoodComponent) : ConiumItemTemplate(name = FOOD) {
+class ConiumFoodTemplate(private val foodComponent: FoodProperties) : ConiumItemTemplate(name = FOOD) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement): ConiumFoodTemplate = element.objectOrString(
@@ -58,7 +58,7 @@ class ConiumFoodTemplate(private val foodComponent: FoodComponent) : ConiumItemT
                     "spider_eye" -> SPIDER_EYE
                     "suspicious_stew" -> SUSPICIOUS_STEW
                     "sweet_berries" -> SWEET_BERRIES
-                    "flow_berries" -> GLOW_BERRIES
+                    "flow_berries", "glow_berries" -> GLOW_BERRIES
                     "tropical_fish" -> TROPICAL_FISH
                     else -> {
                         throw IllegalArgumentException("No preset food that named by '$it'")
@@ -67,8 +67,8 @@ class ConiumFoodTemplate(private val foodComponent: FoodComponent) : ConiumItemT
             )
         }!!
 
-        private fun createFoodComponent(jsonObject: JsonObject): FoodComponent {
-            FoodComponent.Builder().let {
+        private fun createFoodComponent(jsonObject: JsonObject): FoodProperties {
+            FoodProperties.Builder().let {
                 if (jsonObject.has("nutrition")) {
                     it.nutrition(jsonObject["nutrition"].asInt)
                 }
@@ -81,17 +81,12 @@ class ConiumFoodTemplate(private val foodComponent: FoodComponent) : ConiumItemT
                     it.alwaysEdible()
                 }
 
-                // Removed in 1.21.3, may supports by conium in feature
-//                if (jsonObject.has("snack") && jsonObject["snack"] is JsonObject) {
-//                    it.snack()
-//                }
-
                 return it.build()
             }
         }
     }
 
-    override fun settings(settings: Item.Settings) {
+    override fun settings(settings: Item.Properties) {
         // Set food component
         settings.food(this.foodComponent)
     }

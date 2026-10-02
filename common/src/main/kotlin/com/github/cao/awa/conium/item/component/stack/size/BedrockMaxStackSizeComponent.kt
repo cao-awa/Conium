@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrInt
 import com.github.cao.awa.conium.template.item.bedrock.BedrockItemComponents.MAX_STACK_SIZE
 import com.google.gson.JsonElement
-import net.minecraft.item.Item
+import net.minecraft.world.item.Item
 
 class BedrockMaxStackSizeComponent(private val maxStackSize: Int) : ConiumItemTemplate(name = MAX_STACK_SIZE) {
     companion object {
@@ -24,8 +24,8 @@ class BedrockMaxStackSizeComponent(private val maxStackSize: Int) : ConiumItemTe
         }!!
     }
 
-    override fun settings(settings: Item.Settings) {
+    override fun settings(settings: Item.Properties) {
         // Set max stack size.
-        settings.maxCount(this.maxStackSize)
+        settings.stacksTo(this.maxStackSize)
     }
 }

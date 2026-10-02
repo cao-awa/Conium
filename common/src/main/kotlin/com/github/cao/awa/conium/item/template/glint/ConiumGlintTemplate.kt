@@ -5,14 +5,13 @@ import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
-import com.github.cao.awa.conium.kotlin.extent.item.mergedComponents
 import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.GLINT
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
+import net.minecraft.core.component.DataComponents
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
 
 class ConiumGlintTemplate(private val glint: Boolean, private val scriptName: String? = null) : ConiumItemTemplate(name = GLINT) {
     companion object {
@@ -24,9 +23,9 @@ class ConiumGlintTemplate(private val glint: Boolean, private val scriptName: St
         }!!
     }
 
-    override fun settings(settings: Item.Settings) {
+    override fun settings(settings: Item.Properties) {
         // Set glint override.
-        settings.component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, this.glint)
+        settings.component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, this.glint)
     }
 
     override fun complete(target: ConiumItem) {
@@ -45,10 +44,7 @@ class ConiumGlintTemplate(private val glint: Boolean, private val scriptName: St
                     ) { identity: Any, stack: ItemStack ->
                         // The item must is current registering item, do not change other items.
                         if (stack.item == target) {
-                            // Apply glint override when component map is MergedComponentMap.
-                            stack.mergedComponents?.apply {
-                                this[DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE] = acquirer(identity) as Boolean
-                            }
+                            stack.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, acquirer(identity) as Boolean)
                         }
                     }
                 )

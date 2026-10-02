@@ -1,27 +1,27 @@
 package com.github.cao.awa.conium.raycast
 
-import net.minecraft.entity.Entity
-import net.minecraft.util.hit.HitResult
-import net.minecraft.util.math.Vec3d
-import net.minecraft.world.RaycastContext
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.phys.HitResult
+import net.minecraft.world.phys.Vec3
+import net.minecraft.world.level.ClipContext
 
 class ConiumRaycast {
     companion object {
         fun raycast(entity: Entity, maxDistance: Double, tickDelta: Float, includeFluids: Boolean, includePassableBlocks: Boolean): HitResult {
-            val start: Vec3d = entity.getCameraPosVec(tickDelta)
-            val delta: Vec3d = entity.getRotationVec(tickDelta)
+            val start: Vec3 = entity.getEyePosition(tickDelta)
+            val delta: Vec3 = entity.getViewVector(tickDelta)
             val end = start.add(delta.x * maxDistance, delta.y * maxDistance, delta.z * maxDistance)
 
-            val blockShapeType: RaycastContext.ShapeType = if (includePassableBlocks) {
-                RaycastContext.ShapeType.COLLIDER
+            val blockShapeType: ClipContext.Block = if (includePassableBlocks) {
+                ClipContext.Block.COLLIDER
             } else {
-                RaycastContext.ShapeType.OUTLINE
+                ClipContext.Block.OUTLINE
             }
 
-            val fluidHandling: RaycastContext.FluidHandling = if (includeFluids) RaycastContext.FluidHandling.ANY else RaycastContext.FluidHandling.NONE
+            val fluidHandling: ClipContext.Fluid = if (includeFluids) ClipContext.Fluid.ANY else ClipContext.Fluid.NONE
 
-            return entity.entityWorld.raycast(
-                RaycastContext(
+            return entity.level().clip(
+                ClipContext(
                     start,
                     end,
                     blockShapeType,

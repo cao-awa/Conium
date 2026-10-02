@@ -4,10 +4,10 @@ import com.github.cao.awa.conium.event.type.ConiumEventType;
 import com.github.cao.awa.conium.intermediary.entity.ConiumEntityEventMixinIntermediary;
 import com.github.cao.awa.conium.mixin.entity.EntityMixin;
 import com.github.cao.awa.translator.structuring.cast.Caster;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.core.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,14 +19,14 @@ import java.util.Optional;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends EntityMixin {
-    @Shadow public abstract Optional<BlockPos> getSleepingPosition();
+    @Shadow public abstract Optional<BlockPos> getSleepingPos();
 
     @Inject(
-            method = "damage",
+            method = "hurtServer",
             at = @At("HEAD"),
             cancellable = true
     )
-    public void damage(ServerWorld world, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {
+    public void damage(ServerLevel world, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {
         // Trigger entity damaged event.
         if (ConiumEntityEventMixinIntermediary.fireEntityDamageEvent(
                 ConiumEventType.ENTITY_DAMAGE,
@@ -39,10 +39,10 @@ public abstract class LivingEntityMixin extends EntityMixin {
     }
 
     @Inject(
-            method = "applyDamage",
+            method = "actuallyHurt",
             at = @At("RETURN")
     )
-    public void damaged(ServerWorld world, DamageSource damageSource, float amount, CallbackInfo ci) {
+    public void damaged(ServerLevel world, DamageSource damageSource, float amount, CallbackInfo ci) {
         // Trigger entity damaged event.
         ConiumEntityEventMixinIntermediary.fireEntityDamagedEvent(
                 ConiumEventType.ENTITY_DAMAGED,
@@ -53,7 +53,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
     }
 
     @Inject(
-            method = "onDeath",
+            method = "die",
             at = @At("HEAD"),
             cancellable = true
     )
@@ -70,7 +70,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
     }
 
     @Inject(
-            method = "onDeath",
+            method = "die",
             at = @At("RETURN")
     )
     public void dead(DamageSource damageSource, CallbackInfo ci) {
@@ -83,11 +83,11 @@ public abstract class LivingEntityMixin extends EntityMixin {
     }
 
     @Inject(
-            method = "sleep",
+            method = "startSleeping",
             at = @At("HEAD"),
             cancellable = true
     )
-    public void trySleep(BlockPos pos, CallbackInfo ci) {
+    public void trySleep(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         // Trigger entity wake-up event.
         if (ConiumEntityEventMixinIntermediary.fireEntityTrySleepEvent(
                 ConiumEventType.ENTITY_TRY_SLEEP,
@@ -95,25 +95,27 @@ public abstract class LivingEntityMixin extends EntityMixin {
                 pos
         )) {
             // Cancel this event when presaging was rejected the event.
-            ci.cancel();
+            cir.setReturnValue(false);
         }
     }
 
     @Inject(
-            method = "sleep",
+            method = "startSleeping",
             at = @At("RETURN")
     )
-    public void sleep(BlockPos pos, CallbackInfo ci) {
-        // Trigger entity wake-up event.
-        ConiumEntityEventMixinIntermediary.fireEntitySleepEvent(
-                ConiumEventType.ENTITY_SLEEP,
-                Caster.cast(this),
-                pos
-        );
+    public void sleep(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+        if (Boolean.TRUE.equals(cir.getReturnValue())) {
+            // Trigger entity wake-up event.
+            ConiumEntityEventMixinIntermediary.fireEntitySleepEvent(
+                    ConiumEventType.ENTITY_SLEEP,
+                    Caster.cast(this),
+                    pos
+            );
+        }
     }
 
     @Inject(
-            method = "wakeUp",
+            method = "stopSleeping",
             at = @At("HEAD"),
             cancellable = true
     )
@@ -122,7 +124,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
         if (ConiumEntityEventMixinIntermediary.fireEntityWakeupEvent(
                 ConiumEventType.ENTITY_WAKE_UP,
                 Caster.cast(this),
-                getSleepingPosition().orElse(null)
+                getSleepingPos().orElse(null)
         )) {
             // Cancel this event when presaging was rejected the event.
             ci.cancel();
@@ -130,26 +132,26 @@ public abstract class LivingEntityMixin extends EntityMixin {
     }
 
     @Inject(
-            method = "wakeUp",
-            at = @At("HEAD")
+            method = "stopSleeping",
+            at = @At("RETURN")
     )
     public void wakedUp(CallbackInfo ci) {
         // Trigger entity waked up event.
         ConiumEntityEventMixinIntermediary.fireEntityWakedUpEvent(
                 ConiumEventType.ENTITY_WAKED_UP,
                 Caster.cast(this),
-                getSleepingPosition().orElse(null)
+                getSleepingPos().orElse(null)
         );
     }
 
     @Inject(
             method = "setSprinting",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/attribute/EntityAttributeInstance;addTemporaryModifier(Lnet/minecraft/entity/attribute/EntityAttributeModifier;)V"),
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeInstance;addTransientModifier(Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;)V"),
             cancellable = true
     )
     public void onSetSprint(boolean sprinting, CallbackInfo ci) {
-        if (!canStartSprint()) {
-            setCanStartSprint(true);
+        if (!conium$canStartSprint()) {
+            conium$setCanStartSprint(true);
             ci.cancel();
         }
     }

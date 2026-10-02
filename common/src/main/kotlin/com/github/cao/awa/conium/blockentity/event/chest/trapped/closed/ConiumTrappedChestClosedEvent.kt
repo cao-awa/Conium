@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.blockentity.event.chest.trapped.closed
+﻿package com.github.cao.awa.conium.blockentity.event.chest.trapped.closed
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.blockentity.event.chest.trapped.closed.metadata.ConiumTrappedChestClosedEventMetadata
 import com.github.cao.awa.conium.event.ConiumEvent
@@ -11,16 +12,16 @@ import com.github.cao.awa.conium.inactive.event.type.ConiumInactiveEventType
 import com.github.cao.awa.conium.kotlin.extent.innate.isIt
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective6
-import net.minecraft.block.AbstractBlock
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.TrappedChestBlock
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.TrappedChestBlockEntity
-import net.minecraft.block.entity.ViewerCountManager
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.TrappedChestBlock
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.TrappedChestBlockEntity
+import net.minecraft.world.level.block.entity.ContainerOpenersCounter
+import net.minecraft.world.entity.player.Player
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.Level
 
 /**
  *
@@ -29,7 +30,7 @@ import net.minecraft.world.World
  *
  * @since 1.0.0
  */
-class ConiumTrappedChestClosedEvent : ConiumEvent<Block, ConiumTrappedChestClosedEventMetadata, ParameterSelective6<Boolean, World, PlayerEntity, TrappedChestBlockEntity, AbstractBlock.AbstractBlockState, BlockPos, ViewerCountManager>, ConiumInactiveEventType>(
+class ConiumTrappedChestClosedEvent : ConiumEvent<Block, ConiumTrappedChestClosedEventMetadata, ParameterSelective6<Boolean, World, Player, TrappedChestBlockEntity, BlockBehaviour.BlockStateBase, BlockPos, ContainerOpenersCounter>, ConiumInactiveEventType>(
     ConiumEventType.TRAPPED_CHEST_CLOSED,
     { ConiumEventType.INACTIVE }
 ) {
@@ -44,11 +45,11 @@ class ConiumTrappedChestClosedEvent : ConiumEvent<Block, ConiumTrappedChestClose
             ConiumEventArgTypes.VIEWER_COUNT_MANAGER
         ) { identity: Block,
             world: World,
-            player: PlayerEntity,
+            player: Player,
             blockEntity: BlockEntity,
-            blockState: AbstractBlock.AbstractBlockState,
+            blockState: BlockBehaviour.BlockStateBase,
             blockPos: BlockPos,
-            viewerManager: ViewerCountManager ->
+            viewerManager: ContainerOpenersCounter ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, player, blockEntity as TrappedChestBlockEntity, blockState, blockPos, viewerManager)
             }
@@ -61,7 +62,7 @@ class ConiumTrappedChestClosedEvent : ConiumEvent<Block, ConiumTrappedChestClose
 
     override fun attach() {
         // Request using block event, only handle shulker box here.
-        ConiumEventContextBuilder.preRequest(
+        ConiumEventContextBuilder.presaging(
             ConiumEventType.Companion.CHEST_CLOSED,
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.PLAYER,
@@ -71,11 +72,11 @@ class ConiumTrappedChestClosedEvent : ConiumEvent<Block, ConiumTrappedChestClose
             ConiumEventArgTypes.VIEWER_COUNT_MANAGER
         ) { block: Block,
             world: World,
-            player: PlayerEntity,
+            player: Player,
             blockEntity: BlockEntity,
             blockState: BlockState,
             blockPos: BlockPos,
-            viewerManager: ViewerCountManager ->
+            viewerManager: ContainerOpenersCounter ->
             val trappedContext: ConiumArisingEventContext<*, *> = request(ConiumEventType.Companion.TRAPPED_CHEST_CLOSED)
 
             trappedContext[ConiumEventArgTypes.WORLD] = world
@@ -88,7 +89,7 @@ class ConiumTrappedChestClosedEvent : ConiumEvent<Block, ConiumTrappedChestClose
             if (trappedContext.presaging(block)) {
                 trappedContext.arising(block)
 
-                return@preRequest
+                return@presaging
             }
         }.targetTo(TrappedChestBlock::isIt)
     }

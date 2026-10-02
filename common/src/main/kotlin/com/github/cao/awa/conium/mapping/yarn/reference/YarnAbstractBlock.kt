@@ -4,20 +4,14 @@
 package com.github.cao.awa.conium.mapping.yarn.reference
 
 import com.github.cao.awa.conium.annotation.mapping.Remap
-import com.github.cao.awa.conium.mapping.yarn.*
-import net.minecraft.block.AbstractBlock.Settings
-import java.util.*
+import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.material.MapColor
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.storage.loot.LootTable
+import java.util.Optional
 
-/**
- * See the mapping [AbstractBlock](https://mappings.dev/1.21.4/net/minecraft/world/level/block/state/BlockBehaviour.html).
- *
- * @author cao_awa
- *
- * @since 1.0.0
- */
-
-val AbstractBlock.translationKey: String by AbstractBlock::translationKey
-val AbstractBlock.defaultMapColor: MapColor by AbstractBlock::defaultMapColor
-val AbstractBlock.hardness: Float by AbstractBlock::hardness
-val AbstractBlock.lootTableKey: Optional<RegistryKey<LootTable>> by AbstractBlock::lootTableKey
-val AbstractBlock.settings: Settings by AbstractBlock::settings
+val BlockBehaviour.translationKey: String get() = this.descriptionId
+val BlockBehaviour.defaultMapColor: MapColor get() = this.defaultMapColor()
+val BlockBehaviour.hardness: Float get() = this.defaultDestroyTime()
+val BlockBehaviour.lootTableKey: Optional<ResourceKey<LootTable>> get() = this.lootTable
+val BlockBehaviour.settings: BlockBehaviour.Properties get() = this.properties()

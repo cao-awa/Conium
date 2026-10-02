@@ -11,24 +11,24 @@ import com.github.cao.awa.conium.network.event.server.connection.configured.meta
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective2
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerConfigurationNetworkHandler
+import net.minecraft.server.network.ServerConfigurationPacketListenerImpl
 
-class ConiumServerConfiguredConnectionEvent : ConiumEvent<ServerConfigurationNetworkHandler, ConiumServerConfiguredConnectionEventMetadata, ParameterSelective2<Boolean, ServerConfigurationNetworkHandler, MinecraftServer>, ConiumInactiveEventType>(
+class ConiumServerConfiguredConnectionEvent : ConiumEvent<ServerConfigurationPacketListenerImpl, ConiumServerConfiguredConnectionEventMetadata, ParameterSelective2<Boolean, ServerConfigurationPacketListenerImpl, MinecraftServer>, ConiumInactiveEventType>(
     ConiumEventType.SERVER_CONFIGURED_CONNECTION,
     { ConiumEventType.INACTIVE }
 ) {
-    override fun requirement(): ConiumArisingEventContext<ServerConfigurationNetworkHandler, out ParameterSelective> {
+    override fun requirement(): ConiumArisingEventContext<ServerConfigurationPacketListenerImpl, out ParameterSelective> {
         return ConiumEventContextBuilder.requires(
             ConiumEventArgTypes.SERVER_CONFIGURATION_NETWORK_HANDLER,
             ConiumEventArgTypes.SERVER
-        ).arise { networkHandler: ServerConfigurationNetworkHandler, server: MinecraftServer ->
+        ).arise { networkHandler: ServerConfigurationPacketListenerImpl, server: MinecraftServer ->
             noFailure(networkHandler) { parameterSelective ->
                 parameterSelective(networkHandler, server)
             }
         }
     }
 
-    override fun metadata(context: ConiumEventContext<ServerConfigurationNetworkHandler>): ConiumServerConfiguredConnectionEventMetadata {
+    override fun metadata(context: ConiumEventContext<ServerConfigurationPacketListenerImpl>): ConiumServerConfiguredConnectionEventMetadata {
         return ConiumServerConfiguredConnectionEventMetadata(context)
     }
 }

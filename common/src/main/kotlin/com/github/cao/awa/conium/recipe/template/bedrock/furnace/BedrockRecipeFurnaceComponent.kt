@@ -5,13 +5,12 @@ import com.github.cao.awa.conium.kotlin.extent.json.mapArray
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
 import com.github.cao.awa.conium.template.recipe.bedrock.BedrockRecipeComponents.RECIPE_FURNACE
 import com.google.gson.JsonElement
-import net.minecraft.item.ItemStack
-import net.minecraft.recipe.*
-import net.minecraft.recipe.book.CookingRecipeCategory
+import net.minecraft.world.item.ItemStackTemplate
+import net.minecraft.world.item.crafting.*
 
 class BedrockRecipeFurnaceComponent : ConiumRecipeTemplate<Recipe<*>>(RECIPE_FURNACE) {
     companion object {
-        private val furnaceTypes: Map<String, (String, CookingRecipeCategory, Ingredient, ItemStack, Float, Int) -> AbstractCookingRecipe> = mapOf(
+        private val furnaceTypes: Map<String, (Recipe.CommonInfo, AbstractCookingRecipe.CookingBookInfo, Ingredient, ItemStackTemplate, Float, Int) -> AbstractCookingRecipe> = mapOf(
             Pair("furnace", ::SmeltingRecipe),
             Pair("blast_furnace", ::BlastingRecipe),
             Pair("smoker", ::SmokingRecipe),
@@ -39,13 +38,13 @@ class BedrockRecipeFurnaceComponent : ConiumRecipeTemplate<Recipe<*>>(RECIPE_FUR
     override fun results(): List<Recipe<*>> {
         return ArrayList<Recipe<*>>().also {
             for (tag: String in this.tags) {
-                furnaceTypes[tag]?.let { recipe: (String, CookingRecipeCategory, Ingredient, ItemStack, Float, Int) -> AbstractCookingRecipe ->
+                furnaceTypes[tag]?.let { recipe ->
                     it.add(
                         recipe(
-                            this.group,
-                            CookingRecipeCategory.MISC,
+                            Recipe.CommonInfo(true),
+                            AbstractCookingRecipe.CookingBookInfo(CookingBookCategory.MISC, this.group),
                             this.input,
-                            this.result,
+                            ItemStackTemplate.fromNonEmptyStack(this.result),
                             0.0F,
                             200
                         )

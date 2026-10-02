@@ -8,7 +8,7 @@ import com.github.cao.awa.conium.event.type.ConiumClientEventArgTypes
 import com.github.cao.awa.conium.network.registry.ConiumPacketRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.render.entity.EntityRendererFactory
+import net.minecraft.client.renderer.entity.EntityRendererProvider
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
@@ -19,7 +19,7 @@ class ConiumClientInitializer {
 
         @Environment(EnvType.CLIENT)
         fun createEntityRenderer(metadata: ConiumEntityMetadata) {
-            ConiumEntityRenderers.renderers[metadata.type] = EntityRendererFactory { context ->
+            ConiumEntityRenderers.renderers[metadata.type] = EntityRendererProvider { context ->
                 ConiumEntityRenderer(context, metadata)
             }
         }

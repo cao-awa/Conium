@@ -1,17 +1,17 @@
 package com.github.cao.awa.conium.mixin.block;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(AbstractBlock.class)
+@Mixin(BlockBehaviour.class)
 public interface AbstractBlockAccessor {
-    @Invoker("onUse")
-    ActionResult invokeOnUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit);
+    @Invoker("useWithoutItem")
+    InteractionResult invokeOnUse(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit);
 }

@@ -6,8 +6,8 @@ import com.github.cao.awa.conium.block.setting.ConiumAbstractBlockSettings
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.setting.ConiumSettings
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntityType
 
 class ConiumBlockEntitySettings(val blockSettings: ConiumAbstractBlockSettings<*>) : ConiumSettings<ConiumBlockEntitySettings, ConiumBlockEntitySettings>() {
     companion object {

@@ -12,13 +12,13 @@ import com.github.cao.awa.conium.kotlin.extent.innate.int
 import com.github.cao.awa.conium.kotlin.extent.innate.orGetAuto
 import com.github.cao.awa.conium.kotlin.extent.world.executeCommand
 import com.github.cao.awa.conium.raycast.ConiumRaycast
-import net.minecraft.entity.Entity
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.hit.HitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
-import net.minecraft.world.World
+import net.minecraft.world.entity.Entity
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.phys.HitResult
+import net.minecraft.core.BlockPos
+import net.minecraft.world.phys.Vec3
+import net.minecraft.world.level.Level
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
@@ -31,19 +31,19 @@ open class BedrockEntity(private val delegate: Entity) {
 
     @ScriptReadonly
     @BedrockScriptApiFacade("Entity", "#dimension")
-    val dimension: BedrockDimension = this.delegate.entityWorld.bedrockDimension
+    val dimension: BedrockDimension = this.delegate.level().bedrockDimension
 
     @BedrockScriptApiFacade("Entity", "teleport")
     fun teleport(location: BedrockScriptAnonymousObjectMap, teleportOption: BedrockScriptAnonymousObjectMap) {
-        ifServerEntity { serverWorld: ServerWorld ->
-            this.delegate.teleport(
+        ifServerEntity { serverWorld: ServerLevel ->
+            this.delegate.teleportTo(
                 serverWorld,
                 location.getAs<Number>("x").toDouble(),
                 location.getAs<Number>("y").toDouble(),
                 location.getAs<Number>("z").toDouble(),
                 HashSet(),
-                this.delegate.yaw,
-                this.delegate.pitch,
+                this.delegate.yRot,
+                this.delegate.xRot,
                 false
             )
         }
@@ -51,8 +51,8 @@ open class BedrockEntity(private val delegate: Entity) {
 
     @BedrockScriptApiFacade("Entity", "runCommand")
     fun runCommand(command: String) {
-        ifServerEntity { serverWorld: ServerWorld ->
-            if (this.delegate is ServerPlayerEntity) {
+        ifServerEntity { serverWorld: ServerLevel ->
+            if (this.delegate is ServerPlayer) {
                 serverWorld.executeCommand(
                     this.delegate,
                     command
@@ -80,8 +80,8 @@ open class BedrockEntity(private val delegate: Entity) {
             includePassableBlocks
         ).let { hitResult: HitResult ->
             val hitType: HitResult.Type = hitResult.type
-            val pos: Vec3d = hitResult.pos
-            val world: World = this.delegate.entityWorld
+            val pos: Vec3 = hitResult.location
+            val world: Level = this.delegate.level()
 
             if (hitType == HitResult.Type.MISS || hitType == HitResult.Type.ENTITY) {
                 return null
@@ -95,14 +95,14 @@ open class BedrockEntity(private val delegate: Entity) {
 
             return BlockRaycastHit(
                 world.getBlockState(blockPos).bedrock,
-                this.delegate.facing,
+                this.delegate.direction,
                 blockPos
             )
         }
     }
 
-    private fun ifServerEntity(action: (ServerWorld) -> Unit) {
-        (this.delegate.entityWorld as? ServerWorld)?.let(action)
+    private fun ifServerEntity(action: (ServerLevel) -> Unit) {
+        (this.delegate.level() as? ServerLevel)?.let(action)
     }
 }
 

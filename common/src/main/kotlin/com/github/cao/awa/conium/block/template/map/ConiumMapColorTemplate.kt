@@ -4,8 +4,8 @@ import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.kotlin.extent.block.parseAndFindColor
 import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates.MAP_COLOR
 import com.google.gson.JsonElement
-import net.minecraft.block.AbstractBlock
-import net.minecraft.block.MapColor
+import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.material.MapColor
 
 class ConiumMapColorTemplate(private val color: MapColor, name: String = MAP_COLOR) : ConiumBlockTemplate(name = name) {
     companion object {
@@ -14,7 +14,7 @@ class ConiumMapColorTemplate(private val color: MapColor, name: String = MAP_COL
         fun create(element: JsonElement): ConiumMapColorTemplate = ConiumMapColorTemplate(parseAndFindColor(element.asString))
     }
 
-    override fun settings(settings: AbstractBlock.Settings) {
+    override fun settings(settings: BlockBehaviour.Properties) {
         // Set explosion resistance.
         settings.mapColor(this.color)
     }

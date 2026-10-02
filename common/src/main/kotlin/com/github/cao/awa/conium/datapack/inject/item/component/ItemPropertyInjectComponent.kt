@@ -3,24 +3,23 @@ package com.github.cao.awa.conium.datapack.inject.item.component
 import com.github.cao.awa.conium.codec.ConiumPacketCodec
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue.Companion.unverified
-import com.github.cao.awa.conium.extent.caster.cast
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.component.ComponentType
-import net.minecraft.network.RegistryByteBuf
-import net.minecraft.registry.Registries
-import net.minecraft.util.Identifier
+import net.minecraft.core.component.DataComponentType
+import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.resources.Identifier
 
 @JvmRecord
-data class ItemPropertyInjectComponent<T>(
-    val type: ComponentType<*>,
+data class ItemPropertyInjectComponent<T : Any>(
+    val type: DataComponentType<*>,
     val action: ItemPropertyInjectAction,
     val value: ItemPropertyInjectComponentValue<T>
 ) {
     companion object {
         @JvmStatic
-        fun decode(buf: RegistryByteBuf): ItemPropertyInjectComponent<*> {
+        fun decode(buf: RegistryFriendlyByteBuf): ItemPropertyInjectComponent<*> {
             val value: ItemPropertyInjectComponentValue<*> = ConiumPacketCodec.ITEM_PROPERTY_INJECT_COMPONENT_VALUE.decode(buf)
 
             return ItemPropertyInjectComponent(
@@ -31,21 +30,21 @@ data class ItemPropertyInjectComponent<T>(
         }
 
         @JvmStatic
-        fun encode(buf: RegistryByteBuf, value: ItemPropertyInjectComponent<*>) {
+        fun encode(buf: RegistryFriendlyByteBuf, value: ItemPropertyInjectComponent<*>) {
             ConiumPacketCodec.ITEM_PROPERTY_INJECT_COMPONENT_VALUE.encode(buf, value.value)
             ConiumPacketCodec.ITEM_PROPERTY_INJECT_ACTION.encode(buf, value.action)
         }
 
         @JvmStatic
-        fun <X> verified(
-            type: ComponentType<*>,
+        fun <X : Any> verified(
+            type: DataComponentType<*>,
             action: ItemPropertyInjectAction,
             value: ItemPropertyInjectComponentValue<*>
         ): ItemPropertyInjectComponent<X> = ItemPropertyInjectComponent(type, action, value.verified(type))
 
         @JvmStatic
         fun unverified(json: JsonObject): ItemPropertyInjectComponent<Any> {
-            val type: ComponentType<*>? = Registries.DATA_COMPONENT_TYPE[Identifier.of(json["type"].asString)]
+            val type: DataComponentType<*> = BuiltInRegistries.DATA_COMPONENT_TYPE.getValue(Identifier.parse(json["type"].asString))!!
 
             val action: ItemPropertyInjectAction = if (json.has("action")) {
                 ItemPropertyInjectAction.of(json["action"].asString)
@@ -53,7 +52,7 @@ data class ItemPropertyInjectComponent<T>(
 
             val value: ItemPropertyInjectComponentValue<*> = unverified(json["value"])
 
-            return verified(type.cast(), action, value)
+            return verified(type, action, value)
         }
 
         @JvmStatic

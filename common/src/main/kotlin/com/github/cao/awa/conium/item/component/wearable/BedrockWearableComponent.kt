@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.item.template.armor.ConiumWearableTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.github.cao.awa.conium.template.item.bedrock.BedrockItemComponents.WEARABLE
 import com.google.gson.JsonElement
-import net.minecraft.item.equipment.EquipmentType
+import net.minecraft.world.item.equipment.ArmorType
 
 /**
  * The template used to make an item can wear to slots and provides protections.
@@ -19,7 +19,7 @@ import net.minecraft.item.equipment.EquipmentType
  *
  * @since 1.0.0
  */
-class BedrockWearableComponent(equipment: EquipmentType, protection: Double = 0.0) : ConiumWearableTemplate(equipment, protection, WEARABLE) {
+class BedrockWearableComponent(equipment: ArmorType, protection: Double = 0.0) : ConiumWearableTemplate(equipment, protection, WEARABLE) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement): BedrockWearableComponent = element.objectOrString(

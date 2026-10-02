@@ -4,9 +4,9 @@ import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerConfigurationNetworkHandler
+import net.minecraft.server.network.ServerConfigurationPacketListenerImpl
 
-class ConiumServerConfiguredConnectionEventMetadata(val context: ConiumEventContext<ServerConfigurationNetworkHandler>): ConiumEventMetadata<ServerConfigurationNetworkHandler, ConiumServerConfiguredConnectionEventMetadata>() {
-    val serverConfigurationNetworkHandler: ServerConfigurationNetworkHandler = this.context[ConiumEventArgTypes.SERVER_CONFIGURATION_NETWORK_HANDLER]
+class ConiumServerConfiguredConnectionEventMetadata(val context: ConiumEventContext<ServerConfigurationPacketListenerImpl>): ConiumEventMetadata<ServerConfigurationPacketListenerImpl, ConiumServerConfiguredConnectionEventMetadata>() {
+    val serverConfigurationNetworkHandler: ServerConfigurationPacketListenerImpl = this.context[ConiumEventArgTypes.SERVER_CONFIGURATION_NETWORK_HANDLER]
     val server: MinecraftServer = this.context[ConiumEventArgTypes.SERVER]
 }

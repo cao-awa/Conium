@@ -7,28 +7,28 @@ import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.ENTITY_PLACER
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.FluidBlock
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.Spawner
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.SpawnReason
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.item.ItemUsageContext
-import net.minecraft.registry.Registries
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.stat.Stats
-import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
-import net.minecraft.util.hit.HitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.world.RaycastContext
-import net.minecraft.world.World
-import net.minecraft.world.event.GameEvent
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.LiquidBlock
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.Spawner
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.EntitySpawnReason
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.context.UseOnContext
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.stats.Stats
+import net.minecraft.world.InteractionHand
+import net.minecraft.resources.Identifier
+import net.minecraft.world.phys.HitResult
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.level.ClipContext
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.gameevent.GameEvent
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.util.Collections
@@ -63,31 +63,31 @@ open class ConiumEntityPlacerTemplate(
                     val identifier: String = element.asString
                     if (identifier.split(":").size != 2) {
                         LOGGER.warn("The value {} in allowed blocks is not full identifier, will use \"minecraft\" be the namespace path", identifier)
-                        result.add(Registries.BLOCK.get(Identifier.of("minecraft", identifier)))
+                        result.add(BuiltInRegistries.BLOCK.getValue(Identifier.fromNamespaceAndPath("minecraft", identifier)))
                     } else {
-                        result.add(Registries.BLOCK.get(Identifier.of(identifier)))
+                        result.add(BuiltInRegistries.BLOCK.getValue(Identifier.parse(identifier)))
                     }
                 }
             }) { identifier ->
-                result.add(Registries.BLOCK.get(Identifier.of(identifier)))
+                result.add(BuiltInRegistries.BLOCK.getValue(Identifier.parse(identifier)))
             }
 
             return result
         }
 
         @JvmStatic
-        fun getEntityType(identifier: String): EntityType<*> = Registries.ENTITY_TYPE.get(Identifier.of(identifier))
+        fun getEntityType(identifier: String): EntityType<*> = BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.parse(identifier))
     }
 
     override fun attach(target: ConiumItem) {
-        target.useOnBlockHandlers.add { context: ItemUsageContext ->
-            val world: World = context.world
-            if (world.isClient) {
+        target.useOnBlockHandlers.add { context: UseOnContext ->
+            val world: Level = context.level
+            if (world.isClientSide) {
                 return@add false
             }
-            val itemStack: ItemStack = context.stack
-            val blockPos: BlockPos = context.blockPos
-            val direction: Direction = context.side
+            val itemStack: ItemStack = context.itemInHand
+            val blockPos: BlockPos = context.clickedPos
+            val direction: Direction = context.clickedFace
             val blockState: BlockState = world.getBlockState(blockPos)
             if (!this.allowedBlocks.isEmpty() && !this.allowedBlocks.contains(blockState.block)) {
                 return@add false
@@ -95,51 +95,51 @@ open class ConiumEntityPlacerTemplate(
             val blockEntity: BlockEntity? = world.getBlockEntity(blockPos)
             if (blockEntity is Spawner) {
                 val spawner = blockEntity as Spawner
-                spawner.setEntityType(this.entityType, world.random)
-                world.updateListeners(blockPos, blockState, blockState, 3)
-                world.emitGameEvent(context.player, GameEvent.BLOCK_CHANGE, blockPos)
+                spawner.setEntityId(this.entityType, world.random)
+                world.sendBlockUpdated(blockPos, blockState, blockState, 3)
+                world.gameEvent(context.player, GameEvent.BLOCK_CHANGE, blockPos)
                 return@add true
             }
-            val blockPos2 = if (blockState.getCollisionShape(world, blockPos).isEmpty) blockPos else blockPos.offset(direction)
-            if (this.entityType.spawnFromItemStack(world as ServerWorld, itemStack, context.player, blockPos2, SpawnReason.SPAWN_ITEM_USE, true, blockPos != blockPos2 && direction == Direction.UP) != null) {
-                world.emitGameEvent(context.player, GameEvent.ENTITY_PLACE, blockPos)
+            val blockPos2 = if (blockState.getCollisionShape(world, blockPos).isEmpty) blockPos else blockPos.relative(direction)
+            if (this.entityType.spawn(world as ServerLevel, itemStack, context.player, blockPos2, EntitySpawnReason.SPAWN_ITEM_USE, true, blockPos != blockPos2 && direction == Direction.UP) != null) {
+                world.gameEvent(context.player, GameEvent.ENTITY_PLACE, blockPos)
             }
             return@add true
         }
 
-        target.useHandlers.add { world: World, user: PlayerEntity, hand: Hand ->
-            val itemStack = user.getStackInHand(hand)
-            val blockHitResult = ConiumItem.doRaycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY)
+        target.useHandlers.add { world: Level, user: Player, hand: InteractionHand ->
+            val itemStack = user.getItemInHand(hand)
+            val blockHitResult = ConiumItem.doRaycast(world, user, ClipContext.Fluid.SOURCE_ONLY)
             if (blockHitResult.type != HitResult.Type.BLOCK) {
                 return@add false
             }
-            if (world !is ServerWorld) {
+            if (world !is ServerLevel) {
                 return@add false
             }
-            val serverWorld: ServerWorld = world
+            val serverWorld: ServerLevel = world
             val blockPos = blockHitResult.blockPos
             val blockState: BlockState = world.getBlockState(blockPos)
             val block: Block = blockState.block
-            if (block !is FluidBlock) {
+            if (block !is LiquidBlock) {
                 return@add false
             }
             if (!this.allowedDispenserBlocks.isEmpty() && !this.allowedDispenserBlocks.contains(block)) {
                 return@add false
             }
-            if (!world.canEntityModifyAt(user, blockPos) || !user.canPlaceOn(blockPos, blockHitResult.side, itemStack)) {
+            if (!world.mayInteract(user, blockPos) || !user.mayUseItemAt(blockPos, blockHitResult.direction, itemStack)) {
                 return@add false
             }
-            val entity: Entity = this.entityType.spawnFromItemStack(
+            val entity: Entity = this.entityType.spawn(
                 serverWorld,
                 itemStack,
                 user,
                 blockPos,
-                SpawnReason.SPAWN_ITEM_USE,
+                EntitySpawnReason.SPAWN_ITEM_USE,
                 false,
                 false
             ) ?: return@add false
-            user.incrementStat(Stats.USED.getOrCreateStat(target))
-            world.emitGameEvent(user, GameEvent.ENTITY_PLACE, entity.entityPos)
+            user.awardStat(Stats.ITEM_USED.get(target))
+            world.gameEvent(user, GameEvent.ENTITY_PLACE, entity.position())
             return@add true
         }
     }

@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.item.template.consume
 
+import com.github.cao.awa.conium.exception.notSupported
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.ifBoolean
@@ -7,14 +8,14 @@ import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.kotlin.extent.json.ifString
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates
 import com.google.gson.JsonElement
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
-import net.minecraft.registry.Registries
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.Identifier
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
+import net.minecraft.tags.TagKey
+import net.minecraft.resources.Identifier
 
 class ConiumConsumeOnUsedTemplate(
     private val consumeOnUsed: Boolean,
@@ -37,7 +38,7 @@ class ConiumConsumeOnUsedTemplate(
                     var alwaysConsumeOnUsedOnBlock = false
                     var alwaysConsumeOnUsedOnEntity = false
                     val targetEntity: EntityType<*>? = consume["used_on_entity"].ifString({ targetEntity ->
-                        Registries.ENTITY_TYPE.get(Identifier.of(targetEntity)).also {
+                        BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.parse(targetEntity)).also {
                             alwaysConsumeOnUsedOnEntity = true
                         }
                     }) { entityConsume ->
@@ -63,14 +64,14 @@ class ConiumConsumeOnUsedTemplate(
 
                     if (alwaysConsumeOnUsedOnBlock && targetBlockName != null) {
                         tagKey = if (targetBlockName.startsWith("#")) {
-                            TagKey.of(
-                                RegistryKeys.BLOCK,
-                                Identifier.of(targetBlockName.substring(1))
+                            TagKey.create(
+                                Registries.BLOCK,
+                                Identifier.parse(targetBlockName.substring(1))
                             )
                         } else null
 
                         targetBlock = if (tagKey == null) {
-                            Registries.BLOCK.get(Identifier.of(targetBlockName))
+                            BuiltInRegistries.BLOCK.getValue(Identifier.parse(targetBlockName))
                         } else null
                     } else {
                         tagKey = null
@@ -85,7 +86,7 @@ class ConiumConsumeOnUsedTemplate(
                             }
                             if (targetBlockName != null) {
                                 if (tagKey != null) {
-                                    blockState.isIn(tagKey)
+                                    blockState.`is`(tagKey)
                                 } else {
                                     blockState.block == targetBlock
                                 }
@@ -94,7 +95,7 @@ class ConiumConsumeOnUsedTemplate(
                             }
                         },
                         { entity: LivingEntity ->
-                            alwaysConsumeOnUsedOnEntity || entity.type == entity.type
+                            alwaysConsumeOnUsedOnEntity || (targetEntity != null && entity.type == targetEntity)
                         }
                     )
                 },

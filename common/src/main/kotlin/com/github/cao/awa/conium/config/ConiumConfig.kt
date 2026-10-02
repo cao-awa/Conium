@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.kotlin.extent.json.ifBoolean
 import com.github.cao.awa.conium.resource.ResourceLoader
 import com.github.cao.awa.translator.structuring.io.IOUtil
 import com.google.gson.JsonObject
-import net.minecraft.util.JsonHelper
+import net.minecraft.util.GsonHelper
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.io.File
@@ -36,7 +36,7 @@ class ConiumConfig {
         }
 
         fun readConfig() {
-            JsonHelper.deserialize(IOUtil.read(this.CONFIG_FILE.reader())).let { config: JsonObject ->
+            GsonHelper.parse(IOUtil.read(this.CONFIG_FILE.reader())).let { config: JsonObject ->
                 config["enable_debug"].ifBoolean {
                     this.debugs = it
                 }

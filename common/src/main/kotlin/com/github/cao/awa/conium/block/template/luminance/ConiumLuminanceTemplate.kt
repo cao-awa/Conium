@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.block.template.luminance
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates.LUMINANCE
 import com.google.gson.JsonElement
-import net.minecraft.block.AbstractBlock
+import net.minecraft.world.level.block.state.BlockBehaviour
 
 class ConiumLuminanceTemplate(private val level: Int, name: String = LUMINANCE) : ConiumBlockTemplate(name = name) {
     companion object {
@@ -18,7 +18,7 @@ class ConiumLuminanceTemplate(private val level: Int, name: String = LUMINANCE) 
         }
     }
 
-    override fun settings(settings: AbstractBlock.Settings) {
-        settings.luminance { this.level }
+    override fun settings(settings: BlockBehaviour.Properties) {
+        settings.lightLevel { this.level }
     }
 }

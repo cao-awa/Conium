@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.entity.event.damage
+﻿package com.github.cao.awa.conium.entity.event.damage
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.entity.event.damage.metadata.ConiumEntityDamageEventMetadata
 import com.github.cao.awa.conium.entity.event.damaged.type.ConiumEntityDamagedEventType
@@ -11,13 +12,13 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective4
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.damage.DamageSource
-import net.minecraft.world.World
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.level.Level
 
-class ConiumEntityDamageEvent : ConiumEvent<EntityType<*>, ConiumEntityDamageEventMetadata, ParameterSelective4<Boolean, World, LivingEntity, DamageSource, Float>, ConiumEntityDamagedEventType>(
+class ConiumEntityDamageEvent : ConiumEvent<EntityType<*>, ConiumEntityDamageEventMetadata, ParameterSelective4<Boolean, Level, LivingEntity, DamageSource, Float>, ConiumEntityDamagedEventType>(
     ConiumEventType.ENTITY_DAMAGE,
     { ConiumEventType.ENTITY_DAMAGED }
 ) {
@@ -28,7 +29,7 @@ class ConiumEntityDamageEvent : ConiumEvent<EntityType<*>, ConiumEntityDamageEve
             ConiumEventArgTypes.LIVING_ENTITY,
             ConiumEventArgTypes.DAMAGE_SOURCE,
             ConiumEventArgTypes.DAMAGE_AMOUNT
-        ) { identity: Any, world: World, livingEntity: LivingEntity, damageSource: DamageSource, amount: Float ->
+        ) { identity: Any, world: Level, livingEntity: LivingEntity, damageSource: DamageSource, amount: Float ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, livingEntity, damageSource, amount)
             }

@@ -76,10 +76,10 @@ import com.github.cao.awa.conium.random.event.type.ConiumRandomEventType
 import com.github.cao.awa.conium.server.event.random.type.ConiumServerRandomEventType
 import com.github.cao.awa.conium.server.event.tick.start.type.ConiumServerTickEventType
 import com.github.cao.awa.conium.server.event.tick.tail.type.ConiumServerTickTailEventType
-import net.minecraft.item.Item
-import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket
-import net.minecraft.server.network.ServerConfigurationNetworkHandler
-import net.minecraft.world.chunk.WorldChunk
+import net.minecraft.world.item.Item
+import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket
+import net.minecraft.server.network.ServerConfigurationPacketListenerImpl
+import net.minecraft.world.level.chunk.LevelChunk
 
 abstract class ConiumEventType<I : Any, M: ConiumEventMetadata<I, M>, C: Any, N: ConiumEventMetadata<C, N>>(val name: String, val identityDescription: String, val instance: () -> ConiumEvent<I, M, *, *>) {
     companion object {
@@ -94,7 +94,7 @@ abstract class ConiumEventType<I : Any, M: ConiumEventMetadata<I, M>, C: Any, N:
 
 //        @JvmField
 //        // Unsupported now.
-//        val CLIENT_RANDOM: ConiumEventType<MinecraftClient> = ConiumEventType("client_random", MinecraftClient::class)
+//        val CLIENT_RANDOM: ConiumEventType<Minecraft> = ConiumEventType("client_random", Minecraft::class)
 
         @JvmField
         val SERVER_TICK: ConiumServerTickEventType = ConiumServerTickEventType()

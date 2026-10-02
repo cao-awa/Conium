@@ -18,13 +18,13 @@ import com.github.cao.awa.translator.structuring.builtin.typescript.visitor.Lang
 import com.github.cao.awa.translator.structuring.io.IOUtil
 import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
 import com.github.cao.awa.translator.structuring.translate.language.LanguageTranslateTarget
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.resource.Resource
-import net.minecraft.resource.ResourceFinder
-import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.SinglePreparationResourceReloader
-import net.minecraft.util.Identifier
-import net.minecraft.util.profiler.Profiler
+import net.minecraft.core.HolderLookup
+import net.minecraft.server.packs.resources.Resource
+import net.minecraft.resources.FileToIdConverter
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.server.packs.resources.SimplePreparableReloadListener
+import net.minecraft.resources.Identifier
+import net.minecraft.util.profiling.ProfilerFiller
 import org.antlr.v4.runtime.BaseErrorListener
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
@@ -58,11 +58,11 @@ import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromT
  *
  * @since 1.0.0
  */
-class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) :
-    SinglePreparationResourceReloader<MutableMap<Identifier, Resource>>() {
+class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
+    SimplePreparableReloadListener<MutableMap<Identifier, Resource>>() {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumScriptManager")
-        private val DATA_TYPE: String = ConiumRegistryKeys.SCRIPT.value.path
+        private val DATA_TYPE: String = ConiumRegistryKeys.SCRIPT.identifier().path
 
         // Commons script here, all scripts use these scripts.
         private val defaultCommons: String = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.commons.kts"))
@@ -125,7 +125,7 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) :
      *
      * @since 1.0.0
      */
-    override fun prepare(manager: ResourceManager, profiler: Profiler): MutableMap<Identifier, Resource> =
+    override fun prepare(manager: ResourceManager, profiler: ProfilerFiller): MutableMap<Identifier, Resource> =
         HashMap<Identifier, Resource>().also {
             load(manager, it)
         }
@@ -161,22 +161,22 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) :
         results: MutableMap<Identifier, Resource>
     ) {
         // There is 3 types finder need to load.
-        val kotlinFinder = ResourceFinder(DATA_TYPE, ".kts")
-        val javascriptFinder = ResourceFinder(DATA_TYPE, ".js")
-        val typescriptFinder = ResourceFinder(DATA_TYPE, ".ts")
+        val kotlinFinder = FileToIdConverter(DATA_TYPE, ".kts")
+        val javascriptFinder = FileToIdConverter(DATA_TYPE, ".js")
+        val typescriptFinder = FileToIdConverter(DATA_TYPE, ".ts")
 
         // Load kotlin scripts.
-        kotlinFinder.findResources(manager).entries.iterator().forEach {
+        kotlinFinder.listMatchingResources(manager).entries.iterator().forEach {
             results[it.key] = it.value
         }
 
         // Load javascript.
-        javascriptFinder.findResources(manager).entries.iterator().forEach {
+        javascriptFinder.listMatchingResources(manager).entries.iterator().forEach {
             results[it.key] = it.value
         }
 
         // Load typescript.
-        typescriptFinder.findResources(manager).entries.iterator().forEach {
+        typescriptFinder.listMatchingResources(manager).entries.iterator().forEach {
             results[it.key] = it.value
         }
     }
@@ -195,7 +195,7 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) :
      *
      * @since 1.0.0
      */
-    override fun apply(prepared: MutableMap<Identifier, Resource>, manager: ResourceManager, profiler: Profiler) {
+    override fun apply(prepared: MutableMap<Identifier, Resource>, manager: ResourceManager, profiler: ProfilerFiller) {
         // Clear conium event attaches.
         ConiumEvent.resetForever()
 
@@ -228,7 +228,7 @@ class ConiumScriptManager(var registryLookup: RegistryWrapper.WrapperLookup) :
 
             for ((identifier: Identifier, resource: Resource) in prepared) {
                 // Read script source code.
-                val content: String = resource.reader.readText()
+                val content: String = resource.readAllAsString()
 
                 identifier.path.also { path: String ->
                     if (path.endsWith(".kts")) {

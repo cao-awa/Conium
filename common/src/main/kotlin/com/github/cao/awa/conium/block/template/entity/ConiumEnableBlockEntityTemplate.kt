@@ -1,103 +1,90 @@
 package com.github.cao.awa.conium.block.template.entity
 
 import com.github.cao.awa.conium.block.ConiumBlock
-import com.github.cao.awa.conium.blockentity.ConiumBlockEntity
-import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
-import com.github.cao.awa.conium.block.template.data.ConiumBlockDataTemplate
-import com.github.cao.awa.conium.block.template.preset.ConiumBlockEntityPresetsTemplate
-import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates
+import com.github.cao.awa.conium.blockentity.ConiumBlockEntity
+import com.github.cao.awa.conium.exception.Exceptions.illegalArgument
+import com.github.cao.awa.conium.kotlin.extent.json.asObject
+import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
+import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates.ENABLE_BLOCK_ENTITY
 import com.google.gson.JsonElement
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.BlockEntityType
+import com.google.gson.JsonObject
+import net.minecraft.core.BlockPos
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.Registry
+import net.minecraft.resources.Identifier
+import net.minecraft.world.level.block.entity.BlockEntityType
+import net.minecraft.world.level.block.state.BlockState
 
-/**
- * Setting a block flag make it could construct the block entity, this template is necessary where others block entity templates defined.
- *
- * The block will ignore all other block entity templates if this template doesn't loaded.
- *
- * @see ConiumBlock
- * @see ConiumBlockEntity
- * @see ConiumBlockSettings
- * @see BlockEntity
- * @see BlockEntityType
- * @see ConiumBlockDataTemplate
- * @see ConiumBlockEntityPresetsTemplate
- *
- * @author cao_aw
- * @author 草二号机
- *
- * @since 1.0.0
- */
-class ConiumEnableBlockEntityTemplate(private val identifier: String): ConiumBlockTemplate(name = ConiumBlockTemplates.ENABLE_BLOCK_ENTITY) {
+class ConiumEnableBlockEntityTemplate(
+    val identifier: String,
+    val registeredData: MutableMap<String, ConiumNbtDataSerializer<*>>,
+    val defaultData: MutableMap<String, Any>
+) : ConiumBlockTemplate(name = ENABLE_BLOCK_ENTITY) {
     companion object {
-        /**
-         * Create the template with identifier to setting the block entity type.
-         *
-         * @see ConiumBlock
-         * @see ConiumBlockEntity
-         * @see ConiumBlockSettings
-         *
-         * @author cao_awa
-         *
-         * @since 1.0.0
-         */
         @JvmStatic
         fun create(element: JsonElement): ConiumEnableBlockEntityTemplate {
-            // Create the template with identifier.
-            return ConiumEnableBlockEntityTemplate(element.asString)
+            return asObject(element) {
+                val registeredData: MutableMap<String, ConiumNbtDataSerializer<*>> = HashMap()
+                val defaultData: MutableMap<String, Any> = HashMap()
+
+                asObject(this["data"]) {
+                    for ((key, value) in asMap()) {
+                        when (value) {
+                            is JsonObject -> {
+                                val type: String = value["type"].asString
+                                registeredData[key] = ConiumNbtDataSerializer.getSerializer(type)
+
+                                when (type) {
+                                    "int", "integer" -> defaultData[key] = value["default"].asInt
+                                    "long" -> defaultData[key] = value["default"].asLong
+                                    "short" -> defaultData[key] = value["default"].asShort
+                                    "byte" -> defaultData[key] = value["default"].asByte
+                                    "double" -> defaultData[key] = value["default"].asDouble
+                                    "float" -> defaultData[key] = value["default"].asFloat
+                                    "boolean", "bool" -> defaultData[key] = value["default"].asBoolean
+                                    "string", "str" -> defaultData[key] = value["default"].asString
+                                    else -> illegalArgument("Unsupported type: $type")
+                                }
+                            }
+
+                            else -> illegalArgument("Unsupported value: $value")
+                        }
+                    }
+                }
+
+                ConiumEnableBlockEntityTemplate(
+                    this["identifier"].asString,
+                    registeredData,
+                    defaultData
+                )
+            }
         }
     }
 
-    /**
-     * Setting the block entity flag to allow the block entity be constructs in the future.
-     *
-     * @see ConiumBlock
-     * @see ConiumBlockEntity
-     * @see ConiumBlockSettings
-     *
-     * @param settings the block settings
-     *
-     * @author cao_awa
-     *
-     * @since 1.0.0
-     */
-    override fun settings(settings: ConiumBlockSettings) {
-        // Enable the block entity flag.
+    override fun prepare(settings: com.github.cao.awa.conium.block.setting.ConiumBlockSettings) {
         settings.enableBlockEntity = true
+        settings.blockEntity.let {
+            it.registeredData = this.registeredData
+            it.defaultData = this.defaultData
+        }
     }
 
-    /**
-     * Setting the block entity type when enabled block entity with the identifier.
-     *
-     * @see ConiumBlock
-     * @see ConiumBlockEntity
-     * @see BlockEntity
-     * @see BlockEntityType
-     *
-     * @param target the block of the block entity
-     *
-     * @author cao_awa
-     * @author 草二号机
-     *
-     * @since 1.0.0
-     */
     override fun complete(target: ConiumBlock) {
         // Setting the block entity type.
         target.setting.blockEntity.let { blockEntitySettings ->
-            // Create the block entity type and setting it to block entity settings.
-            // If you saw 'BlockEntityType.create' cannot access, please run the Gradle task 'validateAccessWidener'.
-            blockEntitySettings.type = BlockEntityType.create(
-                this.identifier,
-                { pos, state ->
+            val type = BlockEntityType(
+                { pos: BlockPos, state: BlockState ->
                     ConiumBlockEntity(
                         blockEntitySettings,
                         pos,
                         state
                     )
                 },
-                target
+                setOf(target)
             )
+            blockEntitySettings.type = type
+            Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.parse(this.identifier), type)
         }
     }
 }

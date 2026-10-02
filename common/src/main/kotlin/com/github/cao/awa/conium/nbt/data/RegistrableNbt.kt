@@ -2,9 +2,9 @@ package com.github.cao.awa.conium.nbt.data
 
 import com.github.cao.awa.conium.Conium
 import com.github.cao.awa.conium.extent.caster.cast
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.storage.ReadView
-import net.minecraft.storage.WriteView
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.level.storage.ValueInput
+import net.minecraft.world.level.storage.ValueOutput
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.lang.NullPointerException
@@ -19,7 +19,7 @@ import java.lang.NullPointerException
  * @param registries the data keys and type serializers
  * @param modifyCallback the callback before set data
  *
- * @see NbtCompound
+ * @see CompoundTag
  * @see ConiumNbtDataSerializer
  *
  * @author cao_awa
@@ -40,7 +40,7 @@ class RegistrableNbt(
     /**
      * To get a non-null data using key name, should ensure it already registered.
      *
-     * @see NbtCompound
+     * @see CompoundTag
      *
      * @param key the data name
      *
@@ -55,7 +55,7 @@ class RegistrableNbt(
     /**
      * To set the data value using key name, should ensure it already registered and won't be input a null value.
      *
-     * @see NbtCompound
+     * @see CompoundTag
      *
      * @param key the data name
      * @param value the data value
@@ -87,7 +87,7 @@ class RegistrableNbt(
     /**
      * Write registrable NBT data to NBT compound, only includes registered data.
      *
-     * @see NbtCompound
+     * @see CompoundTag
      * @see ConiumNbtDataSerializer
      *
      * @param writeView the 'write view' that will be writing to
@@ -97,7 +97,7 @@ class RegistrableNbt(
      *
      * @since 1.0.0
      */
-    fun writeData(writeView: WriteView) {
+    fun writeData(writeView: ValueOutput) {
         // Using registry to serialize data, only registered data can write, doesn't write others data anymore.
         for ((name: String, serializer: ConiumNbtDataSerializer<*>) in this.registries) {
             // Write data to NBT compound.
@@ -108,7 +108,7 @@ class RegistrableNbt(
     /**
      * Read registrable NBT data from NBT compound, only includes registered data.
      *
-     * @see ReadView
+     * @see ValueInput
      *
      * @param readView the 'read view' that should be reading from
      *
@@ -117,7 +117,7 @@ class RegistrableNbt(
      *
      * @since 1.0.0
      */
-    fun readData(readView: ReadView) {
+    fun readData(readView: ValueInput) {
         // Using registry to deserialize data, only registered data can be read, doesn't read others data anymore.
         for ((name: String, serializer: ConiumNbtDataSerializer<*>) in this.registries) {
             // Read and set data to delegate from NBT compound.

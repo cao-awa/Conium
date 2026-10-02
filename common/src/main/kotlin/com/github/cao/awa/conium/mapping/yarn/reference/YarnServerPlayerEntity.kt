@@ -4,48 +4,40 @@
 package com.github.cao.awa.conium.mapping.yarn.reference
 
 import com.github.cao.awa.conium.annotation.mapping.Remap
-import com.github.cao.awa.conium.mapping.yarn.*
+import net.minecraft.commands.CommandSourceStack
+import net.minecraft.core.BlockPos
+import net.minecraft.core.SectionPos
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceKey
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerPlayerGameMode
+import net.minecraft.server.network.ServerGamePacketListenerImpl
+import net.minecraft.server.PlayerAdvancements
+import net.minecraft.stats.ServerStatsCounter
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.level.Level
 
 /**
- * See the mapping [ServerPlayerEntity](https://mappings.dev/1.21.4/net/minecraft/server/level/ServerPlayer.html).
+ * See the mapping [ServerPlayer](https://mappings.dev/1.21.4/net/minecraft/server/level/ServerPlayer.html).
  *
  * @author cao_awa
  *
  * @since 1.0.0
  */
 
-val ServerPlayerEntity.serverWorld: ServerWorld by ServerPlayerEntity::serverWorld
-val ServerPlayerEntity.commandSource: ServerCommandSource by ServerPlayerEntity::commandSource
-val ServerPlayerEntity.commandOutput: CommandOutput by ServerPlayerEntity::commandOutput
-val ServerPlayerEntity.advancementTracker: PlayerAdvancementTracker by ServerPlayerEntity::advancementTracker
-val ServerPlayerEntity.cameraEntity: Entity by ServerPlayerEntity::cameraEntity
-val ServerPlayerEntity.chunkFilter: ChunkFilter by ServerPlayerEntity::chunkFilter
-val ServerPlayerEntity.clientChatVisibility: ChatVisibility by ServerPlayerEntity::clientChatVisibility
-val ServerPlayerEntity.clientOptions: SyncedClientOptions by ServerPlayerEntity::clientOptions
-val ServerPlayerEntity.enderPearls: Set<EnderPearlEntity> by ServerPlayerEntity::enderPearls
-val ServerPlayerEntity.inputVelocityForMinecart: Vec3d by ServerPlayerEntity::inputVelocityForMinecart
-val ServerPlayerEntity.ip: String by ServerPlayerEntity::ip
-val ServerPlayerEntity.isDisconnected: Boolean
-    get() = this.isDisconnected
-val ServerPlayerEntity.isInTeleportationState: Boolean
-    get() = this.isInTeleportationState
-val ServerPlayerEntity.isSpawnForced: Boolean
-    get() = this.isSpawnForced
-val ServerPlayerEntity.lastActionTime: Long by ServerPlayerEntity::lastActionTime
-val ServerPlayerEntity.playerInput: PlayerInput by ServerPlayerEntity::playerInput
-val ServerPlayerEntity.playerListName: Text? by ServerPlayerEntity::playerListName
-val ServerPlayerEntity.playerListOrder: Int by ServerPlayerEntity::playerListOrder
-val ServerPlayerEntity.recipeBook: RecipeBook by ServerPlayerEntity::recipeBook
-val ServerPlayerEntity.session: PublicPlayerSession? by ServerPlayerEntity::session
-val ServerPlayerEntity.spawnAngle: Float by ServerPlayerEntity::spawnAngle
-val ServerPlayerEntity.spawnPointDimension: RegistryKey<World> by ServerPlayerEntity::spawnPointDimension
-val ServerPlayerEntity.spawnPointPosition: BlockPos? by ServerPlayerEntity::spawnPointPosition
-val ServerPlayerEntity.interactionManager: ServerPlayerInteractionManager by ServerPlayerEntity::interactionManager
-val ServerPlayerEntity.networkHandler: ServerPlayNetworkHandler by ServerPlayerEntity::networkHandler
-val ServerPlayerEntity.notInAnyWorld: Boolean by ServerPlayerEntity::notInAnyWorld
-val ServerPlayerEntity.seenCredits: Boolean by ServerPlayerEntity::seenCredits
-val ServerPlayerEntity.startRaidPos: BlockPos? by ServerPlayerEntity::startRaidPos
-val ServerPlayerEntity.statHandler: ServerStatHandler by ServerPlayerEntity::statHandler
-val ServerPlayerEntity.textStream: TextStream by ServerPlayerEntity::textStream
-val ServerPlayerEntity.viewDistance: Int by ServerPlayerEntity::viewDistance
-val ServerPlayerEntity.watchedSection: ChunkSectionPos by ServerPlayerEntity::watchedSection
+val ServerPlayer.serverWorld: ServerLevel get() = this.level()
+val ServerPlayer.commandSource: CommandSourceStack get() = this.createCommandSourceStack()
+val ServerPlayer.advancementTracker: PlayerAdvancements get() = this.advancements
+val ServerPlayer.cameraEntity: Entity get() = this.camera
+val ServerPlayer.ip: String get() = this.ipAddress
+val ServerPlayer.lastActionTime: Long get() = this.lastActionTime
+val ServerPlayer.playerListName: Component? get() = this.tabListDisplayName
+val ServerPlayer.playerListOrder: Int get() = this.tabListOrder
+val ServerPlayer.spawnAngle: Float get() = this.respawnConfig?.respawnData()?.yaw() ?: 0.0f
+val ServerPlayer.spawnPointDimension: ResourceKey<Level>? get() = this.respawnConfig?.respawnData()?.dimension()
+val ServerPlayer.spawnPointPosition: BlockPos? get() = this.respawnConfig?.respawnData()?.pos()
+val ServerPlayer.interactionManager: ServerPlayerGameMode get() = this.gameMode
+val ServerPlayer.networkHandler: ServerGamePacketListenerImpl get() = this.connection
+val ServerPlayer.statHandler: ServerStatsCounter get() = this.stats
+val ServerPlayer.watchedSection: SectionPos get() = this.lastSectionPos

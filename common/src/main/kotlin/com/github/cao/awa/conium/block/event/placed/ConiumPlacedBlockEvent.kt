@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.block.event.placed
+﻿package com.github.cao.awa.conium.block.event.placed
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.block.event.placed.metadata.ConiumPlacedBlockEventMetadata
 import com.github.cao.awa.conium.event.ConiumEvent
@@ -10,14 +11,14 @@ import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.inactive.event.type.ConiumInactiveEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective5
-import net.minecraft.block.AbstractBlock
-import net.minecraft.block.Block
-import net.minecraft.entity.LivingEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.item.ItemStack
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.Level
 
-class ConiumPlacedBlockEvent : ConiumEvent<Block, ConiumPlacedBlockEventMetadata, ParameterSelective5<Boolean, World, LivingEntity, BlockPos, AbstractBlock.AbstractBlockState, ItemStack>, ConiumInactiveEventType>(
+class ConiumPlacedBlockEvent : ConiumEvent<Block, ConiumPlacedBlockEventMetadata, ParameterSelective5<Boolean, World, LivingEntity, BlockPos, BlockBehaviour.BlockStateBase, ItemStack>, ConiumInactiveEventType>(
     ConiumEventType.PLACED_BLOCK,
     { ConiumEventType.INACTIVE }
 ) {
@@ -33,7 +34,7 @@ class ConiumPlacedBlockEvent : ConiumEvent<Block, ConiumPlacedBlockEventMetadata
             world: World,
             entity: LivingEntity,
             blockPos: BlockPos,
-            blockState: AbstractBlock.AbstractBlockState,
+            blockState: BlockBehaviour.BlockStateBase,
             itemStack: ItemStack ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, entity, blockPos, blockState, itemStack)

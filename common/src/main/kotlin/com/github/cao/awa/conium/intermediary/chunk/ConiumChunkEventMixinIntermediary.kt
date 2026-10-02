@@ -1,13 +1,14 @@
-package com.github.cao.awa.conium.intermediary.chunk
+﻿package com.github.cao.awa.conium.intermediary.chunk
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.fireEventCancelable
-import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket
+import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket
 import net.minecraft.server.MinecraftServer
-import net.minecraft.world.chunk.Chunk
-import net.minecraft.world.chunk.WorldChunk
+import net.minecraft.world.level.chunk.ChunkAccess
+import net.minecraft.world.level.chunk.LevelChunk
 
 /**
  * Conium server event intermediary triggers.
@@ -35,7 +36,7 @@ object ConiumChunkEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireReceiveChunkEvent(packet: ChunkDataS2CPacket): Boolean {
+    fun fireReceiveChunkEvent(packet: ClientboundLevelChunkWithLightPacket): Boolean {
         return fireEventCancelable(
             ConiumEventType.RECEIVE_CHUNK,
             packet
@@ -59,7 +60,7 @@ object ConiumChunkEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireReceivedChunkEvent(chunk: WorldChunk): Boolean {
+    fun fireReceivedChunkEvent(chunk: LevelChunk): Boolean {
         return fireEventCancelable(
             ConiumEventType.RECEIVED_CHUNK,
             chunk

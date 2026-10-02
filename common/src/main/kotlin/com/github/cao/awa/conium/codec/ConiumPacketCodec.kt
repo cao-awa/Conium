@@ -5,29 +5,30 @@ import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInje
 import com.github.cao.awa.conium.datapack.inject.item.component.ItemPropertyInjectComponentValue
 import com.github.cao.awa.conium.kotlin.extent.innate.int
 import io.netty.handler.codec.DecoderException
-import net.minecraft.network.RegistryByteBuf
-import net.minecraft.network.codec.PacketCodec
-import net.minecraft.network.codec.PacketCodecs
+import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.codec.StreamCodec
+import net.minecraft.network.codec.ByteBufCodecs
+import java.util.ArrayList
 
 object ConiumPacketCodec {
     @JvmField
-    val ITEM_PROPERTY_INJECT_COMPONENT: PacketCodec<RegistryByteBuf, ItemPropertyInjectComponent<*>> =
-        PacketCodec.ofStatic(
-            { buf: RegistryByteBuf, component: ItemPropertyInjectComponent<*> ->
+    val ITEM_PROPERTY_INJECT_COMPONENT: StreamCodec<RegistryFriendlyByteBuf, ItemPropertyInjectComponent<*>> =
+        StreamCodec.of(
+            { buf: RegistryFriendlyByteBuf, component: ItemPropertyInjectComponent<*> ->
                 ItemPropertyInjectComponent.encode(
                     buf,
                     component
                 )
             },
-            { buf: RegistryByteBuf -> ItemPropertyInjectComponent.decode(buf) }
+            { buf: RegistryFriendlyByteBuf -> ItemPropertyInjectComponent.decode(buf) }
         )
 
     @JvmField
-    val ITEM_PROPERTY_INJECT_ACTION: PacketCodec<RegistryByteBuf, ItemPropertyInjectAction> = PacketCodec.ofStatic(
-        { buf: RegistryByteBuf, action: ItemPropertyInjectAction ->
+    val ITEM_PROPERTY_INJECT_ACTION: StreamCodec<RegistryFriendlyByteBuf, ItemPropertyInjectAction> = StreamCodec.of(
+        { buf: RegistryFriendlyByteBuf, action: ItemPropertyInjectAction ->
             buf.writeByte(action.ordinal)
         },
-        { buf: RegistryByteBuf ->
+        { buf: RegistryFriendlyByteBuf ->
             val act: Int = buf.readByte().int
             if (act >= ItemPropertyInjectAction.entries.size) {
                 throw DecoderException("Unsupported action: '$act'")
@@ -37,20 +38,18 @@ object ConiumPacketCodec {
     )
 
     @JvmField
-    val ITEM_PROPERTY_INJECT_COMPONENT_LIST: PacketCodec<RegistryByteBuf, MutableList<ItemPropertyInjectComponent<*>>> =
-        ITEM_PROPERTY_INJECT_COMPONENT.collect(PacketCodecs.toCollection({ i ->
-            ArrayList(i)
-        }))
+    val ITEM_PROPERTY_INJECT_COMPONENT_LIST: StreamCodec<RegistryFriendlyByteBuf, MutableList<ItemPropertyInjectComponent<*>>> =
+        ITEM_PROPERTY_INJECT_COMPONENT.apply(ByteBufCodecs.collection { ArrayList(it) })
 
     @JvmField
-    val ITEM_PROPERTY_INJECT_COMPONENT_VALUE: PacketCodec<RegistryByteBuf, ItemPropertyInjectComponentValue<*>> =
-        PacketCodec.ofStatic(
-            { buf: RegistryByteBuf, value: ItemPropertyInjectComponentValue<*> ->
+    val ITEM_PROPERTY_INJECT_COMPONENT_VALUE: StreamCodec<RegistryFriendlyByteBuf, ItemPropertyInjectComponentValue<*>> =
+        StreamCodec.of(
+            { buf: RegistryFriendlyByteBuf, value: ItemPropertyInjectComponentValue<*> ->
                 ItemPropertyInjectComponentValue.encode(
                     buf,
                     value
                 )
             },
-            { buf: RegistryByteBuf -> ItemPropertyInjectComponentValue.decode(buf) }
+            { buf: RegistryFriendlyByteBuf -> ItemPropertyInjectComponentValue.decode(buf) }
         )
 }

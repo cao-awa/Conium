@@ -5,9 +5,12 @@ import com.github.cao.awa.conium.template.recipe.bedrock.BedrockRecipeComponents
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.recipe.Ingredient
-import net.minecraft.recipe.ShapelessRecipe
-import net.minecraft.recipe.book.CraftingRecipeCategory
+import net.minecraft.world.item.crafting.Ingredient
+import net.minecraft.world.item.crafting.ShapelessRecipe
+import net.minecraft.world.item.crafting.CraftingRecipe
+import net.minecraft.world.item.crafting.CraftingBookCategory
+import net.minecraft.world.item.crafting.Recipe
+import net.minecraft.world.item.ItemStackTemplate
 
 class BedrockRecipeShapelessComponent : ConiumRecipeTemplate<ShapelessRecipe>(RECIPE_SHAPELESS) {
     companion object {
@@ -37,9 +40,9 @@ class BedrockRecipeShapelessComponent : ConiumRecipeTemplate<ShapelessRecipe>(RE
 
     override fun result(): ShapelessRecipe {
         return ShapelessRecipe(
-            this.group,
-            CraftingRecipeCategory.MISC,
-            this.result,
+            Recipe.CommonInfo(true),
+            CraftingRecipe.CraftingBookInfo(CraftingBookCategory.MISC, this.group),
+            ItemStackTemplate.fromNonEmptyStack(this.result),
             this.ingredients
         )
     }

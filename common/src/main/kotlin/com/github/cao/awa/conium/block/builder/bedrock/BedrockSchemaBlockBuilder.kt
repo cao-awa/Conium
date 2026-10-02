@@ -3,8 +3,8 @@ package com.github.cao.awa.conium.block.builder.bedrock
 import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
 import com.github.cao.awa.conium.template.ConiumTemplate
 import com.google.gson.JsonObject
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.util.Identifier
+import net.minecraft.core.HolderLookup
+import net.minecraft.resources.Identifier
 
 class BedrockSchemaBlockBuilder(identifier: Identifier) : ConiumBlockBuilder(identifier) {
     companion object {
@@ -12,7 +12,7 @@ class BedrockSchemaBlockBuilder(identifier: Identifier) : ConiumBlockBuilder(ide
         fun deserialize(json: JsonObject): BedrockSchemaBlockBuilder {
             return json["minecraft:block"]!!.asJsonObject.let { block ->
                 val builder = block["description"]!!.asJsonObject.let { description ->
-                    BedrockSchemaBlockBuilder(Identifier.of(description["identifier"].asString)).also {
+                    BedrockSchemaBlockBuilder(Identifier.parse(description["identifier"].asString)).also {
 //                        it.templates.add()
                     }
                 }
@@ -31,7 +31,7 @@ class BedrockSchemaBlockBuilder(identifier: Identifier) : ConiumBlockBuilder(ide
         fun earlyDeserialize(json: JsonObject): BedrockSchemaBlockBuilder {
             return json["minecraft:block"]!!.asJsonObject.let { block ->
                 val builder = block["description"]!!.asJsonObject.let { description ->
-                    BedrockSchemaBlockBuilder(Identifier.of(description["identifier"].asString)).also {
+                    BedrockSchemaBlockBuilder(Identifier.parse(description["identifier"].asString)).also {
 //                        it.templates.add()
                     }
                 }

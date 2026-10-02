@@ -1,12 +1,13 @@
-package com.github.cao.awa.conium.item.event.inventory.tick.metadata
+﻿package com.github.cao.awa.conium.item.event.inventory.tick.metadata
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
-import net.minecraft.entity.Entity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.world.World
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
 
 class ConiumItemInventoryTickEventMetadata(val context: ConiumEventContext<Item>) : ConiumEventMetadata<Item, ConiumItemInventoryTickEventMetadata>() {
     val world: World = this.context[ConiumEventArgTypes.WORLD]

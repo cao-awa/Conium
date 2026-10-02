@@ -5,17 +5,16 @@ import com.github.cao.awa.conium.event.context.ConiumEventContext;
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext;
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.block.entity.LootableContainerBlockEntity;
-import net.minecraft.block.entity.ViewerCountManager;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.SidedInventory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -23,19 +22,19 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(ChestBlockEntity.class)
-public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity implements SidedInventory {
+public abstract class ChestBlockEntityMixin extends RandomizableContainerBlockEntity {
     protected ChestBlockEntityMixin(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
         super(blockEntityType, blockPos, blockState);
     }
 
     @Redirect(
-            method = "onOpen",
+            method = "startOpen",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/block/entity/ViewerCountManager;openContainer(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;D)V"
+                    target = "Lnet/minecraft/world/level/block/entity/ContainerOpenersCounter;incrementOpeners(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;D)V"
             )
     )
-    public void onOpenChest(ViewerCountManager instance, LivingEntity user, World world, BlockPos pos, BlockState state, double userInteractionRange) {
+    public void onOpenChest(ContainerOpenersCounter instance, LivingEntity user, Level world, BlockPos pos, BlockState state, double userInteractionRange) {
         // Request the opening chest context.
         ConiumArisingEventContext<?, ?> openingContext = buildContext(
                 ConiumEventType.CHEST_OPENING,
@@ -46,17 +45,17 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
                 state
         );
 
-        Block block = getCachedState().getBlock();
+        Block block = getBlockState().getBlock();
 
         if (openingContext.presaging(block)) {
             openingContext.arising(block);
 
-            // Request the closed shulker box context.
+            // Request the opened chest context.
             ConiumArisingEventContext<?, ?> openedContext = ConiumEvent.request(ConiumEventType.CHEST_OPENED);
 
             openedContext.inherit(openingContext);
 
-            // Closed event cannot cancel because it already completed.
+            // Opened event cannot cancel because it already completed.
             if (openedContext.presaging(block)) {
                 openedContext.arising(block);
             }
@@ -64,14 +63,14 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
     }
 
     @Redirect(
-            method = "onClose",
+            method = "stopOpen",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/block/entity/ViewerCountManager;closeContainer(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V"
+                    target = "Lnet/minecraft/world/level/block/entity/ContainerOpenersCounter;decrementOpeners(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)V"
             )
     )
-    public void onCloseChest(ViewerCountManager instance, LivingEntity user, World world, BlockPos pos, BlockState state) {
-        // Request the closing shulker box context.
+    public void onCloseChest(ContainerOpenersCounter instance, LivingEntity user, Level world, BlockPos pos, BlockState state) {
+        // Request the closing chest context.
         ConiumArisingEventContext<?, ?> closingContext = buildContext(
                 ConiumEventType.CHEST_CLOSING,
                 instance,
@@ -81,12 +80,12 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
                 state
         );
 
-        Block block = getCachedState().getBlock();
+        Block block = getBlockState().getBlock();
 
         if (closingContext.presaging(block)) {
             closingContext.arising(block);
 
-            instance.closeContainer(user, world, pos, state);
+            instance.decrementOpeners(user, world, pos, state);
 
             // Request the closed chest context.
             ConiumArisingEventContext<?, ?> closedContext = ConiumEvent.request(ConiumEventType.CHEST_CLOSED);
@@ -104,9 +103,9 @@ public abstract class ChestBlockEntityMixin extends LootableContainerBlockEntity
     @NotNull
     private ConiumArisingEventContext<?, ?> buildContext(
             @NotNull ConiumEventType<?, ?, ?, ?> eventType,
-            @NotNull ViewerCountManager viewerManager,
+            @NotNull ContainerOpenersCounter viewerManager,
             @NotNull LivingEntity user,
-            @NotNull World world,
+            @NotNull Level world,
             @NotNull BlockPos pos,
             @NotNull BlockState state
     ) {

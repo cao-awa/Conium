@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.bedrock.impl.block.state
 
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
-import net.minecraft.block.BlockState
+import net.minecraft.world.level.block.state.BlockState
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("Block")

@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.block.ConiumBlock
 import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.template.builder.ConiumBuilderWithTemplates
-import net.minecraft.util.Identifier
+import net.minecraft.resources.Identifier
 
 abstract class ConiumBlockBuilder(val identifier: Identifier) : ConiumBuilderWithTemplates<
         ConiumBlockBuilder,

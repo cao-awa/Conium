@@ -7,12 +7,12 @@ import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.asObject
 import com.github.cao.awa.conium.template.entity.conium.ConiumEntityTemplates.MODEL
 import com.google.gson.JsonElement
-import net.minecraft.client.render.entity.EntityRendererFactory
-import net.minecraft.util.Identifier
+import net.minecraft.client.renderer.entity.EntityRendererProvider
+import net.minecraft.resources.Identifier
 
 class ConiumEntityModelTemplate(
     private val texturePath: Identifier,
-    private val model: (EntityRendererFactory.Context) -> ConiumEntityModel,
+    private val model: (EntityRendererProvider.Context) -> ConiumEntityModel,
 ) : ConiumEntityTemplate(true, MODEL) {
     companion object {
         @JvmStatic
@@ -23,9 +23,9 @@ class ConiumEntityModelTemplate(
                 return ConiumEntityModelTemplate(
                     asObject(this["texture"]) {
                         // Create the texture path.
-                        Identifier.of(this["path"].asString)
+                        Identifier.parse(this["path"].asString)
                     }
-                ) { context: EntityRendererFactory.Context ->
+                ) { context: EntityRendererProvider.Context ->
                     // Create the entity model on the renderer context.
                     ConiumEntityModel.create(context, this)
                 }

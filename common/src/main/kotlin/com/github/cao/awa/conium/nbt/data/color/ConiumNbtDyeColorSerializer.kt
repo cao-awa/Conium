@@ -7,9 +7,9 @@ import com.github.cao.awa.conium.kotlin.extent.json.ifString
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.nbt.data.RegistrableNbt
 import com.google.gson.JsonObject
-import net.minecraft.storage.ReadView
-import net.minecraft.storage.WriteView
-import net.minecraft.util.DyeColor
+import net.minecraft.world.level.storage.ValueInput
+import net.minecraft.world.level.storage.ValueOutput
+import net.minecraft.world.item.DyeColor
 import java.util.function.Supplier
 
 /**
@@ -17,8 +17,8 @@ import java.util.function.Supplier
  *
  * @see Byte
  * @see DyeColor
- * @see ReadView
- * @see WriteView
+ * @see ValueInput
+ * @see ValueOutput
  * @see JsonObject
  * @see RegistrableNbt
  * @see ConiumNbtDataSerializer
@@ -32,7 +32,7 @@ class ConiumNbtDyeColorSerializer : ConiumNbtDataSerializer<DyeColor>() {
         private val COLORS: Map<Int, DyeColor> = HashMap<Int, DyeColor>().also {
             // Create all dye colors.
             for (dyeColor in DyeColor.entries) {
-                it[dyeColor.index] = dyeColor
+                it[dyeColor.id] = dyeColor
             }
         }
         private val COLORS_BY_NAME: Map<String, DyeColor> = HashMap<String, DyeColor>().also {
@@ -54,15 +54,15 @@ class ConiumNbtDyeColorSerializer : ConiumNbtDataSerializer<DyeColor>() {
      *
      * @see Byte
      * @see DyeColor
-     * @see ReadView
+     * @see ValueInput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun read(readView: ReadView, key: String, fallback: Supplier<DyeColor>): DyeColor {
+    override fun read(readView: ValueInput, key: String, fallback: Supplier<DyeColor>): DyeColor {
         // Read id from NBT compound.
-        val id = readView.getByte(key, fallback.get().index.byte).int
+        val id = readView.getByteOr(key, fallback.get().id.byte).int
         // Get color using color id.
         return COLORS[id]?: throw IllegalArgumentException("Dye color $id is not allowed")
     }
@@ -76,15 +76,15 @@ class ConiumNbtDyeColorSerializer : ConiumNbtDataSerializer<DyeColor>() {
      *
      * @see Byte
      * @see DyeColor
-     * @see WriteView
+     * @see ValueOutput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun write(writeView: WriteView, key: String, value: DyeColor) {
+    override fun write(writeView: ValueOutput, key: String, value: DyeColor) {
         // Write id to NBT compound.
-        writeView.putByte(key, value.index.byte)
+        writeView.putByte(key, value.id.byte)
     }
 
     /**

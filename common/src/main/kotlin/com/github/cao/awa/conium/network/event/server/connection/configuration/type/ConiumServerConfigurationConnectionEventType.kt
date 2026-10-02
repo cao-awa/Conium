@@ -6,12 +6,12 @@ import com.github.cao.awa.conium.inactive.event.metadata.ConiumInactiveEventMeta
 import com.github.cao.awa.conium.item.event.use.metadata.ConiumItemUseEventMetadata
 import com.github.cao.awa.conium.item.event.used.metadata.ConiumItemUsedEventMetadata
 import com.github.cao.awa.conium.network.event.server.connection.configuration.metadata.ConiumServerConfigurationConnectionEventMetadata
-import net.minecraft.item.Item
-import net.minecraft.server.network.ServerConfigurationNetworkHandler
+import net.minecraft.world.item.Item
+import net.minecraft.server.network.ServerConfigurationPacketListenerImpl
 
-class ConiumServerConfigurationConnectionEventType: ConiumCancelableEventType<ServerConfigurationNetworkHandler, ConiumServerConfigurationConnectionEventMetadata, Unit, ConiumInactiveEventMetadata>(
+class ConiumServerConfigurationConnectionEventType: ConiumCancelableEventType<ServerConfigurationPacketListenerImpl, ConiumServerConfigurationConnectionEventMetadata, Unit, ConiumInactiveEventMetadata>(
     "server_configuration_connection",
-    "ServerConfigurationNetworkHandler",
+    "ServerConfigurationPacketListenerImpl",
     ConiumEvent.Companion::serverConfigurationConnection
 ) {
 }

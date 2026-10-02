@@ -15,11 +15,11 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.item.event.use.metadata.ConiumItemUseEventMetadata
 import com.github.cao.awa.conium.parameter.ParameterSelective1
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
 import net.minecraft.server.MinecraftServer
-import net.minecraft.world.World
+import net.minecraft.world.level.Level
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemUseBeforeEventSignal")
@@ -31,7 +31,7 @@ class BedrockItemUseBeforeEvent: BedrockEvent<Item, BedrockItemUseEventContext, 
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.PLAYER,
             ConiumEventArgTypes.ITEM_STACK
-        ) { _: Any, world: World, source: PlayerEntity, itemStack: ItemStack ->
+        ) { _: Any, world: Level, source: Player, itemStack: ItemStack ->
             val server: MinecraftServer? = world.server
 
             if (server == null) {

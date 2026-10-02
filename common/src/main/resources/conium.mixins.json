@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.github.cao.awa.conium.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "injectors": {
     "defaultRequire": 1
   },
@@ -11,7 +11,7 @@
     "block.AbstractBlockStateMixin",
     "block.BlockItemMixin",
     "block.BlockMixin",
-    "block.compostable.ComposterBlockAccessor",
+    "block.entity.furnace.AbstractFurnaceBlockEntityMixin",
     "block.entity.shulker.ChestBlockEntityMixin",
     "block.entity.shulker.ShulkerBoxBlockEntityMixin",
     "collection.IdListMixin",
@@ -25,21 +25,18 @@
     "entity.living.LivingEntityAccessor",
     "entity.living.LivingEntityMixin",
     "item.ItemMixin",
-    "item.fuel.FuelRegistryMixin",
-    "item.setting.ItemSettingsAccessor",
     "item.stack.ItemStackMixin",
-    "recipe.ServerRecipeManagerAccessor",
     "recipe.property.RecipePropertySetAccessor",
     "registry.NamedRegistryEntryListMixin",
     "registry.RegistryEntryReferenceAccessor",
     "registry.RegistryEntryReferenceMixin",
     "registry.SimpleRegistryMixin",
+    "screen.AbstractFurnaceMenuMixin",
     "server.MinecraftServerMixin",
     "server.interaction.ServerPlayerInteractionManagerMixin",
     "server.network.ServerConfigurationNetworkHandlerMixin",
     "server.save.SaveLoadingMixin",
-    "server.world.ServerWorldMixin",
-    "world.WorldAccessor"
+    "server.world.ServerWorldMixin"
   ],
   "client": [
     "client.MinecraftClientAccessor",

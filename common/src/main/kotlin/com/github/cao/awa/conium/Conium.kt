@@ -26,7 +26,7 @@ import com.github.cao.awa.translator.structuring.io.IOUtil
 import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
 import com.github.cao.awa.translator.structuring.translate.element.TranslateElementData
 import com.github.cao.awa.translator.structuring.translate.language.LanguageTranslateTarget
-import net.minecraft.util.Identifier
+import net.minecraft.resources.Identifier
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 

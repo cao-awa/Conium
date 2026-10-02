@@ -13,47 +13,47 @@ import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry
 import com.github.cao.awa.conium.template.ConiumTemplate
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.item.BlockItem
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.resource.ResourceManager
-import net.minecraft.util.Identifier
-import net.minecraft.util.profiler.Profiler
+import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.Registry
+import net.minecraft.core.HolderLookup
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.resources.Identifier
+import net.minecraft.util.profiling.ProfilerFiller
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.util.*
 
-class ConiumItemManager(var registryLookup: RegistryWrapper.WrapperLookup): ConiumJsonDataLoader(ConiumRegistryKeys.ITEM.value) {
+class ConiumItemManager(var registryLookup: HolderLookup.Provider): ConiumJsonDataLoader(ConiumRegistryKeys.ITEM.identifier()) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumItemManager")
     }
 
-    private val blockItems: MutableMap<Identifier, (Item.Settings) -> BlockItem> = HashMap()
+    private val blockItems: MutableMap<Identifier, (Item.Properties) -> BlockItem> = HashMap()
     private val fuelRegistry: ConiumFuelRegistry = ConiumFuelRegistry()
-    var pendingTagLoad: List<Registry.PendingTagLoad<*>>? = null
+    var pendingTagLoad: List<Registry.PendingTags<*>>? = null
     val fuels: Set<Item> get() = this.fuelRegistry.fuelItems
 
     override fun earlyLoad(manager: ResourceManager, dataType: Identifier, result: MutableMap<Identifier, JsonElement>) {
         // TODO
     }
 
-    override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
+    override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: ProfilerFiller) {
         resetRegistries()
 
         for ((key: Identifier, value: JsonElement) in prepared) {
             load(key, value as JsonObject)
         }
 
-        for ((identifier: Identifier, itemProvider: (Item.Settings) -> BlockItem) in this.blockItems) {
+        for ((identifier: Identifier, itemProvider: (Item.Properties) -> BlockItem) in this.blockItems) {
             registerItem(identifier, itemProvider)
         }
     }
 
     fun resetRegistries() {
-        (Registries.ITEM as ConiumDynamicRegistry).clearDynamic()
+        (BuiltInRegistries.ITEM as ConiumDynamicRegistry).clearDynamic()
         this.fuelRegistry.resetComputedFuels()
     }
 
@@ -78,11 +78,11 @@ class ConiumItemManager(var registryLookup: RegistryWrapper.WrapperLookup): Coni
         builder.register()
     }
 
-    fun pendingBlockItem(identifier: Identifier, item: (Item.Settings) -> BlockItem) {
+    fun pendingBlockItem(identifier: Identifier, item: (Item.Properties) -> BlockItem) {
         this.blockItems[identifier] = item
     }
 
-    fun register(identifier: Identifier, item: (Item.Settings) -> Item): Item = registerItem(identifier, item)
+    fun register(identifier: Identifier, item: (Item.Properties) -> Item): Item = registerItem(identifier, item)
 
     fun addFuel(item: Item, duration: Int) = this.fuelRegistry.add(item, duration)
 

@@ -1,10 +1,9 @@
 package com.github.cao.awa.conium.mixin.craft.table;
 
 import com.github.cao.awa.conium.intermediary.craft.table.ConiumCraftingEventMixinIntermediary;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.CrafterOutputSlot;
-import net.minecraft.screen.slot.CraftingResultSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.inventory.ResultSlot;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -12,12 +11,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(CraftingResultSlot.class)
+@Mixin(ResultSlot.class)
 public class CraftingResultSlotMixin {
-    @Shadow @Final private PlayerEntity player;
+    @Shadow @Final private Player player;
 
     @Inject(
-            method = "onCrafted(Lnet/minecraft/item/ItemStack;I)V",
+            method = "onQuickCraft(Lnet/minecraft/world/item/ItemStack;I)V",
             at = @At("HEAD"),
             cancellable = true
     )
@@ -28,10 +27,10 @@ public class CraftingResultSlotMixin {
     }
 
     @Inject(
-            method = "onCrafted(Lnet/minecraft/item/ItemStack;)V",
+            method = "checkTakeAchievements(Lnet/minecraft/world/item/ItemStack;)V",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/item/ItemStack;onCraftByPlayer(Lnet/minecraft/entity/player/PlayerEntity;I)V"
+                    target = "Lnet/minecraft/world/item/ItemStack;onCraftedBy(Lnet/minecraft/world/entity/player/Player;I)V"
             )
     )
     public void onCrafted(ItemStack stack, CallbackInfo ci) {

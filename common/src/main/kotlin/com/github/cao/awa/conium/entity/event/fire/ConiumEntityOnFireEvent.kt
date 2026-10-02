@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.entity.event.fire
+﻿package com.github.cao.awa.conium.entity.event.fire
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.entity.event.fire.metadata.ConiumEntityOnFireEventMetadata
 import com.github.cao.awa.conium.event.ConiumEvent
@@ -11,8 +12,8 @@ import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.inactive.event.type.ConiumInactiveEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective2
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
 
 class ConiumEntityOnFireEvent : ConiumEvent<EntityType<*>, ConiumEntityOnFireEventMetadata, ParameterSelective2<Boolean, Entity, Int>, ConiumInactiveEventType>(
     ConiumEventType.ENTITY_ON_FIRE,

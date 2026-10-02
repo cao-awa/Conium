@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.item.event.use.usage.tick
+﻿package com.github.cao.awa.conium.item.event.use.usage.tick
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
@@ -11,10 +12,10 @@ import com.github.cao.awa.conium.item.event.use.usage.tick.metadata.ConiumItemUs
 import com.github.cao.awa.conium.item.event.use.usage.ticked.type.ConiumItemUsageTickedEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective4
-import net.minecraft.entity.LivingEntity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.world.World
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
 
 class ConiumItemUsageTickEvent : ConiumEvent<Item, ConiumItemUsageTickEventMetadata, ParameterSelective4<Boolean, World, LivingEntity, ItemStack, Int>, ConiumItemUsageTickedEventType>(
     ConiumEventType.Companion.ITEM_USAGE_TICK,

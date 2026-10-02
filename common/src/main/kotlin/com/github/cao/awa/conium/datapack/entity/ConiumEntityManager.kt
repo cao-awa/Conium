@@ -13,23 +13,22 @@ import com.github.cao.awa.conium.kotlin.extent.entity.register
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.registry.DynamicRegistryManager
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.registry.Registries
-import net.minecraft.resource.ResourceManager
-import net.minecraft.util.Identifier
-import net.minecraft.util.profiler.Profiler
+import net.minecraft.core.HolderLookup
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.resources.Identifier
+import net.minecraft.util.profiling.ProfilerFiller
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-class ConiumEntityManager(var registryLookup: RegistryWrapper.WrapperLookup): ConiumJsonDataLoader(ConiumRegistryKeys.ENTITY.value) {
+class ConiumEntityManager(var registryLookup: HolderLookup.Provider): ConiumJsonDataLoader(ConiumRegistryKeys.ENTITY.identifier()) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumEntityManager")
     }
 
     val metadata: MutableList<ConiumEntityMetadata> = ArrayList()
 
-    override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
+    override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: ProfilerFiller) {
         resetRegistries()
 
         for ((key: Identifier, value: JsonElement) in prepared) {
@@ -38,7 +37,7 @@ class ConiumEntityManager(var registryLookup: RegistryWrapper.WrapperLookup): Co
     }
 
     fun resetRegistries() {
-        (Registries.ENTITY_TYPE as ConiumDynamicRegistry).clearDynamic()
+        (BuiltInRegistries.ENTITY_TYPE as ConiumDynamicRegistry).clearDynamic()
         ConiumEntityAttributeRegistry.resetAttributes()
 
         if (Conium.isClient) {

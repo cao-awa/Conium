@@ -1,4 +1,5 @@
 package com.github.cao.awa.conium.intermediary.block
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.block.event.breaks.ConiumBreakBlockEvent
 import com.github.cao.awa.conium.block.event.place.ConiumPlaceBlockEvent
@@ -12,17 +13,17 @@ import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary
 import com.github.cao.awa.conium.kotlin.extent.block.invokeOnUse
 import com.github.cao.awa.conium.mixin.block.BlockItemMixin
 import com.github.cao.awa.conium.mixin.block.AbstractBlockStateMixin
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.random.Random
-import net.minecraft.world.World
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.core.BlockPos
+import net.minecraft.util.RandomSource
+import net.minecraft.world.level.Level
 
 object ConiumBlockEventMixinIntermediary {
     /**
@@ -46,7 +47,7 @@ object ConiumBlockEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireBlockBreakingEvent(state: BlockState, world: World, player: PlayerEntity, pos: BlockPos): Boolean {
+    fun fireBlockBreakingEvent(state: BlockState, world: World, player: Player, pos: BlockPos): Boolean {
         return ConiumEventMixinIntermediary.fireEventCancelable(
             ConiumEventType.BREAKING_BLOCK,
             state.block
@@ -83,7 +84,7 @@ object ConiumBlockEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireBlockUsageEvent(state: BlockState, world: World, player: PlayerEntity, pos: BlockPos, hitResult: BlockHitResult): ActionResult {
+    fun fireBlockUsageEvent(state: BlockState, world: World, player: Player, pos: BlockPos, hitResult: BlockHitResult): InteractionResult {
         val block: Block = state.block
 
         return ConiumEventMixinIntermediary.fireInheritedCascadedResultEvent(
@@ -114,7 +115,7 @@ object ConiumBlockEventMixinIntermediary {
                 )
             },
             // Return 'FAIL' when event 'USE_BLOCK' presaging was rejected the event.
-            ActionResult.FAIL
+            InteractionResult.FAIL
         )
     }
 
@@ -133,12 +134,12 @@ object ConiumBlockEventMixinIntermediary {
      * @return flag that noted should do mixin cancel
      *
      * @author cao_awa
-     * @author 草二号机
+     * @author 鑽変簩鍙锋満
      *
      * @since 1.0.0
      */
     @JvmStatic
-    fun firePlaceBlockEvent(block: Block, placementContext: ItemPlacementContext): Boolean {
+    fun firePlaceBlockEvent(block: Block, placementContext: BlockPlaceContext): Boolean {
         return ConiumEventMixinIntermediary.fireEventCancelable(
             ConiumEventType.PLACE_BLOCK,
             block
@@ -164,7 +165,7 @@ object ConiumBlockEventMixinIntermediary {
      * @param itemStack the item stack that placing this block
      *
      * @author cao_awa
-     * @author 草二号机
+     * @author 鑽変簩鍙锋満
      *
      * @since 1.0.0
      */
@@ -185,7 +186,7 @@ object ConiumBlockEventMixinIntermediary {
             }
         ) {
             // Only presaging state is true can be continued.
-            block.onPlaced(world, pos, state, placer, itemStack)
+            block.setPlacedBy(world, pos, state, placer, itemStack)
         }
     }
 
@@ -206,7 +207,7 @@ object ConiumBlockEventMixinIntermediary {
      * @return flag that noted should do mixin cancel
      *
      * @author cao_awa
-     * @author 草二号机
+     * @author 鑽変簩鍙锋満
      *
      * @since 1.0.0
      */
@@ -222,7 +223,7 @@ object ConiumBlockEventMixinIntermediary {
                 placeBlockContext[ConiumEventArgTypes.BLOCK_STATE] = state
             }
         ) {
-            block.onBroken(world, pos, state)
+            block.destroy(world, pos, state)
         }
     }
 

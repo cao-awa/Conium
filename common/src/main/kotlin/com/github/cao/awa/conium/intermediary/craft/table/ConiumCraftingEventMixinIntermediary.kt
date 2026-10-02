@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.intermediary.craft.table
+﻿package com.github.cao.awa.conium.intermediary.craft.table
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
@@ -6,11 +7,11 @@ import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.fireEvent
 import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.fireEventCancelable
 import com.github.cao.awa.conium.mapping.yarn.ItemStack
-import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.world.entity.player.Player
 
 object ConiumCraftingEventMixinIntermediary {
     @JvmStatic
-    fun firePlayerCraftingItemEvent(player: PlayerEntity, itemStack: ItemStack): Boolean {
+    fun firePlayerCraftingItemEvent(player: Player, itemStack: ItemStack): Boolean {
         return fireEventCancelable(
             ConiumEventType.CRAFTING_TABLE_CRAFTING,
             itemStack.item
@@ -21,7 +22,7 @@ object ConiumCraftingEventMixinIntermediary {
     }
 
     @JvmStatic
-    fun firePlayerCraftedItemEvent(player: PlayerEntity, itemStack: ItemStack) {
+    fun firePlayerCraftedItemEvent(player: Player, itemStack: ItemStack) {
         fireEvent(
             ConiumEventType.CRAFTING_TABLE_CRAFTED,
             itemStack.item

@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.item.event.used
+﻿package com.github.cao.awa.conium.item.event.used
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
@@ -11,14 +12,14 @@ import com.github.cao.awa.conium.item.event.used.metadata.ConiumItemUsedEventMet
 import com.github.cao.awa.conium.item.event.used.type.ConiumItemUsedEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective5
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.world.World
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.level.Level
 
-class ConiumItemUsedEvent : ConiumEvent<Item, ConiumItemUsedEventMetadata, ParameterSelective5<Boolean, World, PlayerEntity, Hand, ItemStack, ActionResult>, ConiumInactiveEventType>(
+class ConiumItemUsedEvent : ConiumEvent<Item, ConiumItemUsedEventMetadata, ParameterSelective5<Boolean, World, Player, InteractionHand, ItemStack, InteractionResult>, ConiumInactiveEventType>(
     ConiumEventType.ITEM_USED,
     { ConiumEventType.INACTIVE }
 ) {
@@ -30,7 +31,7 @@ class ConiumItemUsedEvent : ConiumEvent<Item, ConiumItemUsedEventMetadata, Param
             ConiumEventArgTypes.HAND,
             ConiumEventArgTypes.ITEM_STACK,
             ConiumEventArgTypes.ACTION_RESULT
-        ) { identity: Item, world: World, user: PlayerEntity, hand: Hand, itemStack: ItemStack, actionResult: ActionResult ->
+        ) { identity: Item, world: World, user: Player, hand: InteractionHand, itemStack: ItemStack, actionResult: InteractionResult ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, user, hand, itemStack, actionResult)
             }

@@ -3,16 +3,16 @@ package com.github.cao.awa.conium.nbt.data.primary
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.nbt.data.RegistrableNbt
 import com.google.gson.JsonObject
-import net.minecraft.storage.ReadView
-import net.minecraft.storage.WriteView
+import net.minecraft.world.level.storage.ValueInput
+import net.minecraft.world.level.storage.ValueOutput
 import java.util.function.Supplier
 
 /**
  * NBT serializer for long.
  *
  * @see Long
- * @see ReadView
- * @see WriteView
+ * @see ValueInput
+ * @see ValueOutput
  * @see JsonObject
  * @see RegistrableNbt
  * @see ConiumNbtDataSerializer
@@ -32,13 +32,13 @@ class ConiumNbtLongSerializer : ConiumNbtDataSerializer<Long>() {
      * @return the deserialize result
      *
      * @see Long
-     * @see ReadView
+     * @see ValueInput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun read(readView: ReadView, key: String, fallback: Supplier<Long>): Long = readView.getLong(key, fallback.get())
+    override fun read(readView: ValueInput, key: String, fallback: Supplier<Long>): Long = readView.getLongOr(key, fallback.get())
 
     /**
      * Serialize a long value to a data view.
@@ -48,13 +48,13 @@ class ConiumNbtLongSerializer : ConiumNbtDataSerializer<Long>() {
      * @param value the value of data
      *
      * @see Long
-     * @see WriteView
+     * @see ValueOutput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun write(writeView: WriteView, key: String, value: Long) = writeView.putLong(key, value)
+    override fun write(writeView: ValueOutput, key: String, value: Long) = writeView.putLong(key, value)
 
     /**
      * Deserialize a long value from JSON object.

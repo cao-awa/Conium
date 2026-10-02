@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.entity.ConiumEntity
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettingsWithTypeBuilder
 import com.github.cao.awa.conium.template.ConiumTemplate
-import net.minecraft.entity.EntityType
+import net.minecraft.world.entity.EntityType
 
 abstract class ConiumEntityTemplate(isClient: Boolean = false, name: String) : ConiumTemplate<ConiumEntity, ConiumEntitySettingsWithTypeBuilder>(isClient, name) {
     override fun attach(target: ConiumEntity) {

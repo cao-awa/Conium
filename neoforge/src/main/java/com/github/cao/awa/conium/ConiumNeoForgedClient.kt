@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.network.packet.client.configuration.ConiumClien
 import com.github.cao.awa.conium.network.packet.client.play.ConiumClientPlayPacket
 import com.github.cao.awa.conium.network.packet.sender.PacketSender
 import com.github.cao.awa.conium.network.registry.ConiumPacketRegister
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.bus.api.IEventBus
 import net.neoforged.fml.common.Mod
@@ -21,13 +21,13 @@ class ConiumNeoForgedClient(eventBus: IEventBus) {
         ConiumPacketRegister.implementConfigurationToClient<ConiumClientConfigurationPacket> { id, codec ->
             registrar.configurationToClient(id, codec) { payload, context ->
                 val sender = context.connection()
-                payload.arising(MinecraftClient.getInstance(), null, PacketSender(sender::send), context.listener())
+                payload.arising(Minecraft.getInstance(), null, PacketSender(sender::send), context.listener())
             }
         }
         ConiumPacketRegister.implementPlayToClient<ConiumClientPlayPacket> { id, codec ->
             registrar.playToClient(id, codec) { payload, context ->
                 val sender = context.connection()
-                payload.arising(MinecraftClient.getInstance(), null, PacketSender(sender::send), context.listener())
+                payload.arising(Minecraft.getInstance(), null, PacketSender(sender::send), context.listener())
             }
         }
 

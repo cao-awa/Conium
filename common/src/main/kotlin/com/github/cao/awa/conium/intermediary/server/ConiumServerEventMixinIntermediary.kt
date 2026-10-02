@@ -6,7 +6,7 @@ import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.fireEvent
 import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.fireEventCancelable
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerConfigurationNetworkHandler
+import net.minecraft.server.network.ServerConfigurationPacketListenerImpl
 import net.minecraft.util.Unit
 
 /**
@@ -103,7 +103,7 @@ object ConiumServerEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireServerConfigurationEvent(server: MinecraftServer, handler: ServerConfigurationNetworkHandler) {
+    fun fireServerConfigurationEvent(server: MinecraftServer, handler: ServerConfigurationPacketListenerImpl) {
         fireEvent(
             ConiumEventType.SERVER_CONFIGURATION_CONNECTION,
             handler
@@ -126,7 +126,7 @@ object ConiumServerEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireServerConfiguredEvent(server: MinecraftServer, handler: ServerConfigurationNetworkHandler) {
+    fun fireServerConfiguredEvent(server: MinecraftServer, handler: ServerConfigurationPacketListenerImpl) {
         fireEvent(
             ConiumEventType.SERVER_CONFIGURED_CONNECTION,
             handler

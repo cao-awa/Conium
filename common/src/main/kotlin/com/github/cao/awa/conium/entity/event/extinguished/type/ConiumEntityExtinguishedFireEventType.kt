@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.entity.event.extinguished.type
+﻿package com.github.cao.awa.conium.entity.event.extinguished.type
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.entity.event.dead.metadata.ConiumEntityDeadEventMetadata
 import com.github.cao.awa.conium.entity.event.die.metadata.ConiumEntityDieEventMetadata
@@ -7,7 +8,7 @@ import com.github.cao.awa.conium.entity.event.extinguished.metadata.ConiumEntity
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.type.cancelable.ConiumCancelableEventType
 import com.github.cao.awa.conium.event.type.cancelable.ConiumNoCancelableEventType
-import net.minecraft.entity.EntityType
+import net.minecraft.world.entity.EntityType
 
 class ConiumEntityExtinguishedFireEventType: ConiumNoCancelableEventType<EntityType<*>, ConiumEntityExtinguishedFireEventMetadata, EntityType<*>, ConiumEntityExtinguishedFireEventMetadata>(
     "entity_extinguished_fire",

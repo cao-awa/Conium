@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.mixin.datapack.block;
 
 import com.github.cao.awa.conium.datapack.block.ConiumBlockManager;
 import net.fabricmc.fabric.impl.resource.FabricResourceReloader;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 
@@ -12,6 +12,6 @@ public abstract class ConiumBlockManagerMixin implements FabricResourceReloader 
     public @NotNull Identifier fabric$getId() {
         // Use identifiable resource loader system to reload block in data packs.
         // Make more compatible with other mods.
-        return Identifier.of("conium", "block_manager");
+        return Identifier.fromNamespaceAndPath("conium", "block_manager");
     }
 }

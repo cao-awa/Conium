@@ -3,10 +3,10 @@ package com.github.cao.awa.conium.nbt.data.primary
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.nbt.data.RegistrableNbt
 import com.google.gson.JsonObject
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.storage.ReadView
-import net.minecraft.storage.WriteView
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.core.HolderLookup
+import net.minecraft.world.level.storage.ValueInput
+import net.minecraft.world.level.storage.ValueOutput
 import java.util.function.Supplier
 
 /**
@@ -14,8 +14,8 @@ import java.util.function.Supplier
  *
  * @see Int
  * @see Integer
- * @see ReadView
- * @see WriteView
+ * @see ValueInput
+ * @see ValueOutput
  * @see JsonObject
  * @see RegistrableNbt
  * @see ConiumNbtDataSerializer
@@ -36,13 +36,13 @@ class ConiumNbtIntSerializer : ConiumNbtDataSerializer<Int>() {
      *
      * @see Int
      * @see Integer
-     * @see ReadView
+     * @see ValueInput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun read(readView: ReadView, key: String, fallback: Supplier<Int>): Int = readView.getInt(key, fallback.get())
+    override fun read(readView: ValueInput, key: String, fallback: Supplier<Int>): Int = readView.getIntOr(key, fallback.get())
 
     /**
      * Serialize an integer value to a data view.
@@ -53,13 +53,13 @@ class ConiumNbtIntSerializer : ConiumNbtDataSerializer<Int>() {
      *
      * @see Int
      * @see Integer
-     * @see WriteView
+     * @see ValueOutput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun write(writeView: WriteView, key: String, value: Int) = writeView.putInt(key, value)
+    override fun write(writeView: ValueOutput, key: String, value: Int) = writeView.putInt(key, value)
 
     /**
      * Deserialize an integer value from JSON object.

@@ -12,8 +12,8 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.item.event.use.block.on.use.metadata.ConiumItemUseOnBlockEventMetadata
 import com.github.cao.awa.conium.parameter.ParameterSelective1
-import net.minecraft.item.Item
-import net.minecraft.item.ItemUsageContext
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.context.UseOnContext
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemUseOnBeforeEventSignal")
@@ -24,7 +24,7 @@ class BedrockItemUseOnBeforeEvent: BedrockEvent<Item, BedrockItemUseOnEventMetad
     ): ConiumArisingEventContext<*, *> {
         return ConiumEventContextBuilder.unnamed(
             ConiumEventArgTypes.ITEM_USAGE_CONTEXT
-        ) { _: Any, usage: ItemUsageContext ->
+        ) { _: Any, usage: UseOnContext ->
             !usage.bedrockEventContext(scriptSource, usage.player).also { context: BedrockItemUseOnEventMetadata ->
                 BedrockEventContext.contexts[scriptSource] = context
             }.also { context: BedrockItemUseOnEventMetadata ->

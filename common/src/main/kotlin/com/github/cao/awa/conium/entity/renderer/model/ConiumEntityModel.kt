@@ -6,33 +6,38 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.model.*
-import net.minecraft.client.render.RenderLayers
-import net.minecraft.client.render.entity.EntityRendererFactory.Context
-import net.minecraft.client.render.entity.model.EntityModel
+import net.minecraft.client.model.EntityModel
+import net.minecraft.client.model.geom.ModelPart
+import net.minecraft.client.model.geom.PartPose
+import net.minecraft.client.model.geom.builders.CubeListBuilder
+import net.minecraft.client.model.geom.builders.LayerDefinition
+import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.client.model.geom.builders.PartDefinition
+import net.minecraft.client.renderer.entity.EntityRendererProvider.Context
+import net.minecraft.client.renderer.rendertype.RenderTypes
 import java.util.HashMap
 
 @Environment(EnvType.CLIENT)
-class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(root, RenderLayers::entityCutout) {
+class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(root, { RenderTypes.entityCutout(it) }) {
     companion object {
         val emptyModel = ConiumEntityModel(
             ModelPart(
-                ArrayList(),
-                HashMap()
+                emptyList(),
+                emptyMap()
             )
         )
 
         @JvmStatic
         fun create(context: Context, json: JsonObject): ConiumEntityModel {
-            val modelData = ModelData()
+            val modelData = MeshDefinition()
 
             // A map used to storage parts, a part can be the parent of other parts.
-            val modelParts: HashMap<String, ModelPartData> =  HashMap<String, ModelPartData>().also {
+            val modelParts: HashMap<String, PartDefinition> = HashMap<String, PartDefinition>().also {
                 it["root"] = modelData.root
             }
 
             // Create the conium model.
-            return ConiumEntityModel(createTextureModelData(modelData, modelParts, context, json).createModel())
+            return ConiumEntityModel(createTextureModelData(modelData, modelParts, context, json).bakeRoot())
         }
 
         /**
@@ -44,18 +49,18 @@ class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(
          * @since 1.0.0
          */
         fun createTextureModelData(
-            modelData: ModelData,
-            modelParts: MutableMap<String, ModelPartData>,
+            modelData: MeshDefinition,
+            modelParts: MutableMap<String, PartDefinition>,
             context: Context,
             parts: JsonArray,
             textureWidth: Int,
             textureHeight: Int
-        ): TexturedModelData {
+        ): LayerDefinition {
             // Create the parts.
             createParts(modelParts, context, parts)
 
             // Make texture model data.
-            return TexturedModelData.of(modelData, textureWidth, textureHeight)
+            return LayerDefinition.create(modelData, textureWidth, textureHeight)
         }
 
         /**
@@ -66,7 +71,7 @@ class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(
          *
          * @since 1.0.0
          */
-        fun createTextureModelData(modelData: ModelData, modelParts: MutableMap<String, ModelPartData>, context: Context, json: JsonObject): TexturedModelData {
+        fun createTextureModelData(modelData: MeshDefinition, modelParts: MutableMap<String, PartDefinition>, context: Context, json: JsonObject): LayerDefinition {
             // Texture data, the texture path is handled in the entity model template.
             val texture: JsonObject = json["texture"].asJsonObject
 
@@ -89,7 +94,7 @@ class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(
          *
          * @since 1.0.0
          */
-        fun createBedrockTextureModelData(modelData: ModelData, modelParts: MutableMap<String, ModelPartData>, context: Context, geometries: JsonArray): TexturedModelData {
+        fun createBedrockTextureModelData(modelData: MeshDefinition, modelParts: MutableMap<String, PartDefinition>, context: Context, geometries: JsonArray): LayerDefinition {
             // Only allow one of geometry to creating.
             val geometry: JsonObject = geometries[0].asJsonObject
 
@@ -115,7 +120,7 @@ class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(
          *
          * @since 1.0.0
          */
-        fun createParts(modelParts: MutableMap<String, ModelPartData>, context: Context, parts: JsonArray) {
+        fun createParts(modelParts: MutableMap<String, PartDefinition>, context: Context, parts: JsonArray) {
             parts.map(JsonElement::getAsJsonObject).forEach { part: JsonObject ->
                 // Setting the name of this part, used to storage and then can be the parent part of other parts.
                 val name: String = part["name"].asString
@@ -127,22 +132,22 @@ class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(
                 val mirror: Boolean = part["mirror"]?.asBoolean ?: false
 
                 // Transform data.
-                val transform: ModelTransform = pivot.let {
-                    ModelTransform.rotation(
+                val transform: PartPose = pivot.let {
+                    PartPose.rotation(
                         it[0].asFloat, it[1].asFloat, it[2].asFloat,
                     )
                 }
 
                 // Model part data.
-                ModelPartBuilder.create().mirrored(mirror).let { partBuilder: ModelPartBuilder ->
+                CubeListBuilder.create().mirror(mirror).let { partBuilder: CubeListBuilder ->
                     part["cubes"].asJsonArray.map(JsonElement::getAsJsonObject).forEach { cube: JsonObject ->
                         val uv = cube["uv"].asJsonArray
                         val origin = cube["origin"].asJsonArray
                         val size = cube["size"].asJsonArray
 
-                        partBuilder.uv(
+                        partBuilder.texOffs(
                             uv[0].asInt, uv[1].asInt
-                        ).cuboid(
+                        ).addBox(
                             origin[0].asFloat, origin[1].asFloat, origin[2].asFloat,
                             size[0].asFloat, size[1].asFloat, size[2].asFloat,
                         )
@@ -150,7 +155,7 @@ class ConiumEntityModel(root: ModelPart) : EntityModel<ConiumEntityRenderState>(
 
                     // Create child data and put it back to model parts.
                     // That may be the parent part of other child model part.
-                    modelParts[parent]!!.addChild(
+                    modelParts[parent]!!.addOrReplaceChild(
                         name,
                         partBuilder,
                         transform

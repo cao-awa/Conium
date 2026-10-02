@@ -3,16 +3,16 @@ package com.github.cao.awa.conium.nbt.data.primary
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.nbt.data.RegistrableNbt
 import com.google.gson.JsonObject
-import net.minecraft.storage.ReadView
-import net.minecraft.storage.WriteView
+import net.minecraft.world.level.storage.ValueInput
+import net.minecraft.world.level.storage.ValueOutput
 import java.util.function.Supplier
 
 /**
  * NBT serializer for double.
  *
  * @see Double
- * @see ReadView
- * @see WriteView
+ * @see ValueInput
+ * @see ValueOutput
  * @see JsonObject
  * @see RegistrableNbt
  * @see ConiumNbtDataSerializer
@@ -33,13 +33,13 @@ class ConiumNbtDoubleSerializer : ConiumNbtDataSerializer<Double>() {
      * @return the deserialize result
      *
      * @see Double
-     * @see ReadView
+     * @see ValueInput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun read(readView: ReadView, key: String, fallback: Supplier<Double>): Double = readView.getDouble(key, fallback.get())
+    override fun read(readView: ValueInput, key: String, fallback: Supplier<Double>): Double = readView.getDoubleOr(key, fallback.get())
 
     /**
      * Serialize a double value to a data view.
@@ -49,13 +49,13 @@ class ConiumNbtDoubleSerializer : ConiumNbtDataSerializer<Double>() {
      * @param value the value of data
      *
      * @see Double
-     * @see WriteView
+     * @see ValueOutput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun write(writeView: WriteView, key: String, value: Double) = writeView.putDouble(key, value)
+    override fun write(writeView: ValueOutput, key: String, value: Double) = writeView.putDouble(key, value)
 
     /**
      * Deserialize a double value from JSON object.

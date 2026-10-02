@@ -5,40 +5,44 @@ import com.github.cao.awa.conium.block.builder.ConiumBlockBuilder
 import com.github.cao.awa.conium.item.builder.ConiumItemBuilder
 import com.github.cao.awa.conium.item.builder.conium.ConiumSchemaItemBuilder
 import com.github.cao.awa.conium.item.setting.ConiumItemSettings
-import com.github.cao.awa.conium.mixin.item.setting.ItemSettingsAccessor
-import net.minecraft.block.Block
-import net.minecraft.component.ComponentMap
-import net.minecraft.item.BlockItem
-import net.minecraft.item.Item
-import net.minecraft.item.Items
-import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.util.Identifier
+import net.minecraft.world.level.block.Block
+import net.minecraft.core.component.DataComponentMap
+import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.Item
+import net.minecraft.core.Registry
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.Identifier
+import java.util.WeakHashMap
 
 fun ConiumItemBuilder.register() {
-    registerItem(this.identifier){
+    registerItem(this.identifier) {
         build(ConiumItemSettings(it))
     }
 }
 
-fun registerItem(identifier: Identifier, itemProvider: (Item.Settings) -> Item): Item {
-    return Items.register(itemKeyOf(identifier)) {
-        itemProvider(it)
-    }
+fun registerItem(identifier: Identifier, itemProvider: (Item.Properties) -> Item): Item {
+    val key = itemKeyOf(identifier)
+    val properties = Item.Properties().setId(key)
+    val item = itemProvider(properties)
+    return Registry.register(BuiltInRegistries.ITEM, identifier, item)
 }
 
-fun registerBlockItem(identifier: Identifier, block: Block, settingsProvider: (Item.Settings) -> Unit): Item {
-    return Items.register(itemKeyOf(identifier)) {
-        settingsProvider(it)
-        BlockItem(block, it)
-    }
+fun registerBlockItem(identifier: Identifier, block: Block, settingsProvider: (Item.Properties) -> Unit): Item {
+    val key = itemKeyOf(identifier)
+    val properties = Item.Properties().setId(key)
+    settingsProvider(properties)
+    val item = BlockItem(block, properties)
+    return Registry.register(BuiltInRegistries.ITEM, identifier, item)
 }
 
-fun ConiumBlockBuilder.registerBlockItem(block: ConiumBlock, settingsProvider: (Item.Settings) -> Unit = { }): Item {
+fun ConiumBlockBuilder.registerBlockItem(block: ConiumBlock, settingsProvider: (Item.Properties) -> Unit = { }): Item {
     return registerBlockItem(this.identifier, block, settingsProvider)
 }
 
-fun itemKeyOf(id: Identifier): RegistryKey<Item> = RegistryKey.of(RegistryKeys.ITEM, id)
+fun itemKeyOf(id: Identifier): ResourceKey<Item> = ResourceKey.create(Registries.ITEM, id)
 
-val Item.Settings.components: ComponentMap.Builder get() = (this as ItemSettingsAccessor).components
-
+private val propertiesComponentBuilders = WeakHashMap<Item.Properties, DataComponentMap.Builder>()
+val Item.Properties.components: DataComponentMap.Builder
+    get() = propertiesComponentBuilders.computeIfAbsent(this) { DataComponentMap.builder() }

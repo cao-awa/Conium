@@ -8,16 +8,16 @@ import com.github.cao.awa.conium.event.type.ConiumEventType;
 import com.github.cao.awa.conium.intermediary.block.ConiumBlockEventMixinIntermediary;
 import com.github.cao.awa.conium.intermediary.entity.ConiumEntityEventMixinIntermediary;
 import com.github.cao.awa.conium.intermediary.fluid.ConiumFluidEventMixinIntermediary;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,17 +25,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ServerWorld.class)
+@Mixin(ServerLevel.class)
 public class ServerWorldMixin {
-    private ServerWorld asWorld() {
-        return (ServerWorld) (Object) this;
+    private ServerLevel asWorld() {
+        return (ServerLevel) (Object) this;
     }
 
     @Inject(
-            method = "tickEntity",
+            method = "tickNonPassenger",
             at = @At(
                     value = "HEAD",
-                    target = "Lnet/minecraft/entity/Entity;tick()V"
+                    target = "Lnet/minecraft/world/entity/Entity;tick()V"
             ),
             cancellable = true
     )
@@ -50,10 +50,10 @@ public class ServerWorldMixin {
     }
 
     @Inject(
-            method = "tickEntity",
+            method = "tickNonPassenger",
             at = @At(
                     value = "RETURN",
-                    target = "Lnet/minecraft/entity/Entity;tick()V"
+                    target = "Lnet/minecraft/world/entity/Entity;tick()V"
             )
     )
     public void tickedEntity(@NotNull Entity entity, CallbackInfo ci) {
@@ -67,10 +67,10 @@ public class ServerWorldMixin {
             method = "tickFluid",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/fluid/FluidState;onScheduledTick(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V"
+                    target = "Lnet/minecraft/world/level/material/FluidState;tick(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)V"
             )
     )
-    private void scheduledFluidTick(@NotNull FluidState instance, ServerWorld world, BlockPos pos, BlockState blockState) {
+    private void scheduledFluidTick(@NotNull FluidState instance, ServerLevel world, BlockPos pos, BlockState blockState) {
         // Trigger the fluid scheduled ticking event.
         if (!ConiumFluidEventMixinIntermediary.fireFluidScheduleTickEvent(
                 instance,
@@ -79,7 +79,7 @@ public class ServerWorldMixin {
                 blockState
         )) {
             // Trigger scheduled tick normally.
-            instance.onScheduledTick(world, pos, blockState);
+            instance.tick(world, pos, blockState);
         }
     }
 
@@ -87,10 +87,10 @@ public class ServerWorldMixin {
             method = "tickBlock",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/block/BlockState;scheduledTick(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/random/Random;)V"
+                    target = "Lnet/minecraft/world/level/block/state/BlockState;tick(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;)V"
             )
     )
-    private void tickBlock(@NotNull BlockState instance, ServerWorld world, BlockPos pos, Random random) {
+    private void tickBlock(@NotNull BlockState instance, ServerLevel world, BlockPos pos, RandomSource random) {
         // Trigger the block scheduled ticking event.
         if (!ConiumBlockEventMixinIntermediary.fireBlockScheduleTickEvent(
                 instance,
@@ -99,7 +99,7 @@ public class ServerWorldMixin {
                 random
         )) {
             // Trigger scheduled tick normally.
-            instance.scheduledTick(world, pos, random);
+            instance.tick(world, pos, random);
         }
     }
 }

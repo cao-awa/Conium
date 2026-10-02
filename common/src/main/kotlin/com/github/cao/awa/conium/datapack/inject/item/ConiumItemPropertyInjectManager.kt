@@ -10,18 +10,18 @@ import com.github.cao.awa.conium.extent.caster.cast
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.component.ComponentType
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.registry.Registries
-import net.minecraft.resource.ResourceManager
-import net.minecraft.util.Identifier
-import net.minecraft.util.profiler.Profiler
+import net.minecraft.core.component.DataComponentType
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.core.HolderLookup
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.resources.Identifier
+import net.minecraft.util.profiling.ProfilerFiller
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-class ConiumItemPropertyInjectManager(var registryLookup: RegistryWrapper.WrapperLookup) : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM_PROPERTY_INJECT.value) {
+class ConiumItemPropertyInjectManager(var registryLookup: HolderLookup.Provider) : ConiumJsonDataLoader(ConiumRegistryKeys.ITEM_PROPERTY_INJECT.identifier()) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ItemPropertyInjectManager")
     }
@@ -32,7 +32,7 @@ class ConiumItemPropertyInjectManager(var registryLookup: RegistryWrapper.Wrappe
         // Nothing here.
     }
 
-    override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
+    override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: ProfilerFiller) {
         for ((key: Identifier, value: JsonElement) in prepared) {
             inject(key, value as JsonObject)
         }
@@ -51,7 +51,7 @@ class ConiumItemPropertyInjectManager(var registryLookup: RegistryWrapper.Wrappe
 
         val injecting: ItemPropertyInject<*> = ItemPropertyInject.deserialize(json)
 
-        val item: Item = Registries.ITEM[Identifier.of(itemTarget)]
+        val item: Item = BuiltInRegistries.ITEM.getValue(Identifier.parse(itemTarget))
 
         this.injects.computeIfAbsent(item) { ArrayList() }
 
@@ -70,15 +70,16 @@ class ConiumItemPropertyInjectManager(var registryLookup: RegistryWrapper.Wrappe
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun injectComponent(stack: ItemStack, injects: List<ItemPropertyInjectComponent<*>>) {
         // Inject to current stack.
         for (component: ItemPropertyInjectComponent<*> in injects) {
             val value: ItemPropertyInjectComponentValue<*> = component.value
-            val type: ComponentType<*> = component.type
+            val type: DataComponentType<Any> = component.type as DataComponentType<Any>
 
             // Do not append the preset value when the component is present.
             if (component.action == ItemPropertyInjectAction.SET_PRESET) {
-                if (!stack.contains(type)) {
+                if (!stack.has(type)) {
                     injectDefault(stack, type, value)
                 }
 
@@ -94,7 +95,7 @@ class ConiumItemPropertyInjectManager(var registryLookup: RegistryWrapper.Wrappe
                 "Injecting: '{}' as '{}' to item '{}' using '{}'('{}' -> '{}')",
                 { type },
                 { calculatedValue },
-                { Registries.ITEM.getId(stack.item) },
+                { BuiltInRegistries.ITEM.getKey(stack.item) },
                 component::action,
                 { currentValue },
                 value::value,
@@ -106,13 +107,13 @@ class ConiumItemPropertyInjectManager(var registryLookup: RegistryWrapper.Wrappe
         }
     }
 
-    fun injectDefault(stack: ItemStack, type: ComponentType<*>, value: ItemPropertyInjectComponentValue<*>) {
+    fun injectDefault(stack: ItemStack, type: DataComponentType<Any>, value: ItemPropertyInjectComponentValue<*>) {
         // Use to debug, trace inject details.
         Conium.debug(
             "Injecting: '{}' as '{}' to item '{}' using '{}'",
             { type },
             value::value,
-            { Registries.ITEM.getId(stack.item) },
+            { BuiltInRegistries.ITEM.getKey(stack.item) },
             { ItemPropertyInjectAction.SET_PRESET },
             LOGGER::info
         )

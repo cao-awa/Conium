@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.block.template.mining
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates.HARDNESS
 import com.google.gson.JsonElement
-import net.minecraft.block.AbstractBlock
+import net.minecraft.world.level.block.state.BlockBehaviour
 
 class ConiumHardnessTemplate(private val hardness: Float, name: String = HARDNESS) : ConiumBlockTemplate(name = name) {
     companion object {
@@ -11,8 +11,8 @@ class ConiumHardnessTemplate(private val hardness: Float, name: String = HARDNES
         fun create(element: JsonElement): ConiumHardnessTemplate = ConiumHardnessTemplate(element.asFloat)
     }
 
-    override fun settings(settings: AbstractBlock.Settings) {
+    override fun settings(settings: BlockBehaviour.Properties) {
         // Set block hardness.
-        settings.hardness(this.hardness)
+        settings.destroyTime(this.hardness)
     }
 }

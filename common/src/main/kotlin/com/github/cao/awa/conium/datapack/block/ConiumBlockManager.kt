@@ -18,20 +18,20 @@ import com.github.cao.awa.conium.registry.extend.ConiumDynamicRegistry
 import com.google.common.collect.UnmodifiableIterator
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.block.AbstractBlock
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.item.BlockItem
-import net.minecraft.item.Item
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.registry.Registries
-import net.minecraft.resource.ResourceManager
-import net.minecraft.util.Identifier
-import net.minecraft.util.profiler.Profiler
+import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.item.BlockItem
+import net.minecraft.world.item.Item
+import net.minecraft.core.HolderLookup
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.resources.Identifier
+import net.minecraft.util.profiling.ProfilerFiller
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-class ConiumBlockManager(var registryLookup: RegistryWrapper.WrapperLookup) : ConiumJsonDataLoader(ConiumRegistryKeys.BLOCK.value) {
+class ConiumBlockManager(var registryLookup: HolderLookup.Provider) : ConiumJsonDataLoader(ConiumRegistryKeys.BLOCK.identifier()) {
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumBlockManager")
     }
@@ -44,17 +44,12 @@ class ConiumBlockManager(var registryLookup: RegistryWrapper.WrapperLookup) : Co
         }
     }
 
-    override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: Profiler) {
-//        (Block.STATE_IDS as ConiumDynamicIdList<BlockState>).clearDynamic()
-//
-//        for ((key: Identifier, value: JsonElement) in prepared) {
-//            load(key, value as JsonObject)
-//        }
+    override fun apply(prepared: MutableMap<Identifier, JsonElement>, manager: ResourceManager, profiler: ProfilerFiller) {
     }
 
     fun resetRegistries() {
-        (Registries.BLOCK as ConiumDynamicRegistry).clearDynamic()
-        (Block.STATE_IDS as ConiumDynamicIdList<BlockState>).clearDynamic()
+        (BuiltInRegistries.BLOCK as ConiumDynamicRegistry).clearDynamic()
+        (Block.BLOCK_STATE_REGISTRY as ConiumDynamicIdList<BlockState>).clearDynamic()
     }
 
     fun load(identifier: Identifier, json: JsonObject) {
@@ -75,30 +70,30 @@ class ConiumBlockManager(var registryLookup: RegistryWrapper.WrapperLookup) : Co
         builder.register { block: ConiumBlock ->
             registerBlockStates(block)
 
-            Conium.coniumItemManager!!.pendingBlockItem(Registries.BLOCK.getId(block)) {
-                settings: Item.Settings -> BlockItem(block, settings)
+            Conium.coniumItemManager!!.pendingBlockItem(BuiltInRegistries.BLOCK.getKey(block)) {
+                settings: Item.Properties -> BlockItem(block, settings)
             }
         }
     }
 
     fun registerBlockStates(block: Block) {
-        val stateIds: ConiumDynamicIdList<BlockState> = Block.STATE_IDS.cast()
+        val stateIds: ConiumDynamicIdList<BlockState> = (Block.BLOCK_STATE_REGISTRY as Any).cast()
 
-        val var2: UnmodifiableIterator<*> = block.stateManager.states.iterator()
+        val var2 = block.stateDefinition.possibleStates.iterator()
 
         while (var2.hasNext()) {
             val blockState: BlockState = var2.next() as BlockState
             stateIds.addDynamic(blockState)
-            blockState.initShapeCache()
+            blockState.initCache()
         }
 
-        block.lootTableKey
+        block.lootTable
     }
 
     fun register(
         identifier: Identifier,
-        blockProvider: (AbstractBlock.Settings) -> Block,
-        itemSettings: ((Item.Settings) -> Unit)? = null
+        blockProvider: (BlockBehaviour.Properties) -> Block,
+        itemSettings: ((Item.Properties) -> Unit)? = null
     ): Block {
         return registerBlock(identifier, blockProvider).also { block: Block ->
             Conium.debug(

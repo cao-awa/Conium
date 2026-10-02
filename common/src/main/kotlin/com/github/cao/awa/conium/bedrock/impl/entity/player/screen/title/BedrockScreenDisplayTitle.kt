@@ -4,9 +4,9 @@ import com.github.cao.awa.conium.bedrock.impl.script.BedrockScriptAnonymousObjec
 import com.github.cao.awa.conium.bedrock.impl.script.toDynamicArgs
 import com.github.cao.awa.conium.parameter.dynamic.builder.DynamicArgsBuilder
 import com.github.cao.awa.conium.parameter.dynamic.type.builder.DynamicArgTypeBuilder.arg
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.hud.InGameHud
-import net.minecraft.text.Text
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.Hud
+import net.minecraft.network.chat.Component
 
 class BedrockScreenDisplayTitle(private var title: String, private var subtitle: String, private var active: Boolean = false) {
     companion object {
@@ -14,24 +14,16 @@ class BedrockScreenDisplayTitle(private var title: String, private var subtitle:
     }
 
     fun setTitle(title: String, properties: BedrockScriptAnonymousObjectMap) {
-        MinecraftClient.getInstance().inGameHud.let { inGameHud: InGameHud ->
-            DynamicArgsBuilder.requires<Unit, Int, Int, Int>(
-                arg("fadeInDuration"),
-                arg("stayDuration"),
-                arg("fadeOutDuration"),
-            ).transform(UNIT, properties.toDynamicArgs()) { _: Any, fadeInTicks: Int, stayTicks: Int, fadeOutTicks: Int ->
-                inGameHud.setTitleTicks(fadeInTicks, stayTicks, fadeOutTicks)
-            }
+        Minecraft.getInstance().gui.hud.let { hud: Hud ->
+            hud.setTitle(Component.literal(title))
 
-            inGameHud.setTitle(Text.of(title))
-
-            properties.getAs<String>("subtitle").let {
-                inGameHud.setSubtitle(Text.of(it))
+            properties.getAs<String>("subtitle")?.let {
+                hud.setSubtitle(Component.literal(it))
             }
         }
     }
 
-    fun updateSubtitle(title: String): Unit = MinecraftClient.getInstance().inGameHud.setSubtitle(Text.of(title))
+    fun updateSubtitle(title: String): Unit = Minecraft.getInstance().gui.hud.setSubtitle(Component.literal(title))
 
-    fun setActionBar(title: String): Unit = MinecraftClient.getInstance().inGameHud.setOverlayMessage(Text.of(title), false)
+    fun setActionBar(title: String): Unit = Minecraft.getInstance().gui.hud.setOverlayMessage(Component.literal(title), false)
 }

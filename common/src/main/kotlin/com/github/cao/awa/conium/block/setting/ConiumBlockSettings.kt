@@ -5,38 +5,38 @@ import com.github.cao.awa.conium.blockentity.ConiumBlockEntity
 import com.github.cao.awa.conium.blockentity.setting.ConiumBlockEntitySettings
 import com.github.cao.awa.conium.block.template.ConiumBlockTemplate
 import com.github.cao.awa.conium.setting.ConiumSettings
-import net.minecraft.block.AbstractBlock
-import net.minecraft.block.AbstractBlock.Settings
-import net.minecraft.block.BlockEntityProvider
-import net.minecraft.block.BlockState
-import net.minecraft.client.color.block.BlockColorProvider
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.BlockView
-import net.minecraft.world.RaycastContext
+import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties
+import net.minecraft.world.level.block.EntityBlock
+import net.minecraft.world.level.block.state.BlockState
+// import net.minecraft.client.color.block.BlockColorProvider
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.phys.shapes.Shapes
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.ClipContext
 
 object ConiumBlockSettingsValue {
     const val COLOR: Int = 0
-    val outlineShape: VoxelShape = VoxelShapes.fullCube()
+    val outlineShape: VoxelShape = Shapes.block()
     const val LAND_PATH_THROUGH: Boolean = false
     const val WATER_PATH_THROUGH: Boolean = false
     const val AIR_PATH_THROUGH: Boolean = false
     const val ENABLE_BLOCK_ENTITY: Boolean = false
-    val NO_REDSTONE_POWER_PROVIDER: (BlockState, BlockView, BlockPos, Direction) -> Int = { _, _, _, _ -> 0 }
+    val NO_REDSTONE_POWER_PROVIDER: (BlockState, BlockGetter, BlockPos, Direction) -> Int = { _, _, _, _ -> 0 }
     const val EMITS_REDSTONE_POWER = false
 }
 
-abstract class ConiumAbstractBlockSettings<B : ConiumAbstractBlockSettings<B>>(val vanillaSettings: Settings) : ConiumSettings<ConiumAbstractBlockSettings<B>, B>() {
+abstract class ConiumAbstractBlockSettings<B : ConiumAbstractBlockSettings<B>>(val vanillaSettings: BlockBehaviour.Properties) : ConiumSettings<ConiumAbstractBlockSettings<B>, B>() {
     /**
      * Setting the outline shape of block.
      *
      * Default is ``fullCube``.
      *
-     * @see AbstractBlock.getOutlineShape
-     * @see AbstractBlock.AbstractBlockState.getOutlineShape
-     * @see RaycastContext.ShapeType.OUTLINE
+     * @see BlockBehaviour.getOutlineShape
+     * @see BlockBehaviour.BlockStateBase.getOutlineShape
+     * @see ClipContext.ShapeType.OUTLINE
      *
      * @author cao_awa
      *
@@ -56,7 +56,7 @@ abstract class ConiumAbstractBlockSettings<B : ConiumAbstractBlockSettings<B>>(v
      *
      * Default is ``false``.
      *
-     * @see AbstractBlock.canPathfindThrough
+     * @see BlockBehaviour.canPathfindThrough
      *
      * @author cao_awa
      *
@@ -76,7 +76,7 @@ abstract class ConiumAbstractBlockSettings<B : ConiumAbstractBlockSettings<B>>(v
      *
      * Default is ``false``.
      *
-     * @see AbstractBlock.canPathfindThrough
+     * @see BlockBehaviour.canPathfindThrough
      *
      * @author cao_awa
      *
@@ -96,7 +96,7 @@ abstract class ConiumAbstractBlockSettings<B : ConiumAbstractBlockSettings<B>>(v
      *
      * Default is ``false``.
      *
-     * @see AbstractBlock.canPathfindThrough
+     * @see BlockBehaviour.canPathfindThrough
      *
      * @author cao_awa
      *
@@ -116,7 +116,7 @@ abstract class ConiumAbstractBlockSettings<B : ConiumAbstractBlockSettings<B>>(v
      *
      * Default is ``false``.
      *
-     * @see BlockEntityProvider.createBlockEntity
+     * @see EntityBlock.createBlockEntity
      * @see ConiumBlock.createBlockEntity
      *
      * @author cao_awa
@@ -137,7 +137,7 @@ abstract class ConiumAbstractBlockSettings<B : ConiumAbstractBlockSettings<B>>(v
      *
      * Default is null.
      *
-     * @see BlockEntityProvider.createBlockEntity
+     * @see EntityBlock.createBlockEntity
      * @see ConiumBlock.createBlockEntity
      * @see ConiumBlockEntity
      *
@@ -164,53 +164,53 @@ abstract class ConiumAbstractBlockSettings<B : ConiumAbstractBlockSettings<B>>(v
      *
      * Default is ``() -> 0``.
      *
-     * @see AbstractBlock.emitsRedstonePower
-     * @see AbstractBlock.getWeakRedstonePower
-     * @see AbstractBlock.getStrongRedstonePower
+     * @see BlockBehaviour.emitsRedstonePower
+     * @see BlockBehaviour.getWeakRedstonePower
+     * @see BlockBehaviour.getStrongRedstonePower
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    var redstoneWeakPowerProvider: (BlockState, BlockView, BlockPos, Direction) -> Int
+    var redstoneWeakPowerProvider: (BlockState, BlockGetter, BlockPos, Direction) -> Int
         get() = this._redstoneWeakPowerProvider ?: ConiumBlockSettingsValue.NO_REDSTONE_POWER_PROVIDER
         set(value) {
             this._redstoneWeakPowerProvider = value
         }
 
     // The delegate.
-    private var _redstoneWeakPowerProvider: ((BlockState, BlockView, BlockPos, Direction) -> Int)? = null
+    private var _redstoneWeakPowerProvider: ((BlockState, BlockGetter, BlockPos, Direction) -> Int)? = null
 
     /**
      * Setting the redstone strong power provider of block.
      *
      * Default is ``() -> 0``.
      *
-     * @see AbstractBlock.emitsRedstonePower
-     * @see AbstractBlock.getWeakRedstonePower
-     * @see AbstractBlock.getStrongRedstonePower
+     * @see BlockBehaviour.emitsRedstonePower
+     * @see BlockBehaviour.getWeakRedstonePower
+     * @see BlockBehaviour.getStrongRedstonePower
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    var redstoneStrongPowerProvider: (BlockState, BlockView, BlockPos, Direction) -> Int
+    var redstoneStrongPowerProvider: (BlockState, BlockGetter, BlockPos, Direction) -> Int
         get() = this._redstoneStrongPowerProvider ?: ConiumBlockSettingsValue.NO_REDSTONE_POWER_PROVIDER
         set(value) {
             this._redstoneStrongPowerProvider = value
         }
 
     // The delegate.
-    private var _redstoneStrongPowerProvider: ((BlockState, BlockView, BlockPos, Direction) -> Int)? = null
+    private var _redstoneStrongPowerProvider: ((BlockState, BlockGetter, BlockPos, Direction) -> Int)? = null
 
     /**
      * Setting the redstone power emits-able of block.
      *
      * Default is ``false``.
      *
-     * @see AbstractBlock.emitsRedstonePower
-     * @see AbstractBlock.getWeakRedstonePower
-     * @see AbstractBlock.getStrongRedstonePower
+     * @see BlockBehaviour.emitsRedstonePower
+     * @see BlockBehaviour.getWeakRedstonePower
+     * @see BlockBehaviour.getStrongRedstonePower
      *
      * @author cao_awa
      *
@@ -241,13 +241,11 @@ abstract class ConiumAbstractBlockSettings<B : ConiumAbstractBlockSettings<B>>(v
     }
 }
 
-class ConiumClientBlockSettings(vanillaSettings: Settings) : ConiumAbstractBlockSettings<ConiumClientBlockSettings>(vanillaSettings) {
+class ConiumClientBlockSettings(vanillaSettings: BlockBehaviour.Properties) : ConiumAbstractBlockSettings<ConiumClientBlockSettings>(vanillaSettings) {
     /**
      * Setting the color code of block.
      *
      * Default is 0.
-     *
-     * @see BlockColorProvider.getColor
      *
      * @author cao_awa
      *
@@ -257,7 +255,6 @@ class ConiumClientBlockSettings(vanillaSettings: Settings) : ConiumAbstractBlock
         get() = this._color ?: ConiumBlockSettingsValue.COLOR
         set(value) {
             this._color = value
-
         }
 
     // The delegate.
@@ -273,10 +270,10 @@ class ConiumClientBlockSettings(vanillaSettings: Settings) : ConiumAbstractBlock
     }
 }
 
-class ConiumBlockSettings(vanillaSettings: Settings) : ConiumAbstractBlockSettings<ConiumBlockSettings>(vanillaSettings) {
+class ConiumBlockSettings(vanillaSettings: BlockBehaviour.Properties) : ConiumAbstractBlockSettings<ConiumBlockSettings>(vanillaSettings) {
     companion object {
         @JvmStatic
-        fun create(templates: Collection<ConiumBlockTemplate>, settings: Settings): ConiumBlockSettings {
+        fun create(templates: Collection<ConiumBlockTemplate>, settings: BlockBehaviour.Properties): ConiumBlockSettings {
             return ConiumBlockSettings(settings).also {
                 templates.forEach { template ->
                     template.prepare(it)

@@ -7,7 +7,7 @@ import com.github.cao.awa.conium.template.recipe.bedrock.BedrockRecipeComponents
 import com.github.cao.awa.conium.template.recipe.bedrock.BedrockRecipeComponents.RECIPE_SHAPED
 import com.github.cao.awa.conium.template.recipe.bedrock.BedrockRecipeComponents.RECIPE_SHAPELESS
 import com.google.gson.JsonObject
-import net.minecraft.recipe.Recipe
+import net.minecraft.world.item.crafting.Recipe
 
 class ConiumBedrockRecipeBuilder : ConiumBuilderWithTemplates<
         ConiumBedrockRecipeBuilder,

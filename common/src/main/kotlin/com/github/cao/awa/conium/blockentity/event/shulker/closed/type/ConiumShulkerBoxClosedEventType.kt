@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.blockentity.event.shulker.closed.type
+﻿package com.github.cao.awa.conium.blockentity.event.shulker.closed.type
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.blockentity.event.shulker.closed.metadata.ConiumShulkerBoxClosedEventMetadata
 import com.github.cao.awa.conium.blockentity.event.shulker.closing.metadata.ConiumShulkerBoxClosingEventMetadata
@@ -9,7 +10,7 @@ import com.github.cao.awa.conium.event.type.cancelable.ConiumNoCancelableEventTy
 import com.github.cao.awa.conium.inactive.event.metadata.ConiumInactiveEventMetadata
 import com.github.cao.awa.conium.inactive.event.type.ConiumInactiveEventType
 import com.github.cao.awa.conium.mapping.yarn.Block
-import net.minecraft.world.chunk.WorldChunk
+import net.minecraft.world.level.chunk.LevelChunk
 
 class ConiumShulkerBoxClosedEventType: ConiumNoCancelableEventType<Block, ConiumShulkerBoxClosedEventMetadata, Unit, ConiumInactiveEventMetadata>(
     "shulker_box_closed",

@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.item.event.stack.clicked.type
+﻿package com.github.cao.awa.conium.item.event.stack.clicked.type
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.empty.ConiumEmptyEventMetadata
@@ -9,7 +10,7 @@ import com.github.cao.awa.conium.item.event.stack.clicked.metadata.ConiumItemSta
 import com.github.cao.awa.conium.item.event.use.metadata.ConiumItemUseEventMetadata
 import com.github.cao.awa.conium.item.event.used.metadata.ConiumItemUsedEventMetadata
 import com.github.cao.awa.conium.item.event.used.type.ConiumItemUsedEventType
-import net.minecraft.item.Item
+import net.minecraft.world.item.Item
 
 class ConiumItemStackClickedEventType: ConiumCancelableEventType<Item, ConiumItemStackClickedEventMetadata, Unit, ConiumInactiveEventMetadata>(
     "item_stack_clicked",

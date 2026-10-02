@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.entity.event.sprinting
+﻿package com.github.cao.awa.conium.entity.event.sprinting
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.entity.event.sprinting.metadata.ConiumEntitySprintingEventMetadata
 import com.github.cao.awa.conium.entity.event.sprinting.stop.type.ConiumEntityStopSprintEventType
@@ -10,8 +11,8 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective1
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
 
 class ConiumEntitySprintingEvent : ConiumEvent<EntityType<*>, ConiumEntitySprintingEventMetadata, ParameterSelective1<Boolean, Entity>, ConiumEntityStopSprintEventType>(
     ConiumEventType.Companion.ENTITY_SPRINTING,

@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.intermediary.entity
+﻿package com.github.cao.awa.conium.intermediary.entity
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.entity.event.damage.metadata.ConiumEntityDamageEventMetadata
 import com.github.cao.awa.conium.entity.event.damaged.metadata.ConiumEntityDamagedEventMetadata
@@ -23,13 +24,13 @@ import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.fireE
 import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.fireEventCancelable
 import com.github.cao.awa.conium.mixin.entity.EntityMixin
 import com.github.cao.awa.conium.mixin.entity.living.LivingEntityMixin
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.damage.DamageSource
-import net.minecraft.fluid.Fluid
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.math.BlockPos
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.level.material.Fluid
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.core.BlockPos
 
 /**
  * Conium entity event intermediary triggers.
@@ -78,7 +79,7 @@ object ConiumEntityEventMixinIntermediary {
             entity.type
         ) { context: ConiumArisingEventContext<*, *> ->
             // Fill the context args.
-            context[ConiumEventArgTypes.WORLD] = entity.entityWorld
+            context[ConiumEventArgTypes.WORLD] = entity.level()
             context[ConiumEventArgTypes.DAMAGE_SOURCE] = damageSource
             context[ConiumEventArgTypes.LIVING_ENTITY] = entity
             context[ConiumEventArgTypes.DAMAGE_AMOUNT] = amount
@@ -113,7 +114,7 @@ object ConiumEntityEventMixinIntermediary {
             entity.type
         ) { context: ConiumArisingEventContext<*, *> ->
             // Fill the context args.
-            context[ConiumEventArgTypes.WORLD] = entity.entityWorld
+            context[ConiumEventArgTypes.WORLD] = entity.level()
             context[ConiumEventArgTypes.DAMAGE_SOURCE] = damageSource
             context[ConiumEventArgTypes.LIVING_ENTITY] = entity
             context[ConiumEventArgTypes.DAMAGE_AMOUNT] = amount
@@ -221,7 +222,7 @@ object ConiumEntityEventMixinIntermediary {
             // Fill the context args.
             context[ConiumEventArgTypes.LIVING_ENTITY] = entity
             context[ConiumEventArgTypes.BLOCK_POS] = sleepPos
-            context[ConiumEventArgTypes.WORLD] = entity.entityWorld
+            context[ConiumEventArgTypes.WORLD] = entity.level()
         }
     }
 
@@ -262,7 +263,7 @@ object ConiumEntityEventMixinIntermediary {
             // Fill the context args.
             context[ConiumEventArgTypes.LIVING_ENTITY] = entity
             context[ConiumEventArgTypes.BLOCK_POS] = sleepPos
-            context[ConiumEventArgTypes.WORLD] = entity.entityWorld
+            context[ConiumEventArgTypes.WORLD] = entity.level()
         }
     }
 
@@ -303,7 +304,7 @@ object ConiumEntityEventMixinIntermediary {
             // Fill the context args.
             context[ConiumEventArgTypes.LIVING_ENTITY] = entity
             context[ConiumEventArgTypes.BLOCK_POS] = sleepPos
-            context[ConiumEventArgTypes.WORLD] = entity.entityWorld
+            context[ConiumEventArgTypes.WORLD] = entity.level()
         }
     }
 
@@ -344,7 +345,7 @@ object ConiumEntityEventMixinIntermediary {
             // Fill the context args.
             context[ConiumEventArgTypes.LIVING_ENTITY] = entity
             context[ConiumEventArgTypes.BLOCK_POS] = sleepPos
-            context[ConiumEventArgTypes.WORLD] = entity.entityWorld
+            context[ConiumEventArgTypes.WORLD] = entity.level()
         }
     }
 
@@ -368,7 +369,7 @@ object ConiumEntityEventMixinIntermediary {
     @JvmStatic
     fun fireOnFireEvent(entity: Entity) {
         // Only trigger event when fire ticks left at least 1.
-        if (entity.fireTicks > 0) {
+        if (entity.remainingFireTicks > 0) {
             // This event cannot cancel because it is not the fire tick event, on fire event just a notice event.
             fireEvent(
                 ConiumEventType.ENTITY_ON_FIRE,
@@ -376,12 +377,12 @@ object ConiumEntityEventMixinIntermediary {
             ) { context: ConiumArisingEventContext<*, *> ->
                 // Fill the context args.
                 context[ConiumEventArgTypes.ENTITY] = entity
-                context[ConiumEventArgTypes.INT] = entity.fireTicks
+                context[ConiumEventArgTypes.INT] = entity.remainingFireTicks
             }
 
             // Do extinguish when fire ticks is at last one.
-            if (entity.fireTicks == 1) {
-                entity.extinguish()
+            if (entity.remainingFireTicks == 1) {
+                entity.clearFire()
             }
         }
     }
@@ -406,16 +407,16 @@ object ConiumEntityEventMixinIntermediary {
     @JvmStatic
     fun fireExtinguishEvent(entity: Entity): Boolean {
         // Only trigger event when fire ticks left at least 1.
-        if (entity.fireTicks > 0) {
+        if (entity.remainingFireTicks > 0) {
             // Only trigger event on server.
-            return entity.entityWorld is ServerWorld && fireCascadedEvent(
+            return entity.level() is ServerLevel && fireCascadedEvent(
                 ConiumEventType.ENTITY_EXTINGUISH_FIRE,
                 ConiumEventType.ENTITY_EXTINGUISHED_FIRE,
                 entity.type,
                 { extinguishContext: ConiumArisingEventContext<*, *> ->
                     // Fill extinguish context args.
                     extinguishContext[ConiumEventArgTypes.ENTITY] = entity
-                    extinguishContext[ConiumEventArgTypes.INT] = entity.fireTicks
+                    extinguishContext[ConiumEventArgTypes.INT] = entity.remainingFireTicks
                 },
                 { extinguishingContext: ConiumArisingEventContext<*, *> ->
                     // Fill extinguished context args.
@@ -536,7 +537,7 @@ object ConiumEntityEventMixinIntermediary {
         ) { blockScheduledTickContext ->
             // Fill the context args.
             blockScheduledTickContext[ConiumEventArgTypes.ENTITY] = entity
-            blockScheduledTickContext[ConiumEventArgTypes.WORLD] = entity.entityWorld
+            blockScheduledTickContext[ConiumEventArgTypes.WORLD] = entity.level()
         }
     }
 
@@ -564,7 +565,7 @@ object ConiumEntityEventMixinIntermediary {
         ) { blockScheduledTickContext ->
             // Fill the context args.
             blockScheduledTickContext[ConiumEventArgTypes.ENTITY] = entity
-            blockScheduledTickContext[ConiumEventArgTypes.WORLD] = entity.entityWorld
+            blockScheduledTickContext[ConiumEventArgTypes.WORLD] = entity.level()
         }
     }
 }

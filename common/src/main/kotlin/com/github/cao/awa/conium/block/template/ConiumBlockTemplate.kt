@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.block.setting.ConiumBlockSettings
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.trigger.ListTriggerable
 import com.github.cao.awa.conium.template.ConiumTemplate
-import net.minecraft.block.AbstractBlock
+import net.minecraft.world.level.block.state.BlockBehaviour
 
 /**
  * The abstract conium block template, constraint something methods used to setting and build block.
@@ -13,7 +13,7 @@ import net.minecraft.block.AbstractBlock
  * @see ConiumTemplate
  * @see ConiumBlock
  * @see ConiumBlockSettings
- * @see AbstractBlock.Settings
+ * @see BlockBehaviour.Properties
  * @see ConiumEvent
  * @see ListTriggerable
  *
@@ -67,7 +67,7 @@ abstract class ConiumBlockTemplate(
      *
      * @see ConiumBlock
      * @see ConiumBlockSettings
-     * @see AbstractBlock.Settings
+     * @see BlockBehaviour.Properties
      *
      * @param target the conium block settings
      *
@@ -87,7 +87,7 @@ abstract class ConiumBlockTemplate(
      * Setting the vanilla block, do not call this method directly, use the method 'prepare'.
      *
      * @see ConiumBlock
-     * @see AbstractBlock.Settings
+     * @see BlockBehaviour.Properties
      *
      * @param settings the vanilla block settings
      *
@@ -95,7 +95,7 @@ abstract class ConiumBlockTemplate(
      *
      * @since 1.0.0
      */
-    open fun settings(settings: AbstractBlock.Settings) {
+    open fun settings(settings: BlockBehaviour.Properties) {
         // Do nothing.
     }
 

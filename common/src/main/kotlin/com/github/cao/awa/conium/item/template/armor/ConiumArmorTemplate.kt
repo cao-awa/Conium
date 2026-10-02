@@ -4,13 +4,13 @@ import com.github.cao.awa.conium.item.component.wearable.BedrockWearableComponen
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.ARMOR
 import com.google.gson.JsonElement
-import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.component.type.AttributeModifiersComponent
-import net.minecraft.entity.attribute.EntityAttributeModifier
-import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.item.Item
-import net.minecraft.item.equipment.EquipmentType
-import net.minecraft.util.Identifier
+import net.minecraft.world.entity.EquipmentSlotGroup
+import net.minecraft.world.item.component.ItemAttributeModifiers
+import net.minecraft.world.entity.ai.attributes.AttributeModifier
+import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.equipment.ArmorType
+import net.minecraft.resources.Identifier
 
 /**
  * The template used to make an item can wear to slots and provides protections.
@@ -25,7 +25,7 @@ import net.minecraft.util.Identifier
  * @since 1.0.0
  */
 class ConiumArmorTemplate(
-    equipment: EquipmentType,
+    equipment: ArmorType,
     defense: Double = 0.0,
     private val toughness: Double = 0.0,
     private val knockbackResistance: Double = 0.0,
@@ -50,7 +50,7 @@ class ConiumArmorTemplate(
         }!!
     }
 
-    override fun settings(settings: Item.Settings) {
+    override fun settings(settings: Item.Properties) {
         // Add default settings.
         super.settings(settings)
 
@@ -59,18 +59,18 @@ class ConiumArmorTemplate(
         }
     }
 
-    override fun computeAttributes(slot: AttributeModifierSlot, identifier: Identifier, attributes: MutableList<AttributeModifiersComponent.Entry>) {
+    override fun computeAttributes(slot: EquipmentSlotGroup, identifier: Identifier, attributes: MutableList<ItemAttributeModifiers.Entry>) {
         // Add default attributes.
         super.computeAttributes(slot, identifier, attributes)
 
         // Add toughness attribute.
         attributes.add(
-            AttributeModifiersComponent.Entry(
-                EntityAttributes.ARMOR_TOUGHNESS,
-                EntityAttributeModifier(
+            ItemAttributeModifiers.Entry(
+                Attributes.ARMOR_TOUGHNESS,
+                AttributeModifier(
                     identifier,
                     this.toughness,
-                    EntityAttributeModifier.Operation.ADD_VALUE
+                    AttributeModifier.Operation.ADD_VALUE
                 ),
                 slot
             )
@@ -78,12 +78,12 @@ class ConiumArmorTemplate(
 
         // Add knockback resistance attribute.
         attributes.add(
-            AttributeModifiersComponent.Entry(
-                EntityAttributes.KNOCKBACK_RESISTANCE,
-                EntityAttributeModifier(
+            ItemAttributeModifiers.Entry(
+                Attributes.KNOCKBACK_RESISTANCE,
+                AttributeModifier(
                     identifier,
                     this.knockbackResistance,
-                    EntityAttributeModifier.Operation.ADD_VALUE
+                    AttributeModifier.Operation.ADD_VALUE
                 ),
                 slot
             )

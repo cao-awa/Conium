@@ -18,8 +18,8 @@ class ConiumClearEntityIgniteTemplate(private val isClear: Boolean) : ConiumItem
         // If not clear, then it is default behaviors, do not register useless context.
         if (this.isClear) {
             ConiumEvent.itemUseOnEntity.subscribe(target) { _, entity, _, _ ->
-                if (entity.fireTicks > 0) {
-                    entity.fireTicks = 0
+                if (entity.remainingFireTicks > 0) {
+                    entity.clearFire()
                 }
 
                 true

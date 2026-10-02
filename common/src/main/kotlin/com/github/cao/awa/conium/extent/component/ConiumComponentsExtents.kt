@@ -1,18 +1,16 @@
 package com.github.cao.awa.conium.kotlin.extent.component
 
-import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.component.type.AttributeModifiersComponent
-import net.minecraft.entity.attribute.EntityAttribute
-import net.minecraft.entity.attribute.EntityAttributeModifier
-import net.minecraft.registry.entry.RegistryEntry
+import net.minecraft.world.entity.EquipmentSlotGroup
+import net.minecraft.world.item.component.ItemAttributeModifiers
+import net.minecraft.world.entity.ai.attributes.Attribute
+import net.minecraft.world.entity.ai.attributes.AttributeModifier
+import net.minecraft.core.Holder
 
-/**
- * See [AttributeModifiersComponentBuilderMixin][com.github.cao.awa.conium.mixin.component.attribute.AttributeModifiersComponentBuilderMixin].
- */
-val AttributeModifiersComponent.entries: MutableList<AttributeModifiersComponent.Entry> get() = this.modifiers as MutableList<AttributeModifiersComponent.Entry>
+val ItemAttributeModifiers.entries: MutableList<ItemAttributeModifiers.Entry>
+    get() = (this.modifiers() as? MutableList<ItemAttributeModifiers.Entry>) ?: ArrayList(this.modifiers())
 
-fun AttributeModifiersComponent.add(
-    attribute: RegistryEntry<EntityAttribute>,
-    modifier: EntityAttributeModifier,
-    slot: AttributeModifierSlot
-): Boolean = this.entries.add(AttributeModifiersComponent.Entry(attribute, modifier, slot))
+fun ItemAttributeModifiers.add(
+    attribute: Holder<Attribute>,
+    modifier: AttributeModifier,
+    slot: EquipmentSlotGroup
+): ItemAttributeModifiers = this.withModifierAdded(attribute, modifier, slot)

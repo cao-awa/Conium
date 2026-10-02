@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.entity.event.dead
+﻿package com.github.cao.awa.conium.entity.event.dead
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.entity.event.dead.metadata.ConiumEntityDeadEventMetadata
 import com.github.cao.awa.conium.event.ConiumEvent
@@ -10,10 +11,10 @@ import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.inactive.event.type.ConiumInactiveEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective3
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.damage.DamageSource
-import net.minecraft.world.World
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.level.Level
 
 class ConiumEntityDeadEvent : ConiumEvent<EntityType<*>, ConiumEntityDeadEventMetadata, ParameterSelective3<Boolean, World, LivingEntity, DamageSource>, ConiumInactiveEventType>(
     ConiumEventType.ENTITY_DEAD,

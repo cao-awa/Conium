@@ -7,17 +7,17 @@ import com.mojang.serialization.Lifecycle;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryEntryLookup;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.SimpleRegistry;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryInfo;
-import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.MappedRegistry;
+import net.minecraft.core.Holder;
+import net.minecraft.core.RegistrationInfo;
+import net.minecraft.core.HolderSet;
+import net.minecraft.tags.TagKey;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,15 +34,15 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-@Mixin(SimpleRegistry.class)
+@Mixin(MappedRegistry.class)
 @SuppressWarnings("unchecked")
 public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     @Unique
-    private final Map<T, RegistryEntry.Reference<T>> dynamicIntrusiveValueToEntry = new IdentityHashMap<>();
+    private final Map<T, Holder.Reference<T>> dynamicIntrusiveValueToEntry = new IdentityHashMap<>();
     @Unique
-    private final Map<Identifier, RegistryEntry.Reference<T>> dynamicIdToEntry = new HashMap<>();
+    private final Map<Identifier, Holder.Reference<T>> dynamicIdToEntry = new HashMap<>();
     @Unique
-    private final Map<RegistryKey<T>, RegistryEntry.Reference<T>> dynamicKeyToEntry = new HashMap<>();
+    private final Map<ResourceKey<T>, Holder.Reference<T>> dynamicKeyToEntry = new HashMap<>();
     @Unique
     private final Reference2IntMap<T> dynamicEntryToRawId = ((Function<Reference2IntOpenHashMap<T>, Reference2IntOpenHashMap<T>>) map -> {
         map.defaultReturnValue(- 1);
@@ -50,83 +50,87 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     }).apply(new Reference2IntOpenHashMap<>());
 
     @Unique
-    private final Map<T, RegistryEntry.Reference<T>> dynamicValueToEntry = new IdentityHashMap<>();
+    private final Map<T, Holder.Reference<T>> dynamicValueToEntry = new IdentityHashMap<>();
     @Unique
-    private final List<RegistryEntry.Reference<T>> dynamicRawIdToEntry = new ArrayList<>();
+    private final List<Holder.Reference<T>> dynamicRawIdToEntry = new ArrayList<>();
     @Unique
-    private final Map<RegistryKey<T>, RegistryEntryInfo> dynamicKeyToEntryInfo = new IdentityHashMap<>();
+    private final Map<ResourceKey<T>, RegistrationInfo> dynamicKeyToEntryInfo = new IdentityHashMap<>();
     @Unique
-    private final Map<TagKey<T>, RegistryEntryList.Named<T>> dynamicTags = new IdentityHashMap<>();
+    private final Map<TagKey<T>, HolderSet.Named<T>> dynamicTags = new java.util.concurrent.ConcurrentHashMap<>();
     @Shadow
     private boolean frozen;
     @Shadow
     @Final
-    private Map<Identifier, RegistryEntry.Reference<T>> idToEntry;
+    private Map<Identifier, Holder.Reference<T>> byLocation;
     @Shadow
     @Final
-    private Map<RegistryKey<T>, RegistryEntry.Reference<T>> keyToEntry;
+    private Map<ResourceKey<T>, Holder.Reference<T>> byKey;
     @Shadow
     @Final
-    private Reference2IntMap<T> entryToRawId;
+    private Reference2IntMap<T> toId;
     @Shadow
     @Final
-    private Map<T, RegistryEntry.Reference<T>> valueToEntry;
+    private Map<T, Holder.Reference<T>> byValue;
     @Shadow
     @Final
-    private ObjectList<RegistryEntry.Reference<T>> rawIdToEntry;
+    private ObjectList<Holder.Reference<T>> byId;
     @Shadow
     @Final
-    private Map<RegistryKey<T>, RegistryEntryInfo> keyToEntryInfo;
+    private Map<ResourceKey<T>, RegistrationInfo> registrationInfos;
     @Shadow
-    private Lifecycle lifecycle;
+    private Lifecycle registryLifecycle;
 
     @Shadow
-    public abstract RegistryKey<? extends Registry<T>> getKey();
+    public abstract ResourceKey<? extends Registry<T>> key();
 
     @Shadow
-    protected abstract RegistryEntryList.Named<T> createNamedEntryList(TagKey<T> tag);
+    abstract HolderSet.Named<T> createTag(TagKey<T> tag);
 
     @Shadow
-    abstract RegistryEntryList.Named<T> getTag(TagKey<T> key);
+    public abstract Optional<HolderSet.Named<T>> get(TagKey<T> key);
 
     @Shadow
-    abstract RegistryEntry.Reference<T> getOrCreateEntry(RegistryKey<T> key);
+    abstract Holder.Reference<T> getOrCreateHolderOrThrow(ResourceKey<T> key);
 
     @Shadow
-    public abstract void resetTagEntries();
+    public abstract void bindAllTagsToEmpty();
 
     @Shadow
     @Nullable
-    public abstract T get(@Nullable Identifier id);
+    public abstract T getValue(@Nullable Identifier id);
 
     @Shadow
-    public abstract Optional<RegistryEntry.Reference<T>> getEntry(Identifier id);
+    public abstract Optional<Holder.Reference<T>> get(Identifier id);
 
     @Shadow
-    public abstract RegistryEntry<T> getEntry(T value);
+    public abstract Holder<T> wrapAsHolder(T value);
 
     @Shadow
-    public abstract Optional<RegistryKey<T>> getKey(T entry);
+    public abstract Optional<ResourceKey<T>> getResourceKey(T entry);
+
+    @Shadow
+    protected abstract HolderSet.Named<T> getOrCreateTagForRegistration(TagKey<T> tagKey);
 
     @Inject(
-            method = "add",
+            method = "register",
             at = @At("HEAD"),
             cancellable = true
     )
     @SuppressWarnings("unchecked")
-    public void add(RegistryKey<T> key, T value, RegistryEntryInfo info, CallbackInfoReturnable<RegistryEntry.Reference<T>> cir) {
+    public void register(ResourceKey<T> key, T value, RegistrationInfo info, CallbackInfoReturnable<Holder.Reference<T>> cir) {
         if (this.frozen) {
             Objects.requireNonNull(key);
             Objects.requireNonNull(value);
-            if (this.dynamicIdToEntry.containsKey(key.getValue())) {
-                Util.getFatalOrPause(new IllegalStateException("Adding duplicate key '" + key + "' to registry"));
+            if (this.dynamicIdToEntry.containsKey(key.identifier())) {
+                Util.pauseInIde(new IllegalStateException("Adding duplicate key '" + key + "' to registry"));
             }
 
             if (this.dynamicValueToEntry.containsKey(value)) {
-                Util.getFatalOrPause(new IllegalStateException("Adding duplicate value '" + value + "' to registry"));
+                Util.pauseInIde(new IllegalStateException("Adding duplicate value '" + value + "' to registry"));
             }
 
-            RegistryEntry.Reference<T> reference;
+            Holder.Reference<T> reference;
+
             reference = this.dynamicIntrusiveValueToEntry.remove(value);
             if (reference == null) {
                 String var10002 = String.valueOf(key);
@@ -138,13 +142,13 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             this.dynamicKeyToEntry.put(key,
                                        reference
             );
-            this.dynamicIdToEntry.put(key.getValue(),
+            this.dynamicIdToEntry.put(key.identifier(),
                                       reference
             );
             this.dynamicValueToEntry.put(value,
                                          reference
             );
-            int i = this.rawIdToEntry.size() + this.dynamicRawIdToEntry.size();
+            int i = this.byId.size() + this.dynamicRawIdToEntry.size();
             this.dynamicRawIdToEntry.add(reference);
             this.dynamicEntryToRawId.put(value,
                                          i
@@ -152,7 +156,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             this.dynamicKeyToEntryInfo.put(key,
                                            info
             );
-            this.lifecycle = this.lifecycle.add(info.lifecycle());
+            this.registryLifecycle = this.registryLifecycle.add(info.lifecycle());
 
             postChanged();
 
@@ -167,8 +171,8 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     }
 
     @Unique
-    public RegistryEntry.Reference<T> orEntry(T value) {
-        RegistryEntry.Reference<T> reference = this.valueToEntry.get(value);
+    public Holder.Reference<T> orEntry(T value) {
+        Holder.Reference<T> reference = this.byValue.get(value);
         if (reference == null) {
             reference = this.dynamicValueToEntry.get(value);
         }
@@ -176,7 +180,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     }
 
     @Redirect(
-            method = "getEntry(Ljava/lang/Object;)Lnet/minecraft/registry/entry/RegistryEntry;",
+            method = "wrapAsHolder",
             at = @At(
                     value = "INVOKE",
                     target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;"
@@ -187,20 +191,20 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
         return orEntry((T) o);
     }
 
-    @Redirect(
-            method = "getId",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;"
-            )
+    @Inject(
+            method = "getId(Ljava/lang/Object;)I",
+            at = @At("RETURN"),
+            cancellable = true
     )
-    @SuppressWarnings("unchecked")
-    public Object getId(Map<?, ?> instance, Object o) {
-        return orEntry((T) o);
+    public void getId(@Nullable T value, CallbackInfoReturnable<Integer> cir) {
+        int rawId = cir.getReturnValue();
+        if (rawId == - 1) {
+            cir.setReturnValue(this.dynamicEntryToRawId.getInt(value));
+        }
     }
 
     @Redirect(
-            method = "getKey(Ljava/lang/Object;)Ljava/util/Optional;",
+            method = "getResourceKey",
             at = @At(
                     value = "INVOKE",
                     target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;"
@@ -212,8 +216,8 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     }
 
     @Unique
-    public RegistryEntryInfo orEntryInfo(RegistryKey<T> value) {
-        RegistryEntryInfo info = this.keyToEntryInfo.get(value);
+    public RegistrationInfo orEntryInfo(ResourceKey<T> value) {
+        RegistrationInfo info = this.registrationInfos.get(value);
         if (info == null) {
             info = this.dynamicKeyToEntryInfo.get(value);
         }
@@ -221,7 +225,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     }
 
     @Redirect(
-            method = "getEntryInfo",
+            method = "registrationInfo",
             at = @At(
                     value = "INVOKE",
                     target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;"
@@ -229,24 +233,12 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     )
     @SuppressWarnings("unchecked")
     public Object getEntryInfo(Map<?, ?> instance, Object o) {
-        return orEntryInfo((RegistryKey<T>) o);
-    }
-
-    @Inject(
-            method = "getRawId",
-            at = @At("RETURN"),
-            cancellable = true
-    )
-    public void getRawId(@Nullable T value, CallbackInfoReturnable<Integer> cir) {
-        int rawId = cir.getReturnValue();
-        if (rawId == - 1) {
-            cir.setReturnValue(this.dynamicEntryToRawId.getInt(value));
-        }
+        return orEntryInfo((ResourceKey<T>) o);
     }
 
     @Unique
-    public RegistryEntry.Reference<T> orEntry(RegistryKey<T> value) {
-        RegistryEntry.Reference<T> reference = this.keyToEntry.get(value);
+    public Holder.Reference<T> orEntry(ResourceKey<T> value) {
+        Holder.Reference<T> reference = this.byKey.get(value);
         if (reference == null) {
             reference = this.dynamicKeyToEntry.get(value);
         }
@@ -254,58 +246,57 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     }
 
     @Redirect(
-            method = "get(Lnet/minecraft/registry/RegistryKey;)Ljava/lang/Object;",
-            at = @At(
+            method = "getValue(Lnet/minecraft/resources/ResourceKey;)Ljava/lang/Object;", at = @At(
                     value = "INVOKE",
                     target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;"
             )
     )
     @SuppressWarnings("unchecked")
     public Object getByKey(Map<?, ?> instance, Object o) {
-        return orEntry((RegistryKey<T>) o);
+        return orEntry((ResourceKey<T>) o);
     }
 
     @Inject(
-            method = "get(I)Ljava/lang/Object;",
+            method = "byId(I)Ljava/lang/Object;",
             at = @At("RETURN"),
             cancellable = true
     )
-    public void get(int index, CallbackInfoReturnable<T> cir) {
+    public void byId(int index, CallbackInfoReturnable<T> cir) {
         if (cir.getReturnValue() == null) {
-            int edge = this.rawIdToEntry.size() + this.dynamicRawIdToEntry.size();
+            int edge = this.byId.size() + this.dynamicRawIdToEntry.size();
             if (index < 0 || index >= edge) {
                 return;
             }
-            int realIndex = index - this.rawIdToEntry.size();
+            int realIndex = index - this.byId.size();
             cir.setReturnValue(this.dynamicRawIdToEntry.get(realIndex)
                                                        .value());
         }
     }
 
     @Inject(
-            method = "getEntry(I)Ljava/util/Optional;",
+            method = "get(I)Ljava/util/Optional;",
             at = @At("RETURN"),
             cancellable = true
     )
-    public void getEntry(int index, CallbackInfoReturnable<Optional<RegistryEntry.Reference<T>>> cir) {
-        Optional<RegistryEntry.Reference<T>> result = cir.getReturnValue();
+    public void get(int index, CallbackInfoReturnable<Optional<Holder.Reference<T>>> cir) {
+        Optional<Holder.Reference<T>> result = cir.getReturnValue();
         cir.setReturnValue(Optional.ofNullable(result.orElseGet(() -> {
-            int edge = this.rawIdToEntry.size() + this.dynamicRawIdToEntry.size();
+            int edge = this.byId.size() + this.dynamicRawIdToEntry.size();
             if (index < 0 || index >= edge) {
                 return null;
             }
-            int realIndex = index - this.rawIdToEntry.size();
+            int realIndex = index - this.byId.size();
             return this.dynamicRawIdToEntry.get(realIndex);
         })));
     }
 
     @Inject(
-            method = "getEntry(Lnet/minecraft/util/Identifier;)Ljava/util/Optional;",
+            method = "get(Lnet/minecraft/resources/Identifier;)Ljava/util/Optional;",
             at = @At("RETURN"),
             cancellable = true
     )
-    public void getEntry(Identifier id, CallbackInfoReturnable<Optional<RegistryEntry.Reference<T>>> cir) {
-        Optional<RegistryEntry.Reference<T>> result = cir.getReturnValue();
+    public void get(Identifier id, CallbackInfoReturnable<Optional<Holder.Reference<T>>> cir) {
+        Optional<Holder.Reference<T>> result = cir.getReturnValue();
         cir.setReturnValue(Optional.ofNullable(result.orElseGet(() -> this.dynamicIdToEntry.get(id))));
     }
 
@@ -318,14 +309,14 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
         cir.setReturnValue(Iterators.concat(
                 cir.getReturnValue(),
                 Iterators.transform(this.dynamicRawIdToEntry.iterator(),
-                                    RegistryEntry :: value
+                                    Holder :: value
                 )
         ));
     }
 
     @Unique
-    public RegistryEntry.Reference<T> orEntry(Identifier value) {
-        RegistryEntry.Reference<T> reference = this.idToEntry.get(value);
+    public Holder.Reference<T> orEntry(Identifier value) {
+        Holder.Reference<T> reference = this.byLocation.get(value);
         if (reference == null) {
             reference = this.dynamicIdToEntry.get(value);
         }
@@ -333,7 +324,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     }
 
     @Redirect(
-            method = "get(Lnet/minecraft/util/Identifier;)Ljava/lang/Object;",
+            method = "getValue(Lnet/minecraft/resources/Identifier;)Ljava/lang/Object;",
             at = @At(
                     value = "INVOKE",
                     target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;"
@@ -344,11 +335,11 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     }
 
     @Inject(
-            method = "getIds",
+            method = "keySet",
             at = @At("RETURN"),
             cancellable = true
     )
-    public void getIds(CallbackInfoReturnable<Set<Identifier>> cir) {
+    public void keySet(CallbackInfoReturnable<Set<Identifier>> cir) {
         Set<Identifier> result = new HashSet<>();
         result.addAll(cir.getReturnValue());
         result.addAll(this.dynamicIdToEntry.keySet());
@@ -356,42 +347,42 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     }
 
     @Redirect(
-            method = "getKeys",
+            method = "registryKeySet",
             at = @At(
                     value = "INVOKE",
                     target = "Ljava/util/Collections;unmodifiableSet(Ljava/util/Set;)Ljava/util/Set;"
             )
     )
-    public Set<RegistryKey<T>> getKeys(Set<RegistryKey<T>> s) {
-        Set<RegistryKey<T>> keys = new HashSet<>();
+    public Set<ResourceKey<T>> registryKeySet(Set<ResourceKey<T>> s) {
+        Set<ResourceKey<T>> keys = new HashSet<>();
         keys.addAll(s);
         keys.addAll(this.dynamicKeyToEntry.keySet());
         return Collections.unmodifiableSet(keys);
     }
 
     @Redirect(
-            method = "getEntrySet",
+            method = "entrySet",
             at = @At(
                     value = "INVOKE",
                     target = "Ljava/util/Collections;unmodifiableSet(Ljava/util/Set;)Ljava/util/Set;"
             )
     )
-    public Set<Map.Entry<RegistryKey<T>, T>> getEntrySet(Set<Map.Entry<RegistryKey<T>, T>> s) {
-        Set<Map.Entry<RegistryKey<T>, T>> keys = new HashSet<>();
+    public Set<Map.Entry<ResourceKey<T>, T>> getEntrySet(Set<Map.Entry<ResourceKey<T>, T>> s) {
+        Set<Map.Entry<ResourceKey<T>, T>> keys = new HashSet<>();
         keys.addAll(s);
         keys.addAll(Maps.transformValues(this.dynamicKeyToEntry,
-                                         RegistryEntry :: value
+                                         Holder :: value
                         )
                         .entrySet());
         return Collections.unmodifiableSet(keys);
     }
 
     @Inject(
-            method = "streamEntries",
+            method = "listElements",
             at = @At("RETURN"),
             cancellable = true
     )
-    public void streamEntries(CallbackInfoReturnable<Stream<RegistryEntry.Reference<T>>> cir) {
+    public void listElements(CallbackInfoReturnable<Stream<Holder.Reference<T>>> cir) {
         cir.setReturnValue(Stream.concat(
                 cir.getReturnValue(),
                 this.dynamicRawIdToEntry.stream()
@@ -399,11 +390,11 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     }
 
     @Inject(
-            method = "streamTags",
+            method = "listTags",
             at = @At("RETURN"),
             cancellable = true
     )
-    public void streamTags(CallbackInfoReturnable<Stream<RegistryEntryList.Named<T>>> cir) {
+    public void listTags(CallbackInfoReturnable<Stream<HolderSet.Named<T>>> cir) {
         cir.setReturnValue(Stream.concat(
                 cir.getReturnValue(),
                 this.dynamicTags.values()
@@ -421,7 +412,7 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
     }
 
     @Inject(
-            method = "containsId",
+            method = "containsKey(Lnet/minecraft/resources/Identifier;)Z",
             at = @At("RETURN"),
             cancellable = true
     )
@@ -434,150 +425,139 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
             at = @At("RETURN"),
             cancellable = true
     )
-    public void getRandom(Random random, CallbackInfoReturnable<Optional<RegistryEntry.Reference<T>>> cir) {
-        Optional<RegistryEntry.Reference<T>> result = cir.getReturnValue();
+    public void getRandom(RandomSource random, CallbackInfoReturnable<Optional<Holder.Reference<T>>> cir) {
+        Optional<Holder.Reference<T>> result = cir.getReturnValue();
         if (result.isEmpty()) {
-            cir.setReturnValue(Util.getRandomOrEmpty(this.dynamicRawIdToEntry,
-                                                     random
+            cir.setReturnValue(Util.getRandomSafe(this.dynamicRawIdToEntry,
+                                                  random
             ));
         }
     }
 
     @Inject(
-            method = "contains",
+            method = "containsKey(Lnet/minecraft/resources/ResourceKey;)Z",
             at = @At("RETURN"),
             cancellable = true
     )
-    public void contains(RegistryKey<T> key, CallbackInfoReturnable<Boolean> cir) {
+    public void contains(ResourceKey<T> key, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(cir.getReturnValue() || this.dynamicKeyToEntry.containsKey(key));
     }
 
-
     @Inject(
-            method = "createEntry",
+            method = "createIntrusiveHolder",
             at = @At("HEAD"),
             cancellable = true
     )
-    public void createEntry(T value, CallbackInfoReturnable<RegistryEntry.Reference<T>> cir) {
+    public void createIntrusiveHolder(T value, CallbackInfoReturnable<Holder.Reference<T>> cir) {
         if (this.frozen) {
             cir.setReturnValue(this.dynamicIntrusiveValueToEntry.computeIfAbsent(value,
-                                                                                 (valuex) -> RegistryEntry.Reference.intrusive(conium$getThis(),
-                                                                                                                               valuex
+                                                                                 (valuex) -> Holder.Reference.createIntrusive(conium$getThis(),
+                                                                                                                              valuex
                                                                                  )
             ));
         }
     }
 
     @Inject(
-            method = "getTag",
-            at = @At("HEAD"),
+            method = "get(Lnet/minecraft/tags/TagKey;)Ljava/util/Optional;",
+            at = @At("RETURN"),
             cancellable = true
     )
-    private void getTag(TagKey<T> key, CallbackInfoReturnable<RegistryEntryList.Named<T>> cir) {
-        if (this.frozen) {
-            cir.setReturnValue(this.dynamicTags.computeIfAbsent(key,
-                                                                this :: createNamedEntryList
-            ));
-            resetTagEntries();
+    private void getTag(TagKey<T> key, CallbackInfoReturnable<Optional<HolderSet.Named<T>>> cir) {
+        if (cir.getReturnValue().isEmpty() && this.frozen) {
+            HolderSet.Named<T> dynamicTag = this.dynamicTags.computeIfAbsent(key, k -> {
+                HolderSet.Named<T> created = createTag(k);
+                ((NamedRegistryEntryListMixin<T>) created).invokeSetEntries(List.of());
+                return created;
+            });
+            cir.setReturnValue(Optional.of(dynamicTag));
         }
     }
 
     @Redirect(
-            method = "refreshTags",
+            method = "refreshTagsInHolders",
             at = @At(
                     value = "INVOKE",
                     target = "Ljava/util/Map;values()Ljava/util/Collection;"
             )
     )
-    private Collection<RegistryEntry.Reference<T>> refreshTags(Map<RegistryKey<T>, RegistryEntry.Reference<T>> instance) {
-        Set<RegistryEntry.Reference<T>> allRefs = new HashSet<>();
+    private Collection<Holder.Reference<T>> refreshTags(Map<ResourceKey<T>, Holder.Reference<T>> instance) {
+        Set<Holder.Reference<T>> allRefs = new HashSet<>();
         allRefs.addAll(instance.values());
         allRefs.addAll(this.dynamicKeyToEntry.values());
         return Collections.unmodifiableCollection(allRefs);
     }
 
     @Inject(
-            method = "resetTagEntries",
+            method = "bindAllTagsToEmpty",
             at = @At("HEAD"),
             cancellable = true
     )
     @SuppressWarnings("unchecked")
     public void resetTagEntries(CallbackInfo ci) {
         if (this.frozen) {
-            this.dynamicTags.values()
-                            .forEach(tag -> ((NamedRegistryEntryListMixin<T>) tag).invokeSetEntries(List.of()));
+            for (HolderSet.Named<T> tag : this.dynamicTags.values()) {
+                if (tag != null) {
+                    ((NamedRegistryEntryListMixin<T>) tag).invokeSetEntries(List.of());
+                }
+            }
             ci.cancel();
         }
     }
 
     @Inject(
-            method = "getOptional(Lnet/minecraft/registry/RegistryKey;)Ljava/util/Optional;",
+            method = "get(Lnet/minecraft/resources/ResourceKey;)Ljava/util/Optional;",
             at = @At("HEAD"),
             cancellable = true
     )
-    public void getOptional(RegistryKey<T> key, CallbackInfoReturnable<Optional<RegistryEntry.Reference<T>>> cir) {
+    public void getOptional(ResourceKey<T> key, CallbackInfoReturnable<Optional<Holder.Reference<T>>> cir) {
         cir.setReturnValue(conium$orRegistryOptional(key));
     }
 
     @Redirect(
-            method = "createMutableRegistryLookup",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/registry/SimpleRegistry;assertNotFrozen()V")
+            method = "createRegistrationLookup",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/core/MappedRegistry;validateWrite()V")
     )
-    public void cancelFrozenCheckInCreateMutableRegistryLookup(SimpleRegistry<T> instance) {
+    public void cancelFrozenCheckInCreateRegistrationLookup(MappedRegistry<T> instance) {
         // Do nothing.
     }
 
     @Inject(
-            method = "createMutableRegistryLookup",
+            method = "createRegistrationLookup",
             at = @At("HEAD"),
             cancellable = true
     )
-    public void createMutableOrDynamicRegistryLookup(CallbackInfoReturnable<RegistryEntryLookup<T>> cir) {
-        cir.setReturnValue(new RegistryEntryLookup<>() {
+    public void createMutableOrDynamicRegistryLookup(CallbackInfoReturnable<HolderGetter<T>> cir) {
+        cir.setReturnValue(new HolderGetter<>() {
             @Override
-            public Optional<RegistryEntry.Reference<T>> getOptional(RegistryKey<T> key) {
-                return Optional.of(getOrThrow(key));
+            public Optional<Holder.Reference<T>> get(ResourceKey<T> key) {
+                return Optional.of(conium$getOrCreateDynamicEntry(key));
             }
 
             @Override
-            public RegistryEntry.Reference<T> getOrThrow(RegistryKey<T> key) {
-                return conium$getOrCreateDynamicEntry(key);
-            }
-
-            @Override
-            public Optional<RegistryEntryList.Named<T>> getOptional(TagKey<T> tag) {
-                return Optional.of(getOrThrow(tag));
-            }
-
-            @Override
-            public RegistryEntryList.Named<T> getOrThrow(TagKey<T> tag) {
-                return conium$orTag(tag);
+            public Optional<HolderSet.Named<T>> get(TagKey<T> tag) {
+                return Optional.of(getOrCreateTagForRegistration(tag));
             }
         });
     }
 
     @Unique
-    public RegistryEntryList.Named<T> conium$orTag(TagKey<T> value) {
-        return getTag(value);
-    }
-
-    @Unique
-    private Optional<RegistryEntry.Reference<T>> conium$orRegistryOptional(RegistryKey<T> key) {
-        return Optional.ofNullable(Optional.ofNullable(this.keyToEntry.get(key))
+    private Optional<Holder.Reference<T>> conium$orRegistryOptional(ResourceKey<T> key) {
+        return Optional.ofNullable(Optional.ofNullable(this.byKey.get(key))
                                            .orElseGet(() -> this.dynamicKeyToEntry.get(key)));
     }
 
     @Unique
-    private RegistryEntry.Reference<T> conium$getOrCreateDynamicEntry(RegistryKey<T> key) {
-        RegistryEntry.Reference<T> reference;
+    private Holder.Reference<T> conium$getOrCreateDynamicEntry(ResourceKey<T> key) {
+        Holder.Reference<T> reference;
         if (this.frozen) {
-            reference = this.keyToEntry.get(key);
+            reference = this.byKey.get(key);
             if (reference == null) {
                 reference = this.dynamicKeyToEntry.get(key);
                 if (reference == null) {
                     reference = this.dynamicKeyToEntry.computeIfAbsent(key,
-                                                                       key2 -> RegistryEntry.Reference.standAlone(conium$getThis(),
-                                                                                                                  key2
+                                                                       key2 -> Holder.Reference.createStandAlone(conium$getThis(),
+                                                                                                                key2
                                                                        )
                     );
 
@@ -585,15 +565,15 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
                 }
             }
         } else {
-            reference = getOrCreateEntry(key);
+            reference = getOrCreateHolderOrThrow(key);
         }
         return reference;
     }
 
     @Unique
     @SuppressWarnings("unchecked")
-    private SimpleRegistry<T> conium$getThis() {
-        return (SimpleRegistry<T>) (Object) this;
+    private MappedRegistry<T> conium$getThis() {
+        return (MappedRegistry<T>) (Object) this;
     }
 
     @Override
@@ -610,16 +590,19 @@ public abstract class SimpleRegistryMixin<T> implements ConiumDynamicRegistry {
 
     @Override
     @Nullable
-    public RegistryKey<?> conium$getKey(Identifier identifier) {
-        AtomicReference<RegistryKey<?>> result = new AtomicReference<>();
+    public ResourceKey<?> conium$getKey(Identifier identifier) {
+        AtomicReference<ResourceKey<?>> result = new AtomicReference<>();
 
-        getKey(get(identifier)).ifPresent(result :: set);
+        T val = getValue(identifier);
+        if (val != null) {
+            getResourceKey(val).ifPresent(result :: set);
+        }
 
         return result.get();
     }
 
     @Override
     public boolean conium$isPresent(Identifier identifier) {
-        return get(identifier) != null;
+        return getValue(identifier) != null;
     }
 }

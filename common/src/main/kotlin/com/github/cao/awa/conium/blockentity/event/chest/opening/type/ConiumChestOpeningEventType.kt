@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.blockentity.event.chest.opening.type
+﻿package com.github.cao.awa.conium.blockentity.event.chest.opening.type
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.blockentity.event.chest.opening.metadata.ConiumChestOpeningEventMetadata
 import com.github.cao.awa.conium.blockentity.event.chest.trapped.closed.metadata.ConiumTrappedChestClosedEventMetadata
@@ -10,8 +11,8 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.empty.ConiumEmptyEventMetadata
 import com.github.cao.awa.conium.event.type.cancelable.ConiumCancelableEventType
 import com.github.cao.awa.conium.event.type.cancelable.ConiumNoCancelableEventType
-import net.minecraft.block.Block
-import net.minecraft.world.chunk.WorldChunk
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.chunk.LevelChunk
 
 class ConiumChestOpeningEventType: ConiumCancelableEventType<Block, ConiumChestOpeningEventMetadata, Block, ConiumTrappedChestOpenedEventMetadata>(
     "chest_opening",

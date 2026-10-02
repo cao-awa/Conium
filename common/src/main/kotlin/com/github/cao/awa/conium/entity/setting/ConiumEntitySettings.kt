@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.entity.setting
 
 import com.github.cao.awa.conium.entity.ConiumEntity
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
-import net.minecraft.entity.EntityType
+import net.minecraft.world.entity.EntityType
 
 class ConiumEntitySettings : ConiumAbstractEntitySettings<ConiumEntitySettings>() {
     companion object {

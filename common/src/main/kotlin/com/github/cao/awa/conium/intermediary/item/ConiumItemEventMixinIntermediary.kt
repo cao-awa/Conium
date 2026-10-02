@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.intermediary.item
+﻿package com.github.cao.awa.conium.intermediary.item
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
@@ -7,18 +8,18 @@ import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.fireE
 import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.fireEventCancelable
 import com.github.cao.awa.conium.intermediary.ConiumEventMixinIntermediary.fireInheritedCascadedResultEvent
 import com.github.cao.awa.conium.mapping.yarn.LivingEntity
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EquipmentSlot
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.item.ItemUsageContext
-import net.minecraft.screen.slot.Slot
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.context.UseOnContext
+import net.minecraft.world.inventory.Slot
 import net.minecraft.server.MinecraftServer
-import net.minecraft.util.ActionResult
-import net.minecraft.util.ClickType
-import net.minecraft.util.Hand
-import net.minecraft.world.World
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.inventory.ClickAction as ClickType
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.level.Level
 
 /**
  * Conium item event intermediary triggers.
@@ -51,7 +52,7 @@ object ConiumItemEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireItemUseEvent(world: World, user: PlayerEntity, hand: Hand, itemStack: ItemStack): Boolean {
+    fun fireItemUseEvent(world: World, user: Player, hand: InteractionHand, itemStack: ItemStack): Boolean {
         val item: Item = itemStack.item
 
         return fireEventCancelable(
@@ -84,7 +85,7 @@ object ConiumItemEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireItemUsedEvent(world: World, user: PlayerEntity, hand: Hand, itemStack: ItemStack, actionResult: ActionResult) {
+    fun fireItemUsedEvent(world: World, user: Player, hand: InteractionHand, itemStack: ItemStack, actionResult: InteractionResult) {
         val item: Item = itemStack.item
 
         fireEvent(
@@ -115,8 +116,8 @@ object ConiumItemEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireItemUseOnBlock(usageContext: ItemUsageContext): ActionResult {
-        val itemStack: ItemStack = usageContext.stack
+    fun fireItemUseOnBlock(usageContext: UseOnContext): InteractionResult {
+        val itemStack: ItemStack = usageContext.itemInHand
         val item: Item = itemStack.item
 
         return fireInheritedCascadedResultEvent(
@@ -125,20 +126,20 @@ object ConiumItemEventMixinIntermediary {
             item,
             { context: ConiumArisingEventContext<*, *> ->
                 context[ConiumEventArgTypes.ITEM_USAGE_CONTEXT] = usageContext
-                context[ConiumEventArgTypes.ITEM_STACK] = usageContext.stack
-                context[ConiumEventArgTypes.WORLD] = usageContext.world
+                context[ConiumEventArgTypes.ITEM_STACK] = usageContext.itemInHand
+                context[ConiumEventArgTypes.WORLD] = usageContext.level
                 context[ConiumEventArgTypes.HAND] = usageContext.hand
                 if (usageContext.player != null) {
                     context[ConiumEventArgTypes.PLAYER] = usageContext.player!!
                 }
             },
-            { result: ActionResult, context: ConiumArisingEventContext<*, *> ->
+            { result: InteractionResult, context: ConiumArisingEventContext<*, *> ->
                 context[ConiumEventArgTypes.ACTION_RESULT] = result
             },
             {
-                item.useOnBlock(usageContext)
+                item.useOn(usageContext)
             },
-            ActionResult.FAIL
+            InteractionResult.FAIL
         )
     }
 
@@ -161,7 +162,7 @@ object ConiumItemEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireItemUseOnEntity(itemStack: ItemStack, user: PlayerEntity, target: LivingEntity, hand: Hand): ActionResult {
+    fun fireItemUseOnEntity(itemStack: ItemStack, user: Player, target: LivingEntity, hand: InteractionHand): InteractionResult {
         val item: Item = itemStack.item
 
         return fireInheritedCascadedResultEvent(
@@ -178,9 +179,9 @@ object ConiumItemEventMixinIntermediary {
                 context[ConiumEventArgTypes.ACTION_RESULT] = result
             },
             {
-                item.useOnEntity(itemStack, user, target, hand)
+                item.interactLivingEntity(itemStack, user, target, hand)
             },
-            ActionResult.FAIL
+            InteractionResult.FAIL
         )
     }
 
@@ -341,7 +342,7 @@ object ConiumItemEventMixinIntermediary {
      * @since 1.0.0
      */
     @JvmStatic
-    fun fireItemStackClickedEvent(player: PlayerEntity, itemStack: ItemStack, slot: Slot, clickType: ClickType): Boolean {
+    fun fireItemStackClickedEvent(player: Player, itemStack: ItemStack, slot: Slot, clickType: ClickType): Boolean {
         val item: Item = itemStack.item
 
         return fireEventCancelable(

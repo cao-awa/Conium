@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.item.event.inventory.tick.type
+﻿package com.github.cao.awa.conium.item.event.inventory.tick.type
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.empty.ConiumEmptyEventMetadata
@@ -10,7 +11,7 @@ import com.github.cao.awa.conium.item.event.inventory.ticked.metadata.ConiumItem
 import com.github.cao.awa.conium.item.event.use.metadata.ConiumItemUseEventMetadata
 import com.github.cao.awa.conium.item.event.used.metadata.ConiumItemUsedEventMetadata
 import com.github.cao.awa.conium.item.event.used.type.ConiumItemUsedEventType
-import net.minecraft.item.Item
+import net.minecraft.world.item.Item
 
 class ConiumItemInventoryTickEventType: ConiumCancelableEventType<Item, ConiumItemInventoryTickEventMetadata, Item, ConiumItemInventoryTickedEventMetadata>(
     "item_inventory_tick",

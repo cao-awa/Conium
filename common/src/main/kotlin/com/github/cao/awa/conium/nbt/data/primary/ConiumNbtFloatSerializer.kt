@@ -3,16 +3,16 @@ package com.github.cao.awa.conium.nbt.data.primary
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.nbt.data.RegistrableNbt
 import com.google.gson.JsonObject
-import net.minecraft.storage.ReadView
-import net.minecraft.storage.WriteView
+import net.minecraft.world.level.storage.ValueInput
+import net.minecraft.world.level.storage.ValueOutput
 import java.util.function.Supplier
 
 /**
  * NBT serializer for float.
  *
  * @see Float
- * @see ReadView
- * @see WriteView
+ * @see ValueInput
+ * @see ValueOutput
  * @see JsonObject
  * @see RegistrableNbt
  * @see ConiumNbtDataSerializer
@@ -33,13 +33,13 @@ class ConiumNbtFloatSerializer : ConiumNbtDataSerializer<Float>() {
      * @return the deserialize result
      *
      * @see Float
-     * @see ReadView
+     * @see ValueInput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun read(readView: ReadView, key: String, fallback: Supplier<Float>): Float = readView.getFloat(key, fallback.get())
+    override fun read(readView: ValueInput, key: String, fallback: Supplier<Float>): Float = readView.getFloatOr(key, fallback.get())
 
     /**
      * Serialize a float value to a data view.
@@ -49,13 +49,13 @@ class ConiumNbtFloatSerializer : ConiumNbtDataSerializer<Float>() {
      * @param value the value of data
      *
      * @see Float
-     * @see WriteView
+     * @see ValueOutput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun write(writeView: WriteView, key: String, value: Float) = writeView.putFloat(key, value)
+    override fun write(writeView: ValueOutput, key: String, value: Float) = writeView.putFloat(key, value)
 
     /**
      * Deserialize a float value from JSON object.

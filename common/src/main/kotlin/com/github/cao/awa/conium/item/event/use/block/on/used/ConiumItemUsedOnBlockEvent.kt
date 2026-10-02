@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.item.event.use.block.on.used
+﻿package com.github.cao.awa.conium.item.event.use.block.on.used
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
@@ -11,12 +12,12 @@ import com.github.cao.awa.conium.item.event.use.block.on.used.metadata.ConiumIte
 import com.github.cao.awa.conium.item.event.use.block.on.used.type.ConiumItemUsedOnBlockEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective3
-import net.minecraft.item.Item
-import net.minecraft.item.ItemUsageContext
-import net.minecraft.util.ActionResult
-import net.minecraft.world.World
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.context.UseOnContext
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.level.Level
 
-class ConiumItemUsedOnBlockEvent : ConiumEvent<Item, ConiumItemUsedOnBlockEventMetadata, ParameterSelective3<Boolean, World, ItemUsageContext, ActionResult>, ConiumInactiveEventType>(
+class ConiumItemUsedOnBlockEvent : ConiumEvent<Item, ConiumItemUsedOnBlockEventMetadata, ParameterSelective3<Boolean, World, UseOnContext, InteractionResult>, ConiumInactiveEventType>(
     ConiumEventType.ITEM_USED_ON_BLOCK,
     { ConiumEventType.INACTIVE }
 ) {
@@ -26,7 +27,7 @@ class ConiumItemUsedOnBlockEvent : ConiumEvent<Item, ConiumItemUsedOnBlockEventM
             ConiumEventArgTypes.WORLD,
             ConiumEventArgTypes.ITEM_USAGE_CONTEXT,
             ConiumEventArgTypes.ACTION_RESULT
-        ) { identity: Item, world: World, context: ItemUsageContext, result: ActionResult ->
+        ) { identity: Item, world: World, context: UseOnContext, result: InteractionResult ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, context, result)
             }

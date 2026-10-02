@@ -1,8 +1,8 @@
 package com.github.cao.awa.conium.registry.extend;
 
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
 
 import java.util.function.Supplier;
 
@@ -14,11 +14,11 @@ public interface ConiumDynamicRegistry {
 
     void conium$clearDynamic();
 
-    default <T> RegistryKey<T> getKey(Identifier identifier) {
-        return (RegistryKey<T>) conium$getKey(identifier);
+    default <T> ResourceKey<T> getKey(Identifier identifier) {
+        return (ResourceKey<T>) conium$getKey(identifier);
     }
 
-    RegistryKey<?> conium$getKey(Identifier identifier);
+    ResourceKey<?> conium$getKey(Identifier identifier);
 
     default boolean isPresent(Identifier identifier) {
         return conium$isPresent(identifier);

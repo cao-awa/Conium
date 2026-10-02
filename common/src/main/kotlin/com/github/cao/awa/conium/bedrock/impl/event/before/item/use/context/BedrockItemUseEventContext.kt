@@ -6,7 +6,7 @@ import com.github.cao.awa.conium.bedrock.impl.entity.player.BedrockPlayer
 import com.github.cao.awa.conium.bedrock.impl.event.context.BedrockEventContext
 import com.github.cao.awa.conium.bedrock.impl.item.stack.BedrockItemStack
 import com.github.cao.awa.conium.bedrock.impl.world.BedrockWorld
-import net.minecraft.item.Item
+import net.minecraft.world.item.Item
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemUseBeforeEvent", "ItemUseAfterEvent")

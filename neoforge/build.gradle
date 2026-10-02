@@ -35,7 +35,7 @@ repositories {
 dependencies {
     neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
+    common(project(path: ':common')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
@@ -61,13 +61,13 @@ processResources {
 
 shadowJar {
     configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
+    archiveClassifier = ''
 }
 
-remapJar {
-    inputFile.set shadowJar.archiveFile
+tasks.jar {
+    archiveClassifier = 'dev'
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(25)
 }

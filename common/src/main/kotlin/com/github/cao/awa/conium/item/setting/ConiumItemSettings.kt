@@ -3,23 +3,23 @@ package com.github.cao.awa.conium.item.setting
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.item.template.durability.ConiumDurabilityTemplate
 import com.github.cao.awa.conium.setting.ConiumSettings
-import net.minecraft.block.BlockState
-import net.minecraft.entity.LivingEntity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.text.Text
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.network.chat.Component
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.Level
 
 object ConiumItemSettingsValue {
-    val canMinePredicate: (ItemStack, BlockState, World, BlockPos, LivingEntity) -> Boolean = { _, _, _, _, _ -> true }
+    val canMinePredicate: (ItemStack, BlockState, Level, BlockPos, LivingEntity) -> Boolean = { _, _, _, _, _ -> true }
     val isWeapon: Boolean = false
     val shouldPostHit: Boolean = false
     val durabilityDamageChance: IntRange = ConiumDurabilityTemplate.defaultChance
     val forceMiningSpeed: Float = -1F
 }
 
-abstract class ConiumAbstractItemSettings<B : ConiumAbstractItemSettings<B>>(val vanillaSettings: Item.Settings) : ConiumSettings<ConiumAbstractItemSettings<B>, B>() {
+abstract class ConiumAbstractItemSettings<B : ConiumAbstractItemSettings<B>>(val vanillaSettings: Item.Properties) : ConiumSettings<ConiumAbstractItemSettings<B>, B>() {
     /**
      * The predicate to checks the block that can be mined by this item, in vanilla is always mineable if not specify.
      *
@@ -29,14 +29,14 @@ abstract class ConiumAbstractItemSettings<B : ConiumAbstractItemSettings<B>>(val
      *
      * @since 1.0.0
      */
-    var canMinePredicate: (ItemStack, BlockState, World, BlockPos, LivingEntity) -> Boolean
+    var canMinePredicate: (ItemStack, BlockState, Level, BlockPos, LivingEntity) -> Boolean
         get() = this._canMinePredicate ?: ConiumItemSettingsValue.canMinePredicate
         set(value) {
             this._canMinePredicate = value
         }
 
     // The delegate.
-    private var _canMinePredicate: ((ItemStack, BlockState, World, BlockPos, LivingEntity) -> Boolean)? = null
+    private var _canMinePredicate: ((ItemStack, BlockState, Level, BlockPos, LivingEntity) -> Boolean)? = null
 
     /**
      * A mark that marked a tool item be a weapon, used in durability decrements when hitting entity.
@@ -88,7 +88,7 @@ abstract class ConiumAbstractItemSettings<B : ConiumAbstractItemSettings<B>>(val
     // The delegate.
     private var _forceMiningSpeed: Float? = null
 
-    var displayName: Text? = null
+    var displayName: Component? = null
 
     override fun migrateTo(settings: B): B {
         return settings.also {
@@ -103,10 +103,10 @@ abstract class ConiumAbstractItemSettings<B : ConiumAbstractItemSettings<B>>(val
     }
 }
 
-class ConiumItemSettings(vanillaSettings: Item.Settings) : ConiumAbstractItemSettings<ConiumItemSettings>(vanillaSettings) {
+class ConiumItemSettings(vanillaSettings: Item.Properties) : ConiumAbstractItemSettings<ConiumItemSettings>(vanillaSettings) {
     companion object {
         @JvmStatic
-        fun create(templates: MutableList<ConiumItemTemplate>, settings: Item.Settings): ConiumItemSettings {
+        fun create(templates: MutableList<ConiumItemTemplate>, settings: Item.Properties): ConiumItemSettings {
             return ConiumItemSettings(settings).also {
                 templates.forEach { template ->
                     template.prepare(it)

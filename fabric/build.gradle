@@ -47,15 +47,15 @@ configurations {
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    implementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 
     // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
+    implementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
 
     // Architectury API. This is optional, and you can comment it out if you don't need it.
-//    modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
+//    implementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
+    common(project(path: ':common')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
@@ -71,7 +71,7 @@ dependencies {
     shadowBundle "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
 
     // Fabric Kotlin
-    modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+    implementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 }
 
 loom {
@@ -94,11 +94,11 @@ shadowJar {
     configurations = [
             project.configurations.shadowBundle
     ]
-    archiveClassifier = 'dev-shadow'
+    archiveClassifier = ''
 }
 
-remapJar {
-    inputFile.set shadowJar.archiveFile
+tasks.jar {
+    archiveClassifier = 'dev'
 }
 
 repositories {
@@ -106,5 +106,5 @@ repositories {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(25)
 }

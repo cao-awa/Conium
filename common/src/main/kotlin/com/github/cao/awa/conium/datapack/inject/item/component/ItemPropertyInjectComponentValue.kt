@@ -2,26 +2,29 @@ package com.github.cao.awa.conium.datapack.inject.item.component
 
 import com.github.cao.awa.conium.component.ConiumComponentType
 import com.github.cao.awa.conium.extent.caster.cast
-import net.minecraft.component.ComponentType
-import net.minecraft.network.RegistryByteBuf
+import net.minecraft.core.component.DataComponentType
+import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.codec.StreamCodec
 
 @JvmRecord
-data class ItemPropertyInjectComponentValue<X>(val value: X?, val componentType: ComponentType<X>?) {
+data class ItemPropertyInjectComponentValue<X : Any>(val value: X?, val componentType: DataComponentType<X>?) {
     companion object {
         @JvmStatic
-        fun decode(buf: RegistryByteBuf): ItemPropertyInjectComponentValue<*> {
-            val componentType: ComponentType<*> = ComponentType.PACKET_CODEC.decode(buf)
+        fun decode(buf: RegistryFriendlyByteBuf): ItemPropertyInjectComponentValue<*> {
+            val componentType: DataComponentType<*> = DataComponentType.STREAM_CODEC.decode(buf)
 
             return ItemPropertyInjectComponentValue(
-                componentType.packetCodec.decode(buf),
+                componentType.streamCodec().decode(buf),
                 componentType.cast()
             )
         }
 
         @JvmStatic
-        fun encode(buf: RegistryByteBuf, value: ItemPropertyInjectComponentValue<*>) {
-            ComponentType.PACKET_CODEC.encode(buf, value.componentType)
-            value.componentType!!.packetCodec.encode(buf, value.value.cast())
+        @Suppress("UNCHECKED_CAST")
+        fun encode(buf: RegistryFriendlyByteBuf, value: ItemPropertyInjectComponentValue<*>) {
+            DataComponentType.STREAM_CODEC.encode(buf, value.componentType!!)
+            val codec = value.componentType.streamCodec() as StreamCodec<RegistryFriendlyByteBuf, Any>
+            codec.encode(buf, value.value!!)
         }
 
         @JvmStatic
@@ -30,7 +33,7 @@ data class ItemPropertyInjectComponentValue<X>(val value: X?, val componentType:
         }
     }
 
-    fun <Y> verified(type: ComponentType<*>): ItemPropertyInjectComponentValue<Y> {
+    fun <Y : Any> verified(type: DataComponentType<*>): ItemPropertyInjectComponentValue<Y> {
         if (type is ConiumComponentType<*>) {
             type.let {
                 return ItemPropertyInjectComponentValue(

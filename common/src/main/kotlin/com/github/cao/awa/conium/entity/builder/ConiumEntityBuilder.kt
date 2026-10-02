@@ -5,10 +5,10 @@ import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettingsWithTypeBuilder
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.template.builder.ConiumBuilderWithTemplates
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.SpawnGroup
-import net.minecraft.util.Identifier
-import net.minecraft.world.World
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.MobCategory
+import net.minecraft.resources.Identifier
+import net.minecraft.world.level.Level
 import java.util.HashMap
 
 abstract class ConiumEntityBuilder(val identifier: Identifier) : ConiumBuilderWithTemplates<
@@ -20,13 +20,13 @@ abstract class ConiumEntityBuilder(val identifier: Identifier) : ConiumBuilderWi
 ) {
     companion object {
         fun build(builder: ConiumEntityBuilder): EntityType.Builder<ConiumEntity> {
-            val type: EntityType.Builder<ConiumEntity> = EntityType.Builder.create({ type: EntityType<ConiumEntity>, world: World ->
+            val type: EntityType.Builder<ConiumEntity> = EntityType.Builder.of({ type: EntityType<ConiumEntity>, world: Level ->
                 ConiumEntity(
                     type,
                     world,
                     builder.entitySettings
                 ).also { it.applyTemplates(builder.templates()) }
-            }, SpawnGroup.MISC)
+            }, MobCategory.MISC)
 
             builder.groupTemplates.forEach { (name: String, templates: MutableList<ConiumEntityTemplate>) ->
                 builder.entitySettings.migrate(

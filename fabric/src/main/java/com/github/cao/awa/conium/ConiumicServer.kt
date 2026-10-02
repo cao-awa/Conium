@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.network.packet.client.configuration.ConiumClien
 import com.github.cao.awa.conium.network.packet.client.play.ConiumClientPlayPacket
 import com.github.cao.awa.conium.network.registry.ConiumPacketRegister
 import net.fabricmc.api.DedicatedServerModInitializer
-import net.fabricmc.fabric.impl.networking.PayloadTypeRegistryImpl
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import org.apache.logging.log4j.LogManager
 
 class ConiumicServer : DedicatedServerModInitializer {
@@ -14,12 +14,12 @@ class ConiumicServer : DedicatedServerModInitializer {
 
     override fun onInitializeServer() {
         // Network packets.
-        ConiumPacketRegister.implementConfigurationToClient { id, codec ->
-            PayloadTypeRegistryImpl.CONFIGURATION_S2C.register(id, codec)
+        ConiumPacketRegister.implementConfigurationToClient<ConiumClientConfigurationPacket> { id, codec ->
+            PayloadTypeRegistry.clientboundConfiguration().register(id, codec)
         }
 
-        ConiumPacketRegister.implementPlayToClient { id, codec ->
-            PayloadTypeRegistryImpl.PLAY_C2S.register(id, codec)
+        ConiumPacketRegister.implementPlayToClient<ConiumClientPlayPacket> { id, codec ->
+            PayloadTypeRegistry.clientboundPlay().register(id, codec)
         }
 
         // Initialize conium.

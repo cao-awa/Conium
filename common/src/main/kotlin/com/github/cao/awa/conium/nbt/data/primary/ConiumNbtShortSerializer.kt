@@ -3,18 +3,18 @@ package com.github.cao.awa.conium.nbt.data.primary
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.nbt.data.RegistrableNbt
 import com.google.gson.JsonObject
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.storage.ReadView
-import net.minecraft.storage.WriteView
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.core.HolderLookup
+import net.minecraft.world.level.storage.ValueInput
+import net.minecraft.world.level.storage.ValueOutput
 import java.util.function.Supplier
 
 /**
  * NBT serializer for short.
  *
  * @see Short
- * @see ReadView
- * @see WriteView
+ * @see ValueInput
+ * @see ValueOutput
  * @see JsonObject
  * @see RegistrableNbt
  * @see ConiumNbtDataSerializer
@@ -34,13 +34,13 @@ class ConiumNbtShortSerializer : ConiumNbtDataSerializer<Short>() {
      * @return the deserialize result
      *
      * @see Short
-     * @see ReadView
+     * @see ValueInput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun read(readView: ReadView, key: String, fallback: Supplier<Short>): Short = readView.getShort(key, fallback.get()).toShort()
+    override fun read(readView: ValueInput, key: String, fallback: Supplier<Short>): Short = readView.getShortOr(key, fallback.get()).toShort()
 
     /**
      * Serialize a short value to a data view.
@@ -50,13 +50,13 @@ class ConiumNbtShortSerializer : ConiumNbtDataSerializer<Short>() {
      * @param value the value of data
      *
      * @see Short
-     * @see WriteView
+     * @see ValueOutput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun write(writeView: WriteView, key: String, value: Short) = writeView.putShort(key, value)
+    override fun write(writeView: ValueOutput, key: String, value: Short) = writeView.putShort(key, value)
 
     /**
      * Deserialize a short value from JSON object.

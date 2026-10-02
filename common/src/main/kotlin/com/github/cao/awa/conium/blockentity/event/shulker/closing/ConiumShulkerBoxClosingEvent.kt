@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.blockentity.event.shulker.closing
+﻿package com.github.cao.awa.conium.blockentity.event.shulker.closing
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.blockentity.event.shulker.closed.type.ConiumShulkerBoxClosedEventType
 import com.github.cao.awa.conium.blockentity.event.shulker.closing.metadata.ConiumShulkerBoxClosingEventMetadata
@@ -10,13 +11,13 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective5
-import net.minecraft.block.AbstractBlock.AbstractBlockState
-import net.minecraft.block.Block
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.ShulkerBoxBlockEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.Level
 
 /**
  *
@@ -25,7 +26,7 @@ import net.minecraft.world.World
  *
  * @since 1.0.0
  */
-class ConiumShulkerBoxClosingEvent : ConiumEvent<Block, ConiumShulkerBoxClosingEventMetadata, ParameterSelective5<Boolean, World, PlayerEntity, ShulkerBoxBlockEntity, AbstractBlockState, BlockPos>, ConiumShulkerBoxClosedEventType>(
+class ConiumShulkerBoxClosingEvent : ConiumEvent<Block, ConiumShulkerBoxClosingEventMetadata, ParameterSelective5<Boolean, World, Player, ShulkerBoxBlockEntity, AbstractBlockState, BlockPos>, ConiumShulkerBoxClosedEventType>(
     ConiumEventType.SHULKER_BOX_CLOSING,
     { ConiumEventType.SHULKER_BOX_CLOSED }
 ) {
@@ -37,7 +38,7 @@ class ConiumShulkerBoxClosingEvent : ConiumEvent<Block, ConiumShulkerBoxClosingE
             ConiumEventArgTypes.BLOCK_ENTITY,
             ConiumEventArgTypes.BLOCK_STATE,
             ConiumEventArgTypes.BLOCK_POS
-        ) { identity: Block, world: World, pos: PlayerEntity, blockEntity: BlockEntity, blockState: AbstractBlockState, blockPos: BlockPos ->
+        ) { identity: Block, world: World, pos: Player, blockEntity: BlockEntity, blockState: AbstractBlockState, blockPos: BlockPos ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, pos, blockEntity as ShulkerBoxBlockEntity, blockState, blockPos)
             }

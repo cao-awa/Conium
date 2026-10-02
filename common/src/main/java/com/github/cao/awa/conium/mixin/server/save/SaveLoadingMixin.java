@@ -10,29 +10,29 @@ import com.github.cao.awa.conium.datapack.worldgen.ConiumPlacedFeatureManager;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.registry.CombinedDynamicRegistries;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.ServerDynamicRegistryType;
-import net.minecraft.resource.LifecycledResourceManager;
-import net.minecraft.server.SaveLoading;
+import net.minecraft.core.LayeredRegistryAccess;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.server.RegistryLayer;
+import net.minecraft.server.packs.resources.CloseableResourceManager;
+import net.minecraft.server.WorldLoader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(SaveLoading.class)
+@Mixin(WorldLoader.class)
 public class SaveLoadingMixin {
     @WrapOperation(
-            method = "load",
+            method = "lambda$load$0",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/registry/ServerDynamicRegistryType;createCombinedDynamicRegistries()Lnet/minecraft/registry/CombinedDynamicRegistries;"
+                    target = "Lnet/minecraft/server/RegistryLayer;createRegistryAccess()Lnet/minecraft/core/LayeredRegistryAccess;"
             )
     )
-    private static CombinedDynamicRegistries<ServerDynamicRegistryType> loadDynamic(
-            Operation<CombinedDynamicRegistries<ServerDynamicRegistryType>> original,
-            @Local LifecycledResourceManager closeableResourceManager
+    private static LayeredRegistryAccess<RegistryLayer> loadDynamic(
+            Operation<LayeredRegistryAccess<RegistryLayer>> original,
+            @Local CloseableResourceManager closeableResourceManager
     ) {
-        CombinedDynamicRegistries<ServerDynamicRegistryType> registries = original.call();
-        DynamicRegistryManager registryManager = registries.getPrecedingRegistryManagers(ServerDynamicRegistryType.RELOADABLE);
+        LayeredRegistryAccess<RegistryLayer> registries = original.call();
+        RegistryAccess registryManager = registries.getAccessForLoading(RegistryLayer.RELOADABLE);
 
         Conium.itemInjectManager = new ConiumItemPropertyInjectManager(registryManager);
         Conium.coniumItemManager = new ConiumItemManager(registryManager);

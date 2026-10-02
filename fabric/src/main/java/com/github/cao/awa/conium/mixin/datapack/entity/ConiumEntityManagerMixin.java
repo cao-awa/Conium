@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.mixin.datapack.entity;
 
 import com.github.cao.awa.conium.datapack.entity.ConiumEntityManager;
 import net.fabricmc.fabric.impl.resource.FabricResourceReloader;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 
@@ -12,6 +12,6 @@ public abstract class ConiumEntityManagerMixin implements FabricResourceReloader
     public @NotNull Identifier fabric$getId() {
         // Use identifiable resource loader system to reload entity in data packs.
         // Make more compatible with other mods.
-        return Identifier.of("conium", "entity_manager");
+        return Identifier.fromNamespaceAndPath("conium", "entity_manager");
     }
 }

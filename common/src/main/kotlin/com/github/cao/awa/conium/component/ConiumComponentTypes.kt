@@ -5,10 +5,10 @@ package com.github.cao.awa.conium.component
 import com.github.cao.awa.conium.component.value.ConiumValueCreator
 import com.google.gson.JsonElement
 import com.mojang.serialization.Codec
-import net.minecraft.network.codec.PacketCodecs
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
-import net.minecraft.util.Identifier
+import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.Registry
+import net.minecraft.resources.Identifier
 import java.util.*
 import java.util.function.UnaryOperator
 
@@ -17,17 +17,17 @@ object ConiumComponentTypes {
 
     val TEST: ConiumComponentType<Int> = register(
         "test",
-        { builder: ConiumComponentTypeBuilder<Int> -> builder.codec(Codec.INT).packetCodec(PacketCodecs.INTEGER) },
+        { builder: ConiumComponentTypeBuilder<Int> -> builder.codec(Codec.INT).packetCodec(ByteBufCodecs.INT) },
         JsonElement::getAsInt
     )
 
-    fun <T> register(path: String, builderOperator: UnaryOperator<ConiumComponentTypeBuilder<T>>, valueCreator: ConiumValueCreator<T>): ConiumComponentType<T> {
-        return register(Identifier.of("conium", path), builderOperator, valueCreator)
+    fun <T : Any> register(path: String, builderOperator: UnaryOperator<ConiumComponentTypeBuilder<T>>, valueCreator: ConiumValueCreator<T>): ConiumComponentType<T> {
+        return register(Identifier.fromNamespaceAndPath("conium", path), builderOperator, valueCreator)
     }
 
-    fun <T> register(id: Identifier, builderOperator: UnaryOperator<ConiumComponentTypeBuilder<T>>, valueCreator: ConiumValueCreator<T>): ConiumComponentType<T> {
-        val type: ConiumComponentType<T> = builderOperator.apply(ConiumComponentTypeBuilder(id.toString(), valueCreator)).build()
-        Registry.register(Registries.DATA_COMPONENT_TYPE, id, type)
+    fun <T : Any> register(id: Identifier, builderOperator: UnaryOperator<ConiumComponentTypeBuilder<T>>, valueCreator: ConiumValueCreator<T>): ConiumComponentType<T> {
+        val type: ConiumComponentType<T> = builderOperator.apply(ConiumComponentTypeBuilder<T>(id.toString(), valueCreator)).build()
+        Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, id, type)
         this.types[id] = type
         return type
     }
@@ -38,18 +38,18 @@ object ConiumComponentTypes {
     fun types(): Map<Identifier, ConiumComponentType<*>> = Collections.unmodifiableMap(this.types)
 
     fun get(path: String): ConiumComponentType<*> {
-        return this.types[Identifier.of("conium", path)]!!
+        return this.types[Identifier.fromNamespaceAndPath("conium", path)]!!
     }
 
     fun get(identifier: Identifier): ConiumComponentType<*> {
         return this.types[identifier]!!
     }
 
-    fun <T> createValue(path: String, element: JsonElement): T {
-        return createValue(Identifier.of("conium", path), element)
+    fun <T : Any> createValue(path: String, element: JsonElement): T {
+        return createValue(Identifier.fromNamespaceAndPath("conium", path), element)
     }
 
-    fun <T> createValue(type: Identifier, element: JsonElement): T {
+    fun <T : Any> createValue(type: Identifier, element: JsonElement): T {
         return this.types[type]!!.valueCreator.createValue(element) as T
     }
 }

@@ -5,15 +5,15 @@ import com.github.cao.awa.conium.event.context.ConiumEventContext;
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext;
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.OperatorBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.network.ServerPlayerInteractionManager;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameMode;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.GameMasterBlock;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerPlayerGameMode;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.GameType;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,44 +21,44 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ServerPlayerInteractionManager.class)
+@Mixin(ServerPlayerGameMode.class)
 public abstract class ServerPlayerInteractionManagerMixin {
     @Shadow
-    protected ServerWorld world;
+    protected ServerLevel level;
 
     @Shadow
     @Final
-    protected ServerPlayerEntity player;
+    protected ServerPlayer player;
     @Shadow
-    private GameMode gameMode;
+    private GameType gameModeForPlayer;
 
     @Shadow
     public abstract boolean isCreative();
 
     @Inject(
-            method = "tryBreakBlock",
+            method = "destroyBlock",
             at = @At(value = "HEAD"),
             cancellable = true
     )
     public void tryBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        BlockState blockState = this.world.getBlockState(pos);
-        ItemStack stack = this.player.getMainHandStack();
-        if (!stack.getItem().canMine(stack, blockState, this.world, pos, this.player)) {
+        BlockState blockState = this.level.getBlockState(pos);
+        ItemStack stack = this.player.getMainHandItem();
+        if (!stack.canDestroyBlock(blockState, this.level, pos, this.player)) {
             cir.setReturnValue(false);
         } else {
             Block block = blockState.getBlock();
-            if (block instanceof OperatorBlock && !this.player.isCreativeLevelTwoOp()) {
-                this.world.updateListeners(pos, blockState, blockState, Block.NOTIFY_ALL);
+            if (block instanceof GameMasterBlock && !this.player.canUseGameMasterBlocks()) {
+                this.level.sendBlockUpdated(pos, blockState, blockState, 3);
                 cir.setReturnValue(false);
-            } else if (this.player.isBlockBreakingRestricted(this.world, pos, this.gameMode)) {
+            } else if (this.player.blockActionRestricted(this.level, pos, this.gameModeForPlayer)) {
                 cir.setReturnValue(false);
             } else {
                 // Request the block break event.
                 ConiumArisingEventContext<?, ?> breakContext = ConiumEvent.request(ConiumEventType.BREAK_BLOCK);
 
                 // Fill the context args.
-                breakContext.put(ConiumEventArgTypes.WORLD, world)
-                        .put(ConiumEventArgTypes.PLAYER, player)
+                breakContext.put(ConiumEventArgTypes.WORLD, this.level)
+                        .put(ConiumEventArgTypes.PLAYER, this.player)
                         .put(ConiumEventArgTypes.BLOCK_POS, pos)
                         .put(ConiumEventArgTypes.BLOCK_STATE, blockState);
 
@@ -71,8 +71,8 @@ public abstract class ServerPlayerInteractionManagerMixin {
                     return;
                 }
 
-                BlockState brokenState = block.onBreak(this.world, pos, blockState, this.player);
-                boolean removedBlock = this.world.removeBlock(pos, false);
+                BlockState brokenState = block.playerWillDestroy(this.level, pos, blockState, this.player);
+                boolean removedBlock = this.level.removeBlock(pos, false);
                 if (removedBlock) {
                     // Request the block broken event.
                     ConiumArisingEventContext<?, ?> brokenContext = ConiumEvent.request(ConiumEventType.BROKEN_BLOCK);
@@ -86,21 +86,21 @@ public abstract class ServerPlayerInteractionManagerMixin {
                         brokenContext.arising(block);
                     }
 
-                    block.onBroken(this.world, pos, brokenState);
+                    block.destroy(this.level, pos, brokenState);
                 }
 
-                if (isCreative()) {
+                if (this.player.preventsBlockDrops()) {
                     cir.setReturnValue(true);
                 } else {
-                    boolean canHarvest = this.player.canHarvest(brokenState);
-                    stack.postMine(this.world, brokenState, pos, this.player);
+                    boolean canHarvest = this.player.hasCorrectToolForDrops(brokenState);
+                    stack.mineBlock(this.level, brokenState, pos, this.player);
                     if (removedBlock && canHarvest) {
-                        block.afterBreak(
-                                this.world,
+                        block.playerDestroy(
+                                this.level,
                                 this.player,
                                 pos,
                                 brokenState,
-                                this.world.getBlockEntity(pos),
+                                this.level.getBlockEntity(pos),
                                 stack.copy()
                         );
                     }

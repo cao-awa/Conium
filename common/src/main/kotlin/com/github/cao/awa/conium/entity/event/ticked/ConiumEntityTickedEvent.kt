@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.entity.event.ticked
+﻿package com.github.cao.awa.conium.entity.event.ticked
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.entity.event.ticked.metadata.ConiumEntityTickedEventMetadata
 import com.github.cao.awa.conium.event.ConiumEvent
@@ -10,8 +11,8 @@ import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.inactive.event.type.ConiumInactiveEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective1
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
 
 class ConiumEntityTickedEvent : ConiumEvent<EntityType<*>, ConiumEntityTickedEventMetadata, ParameterSelective1<Boolean, Entity>, ConiumInactiveEventType>(
     ConiumEventType.ENTITY_TICKED,

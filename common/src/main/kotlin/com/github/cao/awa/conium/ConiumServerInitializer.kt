@@ -5,10 +5,10 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.network.packet.client.configuration.registry.SynchronizeRegistryPayload
 import com.github.cao.awa.conium.network.registry.ConiumPacketRegistry
 import com.github.cao.awa.conium.server.ConiumDedicatedServer
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.codec.PacketCodec
-import net.minecraft.network.packet.CustomPayload
-import net.minecraft.server.network.ServerConfigurationNetworkHandler
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.codec.StreamCodec
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload
+import net.minecraft.server.network.ServerConfigurationPacketListenerImpl
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
@@ -23,7 +23,7 @@ class ConiumServerInitializer {
 
         // Initialize for network packets.
         ConiumPacketRegistry.registerAll()
-        ConiumPacketRegistry.packets.let { packets: MutableMap<CustomPayload.Id<*>, PacketCodec<PacketByteBuf, *>> ->
+        ConiumPacketRegistry.packets.let { packets: MutableMap<CustomPacketPayload.Type<*>, StreamCodec<FriendlyByteBuf, *>> ->
             LOGGER.info("Loaded ${packets.size} network packets")
             Conium.debug(
                 "Loaded {} network packets: {}",
@@ -33,8 +33,8 @@ class ConiumServerInitializer {
             )
         }
 
-        ConiumEvent.serverConfigurationConnection.subscribe { networkHandler: ServerConfigurationNetworkHandler, _ ->
-            networkHandler.sendPacket(
+        ConiumEvent.serverConfigurationConnection.subscribe { networkHandler: ServerConfigurationPacketListenerImpl, _ ->
+            networkHandler.send(
                 SynchronizeRegistryPayload().packet
             )
             true

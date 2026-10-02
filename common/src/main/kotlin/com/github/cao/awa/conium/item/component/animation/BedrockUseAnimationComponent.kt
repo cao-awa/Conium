@@ -8,11 +8,11 @@ import com.github.cao.awa.conium.kotlin.extent.item.components
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.github.cao.awa.conium.template.item.bedrock.BedrockItemComponents.USE_ANIMATION
 import com.google.gson.JsonElement
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.item.Item
-import net.minecraft.item.consume.UseAction
+import net.minecraft.core.component.DataComponents
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemUseAnimation
 
-class BedrockUseAnimationComponent(private val useAction: UseAction) : ConiumItemTemplate(true, USE_ANIMATION) {
+class BedrockUseAnimationComponent(private val useAction: ItemUseAnimation) : ConiumItemTemplate(true, USE_ANIMATION) {
     companion object {
         @JvmStatic
         fun create(element: JsonElement): BedrockUseAnimationComponent = element.objectOrString(
@@ -30,9 +30,9 @@ class BedrockUseAnimationComponent(private val useAction: UseAction) : ConiumIte
         }!!
     }
 
-    override fun settings(settings: Item.Settings) {
+    override fun settings(settings: Item.Properties) {
         settings.components.withComponentProvides(
-            DataComponentTypes.CONSUMABLE,
+            DataComponents.CONSUMABLE,
             withCreateConsumable(),
             withComputeUseAction(),
             ::useAction

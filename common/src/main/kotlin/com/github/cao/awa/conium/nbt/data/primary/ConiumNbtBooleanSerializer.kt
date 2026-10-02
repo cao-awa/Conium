@@ -3,16 +3,16 @@ package com.github.cao.awa.conium.nbt.data.primary
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.nbt.data.RegistrableNbt
 import com.google.gson.JsonObject
-import net.minecraft.storage.ReadView
-import net.minecraft.storage.WriteView
+import net.minecraft.world.level.storage.ValueInput
+import net.minecraft.world.level.storage.ValueOutput
 import java.util.function.Supplier
 
 /**
  * NBT serializer for boolean.
  *
  * @see Boolean
- * @see ReadView
- * @see WriteView
+ * @see ValueInput
+ * @see ValueOutput
  * @see JsonObject
  * @see RegistrableNbt
  * @see ConiumNbtDataSerializer
@@ -32,13 +32,13 @@ class ConiumNbtBooleanSerializer : ConiumNbtDataSerializer<Boolean>() {
      * @return the deserialize result
      *
      * @see Boolean
-     * @see ReadView
+     * @see ValueInput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun read(readView: ReadView, key: String, fallback: Supplier<Boolean>): Boolean = readView.getBoolean(key, fallback.get())
+    override fun read(readView: ValueInput, key: String, fallback: Supplier<Boolean>): Boolean = readView.getBooleanOr(key, fallback.get())
 
     /**
      * Serialize a boolean value to a data view.
@@ -48,13 +48,13 @@ class ConiumNbtBooleanSerializer : ConiumNbtDataSerializer<Boolean>() {
      * @param value the value of data
      *
      * @see Boolean
-     * @see WriteView
+     * @see ValueOutput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun write(writeView: WriteView, key: String, value: Boolean) = writeView.putBoolean(key, value)
+    override fun write(writeView: ValueOutput, key: String, value: Boolean) = writeView.putBoolean(key, value)
 
     /**
      * Deserialize a boolean value from JSON object.

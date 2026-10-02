@@ -1,5 +1,6 @@
 package com.github.cao.awa.conium.item.template.tool
 
+import com.github.cao.awa.conium.exception.Exceptions.notSupported
 import com.github.cao.awa.conium.item.setting.ConiumItemSettings
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.item.template.durability.ConiumDurabilityTemplate
@@ -7,13 +8,13 @@ import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.TOOL
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.block.Block
-import net.minecraft.item.Item
-import net.minecraft.item.ToolMaterial
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.tag.BlockTags
-import net.minecraft.registry.tag.TagKey
-import net.minecraft.util.Identifier
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ToolMaterial
+import net.minecraft.core.registries.Registries
+import net.minecraft.tags.BlockTags
+import net.minecraft.tags.TagKey
+import net.minecraft.resources.Identifier
 
 open class ConiumItemToolTemplate(
     private val material: ToolMaterial?,
@@ -65,6 +66,7 @@ open class ConiumItemToolTemplate(
             return when (name) {
                 "wooden", "wood" -> ToolMaterial.WOOD
                 "stone" -> ToolMaterial.STONE
+                "copper" -> ToolMaterial.COPPER
                 "iron" -> ToolMaterial.IRON
                 "golden", "gold" -> ToolMaterial.GOLD
                 "diamond" -> ToolMaterial.DIAMOND
@@ -73,7 +75,7 @@ open class ConiumItemToolTemplate(
             }
         }
 
-        fun createEffectiveBlocks(name: String): TagKey<Block> = TagKey.of(RegistryKeys.BLOCK, Identifier.of(name))
+        fun createEffectiveBlocks(name: String): TagKey<Block> = TagKey.create(Registries.BLOCK, Identifier.parse(name))
     }
 
     override fun settings(settings: ConiumItemSettings) {
@@ -87,13 +89,13 @@ open class ConiumItemToolTemplate(
         settings.isWeapon = this.isWeapon
     }
 
-    override fun settings(settings: Item.Settings) {
+    override fun settings(settings: Item.Properties) {
         // When material template present, apply default settings.
-        this.material?.applyToolSettings(settings, this.effectiveBlocks, this.attackDamage, this.attackSpeed, this.disableBlockingForSeconds)
+        this.material?.applyToolProperties(settings, this.effectiveBlocks, this.attackDamage, this.attackSpeed, this.disableBlockingForSeconds)
 
         // Override the durability when it defined explicitly.
         if (this.durability > 0) {
-            settings.maxDamage(this.durability)
+            settings.durability(this.durability)
         }
     }
 }

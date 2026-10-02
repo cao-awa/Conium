@@ -4,15 +4,15 @@ package com.github.cao.awa.conium.kotlin.extent.component
 
 import com.github.cao.awa.conium.mixin.component.map.builder.ComponentMapBuilderAccessor
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMap
-import net.minecraft.component.ComponentMap
-import net.minecraft.component.ComponentType
-import net.minecraft.component.type.AttributeModifiersComponent
-import net.minecraft.component.type.ConsumableComponent
-import net.minecraft.component.type.ToolComponent
-import net.minecraft.item.consume.UseAction
+import net.minecraft.core.component.DataComponentMap
+import net.minecraft.core.component.DataComponentType
+import net.minecraft.world.item.component.ItemAttributeModifiers
+import net.minecraft.world.item.component.Consumable
+import net.minecraft.world.item.component.Tool
+import net.minecraft.world.item.ItemUseAnimation
 
 // Acquires components map.
-val ComponentMap.Builder.components: Reference2ObjectMap<ComponentType<*>, Any> get() = (this as ComponentMapBuilderAccessor).components
+val DataComponentMap.Builder.components: Reference2ObjectMap<DataComponentType<*>, Any> get() = (this as ComponentMapBuilderAccessor).components
 
 /**
  * Computes the old component data and put the new a component to components map.
@@ -26,12 +26,12 @@ val ComponentMap.Builder.components: Reference2ObjectMap<ComponentType<*>, Any> 
  *
  * @since 1.0.0
  */
-fun <T : Any, Y : Any> ComponentMap.Builder.withComponent(
-    type: ComponentType<T>,
+fun <T : Any, Y : Any> DataComponentMap.Builder.withComponent(
+    type: DataComponentType<T>,
     creator: () -> T,
     compute: Pair<(T) -> Y, (Y) -> T>,
     callback: (Y) -> Unit = { }
-): ComponentMap.Builder {
+): DataComponentMap.Builder {
     // Operates value and put new value back to components map.
     this.components[type] = getOrCreate(type) {
         // Create value when missing.
@@ -51,7 +51,7 @@ fun <T : Any, Y : Any> ComponentMap.Builder.withComponent(
     return this
 }
 
-fun <T: Any> ComponentMap.Builder.getOrCreate(type: ComponentType<T>, creator: () -> T): T {
+fun <T: Any> DataComponentMap.Builder.getOrCreate(type: DataComponentType<T>, creator: () -> T): T {
     return (this.components[type] ?: creator()) as T
 }
 
@@ -67,12 +67,12 @@ fun <T: Any> ComponentMap.Builder.getOrCreate(type: ComponentType<T>, creator: (
  *
  * @since 1.0.0
  */
-fun <T : Any, Y : Any> ComponentMap.Builder.withComponentProvides(
-    type: ComponentType<T>,
+fun <T : Any, Y : Any> DataComponentMap.Builder.withComponentProvides(
+    type: DataComponentType<T>,
     creator: () -> T,
     compute: (T, Y) -> T,
     callback: () -> Y
-): ComponentMap.Builder {
+): DataComponentMap.Builder {
     // Operates value and put new value back to components map.
     this.components[type] = getOrCreate(type) {
         // Create value when missing.
@@ -97,7 +97,7 @@ fun <T : Any, Y : Any> ComponentMap.Builder.withComponentProvides(
  *
  * @since 1.0.0
  */
-fun <T : Any> ComponentMap.Builder.withComponent(type: ComponentType<T>, creator: () -> T, callback: (T) -> Unit): ComponentMap.Builder {
+fun <T : Any> DataComponentMap.Builder.withComponent(type: DataComponentType<T>, creator: () -> T, callback: (T) -> Unit): DataComponentMap.Builder {
     // Ensure value is present, then operate it, put back to make it still presents in next acquired.
     this.components[type] = getOrCreate(type, creator).also(callback)
 
@@ -105,7 +105,7 @@ fun <T : Any> ComponentMap.Builder.withComponent(type: ComponentType<T>, creator
 }
 
 // Let the component rebuild and put it back to components map when the target component type is present.
-fun <T : Any> ComponentMap.Builder.rebuild(type: ComponentType<T>, creator: (T) -> T): ComponentMap.Builder {
+fun <T : Any> DataComponentMap.Builder.rebuild(type: DataComponentType<T>, creator: (T) -> T): DataComponentMap.Builder {
     (this.components[type] as? T)?.let {
         this.components[type] = creator(it)
     }
@@ -114,7 +114,7 @@ fun <T : Any> ComponentMap.Builder.rebuild(type: ComponentType<T>, creator: (T) 
 }
 
 // Operates the component when the target component type is present.
-fun <T : Any> ComponentMap.Builder.acquire(type: ComponentType<T>, creator: (T) -> Unit, callback: (T) -> Unit = { }): ComponentMap.Builder {
+fun <T : Any> DataComponentMap.Builder.acquire(type: DataComponentType<T>, creator: (T) -> Unit, callback: (T) -> Unit = { }): DataComponentMap.Builder {
     (this.components[type] as? T)?.let {
         creator(it)
         callback(it)
@@ -123,32 +123,32 @@ fun <T : Any> ComponentMap.Builder.acquire(type: ComponentType<T>, creator: (T) 
     return this
 }
 
-// Create value of 'AttributeModifiersComponent'.
-fun withCreateAttributeModifiers(): () -> AttributeModifiersComponent = { AttributeModifiersComponent(ArrayList()) }
+// Create value of 'ItemAttributeModifiers'.
+fun withCreateAttributeModifiers(): () -> ItemAttributeModifiers = { ItemAttributeModifiers(ArrayList()) }
 
 // Acquires attribute modifiers list, make new attribute modifiers component after operated entries.
-fun withComputeAttributeModifiers(): Pair<(AttributeModifiersComponent) -> MutableList<AttributeModifiersComponent.Entry>, (MutableList<AttributeModifiersComponent.Entry>) -> AttributeModifiersComponent> = Pair(
-    { ArrayList(it.modifiers) },
-    { AttributeModifiersComponent(it) }
+fun withComputeAttributeModifiers(): Pair<(ItemAttributeModifiers) -> MutableList<ItemAttributeModifiers.Entry>, (MutableList<ItemAttributeModifiers.Entry>) -> ItemAttributeModifiers> = Pair(
+    { ArrayList(it.modifiers()) },
+    { ItemAttributeModifiers(it) }
 )
 
-// Create value of 'ToolComponent'.
-fun withCreateTool(): () -> ToolComponent = { ToolComponent(ArrayList(), 1.0F, 1, true) }
+// Create value of 'Tool'.
+fun withCreateTool(): () -> Tool = { Tool(ArrayList(), 1.0F, 1, true) }
 
 // Acquires the tool rule list, to make a new tool component after operated rules.
-fun withComputeTool(): Pair<(ToolComponent) -> MutableList<ToolComponent.Rule>, (MutableList<ToolComponent.Rule>) -> ToolComponent> = Pair(
-    { it.rules },
-    { ToolComponent(it, 1.0F, 1, true) }
+fun withComputeTool(): Pair<(Tool) -> MutableList<Tool.Rule>, (MutableList<Tool.Rule>) -> Tool> = Pair(
+    { it.rules() },
+    { Tool(it, 1.0F, 1, true) }
 )
 
-fun withCreateConsumable(): () -> ConsumableComponent = { ConsumableComponent.builder().build() }
+fun withCreateConsumable(): () -> Consumable = { Consumable.builder().build() }
 
-fun withComputeUseAction(): (ConsumableComponent, UseAction) -> ConsumableComponent = { consumable, action ->
-    ConsumableComponent(
-        consumable.consumeSeconds,
+fun withComputeUseAction(): (Consumable, ItemUseAnimation) -> Consumable = { consumable, action ->
+    Consumable(
+        consumable.consumeSeconds(),
         action,
-        consumable.sound,
-        consumable.hasConsumeParticles,
-        consumable.onConsumeEffects
+        consumable.sound(),
+        consumable.hasConsumeParticles(),
+        consumable.onConsumeEffects()
     )
 }

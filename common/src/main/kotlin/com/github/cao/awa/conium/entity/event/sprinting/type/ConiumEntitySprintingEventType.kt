@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.entity.event.sprinting.type
+﻿package com.github.cao.awa.conium.entity.event.sprinting.type
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.blockentity.event.shulker.opened.metadata.ConiumShulkerBoxOpenedEventMetadata
 import com.github.cao.awa.conium.blockentity.event.shulker.opening.metadata.ConiumShulkerBoxOpeningEventMetadata
@@ -6,8 +7,8 @@ import com.github.cao.awa.conium.entity.event.sprinting.metadata.ConiumEntitySpr
 import com.github.cao.awa.conium.entity.event.sprinting.stop.metadata.ConiumEntityStopSprintEventMetadata
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.type.cancelable.ConiumCancelableEventType
-import net.minecraft.block.Block
-import net.minecraft.entity.EntityType
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.entity.EntityType
 
 class ConiumEntitySprintingEventType: ConiumCancelableEventType<EntityType<*>, ConiumEntitySprintingEventMetadata, EntityType<*>, ConiumEntityStopSprintEventMetadata>(
     "entity_sprinting",

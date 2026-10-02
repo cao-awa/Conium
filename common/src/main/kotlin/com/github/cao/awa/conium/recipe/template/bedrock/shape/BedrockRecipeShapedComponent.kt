@@ -5,10 +5,13 @@ import com.github.cao.awa.conium.kotlin.extent.json.mapArray
 import com.github.cao.awa.conium.recipe.template.ConiumRecipeTemplate
 import com.github.cao.awa.conium.template.recipe.bedrock.BedrockRecipeComponents.RECIPE_SHAPED
 import com.google.gson.JsonElement
-import net.minecraft.recipe.Ingredient
-import net.minecraft.recipe.RawShapedRecipe
-import net.minecraft.recipe.ShapedRecipe
-import net.minecraft.recipe.book.CraftingRecipeCategory
+import net.minecraft.world.item.crafting.Ingredient
+import net.minecraft.world.item.crafting.ShapedRecipePattern
+import net.minecraft.world.item.crafting.ShapedRecipe
+import net.minecraft.world.item.crafting.CraftingRecipe
+import net.minecraft.world.item.crafting.CraftingBookCategory
+import net.minecraft.world.item.crafting.Recipe
+import net.minecraft.world.item.ItemStackTemplate
 
 class BedrockRecipeShapedComponent : ConiumRecipeTemplate<ShapedRecipe>(RECIPE_SHAPED) {
     companion object {
@@ -42,14 +45,13 @@ class BedrockRecipeShapedComponent : ConiumRecipeTemplate<ShapedRecipe>(RECIPE_S
 
     override fun result(): ShapedRecipe {
         return ShapedRecipe(
-            this.group,
-            CraftingRecipeCategory.MISC,
-            RawShapedRecipe.create(
+            Recipe.CommonInfo(true),
+            CraftingRecipe.CraftingBookInfo(CraftingBookCategory.MISC, this.group),
+            ShapedRecipePattern.of(
                 this.keys,
                 this.pattern
             ),
-            this.result,
-            true
+            ItemStackTemplate.fromNonEmptyStack(this.result)
         )
     }
 }

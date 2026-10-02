@@ -5,9 +5,9 @@ import com.github.cao.awa.conium.network.ConiumPacket
 import com.github.cao.awa.conium.network.packet.client.configuration.ConiumClientConfigurationPacket
 import com.github.cao.awa.conium.network.packet.client.play.ConiumClientPlayPacket
 import com.github.cao.awa.translator.structuring.cast.Caster
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.codec.PacketCodec
-import net.minecraft.network.packet.CustomPayload.Id
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.codec.StreamCodec
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload.Type
 
 fun interface ConiumPacketRegister<P : ConiumPacket<*, *, *>> {
     companion object {
@@ -37,7 +37,7 @@ fun interface ConiumPacketRegister<P : ConiumPacket<*, *, *>> {
             }
         }
 
-        fun <P : ConiumClientConfigurationPacket> registerConfigurationToClient(id: Id<P>, codec: PacketCodec<PacketByteBuf, P>) {
+        fun <P : ConiumClientConfigurationPacket> registerConfigurationToClient(id: Type<P>, codec: StreamCodec<FriendlyByteBuf, P>) {
             this.toClientConfigurationRegister.register(id.cast(), Caster.cast(codec))
         }
 
@@ -55,10 +55,10 @@ fun interface ConiumPacketRegister<P : ConiumPacket<*, *, *>> {
             }
         }
 
-        fun <P : ConiumClientPlayPacket> registerPlayToClient(id: Id<P>, codec: PacketCodec<PacketByteBuf, P>) {
+        fun <P : ConiumClientPlayPacket> registerPlayToClient(id: Type<P>, codec: StreamCodec<FriendlyByteBuf, P>) {
             this.toClientPlayRegister.register(id.cast(), Caster.cast(codec))
         }
     }
 
-    fun register(id: Id<P>, packet: PacketCodec<PacketByteBuf, P>)
+    fun register(id: Type<P>, packet: StreamCodec<FriendlyByteBuf, P>)
 }

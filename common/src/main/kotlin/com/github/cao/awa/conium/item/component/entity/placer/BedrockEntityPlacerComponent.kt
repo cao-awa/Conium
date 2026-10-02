@@ -4,8 +4,8 @@ import com.github.cao.awa.conium.item.template.entity.placer.ConiumEntityPlacerT
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrString
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.block.Block
-import net.minecraft.entity.EntityType
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.entity.EntityType
 import java.util.Collections
 
 class BedrockEntityPlacerComponent(

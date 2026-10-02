@@ -1,13 +1,14 @@
-package com.github.cao.awa.conium.entity.event.dead.metadata
+﻿package com.github.cao.awa.conium.entity.event.dead.metadata
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.entity.event.die.metadata.ConiumEntityDieEventMetadata
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.mapping.yarn.DamageSource
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
-import net.minecraft.world.World
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.level.Level
 
 class ConiumEntityDeadEventMetadata(val context: ConiumEventContext<EntityType<*>>) : ConiumEventMetadata<EntityType<*>, ConiumEntityDeadEventMetadata>() {
     val world: World = this.context[ConiumEventArgTypes.WORLD]

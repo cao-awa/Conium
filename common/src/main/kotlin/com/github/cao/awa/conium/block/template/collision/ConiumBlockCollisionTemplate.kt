@@ -7,9 +7,9 @@ import com.github.cao.awa.conium.kotlin.extent.json.eachInt
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrBoolean
 import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates.COLLISION
 import com.google.gson.JsonElement
-import net.minecraft.block.AbstractBlock
-import net.minecraft.util.shape.VoxelShape
-import net.minecraft.util.shape.VoxelShapes
+import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.world.phys.shapes.Shapes
 
 /**
  * The base block collision box template.
@@ -95,7 +95,7 @@ open class ConiumBlockCollisionTemplate(
         }
     }
 
-    override fun settings(settings: AbstractBlock.Settings) {
+    override fun settings(settings: BlockBehaviour.Properties) {
         if (this.noCollision) {
             // Setting block no collision.
             settings.noCollision()
@@ -104,7 +104,7 @@ open class ConiumBlockCollisionTemplate(
 
     override fun settings(settings: ConiumBlockSettings) {
         // Setting block outline shape.
-        settings.outlineShape = VoxelShapes.cuboid(
+        settings.outlineShape = net.minecraft.world.phys.shapes.Shapes.box(
             this.px1 / 16.0,
             this.py1 / 16.0,
             this.pz1 / 16.0,

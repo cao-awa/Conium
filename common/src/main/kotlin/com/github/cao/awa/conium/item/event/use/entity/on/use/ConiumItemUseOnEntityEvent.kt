@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.item.event.use.entity.on.use
+﻿package com.github.cao.awa.conium.item.event.use.entity.on.use
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
@@ -11,13 +12,13 @@ import com.github.cao.awa.conium.item.event.use.entity.on.use.metadata.ConiumIte
 import com.github.cao.awa.conium.item.event.use.entity.on.used.type.ConiumItemUsedOnEntityEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective4
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.util.Hand
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.InteractionHand
 
-class ConiumItemUseOnEntityEvent : ConiumEvent<Item, ConiumItemUseOnEntityEventMetadata, ParameterSelective4<Boolean, PlayerEntity, LivingEntity, ItemStack, Hand>, ConiumItemUsedOnEntityEventType>(
+class ConiumItemUseOnEntityEvent : ConiumEvent<Item, ConiumItemUseOnEntityEventMetadata, ParameterSelective4<Boolean, Player, LivingEntity, ItemStack, InteractionHand>, ConiumItemUsedOnEntityEventType>(
     ConiumEventType.Companion.ITEM_USE_ON_ENTITY,
     { ConiumEventType.Companion.ITEM_USED_ON_ENTITY }
 ) {
@@ -28,7 +29,7 @@ class ConiumItemUseOnEntityEvent : ConiumEvent<Item, ConiumItemUseOnEntityEventM
             ConiumEventArgTypes.LIVING_ENTITY,
             ConiumEventArgTypes.ITEM_STACK,
             ConiumEventArgTypes.HAND,
-        ) { identity: Item, player: PlayerEntity, livingEntity: LivingEntity, itemStack: ItemStack, hand: Hand ->
+        ) { identity: Item, player: Player, livingEntity: LivingEntity, itemStack: ItemStack, hand: InteractionHand ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(player, livingEntity, itemStack, hand)
             }

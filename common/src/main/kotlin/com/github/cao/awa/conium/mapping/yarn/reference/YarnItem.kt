@@ -5,8 +5,13 @@ package com.github.cao.awa.conium.mapping.yarn.reference
 
 import com.github.cao.awa.conium.annotation.mapping.Remap
 import com.github.cao.awa.conium.mapping.yarn.*
-import net.minecraft.registry.Registries
-import net.minecraft.util.Identifier
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.resources.Identifier
+import net.minecraft.network.chat.Component
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.core.component.DataComponentMap
+import net.minecraft.sounds.SoundEvent
 
 /**
  * See the mapping [Item](https://mappings.dev/1.21.4/net/minecraft/world/item/Item.html).
@@ -16,13 +21,13 @@ import net.minecraft.util.Identifier
  * @since 1.0.0
  */
 
-val Item.name: Text by Item::name
-val Item.breakSound: SoundEvent by Item::breakSound
-val Item.components: ComponentMap by Item::components
-val Item.defaultStack: ItemStack by Item::defaultStack
-val Item.maxCount: Int by Item::maxCount
-val Item.recipeRemainder: ItemStack by Item::recipeRemainder
-val Item.translationKey: String by Item::translationKey
+val Item.name: Component get() = this.name
+val Item.breakSound: SoundEvent? get() = null
+val Item.components: DataComponentMap get() = this.components()
+val Item.defaultStack: ItemStack get() = this.defaultInstance
+val Item.maxCount: Int get() = this.defaultInstance.maxStackSize
+val Item.recipeRemainder: ItemStack get() = this.craftingRemainder?.create() ?: ItemStack.EMPTY
+val Item.translationKey: String get() = this.descriptionId
 
 val Item.identifier: Identifier
-    get() = Registries.ITEM.getId(this)
+    get() = BuiltInRegistries.ITEM.getKey(this)

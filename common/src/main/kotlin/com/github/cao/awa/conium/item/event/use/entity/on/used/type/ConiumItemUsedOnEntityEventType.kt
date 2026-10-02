@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.item.event.use.entity.on.used.type
+﻿package com.github.cao.awa.conium.item.event.use.entity.on.used.type
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.empty.ConiumEmptyEventMetadata
@@ -12,7 +13,7 @@ import com.github.cao.awa.conium.item.event.use.metadata.ConiumItemUseEventMetad
 import com.github.cao.awa.conium.item.event.use.usage.tick.metadata.ConiumItemUsageTickEventMetadata
 import com.github.cao.awa.conium.item.event.use.usage.ticked.metadata.ConiumItemUsageTickedEventMetadata
 import com.github.cao.awa.conium.item.event.used.metadata.ConiumItemUsedEventMetadata
-import net.minecraft.item.Item
+import net.minecraft.world.item.Item
 
 class ConiumItemUsedOnEntityEventType: ConiumNoCancelableEventType<Item, ConiumItemUsedOnEntityEventMetadata, Unit, ConiumInactiveEventMetadata>(
     "item_used_on_entity",

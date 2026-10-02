@@ -4,14 +4,12 @@ import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
 import com.github.cao.awa.conium.bedrock.impl.script.BedrockScriptAnonymousObjectMap
 import com.github.cao.awa.conium.kotlin.extent.innate.orGetAuto
-import net.minecraft.entity.Entity
-import net.minecraft.world.World
-import net.minecraft.world.explosion.AdvancedExplosionBehavior
-import java.util.*
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.level.Level
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("Dimension")
-class BedrockDimension(private val delegate: World) {
+class BedrockDimension(private val delegate: Level) {
     // TODO 'allowUnderwater' not completed
     @BedrockScriptApi
     @BedrockScriptApiFacade("Dimension", "createExplosion")
@@ -20,21 +18,21 @@ class BedrockDimension(private val delegate: World) {
         val createFire: Boolean = explosionOptions.orGetAuto(false) { it["causesFire"] }
         val destroyBlocks: Boolean = explosionOptions.orGetAuto(true) { it["breaksBlocks"] }
 
-        this.delegate.createExplosion(
+        this.delegate.explode(
             source,
             null,
-            AdvancedExplosionBehavior(destroyBlocks, true, Optional.empty(), Optional.empty()),
+            null,
             location.getAs<Number>("x").toDouble(),
             location.getAs<Number>("y").toDouble(),
             location.getAs<Number>("z").toDouble(),
             radius.toFloat(),
             createFire,
-            World.ExplosionSourceType.NONE
+            if (destroyBlocks) Level.ExplosionInteraction.MOB else Level.ExplosionInteraction.NONE
         )
 
         return true
     }
 }
 
-val World.bedrockDimension: BedrockDimension
+val Level.bedrockDimension: BedrockDimension
     get() = BedrockDimension(this)

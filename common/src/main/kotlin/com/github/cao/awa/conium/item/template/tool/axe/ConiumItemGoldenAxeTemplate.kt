@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.item.template.tool.axe
 import com.github.cao.awa.conium.kotlin.extent.json.createIfJsonObject
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.GOLDEN_AXE
 import com.google.gson.JsonElement
-import net.minecraft.item.ToolMaterial
+import net.minecraft.world.item.ToolMaterial
 
 class ConiumItemGoldenAxeTemplate : ConiumItemAxeTemplate(
     ToolMaterial.GOLD,

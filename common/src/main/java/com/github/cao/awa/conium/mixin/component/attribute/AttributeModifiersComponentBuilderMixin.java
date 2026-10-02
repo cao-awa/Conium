@@ -1,9 +1,9 @@
 package com.github.cao.awa.conium.mixin.component.attribute;
 
-import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import org.spongepowered.asm.mixin.Mixin;
 
-@Mixin(AttributeModifiersComponent.Builder.class)
+@Mixin(ItemAttributeModifiers.Builder.class)
 public class AttributeModifiersComponentBuilderMixin {
 
 }

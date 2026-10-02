@@ -2,8 +2,8 @@ package com.github.cao.awa.conium.datapack.item.fuel
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
 import java.util.*
 
 class ConiumFuelRegistry {

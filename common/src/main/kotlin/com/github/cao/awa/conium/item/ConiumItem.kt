@@ -9,25 +9,25 @@ import com.github.cao.awa.conium.item.template.tool.mining.ConiumForceMiningSpee
 import com.github.cao.awa.conium.kotlin.extent.component.acquire
 import com.github.cao.awa.conium.kotlin.extent.item.components
 import com.github.cao.awa.conium.random.ConiumRandom
-import net.minecraft.block.AbstractBlock
-import net.minecraft.block.BlockState
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.component.type.ToolComponent
-import net.minecraft.entity.EquipmentSlot
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.item.ItemUsageContext
-import net.minecraft.item.consume.UseAction
-import net.minecraft.text.Text
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
-import net.minecraft.world.RaycastContext
-import net.minecraft.world.World
+import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.core.component.DataComponents
+import net.minecraft.world.item.component.Tool
+import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.context.UseOnContext
+import net.minecraft.world.item.ItemUseAnimation
+import net.minecraft.network.chat.Component
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.core.BlockPos
+import net.minecraft.world.phys.Vec3
+import net.minecraft.world.level.ClipContext
+import net.minecraft.world.level.Level
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
@@ -51,26 +51,23 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
             }
         }
 
-        private fun forceOverrideSettings(settings: Settings) {
-            settings.components.acquire(DataComponentTypes.MAX_DAMAGE, settings::maxDamage) {
+        private fun forceOverrideSettings(settings: Item.Properties) {
+            settings.components.acquire(DataComponents.MAX_DAMAGE, settings::durability) {
                 LOGGER.warn("Found template 'max_damage' in item, force overriding max stack to 1")
             }
         }
 
         @JvmStatic
-        fun doRaycast(world: World, player: PlayerEntity, fluidHandling: RaycastContext.FluidHandling): BlockHitResult {
-            val eyePos: Vec3d = player.eyePos
-            val endPos: Vec3d = eyePos.add(
-                player.getRotationVector(
-                    player.pitch,
-                    player.yaw
-                ).multiply(player.blockInteractionRange)
+        fun doRaycast(world: Level, player: Player, fluidHandling: ClipContext.Fluid): BlockHitResult {
+            val eyePos: Vec3 = player.eyePosition
+            val endPos: Vec3 = eyePos.add(
+                player.getViewVector(1.0f).scale(player.blockInteractionRange())
             )
-            return world.raycast(
-                RaycastContext(
+            return world.clip(
+                ClipContext(
                     eyePos,
                     endPos,
-                    RaycastContext.ShapeType.OUTLINE,
+                    ClipContext.Block.OUTLINE,
                     fluidHandling,
                     player
                 )
@@ -78,174 +75,100 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
         }
     }
 
-    var displayName: Text? = this.settings.displayName
-    var useAction: UseAction = UseAction.NONE
+    var displayName: Component? = this.settings.displayName
+    var useAction: ItemUseAnimation = ItemUseAnimation.NONE
     var consumeOnUsed: Boolean = false
     var consumeOnUsedOnBlock: (BlockState) -> Boolean = { false }
     var consumeOnUsedOnEntity: (LivingEntity) -> Boolean = { false }
-    val useOnBlockHandlers: MutableList<(context: ItemUsageContext) -> Boolean> = ArrayList()
-    val useHandlers: MutableList<(world: World, user: PlayerEntity, hand: Hand) -> Boolean> = ArrayList()
-    val useOnEntityHandlers: MutableList<(stack: ItemStack, user: PlayerEntity, target: LivingEntity, hand: Hand) -> Boolean> = ArrayList()
+    val useOnBlockHandlers: MutableList<(context: UseOnContext) -> Boolean> = ArrayList()
+    val useHandlers: MutableList<(world: Level, user: Player, hand: InteractionHand) -> Boolean> = ArrayList()
+    val useOnEntityHandlers: MutableList<(stack: ItemStack, user: Player, target: LivingEntity, hand: InteractionHand) -> Boolean> = ArrayList()
 
-    /**
-     * Check the item is allowing to break blocks when player holding this item.
-     *
-     * @param state the block state of mining target
-     * @param world the world of the block
-     * @param pos the position of the block in the world
-     * @param miner the miner that mining the block
-     *
-     * @see Item.canMine
-     * @see ConiumCanDestroyInCreativeTemplate
-     * @see BedrockCanDestroyInCreativeComponent
-     *
-     * @author cao_awa
-     *
-     * @since 1.0.0
-     *
-     * @return whether a player can break a block while holding the item
-     */
-    override fun canMine(stack: ItemStack, state: BlockState, world: World, pos: BlockPos, miner: LivingEntity): Boolean = this.settings.canMinePredicate(stack, state, world, pos, miner)
+    override fun canDestroyBlock(stack: ItemStack, state: BlockState, world: Level, pos: BlockPos, miner: LivingEntity): Boolean = this.settings.canMinePredicate(stack, state, world, pos, miner)
 
-    /**
-     * Called on the server when the item is used to break a block.
-     *
-     * Tools and melee weapons should override this to damage the stack, after checking if the block's hardness is larger than 0.0f.
-     *
-     * @param stack the stack that miner used
-     * @param world the world of the block and miner
-     * @param state the block state of mined block
-     * @param pos the position of mined block
-     * @param miner the miner that mined the block
-     *
-     * @author cao_awa
-     *
-     * @see Item.postMine
-     * @see ItemStack.damage
-     * @see AbstractBlock.AbstractBlockState.getHardness
-     *
-     * @since 1.0.0
-     *
-     * @return whether the item's use stat should be incremented
-     */
-    override fun postMine(stack: ItemStack, world: World, state: BlockState, pos: BlockPos, miner: LivingEntity): Boolean {
-        // Rolling chance using world random.
-        // If damage chance is present, then try to roll a chance, or else directly allow to damage the item.
+    override fun mineBlock(stack: ItemStack, world: Level, state: BlockState, pos: BlockPos, miner: LivingEntity): Boolean {
         val canDamage: Boolean = ConiumRandom.tryChance(this.settings.durabilityDamageChance, world.random)
-
-        // If it can damage, then post mine to super.
-        return canDamage && super.postMine(stack, world, state, pos, miner)
+        return canDamage && super.mineBlock(stack, world, state, pos, miner)
     }
 
-    /**
-     * Make the tool item durability decrement, for vanilla behaviors, decrement amount in weapon is 1, in non-weapon tool is 2.
-     *
-     * @param stack the stack that attacker used
-     * @param target attack target
-     * @param attacker the attacker
-     *
-     * @see Item.postDamageEntity
-     * @see ConiumItemToolTemplate
-     *
-     * @author cao_awa
-     *
-     * @since 1.0.0
-     */
-    override fun postDamageEntity(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
-        // Apply durability decrement for this tool stack.
-        stack.damage(
+    override fun hurtEnemy(stack: ItemStack, target: LivingEntity, attacker: LivingEntity) {
+        stack.hurtAndBreak(
             this.settings.durabilityDamageEntityAmount,
             attacker,
             EquipmentSlot.MAINHAND
         )
     }
 
-    /**
-     * Compute the mining speed of a block when using this item, force override material component when force mining speed are set.
-     *
-     * @param stack the stack that miner used
-     * @param state the target block state
-     *
-     * @see Item.getMiningSpeed
-     * @see ToolComponent
-     * @see ConiumForceMiningSpeedTemplate
-     *
-     * @author cao_awa
-     *
-     * @since 1.0.0
-     *
-     * @return the mining speed
-     */
-    override fun getMiningSpeed(stack: ItemStack, state: BlockState): Float {
+    override fun getDestroySpeed(stack: ItemStack, state: BlockState): Float {
         return if (this.settings.forceMiningSpeed == -1F) {
-            super.getMiningSpeed(stack, state)
+            super.getDestroySpeed(stack, state)
         } else {
             this.settings.forceMiningSpeed
         }
     }
 
-    override fun getUseAction(stack: ItemStack): UseAction {
+    override fun getUseAnimation(stack: ItemStack): ItemUseAnimation {
         return this.useAction
     }
 
-    override fun use(world: World, user: PlayerEntity, hand: Hand): ActionResult {
+    override fun use(world: Level, user: Player, hand: InteractionHand): InteractionResult {
         if (
             !this.useHandlers.isEmpty() && this.useHandlers.any {
                 !it(world, user, hand)
             }
         ) {
-            return ActionResult.FAIL
+            return InteractionResult.FAIL
         }
 
         return if (this.consumeOnUsed) {
-            user.getStackInHand(hand).decrementUnlessCreative(1, user)
-            ActionResult.CONSUME
+            user.getItemInHand(hand).consume(1, user)
+            InteractionResult.CONSUME
         } else {
-            ActionResult.SUCCESS
+            InteractionResult.SUCCESS
         }
     }
 
-    override fun useOnBlock(context: ItemUsageContext): ActionResult {
+    override fun useOn(context: UseOnContext): InteractionResult {
         if (
             !this.useOnBlockHandlers.isEmpty() && this.useOnBlockHandlers.any {
                 !it(context)
             }
         ) {
-            return ActionResult.PASS
+            return InteractionResult.PASS
         }
 
-        val world: World = context.world
-        val stack: ItemStack = context.stack
-        val blockPos: BlockPos = context.blockPos
+        val world: Level = context.level
+        val stack: ItemStack = context.itemInHand
+        val blockPos: BlockPos = context.clickedPos
         val blockState: BlockState = world.getBlockState(blockPos)
 
         return if (this.consumeOnUsedOnBlock(blockState)) {
-            val user: PlayerEntity? = context.player
-            stack.decrementUnlessCreative(1, user)
-            ActionResult.CONSUME
+            val user: Player? = context.player
+            if (user != null) stack.consume(1, user) else stack.shrink(1)
+            InteractionResult.CONSUME
         } else {
-            ActionResult.SUCCESS
+            InteractionResult.SUCCESS
         }
     }
 
-    override fun useOnEntity(stack: ItemStack, user: PlayerEntity, target: LivingEntity, hand: Hand): ActionResult {
+    override fun interactLivingEntity(stack: ItemStack, user: Player, target: LivingEntity, hand: InteractionHand): InteractionResult {
         if (
             !this.useOnEntityHandlers.isEmpty() && this.useOnEntityHandlers.any {
                 !it(stack, user, target, hand)
             }
         ) {
-            return ActionResult.PASS
+            return InteractionResult.PASS
         }
 
         return if (this.consumeOnUsedOnEntity(target)) {
-            stack.decrementUnlessCreative(1, user)
-            ActionResult.CONSUME
+            stack.consume(1, user)
+            InteractionResult.CONSUME
         } else {
-            ActionResult.SUCCESS
+            InteractionResult.SUCCESS
         }
     }
 
-    override fun getName(stack: ItemStack): Text {
+    override fun getName(stack: ItemStack): Component {
         return this.displayName ?: super.getName(stack)
     }
 }

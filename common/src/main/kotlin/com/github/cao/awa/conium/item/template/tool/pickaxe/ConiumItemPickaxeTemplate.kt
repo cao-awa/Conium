@@ -1,19 +1,20 @@
 package com.github.cao.awa.conium.item.template.tool.pickaxe
 
+import com.github.cao.awa.conium.exception.Exceptions.notSupported
 import com.github.cao.awa.conium.item.template.durability.ConiumDurabilityTemplate
 import com.github.cao.awa.conium.item.template.tool.ConiumItemToolTemplate
 import com.github.cao.awa.conium.kotlin.extent.innate.changeIfIs
 import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.TOOL
 import com.google.gson.JsonElement
-import net.minecraft.block.Block
-import net.minecraft.item.ToolMaterial
-import net.minecraft.registry.tag.BlockTags
-import net.minecraft.registry.tag.TagKey
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.item.ToolMaterial
+import net.minecraft.tags.BlockTags
+import net.minecraft.tags.TagKey
 
 open class ConiumItemPickaxeTemplate(
     material: ToolMaterial,
-    effectiveBlocks: TagKey<Block> = BlockTags.PICKAXE_MINEABLE,
+    effectiveBlocks: TagKey<Block> = BlockTags.MINEABLE_WITH_PICKAXE,
     attackDamage: Float = 1.0F,
     attackSpeed: Float = -2.8F,
     disableBlockingForSeconds: Float = 0F,
@@ -40,7 +41,7 @@ open class ConiumItemPickaxeTemplate(
                     it,
                     TOOL,
                     ::ConiumItemPickaxeTemplate,
-                    effectiveBlocks = { BlockTags.PICKAXE_MINEABLE }
+                    effectiveBlocks = { BlockTags.MINEABLE_WITH_PICKAXE }
                 )
             },
             notSupported()

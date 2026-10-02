@@ -14,10 +14,10 @@ import com.github.cao.awa.conium.template.builder.factor.ConiumTemplateCreator
 import com.github.cao.awa.conium.template.builder.factor.ConiumTemplateFactor
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.item.ItemStack
-import net.minecraft.recipe.Recipe
-import net.minecraft.registry.Registries
-import net.minecraft.util.Identifier
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.crafting.Recipe
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.resources.Identifier
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.util.*
@@ -339,9 +339,7 @@ abstract class ConiumTemplate<R, P>(
                 }
 
                 ItemStack(
-                    Registries.ITEM.get(Identifier.of(resultItemName)),
-                    count
-                )
+                    BuiltInRegistries.ITEM.getValue(Identifier.parse(resultItemName)), count)
             }
         }
     }

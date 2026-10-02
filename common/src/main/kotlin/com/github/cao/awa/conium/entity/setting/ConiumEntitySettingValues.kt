@@ -4,14 +4,13 @@ import com.github.cao.awa.conium.entity.renderer.ConiumEntityRenderer
 import com.github.cao.awa.conium.entity.renderer.model.ConiumEntityModel
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.block.piston.PistonBehavior
-import net.minecraft.client.render.entity.EntityRenderer
-import net.minecraft.client.render.entity.EntityRendererFactory
-import net.minecraft.client.render.entity.model.EntityModel
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityDimensions
-import net.minecraft.entity.LivingEntity
-import net.minecraft.util.Identifier
+import net.minecraft.world.level.material.PushReaction
+import net.minecraft.client.renderer.entity.EntityRendererProvider
+import net.minecraft.client.model.EntityModel
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityDimensions
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.resources.Identifier
 
 object ConiumEntitySettingsValue {
     /**
@@ -25,7 +24,7 @@ object ConiumEntitySettingsValue {
      * @since 1.0.0
      */
     @JvmStatic
-    val dimensions: EntityDimensions = EntityDimensions.changing(0.0F, 0.0F)
+    val dimensions: EntityDimensions = EntityDimensions.scalable(0.0F, 0.0F)
 
     /**
      * Default value of ``pushable``.
@@ -45,7 +44,7 @@ object ConiumEntitySettingsValue {
      * Default value of ``pushableByPiston``.
      *
      * @see ConiumEntitySettings.pushableByPiston
-     * @see PistonBehavior
+     * @see PushReaction
      * @see Entity.getPistonBehavior
      *
      * @author cao_awa
@@ -76,7 +75,6 @@ object ConiumClientEntitySettingsValue {
      *
      * @see EntityModel
      * @see ConiumEntityModel
-     * @see EntityRenderer
      * @see ConiumEntityRenderer
      *
      * @author cao_awa
@@ -85,14 +83,13 @@ object ConiumClientEntitySettingsValue {
      */
     @JvmStatic
     @Environment(EnvType.CLIENT)
-    val clientModel: (EntityRendererFactory.Context) -> ConiumEntityModel = { ConiumEntityModel.emptyModel }
+    val clientModel: (EntityRendererProvider.Context) -> ConiumEntityModel = { ConiumEntityModel.emptyModel }
 
     /**
      * Default value of ``clientModelTexture``.
      *
      * @see EntityModel
      * @see ConiumEntityModel
-     * @see EntityRenderer
      * @see ConiumEntityRenderer
      * @see Identifier
      *
@@ -102,5 +99,5 @@ object ConiumClientEntitySettingsValue {
      */
     @JvmStatic
     @Environment(EnvType.CLIENT)
-    val clientModelTexture: Identifier = Identifier.ofVanilla("textures/misc/white.png")
+    val clientModelTexture: Identifier = Identifier.withDefaultNamespace("textures/misc/white.png")
 }

@@ -4,8 +4,8 @@ import com.github.cao.awa.conium.item.template.ConiumItemTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.objectOrBoolean
 import com.github.cao.awa.conium.template.item.bedrock.BedrockItemComponents.GLINT
 import com.google.gson.JsonElement
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.item.Item
+import net.minecraft.core.component.DataComponents
+import net.minecraft.world.item.Item
 
 class BedrockGlintComponent(private val glint: Boolean) : ConiumItemTemplate(name = GLINT) {
     companion object {
@@ -25,7 +25,7 @@ class BedrockGlintComponent(private val glint: Boolean) : ConiumItemTemplate(nam
     }
 
     // Set glint override.
-    override fun settings(settings: Item.Settings) {
-        settings.component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, this.glint)
+    override fun settings(settings: Item.Properties) {
+        settings.component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, this.glint)
     }
 }

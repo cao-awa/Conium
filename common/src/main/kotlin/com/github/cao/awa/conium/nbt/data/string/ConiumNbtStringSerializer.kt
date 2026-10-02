@@ -3,16 +3,16 @@ package com.github.cao.awa.conium.nbt.data.string
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer
 import com.github.cao.awa.conium.nbt.data.RegistrableNbt
 import com.google.gson.JsonObject
-import net.minecraft.storage.ReadView
-import net.minecraft.storage.WriteView
+import net.minecraft.world.level.storage.ValueInput
+import net.minecraft.world.level.storage.ValueOutput
 import java.util.function.Supplier
 
 /**
  * NBT serializer for string.
  *
  * @see String
- * @see ReadView
- * @see WriteView
+ * @see ValueInput
+ * @see ValueOutput
  * @see JsonObject
  * @see RegistrableNbt
  * @see ConiumNbtDataSerializer
@@ -32,13 +32,13 @@ class ConiumNbtStringSerializer: ConiumNbtDataSerializer<String>() {
      * @return the deserialize result
      *
      * @see String
-     * @see ReadView
+     * @see ValueInput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun read(readView: ReadView, key: String, fallback: Supplier<String>): String = readView.getString(key, fallback.get())
+    override fun read(readView: ValueInput, key: String, fallback: Supplier<String>): String = readView.getStringOr(key, fallback.get())
 
     /**
      * Serialize a string value to a data view.
@@ -48,13 +48,13 @@ class ConiumNbtStringSerializer: ConiumNbtDataSerializer<String>() {
      * @param value the value of data
      *
      * @see String
-     * @see WriteView
+     * @see ValueOutput
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    override fun write(writeView: WriteView, key: String, value: String) = writeView.putString(key, value)
+    override fun write(writeView: ValueOutput, key: String, value: String) = writeView.putString(key, value)
 
     /**
      * Deserialize a string value from JSON object.

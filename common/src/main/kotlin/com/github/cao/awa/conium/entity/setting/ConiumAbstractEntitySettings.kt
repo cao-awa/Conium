@@ -1,10 +1,10 @@
 package com.github.cao.awa.conium.entity.setting
 
 import com.github.cao.awa.conium.setting.ConiumSettings
-import net.minecraft.block.piston.PistonBehavior
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityDimensions
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.level.material.PushReaction
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityDimensions
+import net.minecraft.world.entity.LivingEntity
 
 abstract class ConiumAbstractEntitySettings<E : ConiumAbstractEntitySettings<E>> : ConiumSettings<ConiumAbstractEntitySettings<E>, E>() {
     /**
@@ -52,9 +52,9 @@ abstract class ConiumAbstractEntitySettings<E : ConiumAbstractEntitySettings<E>>
     /**
      * Setting an entity is can be pushed by pistons.
      *
-     * Default is ``true`` for conium entity, correspond [PistonBehavior.NORMAL] in vanilla piston behavior [Entity.getPistonBehavior].
+     * Default is ``true`` for conium entity, correspond [PushReaction.NORMAL] in vanilla piston behavior [Entity.getPistonBehavior].
      *
-     * @see PistonBehavior
+     * @see PushReaction
      * @see Entity.getPistonBehavior
      *
      * @author cao_awa

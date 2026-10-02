@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.kotlin.extent.item
 
-import net.minecraft.component.MergedComponentMap
-import net.minecraft.item.ItemStack
+import net.minecraft.core.component.PatchedDataComponentMap
+import net.minecraft.world.item.ItemStack
 
-val ItemStack.mergedComponents: MergedComponentMap? get() = this.components as? MergedComponentMap
+val ItemStack.mergedComponents: PatchedDataComponentMap? get() = this.components as? PatchedDataComponentMap

@@ -4,8 +4,8 @@ import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
 import com.github.cao.awa.conium.annotation.script.javascript.ScriptReadonly
 import com.github.cao.awa.conium.bedrock.impl.block.state.BedrockBlockState
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("BlockRaycastHit")

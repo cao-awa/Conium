@@ -18,7 +18,7 @@ public class MinecraftServerMixin {
     }
 
     @Inject(
-            method = "tick",
+            method = "tickServer",
             at = @At("HEAD")
     )
     public void tickStart(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
@@ -32,7 +32,7 @@ public class MinecraftServerMixin {
     }
 
     @Inject(
-            method = "tick",
+            method = "tickServer",
             at = @At("TAIL")
     )
     public void tickTail(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {

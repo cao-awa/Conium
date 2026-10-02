@@ -1,22 +1,23 @@
-package com.github.cao.awa.conium.block.event.used.metadata
+﻿package com.github.cao.awa.conium.block.event.used.metadata
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.ActionResult
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.Level
 
 class ConiumUsedBlockEventMetadata(val context: ConiumEventContext<Block>) : ConiumEventMetadata<Block, ConiumUsedBlockEventMetadata>() {
     val world: World = this.context[ConiumEventArgTypes.WORLD]
-    val user: PlayerEntity = this.context[ConiumEventArgTypes.PLAYER]
+    val user: Player = this.context[ConiumEventArgTypes.PLAYER]
     val block: Block = this.context.identity as Block
     val blockPos: BlockPos = this.context[ConiumEventArgTypes.BLOCK_POS]
     val blockState: BlockState = this.context[ConiumEventArgTypes.BLOCK_STATE]
     val hitResult: BlockHitResult = this.context[ConiumEventArgTypes.BLOCK_HIT_RESULT]
-    val actionResult: ActionResult = this.context[ConiumEventArgTypes.ACTION_RESULT]
+    val actionResult: InteractionResult = this.context[ConiumEventArgTypes.ACTION_RESULT]
 }

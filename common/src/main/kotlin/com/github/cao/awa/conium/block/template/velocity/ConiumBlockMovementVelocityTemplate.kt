@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.kotlin.extent.json.ifFloat
 import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.template.block.conium.ConiumBlockTemplates.MOVEMENT_VELOCITY
 import com.google.gson.JsonElement
-import net.minecraft.block.AbstractBlock
+import net.minecraft.world.level.block.state.BlockBehaviour
 
 open class ConiumBlockMovementVelocityTemplate(private val walkVelocity: Float, private val jumpVelocity: Float, name: String = MOVEMENT_VELOCITY) : ConiumBlockTemplate(name = name) {
     companion object {
@@ -22,9 +22,9 @@ open class ConiumBlockMovementVelocityTemplate(private val walkVelocity: Float, 
         }!!
     }
 
-    override fun settings(settings: AbstractBlock.Settings) {
+    override fun settings(settings: BlockBehaviour.Properties) {
         // Set movement velocities.
-        settings.velocityMultiplier(this.walkVelocity)
-        settings.jumpVelocityMultiplier(this.jumpVelocity)
+        settings.speedFactor(this.walkVelocity)
+        settings.jumpFactor(this.jumpVelocity)
     }
 }

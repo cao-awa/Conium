@@ -5,16 +5,16 @@ import com.github.cao.awa.conium.entity.setting.ConiumEntitySettings
 import com.github.cao.awa.conium.entity.setting.ConiumEntitySettingsWithTypeBuilder
 import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.kotlin.extent.entity.dimensions
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.EquipmentSlot
-import net.minecraft.entity.LivingEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.registry.Registries
-import net.minecraft.text.Text
-import net.minecraft.util.Arm
-import net.minecraft.world.World
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.HumanoidArm
+import net.minecraft.world.item.ItemStack
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.network.chat.Component
+import net.minecraft.world.level.Level
 
-class ConiumEntity(entityType: EntityType<ConiumEntity>, world: World, private val settings: ConiumEntitySettings) : LivingEntity(entityType, world) {
+class ConiumEntity(entityType: EntityType<ConiumEntity>, world: Level, private val settings: ConiumEntitySettings) : LivingEntity(entityType, world) {
     companion object {
         @JvmStatic
         fun createType(builder: ConiumEntityBuilder, settings: ConiumEntitySettingsWithTypeBuilder): EntityType.Builder<ConiumEntity> {
@@ -37,26 +37,22 @@ class ConiumEntity(entityType: EntityType<ConiumEntity>, world: World, private v
 
         templates.forEach { it.complete(this) }
 
-        this.customName = Text.of("Test conium entity(${Registries.ENTITY_TYPE.getId(this.type)})")
+        this.customName = Component.literal("Test conium entity(${BuiltInRegistries.ENTITY_TYPE.getKey(this.type)})")
         this.isCustomNameVisible = true
     }
 
     override fun tick() {
         super.tick()
-        this.boundingBox = calculateBoundingBox()
+        this.boundingBox = makeBoundingBox()
     }
 
     override fun isPushable(): Boolean = this.settings.pushable && super.isPushable()
 
-//    override fun damage(world: ServerWorld, source: DamageSource, amount: Float): Boolean = false
+    override fun getItemBySlot(slot: EquipmentSlot): ItemStack = ItemStack.EMPTY
 
-//    override fun getArmorItems(): MutableIterable<ItemStack> = Collections.emptySet()
-
-    override fun getEquippedStack(slot: EquipmentSlot): ItemStack = ItemStack.EMPTY
-
-    override fun equipStack(slot: EquipmentSlot, stack: ItemStack) {
+    override fun setItemSlot(slot: EquipmentSlot, stack: ItemStack) {
         // TODO equip stack.
     }
 
-    override fun getMainArm(): Arm = Arm.RIGHT
+    override fun getMainArm(): HumanoidArm = HumanoidArm.RIGHT
 }

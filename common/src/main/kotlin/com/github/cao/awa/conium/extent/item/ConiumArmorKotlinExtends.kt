@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.kotlin.extent.item
 
-import net.minecraft.item.equipment.EquipmentType
-import net.minecraft.util.Identifier
+import net.minecraft.world.item.equipment.ArmorType
+import net.minecraft.resources.Identifier
 
-val EquipmentType.identifier: Identifier get() = Identifier.ofVanilla("armor." + asString())
+val ArmorType.identifier: Identifier get() = Identifier.withDefaultNamespace("armor." + serializedName)

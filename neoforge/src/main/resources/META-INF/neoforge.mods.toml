@@ -16,14 +16,14 @@ Conium is a datapack and script framework for modern Minecraft, it provides very
 [[dependencies.conium]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.6.8-beta,)"
+versionRange = "[26.3.0.0-beta,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.conium]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.9]"
+versionRange = "[26.3]"
 ordering = "NONE"
 side = "BOTH"
 

@@ -7,8 +7,8 @@ import com.github.cao.awa.conium.kotlin.extent.component.withComputeTool
 import com.github.cao.awa.conium.kotlin.extent.component.withCreateTool
 import com.github.cao.awa.conium.kotlin.extent.item.components
 import com.google.gson.JsonObject
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.item.Item
+import net.minecraft.core.component.DataComponents
+import net.minecraft.world.item.Item
 
 open class ConiumDurabilityTemplate(private val durability: Int, private val damageChance: IntRange, name: String) : ConiumItemTemplate(name = name) {
     companion object {
@@ -40,11 +40,11 @@ open class ConiumDurabilityTemplate(private val durability: Int, private val dam
         settings.durabilityDamageChance = this.damageChance
     }
 
-    override fun settings(settings: Item.Settings) {
+    override fun settings(settings: Item.Properties) {
         // Set max durability.
-        settings.maxDamage(this.durability)
+        settings.durability(this.durability)
 
         // Create default tool component, let it can be damage durability when breaking block.
-        settings.components.withComponent(DataComponentTypes.TOOL, withCreateTool(), withComputeTool())
+        settings.components.withComponent(DataComponents.TOOL, withCreateTool(), withComputeTool())
     }
 }

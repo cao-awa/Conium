@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.item.template.rarity.ConiumRarityTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.createIfJsonObject
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates.EPIC_RARITY
 import com.google.gson.JsonElement
-import net.minecraft.util.Rarity
+import net.minecraft.world.item.Rarity
 
 class ConiumEpicRarityTemplate : ConiumRarityTemplate(Rarity.EPIC, EPIC_RARITY) {
     companion object {

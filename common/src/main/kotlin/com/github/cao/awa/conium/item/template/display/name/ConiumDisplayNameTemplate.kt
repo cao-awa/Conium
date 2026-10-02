@@ -11,8 +11,8 @@ import com.github.cao.awa.conium.mapping.yarn.Text
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.item.Item
+import net.minecraft.core.component.DataComponents
+import net.minecraft.world.item.Item
 
 open class ConiumDisplayNameTemplate(
     private val displayName: String,

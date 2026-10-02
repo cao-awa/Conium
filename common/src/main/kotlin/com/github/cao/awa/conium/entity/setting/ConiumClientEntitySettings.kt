@@ -4,10 +4,9 @@ import com.github.cao.awa.conium.entity.renderer.ConiumEntityRenderer
 import com.github.cao.awa.conium.entity.renderer.model.ConiumEntityModel
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.render.entity.EntityRenderer
-import net.minecraft.client.render.entity.EntityRendererFactory
-import net.minecraft.client.render.entity.model.EntityModel
-import net.minecraft.util.Identifier
+import net.minecraft.client.renderer.entity.EntityRendererProvider
+import net.minecraft.client.model.EntityModel
+import net.minecraft.resources.Identifier
 
 @Environment(EnvType.CLIENT)
 class ConiumClientEntitySettings : ConiumAbstractEntitySettings<ConiumClientEntitySettings>() {
@@ -18,21 +17,20 @@ class ConiumClientEntitySettings : ConiumAbstractEntitySettings<ConiumClientEnti
      *
      * @see EntityModel
      * @see ConiumEntityModel
-     * @see EntityRenderer
      * @see ConiumEntityRenderer
      *
      * @author cao_awa
      *
      * @since 1.0.0
      */
-    var clientModel: (EntityRendererFactory.Context) -> ConiumEntityModel
+    var clientModel: (EntityRendererProvider.Context) -> ConiumEntityModel
         get() = this._clientModel ?: ConiumClientEntitySettingsValue.clientModel
         set(value) {
             this._clientModel = value
         }
 
     // The delegate.
-    private var _clientModel: ((EntityRendererFactory.Context) -> ConiumEntityModel)? = null
+    private var _clientModel: ((EntityRendererProvider.Context) -> ConiumEntityModel)? = null
 
     /**
      * Setting the rendering model texture of the entity.
@@ -41,7 +39,6 @@ class ConiumClientEntitySettings : ConiumAbstractEntitySettings<ConiumClientEnti
      *
      * @see EntityModel
      * @see ConiumEntityModel
-     * @see EntityRenderer
      * @see ConiumEntityRenderer
      * @see Identifier
      *

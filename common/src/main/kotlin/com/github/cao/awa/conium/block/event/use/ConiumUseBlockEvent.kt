@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.block.event.use
+﻿package com.github.cao.awa.conium.block.event.use
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.block.event.use.metadata.ConiumUseBlockEventMetadata
 import com.github.cao.awa.conium.block.event.used.type.ConiumUsedBlockEventType
@@ -11,14 +12,14 @@ import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective5
-import net.minecraft.block.AbstractBlock.AbstractBlockState
-import net.minecraft.block.Block
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.Level
 
-class ConiumUseBlockEvent : ConiumEvent<Block, ConiumUseBlockEventMetadata, ParameterSelective5<Boolean, World, PlayerEntity, BlockPos, AbstractBlockState, BlockHitResult>, ConiumUsedBlockEventType>(
+class ConiumUseBlockEvent : ConiumEvent<Block, ConiumUseBlockEventMetadata, ParameterSelective5<Boolean, World, Player, BlockPos, AbstractBlockState, BlockHitResult>, ConiumUsedBlockEventType>(
     ConiumEventType.USE_BLOCK,
     { ConiumEventType.USED_BLOCK }
 ) {
@@ -30,7 +31,7 @@ class ConiumUseBlockEvent : ConiumEvent<Block, ConiumUseBlockEventMetadata, Para
             ConiumEventArgTypes.BLOCK_POS,
             ConiumEventArgTypes.BLOCK_STATE,
             ConiumEventArgTypes.BLOCK_HIT_RESULT
-        ) { identity: Any, world: World, player: PlayerEntity, blockPos: BlockPos, blockState: AbstractBlockState, hitResult: BlockHitResult ->
+        ) { identity: Any, world: World, player: Player, blockPos: BlockPos, blockState: AbstractBlockState, hitResult: BlockHitResult ->
             noFailure(identity) { parameterSelective ->
                 parameterSelective(world, player, blockPos, blockState, hitResult)
             }

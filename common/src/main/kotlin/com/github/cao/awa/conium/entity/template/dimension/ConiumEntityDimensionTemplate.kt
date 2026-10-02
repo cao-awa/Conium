@@ -5,7 +5,7 @@ import com.github.cao.awa.conium.entity.template.ConiumEntityTemplate
 import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.template.entity.conium.ConiumEntityTemplates.DIMENSION
 import com.google.gson.JsonElement
-import net.minecraft.entity.EntityDimensions
+import net.minecraft.world.entity.EntityDimensions
 
 open class ConiumEntityDimensionTemplate(
     private val width: Float,
@@ -25,7 +25,7 @@ open class ConiumEntityDimensionTemplate(
         )!!
 
         @JvmStatic
-        fun dimensions(width: Float, height: Float): EntityDimensions = EntityDimensions.changing(width, height)
+        fun dimensions(width: Float, height: Float): EntityDimensions = EntityDimensions.scalable(width, height)
     }
 
     override fun settings(settings: ConiumEntitySettings) {

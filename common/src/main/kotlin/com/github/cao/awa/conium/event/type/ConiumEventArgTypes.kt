@@ -6,42 +6,43 @@ import com.github.cao.awa.conium.mapping.yarn.reference.server
 import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
 import com.github.cao.awa.conium.parameter.dynamic.builder.DynamicArgsBuilder.Companion.transform
 import com.github.cao.awa.conium.parameter.dynamic.type.builder.DynamicArgTypeBuilder.arg
-import net.minecraft.block.AbstractBlock.AbstractBlockState
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.ViewerCountManager
-import net.minecraft.entity.ContainerUser
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.EquipmentSlot
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.damage.DamageSource
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.fluid.Fluid
-import net.minecraft.fluid.FluidState
-import net.minecraft.item.Item
-import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
-import net.minecraft.item.ItemUsageContext
-import net.minecraft.network.packet.s2c.play.ChunkData
-import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket
-import net.minecraft.network.packet.s2c.play.LightData
-import net.minecraft.screen.slot.Slot
+import net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.ContainerOpenersCounter
+import net.minecraft.world.Container
+import net.minecraft.world.entity.ContainerUser
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.material.Fluid
+import net.minecraft.world.level.material.FluidState
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.context.UseOnContext
+import net.minecraft.network.protocol.game.ClientboundLevelChunkPacketData
+import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket
+import net.minecraft.network.protocol.game.ClientboundLightUpdatePacketData
+import net.minecraft.world.inventory.Slot
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.network.ServerConfigurationNetworkHandler
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.ActionResult
-import net.minecraft.util.ClickType
-import net.minecraft.util.Hand
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.random.Random
-import net.minecraft.world.World
-import net.minecraft.world.chunk.Chunk
-import net.minecraft.world.chunk.WorldChunk
-import net.minecraft.world.tick.ScheduledTickView
+import net.minecraft.server.network.ServerConfigurationPacketListenerImpl
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.inventory.ClickAction as ClickType
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.core.BlockPos
+import net.minecraft.util.RandomSource
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.chunk.ChunkAccess
+import net.minecraft.world.level.chunk.LevelChunk
+import net.minecraft.world.level.ScheduledTickAccess
 import net.minecraft.util.Unit as MinecraftUnit
 
 object ConiumEventArgTypes {
@@ -55,10 +56,10 @@ object ConiumEventArgTypes {
     val ITEM: DynamicArgType<Item>
 
     @JvmField
-    val ITEM_USAGE_CONTEXT: DynamicArgType<ItemUsageContext>
+    val ITEM_USAGE_CONTEXT: DynamicArgType<UseOnContext>
 
     @JvmField
-    val ITEM_PLACEMENT_CONTEXT: DynamicArgType<ItemPlacementContext>
+    val ITEM_PLACEMENT_CONTEXT: DynamicArgType<BlockPlaceContext>
 
     @JvmField
     val ITEM_STACK: DynamicArgType<ItemStack>
@@ -82,46 +83,46 @@ object ConiumEventArgTypes {
     val SELECT_STATUS: DynamicArgType<Boolean>
 
     @JvmField
-    val HAND: DynamicArgType<Hand>
+    val HAND: DynamicArgType<InteractionHand>
 
     @JvmField
     val REMAINING_USE_TICKS: DynamicArgType<Int>
 
     @JvmField
-    val ACTION_RESULT: DynamicArgType<ActionResult>
+    val ACTION_RESULT: DynamicArgType<InteractionResult>
 
     @JvmField
-    val VIEWER_COUNT_MANAGER: DynamicArgType<ViewerCountManager>
+    val VIEWER_COUNT_MANAGER: DynamicArgType<ContainerOpenersCounter>
 
     @JvmField
-    val RANDOM: DynamicArgType<Random>
+    val RANDOM: DynamicArgType<RandomSource>
 
     @JvmField
     val SERVER: DynamicArgType<MinecraftServer>
 
     @JvmField
-    val SCHEDULED_TICK_VIEW: DynamicArgType<ScheduledTickView>
+    val SCHEDULED_TICK_VIEW: DynamicArgType<ScheduledTickAccess>
 
     @JvmField
-    val WORLD: DynamicArgType<World>
+    val WORLD: DynamicArgType<Level>
 
     @JvmField
-    val SERVER_WORLD: DynamicArgType<ServerWorld>
+    val SERVER_WORLD: DynamicArgType<ServerLevel>
 
     @JvmField
-    val CHUNK: DynamicArgType<Chunk>
+    val CHUNK: DynamicArgType<ChunkAccess>
 
     @JvmField
-    val WORLD_CHUNK: DynamicArgType<WorldChunk>
+    val WORLD_CHUNK: DynamicArgType<LevelChunk>
 
     @JvmField
-    val CHUNK_DATA: DynamicArgType<ChunkData>
+    val CHUNK_DATA: DynamicArgType<ClientboundLevelChunkPacketData>
 
     @JvmField
-    val CHUNK_DATA_S2C_PACKET: DynamicArgType<ChunkDataS2CPacket>
+    val CHUNK_DATA_S2C_PACKET: DynamicArgType<ClientboundLevelChunkWithLightPacket>
 
     @JvmField
-    val LIGHT_DATA: DynamicArgType<LightData>
+    val LIGHT_DATA: DynamicArgType<ClientboundLightUpdatePacketData>
 
     @JvmField
     val BLOCK: DynamicArgType<Block>
@@ -157,13 +158,13 @@ object ConiumEventArgTypes {
     val LIVING_ENTITY: DynamicArgType<LivingEntity>
 
     @JvmField
+    val PLAYER: DynamicArgType<Player>
+
+    @JvmField
+    val SERVER_PLAYER: DynamicArgType<ServerPlayer>
+
+    @JvmField
     val CONTAINER_USER: DynamicArgType<ContainerUser>
-
-    @JvmField
-    val PLAYER: DynamicArgType<PlayerEntity>
-
-    @JvmField
-    val SERVER_PLAYER: DynamicArgType<ServerPlayerEntity>
 
     @JvmField
     val DAMAGE_SOURCE: DynamicArgType<DamageSource>
@@ -184,12 +185,15 @@ object ConiumEventArgTypes {
     val DOUBLE: DynamicArgType<Double>
 
     @JvmField
-    val SERVER_CONFIGURATION_NETWORK_HANDLER: DynamicArgType<ServerConfigurationNetworkHandler>
+    val SERVER_CONFIGURATION_NETWORK_HANDLER: DynamicArgType<ServerConfigurationPacketListenerImpl>
 
     init {
         MINECRAFT_UNIT = arg("minecraft_unit")
 
-        UNIT = arg("unit")
+        UNIT = arg(
+            "unit",
+            transform(::MINECRAFT_UNIT) { }
+        )
 
         ITEM = arg(
             "item",
@@ -202,8 +206,8 @@ object ConiumEventArgTypes {
 
         ITEM_STACK = arg(
             "item_stack",
-            transform(::ITEM_USAGE_CONTEXT, ItemUsageContext::getStack),
-            transform(::ITEM_PLACEMENT_CONTEXT, ItemPlacementContext::getStack)
+            transform(::ITEM_USAGE_CONTEXT, UseOnContext::getItemInHand),
+            transform(::ITEM_PLACEMENT_CONTEXT, BlockPlaceContext::getItemInHand)
         )
 
         CURSOR_STACK = arg("cursor_stack")
@@ -223,7 +227,7 @@ object ConiumEventArgTypes {
 
         HAND = arg(
             "hand",
-            transform(::ITEM_USAGE_CONTEXT, ItemUsageContext::getHand)
+            transform(::ITEM_USAGE_CONTEXT, UseOnContext::getHand)
         )
 
         REMAINING_USE_TICKS = arg("remaining_use_ticks")
@@ -240,32 +244,32 @@ object ConiumEventArgTypes {
 
         RANDOM = arg(
             "random",
-            transform(::WORLD, World::getRandom)
+            transform(::WORLD, Level::getRandom)
         )
 
         SERVER = arg(
             "server",
-            transform(::SERVER_PLAYER) { player: ServerPlayerEntity ->
+            transform(::SERVER_PLAYER) { player: ServerPlayer ->
                 player.server
             },
-            transform(::SERVER_WORLD, ServerWorld::getServer)
+            transform(::SERVER_WORLD, ServerLevel::getServer)
         )
 
         SCHEDULED_TICK_VIEW = arg(
             "schedule_tick_view",
-            transform(::WORLD, World::asIt)
+            transform(::WORLD, Level::asIt)
         )
 
         WORLD = arg(
             "world",
-            transform(::PLAYER, PlayerEntity::getEntityWorld),
-            transform(::SERVER_WORLD, ServerWorld::asIt),
+            transform(::PLAYER, Player::level),
+            transform(::SERVER_WORLD, ServerLevel::asIt),
         )
 
         SERVER_WORLD = arg(
             "server_world",
-            transform(::WORLD) { world: World -> world as? ServerWorld },
-            transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.world as? ServerWorld }
+            transform(::WORLD) { world: Level -> world as? ServerLevel },
+            transform(::ITEM_PLACEMENT_CONTEXT) { placement -> placement.level as? ServerLevel }
         )
 
         CHUNK = arg(
@@ -274,7 +278,7 @@ object ConiumEventArgTypes {
 
         WORLD_CHUNK = arg(
             "world_chunk",
-            transform(::CHUNK) { chunk: Chunk -> chunk as WorldChunk }
+            transform(::CHUNK) { chunk: ChunkAccess -> chunk as LevelChunk }
         )
 
         CHUNK_DATA = arg(
@@ -291,17 +295,17 @@ object ConiumEventArgTypes {
 
         BLOCK = arg(
             "block",
-            transform(::BLOCK_STATE, AbstractBlockState::getBlock)
+            transform(::BLOCK_STATE, BlockState::getBlock)
         )
 
         BLOCK_POS = arg(
             "block_pos",
-            transform(::ITEM_PLACEMENT_CONTEXT, ItemPlacementContext::getBlockPos)
+            transform(::ITEM_PLACEMENT_CONTEXT, BlockPlaceContext::getClickedPos)
         )
 
         BLOCK_ENTITY = arg(
             "block_entity",
-            transform(::WORLD, ::BLOCK_POS, World::getBlockEntity)
+            transform(::WORLD, ::BLOCK_POS, Level::getBlockEntity)
         )
 
         C_BLOCK_ENTITY = arg(
@@ -311,14 +315,14 @@ object ConiumEventArgTypes {
 
         BLOCK_STATE = arg(
             "block_state",
-            transform(::FLUID_STATE, FluidState::getBlockState)
+            transform(::FLUID_STATE, FluidState::createLegacyBlock)
         )
 
         FLUID_STATE = arg("fluid_state")
 
         FLUID = arg(
             "fluid",
-            transform(::FLUID_STATE, FluidState::getFluid)
+            transform(::FLUID_STATE, FluidState::getType)
         )
 
         BLOCK_HIT_RESULT = arg("block_hit_result")
@@ -336,21 +340,21 @@ object ConiumEventArgTypes {
         LIVING_ENTITY = arg(
             "living_entity",
             transform(::ENTITY) { entity: Entity -> entity as? LivingEntity },
-            transform(::PLAYER, PlayerEntity::asIt)
+            transform(::PLAYER, Player::asIt)
         )
 
         PLAYER = arg(
             "player",
-            transform(::ITEM_PLACEMENT_CONTEXT, ItemPlacementContext::getPlayer),
-            transform(::ITEM_USAGE_CONTEXT, ItemUsageContext::getPlayer),
-            transform(::LIVING_ENTITY) { entity: LivingEntity -> entity as? PlayerEntity },
-            transform(::SERVER_PLAYER, ServerPlayerEntity::asIt),
+            transform(::ITEM_PLACEMENT_CONTEXT, BlockPlaceContext::getPlayer),
+            transform(::ITEM_USAGE_CONTEXT, UseOnContext::getPlayer),
+            transform(::LIVING_ENTITY) { entity: LivingEntity -> entity as? Player },
+            transform(::SERVER_PLAYER, ServerPlayer::asIt),
         )
 
         SERVER_PLAYER = arg(
             "server_player",
-            transform(::PLAYER) { player: PlayerEntity -> player as? ServerPlayerEntity },
-            transform(::ITEM_PLACEMENT_CONTEXT) { placement: ItemPlacementContext -> placement.player as? ServerPlayerEntity }
+            transform(::PLAYER) { player: Player -> player as? ServerPlayer },
+            transform(::ITEM_PLACEMENT_CONTEXT) { placement: BlockPlaceContext -> placement.player as? ServerPlayer }
         )
 
         DAMAGE_SOURCE = arg("damage_source")

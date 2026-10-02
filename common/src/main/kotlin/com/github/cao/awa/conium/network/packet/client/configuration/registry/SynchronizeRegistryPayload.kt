@@ -7,12 +7,12 @@ import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.server.ConiumDedicatedServer
 import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
 import com.google.gson.JsonParser
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.network.ClientConfigurationNetworkHandler
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.codec.PacketCodec
-import net.minecraft.network.packet.CustomPayload
-import net.minecraft.util.Identifier
+import net.minecraft.client.Minecraft
+import net.minecraft.client.multiplayer.ClientConfigurationPacketListenerImpl
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.codec.StreamCodec
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload
+import net.minecraft.resources.Identifier
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
@@ -21,15 +21,15 @@ class SynchronizeRegistryPayload : ConiumClientConfigurationPacket(IDENTIFIER) {
         private val LOGGER: Logger = LogManager.getLogger("ConiumSynchronizeRegistryPayload")
 
         @JvmField
-        val IDENTIFIER = CustomPayload.Id<SynchronizeRegistryPayload>(Identifier.of("conium:synchronize_registry"))
+        val IDENTIFIER = CustomPacketPayload.Type<SynchronizeRegistryPayload>(Identifier.parse("conium:synchronize_registry"))
 
         @JvmField
-        val CODEC: PacketCodec<PacketByteBuf, SynchronizeRegistryPayload> = PacketCodec.ofStatic(
+        val CODEC: StreamCodec<FriendlyByteBuf, SynchronizeRegistryPayload> = StreamCodec.of(
             Companion::encode,
             Companion::decode
         )
 
-        fun encode(buf: PacketByteBuf, packet: SynchronizeRegistryPayload) {
+        fun encode(buf: FriendlyByteBuf, packet: SynchronizeRegistryPayload) {
             ConiumDedicatedServer.loadDatapacks.datapacks.let { datapacks: MutableMap<Identifier, ConiumContentDatapack> ->
                 buf.writeVarInt(datapacks.size)
                 for ((identifier: Identifier, datapack: ConiumContentDatapack) in datapacks) {
@@ -37,20 +37,20 @@ class SynchronizeRegistryPayload : ConiumClientConfigurationPacket(IDENTIFIER) {
                     buf.writeVarInt(datapack.contents.size)
                     for ((resourceIdentifier: Identifier, content: String) in datapack.contents) {
                         buf.writeIdentifier(resourceIdentifier)
-                        buf.writeString(content)
+                        buf.writeUtf(content)
                     }
                 }
             }
         }
 
-        fun decode(buf: PacketByteBuf): SynchronizeRegistryPayload {
+        fun decode(buf: FriendlyByteBuf): SynchronizeRegistryPayload {
             var datapacks: Int = buf.readVarInt()
             while (datapacks > 0) {
                 val identifier: Identifier = buf.readIdentifier()
                 var resources: Int = buf.readVarInt()
                 while (resources > 0) {
                     val resourceIdentifier: Identifier = buf.readIdentifier()
-                    val content: String = buf.readString()
+                    val content: String = buf.readUtf()
                     Conium.onLoadData(identifier, resourceIdentifier, content)
                     resources--
                 }
@@ -60,7 +60,7 @@ class SynchronizeRegistryPayload : ConiumClientConfigurationPacket(IDENTIFIER) {
         }
     }
 
-    override fun arising(client: MinecraftClient, sender: PacketSender, networkHandler: ClientConfigurationNetworkHandler) {
+    override fun arising(client: Minecraft, sender: PacketSender, networkHandler: ClientConfigurationPacketListenerImpl) {
         LOGGER.info("Registry synchronizing: ")
         for ((identifier, datapack) in Conium.pendingDatapack.datapacks) {
             LOGGER.info("-- $identifier")
@@ -72,21 +72,21 @@ class SynchronizeRegistryPayload : ConiumClientConfigurationPacket(IDENTIFIER) {
         Conium.coniumItemManager!!.resetRegistries()
 
         Conium.pendingDatapack.datapacks.let { datapacks ->
-            datapacks[ConiumRegistryKeys.ITEM.value]?.let { datapack ->
+            datapacks[ConiumRegistryKeys.ITEM.identifier()]?.let { datapack ->
                 Conium.coniumItemManager!!.resetRegistries()
                 for ((identifier: Identifier, content: String) in datapack.contents) {
                     Conium.coniumItemManager!!.load(identifier, JsonParser.parseString(content).asJsonObject)
                 }
             }
 
-            datapacks[ConiumRegistryKeys.BLOCK.value]?.let { datapack ->
+            datapacks[ConiumRegistryKeys.BLOCK.identifier()]?.let { datapack ->
                 Conium.coniumBlockManager!!.resetRegistries()
                 for ((identifier: Identifier, content: String) in datapack.contents) {
                     Conium.coniumBlockManager!!.load(identifier, JsonParser.parseString(content).asJsonObject)
                 }
             }
 
-            datapacks[ConiumRegistryKeys.ENTITY.value]?.let { datapack ->
+            datapacks[ConiumRegistryKeys.ENTITY.identifier()]?.let { datapack ->
                 Conium.coniumEntityManager!!.resetRegistries()
                 for ((identifier: Identifier, content: String) in datapack.contents) {
                     Conium.coniumEntityManager!!.load(identifier, JsonParser.parseString(content).asJsonObject)

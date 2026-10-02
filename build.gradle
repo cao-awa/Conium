@@ -3,10 +3,9 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'idea'
-    id 'dev.architectury.loom' version '1.13-SNAPSHOT' apply false
-    id 'architectury-plugin' version '3.4-SNAPSHOT'
+    id 'dev.architectury.loom-no-remap' version '1.17-SNAPSHOT' apply false
+    id 'architectury-plugin' version '3.5-SNAPSHOT'
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
-    id 'fabric-loom' version '1.13-SNAPSHOT' apply false
     id 'org.jetbrains.kotlin.jvm' version '2.3.21'
 }
 
@@ -20,11 +19,10 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'dev.architectury.loom'
+    apply plugin: 'dev.architectury.loom-no-remap'
     apply plugin: 'java'
     apply plugin: 'org.jetbrains.kotlin.jvm'
     apply plugin: 'architectury-plugin'
-    apply plugin: 'fabric-loom'
     apply plugin: 'maven-publish'
 
     base {
@@ -50,10 +48,6 @@ subprojects {
 
     dependencies {
         minecraft "net.minecraft:minecraft:${rootProject.minecraft_version}"
-        mappings loom.layered {
-            it.mappings("net.fabricmc:yarn:${rootProject.yarn_mappings}:v2")
-            it.mappings("dev.architectury:yarn-mappings-patch-neoforge:${rootProject.yarn_mappings_patch_neoforge_version}")
-        }
 
         implementation "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
         implementation "org.jetbrains.kotlin:kotlin-reflect:${project.kotlin_version}"
@@ -76,12 +70,12 @@ subprojects {
         // If you remove this line, sources will not be generated.
         withSourcesJar()
 
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
     }
 
     tasks.withType(JavaCompile).configureEach {
-        it.options.release = 21
+        it.options.release = 25
     }
 
     sourceSets {
@@ -89,7 +83,7 @@ subprojects {
         main.kotlin.srcDirs += 'src/main/kotlin'
     }
 
-    jar {
+    tasks.withType(AbstractArchiveTask).configureEach {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 }

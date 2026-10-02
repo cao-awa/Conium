@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.item.event.used.type
+﻿package com.github.cao.awa.conium.item.event.used.type
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.empty.ConiumEmptyEventMetadata
@@ -8,7 +9,7 @@ import com.github.cao.awa.conium.inactive.event.metadata.ConiumInactiveEventMeta
 import com.github.cao.awa.conium.inactive.event.type.ConiumInactiveEventType
 import com.github.cao.awa.conium.item.event.use.metadata.ConiumItemUseEventMetadata
 import com.github.cao.awa.conium.item.event.used.metadata.ConiumItemUsedEventMetadata
-import net.minecraft.item.Item
+import net.minecraft.world.item.Item
 
 class ConiumItemUsedEventType: ConiumNoCancelableEventType<Item, ConiumItemUsedEventMetadata, Unit, ConiumInactiveEventMetadata>(
     "item_used",

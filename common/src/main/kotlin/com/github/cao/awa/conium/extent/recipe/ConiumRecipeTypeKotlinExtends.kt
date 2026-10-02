@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.kotlin.extent.recipe
 
-import net.minecraft.recipe.RecipeType
+import net.minecraft.world.item.crafting.RecipeType
 
 val RecipeType<*>.coniumName: String
     get() = when (this) {

@@ -25,8 +25,8 @@ class ConiumIgniteEntityTemplate(private val duration: Int) : ConiumItemTemplate
 
     override fun attach(target: ConiumItem) {
         ConiumEvent.itemUseOnEntity.subscribe(target) { _, entity, _, _ ->
-            if (entity.fireTicks == 0) {
-                entity.fireTicks = this.duration
+            if (entity.remainingFireTicks == 0) {
+                entity.remainingFireTicks = this.duration
             }
 
             true

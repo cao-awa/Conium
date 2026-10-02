@@ -1,4 +1,5 @@
-package com.github.cao.awa.conium.item.event.inventory.tick
+﻿package com.github.cao.awa.conium.item.event.inventory.tick
+import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.ConiumEventContext
@@ -10,10 +11,10 @@ import com.github.cao.awa.conium.item.event.inventory.tick.metadata.ConiumItemIn
 import com.github.cao.awa.conium.item.event.inventory.ticked.type.ConiumItemInventoryTickedEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective5
-import net.minecraft.entity.Entity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.world.World
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
 
 class ConiumItemInventoryTickEvent : ConiumEvent<Item, ConiumItemInventoryTickEventMetadata, ParameterSelective5<Boolean, World, Entity, ItemStack, Int, Boolean>, ConiumItemInventoryTickedEventType>(
     ConiumEventType.Companion.ITEM_INVENTORY_TICK,
