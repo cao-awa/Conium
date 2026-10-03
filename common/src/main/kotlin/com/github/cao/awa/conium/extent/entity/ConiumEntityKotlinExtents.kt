@@ -27,12 +27,19 @@ val Entity.accessor: EntityAccessor get() = this as EntityAccessor
 
 fun ConiumEntityBuilder.register(callback: (ConiumEntityMetadata) -> Unit = { }) {
     build().also { builder: EntityType.Builder<ConiumEntity> ->
+        if (this.entitySettings.fireImmune) {
+            builder.fireImmune()
+        }
         val type: EntityType<ConiumEntity> = registerEntity(this.identifier, builder)
         callback(
             ConiumEntityMetadata(type, this.entitySettings)
         )
         ConiumEntityAttributeRegistry.attributes.computeIfAbsent(type) {
-            createLivingAttributes().build()
+            val attrBuilder = createLivingAttributes()
+            this.entitySettings.attributes.forEach { (attr, value) ->
+                attrBuilder.add(attr, value)
+            }
+            attrBuilder.build()
         }
     }
 }

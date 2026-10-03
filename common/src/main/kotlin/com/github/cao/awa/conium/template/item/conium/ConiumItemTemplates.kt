@@ -3,13 +3,16 @@ package com.github.cao.awa.conium.template.item.conium
 import com.github.cao.awa.conium.item.template.action.ConiumUseActionTemplate
 import com.github.cao.awa.conium.item.template.armor.ConiumArmorTemplate
 import com.github.cao.awa.conium.item.template.compostable.ConiumCompostableTemplate
+import com.github.cao.awa.conium.item.template.cooldown.ConiumCooldownTemplate
 import com.github.cao.awa.conium.item.template.consumable.ConiumConsumableTemplate
 import com.github.cao.awa.conium.item.template.consume.ConiumConsumeOnUsedTemplate
 import com.github.cao.awa.conium.item.template.convert.block.ConiumUsedOnBlockConvertToTemplate
 import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
 import com.github.cao.awa.conium.item.template.display.name.ConiumDisplayNameTemplate
 import com.github.cao.awa.conium.item.template.egg.ConiumSpawnEggTemplate
+import com.github.cao.awa.conium.item.template.enchantable.ConiumEnchantableTemplate
 import com.github.cao.awa.conium.item.template.entity.placer.ConiumEntityPlacerTemplate
+import com.github.cao.awa.conium.item.template.fire.ConiumFireResistantTemplate
 import com.github.cao.awa.conium.item.template.food.ConiumFoodTemplate
 import com.github.cao.awa.conium.item.template.fuel.ConiumFuelTemplate
 import com.github.cao.awa.conium.item.template.glint.ConiumGlintTemplate
@@ -63,6 +66,7 @@ object ConiumItemTemplates {
     // (.C) .
     const val CAN_DESTROY_IN_CREATIVE: String = "can_destroy_in_creative"
     const val CLEAR_IGNITE: String = "clear_ignite"
+    const val COOLDOWN: String = "cooldown"
     const val CONSUMABLE: String = "consumable"
     const val CONSUME_ON_USED: String = "consume_on_used"
     const val COMPOSTABLE: String = "compostable"
@@ -71,9 +75,11 @@ object ConiumItemTemplates {
     const val DISPLAY_NAME: String = "display_name"
 
     // (.E) .
+    const val ENCHANTABLE: String = "enchantable"
     const val ENTITY_PLACER: String = "entity_placer"
 
     // (.F) .
+    const val FIRE_RESISTANT: String = "fire_resistant"
     const val FOOD: String = "food"
     const val FORCE_MINING_SPEED: String = "force_mining_speed"
     const val FUEL: String = "fuel"
@@ -157,6 +163,11 @@ object ConiumItemTemplates {
         )
 
         ConiumTemplate.registerItem(
+            COOLDOWN,
+            ConiumCooldownTemplate::create
+        )
+
+        ConiumTemplate.registerItem(
             CONSUMABLE,
             ConiumConsumableTemplate::create
         )
@@ -179,11 +190,21 @@ object ConiumItemTemplates {
 
         // (.E) .
         ConiumTemplate.registerItem(
+            ENCHANTABLE,
+            ConiumEnchantableTemplate::create
+        )
+
+        ConiumTemplate.registerItem(
             ENTITY_PLACER,
             ConiumEntityPlacerTemplate::create
         )
 
         // (.F) .
+        ConiumTemplate.registerItem(
+            FIRE_RESISTANT,
+            ConiumFireResistantTemplate::create
+        )
+
         ConiumTemplate.registerItem(
             FOOD,
             ConiumFoodTemplate::create

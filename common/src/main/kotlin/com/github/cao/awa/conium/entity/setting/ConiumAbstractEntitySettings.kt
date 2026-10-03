@@ -1,6 +1,8 @@
 package com.github.cao.awa.conium.entity.setting
 
 import com.github.cao.awa.conium.setting.ConiumSettings
+import net.minecraft.core.Holder
+import net.minecraft.world.entity.ai.attributes.Attribute
 import net.minecraft.world.level.material.PushReaction
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityDimensions
@@ -90,6 +92,24 @@ abstract class ConiumAbstractEntitySettings<E : ConiumAbstractEntitySettings<E>>
     // The delegate.
     private var _pushableByFluids: Boolean? = null
 
+    /**
+     * Setting an entity is fire immune.
+     *
+     * Default is ``false`` for conium entity.
+     *
+     * @since 1.0.0
+     */
+    var fireImmune: Boolean
+        get() = this._fireImmune ?: ConiumEntitySettingsValue.fireImmune
+        set(value) {
+            this._fireImmune = value
+        }
+
+    // The delegate.
+    private var _fireImmune: Boolean? = null
+
+    val attributes: MutableMap<Holder<Attribute>, Double> = mutableMapOf()
+
     open var client: ConiumClientEntitySettings
         get() = this._clientMigrate ?: let {
             this.client = ConiumClientEntitySettings()
@@ -109,6 +129,8 @@ abstract class ConiumAbstractEntitySettings<E : ConiumAbstractEntitySettings<E>>
             this._pushable?.apply { it.pushable = this }
             this._pushableByPiston?.apply { it.pushableByPiston = this }
             this._pushableByFluids?.apply { it.pushableByFluids = this }
+            this._fireImmune?.apply { it.fireImmune = this }
+            it.attributes.putAll(this.attributes)
         }
     }
 }

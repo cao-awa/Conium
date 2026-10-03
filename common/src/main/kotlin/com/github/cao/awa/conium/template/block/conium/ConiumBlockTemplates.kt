@@ -4,6 +4,7 @@ import com.github.cao.awa.conium.block.template.collision.ConiumBlockCollisionTe
 import com.github.cao.awa.conium.block.template.data.ConiumBlockDataTemplate
 import com.github.cao.awa.conium.block.template.entity.ConiumEnableBlockEntityTemplate
 import com.github.cao.awa.conium.block.template.explosion.resistance.ConiumExplosionResistanceTemplate
+import com.github.cao.awa.conium.block.template.friction.ConiumBlockFrictionTemplate
 import com.github.cao.awa.conium.block.template.instrument.ConiumBlockInstrumentTemplate
 import com.github.cao.awa.conium.block.template.luminance.ConiumLuminanceTemplate
 import com.github.cao.awa.conium.block.template.map.ConiumMapColorTemplate
@@ -39,6 +40,7 @@ object ConiumBlockTemplates {
     const val EMITS_STRONG_REDSTONE_POWER: String = "emits_strong_redstone_power"
     const val EMITS_WEAK_REDSTONE_POWER: String = "emits_weak_redstone_power"
     const val EXPLOSION_RESISTANCE: String = "explosion_resistance"
+    const val FRICTION: String = "friction"
     const val HARDNESS: String = "hardness"
     const val INSTRUMENT: String = "instrument"
     const val JUMP_VELOCITY: String = "jump_velocity"
@@ -89,6 +91,11 @@ object ConiumBlockTemplates {
         ConiumTemplate.registerBlock(
             EXPLOSION_RESISTANCE,
             ConiumExplosionResistanceTemplate::create
+        )
+
+        ConiumTemplate.registerBlock(
+            FRICTION,
+            ConiumBlockFrictionTemplate::create
         )
 
         ConiumTemplate.registerBlock(

@@ -66,6 +66,16 @@ object ConiumEntitySettingsValue {
      */
     @JvmStatic
     val pushableByFluids: Boolean = true
+
+    /**
+     * Default value of ``fireImmune``.
+     *
+     * @see ConiumEntitySettings.fireImmune
+     *
+     * @since 1.0.0
+     */
+    @JvmStatic
+    val fireImmune: Boolean = false
 }
 
 @Environment(EnvType.CLIENT)

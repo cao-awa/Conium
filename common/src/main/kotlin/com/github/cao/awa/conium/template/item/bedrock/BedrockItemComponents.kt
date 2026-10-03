@@ -1,10 +1,15 @@
 package com.github.cao.awa.conium.template.item.bedrock
 
 import com.github.cao.awa.conium.item.component.animation.BedrockUseAnimationComponent
+import com.github.cao.awa.conium.item.component.compostable.BedrockCompostableComponent
+import com.github.cao.awa.conium.item.component.cooldown.BedrockCooldownComponent
 import com.github.cao.awa.conium.item.component.damage.BedrockDamageComponent
 import com.github.cao.awa.conium.item.component.destory.BedrockCanDestroyInCreativeComponent
+import com.github.cao.awa.conium.item.component.display.name.BedrockDisplayNameComponent
 import com.github.cao.awa.conium.item.component.durability.BedrockDurabilityComponent
+import com.github.cao.awa.conium.item.component.enchantable.BedrockEnchantableComponent
 import com.github.cao.awa.conium.item.component.entity.placer.BedrockEntityPlacerComponent
+import com.github.cao.awa.conium.item.component.fire.BedrockFireResistantComponent
 import com.github.cao.awa.conium.item.component.food.BedrockFoodComponent
 import com.github.cao.awa.conium.item.component.fuel.BedrockFuelComponent
 import com.github.cao.awa.conium.item.component.glint.BedrockGlintComponent
@@ -41,6 +46,7 @@ object BedrockItemComponents {
     const val ENCHANTABLE: String = "minecraft:enchantable"
     const val ENTITY_PLACER: String = "minecraft:entity_placer"
     const val FIRE_RESISTANCE: String = "minecraft:fire_resistant"
+    const val FIRE_RESISTANT: String = FIRE_RESISTANCE
     const val FOOD: String = "minecraft:food"
     const val FUEL: String = "minecraft:fuel"
     const val GLINT: String = "minecraft:glint"
@@ -78,8 +84,26 @@ object BedrockItemComponents {
         )
 
         ConiumTemplate.registerItem(
+            COMPOSTABLE,
+            BedrockCompostableComponent::create,
+            true
+        )
+
+        ConiumTemplate.registerItem(
+            COOLDOWN,
+            BedrockCooldownComponent::create,
+            true
+        )
+
+        ConiumTemplate.registerItem(
             DAMAGE,
             BedrockDamageComponent::create,
+            true
+        )
+
+        ConiumTemplate.registerItem(
+            DISPLAY_NAME,
+            BedrockDisplayNameComponent::create,
             true
         )
 
@@ -90,8 +114,20 @@ object BedrockItemComponents {
         )
 
         ConiumTemplate.registerItem(
+            ENCHANTABLE,
+            BedrockEnchantableComponent::create,
+            true
+        )
+
+        ConiumTemplate.registerItem(
             ENTITY_PLACER,
             BedrockEntityPlacerComponent::create,
+            true
+        )
+
+        ConiumTemplate.registerItem(
+            FIRE_RESISTANCE,
+            BedrockFireResistantComponent::create,
             true
         )
 

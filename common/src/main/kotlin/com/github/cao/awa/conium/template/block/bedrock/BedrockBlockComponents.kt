@@ -3,7 +3,9 @@ package com.github.cao.awa.conium.template.block.bedrock
 import com.github.cao.awa.conium.block.template.bedrock.collision.BedrockBlockCollisionBoxComponent
 import com.github.cao.awa.conium.block.template.bedrock.destructible.BedrockDestructibleByMiningComponent
 import com.github.cao.awa.conium.block.template.bedrock.destructible.explosion.BedrockDestructibleByExplosionComponent
+import com.github.cao.awa.conium.block.template.bedrock.friction.BedrockFrictionComponent
 import com.github.cao.awa.conium.block.template.bedrock.light.BedrockLightEmissionComponent
+import com.github.cao.awa.conium.block.template.bedrock.replaceable.BedrockReplaceableComponent
 import com.github.cao.awa.conium.block.template.map.ConiumBedrockMapColorTemplate
 import com.github.cao.awa.conium.template.ConiumTemplate
 
@@ -69,6 +71,12 @@ object BedrockBlockComponents {
         )
 
         ConiumTemplate.registerBlock(
+            FRICTION,
+            BedrockFrictionComponent::create,
+            true
+        )
+
+        ConiumTemplate.registerBlock(
             LIGHT_EMISSION,
             BedrockLightEmissionComponent::create,
             true
@@ -77,6 +85,12 @@ object BedrockBlockComponents {
         ConiumTemplate.registerBlock(
             MAP_COLOR,
             ConiumBedrockMapColorTemplate::create,
+            true
+        )
+
+        ConiumTemplate.registerBlock(
+            REPLACEABLE,
+            BedrockReplaceableComponent::create,
             true
         )
     }
