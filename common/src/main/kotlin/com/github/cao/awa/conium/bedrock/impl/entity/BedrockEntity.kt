@@ -8,8 +8,8 @@ import com.github.cao.awa.conium.bedrock.impl.raycast.hit.BlockRaycastHit
 import com.github.cao.awa.conium.bedrock.impl.script.BedrockScriptAnonymousObjectMap
 import com.github.cao.awa.conium.bedrock.impl.world.dimension.BedrockDimension
 import com.github.cao.awa.conium.bedrock.impl.world.dimension.bedrockDimension
-import com.github.cao.awa.conium.kotlin.extent.innate.int
-import com.github.cao.awa.conium.kotlin.extent.innate.orGetAuto
+import com.github.cao.awa.conium.extent.innate.int
+import com.github.cao.awa.conium.extent.innate.orGetAuto
 import com.github.cao.awa.conium.kotlin.extent.world.executeCommand
 import com.github.cao.awa.conium.raycast.ConiumRaycast
 import net.minecraft.world.entity.Entity

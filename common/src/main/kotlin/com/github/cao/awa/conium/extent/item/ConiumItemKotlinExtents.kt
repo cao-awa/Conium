@@ -44,5 +44,6 @@ fun ConiumBlockBuilder.registerBlockItem(block: ConiumBlock, settingsProvider: (
 fun itemKeyOf(id: Identifier): ResourceKey<Item> = ResourceKey.create(Registries.ITEM, id)
 
 private val propertiesComponentBuilders = WeakHashMap<Item.Properties, DataComponentMap.Builder>()
+
 val Item.Properties.components: DataComponentMap.Builder
     get() = propertiesComponentBuilders.computeIfAbsent(this) { DataComponentMap.builder() }

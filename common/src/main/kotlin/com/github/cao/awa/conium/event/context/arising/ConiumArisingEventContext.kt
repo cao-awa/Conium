@@ -52,9 +52,9 @@ open class ConiumArisingEventContext<I : Any, P : ParameterSelective?>(
     }
 
     @Suppress("unchecked_cast")
-    fun <X : Any> targetTo(predicate: (X) -> Boolean): ConiumEventContext<I> {
+    fun <X : Any> targetTo(target: Class<X>): ConiumEventContext<I> {
         this.targetedIdentity = ParameterSelective1 {
-            predicate(it as X)
+            target.isInstance(it)
         }
 
         return this
@@ -133,7 +133,7 @@ open class ConiumArisingEventContext<I : Any, P : ParameterSelective?>(
         }
 
         if (!this.targetedIdentity(identity)) {
-            // Do not presage when identity is not target.
+            // Do not arise when identity is not target.
             return true
         }
 

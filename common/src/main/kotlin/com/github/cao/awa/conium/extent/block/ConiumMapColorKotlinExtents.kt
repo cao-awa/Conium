@@ -1,6 +1,6 @@
 package com.github.cao.awa.conium.kotlin.extent.block
 
-import com.github.cao.awa.conium.kotlin.extent.innate.int
+import com.github.cao.awa.conium.extent.innate.int
 import net.minecraft.world.level.material.MapColor
 
 fun parseAndFindColor(code: String): MapColor = findColor(parseColor(code))

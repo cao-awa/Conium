@@ -25,7 +25,7 @@ class BedrockItemUseOnBeforeEvent: BedrockEvent<Item, BedrockItemUseOnEventMetad
         return ConiumEventContextBuilder.unnamed(
             ConiumEventArgTypes.ITEM_USAGE_CONTEXT
         ) { _: Any, usage: UseOnContext ->
-            !usage.bedrockEventContext(scriptSource, usage.player).also { context: BedrockItemUseOnEventMetadata ->
+            !usage.bedrockEventContext(scriptSource, usage.player!!).also { context: BedrockItemUseOnEventMetadata ->
                 BedrockEventContext.contexts[scriptSource] = context
             }.also { context: BedrockItemUseOnEventMetadata ->
                 action(context)

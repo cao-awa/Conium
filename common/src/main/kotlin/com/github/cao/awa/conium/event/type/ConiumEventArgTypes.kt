@@ -1,17 +1,19 @@
 package com.github.cao.awa.conium.event.type
 
 import com.github.cao.awa.conium.blockentity.ConiumBlockEntity
-import com.github.cao.awa.conium.kotlin.extent.innate.*
+import com.github.cao.awa.conium.extent.innate.asIt
+import com.github.cao.awa.conium.extent.innate.double
+import com.github.cao.awa.conium.extent.innate.float
+import com.github.cao.awa.conium.extent.innate.int
+import com.github.cao.awa.conium.extent.innate.long
 import com.github.cao.awa.conium.mapping.yarn.reference.server
 import com.github.cao.awa.conium.parameter.dynamic.type.DynamicArgType
 import com.github.cao.awa.conium.parameter.dynamic.builder.DynamicArgsBuilder.Companion.transform
 import com.github.cao.awa.conium.parameter.dynamic.type.builder.DynamicArgTypeBuilder.arg
-import net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter
-import net.minecraft.world.Container
 import net.minecraft.world.entity.ContainerUser
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType

@@ -87,6 +87,11 @@ open class ConiumItemToolTemplate(
 
         // Set item is a weapon.
         settings.isWeapon = this.isWeapon
+
+        // A material always gives the item durability, so claim it here as well.
+        if (this.material != null || this.durability > 0) {
+            settings.durabilityConfigured = true
+        }
     }
 
     override fun settings(settings: Item.Properties) {

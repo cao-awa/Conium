@@ -22,17 +22,17 @@ class BedrockItemUseOnEventMetadata(
     val dimension: BedrockDimension,
     val world: BedrockWorld,
     val itemStack: BedrockItemStack,
-    val source: BedrockPlayer?
+    val source: BedrockPlayer
 ) : BedrockEventContext<Item, BedrockItemUseOnEventMetadata>(scriptSource) {
     var cancel: Boolean = false
 
     override fun world(): BedrockWorld = this.world
 }
 
-fun UseOnContext.bedrockEventContext(scriptSource: Any, source: Player?): BedrockItemUseOnEventMetadata = BedrockItemUseOnEventMetadata(
+fun UseOnContext.bedrockEventContext(scriptSource: Any, source: Player): BedrockItemUseOnEventMetadata = BedrockItemUseOnEventMetadata(
     scriptSource,
     this.level.bedrockDimension,
     this.level.server!!.bedrockWorld,
     this.itemInHand.bedrockItemStack,
-    source?.bedrockPlayer
+    source.bedrockPlayer
 )

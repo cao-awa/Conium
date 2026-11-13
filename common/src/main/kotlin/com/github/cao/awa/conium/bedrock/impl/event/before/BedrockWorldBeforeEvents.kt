@@ -13,10 +13,10 @@ class BedrockWorldBeforeEvents {
     }
 
     @BedrockScriptApi
-    @BedrockScriptApiFacade("WorldBeforeEvents", "itemUseOn")
+    @BedrockScriptApiFacade("WorldBeforeEvents", "#itemUseOn")
     val itemUseOn: BedrockItemUseOnBeforeEvent = BedrockItemUseOnBeforeEvent()
 
     @BedrockScriptApi
-    @BedrockScriptApiFacade("WorldBeforeEvents", "itemUse")
+    @BedrockScriptApiFacade("WorldBeforeEvents", "#itemUse")
     val itemUse: BedrockItemUseBeforeEvent = BedrockItemUseBeforeEvent()
 }

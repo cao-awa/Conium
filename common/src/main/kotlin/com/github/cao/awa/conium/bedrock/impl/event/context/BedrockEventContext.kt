@@ -19,12 +19,11 @@ abstract class BedrockEventContext<I: Any, M: ConiumEventContext<I>>(val scriptS
         }
 
         @JvmStatic
-        fun post(scriptSource: Any, body: () -> Unit) {
+        fun post(scriptSource: Any) {
             this.currentPosting = scriptSource
-            body()
         }
 
-        fun completePost() {
+        fun clearPosting() {
             this.currentPosting = null
         }
 

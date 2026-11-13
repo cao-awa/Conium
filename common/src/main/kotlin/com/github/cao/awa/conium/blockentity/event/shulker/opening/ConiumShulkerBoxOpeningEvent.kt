@@ -10,17 +10,15 @@ import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder.require
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
-import com.github.cao.awa.conium.kotlin.extent.innate.isIt
+import com.github.cao.awa.conium.extent.innate.isIt
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective5
-import net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.ShulkerBoxBlock
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.core.BlockPos
-import net.minecraft.world.level.Level
 
 /**
  *
@@ -82,6 +80,6 @@ class ConiumShulkerBoxOpeningEvent : ConiumEvent<Block, ConiumShulkerBoxOpeningE
             }
 
             true
-        }.targetTo(ShulkerBoxBlock::isIt)
+        }.targetTo(ShulkerBoxBlock::class.java)
     }
 }

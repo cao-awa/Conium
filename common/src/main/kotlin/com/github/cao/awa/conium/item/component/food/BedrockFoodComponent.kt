@@ -11,7 +11,6 @@ import net.minecraft.core.component.DataComponents
 import net.minecraft.world.food.FoodProperties
 import net.minecraft.world.item.component.UseRemainder
 import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.ItemStackTemplate
 
 class BedrockFoodComponent() : ConiumItemTemplate(name = FOOD) {
@@ -39,7 +38,7 @@ class BedrockFoodComponent() : ConiumItemTemplate(name = FOOD) {
                     it.alwaysEdible()
                 }
 
-                ConiumConsumableTemplate.createConvert(jsonObject, "using_converts_to") { remainder: ItemStack ->
+                ConiumConsumableTemplate.createConvert(jsonObject, "using_converts_to") { remainder: ItemStackTemplate ->
                     template.useRemainder = remainder
                 }
 
@@ -49,7 +48,7 @@ class BedrockFoodComponent() : ConiumItemTemplate(name = FOOD) {
     }
 
     private lateinit var foodComponent: FoodProperties
-    private var useRemainder: ItemStack = ItemStack.EMPTY
+    private var useRemainder: ItemStackTemplate? = null
 
     constructor(element: JsonElement) : this() {
         this.foodComponent = createFoodComponent(this, element.asJsonObject)
@@ -60,8 +59,8 @@ class BedrockFoodComponent() : ConiumItemTemplate(name = FOOD) {
         settings.food(this.foodComponent)
 
         // Set using convert to stack.
-        if (!this.useRemainder.isEmpty) {
-            settings.component(DataComponents.USE_REMAINDER, UseRemainder(ItemStackTemplate.fromNonEmptyStack(this.useRemainder)))
+        this.useRemainder?.let {
+            settings.component(DataComponents.USE_REMAINDER, UseRemainder(it))
         }
     }
 }

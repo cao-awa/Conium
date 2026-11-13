@@ -33,7 +33,7 @@ class Conium {
         val isClient: Boolean get() = ConiumClient.initialized
 
         @JvmField
-        var VERSION = "1.0.0-alpha15"
+        var VERSION = "1.0.0-alpha16"
 
         // TODO: Waiting for next version containing version metadata.
         @JvmField

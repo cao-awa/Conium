@@ -87,7 +87,7 @@ abstract class ConiumEvent<
     companion object {
         private val LOGGER: Logger = LogManager.getLogger("ConiumEvent")
         private val events: MutableMap<ConiumEventType<*, *, *, *>, ConiumEvent<*, *, *, *>> =  HashMap()
-        private val foreverContext: MutableMap<ConiumEventType<*, *, *, *>, MutableList<ConiumArisingEventContext<*, *>>> =  HashMap()
+        private val foreverContext: MutableMap<ConiumEventType<*, *, *, *>, MutableList<ConiumArisingEventContext<*, *>>> = HashMap()
 
         /**
          * The 'inactive' event always don’t do actions.

@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.bedrock.impl.world.dimension
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
 import com.github.cao.awa.conium.bedrock.impl.script.BedrockScriptAnonymousObjectMap
-import com.github.cao.awa.conium.kotlin.extent.innate.orGetAuto
+import com.github.cao.awa.conium.extent.innate.orGetAuto
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.level.Level
 

@@ -38,6 +38,9 @@ open class ConiumDurabilityTemplate(private val durability: Int, private val dam
 
         // Set durability damage chance.
         settings.durabilityDamageChance = this.damageChance
+
+        // Claims durability, let the final settings resolution keep the stack size at 1.
+        settings.durabilityConfigured = true
     }
 
     override fun settings(settings: Item.Properties) {

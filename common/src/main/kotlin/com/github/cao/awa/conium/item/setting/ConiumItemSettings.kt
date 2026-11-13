@@ -90,6 +90,31 @@ abstract class ConiumAbstractItemSettings<B : ConiumAbstractItemSettings<B>>(val
 
     var displayName: Component? = null
 
+    /**
+     * A mark that marked this item claimed durability.
+     *
+     * Vanilla forbids an item to have both durability and a stack size above 1, and
+     * [Item.Properties] gives no way to read back what has been declared, so the templates
+     * record the claim here and the final settings resolution enforces the invariant.
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    var durabilityConfigured: Boolean = false
+
+    /**
+     * The stack size requested by templates, -1 means no template asked for it.
+     *
+     * Recorded only to warn about the conflict with [durabilityConfigured], it does not
+     * take part in the final settings resolution.
+     *
+     * @author cao_awa
+     *
+     * @since 1.0.0
+     */
+    var requestedMaxStackSize: Int = -1
+
     override fun migrateTo(settings: B): B {
         return settings.also {
             // Apply settings(only configured, no default).
@@ -99,6 +124,14 @@ abstract class ConiumAbstractItemSettings<B : ConiumAbstractItemSettings<B>>(val
             this._durabilityDamageChance?.apply { it.durabilityDamageChance = this }
             this._forceMiningSpeed?.apply { it.forceMiningSpeed = this }
             this.displayName?.apply { it.displayName = this }
+
+            if (this.durabilityConfigured) {
+                it.durabilityConfigured = true
+            }
+
+            if (this.requestedMaxStackSize != -1) {
+                it.requestedMaxStackSize = this.requestedMaxStackSize
+            }
         }
     }
 }

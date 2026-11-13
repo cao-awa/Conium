@@ -6,7 +6,9 @@ import java.nio.charset.StandardCharsets
 
 object IOUtil {
     fun readString(resource: InputStream): String {
-        return String(resource.readBytes(), StandardCharsets.UTF_8)
+        val result = String(resource.readBytes(), StandardCharsets.UTF_8)
+        resource.close()
+        return result
     }
 
     fun readString(file: File): String {
@@ -18,6 +20,6 @@ object IOUtil {
     }
 
     fun write(file: File, content: String) {
-        file.writer().write(content)
+        file.writer().also { it.write(content) }.close()
     }
 }

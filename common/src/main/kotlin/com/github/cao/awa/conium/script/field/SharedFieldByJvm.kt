@@ -16,7 +16,7 @@ class SharedFieldByJvm<T>(val type: KClass<*>, val name: String, val value: Para
         builder.append("\"${exportName}\"")
         builder.append(",")
         builder.append("\"${this.name}\"")
-        builder.append("))\n")
+        builder.append(")!!)\n")
 
         return builder.toString()
     }

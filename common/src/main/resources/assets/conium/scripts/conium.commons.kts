@@ -1,5 +1,5 @@
-import com.github.cao.awa.conium.script.index.common.*
-import com.github.cao.awa.conium.mapping.yarn.*
-import com.github.cao.awa.conium.mapping.yarn.reference.*
+import com.github.cao.awa.conium.script.field.ScriptExport
+import com.github.cao.awa.conium.script.field.ScriptExport.Companion.accessExportedField
+import com.github.kusa233.translator.structuring.cast.Caster
 
 ScriptExport("ConiumCommons")

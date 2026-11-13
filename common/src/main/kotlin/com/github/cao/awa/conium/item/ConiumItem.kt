@@ -6,13 +6,9 @@ import com.github.cao.awa.conium.item.component.destory.BedrockCanDestroyInCreat
 import com.github.cao.awa.conium.item.template.destory.ConiumCanDestroyInCreativeTemplate
 import com.github.cao.awa.conium.item.template.tool.ConiumItemToolTemplate
 import com.github.cao.awa.conium.item.template.tool.mining.ConiumForceMiningSpeedTemplate
-import com.github.cao.awa.conium.kotlin.extent.component.acquire
-import com.github.cao.awa.conium.kotlin.extent.item.components
 import com.github.cao.awa.conium.random.ConiumRandom
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.core.component.DataComponents
-import net.minecraft.world.item.component.Tool
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -42,7 +38,9 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
                 it.prepare(settings)
             }
 
-            forceOverrideSettings(settings.vanillaSettings)
+            // Must run after all templates, the templates are visited in a nondeterministic
+            // order so the invariant can only be enforced once every template had its say.
+            forceOverrideSettings(settings)
 
             return ConiumItem(settings).apply {
                 builder.forEachTemplate { it.attach(this) }
@@ -51,9 +49,29 @@ class ConiumItem(private val settings: ConiumItemSettings) : Item(settings.vanil
             }
         }
 
-        private fun forceOverrideSettings(settings: Item.Properties) {
-            settings.components.acquire(DataComponents.MAX_DAMAGE, settings::durability) {
-                LOGGER.warn("Found template 'max_damage' in item, force overriding max stack to 1")
+        /**
+         * Enforce the components that vanilla refuses to see together.
+         *
+         * [Item.Properties] has no way to read back a declared component, so the templates
+         * report their intents to [ConiumItemSettings] instead and the resolution happens here,
+         * where it is no longer dependent on the template visiting order.
+         *
+         * @author cao_awa
+         *
+         * @see Item.Properties.durability
+         * @see Item.Properties.stacksTo
+         *
+         * @since 1.0.0
+         */
+        private fun forceOverrideSettings(settings: ConiumItemSettings) {
+            // Vanilla rejects an item that has both durability and a stack size above 1.
+            if (settings.durabilityConfigured && settings.requestedMaxStackSize > 1) {
+                LOGGER.warn(
+                    "Item declares durability but also requests max stack size '{}', force overriding max stack to 1",
+                    settings.requestedMaxStackSize
+                )
+
+                settings.vanillaSettings.stacksTo(1)
             }
         }
 

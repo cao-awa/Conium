@@ -4,6 +4,7 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.exception.Exceptions.illegalArgument
 import com.github.cao.awa.conium.item.ConiumItem
 import com.github.cao.awa.conium.item.template.ConiumItemTemplate
+import com.github.cao.awa.conium.kotlin.extent.json.ifBoolean
 import com.github.cao.awa.conium.kotlin.extent.json.ifInt
 import com.github.cao.awa.conium.kotlin.extent.json.ifJsonObject
 import com.github.cao.awa.conium.template.item.conium.ConiumItemTemplates
@@ -17,8 +18,12 @@ class ConiumIgniteEntityTemplate(private val duration: Int) : ConiumItemTemplate
                 { _ ->
                     ConiumIgniteEntityTemplate(100)
                 }
-            ) {
-                illegalArgument("Ignite entity must define an integer duration or using default value, unable to process: $it")
+            ) { it ->
+                it.ifBoolean({ _ ->
+                    ConiumIgniteEntityTemplate(100)
+                }) {
+                    illegalArgument("Ignite entity must define an integer duration or using default value, unable to process: $it")
+                }
             }
         }!!
     }

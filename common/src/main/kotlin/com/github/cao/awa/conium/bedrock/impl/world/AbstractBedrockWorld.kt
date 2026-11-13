@@ -9,11 +9,11 @@ import com.github.cao.awa.conium.bedrock.impl.event.after.BedrockWorldAfterEvent
 @BedrockScriptApiFacade("World")
 abstract class AbstractBedrockWorld {
     @ScriptReadonly
-    @BedrockScriptApiFacade("World", "beforeEvents")
+    @BedrockScriptApiFacade("World", "#beforeEvents")
     val beforeEvents: BedrockWorldBeforeEvents get() = eventsBefore()
 
     @ScriptReadonly
-    @BedrockScriptApiFacade("World", "afterEvents")
+    @BedrockScriptApiFacade("World", "#afterEvents")
     val afterEvents: BedrockWorldAfterEvents get() = eventsAfter()
 
     abstract fun getPlayers(): BedrockPlayerDelegate

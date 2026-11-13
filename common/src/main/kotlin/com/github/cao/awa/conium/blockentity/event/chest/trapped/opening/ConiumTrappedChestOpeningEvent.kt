@@ -9,7 +9,7 @@ import com.github.cao.awa.conium.event.context.ConiumEventContextBuilder
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
 import com.github.cao.awa.conium.event.type.ConiumEventType
-import com.github.cao.awa.conium.kotlin.extent.innate.isIt
+import com.github.cao.awa.conium.extent.innate.isIt
 import com.github.cao.awa.conium.parameter.ParameterSelective
 import com.github.cao.awa.conium.parameter.ParameterSelective6
 import net.minecraft.world.level.block.state.BlockBehaviour
@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.entity.TrappedChestBlockEntity
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter
 import net.minecraft.world.entity.player.Player
 import net.minecraft.core.BlockPos
-import net.minecraft.world.level.Level
 
 /**
  *
@@ -93,6 +92,6 @@ class ConiumTrappedChestOpeningEvent : ConiumEvent<Block, ConiumTrappedChestOpen
             }
 
             false
-        }.targetTo(TrappedChestBlock::isIt)
+        }.targetTo(TrappedChestBlock::class.java)
     }
 }

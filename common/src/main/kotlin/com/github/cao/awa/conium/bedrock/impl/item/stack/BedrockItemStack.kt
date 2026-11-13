@@ -2,15 +2,19 @@ package com.github.cao.awa.conium.bedrock.impl.item.stack
 
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApi
 import com.github.cao.awa.conium.annotation.bedrock.BedrockScriptApiFacade
+import com.github.cao.awa.conium.annotation.script.javascript.ScriptReadonly
+import com.github.cao.awa.conium.mapping.yarn.reference.identifier
 import net.minecraft.world.item.ItemStack
 import net.minecraft.core.registries.BuiltInRegistries
 
 @BedrockScriptApi
 @BedrockScriptApiFacade("ItemStack")
 class BedrockItemStack(private val delegate: ItemStack) {
+    @ScriptReadonly
+    @BedrockScriptApiFacade("ItemStack", "#typeId")
     val typeId: String get() = typeId()
 
-    private fun typeId(): String = BuiltInRegistries.ITEM.getId(this.delegate.item).toString()
+    private fun typeId(): String = this.delegate.item.identifier.toString()
 }
 
 val ItemStack.bedrockItemStack: BedrockItemStack

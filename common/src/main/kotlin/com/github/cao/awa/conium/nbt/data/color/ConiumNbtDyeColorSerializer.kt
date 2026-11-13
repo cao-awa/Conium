@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.nbt.data.color
 
-import com.github.cao.awa.conium.kotlin.extent.innate.byte
-import com.github.cao.awa.conium.kotlin.extent.innate.int
+import com.github.cao.awa.conium.extent.innate.byte
+import com.github.cao.awa.conium.extent.innate.int
 import com.github.cao.awa.conium.kotlin.extent.json.ifInt
 import com.github.cao.awa.conium.kotlin.extent.json.ifString
 import com.github.cao.awa.conium.nbt.data.ConiumNbtDataSerializer

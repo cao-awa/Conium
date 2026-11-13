@@ -5,15 +5,15 @@ import com.github.cao.awa.conium.script.kts.clearDuplicateImports
 import com.github.cao.awa.conium.script.kts.filterImports
 import kotlin.collections.iterator
 
-class ScriptImport(
+class ScriptExport(
     val name: String,
     private val sharedFields: (fieldHandler: SharedFieldHandler) -> Unit = { },
     private val imports: Set<String> = HashSet()
 ) {
     companion object {
-        var exported: Map<String, ScriptImport>? = null
+        var exported: Map<String, ScriptExport>? = null
 
-        fun import(exported: Map<String, ScriptImport>, code: String, vararg defaultImports: String): String {
+        fun import(exported: Map<String, ScriptExport>, code: String, vararg defaultImports: String): String {
             this.exported = exported
 
             val builder: StringBuilder = StringBuilder()
@@ -55,12 +55,12 @@ class ScriptImport(
         }
 
         @JvmStatic
-        fun <T> accessExportedField(instance: Any, name: String, fieldName: String): T? {
+        fun <T> accessExportedField(instance: Any?, name: String, fieldName: String): T? {
             val result: SharedField? = this.exported?.get(name)?.fields?.get(fieldName)
 
             result ?: return null
 
-            if (result is SharedFieldByJvm<*>) {
+            if (instance != null && result is SharedFieldByJvm<*>) {
                 return result.value.arise(instance)!!.cast()
             }
 
@@ -70,7 +70,7 @@ class ScriptImport(
 
     var fields: Map<String, SharedField> = HashMap()
 
-    fun ofCode(code: String): ScriptImport = ScriptImport(
+    fun ofCode(code: String): ScriptExport = ScriptExport(
         this.name,
         this.sharedFields,
         filterImports(code)

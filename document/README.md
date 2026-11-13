@@ -1,23 +1,25 @@
 # Conium Documentation Index
 
-Welcome to the **Conium** documentation. Conium is a datapack and script framework for modern Minecraft, enabling modding via datapacks and scripts without Java coding. It includes a common library, Fabric and NeoForge mod modules, Molang grammar parser, data-driven features, and Kotlin/Bedrock scripting APIs.
+Welcome to the **Conium** documentation. Conium is a datapack and script framework for modern Minecraft, enabling
+modding via datapacks and scripts without Java coding. It includes a common library, Fabric and NeoForge mod modules,
+Molang grammar parser, data-driven features, and Kotlin/Bedrock scripting APIs.
 
 This index provides quick access to all guides, references, and tutorials in the `docs/` folder.
 
 ## Quick Links
 
-| Document | Description | When to Read |
-|----------|-------------|--------------|
-| [Getting Started](./getting-started.md) | Initial setup, prerequisites, and first datapack creation. | Always first for new users. |
-| [Installation](./installation.md) | Detailed install instructions for common library, mod modules, and tools. | Before building your first project. |
-| [Common Library](./common-library.md) | Core APIs, utilities, and shared functionality across platforms. | When integrating base features. |
-| [Fabric Mod Module](./fabric-mod.md) | Fabric-specific integration, events, and datapack loading. | Fabric mod developers. |
-| [NeoForge Mod Module](./neoforge-mod.md) | NeoForge-specific integration, events, and datapack loading. | NeoForge mod developers. |
-| [Molang Grammar Parser](./molang-parser.md) | Parsing, validation, and usage of Molang expressions. | Working with animations or expressions. |
-| [Data-Driven Features](./data-driven-features.md) | Custom behaviors, predicates, advancements, and loot tables. | Building complex datapacks. |
-| [Kotlin/Bedrock Scripting APIs](./kotlin-bedrock-apis.md) | Scripting runtime, APIs, and Bedrock-like Kotlin integration. | Script-heavy modding. |
-| [API Reference](./api-reference.md) | Full Javadoc-style reference for all public APIs. | During implementation for details. |
-| [Troubleshooting](./troubleshooting.md) | Common issues, errors, and debugging tips. | When things go wrong. |
+| Document                                                  | Description                                                               | When to Read                            |
+|-----------------------------------------------------------|---------------------------------------------------------------------------|-----------------------------------------|
+| [Getting Started](./getting-started.md)                   | Initial setup, prerequisites, and first datapack creation.                | Always first for new users.             |
+| [Installation](./installation.md)                         | Detailed install instructions for common library, mod modules, and tools. | Before building your first project.     |
+| [Common Library](./common-library.md)                     | Core APIs, utilities, and shared functionality across platforms.          | When integrating base features.         |
+| [Fabric Mod Module](./fabric-mod.md)                      | Fabric-specific integration, events, and datapack loading.                | Fabric mod developers.                  |
+| [NeoForge Mod Module](./neoforge-mod.md)                  | NeoForge-specific integration, events, and datapack loading.              | NeoForge mod developers.                |
+| [Molang Grammar Parser](./molang-parser.md)               | Parsing, validation, and usage of Molang expressions.                     | Working with animations or expressions. |
+| [Data-Driven Features](./data-driven-features.md)         | Custom behaviors, predicates, advancements, and loot tables.              | Building complex datapacks.             |
+| [Kotlin/Bedrock Scripting APIs](./kotlin-bedrock-apis.md) | Scripting runtime, APIs, and Bedrock-like Kotlin integration.             | Script-heavy modding.                   |
+| [API Reference](./api-reference.md)                       | Full Javadoc-style reference for all public APIs.                         | During implementation for details.      |
+| [Troubleshooting](./troubleshooting.md)                   | Common issues, errors, and debugging tips.                                | When things go wrong.                   |
 
 ## Reading Order
 

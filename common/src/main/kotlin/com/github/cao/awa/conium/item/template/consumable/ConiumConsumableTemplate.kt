@@ -56,18 +56,30 @@ class ConiumConsumableTemplate(presetConsumableComponent: Consumable?) : ConiumI
             )
         }!!
 
+        /**
+         * Parse the convert result as a [ItemStackTemplate] instead of a [ItemStack].
+         *
+         * A template only records the item holder, the count and the component patch, it never touches
+         * [net.minecraft.core.Holder.components]. That matters because this parsing happens while data packs
+         * are being loaded, and vanilla item components are only bound later in that same reload, so building
+         * an [ItemStack] here would fail with "Components not bound yet".
+         * The stack gets materialized by [ItemStackTemplate.create] on the first actual use.
+         */
         @JvmStatic
-        fun createConvert(jsonObject: JsonObject, customKey: String, callback: (ItemStack) -> Unit) {
+        fun createConvert(jsonObject: JsonObject, customKey: String, callback: (ItemStackTemplate) -> Unit) {
             jsonObject[customKey]?.let { convert ->
                 // If got a JSON object, mean this convertible is a custom data item.
                 if (convert.isJsonObject) {
-                    ItemStack.CODEC.parse(JsonOps.INSTANCE, convert.asJsonObject).orThrow
+                    ItemStackTemplate.CODEC.parse(JsonOps.INSTANCE, convert.asJsonObject).orThrow
                 } else {
                     // Or else got a string mean this convertible is a item that refer to registered item as default data.
                     convert.ifString(
                         { identifier ->
-                            ItemStack(
-                                BuiltInRegistries.ITEM.getValue(Identifier.parse(identifier)), 1)
+                            val item: Item? = BuiltInRegistries.ITEM.getValue(Identifier.parse(identifier))
+                            ItemStackTemplate(
+                                item ?: illegalArgument("No item that named by '$identifier' can be used as convert result"),
+                                1
+                            )
                         },
                         // Cannot be other type of value because is no meaning.
                         notSupported()
@@ -104,7 +116,7 @@ class ConiumConsumableTemplate(presetConsumableComponent: Consumable?) : ConiumI
     }
 
     private lateinit var consumableComponent: Consumable
-    private var useRemainder: ItemStack = ItemStack.EMPTY
+    private var useRemainder: ItemStackTemplate? = null
 
     init {
         presetConsumableComponent?.let {
@@ -119,8 +131,8 @@ class ConiumConsumableTemplate(presetConsumableComponent: Consumable?) : ConiumI
     override fun settings(settings: Item.Properties) {
         settings.component(DataComponents.CONSUMABLE, this.consumableComponent)
 
-        if (!this.useRemainder.isEmpty) {
-            settings.component(DataComponents.USE_REMAINDER, UseRemainder(ItemStackTemplate.fromNonEmptyStack(this.useRemainder)))
+        this.useRemainder?.let {
+            settings.component(DataComponents.USE_REMAINDER, UseRemainder(it))
         }
     }
 }

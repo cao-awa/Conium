@@ -35,7 +35,6 @@
     "glint": true,
     "ignite": true,
     "rarity": "epic",
-    "spawn_egg": "minecraft:creeper",
     "max_count": 64,
     "use_action": "eat"
   }

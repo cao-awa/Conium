@@ -14,7 +14,7 @@ class SharedFieldHandler {
         this.fields[name] = SharedFieldByStatement(statement)
     }
 
-    operator fun invoke(export: ScriptImport) {
+    operator fun invoke(export: ScriptExport) {
         export.fields = this.fields
     }
 }

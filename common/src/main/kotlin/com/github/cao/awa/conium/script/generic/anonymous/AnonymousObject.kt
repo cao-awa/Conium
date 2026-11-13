@@ -6,7 +6,7 @@ open class AnonymousObject(size: Int) : Iterable<MutableMap.MutableEntry<String,
     private val delegate: MutableMap<String, Any?> = HashMap(size)
 
     open fun set(key: String, element: Any?): AnonymousObject {
-        this.delegate.put(key, element)
+        this.delegate[key] = element
         return this
     }
 

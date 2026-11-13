@@ -1,7 +1,5 @@
 import com.github.cao.awa.conium.bedrock.index.*
-import com.github.cao.awa.conium.script.index.common.*
-import com.github.cao.awa.conium.mapping.yarn.*
-import com.github.cao.awa.conium.mapping.yarn.reference.*
+import com.github.cao.awa.conium.script.field.ScriptExport
 
 ScriptExport(
     "ConiumBedrockCommons",

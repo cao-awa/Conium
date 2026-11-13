@@ -12,7 +12,7 @@ import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventType
 import com.github.cao.awa.conium.parameter.ParameterSelective1
 
-abstract class BedrockEvent<I: Any, E : BedrockEventContext<I, *>, M: ConiumEventMetadata<I, M>>(private val targetEvent: ConiumEventType<I, out ConiumEventMetadata<I, M>, *, *>) {
+abstract class BedrockEvent<I : Any, E : BedrockEventContext<I, *>, M : ConiumEventMetadata<I, M>>(private val targetEvent: ConiumEventType<I, out ConiumEventMetadata<I, M>, *, *>) {
     private val subscribers: MutableList<ConiumArisingEventContext<*, *>> = ArrayList()
 
     /**
@@ -25,7 +25,8 @@ abstract class BedrockEvent<I: Any, E : BedrockEventContext<I, *>, M: ConiumEven
      */
     init {
         // Use unnamed context attaching.
-        val context: ConiumArisingEventContext<*, ParameterSelective1<Boolean, Any>> = ConiumEventContextBuilder.unnamed()
+        val context: ConiumArisingEventContext<*, ParameterSelective1<Boolean, Any>> =
+            ConiumEventContextBuilder.unnamed()
 
         // Attach bedrock event instance to conium event.
         ConiumEvent.forever(

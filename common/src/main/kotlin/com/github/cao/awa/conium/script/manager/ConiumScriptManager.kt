@@ -1,12 +1,13 @@
 package com.github.cao.awa.conium.script.manager
 
 import com.github.cao.awa.conium.Conium
+import com.github.cao.awa.conium.bedrock.impl.event.context.BedrockEventContext
 import com.github.cao.awa.conium.config.ConiumConfig
 import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.resource.ResourceLoader
-import com.github.cao.awa.conium.script.field.ScriptImport
+import com.github.cao.awa.conium.script.field.ScriptExport
 import com.github.cao.awa.conium.script.eval.ScriptEval
 import com.github.cao.awa.conium.script.interaction.NamedInteractionScript
 import com.github.cao.awa.conium.script.kts.ConiumScript
@@ -20,12 +21,6 @@ import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener
 import net.minecraft.resources.Identifier
 import net.minecraft.util.profiling.ProfilerFiller
-import org.antlr.v4.runtime.BaseErrorListener
-import org.antlr.v4.runtime.CharStreams
-import org.antlr.v4.runtime.CommonTokenStream
-import org.antlr.v4.runtime.RecognitionException
-import org.antlr.v4.runtime.Recognizer
-import org.antlr.v4.runtime.TokenStream
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.io.File
@@ -92,13 +87,13 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
         }
 
     /**
-     * The 'exportedScript' is shared script context when the script return a '[ScriptImport]'
+     * The 'exportedScript' is shared script context when the script return a '[ScriptExport]'
      *
      * Other scripts can use comment to import these contexts where they are marked as:
      *
      * '// IMPORT: ExportName' or '// IMPORT: ExportName, OtherExportName'
      */
-    private val exportedScript: MutableMap<String, ScriptImport> = HashMap()
+    private val exportedScript: MutableMap<String, ScriptExport> = HashMap()
 
     /**
      * The 'exportedInteraction' is conditions or actions that referenced in data-driven.
@@ -203,19 +198,20 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
         // Add the script for next step ordered loading.
         LinkedList<ScriptEval>().let { scripts ->
             // Load commons.
-            scripts.add(ScriptEval(defaultCommons, "ConiumCommons"))
+            scripts.add(ScriptEval(defaultCommons, "ConiumCommons", false))
 
             if (Conium.isClient) {
-                scripts.add(ScriptEval(defaultClientCommons, "ConiumClientCommons"))
+                scripts.add(ScriptEval(defaultClientCommons, "ConiumClientCommons", false))
             }
 
             // Bedrock common is only load when conium allows bedrock.
             if (ConiumConfig.enableBedrockScript) {
-                scripts.add(ScriptEval(defaultBedrockCommons, "ConiumBedrockCommons", "ConiumCommons"))
+                scripts.add(ScriptEval(defaultBedrockCommons, "ConiumBedrockCommons", false, "ConiumCommons"))
                 scripts.add(
                     ScriptEval(
                         defaultBedrockScriptInit,
                         "ConiumBedrockScriptInit",
+                        false,
                         "ConiumCommons",
                         "ConiumBedrockCommons"
                     )
@@ -229,7 +225,7 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
                 identifier.path.also { path: String ->
                     if (path.endsWith(".kts")) {
                         // Load script data after.
-                        scripts.add(ScriptEval(content, path, "ConiumCommons"))
+                        scripts.add(ScriptEval(content, path, false, "ConiumCommons"))
                     } else if (!ConiumConfig.enableBedrockScript) {
                         // If not TypeScript or JavaScript file, then not bedrock script, do not notice bedrock script support status.
                         if (path.endsWith(".ts") || path.endsWith(".js")) {
@@ -241,7 +237,7 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
                         runCatching {
                             translateBedrockTypescript(content).also { translated: String ->
                                 // Debug write.
-                                if (ConiumConfig.Companion.debugs) {
+                                if (ConiumConfig.debugs) {
                                     IOUtil.write(
                                         File("debug/conium-debug/translated/${identifier.namespace}/${identifier.path}.kts").also {
                                             it.parentFile.mkdirs()
@@ -255,6 +251,7 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
                                     ScriptEval(
                                         translated,
                                         path,
+                                        true,
                                         "ConiumCommons",
                                         "ConiumBedrockCommons"
                                     )
@@ -344,7 +341,7 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
         resultCallback: () -> Unit = { }
     ): ResultWithDiagnostics<EvaluationResult> {
         // Import scripts to this script.
-        val content: String = ScriptImport.import(this.exportedScript, scriptEval.codes, *scriptEval.defaultImports)
+        val content: String = ScriptExport.import(this.exportedScript, scriptEval.codes, *scriptEval.defaultImports)
 
         LOGGER.info(
             "Compiling script '{}'",
@@ -352,15 +349,19 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
         )
 
         Conium.debug(
-            "Compiling script '{}': {}",
+            "Compiling script '{}': \n{}",
             scriptEval::source,
             { content },
             LOGGER::info
         )
 
+        val scriptSource = StringScriptSource(content)
+        if (scriptEval.isBedrock) {
+            BedrockEventContext.currentPosting = scriptEval
+        }
         // The 'eval' in host will compile and evaluate the script.
         val result: ResultWithDiagnostics<EvaluationResult> = scriptingHost.eval(
-            StringScriptSource(content),
+            scriptSource,
             // Create compilation configuration that dependencies whole java classpath.
             // Dependencies whole classpath is necessary, otherwise the kotlin script may not be executing anything,
             // like unable to load class 'java.lang.Object' or ETC.
@@ -368,6 +369,9 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
             // No evaluation configuration, script contexts have maintained by conium.
             null
         )
+        if (scriptEval.isBedrock) {
+            BedrockEventContext.clearPosting()
+        }
 
         // Processes export and calls callback to load the next script.
         when (result) {
@@ -381,7 +385,7 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
                             ?.let(ResultValue.Value::value)
                             ?.let { value ->
                                 // When the value type is 'ScriptExport', then export it to conium contexts.
-                                (value as? ScriptImport)?.let {
+                                (value as? ScriptExport)?.let {
                                     // The 'ofCode' only allow types import can be import to scripts.
                                     this.exportedScript[it.name] = it.ofCode(content)
                                 }
