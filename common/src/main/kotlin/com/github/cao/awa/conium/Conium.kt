@@ -12,20 +12,13 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.dsl.DSLSample
 import com.github.cao.awa.conium.function.consumer.string.obj.*
 import com.github.cao.awa.conium.hitokoto.ConiumHitokoto
-import com.github.cao.awa.conium.molang.MolangSupport
-import com.github.cao.awa.conium.molang.translator.MolangKotlinScriptTranslator
 import com.github.cao.awa.conium.resource.ResourceLoader
 import com.github.cao.awa.conium.script.manager.ConiumScriptManager
-import com.github.cao.awa.conium.script.translate.ConiumScriptTranslator
 import com.github.cao.awa.conium.server.datapack.ConiumContentDatapack
 import com.github.cao.awa.conium.server.datapack.ConiumServerLoadDatapacks
 import com.github.cao.awa.conium.template.ConiumTemplate
 import com.github.cao.awa.conium.template.ConiumTemplates
-import com.github.cao.awa.translator.structuring.builtin.typescript.translator.kts.TypescriptKotlinScriptTranslator
-import com.github.cao.awa.translator.structuring.io.IOUtil
-import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
-import com.github.cao.awa.translator.structuring.translate.element.TranslateElementData
-import com.github.cao.awa.translator.structuring.translate.language.LanguageTranslateTarget
+import com.github.cao.awa.conium.util.IOUtil
 import net.minecraft.resources.Identifier
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -42,8 +35,9 @@ class Conium {
         @JvmField
         var VERSION = "1.0.0-alpha15"
 
+        // TODO: Waiting for next version containing version metadata.
         @JvmField
-        var STRUCTURING_TRANSLATOR_VERSION: String = StructuringTranslator.getVersion()
+        var STRUCTURING_TRANSLATOR_VERSION: String = "2.0.1-build"
 
         @JvmField
         var itemInjectManager: ConiumItemPropertyInjectManager? = null
@@ -178,7 +172,7 @@ class Conium {
          */
         @JvmStatic
         private fun printBanner() {
-            for (line: String in IOUtil.read(ResourceLoader.get("assets/conium/banner.txt")).lines()) {
+            for (line: String in IOUtil.readLines(ResourceLoader.get("assets/conium/banner.txt"))) {
                 LOGGER.info(line)
             }
             LOGGER.info("# {}", ConiumHitokoto.roll())
@@ -258,58 +252,8 @@ class Conium {
             }
         }
 
-        // Initialize script translator for generic typescript translates.
-        LOGGER.info("Loading structuring translator '{}' provider '{}' for [typescript]", STRUCTURING_TRANSLATOR_VERSION, StructuringTranslator.DEFAULT_PROVIDER)
-        TypescriptKotlinScriptTranslator.postRegister()
-        // Debug only.
-        run {
-            StructuringTranslator.getTranslators(StructuringTranslator.DEFAULT_PROVIDER).let { translators ->
-                LOGGER.info(
-                    "The structuring translator provider '{}' has loaded {} translators",
-                    StructuringTranslator.DEFAULT_PROVIDER,
-                    translators.size
-                )
-                debug(
-                    "The structuring translator provider '{}' has loaded {} translators: {}",
-                    { StructuringTranslator.DEFAULT_PROVIDER },
-                    { translators.size },
-                    { collectTranslators(translators) },
-                    LOGGER::info
-                )
-            }
-        }
-
-        // Initialize script translator for conium bedrock's TypeScript translates.
-        LOGGER.info("Loading conium '{}' structuring translator providers for [typescript, molang]", VERSION)
-        ConiumScriptTranslator.postRegister()
-        MolangKotlinScriptTranslator.postRegister()
-        // Debug only.
-        run {
-            StructuringTranslator.getTranslators("conium").let { translators ->
-                LOGGER.info(
-                    "Loaded {} translators by conium structuring translator providers({})",
-                    translators.size,
-                    VERSION
-                )
-                debug(
-                    "Loaded {} translators by conium structuring translator providers({}): {}",
-                    translators::size,
-                    { VERSION },
-                    { collectTranslators(translators) },
-                    LOGGER::info
-                )
-            }
-        }
-
         if (ConiumConfig.debugs) {
-            MolangSupport.test()
             DSLSample.doDslTest()
         }
-    }
-
-    private fun collectTranslators(translators: MutableMap<LanguageTranslateTarget, MutableMap<TranslateElementData<*>, StructuringTranslator<*>>>): MutableMap<LanguageTranslateTarget, MutableList<Any>> {
-        val result = HashMap<LanguageTranslateTarget, MutableList<Any>>()
-        translators.forEach { (target: LanguageTranslateTarget, targetTranslators: MutableMap<TranslateElementData<*>, StructuringTranslator<*>>) -> result.put(target, mutableListOf(targetTranslators.keys.stream().map { obj: TranslateElementData<*> -> obj.clazz() }.toList())) }
-        return result
     }
 }

@@ -50,7 +50,7 @@ class RegistrableNbt(
      *
      * @since 1.0.0
      */
-    operator fun <X> get(key: String): X = this.values[key].cast()
+    operator fun <X> get(key: String): X = this.values[key]!!.cast()
 
     /**
      * To set the data value using key name, should ensure it already registered and won't be input a null value.
@@ -101,7 +101,7 @@ class RegistrableNbt(
         // Using registry to serialize data, only registered data can write, doesn't write others data anymore.
         for ((name: String, serializer: ConiumNbtDataSerializer<*>) in this.registries) {
             // Write data to NBT compound.
-            serializer.write(writeView, name, this.values[name].cast())
+            serializer.write(writeView, name, this.values[name]!!.cast())
         }
     }
 

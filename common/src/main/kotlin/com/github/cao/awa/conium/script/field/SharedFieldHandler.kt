@@ -1,7 +1,6 @@
 package com.github.cao.awa.conium.script.field
 
 import com.github.cao.awa.conium.parameter.ParameterSelective1
-import com.github.cao.awa.conium.script.ScriptExport
 import kotlin.reflect.KClass
 
 class SharedFieldHandler {
@@ -15,7 +14,7 @@ class SharedFieldHandler {
         this.fields[name] = SharedFieldByStatement(statement)
     }
 
-    operator fun invoke(export: ScriptExport) {
+    operator fun invoke(export: ScriptImport) {
         export.fields = this.fields
     }
 }

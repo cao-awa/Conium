@@ -11,7 +11,7 @@ data class ConiumEventTrigger<I: Any, M: ConiumEventMetadata<I, M>>(
     val alwaysCallback: Boolean = false
 ) {
     fun identity(context: ConiumArisingEventContext<I, out ParameterSelective>): Boolean {
-        return this.targetIdentity(context.identity.cast())
+        return this.targetIdentity(context.identity!!.cast())
     }
 
     fun callback(metadata: M) {

@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.extent.caster.cast
 import com.github.cao.awa.conium.network.ConiumPacket
 import com.github.cao.awa.conium.network.packet.client.configuration.ConiumClientConfigurationPacket
 import com.github.cao.awa.conium.network.packet.client.play.ConiumClientPlayPacket
-import com.github.cao.awa.translator.structuring.cast.Caster
+import com.github.kusa233.translator.structuring.cast.Caster
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload.Type

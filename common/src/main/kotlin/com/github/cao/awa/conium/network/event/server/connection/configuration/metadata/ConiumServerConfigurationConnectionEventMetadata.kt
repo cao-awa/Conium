@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.network.event.server.connection.configuration.
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
-import com.github.cao.awa.conium.script.index.common.SERVER
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.SERVER
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerConfigurationPacketListenerImpl
 

@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.johnrengelman.shadow'
+    id 'com.gradleup.shadow'
 }
 
 architectury {
@@ -68,7 +68,7 @@ dependencies {
 
     implementation 'com.github.cao-awa:catheter:1.0.46'
 
-    shadowBundle "com.github.cao.awa:structuring-translator:${project.structuring_translator_version}"
+    shadowBundle "com.github.cao-awa:structuring-translator:${project.structuring_translator_version}"
 
     // Fabric Kotlin
     implementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"

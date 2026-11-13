@@ -1,22 +1,19 @@
-package com.github.cao.awa.conium.script
+package com.github.cao.awa.conium.script.field
 
 import com.github.cao.awa.conium.extent.caster.cast
-import com.github.cao.awa.conium.parameter.ParameterSelective1
-import com.github.cao.awa.conium.script.field.SharedField
-import com.github.cao.awa.conium.script.field.SharedFieldByJvm
-import com.github.cao.awa.conium.script.field.SharedFieldHandler
 import com.github.cao.awa.conium.script.kts.clearDuplicateImports
 import com.github.cao.awa.conium.script.kts.filterImports
+import kotlin.collections.iterator
 
-class ScriptExport(
+class ScriptImport(
     val name: String,
     private val sharedFields: (fieldHandler: SharedFieldHandler) -> Unit = { },
     private val imports: Set<String> = HashSet()
 ) {
     companion object {
-        var exported: Map<String, ScriptExport>? = null
+        var exported: Map<String, ScriptImport>? = null
 
-        fun import(exported: Map<String, ScriptExport>, code: String, vararg defaultImports: String): String {
+        fun import(exported: Map<String, ScriptImport>, code: String, vararg defaultImports: String): String {
             this.exported = exported
 
             val builder: StringBuilder = StringBuilder()
@@ -26,9 +23,11 @@ class ScriptExport(
             importing.addAll(defaultImports)
 
             code.lines().find {
-                it.startsWith("//") && it.contains("IMPORT") && it.contains(":")
+                it.startsWith("//") && it.contains("import") && it.contains("{") && it.contains("}")
             }?.also {
-                importing.addAll(it.substring(it.indexOf(":") + 1).split(",").toSet().map(String::trim))
+                it.substring(it.indexOf("{") + 1, it.indexOf("}")).split(",").forEach {
+                    importing.add(it)
+                }
             }
 
             for (sourceName: String in importing) {
@@ -62,7 +61,7 @@ class ScriptExport(
             result ?: return null
 
             if (result is SharedFieldByJvm<*>) {
-                return result.value.arise(instance).cast()
+                return result.value.arise(instance)!!.cast()
             }
 
             return null
@@ -71,7 +70,7 @@ class ScriptExport(
 
     var fields: Map<String, SharedField> = HashMap()
 
-    fun ofCode(code: String): ScriptExport = ScriptExport(
+    fun ofCode(code: String): ScriptImport = ScriptImport(
         this.name,
         this.sharedFields,
         filterImports(code)

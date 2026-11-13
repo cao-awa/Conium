@@ -299,7 +299,7 @@ abstract class ConiumEvent<
         fun <I: Any,  C : ConiumEventContext<I>, M: ConiumEventMetadata<I, M>> findEvent(
             type: ConiumEventType<I, M, *, *>
         ): ConiumEvent<I, M, *, *> {
-            return this.events[type].cast()
+            return this.events[type]!!.cast()
         }
 
         @JvmStatic

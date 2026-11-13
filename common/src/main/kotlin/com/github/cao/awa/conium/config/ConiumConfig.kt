@@ -2,7 +2,7 @@ package com.github.cao.awa.conium.config
 
 import com.github.cao.awa.conium.kotlin.extent.json.ifBoolean
 import com.github.cao.awa.conium.resource.ResourceLoader
-import com.github.cao.awa.translator.structuring.io.IOUtil
+import com.github.cao.awa.conium.util.IOUtil
 import com.google.gson.JsonObject
 import net.minecraft.util.GsonHelper
 import org.apache.logging.log4j.LogManager
@@ -36,7 +36,7 @@ class ConiumConfig {
         }
 
         fun readConfig() {
-            GsonHelper.parse(IOUtil.read(this.CONFIG_FILE.reader())).let { config: JsonObject ->
+            GsonHelper.parse(IOUtil.readString(this.CONFIG_FILE)).let { config: JsonObject ->
                 config["enable_debug"].ifBoolean {
                     this.debugs = it
                 }
@@ -55,8 +55,8 @@ class ConiumConfig {
             this.CONFIG_FILE.parentFile.mkdirs()
 
             IOUtil.write(
-                this.CONFIG_FILE.writer(),
-                IOUtil.read(ResourceLoader.get("assets/conium/config/default.conium.config.json"))
+                this.CONFIG_FILE,
+                IOUtil.readString(ResourceLoader.get("assets/conium/config/default.conium.config.json"))
             )
         }
 

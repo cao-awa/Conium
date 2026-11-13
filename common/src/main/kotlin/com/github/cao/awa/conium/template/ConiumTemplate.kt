@@ -339,7 +339,8 @@ abstract class ConiumTemplate<R, P>(
                 }
 
                 ItemStack(
-                    BuiltInRegistries.ITEM.getValue(Identifier.parse(resultItemName)), count)
+                    BuiltInRegistries.ITEM.getValue(Identifier.parse(resultItemName)), count
+)
             }
         }
     }
@@ -351,7 +352,7 @@ abstract class ConiumTemplate<R, P>(
 
     fun <T : Any> getContext(clazz: KClass<T>): T? = getContext(clazz.java)
 
-    fun <T> getContext(clazz: Class<T>): T? = this.sharedContext[clazz].cast()
+    fun <T> getContext(clazz: Class<T>): T? = this.sharedContext[clazz]!!.cast()
 
     fun name(): String = this.name
 

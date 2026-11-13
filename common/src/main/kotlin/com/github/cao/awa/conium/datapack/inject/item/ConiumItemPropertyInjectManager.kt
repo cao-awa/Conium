@@ -103,7 +103,7 @@ class ConiumItemPropertyInjectManager(var registryLookup: HolderLookup.Provider)
             )
 
             // Modifies present value.
-            stack.set(type, calculatedValue.cast())
+            stack.set(type, calculatedValue!!.cast())
         }
     }
 
@@ -119,6 +119,6 @@ class ConiumItemPropertyInjectManager(var registryLookup: HolderLookup.Provider)
         )
 
         // Append preset value to item.
-        stack.set(type, value.value.cast())
+        stack.set(type, value.value!!.cast())
     }
 }

@@ -2,7 +2,6 @@ package com.github.cao.awa.conium.datapack.inject.item.action.handler.math.typed
 
 import com.github.cao.awa.conium.datapack.inject.item.action.ItemPropertyInjectAction
 import com.github.cao.awa.conium.extent.caster.cast
-import com.github.cao.awa.translator.structuring.cast.Caster
 import java.math.BigInteger
 
 abstract class NumberHandler<T : Number> {
@@ -20,7 +19,7 @@ abstract class NumberHandler<T : Number> {
             val secondClass: Class<X> = second.javaClass
 
             if (firstClass == secondClass && this.handlers.containsKey(firstClass)) {
-                return this.handlers[firstClass]!!.doHandle(Caster.cast(first), Caster.cast(second), action).cast()
+                return this.handlers[firstClass]!!.doHandle(first.cast(), second.cast(), action).cast()
             } else {
                 throw IllegalArgumentException("Unsupported number type: $firstClass and $secondClass")
             }

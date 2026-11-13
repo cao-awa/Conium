@@ -37,7 +37,7 @@ data class ItemPropertyInjectComponentValue<X : Any>(val value: X?, val componen
         if (type is ConiumComponentType<*>) {
             type.let {
                 return ItemPropertyInjectComponentValue(
-                    it.valueCreator.castValue(this.value).cast(),
+                    it.valueCreator.castValue(this.value!!).cast(),
                     type.cast()
                 )
             }

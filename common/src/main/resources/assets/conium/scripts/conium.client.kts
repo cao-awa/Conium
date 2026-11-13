@@ -1,4 +1,3 @@
-import com.github.cao.awa.conium.script.index.client.*
-import com.github.cao.awa.conium.script.ScriptExport
+import com.github.cao.awa.conium.script.ScriptImport
 
-ScriptExport("ConiumClientCommons")
+ScriptImport("ConiumClientCommons")

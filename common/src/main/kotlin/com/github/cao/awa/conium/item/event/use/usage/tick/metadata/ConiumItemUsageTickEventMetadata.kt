@@ -1,10 +1,11 @@
 ﻿package com.github.cao.awa.conium.item.event.use.usage.tick.metadata
+
 import com.github.cao.awa.conium.mapping.yarn.*
 
 import com.github.cao.awa.conium.event.context.ConiumEventContext
 import com.github.cao.awa.conium.event.metadata.ConiumEventMetadata
 import com.github.cao.awa.conium.event.type.ConiumEventArgTypes
-import com.github.cao.awa.conium.script.index.common.REMAINING_USE_TICKS
+import com.github.cao.awa.conium.event.type.ConiumEventArgTypes.REMAINING_USE_TICKS
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack

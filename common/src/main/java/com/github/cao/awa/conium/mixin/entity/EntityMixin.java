@@ -3,7 +3,7 @@ package com.github.cao.awa.conium.mixin.entity;
 import com.github.cao.awa.conium.event.type.ConiumEventType;
 import com.github.cao.awa.conium.intermediary.entity.ConiumEntityEventMixinIntermediary;
 import com.github.cao.awa.conium.sprint.SprintMovementEntity;
-import com.github.cao.awa.translator.structuring.cast.Caster;
+import com.github.kusa233.translator.structuring.cast.Caster;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,7 +37,7 @@ public abstract class EntityMixin implements SprintMovementEntity {
 
     @Unique
     private Entity asEntity() {
-        return Caster.cast(this);
+        return Caster.INSTANCE.cast(this);
     }
 
     @Inject(

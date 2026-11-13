@@ -6,18 +6,13 @@ import com.github.cao.awa.conium.event.ConiumEvent
 import com.github.cao.awa.conium.event.context.arising.ConiumArisingEventContext
 import com.github.cao.awa.conium.registry.ConiumRegistryKeys
 import com.github.cao.awa.conium.resource.ResourceLoader
-import com.github.cao.awa.conium.script.ScriptExport
+import com.github.cao.awa.conium.script.field.ScriptImport
 import com.github.cao.awa.conium.script.eval.ScriptEval
 import com.github.cao.awa.conium.script.interaction.NamedInteractionScript
 import com.github.cao.awa.conium.script.kts.ConiumScript
-import com.github.cao.awa.translator.structuring.builtin.typescript.antlr.TypescriptLexer
-import com.github.cao.awa.translator.structuring.builtin.typescript.antlr.TypescriptParser
-import com.github.cao.awa.translator.structuring.builtin.typescript.translator.element.TypescriptTranslateElement
-import com.github.cao.awa.translator.structuring.builtin.typescript.tree.TypescriptFile
-import com.github.cao.awa.translator.structuring.builtin.typescript.visitor.LanguageTypescriptVisitor
-import com.github.cao.awa.translator.structuring.io.IOUtil
-import com.github.cao.awa.translator.structuring.translate.StructuringTranslator
-import com.github.cao.awa.translator.structuring.translate.language.LanguageTranslateTarget
+import com.github.cao.awa.conium.util.IOUtil
+import com.github.kusa233.translator.structuring.api.LanguageType
+import com.github.kusa233.translator.structuring.api.Translator
 import net.minecraft.core.HolderLookup
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.resources.FileToIdConverter
@@ -65,13 +60,14 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
         private val DATA_TYPE: String = ConiumRegistryKeys.SCRIPT.identifier().path
 
         // Commons script here, all scripts use these scripts.
-        private val defaultCommons: String = IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.commons.kts"))
+        private val defaultCommons: String =
+            IOUtil.readString(ResourceLoader.get("assets/conium/scripts/conium.commons.kts"))
         private val defaultClientCommons: String =
-            IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.client.kts"))
+            IOUtil.readString(ResourceLoader.get("assets/conium/scripts/conium.client.kts"))
         private val defaultBedrockScriptInit: String =
-            IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.bedrock.script.init.kts"))
+            IOUtil.readString(ResourceLoader.get("assets/conium/scripts/conium.bedrock.script.init.kts"))
         private val defaultBedrockCommons: String =
-            IOUtil.read(ResourceLoader.get("assets/conium/scripts/conium.bedrock.commons.kts"))
+            IOUtil.readString(ResourceLoader.get("assets/conium/scripts/conium.bedrock.commons.kts"))
 
         /**
          * The 'host' is kotlin scripting host that used to compile and evaluate the kotlin scripts.
@@ -96,13 +92,13 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
         }
 
     /**
-     * The 'exportedScript' is shared script context when the script return a '[com.github.cao.awa.conium.script.ScriptExport]'
+     * The 'exportedScript' is shared script context when the script return a '[ScriptImport]'
      *
      * Other scripts can use comment to import these contexts where they are marked as:
      *
      * '// IMPORT: ExportName' or '// IMPORT: ExportName, OtherExportName'
      */
-    private val exportedScript: MutableMap<String, ScriptExport> = HashMap()
+    private val exportedScript: MutableMap<String, ScriptImport> = HashMap()
 
     /**
      * The 'exportedInteraction' is conditions or actions that referenced in data-driven.
@@ -250,7 +246,7 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
                                         File("debug/conium-debug/translated/${identifier.namespace}/${identifier.path}.kts").also {
                                             it.parentFile.mkdirs()
                                             println(it.absolutePath)
-                                        }.also(File::createNewFile).writer(),
+                                        }.also(File::createNewFile),
                                         translated
                                     )
                                 }
@@ -279,57 +275,22 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
         }
     }
 
-    private fun readTypescript(content: String): TypescriptFile {
-        // Build lexer, parser and prepare tokens.
-        val lexer = TypescriptLexer(CharStreams.fromString(content))
-        val tokens: TokenStream = CommonTokenStream(lexer)
-        val parser = TypescriptParser(tokens)
-
-        // Error handles.
-        parser.addErrorListener(object : BaseErrorListener() {
-            override fun syntaxError(
-                recognizer: Recognizer<*, *>?,
-                offendingSymbol: Any,
-                line: Int,
-                charPositionInLine: Int,
-                msg: String,
-                e: RecognitionException
-            ) {
-                throw RuntimeException(
-                    "Expected symbol '$offendingSymbol' but error in line $line chars $charPositionInLine: $msg",
-                    e
-                )
-            }
-        })
-
-        // Use the visitor to build typescript AST after context parsed.
-        return LanguageTypescriptVisitor().visitProgram(parser.program())
-    }
-
     private fun translateBedrockTypescript(source: String): String {
-        return readTypescript(source).let { typescriptFile: TypescriptFile ->
-            // Prepares the typescript AST for next step translating.
-            typescriptFile.prepares()
+        // Translate typescript to the conium script (kotlin script with conium API).
+        val translated: String = Translator.translate(
+            // Translate to kotlin script.
+            LanguageType.TYPESCRIPT,
+            // Whole file to translate.
+            LanguageType.KOTLIN_SCRIPT,
+            source
+        )
 
-            // Translate typescript to the conium script (kotlin script with conium API).
-            val translated: String = StructuringTranslator.translate(
-                // Use conium provider to processes something additional features.
-                // See the package 'com.github.cao.awa.conium.script.translate'
-                "conium",
-                // Translate to kotlin script.
-                LanguageTranslateTarget.KOTLIN_SCRIPT,
-                // Whole file to translate.
-                TypescriptTranslateElement.FILE,
-                typescriptFile
-            )
-
-            // Bedrock script needs post the script instance to 'BedrockEventContext',
-            // because the 'world' or 'system' or others variables may uniques in different context.
-            // The bedrock commons use 'get() = access(this)' to access current context,
-            // when context created, it will push to the 'contexts' in 'BedrockEventContext',
-            // so 'access' can get current context for this script.
-            return@let translated
-        }
+        // Bedrock script needs post the script instance to 'BedrockEventContext',
+        // because the 'world' or 'system' or others variables may uniques in different context.
+        // The bedrock commons use 'get() = access(this)' to access current context,
+        // when context created, it will push to the 'contexts' in 'BedrockEventContext',
+        // so 'access' can get current context for this script.
+        return translated
     }
 
     /**
@@ -383,7 +344,7 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
         resultCallback: () -> Unit = { }
     ): ResultWithDiagnostics<EvaluationResult> {
         // Import scripts to this script.
-        val content: String = ScriptExport.import(this.exportedScript, scriptEval.codes, *scriptEval.defaultImports)
+        val content: String = ScriptImport.import(this.exportedScript, scriptEval.codes, *scriptEval.defaultImports)
 
         LOGGER.info(
             "Compiling script '{}'",
@@ -420,7 +381,7 @@ class ConiumScriptManager(var registryLookup: HolderLookup.Provider) :
                             ?.let(ResultValue.Value::value)
                             ?.let { value ->
                                 // When the value type is 'ScriptExport', then export it to conium contexts.
-                                (value as? ScriptExport)?.let {
+                                (value as? ScriptImport)?.let {
                                     // The 'ofCode' only allow types import can be import to scripts.
                                     this.exportedScript[it.name] = it.ofCode(content)
                                 }

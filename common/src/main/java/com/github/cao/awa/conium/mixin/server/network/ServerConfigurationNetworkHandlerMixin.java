@@ -1,7 +1,7 @@
 package com.github.cao.awa.conium.mixin.server.network;
 
 import com.github.cao.awa.conium.intermediary.server.ConiumServerEventMixinIntermediary;
-import com.github.cao.awa.translator.structuring.cast.Caster;
+import com.github.kusa233.translator.structuring.cast.Caster;
 import net.minecraft.network.Connection;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.CommonListenerCookie;
@@ -35,6 +35,6 @@ abstract public class ServerConfigurationNetworkHandlerMixin extends ServerCommo
     }
 
     private ServerConfigurationPacketListenerImpl asConfigurationHandler() {
-        return Caster.cast(this);
+        return Caster.INSTANCE.cast(this);
     }
 }

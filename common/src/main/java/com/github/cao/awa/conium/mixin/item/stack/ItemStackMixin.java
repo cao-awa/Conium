@@ -4,7 +4,7 @@ import com.github.cao.awa.conium.Conium;
 import com.github.cao.awa.conium.component.ConiumComponentType;
 import com.github.cao.awa.conium.config.ConiumConfig;
 import com.github.cao.awa.conium.intermediary.item.ConiumItemEventMixinIntermediary;
-import com.github.cao.awa.translator.structuring.cast.Caster;
+import com.github.kusa233.translator.structuring.cast.Caster;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentHolder;
 import net.minecraft.core.component.DataComponentType;
@@ -144,7 +144,7 @@ public abstract class ItemStackMixin implements DataComponentHolder {
     )
     public void preUsageTick(Level world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
         // Trigger item pre-usage tick event.
-        if (ConiumItemEventMixinIntermediary.fireItemPreUsageTickEvent(world, user, Caster.cast(this), remainingUseTicks)) {
+        if (ConiumItemEventMixinIntermediary.fireItemPreUsageTickEvent(world, user, Caster.INSTANCE.cast(this), remainingUseTicks)) {
             // Cancel this event when intermediary was rejected the event.
             ci.cancel();
         }
@@ -156,7 +156,7 @@ public abstract class ItemStackMixin implements DataComponentHolder {
     )
     public void onUsageTick(Level world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
         // Trigger item usage tick event.
-        ConiumItemEventMixinIntermediary.fireItemUsageTickEvent(world, user, Caster.cast(this), remainingUseTicks);
+        ConiumItemEventMixinIntermediary.fireItemUsageTickEvent(world, user, Caster.INSTANCE.cast(this), remainingUseTicks);
     }
 
     @Inject(
@@ -165,7 +165,7 @@ public abstract class ItemStackMixin implements DataComponentHolder {
     )
     private void handleSlotClicked(Slot slot, ClickAction clickType, Player player, CallbackInfoReturnable<Boolean> cir) {
         // Trigger item stack clicked event.
-        ConiumItemEventMixinIntermediary.fireItemStackClickedEvent(player, Caster.cast(this), slot, clickType);
+        ConiumItemEventMixinIntermediary.fireItemStackClickedEvent(player, Caster.INSTANCE.cast(this), slot, clickType);
     }
 
     @Inject(
@@ -175,7 +175,7 @@ public abstract class ItemStackMixin implements DataComponentHolder {
     )
     public void preInventoryTick(Level world, Entity entity, EquipmentSlot slot, CallbackInfo ci) {
         // Trigger item inventory tick event.
-        if (ConiumItemEventMixinIntermediary.fireItemInventoryTickEvent(world, entity, Caster.cast(this), slot)) {
+        if (ConiumItemEventMixinIntermediary.fireItemInventoryTickEvent(world, entity, Caster.INSTANCE.cast(this), slot)) {
             // Cancel this event when intermediary was rejected the event.
             ci.cancel();
         }
@@ -187,6 +187,6 @@ public abstract class ItemStackMixin implements DataComponentHolder {
     )
     public void handleInventoryTick(Level world, Entity entity, EquipmentSlot slot, CallbackInfo ci) {
         // Trigger item inventory ticked event.
-        ConiumItemEventMixinIntermediary.fireItemInventoryTickedEvent(world, entity, Caster.cast(this), slot);
+        ConiumItemEventMixinIntermediary.fireItemInventoryTickedEvent(world, entity, Caster.INSTANCE.cast(this), slot);
     }
 }
